@@ -1,0 +1,8 @@
+config {
+    pageTitleProviders {
+        sitepackage {
+        provider = FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider
+            before = record
+        }
+    }
+}

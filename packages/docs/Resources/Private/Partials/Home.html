@@ -1,0 +1,76 @@
+<f:variable name="links" value="{
+    0: { title: 'Docs', href: '/docs' },
+    1: { title: 'Components', href: '/docs/components' },
+    2: { title: 'GitHub', href: '/github' }
+}" />
+
+<ui:skipNavLink />
+<nav class="h-16 border-b border-dashed content-grid sticky top-0 bg-background/80 backdrop-blur-sm z-10">
+    <div class="flex items-center justify-between gap-5 breakout-lg px-4">
+        <a href="/" class="text-sm flex items-center gap-2 font-semibold">
+            <f:image src="EXT:fluid_primitives/Resources/Public/Icons/Extension.svg" class="size-8 rounded-md" />
+            Fluid Primitives
+        </a>
+        <div class="flex items-center gap-3">
+            <f:for each="{links}" as="link" iteration="i">
+                <a href="{link.href}" class="text-sm font-medium">
+                    <span class="inline-flex font-normal border-box after:content-[attr(data-text)] after:font-black after:pointer-none after:overflow-hidden after:select-none after:invisible after:h-0 transition-all hover:font-semibold flex-col ease-out" data-text="{link.title}">{link.title}</span>
+                </a>
+            </f:for>
+        </div>
+    </div>
+</nav>
+
+<main class="content-grid py-section relative" id="main">
+    <div role="presentation" aria-hidden="true" class="z-11 min-h-screen pointer-events-none inset-0 -top-16 breakout-lg border-l border-r border-dashed absolute"></div>
+    <h1 class="text-5xl font-semibold tracking-tighter text-balance">
+        <span>The headless component library for</span>
+        <svg aria-hidden="true" class="inline size-[0.9lh] -translate-y-1 ms-1" width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M28.8762 26.7185C28.3228 26.8821 27.8822 26.943 27.3036 26.943C22.5635 26.943 15.6035 10.3788 15.6035 4.86573C15.6035 2.83672 16.0836 2.15931 16.7616 1.57804C10.9601 2.25545 3.99926 4.38384 1.77297 7.09026C1.29195 7.76855 1 8.83084 1 10.1857C1 18.7924 10.1863 38.321 16.6661 38.321C19.6636 38.3207 24.7174 33.3927 28.8762 26.7185Z" fill="#dcdcdc" stroke="#ababab" stroke-miterlimit="4.13357" stroke-dasharray="1.5 1.5" />
+            <path d="M25.8503 1C31.8444 1 37.8435 1.96673 37.8435 5.35027C37.8435 12.2153 33.4894 20.5345 31.2678 20.5345C27.3027 20.5345 22.3709 9.50884 22.3709 3.99574C22.3709 1.4819 23.3376 1 25.8503 1Z" fill="#dcdcdc" stroke="#ababab" stroke-dasharray="1.5 1.5" />
+        </svg>
+        <span>TYPO3 Fluid</span>
+    </h1>
+    <p class="text-lg text-muted-foreground mt-8">Unstyled, flexible and accessible UI primitives that provide a foundation for building your own component library in Fluid. Powered with <a href="https://zagjs.com/" target="_blank" class="underline underline-offset-2 text-foreground">Zag.js</a>.</p>
+    <div class="mt-10 flex gap-4">
+        <ui:button asChild="{true}" class="not-focus-visible:ring-3 not-focus-visible:ring-border hover:ring-4">
+            <a href="/docs">Get started</a>
+        </ui:button>
+        <ui:button variant="secondary" asChild="{true}">
+            <a href="/docs/components">Explore components</a>
+        </ui:button>
+    </div>
+    <div class="border-t border-b border-dashed mt-section full-width content-grid">
+        <div class="grid grid-cols-2 breakout-lg relative">
+            <docs:phiki grammar="html">
+                {f:render(partial: 'HomeExampleCode')}
+            </docs:phiki>
+            <div class="border-l border-dashed grid place-items-center">
+                <ui:tooltip.examples.simple />
+            </div>
+            <div class="absolute inset-0 pointer-events-none grid place-items-center isolate">
+                <svg class="[grid-area:1/1] size-6 text-foreground/90 z-10" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8L22 12L18 16" />
+                    <path d="M2 12H22" />
+                </svg>
+                <div class="[grid-area:1/1] w-1 h-20 mask-y-from-60% mask-y-to-100% bg-background"></div>
+            </div>
+        </div>
+    </div>
+    <div class="full-width content-grid border-b border-dashed">
+        <div class="grid grid-cols-3 breakout-lg">
+            <div class="p-6">
+                <h2 class="font-semibold text-lg mb-2">Zero Styles</h2>
+                <p class="text-sm text-muted-foreground">No fighting with predefined styles, you have full control over the design. Your design-system, your rules.</p>
+            </div>
+            <div class="p-6 border-r border-l border-dashed">
+                <h2 class="font-semibold text-lg mb-2">Composable</h2>
+                <p class="text-sm text-muted-foreground">Create complex components by composing modular building blocks together.</p>
+            </div>
+            <div class="p-6">
+                <h2 class="font-semibold text-lg mb-2">Accessibility</h2>
+                <p class="text-sm text-muted-foreground">Built with accessibility in mind, ensuring a better experience for all users.</p>
+            </div>
+        </div>
+    </div>
+</main>

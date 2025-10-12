@@ -1,0 +1,50 @@
+<ui:listCollection
+    items="{
+        0: {value: 'apple', label: 'Apple', type: 'Fruits'},
+        1: {value: 'banana', label: 'Banana', type: 'Fruits'},
+        2: {value: 'cherry', label: 'Cherry', type: 'Fruits'},
+        3: {value: 'potato', label: 'Potato', type: 'Vegetables'},
+        4: {value: 'carrot', label: 'Carrot', type: 'Vegetables'},
+        5: {value: 'broccoli', label: 'Broccoli', type: 'Vegetables'}
+    }"
+    groupByKey="type"
+    as="collection" />
+
+<primitives:select.root collection="{collection}">
+    <primitives:select.label class="text-sm font-medium mb-2">Select a fruit or vegetable</primitives:select.label>
+    <primitives:select.control class="flex items-center gap-3 relative">
+        <primitives:select.trigger class="w-[180px] border-input focus-visible:border-ring [&[data-placeholder-shown]]:text-muted-foreground focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 h-9 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+            <primitives:select.valueText placeholder="Choose something" />
+            <primitives:select.indicator>
+                <ui:icon.chevronDown class="text-muted-foreground" />
+            </primitives:select.indicator>
+        </primitives:select.trigger>
+    </primitives:select.control>
+    <primitives:select.positioner>
+        <primitives:select.content class="{ui:cn(value: '
+            outline-none bg-popover text-popover-foreground relative z-50 max-h-(--available-height) min-w-[8rem] w-(--reference-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md scroll-my-1 p-1
+            transition-all ease-out duration-150 transition-discrete 
+            starting:data-[state=open]:opacity-0 starting:data-[state=open]:scale-97 starting:data-[state=open]:blur-[1px]
+            data-[state=closed]:opacity-0 data-[state=closed]:scale-97 data-[state=closed]:blur-[1px]
+            data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=open]:blur-0
+            data-[state=open]:translate-0
+            starting:data-[state=open]:data-[placement*=bottom]:-translate-y-1 data-[state=closed]:data-[placement*=bottom]:-translate-y-1
+            starting:data-[state=open]:data-[placement*=top]:translate-y-1 data-[state=closed]:data-[placement*=top]:translate-y-1
+        ')}">
+            <f:for each="{collection.group}" as="group" key="type" iteration="i">
+                <primitives:select.itemGroup class="[&:not(:first-child)]:mt-1">
+                    <primitives:select.itemGroupLabel class="text-muted-foreground px-2 py-1.5 text-xs">{type}</primitives:select.itemGroupLabel>
+                    <f:for each="{group}" as="item" iteration="j">
+                        <primitives:select.item item="{item}" class="data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full items-center justify-between gap-2 rounded-sm py-1.5 px-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+                            <primitives:select.itemText>{item.label}</primitives:select.itemText>
+                            <primitives:select.itemIndicator>✓</primitives:select.itemIndicator>
+                        </primitives:select.item>
+                    </f:for>
+                </primitives:select.itemGroup>
+            </f:for>
+        </primitives:select.content>
+    </primitives:select.positioner>
+    <primitives:select.hiddenSelect />
+</primitives:select.root>
+
+<vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/primitives/select.entry.js" />

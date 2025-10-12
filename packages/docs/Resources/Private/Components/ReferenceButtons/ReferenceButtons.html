@@ -1,0 +1,17 @@
+<ui:prop name="name" type="string" />
+
+<f:variable name="items" value="{
+    0: {link: 'https://zagjs.com/components/react/{name}', label: 'Zag.js Docs', icon: '↗'},
+    1: {link: 'https://github.com/chakra-ui/zag/blob/main/packages/machines/{name}/src/{name}.machine.ts', label: 'View Source', icon: '↗'},
+}" />
+
+<div class="flex items-center gap-2 mb-4">
+    <f:for each="{items}" as="item" iteration="i">
+        <a href="{item.link}" target="_blank" rel="noreferrer" class="group not-prose outline-none inline-flex items-center justify-center border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-full">
+            <span>{item.label}</span>
+            <span class="sr-only">for {name} component</span>
+            <span class="inline-block group-hover:translate-x-[1px] group-hover:-translate-y-[1px] transition-transform">{item.icon}</span>
+        </a>
+    </f:for>
+    </a>
+</div>

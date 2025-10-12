@@ -1,0 +1,55 @@
+##############
+#### PAGE ####
+##############
+page = PAGE
+page {
+    typeNum = 0
+
+    10 = PAGEVIEW
+    10 {
+        paths {
+            0 = EXT:docs/Resources/Private/PageView/
+        }
+    }
+
+    shortcutIcon = EXT:docs/Resources/Public/Favicons/favicon.ico
+    headerData.1754921028 = COA
+    headerData.1754921028 {
+        10 = IMG_RESOURCE
+        10 {
+            file = EXT:docs/Resources/Public/Favicons/favicon.svg
+            stdWrap.dataWrap = <link rel="icon" href="|" type="image/svg+xml">
+        }
+        20 = IMG_RESOURCE
+        20 {
+            file = EXT:docs/Resources/Public/Favicons/apple-touch-icon.png
+            stdWrap.dataWrap = <link rel="apple-touch-icon" href="|">
+        }
+    }
+
+    headerData.1754921029 = TEXT
+    headerData.1754921029 {
+        value = <script defer src="https://umami.joostramke.com/script.js" data-website-id="16212a52-92f6-4b33-aec6-d31f5ad0314d"></script>
+    }
+
+    meta {
+        viewport = {$page.meta.viewport}
+        robots = {$page.meta.robots}
+        apple-mobile-web-app-capable = {$page.meta.apple-mobile-web-app-capable}
+
+        X-UA-Compatible = {$page.meta.compatible}
+        X-UA-Compatible {
+            attribute = http-equiv
+        }
+
+        og:image.cObject = TEXT
+        og:image.cObject {
+            typolink {
+                parameter.cObject = IMG_RESOURCE
+                parameter.cObject.file = EXT:docs/Resources/Public/Images/og-image.png
+                returnLast = url
+                forceAbsoluteUrl = 1
+            }
+        }
+    }
+}

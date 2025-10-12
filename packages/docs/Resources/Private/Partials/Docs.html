@@ -1,0 +1,62 @@
+<ui:skipNavLink />
+<aside class="border-r border-dashed fixed top-0 h-screen w-[250px] z-2">
+    <a href="/" class="text-sm pt-4 mx-4 font-semibold items-center gap-2 flex">
+        <f:image src="EXT:fluid_primitives/Resources/Public/Icons/Extension.svg" class="size-8 rounded-md" />
+        Fluid Primitives
+    </a>
+    <ui:scrollArea.root class="mt-4 pb-4 h-[calc(100vh-var(--spacing)*16)]">
+        <ui:scrollArea.viewport>
+            <ui:scrollArea.content>
+                <f:for each="{nav}" as="group" iteration="i">
+                    <p class="pt-4 mt-3 first:mt-0 flex text-xs font-semibold items-center gap-2 mb-1.5 px-6 empty:mb-0 not-first:border-t border-dashed">{group.title}</p>
+                    <div class="px-4">
+                        <f:for each="{group.items}" as="item">
+                            <f:alias map="{isActive: '{f:if(condition: \'{item.slug}=={path}\', then: \'{true}\', else: \'{false}\')}'}">
+                                <a
+                                    class="text-sm relative flex flex-row items-center gap-2 rounded-lg p-2 text-start text-muted-foreground [overflow-wrap:anywhere] [&_svg]:size-4 [&_svg]:shrink-0 transition-colors hover:bg-accent/50 hover:text-accent-foreground/80 hover:transition-none aria-current-page:text-foreground aria-current-page:bg-accent aria-current-page:font-medium"
+                                    href="{f:uri.typolink(parameter: item.slug)}"
+                                    {f:if(condition: isActive, then: 'aria-current="page"' )}>
+                                    {item.title}
+                                </a>
+                            </f:alias>
+                        </f:for>
+                    </div>
+                </f:for>
+            </ui:scrollArea.content>
+        </ui:scrollArea.viewport>
+        <ui:scrollArea.scrollbar>
+            <ui:scrollArea.thumb />
+        </ui:scrollArea.scrollbar>
+    </ui:scrollArea.root>
+</aside>
+
+<div class="fixed top-0 z-1 grid place-items-center w-full border-b border-dashed h-16 bg-background/80 backdrop-blur-sm pe-[var(--scrollbar-width,0px)]">
+    <f:comment>
+        <button type="button" class="w-70 cursor-pointer inline-flex items-center gap-2 rounded-lg border bg-secondary/50 p-1.5 ps-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-1">
+            <ui:icon.search />
+            Search
+            <div class="ms-auto inline-flex gap-0.5 test-xs">
+                <kbd class="rounded-md border bg-background px-1.5 content-center">⌘</kbd>
+                <kbd class="rounded-md border bg-background px-1.5 content-center">K</kbd>
+            </div>
+        </button>
+    </f:comment>
+    <a href="/github" class="absolute right-[calc((var(--spacing)*6)+var(--scrollbar-width,0px))] top-1/2 -translate-y-1/2" target="_blank" rel="noreferrer">
+        <span class="sr-only">GitHub</span>
+        <ui:icon.github class="size-5" />
+    </a>
+</div>
+
+<main class="content-grid py-30 ms-[250px] pe-[250px] me-auto w-[calc(100%-250px)] prose" id="main">
+    <f:format.raw>{content}</f:format.raw>
+</main>
+
+<f:if condition="{toc}">
+    <div class="fixed right-[var(--scrollbar-width,0px)] top-0 h-screen pt-31 w-[250px] pe-8">
+        <h2 class="font-medium mb-2 text-sm flex items-center gap-1.5 -ms-1">
+            <ui:icon.toc />
+            On this page
+        </h2>
+        <f:format.raw>{toc}</f:format.raw>
+    </div>
+</f:if>

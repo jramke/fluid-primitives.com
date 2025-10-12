@@ -1,0 +1,26 @@
+{
+    "type": "module",
+    "scripts": {
+        "docs:build": "vite build",
+        "docs:dev": "vite --host --port 5173 --strictPort",
+        "primitives:build": "cd packages/fluid-primitives && tsdown",
+        "primitives:dev": "cd packages/fluid-primitives && tsdown --watch",
+        "dev": "npm run primitives:dev & npm run docs:dev",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "types": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "prettier": "^3.6.2",
+        "prettier-plugin-organize-imports": "^4.3.0",
+        "typescript": "^5.9.2",
+        "vite": "^6.3.6",
+        "vite-plugin-typo3": "^2.1.0"
+    },
+    "dependencies": {
+        "@fontsource-variable/inter": "^5.2.6",
+        "@tailwindcss/vite": "^4.1.13",
+        "fluid-primitives": "file:packages/fluid-primitives",
+        "tailwindcss": "^4.1.13"
+    }
+}
