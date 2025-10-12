@@ -1,0 +1,3 @@
+[submodule "packages/fluid-primitives"]
+	path = packages/fluid-primitives
+	url = git@github.com:jramke/fluid-primitives.git
