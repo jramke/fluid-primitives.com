@@ -47,12 +47,12 @@
     </a>
 </div>
 
-<main class="content-grid py-30 ms-[250px] pe-[250px] me-auto w-[calc(100%-250px)] prose" id="main">
+<main class="content-grid py-30 ms-[250px] lg:pe-[250px] me-auto lg:w-[calc(100%-250px)] prose" id="main">
     <f:format.raw>{content}</f:format.raw>
 </main>
 
 <f:if condition="{toc}">
-    <div class="fixed right-[var(--scrollbar-width,0px)] top-0 h-screen pt-31 w-[250px] pe-8">
+    <div class="fixed right-[var(--scrollbar-width,0px)] top-0 h-screen pt-31 w-[250px] pe-8 hidden lg:block">
         <h2 class="font-medium mb-2 text-sm flex items-center gap-1.5 -ms-1">
             <ui:icon.toc />
             On this page
