@@ -1,11 +1,12 @@
 <ui:prop name="nav" type="array" />
+<ui:prop name="path" type="string" />
 
 <aside class="border-r border-dashed fixed top-0 h-screen md:w-[250px] z-2">
     <f:render section="mainlink" arguments="{class: 'pt-4 hidden md:flex'}" />
     <ui:scrollArea.root class="mt-4 pb-4 h-[calc(100vh-var(--spacing)*16)] hidden md:block">
         <ui:scrollArea.viewport>
             <ui:scrollArea.content>
-                <f:render section="navitems" arguments="{nav: nav}" />
+                <f:render section="navitems" arguments="{nav: nav, path: path}" />
             </ui:scrollArea.content>
         </ui:scrollArea.viewport>
         <ui:scrollArea.scrollbar>
@@ -64,7 +65,7 @@
                         <ui:scrollArea.root class="**:[p]:!border-t-0 h-full">
                             <ui:scrollArea.viewport>
                                 <ui:scrollArea.content class="mt-2 mb-4">
-                                    <f:render section="navitems" arguments="{nav: nav}" />
+                                    <f:render section="navitems" arguments="{nav: nav, path: path}" />
                                 </ui:scrollArea.content>
                             </ui:scrollArea.viewport>
                             <ui:scrollArea.scrollbar>
