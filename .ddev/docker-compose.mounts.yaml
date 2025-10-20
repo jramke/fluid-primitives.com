@@ -1,0 +1,4 @@
+services:
+  web:
+    volumes:
+    - "/Users/joost/personal/dev/storybook:/var/www/html/packages/storybook"

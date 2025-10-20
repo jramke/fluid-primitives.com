@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cfff81444a60aac404da13d53686e657",
+    "content-hash": "ab4ea94142ff8f40d84a2fd3b226278c",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -969,7 +969,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/docs",
-                "reference": "30f7bbac4448a697a9c6b3892f9b8f3a3522c265"
+                "reference": "f72895336cc4c65f80ea7b3ef37c79ff20513a76"
             },
             "require": {
                 "typo3/cms-core": "^13.4"
@@ -1327,7 +1327,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/fluid-primitives",
-                "reference": "060fd679f02c0c0b0060f345f25c2a7c9a8cab2c"
+                "reference": "5f9c807852bab063e7e81fa5f8163f58d3dea69c"
             },
             "require": {
                 "php": ">=8.2",
@@ -7410,10 +7410,58 @@
             "time": "2022-06-03T18:03:27+00:00"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "andersundsehr/storybook",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/storybook",
+                "reference": "66e09972fd29da840f266268f610bb5c9a5008c3"
+            },
+            "require": {
+                "php": "~8.3.0 || ~8.4.0",
+                "typo3/cms-core": "^13.4.15",
+                "typo3/cms-fluid": "^13.4.15",
+                "typo3/cms-frontend": "^13.4.15",
+                "typo3/cms-lowlevel": "^13.4.15",
+                "typo3fluid/fluid": "^4.3.0"
+            },
+            "require-dev": {
+                "pluswerk/grumphp-config": "^10.1.3",
+                "saschaegerer/phpstan-typo3": "^2.0.0",
+                "ssch/typo3-rector": "^3.1.0",
+                "typo3/cms-extbase": "^13.4.15"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "extension-key": "storybook"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Andersundsehr\\Storybook\\": "Classes/"
+                }
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "The one and only Storybook Renderer for TYPO3 Fluid Components",
+            "keywords": [
+                "Fluid",
+                "TYPO3",
+                "storybook"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "andersundsehr/storybook": 20,
         "fluid-primitives/docs": 20
     },
     "prefer-stable": false,
@@ -7421,7 +7469,7 @@
     "platform": {},
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.2.0"
+        "php": "8.3.0"
     },
     "plugin-api-version": "2.6.0"
 }
