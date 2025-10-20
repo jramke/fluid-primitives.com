@@ -8,3 +8,4 @@ nbproject
 !/public/.htaccess
 node_modules
 packages/*/node_modules
+.env

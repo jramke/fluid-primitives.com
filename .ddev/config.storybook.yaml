@@ -5,4 +5,4 @@ web_extra_exposed_ports:
     https_port: 8080
 # TODO: maybe we can improve this with helhum dotenv connector or something
 web_environment:
-    - STORYBOOK_TYPO3_KEY=_ext_storybook_CB69B871A401EBDAC395866BD3C6E69E
+    # - STORYBOOK_TYPO3_KEY=
