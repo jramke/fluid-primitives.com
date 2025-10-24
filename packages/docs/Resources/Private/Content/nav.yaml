@@ -16,6 +16,7 @@
 
 - group: Components
   items:
+    - docs/components/accordion
     - docs/components/clipboard
     - docs/components/collapsible
     - docs/components/dialog
