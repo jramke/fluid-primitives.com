@@ -1,0 +1,22 @@
+<f:variable name="items" value="{
+    0: {value: 'item-1', label: 'Item one', content: 'This is the content of item one.'},
+    1: {value: 'item-2', label: 'Item two', content: 'This is the content of item two.'},
+    2: {value: 'item-3', label: 'Item three', content: 'This is the content of item three.'}
+}" />
+
+<primitives:tabs.root class="flex flex-col gap-2" defaultValue="item-1">
+    <primitives:tabs.list class="bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]">
+        <f:for each="{items}" as="item">
+            <primitives:tabs.trigger value="{item.value}" class="data-[selected]:bg-background focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring text-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[selected]:shadow-sm">
+                {item.label}
+            </primitives:tabs.trigger>
+        </f:for>
+    </primitives:tabs.list>
+    <f:for each="{items}" as="item">
+        <primitives:tabs.content value="{item.value}" class="flex-1 outline-none">
+            {item.content}
+        </primitives:tabs.content>
+    </f:for>
+</primitives:tabs.root>
+
+<vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/primitives/tabs.entry.js" />

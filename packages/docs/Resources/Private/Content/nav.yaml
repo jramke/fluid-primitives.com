@@ -22,6 +22,7 @@
     - docs/components/dialog
     - docs/components/scroll-area
     - docs/components/select
+    - docs/components/tabs
     - docs/components/tooltip
 
 - group: ViewHelpers
