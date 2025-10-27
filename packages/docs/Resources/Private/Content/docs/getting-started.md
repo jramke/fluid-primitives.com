@@ -41,14 +41,19 @@ final class ComponentCollection extends AbstractComponentCollection
     {
         $templatePaths = new TemplatePaths();
         $templatePaths->setTemplateRootPaths([
-            ExtensionManagementUtility::extPath('my_ext', 'Resources/Private/Components'),
+            $templatePaths->setTemplateRootPaths([
+                ExtensionManagementUtility::extPath('ext', 'Resources/Private/Components/ui'),
+                ExtensionManagementUtility::extPath('ext', 'Resources/Private/Components'),
+            ]);
         ]);
         return $templatePaths;
     }
 }
 ```
 
-Notice that we did not use the `TYPO3Fluid\Fluid\Core\Component\AbstractComponentCollection` and instead extended from `Jramke\FluidPrimitives\Component\AbstractComponentCollection`. This is required to make Fluid Primitives work.
+Make sure we use the `AbstractComponentCollection` class from Fluid Primitives and not from Fluid's core.
+
+See [File Structure Guide](./core-concepts/file-structure) for more information about why we used two template root paths.
 
 ## Register Global Namespace
 
