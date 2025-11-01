@@ -19,4 +19,11 @@ final class ComponentCollection extends AbstractComponentCollection
         ]);
         return $templatePaths;
     }
+
+    public function getContextNamespaces(): array
+    {
+        return [
+            'FluidPrimitives\Docs\Components\Contexts',
+        ];
+    }
 }
