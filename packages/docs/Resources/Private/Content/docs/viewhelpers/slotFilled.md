@@ -7,7 +7,7 @@ Check if a slot has content.
 
 ## Example
 ```html
-<f:if condition="{ui:slot.filled()}">
+<f:if condition="{ui:slotFilled()}">
     // Slot has content
 </f:if>
 ```
