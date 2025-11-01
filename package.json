@@ -5,6 +5,7 @@
         "docs:dev": "vite --host --port 5173 --strictPort",
         "primitives:build": "cd packages/fluid-primitives && tsdown",
         "primitives:dev": "cd packages/fluid-primitives && tsdown --watch",
+        "primitives:publish": "cd packages/fluid-primitives && npm run publish",
         "dev": "npm run primitives:dev & npm run docs:dev",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
