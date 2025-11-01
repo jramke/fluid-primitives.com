@@ -1,3 +1,5 @@
+![The headless component library for TYPO3 Fluid](./packages/docs/Resources/Public/Images/og-image.png)
+
 # Fluid Primitives
 
 The headless component library for TYPO3 Fluid
