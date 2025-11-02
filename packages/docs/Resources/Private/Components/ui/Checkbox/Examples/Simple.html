@@ -1,0 +1,11 @@
+<primitives:checkbox.root class="flex items-center gap-2" defaultChecked="{true}">
+    <primitives:checkbox.control class="grid place-content-center border-input data-[hover]:bg-primary/5 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary data-[focus]:border-ring data-[focus]:ring-ring/50 data-[invalid]:ring-destructive/20 data-[invalid]:border-destructive size-5 shrink-0 rounded-[4px] border shadow-xs transition-shadow duration-150 ease-out outline-none data-[focus]:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+        <primitives:checkbox.indicator class="transition-all ease-out duration-150 transition-discrete starting:data-[state=checked]:opacity-0 starting:data-[state=checked]:scale-70 data-[state=unchecked]:opacity-0 data-[state=unchecked]:scale-70 data-[state=checked]:opacity-100 data-[state=checked]:scale-100">
+            <ui:icon.check />
+        </primitives:checkbox.indicator>
+    </primitives:checkbox.control>
+    <primitives:checkbox.label class="data-[invalid]:text-destructive">Enable notifications</primitives:checkbox.label>
+    <primitives:checkbox.hiddenInput />
+</primitives:checkbox.root>
+
+<vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/checkbox.entry.js" />
