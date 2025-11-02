@@ -27,9 +27,9 @@ So in this example we could get the cards context from inside the dialog templat
 
 ## Advanced Usage
 
-By default the `context` object is a simple `BaseContext` class that implements `ArrayAccess` and `Psr\Container\ContainerInterface` so you we can easily access context values in Fluid templates.
+By default the `context` object is a simple `BaseContext` class with all the context variables, that implements `ArrayAccess` and `Psr\Container\ContainerInterface` so you we can easily access context values in Fluid templates.
 
-Sometimes you may need some additional logic inside your templates that require more logic then just accessing basic primitive props. In these cases, you can create your own context classes for each component by extending the `AbstractComponentContext` class and adding your custom logic there.
+Sometimes you may need some additional logic inside your templates that require more then just accessing basic primitive props. In these cases, you can create your own context classes for each component by extending the `AbstractComponentContext` class and adding your custom logic there.
 
 You need to name the context class the same as the component base name with a `Context` suffix and register the namespace of your context classes in your `ComponentCollection` implementation by overriding the `getContextNamespaces()` method.
 

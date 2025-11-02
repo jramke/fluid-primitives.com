@@ -48,12 +48,21 @@ final class ComponentCollection extends AbstractComponentCollection
         ]);
         return $templatePaths;
     }
+
+    public function getContextNamespaces(): array
+    {
+        return [
+            'MyVendor\MyExt\Components\Contexts',
+        ];
+    }
 }
 ```
 
 Make sure we use the `AbstractComponentCollection` class from Fluid Primitives and not from Fluid's core.
 
 See [File Structure Guide](./core-concepts/file-structure) for more information about why we used two template root paths.
+
+See [Context Guide](./core-concepts/context) for more information about component contexts and the new `getContextNamespaces` method.
 
 ## Register Global Namespace
 
