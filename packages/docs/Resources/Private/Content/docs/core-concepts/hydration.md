@@ -9,7 +9,7 @@ Each component that uses the [ui:ref](/docs/viewhelpers/ref) ViewHelper automati
 To initialize components on the client side you can use the `initAllComponentInstances` function like this:
 
 ```ts
-import { Collapsible } from 'fluid-primitives/primitives/collapsible';
+import { Collapsible } from 'fluid-primitives/collapsible';
 import { initAllComponentInstances } from 'fluid-primitives';
 
 (() => {
@@ -69,7 +69,7 @@ By default all components are uncontrolled, meaning that they manage their own s
 For example when building a bigger custom component that uses one or more primitives internally, you might want to control the state of the primitives from the outside. In this case you would set the `controlled` prop to `true` and then initialize the primitives manually like this with the `getHydrationData` function inside your custom component:
 
 ```ts
-import { Collapsible } from 'fluid-primitives/primitives/collapsible';
+import { Collapsible } from 'fluid-primitives/collapsible';
 import { getHydrationData } from 'fluid-primitives';
 
 export class MyCustomComponent {
