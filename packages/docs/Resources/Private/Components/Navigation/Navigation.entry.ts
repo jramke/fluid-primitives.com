@@ -1,5 +1,5 @@
-import { Component, getHydrationData, initAllComponentInstances } from 'fluid-primitives';
-import { Dialog } from 'fluid-primitives/primitives/dialog';
+import { getHydrationData, initAllComponentInstances } from 'fluid-primitives';
+import { Dialog } from 'fluid-primitives/dialog';
 
 (() => {
 	initAllComponentInstances('navigation', ({ props }) => {
@@ -10,7 +10,5 @@ import { Dialog } from 'fluid-primitives/primitives/dialog';
 		window.addEventListener('resize', () => {
 			dialog.api.setOpen(false);
 		});
-
-		return {} as Component<any, any>;
 	});
 })();
