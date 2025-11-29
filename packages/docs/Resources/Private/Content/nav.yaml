@@ -21,6 +21,7 @@
     - docs/components/clipboard
     - docs/components/collapsible
     - docs/components/dialog
+    - docs/components/popover
     - docs/components/scroll-area
     - docs/components/select
     - docs/components/tabs

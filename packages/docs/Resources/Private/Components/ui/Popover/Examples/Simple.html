@@ -1,0 +1,23 @@
+<primitives:popover.root>
+    <primitives:popover.trigger asChild="{true}">
+        <ui:button>Open</ui:button>
+    </primitives:popover.trigger>
+    <primitives:popover.positioner class="[--arrow-size:8px] [--arrow-background:var(--color-popover)]">
+        <primitives:popover.content class="{ui:cn(value: '
+            text-sm bg-popover px-5 py-3.5 rounded-md border
+            transition-all ease-out duration-150 transition-discrete origin-(--transform-origin)
+            starting:data-[state=open]:opacity-0 starting:data-[state=open]:scale-97 starting:data-[state=open]:-translate-y-0.5 starting:data-[state=open]:blur-[2px]
+            data-[state=closed]:opacity-0 data-[state=closed]:scale-97 data-[state=closed]:-translate-y-0.5 data-[state=closed]:blur-[2px]
+            data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=open]:translate-0 data-[state=open]:blur-0
+            {class}
+        ')}">
+            <primitives:popover.arrow class="border-l border-t" />
+            <primitives:popover.title class="text-base font-medium">Notifications</primitives:popover.title>
+            <primitives:popover.description class="text-base text-gray-600">
+                You are all caught up. Good job!
+            </primitives:popover.description>
+        </primitives:popover.content>
+    </primitives:popover.positioner>
+</primitives:popover.root>
+
+<vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/popover.entry.js" />
