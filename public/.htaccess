@@ -399,10 +399,6 @@ FileETag None
     # Redirect from old subdomain to new domain
     RewriteCond %{HTTP_HOST} ^fluid-primitives\.joostramke\.com$ [NC]
     RewriteRule ^(.*)$ https://fluid-primitives.com/$1 [R=301,L]
-
-    # Redirect www to non-www
-    RewriteCond %{HTTP_HOST} ^www\.fluid-primitives\.com$ [NC]
-    RewriteRule ^(.*)$ https://fluid-primitives.com/$1 [R=301,L]
 </IfModule>
 
 # SetEnv TYPO3_CONTEXT Production/Local
