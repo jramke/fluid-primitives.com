@@ -59,9 +59,10 @@ class CardContext extends AbstractComponentContext
 {
     public function getSomething(): string
     {
-        // $this->renderingContext
+        // $this->getRenderingContext()
+        // $this->getParentRenderingContext()
+        // $this->getAllVariables()
         // $this->get('someContextProp')
-        ...
         return 'specialValue';
     }
 }
@@ -70,3 +71,35 @@ class CardContext extends AbstractComponentContext
 This would make the `getSomething()` method available in your card's template via `{context.something}`. See Fluid's documentation on [arrays and objects](https://docs.typo3.org/permalink/fluid:variable-access-objects) for more information.
 
 If you need methods with arguments you can use the [ui:call](../viewhelpers/call) ViewHelper to call methods on the context object.
+
+### Dependency Injection
+
+When you need to inject services into your context class, you can use constructor injection. Make sure you declare the class as a `public` service.
+
+```php
+#[Autoconfigure(public: true)]
+class SomeContext extends AbstractComponentContext
+{
+    public function __construct(
+        protected readonly PageRenderer $pageRenderer,
+    ) {}
+}
+```
+
+### Lifecycle Methods
+
+If you need to perform some actions before or after rendering of the component, you can implement an `afterRendering` or `beforeRendering` method in your components context class. These methods will be called automatically by the `ComponentRenderer`.
+
+{% component: "ui:alert.simple", arguments: {"title": "When modifying the ParentRenderingContext, make sure to clean it up in `afterRendering()`.", "variant": "warning"} %}
+
+```php
+public function beforeRendering(): void
+{
+    // Do something before rendering
+}
+
+public function afterRendering(string &$html): void
+{
+    // Do something after rendering
+}
+```
