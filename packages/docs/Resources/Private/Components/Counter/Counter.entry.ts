@@ -125,7 +125,7 @@ function connect<T extends PropTypes>(service: Service<Schema>, normalize: Norma
 }
 
 class Counter extends Component<Props, Api> {
-	name = 'counter';
+	static name = 'counter';
 
 	initMachine(props: Props) {
 		return new Machine(machine, props);
