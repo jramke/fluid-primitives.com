@@ -26,7 +26,11 @@ routeEnhancers:
     routes:
       - routePath: '/{path}'
         _controller: 'Docs::show'
+        _arguments:
+          path: 'path'
+        defaults:
+          path: ''
     defaultController: 'Docs::show'
     aspects:
       path:
-        type: UrlEncodeMapper
+        type: ValidatedPathMapper
