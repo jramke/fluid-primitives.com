@@ -2,6 +2,8 @@
 
 # ui:ref
 
+{% component: "ui:referenceButtons", arguments: { "name": "RefViewHelper", "type": "viewhelper" } %}
+
 
 Generates a reference to a part of a component.
 

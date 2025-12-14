@@ -2,6 +2,8 @@
 
 # ui:call
 
+{% component: "ui:referenceButtons", arguments: { "name": "CallViewHelper", "type": "viewhelper" } %}
+
 
 Call a method on an object with optional arguments.
 

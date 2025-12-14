@@ -2,6 +2,8 @@
 
 # ui:portalContainer
 
+{% component: "ui:referenceButtons", arguments: { "name": "PortalContainerViewHelper", "type": "viewhelper" } %}
+
 
 Renders the elements used inside the `ui:portal` ViewHelper into the current position in the DOM.
 

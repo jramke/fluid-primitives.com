@@ -2,6 +2,8 @@
 
 # ui:prop
 
+{% component: "ui:referenceButtons", arguments: { "name": "PropViewHelper", "type": "viewhelper" } %}
+
 
 Defines a template argument (prop) for a component.
 

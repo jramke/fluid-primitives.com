@@ -2,6 +2,8 @@
 
 # ui:uid
 
+{% component: "ui:referenceButtons", arguments: { "name": "UidViewHelper", "type": "viewhelper" } %}
+
 
 Generates a base36 identifier that is unique per request.
 

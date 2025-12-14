@@ -2,6 +2,8 @@
 
 # ui:cn
 
+{% component: "ui:referenceButtons", arguments: { "name": "CnViewHelper", "type": "viewhelper" } %}
+
  
 A ViewHelper that mimics the behavior of the popular `clsx` library for conditional class name merging.
 It allows you to combine static class names with conditional ones based on the truthiness of values.

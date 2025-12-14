@@ -2,6 +2,8 @@
 
 # ui:context
 
+{% component: "ui:referenceButtons", arguments: { "name": "ContextViewHelper", "type": "viewhelper" } %}
+
 
 Access the context of another parent component.
 

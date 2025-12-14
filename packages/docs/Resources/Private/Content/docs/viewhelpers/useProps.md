@@ -2,6 +2,8 @@
 
 # ui:useProps
 
+{% component: "ui:referenceButtons", arguments: { "name": "UsePropsViewHelper", "type": "viewhelper" } %}
+
 
 Use props from another component.
 

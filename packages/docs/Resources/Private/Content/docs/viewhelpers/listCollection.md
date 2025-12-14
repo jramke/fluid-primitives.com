@@ -2,6 +2,8 @@
 
 # ui:listCollection
 
+{% component: "ui:referenceButtons", arguments: { "name": "ListCollectionViewHelper", "type": "viewhelper" } %}
+
 
 Create a ListCollection from an array of items.
 

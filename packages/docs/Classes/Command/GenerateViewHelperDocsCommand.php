@@ -129,6 +129,8 @@ class GenerateViewHelperDocsCommand extends Command
 
 # ui:$name
 
+{% component: "ui:referenceButtons", arguments: { "name": "$shortName", "type": "viewhelper" } %}
+
 {$content}
 
 ## Arguments

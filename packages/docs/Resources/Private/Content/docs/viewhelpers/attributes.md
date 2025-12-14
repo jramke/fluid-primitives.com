@@ -2,6 +2,8 @@
 
 # ui:attributes
 
+{% component: "ui:referenceButtons", arguments: { "name": "AttributesViewHelper", "type": "viewhelper" } %}
+
 
 Renders arbitrary HTML attributes.
 

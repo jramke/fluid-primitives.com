@@ -2,6 +2,8 @@
 
 # ui:portal
 
+{% component: "ui:referenceButtons", arguments: { "name": "PortalViewHelper", "type": "viewhelper" } %}
+
 
 This ViewHelper allows you to render content in a different part of the DOM tree than where it is defined. 
 This is particularly useful for modals, tooltips, or any component that needs to break out of its parent container for styling or positioning reasons.

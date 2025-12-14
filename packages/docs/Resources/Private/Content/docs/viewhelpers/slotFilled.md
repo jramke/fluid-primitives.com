@@ -2,6 +2,8 @@
 
 # ui:slotFilled
 
+{% component: "ui:referenceButtons", arguments: { "name": "SlotFilledViewHelper", "type": "viewhelper" } %}
+
 
 Check if a slot has content.
 

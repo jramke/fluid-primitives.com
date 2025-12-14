@@ -2,6 +2,8 @@
 
 # ui:error
 
+{% component: "ui:referenceButtons", arguments: { "name": "ErrorViewHelper", "type": "viewhelper" } %}
+
 
 Throw an error with a custom message.
 
