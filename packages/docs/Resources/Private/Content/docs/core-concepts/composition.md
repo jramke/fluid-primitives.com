@@ -30,7 +30,7 @@ This pattern is inspired by Radix UI's [asChild API](https://www.radix-ui.com/pr
 Zag.js machines operate on concrete DOM nodes. When composing components that need to work together, share IDs between them using the ids prop for proper accessibility and interaction.
 
 ```html
-<f:variable name="triggerId" value="{ui:uid()}" />
+<f:variable name="triggerId" value="{ui:id()}" />
 
 <ui:collapsible.root ids="{trigger: triggerId}">
     <ui:tooltip.root ids="{trigger: triggerId}">

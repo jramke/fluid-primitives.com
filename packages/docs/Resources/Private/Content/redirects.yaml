@@ -3,3 +3,4 @@
 'docs/core-concepts': '/docs/core-concepts/file-structure'
 'docs/components': '/docs/components/accordion'
 'docs/viewhelpers': '/docs/viewhelpers/attributes'
+'docs/viewhelpers/uid': '/docs/viewhelpers/id'
