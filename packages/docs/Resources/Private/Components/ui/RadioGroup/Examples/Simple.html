@@ -1,0 +1,24 @@
+<f:variable name="items" value="{
+    0: { value: 'option1', text: 'Option 1' },
+    1: { value: 'option2', text: 'Option 2' },
+    2: { value: 'option3', text: 'Option 3' }
+}" />
+
+<primitives:radioGroup.root defaultValue="option2">
+    <primitives:radioGroup.label class="mb-2 inline-block font-semibold">Choose an option:</primitives:radioGroup.label>
+    <div class="grid gap-2">
+        <f:for each="{items}" as="item" iteration="i">
+            <primitives:radioGroup.item value="{item.value}" class="flex items-center gap-1.5">
+                <primitives:radioGroup.itemControl class="group grid place-items-center border-input text-primary data-[focus-visible]:border-ring data-[focus-visible]:ring-ring/50 aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow,background-color] outline-none data-[focus-visible]:ring-[3px] data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[hover]:bg-accent/50">
+                    <div class="size-2 rounded-full bg-primary/0 group-data-[state=checked]:bg-primary transition-colors"></div>
+                </primitives:radioGroup.itemControl>
+                <primitives:radioGroup.itemText class="flex items-center gap-2 text-sm leading-none font-medium select-none data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50">
+                    {item.text}
+                </primitives:radioGroup.itemText>
+                <primitives:radioGroup.itemHiddenInput />
+            </primitives:radioGroup.item>
+        </f:for>
+    </div>
+</primitives:radioGroup.root>
+
+<vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/radio-group.entry.js" />

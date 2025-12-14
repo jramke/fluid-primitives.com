@@ -22,6 +22,7 @@
     - docs/components/collapsible
     - docs/components/dialog
     - docs/components/popover
+    - docs/components/radio-group
     - docs/components/scroll-area
     - docs/components/select
     - docs/components/tabs
