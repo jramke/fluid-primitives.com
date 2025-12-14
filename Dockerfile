@@ -55,8 +55,5 @@ RUN chmod +x /entrypoint.sh
 # Expose port
 EXPOSE 80
 
-HEALTHCHECK --interval=10s --timeout=5s --retries=5 \
-  CMD curl -s -o /dev/null http://localhost/index.php || exit 1
-
 # Use custom entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
