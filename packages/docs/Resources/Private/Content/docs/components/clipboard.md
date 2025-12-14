@@ -2,7 +2,7 @@
 
 **A component to copy text to the clipboard**
 
-{% component: "ui:referenceButtons", arguments: { "name": "clipboard" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Clipboard" } %}
 
 {% component: "ui:clipboard.examples.simple" %}
 

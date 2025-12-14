@@ -2,7 +2,7 @@
 
 **An easily stylable checkbox component.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "checkbox" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Checkbox" } %}
 
 {% component: "ui:checkbox.examples.simple" %}
 

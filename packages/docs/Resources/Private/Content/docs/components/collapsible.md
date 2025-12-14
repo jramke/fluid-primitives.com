@@ -2,7 +2,7 @@
 
 **A collapsible panel controlled by a button.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "collapsible" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Collapsible" } %}
 
 {% component: "ui:collapsible.examples.simple" %}
 

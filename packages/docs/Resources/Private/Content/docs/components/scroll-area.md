@@ -2,7 +2,7 @@
 
 **A native scroll container with custom scrollbars.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "scroll-area" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "ScrollArea" } %}
 
 {% component: "ui:scrollArea.examples.simple" %}
 

@@ -2,7 +2,7 @@
 
 **A popup that appears when an element is hovered or focused, showing a hint for sighted users.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "tooltip" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Tooltip" } %}
 
 {% component: "ui:tooltip.examples.simple" %}
 

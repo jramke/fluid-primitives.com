@@ -2,7 +2,7 @@
 
 **An accessible popup anchored to a button.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "popover" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Popover" } %}
 {% component: "ui:popover.examples.simple" %}
 
 ## Anatomy

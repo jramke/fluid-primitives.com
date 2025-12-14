@@ -2,7 +2,7 @@
 
 **A common form component for choosing a predefined value in a dropdown menu.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "select" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Select" } %}
 
 {% component: "ui:select.examples.simple" %}
 

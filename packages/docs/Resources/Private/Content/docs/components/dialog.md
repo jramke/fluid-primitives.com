@@ -2,7 +2,7 @@
 
 **A popup that opens on top of the entire page.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "dialog" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Dialog" } %}
 
 {% component: "ui:dialog.examples.simple" %}
 

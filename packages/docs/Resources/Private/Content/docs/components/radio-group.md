@@ -2,7 +2,7 @@
 
 **An easily stylable radio button component.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "radio-group" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "RadioGroup" } %}
 {% component: "ui:radioGroup.examples.simple" %}
 
 ## Anatomy

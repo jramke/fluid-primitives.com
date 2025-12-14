@@ -2,7 +2,7 @@
 
 **A component for toggling between related panels on the same page.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "tabs" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Tabs" } %}
 
 {% component: "ui:tabs.examples.simple" %}
 

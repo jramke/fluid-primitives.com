@@ -2,7 +2,7 @@
 
 **A set of collapsible panels with headings.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "accordion" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Accordion" } %}
 
 {% component: "ui:accordion.examples.simple" %}
 
