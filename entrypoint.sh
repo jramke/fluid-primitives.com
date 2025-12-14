@@ -14,7 +14,7 @@ chmod -R 775 /var/www/html/var \
              /var/www/html/public/typo3temp
 
 # Run TYPO3 cache commands
-su -s /bin/sh www-data -c "vendor/bin/typo3 cache:flush --force || true"
+su -s /bin/sh www-data -c "vendor/bin/typo3 cache:flush || true"
 su -s /bin/sh www-data -c "vendor/bin/typo3 cache:warmup || true"
 
 # Start Apache
