@@ -21,4 +21,4 @@ this will generate a unique id like `«f4»`
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `prefix` | string | The prefix of the generated ID | No | '' |
+| `prefix` | string | The prefix of the generated ID | No | 'f' |
