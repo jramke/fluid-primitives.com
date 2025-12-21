@@ -6,6 +6,8 @@ namespace FluidPrimitives\Docs\Controller;
 
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
+use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
+use FluidPrimitives\Docs\Phiki\RemoveLangClassTransformer;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -20,7 +22,6 @@ use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
 use League\CommonMark\MarkdownConverter;
 use League\CommonMark\Node\Query;
 use League\CommonMark\Renderer\HtmlRenderer;
-use Phiki\Adapters\CommonMark\PhikiExtension;
 use Phiki\Grammar\Grammar;
 use Phiki\Phiki;
 use Phiki\Theme\Theme;
@@ -138,7 +139,7 @@ class DocsController extends ActionController
 
             $environment
                 ->addExtension(new CommonMarkCoreExtension())
-                ->addExtension(new PhikiExtension(Theme::MinLight))
+                ->addExtension(new PhikiCommonMarkExtension(Theme::GithubLight))
                 ->addExtension(new HeadingPermalinkExtension())
                 ->addExtension(new TableOfContentsExtension())
                 ->addExtension(new ExternalLinkExtension())
@@ -183,6 +184,7 @@ class DocsController extends ActionController
                         $highlightedTemplate = (new Phiki)
                             ->codeToHtml($templateString, Grammar::Html, Theme::GithubLight)
                             ->decoration(PreDecoration::make()->class('not-code-block'))
+                            ->transformer(new RemoveLangClassTransformer)
                             ->toString();
 
                         $html = $componentRenderer->renderComponent('ComponentExample', [

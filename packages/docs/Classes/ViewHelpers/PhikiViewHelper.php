@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\ViewHelpers;
 
+use FluidPrimitives\Docs\Phiki\RemoveLangClassTransformer;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use Phiki\Phiki;
 use Phiki\Grammar\Grammar;
@@ -25,6 +26,7 @@ class PhikiViewHelper extends AbstractViewHelper
 
         $html = (new Phiki)
             ->codeToHtml(trim($this->renderChildren()), $grammar, Theme::GithubLight)
+            ->transformer(new RemoveLangClassTransformer)
             ->toString();
 
         return $html;
