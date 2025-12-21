@@ -12,16 +12,16 @@ To initialize components on the client side you can use the `mount` function lik
 import { Collapsible } from 'fluid-primitives/collapsible';
 import { mount } from 'fluid-primitives';
 
-(() => {
-    mount('collapsible', ({ props }) => {
-        const collapsible = new Collapsible(props);
-        collapsible.init();
-        return collapsible;
-    });
-})();
+mount('collapsible', ({ props }) => {
+    const collapsible = new Collapsible(props);
+    collapsible.init();
+    return collapsible;
+});
 ```
 
 This initializes all `collapsible` components on the page by extracting their props from the hydration data and passing them to the provided factory function where you can create and initialize the component instance. The initialized instance is then returned and stored in the `FluidPrimitives.uncontrolledInstances` window variable.
+
+If you aren't mounting a Component built via State Machines you will most likely need the `createHydrator` function that is provided as part of the hydration data to create a `ComponentHydrator` instance for the component. This is needed to connect the component parts on the client side. See the [Connecting Component Parts](#content-connecting-component-parts) section for more information.
 
 Ideally you include the initialization script in the root part of your component via the `<f:asset.script>` or `<vite:asset>` ([Vite Asset Collector](https://extensions.typo3.org/extension/vite_asset_collector)) ViewHelper, so its just loaded when you use the component.
 
