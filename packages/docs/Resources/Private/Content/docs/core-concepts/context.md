@@ -72,6 +72,33 @@ This would make the `getSomething()` method available in your card's template vi
 
 If you need methods with arguments you can use the [ui:call](../viewhelpers/call) ViewHelper to call methods on the context object.
 
+### Exposing Client Props from Context
+
+It is also possible to expose getter methods from your context class as client props by using the `#[ExposeToClient]` attribute.
+
+```php
+use Jramke\FluidPrimitives\Attributes\ExposeToClient;
+class CardContext extends AbstractComponentContext
+{
+    #[ExposeToClient]
+    public function getSomeValue(): mixed
+    {
+        return 'someCalculatedValue';
+    }
+}
+```
+
+This would add a `someValue` prop to the client props of the component with the value returned by the `getSomeValue()` method.
+Optionally you can provide a name to override the prop name.
+
+```php
+    #[ExposeToClient(name: 'overriddenName')]
+    public function getSomeValue(): mixed
+    {
+        return 'someCalculatedValue';
+    }
+```
+
 ### Dependency Injection
 
 When you need to inject services into your context class, you can use constructor injection. Make sure you declare the class as a `public` service.
