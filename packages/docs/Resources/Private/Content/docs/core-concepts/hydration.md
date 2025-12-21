@@ -6,14 +6,14 @@ Each component that uses the [ui:ref](/docs/viewhelpers/ref) ViewHelper automati
 
 ## Initializing Components
 
-To initialize components on the client side you can use the `initAllComponentInstances` function like this:
+To initialize components on the client side you can use the `mount` function like this:
 
 ```ts
 import { Collapsible } from 'fluid-primitives/collapsible';
-import { initAllComponentInstances } from 'fluid-primitives';
+import { mount } from 'fluid-primitives';
 
 (() => {
-    initAllComponentInstances('collapsible', ({ props }) => {
+    mount('collapsible', ({ props }) => {
         const collapsible = new Collapsible(props);
         collapsible.init();
         return collapsible;
@@ -62,7 +62,7 @@ Most of the time you dont need the `ComponentHydrator` directly, because the `Co
 
 ## Controlled Components
 
-By default all components are uncontrolled, meaning that they manage their own state internally. If you want to control the state of a component from the outside, you can set the `controlled` prop to `true`. This will prevent the `initAllComponentInstances` function from initializing the component automatically. You then need to initialize the component manually.
+By default all components are uncontrolled, meaning that they manage their own state internally. If you want to control the state of a component from the outside, you can set the `controlled` prop to `true`. This will prevent the `mount` function from initializing the component automatically. You then need to initialize the component manually.
 
 ### Manually accessing hydration data with `getHydrationData`
 
