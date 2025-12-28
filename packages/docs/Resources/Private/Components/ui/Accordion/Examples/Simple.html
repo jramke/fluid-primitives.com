@@ -6,7 +6,7 @@
 
 <primitives:accordion.root class="w-full max-w-[400px]" defaultValue="{0: 'item-2'}">
     <f:for each="{items}" as="item">
-        <primitives:accordion.item value="{item.value}" class="border-b last:border-b-0" disabled="{true}">
+        <primitives:accordion.item value="{item.value}" class="border-b last:border-b-0">
             <primitives:accordion.itemHeader class="flex">
                 <primitives:accordion.itemTrigger class="focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180">
                     {item.title}
