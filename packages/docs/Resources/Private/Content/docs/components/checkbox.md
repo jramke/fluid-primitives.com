@@ -6,6 +6,10 @@
 
 {% component: "ui:checkbox.examples.simple" %}
 
+## Installation
+
+{% component: "ui:installationSection", arguments: { "name": "Checkbox" } %}
+
 ## Anatomy
 
 ```html

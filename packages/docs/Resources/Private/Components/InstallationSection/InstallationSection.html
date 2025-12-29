@@ -1,0 +1,25 @@
+<ui:prop name="name" type="string" />
+
+<ui:tabs.root defaultValue="cli">
+    <ui:tabs.list class="not-prose">
+        <ui:tabs.trigger value="cli">CLI</ui:tabs.trigger>
+        <ui:tabs.trigger value="manual">Manual</ui:tabs.trigger>
+    </ui:tabs.list>
+    <ui:tabs.content value="cli" class="not-prose">
+        <docs:phiki grammar="bash">
+            typo3 ui:add {context.nameLowerCaseDashed}
+        </docs:phiki>
+    </ui:tabs.content>
+    <ui:tabs.content value="manual">
+        <ui:alert.root>
+            <ui:alert.icon />
+            <ui:alert.content class="m-0">
+                <p>
+                    Please copy the files manually <a target=" _blank" href="https://github.com/jramke/fluid-primitives.com/tree/main/packages/docs/Resources/Private/Registry/{name}">from GitHub</a> into your project.
+                </p>
+            </ui:alert.content>
+        </ui:alert.root>
+    </ui:tabs.content>
+</ui:tabs.root>
+
+<p>Read more about <a href="/docs/core-concepts/primitives">installing Components</a> from primitives.</p>

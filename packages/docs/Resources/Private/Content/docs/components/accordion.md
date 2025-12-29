@@ -6,6 +6,10 @@
 
 {% component: "ui:accordion.examples.simple" %}
 
+## Installation
+
+{% component: "ui:installationSection", arguments: { "name": "Accordion" } %}
+
 ## Anatomy
 
 ```html
