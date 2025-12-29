@@ -1,0 +1,16 @@
+accordion:
+  name: Accordion
+  description: A set of collapsible panels with headings
+  files:
+    - Root.html
+    - Item.html
+    - ItemTrigger.html
+    - ItemContent.html
+
+checkbox:
+  name: Checkbox
+  description: An easily stylable checkbox component
+  files:
+    - Root.html
+    - Label.html
+    - Control.html

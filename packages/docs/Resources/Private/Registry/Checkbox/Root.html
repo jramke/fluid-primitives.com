@@ -1,0 +1,8 @@
+<ui:useProps name="primitives:checkbox.root" />
+
+<primitives:checkbox.root spreadProps="{true}" class="{ui:cn(value: 'flex items-center gap-2 {class}')}">
+    <f:slot />
+    <primitives:checkbox.hiddenInput />
+</primitives:checkbox.root>
+
+<vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/checkbox.entry.js" />

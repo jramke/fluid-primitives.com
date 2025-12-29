@@ -3,11 +3,11 @@ return [
     'BE' => [
         'debug' => true,
         'installToolPassword' => '$argon2i$v=19$m=65536,t=16,p=1$dldUaHluTnZaVHVGMjNhcA$5Qznk6AWVuQwBWdV0X3oXKQswSLKj+gRwhxAyiO9oXs',
+        'lockSSL' => true,
         'passwordHashing' => [
             'className' => 'TYPO3\\CMS\\Core\\Crypto\\PasswordHashing\\Argon2iPasswordHash',
             'options' => [],
         ],
-        'lockSSL' => true,
     ],
     'DB' => [
         'Connections' => [
@@ -39,6 +39,13 @@ return [
         'extensionmanager' => [
             'automaticInstallation' => '1',
             'offlineMode' => '0',
+        ],
+        'fluid_primitives' => [
+            'cli' => [
+                'add' => [
+                    'defaultExtension' => 'docs',
+                ],
+            ],
         ],
         'vite_asset_collector' => [
             'defaultManifest' => '_assets/vite/.vite/manifest.json',
