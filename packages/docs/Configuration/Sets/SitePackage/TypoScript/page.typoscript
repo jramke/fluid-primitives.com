@@ -27,9 +27,9 @@ page {
         }
     }
 
-    headerData.1754921029 = TEXT
+    headerData.1754921029 = USER
     headerData.1754921029 {
-        value = <script defer src="https://umami.joostramke.com/script.js" data-website-id="16212a52-92f6-4b33-aec6-d31f5ad0314d"></script>
+        userFunc = FluidPrimitives\Docs\Services\UmamiService->renderScriptTag
     }
 
     meta {
