@@ -6,6 +6,21 @@
 
 {% component: "ui:tooltip.examples.simple" %}
 
+## Installation
+
+{% component: "ui:installationSection", arguments: { "name": "Tooltip" } %}
+
+## Usage
+
+```html
+<ui:tooltip.root>
+    <ui:tooltip.trigger asChild="{true}">
+        <ui:button>Hover me</ui:button>
+    </ui:tooltip.trigger>
+    <ui:tooltip.content> This is the tooltip content. </ui:tooltip.content>
+</ui:tooltip.root>
+```
+
 ## Anatomy
 
 ```html

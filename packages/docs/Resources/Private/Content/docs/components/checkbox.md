@@ -10,6 +10,15 @@
 
 {% component: "ui:installationSection", arguments: { "name": "Checkbox" } %}
 
+## Usage
+
+```html
+<ui:checkbox.root>
+    <ui:checkbox.control />
+    <ui:checkbox.label>Accept terms and conditions</ui:checkbox.label>
+</ui:checkbox.root>
+```
+
 ## Anatomy
 
 ```html

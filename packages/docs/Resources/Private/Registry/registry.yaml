@@ -14,3 +14,102 @@ checkbox:
     - Root.html
     - Label.html
     - Control.html
+
+clipboard:
+  name: Clipboard
+  description: A component to copy text to the clipboard
+  files:
+    - Root.html
+    - Label.html
+    - Control.html
+    - Input.html
+    - Trigger.html
+    - Indicator.html
+
+collapsible:
+  name: Collapsible
+  description: A collapsible panel controlled by a button
+  files:
+    - Root.html
+    - Trigger.html
+    - TriggerText.html
+    - Content.html
+
+dialog:
+  name: Dialog
+  description: A popup that opens on top of the entire page
+  files:
+    - Root.html
+    - Trigger.html
+    - Content.html
+    - Header.html
+    - Footer.html
+    - Title.html
+    - Description.html
+    - CloseTrigger.html
+    - Close.html
+
+popover:
+  name: Popover
+  description: An accessible popup anchored to a button
+  files:
+    - Root.html
+    - Trigger.html
+    - Content.html
+    - Title.html
+    - Description.html
+    - CloseTrigger.html
+    - Close.html
+
+radio-group:
+  name: RadioGroup
+  description: An easily stylable radio button component
+  files:
+    - Root.html
+    - Label.html
+    - Item.html
+    - ItemControl.html
+    - ItemText.html
+
+scroll-area:
+  name: ScrollArea
+  description: A native scroll container with custom scrollbars
+  files:
+    - Root.html
+    - Viewport.html
+    - Content.html
+    - Scrollbar.html
+    - Thumb.html
+
+select:
+  name: Select
+  description: A common form component for choosing a predefined value in a dropdown menu
+  files:
+    - Root.html
+    - Label.html
+    - Control.html
+    - Trigger.html
+    - ValueText.html
+    - Content.html
+    - Item.html
+    - ItemText.html
+    - ItemIndicator.html
+    - ItemGroup.html
+    - ItemGroupLabel.html
+
+tabs:
+  name: Tabs
+  description: A component for toggling between related panels on the same page
+  files:
+    - Root.html
+    - List.html
+    - Trigger.html
+    - Content.html
+
+tooltip:
+  name: Tooltip
+  description: A popup that appears when an element is hovered or focused, showing a hint for sighted users
+  files:
+    - Root.html
+    - Trigger.html
+    - Content.html

@@ -6,6 +6,23 @@
 
 {% component: "ui:scrollArea.examples.simple" %}
 
+## Installation
+
+{% component: "ui:installationSection", arguments: { "name": "ScrollArea" } %}
+
+## Usage
+
+```html
+<ui:scrollArea.root class="h-72 w-48">
+    <ui:scrollArea.viewport>
+        <ui:scrollArea.content> Your scrollable content here. </ui:scrollArea.content>
+    </ui:scrollArea.viewport>
+    <ui:scrollArea.scrollbar>
+        <ui:scrollArea.thumb />
+    </ui:scrollArea.scrollbar>
+</ui:scrollArea.root>
+```
+
 ## Anatomy
 
 ```html

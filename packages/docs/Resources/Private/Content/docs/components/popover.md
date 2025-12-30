@@ -5,6 +5,24 @@
 {% component: "ui:referenceButtons", arguments: { "name": "Popover" } %}
 {% component: "ui:popover.examples.simple" %}
 
+## Installation
+
+{% component: "ui:installationSection", arguments: { "name": "Popover" } %}
+
+## Usage
+
+```html
+<ui:popover.root>
+    <ui:popover.trigger asChild="{true}">
+        <ui:button>Open Popover</ui:button>
+    </ui:popover.trigger>
+    <ui:popover.content>
+        <ui:popover.title>Popover Title</ui:popover.title>
+        <ui:popover.description>This is the popover description.</ui:popover.description>
+    </ui:popover.content>
+</ui:popover.root>
+```
+
 ## Anatomy
 
 ```html
