@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Middleware;
 
 use FluidPrimitives\Docs\Registry\ComponentRegistry;
+use FluidPrimitives\Docs\Services\UmamiService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -14,7 +15,10 @@ use TYPO3\CMS\Core\Http\Response;
 
 final class RegistryMiddleware implements MiddlewareInterface
 {
-    public function __construct(private readonly ComponentRegistry $componentRegistry) {}
+    public function __construct(
+        private readonly ComponentRegistry $componentRegistry,
+        private readonly UmamiService $umamiService
+    ) {}
 
     public function process(
         ServerRequestInterface $request,
@@ -41,6 +45,11 @@ final class RegistryMiddleware implements MiddlewareInterface
 
         // /registry/components/{component}
         if (!str_contains($path, '/files/')) {
+            $this->umamiService->trackEvent(
+                $request,
+                "registry.component.{$component}",
+                ['component' => $component],
+            );
             return $this->componentManifest($this->componentRegistry, $component);
         }
 
