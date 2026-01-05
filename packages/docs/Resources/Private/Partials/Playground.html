@@ -4,8 +4,342 @@
         <f:for each="{docs:arrayFill(count: 500)}" as="item" iteration="i">
             <ui:button>Test</ui:button>
         </f:for>
+        <ui:counter />
+
     </f:comment>
 
-    <ui:counter />
+    <div class="mt-[10vh]">
+
+
+        <f:comment>
+
+            <div class="grid grid-cols-1 gap-24">
+                <!-- registry examples start -->
+
+                <!-- Accordion -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">Accordion</h2>
+                    <ui:accordion.root>
+                        <ui:accordion.item value="item-1">
+                            <ui:accordion.itemTrigger>First item</ui:accordion.itemTrigger>
+                            <ui:accordion.itemContent>Content for the first item.</ui:accordion.itemContent>
+                        </ui:accordion.item>
+                        <ui:accordion.item value="item-2">
+                            <ui:accordion.itemTrigger>Second item</ui:accordion.itemTrigger>
+                            <ui:accordion.itemContent>Content for the second item.</ui:accordion.itemContent>
+                        </ui:accordion.item>
+                    </ui:accordion.root>
+                </div>
+
+                <!-- Checkbox -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">Checkbox</h2>
+                    <ui:checkbox.root>
+                        <ui:checkbox.control />
+                        <ui:checkbox.label>Accept terms and conditions</ui:checkbox.label>
+                    </ui:checkbox.root>
+                </div>
+
+                <!-- Clipboard -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">Clipboard</h2>
+                    <ui:clipboard.root value="Text to copy">
+                        <ui:clipboard.label>Copy to clipboard</ui:clipboard.label>
+                        <ui:clipboard.control>
+                            <ui:clipboard.input />
+                            <ui:clipboard.trigger asChild="{true}">
+                                <ui:button>
+                                    <ui:clipboard.indicator state="idle">Copy</ui:clipboard.indicator>
+                                    <ui:clipboard.indicator state="copied">Copied!</ui:clipboard.indicator>
+                                </ui:button>
+                            </ui:clipboard.trigger>
+                        </ui:clipboard.control>
+                    </ui:clipboard.root>
+                </div>
+
+                <!-- Collapsible -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">Collapsible</h2>
+                    <ui:collapsible.root>
+                        <ui:collapsible.trigger>
+                            <ui:collapsible.triggerText openText="Show content" closeText="Hide content" />
+                        </ui:collapsible.trigger>
+                        <ui:collapsible.content>
+                            Your collapsible content here.
+                        </ui:collapsible.content>
+                    </ui:collapsible.root>
+                </div>
+
+                <!-- Dialog -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">Dialog</h2>
+                    <ui:dialog.root>
+                        <ui:dialog.trigger asChild="{true}">
+                            <ui:button>Open Dialog</ui:button>
+                        </ui:dialog.trigger>
+                        <ui:dialog.content>
+                            <ui:dialog.header>
+                                <ui:dialog.title>Dialog Title</ui:dialog.title>
+                                <ui:dialog.description>This is a dialog description.</ui:dialog.description>
+                            </ui:dialog.header>
+                            <p>Dialog content goes here.</p>
+                            <ui:dialog.footer>
+                                <ui:dialog.close asChild="{true}">
+                                    <ui:button>Close</ui:button>
+                                </ui:dialog.close>
+                            </ui:dialog.footer>
+                        </ui:dialog.content>
+                    </ui:dialog.root>
+                </div>
+
+                <!-- Popover -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">Popover</h2>
+                    <ui:popover.root>
+                        <ui:popover.trigger asChild="{true}">
+                            <ui:button>Open Popover</ui:button>
+                        </ui:popover.trigger>
+                        <ui:popover.content>
+                            <ui:popover.title>Popover Title</ui:popover.title>
+                            <ui:popover.description>This is the popover description.</ui:popover.description>
+                        </ui:popover.content>
+                    </ui:popover.root>
+                </div>
+
+                <!-- RadioGroup -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">RadioGroup</h2>
+                    <ui:radioGroup.root defaultValue="option1">
+                        <ui:radioGroup.label>Choose an option:</ui:radioGroup.label>
+                        <ui:radioGroup.item value="option1">
+                            <ui:radioGroup.itemControl />
+                            <ui:radioGroup.itemText>Option 1</ui:radioGroup.itemText>
+                        </ui:radioGroup.item>
+                        <ui:radioGroup.item value="option2">
+                            <ui:radioGroup.itemControl />
+                            <ui:radioGroup.itemText>Option 2</ui:radioGroup.itemText>
+                        </ui:radioGroup.item>
+                    </ui:radioGroup.root>
+                </div>
+
+                <!-- ScrollArea -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">ScrollArea</h2>
+                    <ui:scrollArea.root class="h-72 w-48 border rounded-md">
+                        <ui:scrollArea.viewport>
+                            <ui:scrollArea.content>
+                                <div class="p-4">
+                                    <p class="mb-4">Scroll down to see more content...</p>
+                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    <p class="mb-4">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                    <p class="mb-4">Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                                    <p class="mb-4">Duis aute irure dolor in reprehenderit in voluptate.</p>
+                                    <p class="mb-4">Excepteur sint occaecat cupidatat non proident.</p>
+                                    <p>End of scrollable content.</p>
+                                </div>
+                            </ui:scrollArea.content>
+                        </ui:scrollArea.viewport>
+                        <ui:scrollArea.scrollbar>
+                            <ui:scrollArea.thumb />
+                        </ui:scrollArea.scrollbar>
+                    </ui:scrollArea.root>
+                </div>
+
+                <!-- Select -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">Select</h2>
+                    <ui:listCollection
+                        items="{
+                            0: {value: 'apple', label: 'Apple'},
+                            1: {value: 'banana', label: 'Banana'},
+                            2: {value: 'cherry', label: 'Cherry'}
+                        }"
+                        as="selectCollection" />
+
+                    <ui:select.root collection="{selectCollection}">
+                        <ui:select.label>Select a fruit</ui:select.label>
+                        <ui:select.control>
+                            <ui:select.trigger placeholder="Choose a fruit" />
+                        </ui:select.control>
+                        <ui:select.content>
+                            <f:for each="{selectCollection.items}" as="item">
+                                <ui:select.item item="{item}">
+                                    <ui:select.itemText>{item.label}</ui:select.itemText>
+                                    <ui:select.itemIndicator />
+                                </ui:select.item>
+                            </f:for>
+                        </ui:select.content>
+                    </ui:select.root>
+                </div>
+
+                <!-- Tabs -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">Tabs</h2>
+                    <ui:tabs.root defaultValue="tab1">
+                        <ui:tabs.list>
+                            <ui:tabs.trigger value="tab1">Tab 1</ui:tabs.trigger>
+                            <ui:tabs.trigger value="tab2">Tab 2</ui:tabs.trigger>
+                            <ui:tabs.trigger value="tab3">Tab 3</ui:tabs.trigger>
+                        </ui:tabs.list>
+                        <ui:tabs.content value="tab1">Content for tab 1.</ui:tabs.content>
+                        <ui:tabs.content value="tab2">Content for tab 2.</ui:tabs.content>
+                        <ui:tabs.content value="tab3">Content for tab 3.</ui:tabs.content>
+                    </ui:tabs.root>
+                </div>
+
+                <!-- Tooltip -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">Tooltip</h2>
+                    <ui:tooltip.root>
+                        <ui:tooltip.trigger asChild="{true}">
+                            <ui:button>Hover me</ui:button>
+                        </ui:tooltip.trigger>
+                        <ui:tooltip.content>
+                            This is the tooltip content.
+                        </ui:tooltip.content>
+                    </ui:tooltip.root>
+                </div>
+
+                <!-- registry examples end -->
+            </div>
+        </f:comment>
+
+        <div>
+            <h2 class="text-lg font-semibold mb-4">Popover</h2>
+            <ui:popover.root>
+                <ui:popover.trigger asChild="{true}">
+                    <ui:button>Open Popover</ui:button>
+                </ui:popover.trigger>
+                <ui:popover.content>
+                    <ui:popover.title>Popover Title</ui:popover.title>
+                    <ui:popover.description>This is the popover description.</ui:popover.description>
+                </ui:popover.content>
+            </ui:popover.root>
+        </div>
+
+        <f:comment>
+            <ui:tooltip.root>
+                <ui:tooltip.trigger>
+                    hover me
+                </ui:tooltip.trigger>
+                <ui:tooltip.content>
+                    This is the tooltip content.
+                </ui:tooltip.content>
+            </ui:tooltip.root>
+
+            <primitives:checkbox.root class="flex items-center gap-2" defaultChecked="{true}" rootId="check">
+                <primitives:checkbox.control class="grid place-content-center border-input data-[hover]:bg-primary/5 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary data-[focus]:border-ring data-[focus]:ring-ring/50 data-[invalid]:ring-destructive/20 data-[invalid]:border-destructive size-5 shrink-0 rounded-[4px] border shadow-xs transition-shadow duration-150 ease-out outline-none data-[focus]:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+                    <primitives:checkbox.indicator class="transition-all ease-out duration-150 transition-discrete starting:data-[state=checked]:opacity-0 starting:data-[state=checked]:scale-70 data-[state=unchecked]:opacity-0 data-[state=unchecked]:scale-70 data-[state=checked]:opacity-100 data-[state=checked]:scale-100">
+                        <ui:icon.check />
+                    </primitives:checkbox.indicator>
+                </primitives:checkbox.control>
+                <primitives:checkbox.label class="data-[invalid]:text-destructive">Enable notifications</primitives:checkbox.label>
+                <primitives:checkbox.hiddenInput />
+            </primitives:checkbox.root>
+            <vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/checkbox.entry.js" />
+
+            <ui:hydrationData name="checkbox" id="check" props="{test: 123}" />
+
+            <primitives:form class="space-y-4" action="submit" objectName="testForm" controlled="{true}" rootId="test-form">
+                <primitives:field.root name="something" class="space-y-1">
+                    <primitives:field.label class="text-sm inline-block">Something</primitives:field.label>
+                    <primitives:field.control asChild="{true}">
+                        <ui:input type="text" />
+                    </primitives:field.control>
+                    <primitives:field.error class="text-sm text-destructive" />
+                </primitives:field.root>
+
+                <primitives:field.root name="checkboxExample" class="space-y-1">
+                    <primitives:checkbox.root class="flex items-center gap-2" defaultChecked="{true}">
+                        <primitives:checkbox.control class="grid place-content-center border-input data-[hover]:bg-primary/5 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary data-[focus]:border-ring data-[focus]:ring-ring/50 data-[invalid]:ring-destructive/20 data-[invalid]:border-destructive size-5 shrink-0 rounded-[4px] border shadow-xs transition-shadow duration-150 ease-out outline-none data-[focus]:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+                            <primitives:checkbox.indicator class="transition-all ease-out duration-150 transition-discrete starting:data-[state=checked]:opacity-0 starting:data-[state=checked]:scale-70 data-[state=unchecked]:opacity-0 data-[state=unchecked]:scale-70 data-[state=checked]:opacity-100 data-[state=checked]:scale-100">
+                                <ui:icon.check />
+                            </primitives:checkbox.indicator>
+                        </primitives:checkbox.control>
+                        <primitives:checkbox.label class="data-[invalid]:text-destructive">Enable notifications</primitives:checkbox.label>
+                        <primitives:checkbox.hiddenInput />
+                    </primitives:checkbox.root>
+                    <primitives:field.error class="text-sm text-destructive" />
+                </primitives:field.root>
+
+                <ui:listCollection
+                    items="{
+                            0: {value: 'apple', label: 'Apple', type: 'Fruits'},
+                            1: {value: 'banana', label: 'Banana', type: 'Fruits'},
+                            2: {value: 'cherry', label: 'Cherry', type: 'Fruits'},
+                            3: {value: 'potato', label: 'Potato', type: 'Vegetables'},
+                            4: {value: 'carrot', label: 'Carrot', type: 'Vegetables'},
+                            5: {value: 'broccoli', label: 'Broccoli', type: 'Vegetables'}
+                        }"
+                    groupByKey="type"
+                    as="collection" />
+
+                <primitives:field.root name="selectExample">
+                    <primitives:select.root collection="{collection}" class="space-y-1">
+                        <primitives:select.label class="text-sm inline-block">Select a fruit or vegetable</primitives:select.label>
+                        <primitives:select.control class="flex items-center gap-3 relative">
+                            <primitives:select.trigger class="w-[180px] border-input focus-visible:border-ring [&[data-placeholder-shown]]:text-muted-foreground focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 h-9 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+                                <primitives:select.valueText placeholder="Choose something" />
+                                <primitives:select.indicator>
+                                    <ui:icon.chevronDown class="text-muted-foreground" />
+                                </primitives:select.indicator>
+                            </primitives:select.trigger>
+                        </primitives:select.control>
+                        <primitives:select.positioner>
+                            <primitives:select.content class="{ui:cn(value: '
+                                        outline-none bg-popover text-popover-foreground relative z-50 max-h-(--available-height) min-w-[8rem] w-(--reference-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md scroll-my-1 p-1
+                                        transition-all ease-out duration-150 transition-discrete 
+                                        starting:data-[state=open]:opacity-0 starting:data-[state=open]:scale-97 starting:data-[state=open]:blur-[1px]
+                                        data-[state=closed]:opacity-0 data-[state=closed]:scale-97 data-[state=closed]:blur-[1px]
+                                        data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=open]:blur-0
+                                        data-[state=open]:translate-0
+                                        starting:data-[state=open]:data-[placement*=bottom]:-translate-y-1 data-[state=closed]:data-[placement*=bottom]:-translate-y-1
+                                        starting:data-[state=open]:data-[placement*=top]:translate-y-1 data-[state=closed]:data-[placement*=top]:translate-y-1
+                                    ')}">
+                                <f:for each="{collection.group}" as="group" key="type" iteration="i">
+                                    <primitives:select.itemGroup class="[&:not(:first-child)]:mt-1">
+                                        <primitives:select.itemGroupLabel class="text-muted-foreground px-2 py-1.5 text-xs">{type}</primitives:select.itemGroupLabel>
+                                        <f:for each="{group}" as="item" iteration="j">
+                                            <primitives:select.item item="{item}" class="data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full items-center justify-between gap-2 rounded-sm py-1.5 px-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+                                                <primitives:select.itemText>{item.label}</primitives:select.itemText>
+                                                <primitives:select.itemIndicator>✓</primitives:select.itemIndicator>
+                                            </primitives:select.item>
+                                        </f:for>
+                                    </primitives:select.itemGroup>
+                                </f:for>
+                            </primitives:select.content>
+                        </primitives:select.positioner>
+                        <primitives:select.hiddenSelect />
+                    </primitives:select.root>
+                    <primitives:field.error class="text-sm text-destructive" />
+                </primitives:field.root>
+
+                <vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/select.entry.js" />
+                <f:comment>
+
+                    <primitives:field.root name="lastName" class="space-y-1">
+                        <primitives:field.label class="text-sm inline-block">Last Name</primitives:field.label>
+                        <primitives:field.control asChild="{true}">
+                            <ui:input type="text" />
+                        </primitives:field.control>
+                        <primitives:field.error class="text-sm text-destructive" />
+                    </primitives:field.root>
+
+
+                </f:comment>
+
+                <ui:button type="submit">Submit</ui:button>
+
+            </primitives:form>
+
+            <vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/checkbox.entry.js" />
+            <vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/form.entry.js" />
+            <vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/field.entry.js" />
+        </f:comment>
+
+
+    </div>
 
 </main>
+
+<vite:asset entry="EXT:docs/Resources/Private/js/Playground.entry.ts" />

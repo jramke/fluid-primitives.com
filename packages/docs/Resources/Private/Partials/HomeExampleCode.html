@@ -1,9 +1,12 @@
 {parsing off}
-<ui:tooltip.root>
-    <ui:tooltip.trigger asChild="{true}">
-        <ui:button>Hover me</ui:button>
-    </ui:tooltip.trigger>
-    <ui:tooltip.content>
-        This is the tooltip content.
-    </ui:tooltip.content>
-</ui:tooltip.root>
+<ui:popover.root>
+    <ui:popover.trigger asChild="{true}">
+        <ui:button>Open Popover</ui:button>
+    </ui:popover.trigger>
+    <ui:popover.content>
+        <ui:popover.title>Popover Title</ui:popover.title>
+        <ui:popover.description>
+            This is the popover description.
+        </ui:popover.description>
+    </ui:popover.content>
+</ui:popover.root>

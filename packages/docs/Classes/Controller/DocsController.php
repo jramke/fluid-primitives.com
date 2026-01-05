@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Controller;
 
+use FluidPrimitives\Docs\Domain\Model\DTO\TestFormDTO;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
@@ -27,7 +28,12 @@ use Phiki\Phiki;
 use Phiki\Theme\Theme;
 use Phiki\Transformers\Decorations\PreDecoration;
 use TYPO3\CMS\Core\Core\Environment as Typo3Environment;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
+use TYPO3\CMS\Core\Http\Request;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
+use TYPO3\CMS\Extbase\Annotation\Validate;
+use TYPO3\CMS\Extbase\Validation\Validator\StringLengthValidator;
+use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 use TYPO3Fluid\Fluid\Core\Component\ComponentDefinitionProviderInterface;
 use TYPO3Fluid\Fluid\Core\Component\ComponentTemplateResolverInterface;
@@ -53,6 +59,7 @@ class DocsController extends ActionController
 
         if ($path === 'playground' && Typo3Environment::getContext()->isDevelopment()) {
             $this->view->assign('layout', 'playground');
+            $this->view->assign('emptyArray', []);
             $this->pageTitleProvider->setTitle('Playground – Fluid Primitives');
             return $this->htmlResponse();
         }
@@ -108,6 +115,53 @@ class DocsController extends ActionController
         $this->pageTitleProvider->setTitle(($meta['title'] ?? 'Documentation') . ' – Fluid Primitives');
 
         return $this->htmlResponse();
+    }
+
+    public function submitAction(TestFormDTO $testForm): ResponseInterface
+    {
+        // $payload = json_decode($this->request->getBody()->getContents());
+        // krexxlog([$this->request, $this->request->getBody(), $this->request->getAttributes(), $this->request->getArguments(), $payload, $testForm]);
+        krexxlog([$testForm]);
+        // $dto = TestFormDTO::deserialize((array)$payload);
+        // krexxlog($dto);
+
+        // $validatorResolver = GeneralUtility::makeInstance(ValidatorResolver::class);
+        // $validator = $validatorResolver->createValidator(StringLengthValidator::class, ['minimum' => 5]);
+
+        // $validator->validate('hi');
+
+        $payload = ['success' => true];
+        $status = 200;
+
+        $json = json_encode($payload);
+        $response = $this->jsonResponse($json)->withStatus($status);
+        throw new PropagateResponseException($response, $status);
+    }
+
+    protected function errorAction(): ResponseInterface
+    {
+        // krexxlog(['error action', $this->request, $this->getFlattenedValidationErrorMessage(), $this->forwardToReferringRequest(), $this->arguments, $this->arguments->validate()->getFlattenedErrors()]);
+        // $this->addErrorFlashMessage();
+        // if (($response = $this->forwardToReferringRequest()) !== null) {
+        //     return $response->withStatus(400);
+        // }
+        $validationErrors = $this->arguments->validate()->getFlattenedErrors();
+        krexxlog([$validationErrors, $this->arguments->validate()->getErrors(), $this->arguments->validate()->hasErrors()]);
+        $validationErrorMessages = [];
+        foreach ($validationErrors as $property => $errors) {
+            $messages = [];
+            foreach ($errors as $error) {
+                $messages[] = $error->getMessage();
+            }
+            $validationErrorMessages[$property] = $messages;
+        }
+
+        if (!empty($validationErrorMessages)) {
+            $response = $this->jsonResponse(json_encode($validationErrorMessages))->withStatus(422);
+            throw new PropagateResponseException($response, 422);
+        }
+
+        return parent::errorAction();
     }
 
     private function getMarkdownConverter(): MarkdownConverter
