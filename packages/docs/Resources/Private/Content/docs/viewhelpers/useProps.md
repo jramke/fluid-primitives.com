@@ -10,11 +10,13 @@ Use props from another component.
 This ViewHelper allows you to import all props from another component and register them for the current component.
 This is helpful/needed when consuming the `primitives` components or when you want to reuse props from another component.
 
+You can also override default values of the imported props by passing a `defaults` array with key-value pairs.
+
 ## Example
 
 `Tooltip/Root.html` that uses the tooltip primitive:
 ```html
-<ui:useProps name="primitives:tooltip.root" />
+<ui:useProps name="primitives:tooltip.root" defaults="{openDelay: 200}" />
 
 <primitives:tooltip.root spreadProps="{true}">
     <f:slot />
@@ -32,4 +34,5 @@ If a prop for a primitive is required, we use the [ui:error](./error) ViewHelper
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | name of component to use the props from | Yes | null |
+| `name` | string | Name of component to use the props from | Yes | null |
+| `defaults` | array | Default values for props to override the imported ones. Key-value pairs | No | [] |
