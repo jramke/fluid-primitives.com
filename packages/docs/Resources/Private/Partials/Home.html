@@ -32,7 +32,7 @@
             </svg>
             <span>TYPO3 Fluid</span>
         </h1>
-        <p class="sm:text-lg text-muted-foreground mt-6 sm:mt-8">Unstyled, flexible and accessible UI primitives that provide a foundation for building your own component library in Fluid. Powered with <a href="https://zagjs.com/" target="_blank" class="underline underline-offset-2 text-foreground">Zag.js</a>.</p>
+        <p class="sm:text-lg text-muted-foreground mt-6 sm:mt-8">Unstyled, flexible and accessible UI Primitives that provide a foundation for building your own component library in Fluid.</p>
         <div class="mt-8 sm:mt-10 flex gap-4 flex-wrap">
             <ui:button asChild="{true}" class="not-focus-visible:ring-3 not-focus-visible:ring-border hover:ring-4">
                 <a href="/docs">Get started</a>
@@ -42,13 +42,22 @@
             </ui:button>
         </div>
     </div>
-    <div class="border-t border-b border-dashed mt-section full-width content-grid">
+    <div class="border-t border-b border-dashed mt-section full-width content-grid relative">
+        <ui:homeSectionTitle>example</ui:homeSectionTitle>
         <div class="grid grid-cols-1 lg:grid-cols-2 breakout-lg relative">
             <docs:phiki grammar="html">
                 {f:render(partial: 'HomeExampleCode')}
             </docs:phiki>
             <div class="border-t border-dashed grid place-items-center p-4 min-h-[200px] lg:border-l lg:border-t-0">
-                <ui:tooltip.examples.simple />
+                <ui:popover.root>
+                    <ui:popover.trigger asChild="{true}">
+                        <ui:button>Open Popover</ui:button>
+                    </ui:popover.trigger>
+                    <ui:popover.content>
+                        <ui:popover.title>Popover Title</ui:popover.title>
+                        <ui:popover.description>This is the popover description.</ui:popover.description>
+                    </ui:popover.content>
+                </ui:popover.root>
             </div>
             <div class="absolute inset-0 pointer-events-none place-items-center isolate hidden lg:grid">
                 <svg class="[grid-area:1/1] size-6 text-foreground/90 z-10" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
@@ -59,20 +68,88 @@
             </div>
         </div>
     </div>
-    <div class="full-width content-grid border-b border-dashed">
+
+    <f:variable name="whyBlocks" value="{
+        0: { title: 'Zero Styles', description: 'No fighting with predefined styles, you have full control over the design. Your design-system, your rules.', link: { href: 'docs/core-concepts/styling', text: 'Styling' } },
+        1: { title: 'Composable', description: 'Create complex components by composing modular building blocks together.', link: { href: 'docs/core-concepts/composition', text: 'Composition' } },
+        2: { title: 'Accessibility', description: 'Built with accessibility in mind, ensuring a better experience for all users.', link: { href: 'docs/why#content-accessibility', text: 'Accessibility' } }
+    }" />
+
+    <div class="full-width content-grid border-b border-dashed relative">
+        <ui:homeSectionTitle>why</ui:homeSectionTitle>
         <div class="grid grid-cols-1 md:grid-cols-3 breakout-lg">
-            <div class="p-6">
-                <h2 class="font-semibold text-lg mb-2">Zero Styles</h2>
-                <p class="text-sm text-muted-foreground">No fighting with predefined styles, you have full control over the design. Your design-system, your rules.</p>
-            </div>
-            <div class="p-6 border-r border-t border-dashed md:border-l md:border-t-0">
-                <h2 class="font-semibold text-lg mb-2">Composable</h2>
-                <p class="text-sm text-muted-foreground">Create complex components by composing modular building blocks together.</p>
-            </div>
-            <div class="p-6 border-t border-dashed md:border-t-0">
-                <h2 class="font-semibold text-lg mb-2">Accessibility</h2>
-                <p class="text-sm text-muted-foreground">Built with accessibility in mind, ensuring a better experience for all users.</p>
-            </div>
+            <f:for each="{whyBlocks}" as="block" iteration="i">
+                <div class="{ui:cn(value: '
+                    p-6 
+                    {f:if(condition: \'{i.index}===1\', then: \'border-t border-dashed border-r md:border-l md:border-t-0\')}
+                    {f:if(condition: \'{i.index}===2\', then: \'border-t border-dashed md:border-t-0\')}
+                ')}">
+                    <h2 class="font-semibold text-lg mb-2">{block.title}</h2>
+                    <p class="text-sm text-muted-foreground">{block.description}</p>
+                    <p class="text-sm text-muted-foreground mt-2">
+                        Read more about <a href="{block.link.href}" class="link">{block.link.text}</a>
+                    </p>
+                </div>
+            </f:for>
         </div>
     </div>
+    <div class="full-width content-grid">
+        <div class="breakout-lg flex flex-row-reverse w-full h-section">
+            <div class="w-1/2 border-l border-dashed hidden md:block"></div>
+        </div>
+    </div>
+
+    <f:variable name="components" value="{
+        0: { title: 'Accordion', href: '/docs/components/accordion', example: '{ui:accordion.examples.simple()}' },
+        1: { title: 'Dialog', href: '/docs/components/dialog', example: '{ui:dialog.examples.simple()}' },
+        2: { title: 'Select', href: '/docs/components/select', example: '{ui:select.examples.simple()}' },
+        3: { title: 'Tabs', href: '/docs/components/tabs', example: '{ui:tabs.examples.simple()}' }
+    }" />
+    <f:variable name="chunkedComponents" value="{docs:arrayChunk(subject: components, size: 2)}" />
+
+    <div class="full-width content-grid border-b border-dashed relative">
+        <ui:homeSectionTitle>components</ui:homeSectionTitle>
+        <f:for each="{chunkedComponents}" as="group" iteration="i">
+            <div class="border-t border-dashed w-full border-red full-width"></div>
+            <div class="content-grid full-width md:grid md:grid-cols-2 md:content-grid-none md:breakout-lg">
+                <f:if condition="{group.0}">
+                    <div>
+                        <div class="border-b border-dashed px-2 py-1.5">
+                            <a href="{group.0.href}" class="font-medium hover:underline underline-offset-2">{group.0.title}</a>
+                        </div>
+                        <div class="p-4 grid place-items-center aspect-[5/3]">
+                            <f:format.raw>{group.0.example}</f:format.raw>
+                        </div>
+                    </div>
+                </f:if>
+                <div class="md:hidden full-width border-t border-dashed"></div>
+                <f:if condition="{group.1}">
+                    <div>
+                        <div class="border-b md:border-l border-dashed px-2 py-1.5">
+                            <a href="{group.1.href}" class="font-medium hover:underline underline-offset-2">{group.1.title}</a>
+                        </div>
+                        <div class="p-4 grid place-items-center aspect-[5/3] md:border-l md:border-dashed">
+                            <f:format.raw>{group.1.example}</f:format.raw>
+                        </div>
+                    </div>
+                </f:if>
+            </div>
+        </f:for>
+    </div>
+
+    <div class="content-grid">
+        <p class="text-center mx-auto mt-section text-foreground/80">And much more! Check out the <a href="/docs/components" class="link">full list of components</a>.</p>
+    </div>
 </main>
+
+<div class="full-width content-grid border-t border-dashed relative py-3">
+    <div role="presentation" aria-hidden="true" class="z-11 pointer-events-none inset-0 breakout-lg border-l border-r border-dashed absolute"></div>
+    <div class="breakout-lg text-xs flex items-center justify-between text-muted-foreground px-4">
+        <p>© Fluid Primitives</p>
+        <p>
+            Made by <a href="https://joostramke.com" target="_blank" class="link">
+                Joost
+            </a>
+        </p>
+    </div>
+</div>

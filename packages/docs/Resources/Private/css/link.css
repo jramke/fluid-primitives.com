@@ -1,0 +1,15 @@
+@utility link {
+	color: var(--color-foreground);
+	font-weight: var(--font-weight-medium);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-color: var(--color-primary);
+	text-decoration-thickness: 1px;
+	& code {
+		font-weight: var(--font-weight-semibold);
+	}
+
+	&:hover {
+		text-decoration-thickness: 2px;
+	}
+}

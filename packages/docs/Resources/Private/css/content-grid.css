@@ -1,5 +1,6 @@
 @utility content-grid {
 	--content-grid-padding: 2rem;
+	--content-grid-default-grid-column: content;
 	--breakout-sm-size: calc((var(--spacing-breakout-sm) - var(--spacing-reading)) / 2);
 	--breakout-size: calc((var(--spacing-breakout) - var(--spacing-reading)) / 2);
 	--breakout-lg-size: calc((var(--spacing-breakout-lg) - var(--spacing-reading)) / 2);
@@ -18,39 +19,55 @@
 		minmax(var(--content-grid-padding), 1fr) [full-width-end];
 }
 
+@utility content-grid-none {
+	--content-grid-default-grid-column: auto;
+	display: initial;
+	grid-template-columns: initial;
+}
+
+@utility breakout {
+	grid-column: breakout;
+}
+
+@utility breakout-sm {
+	grid-column: breakout-sm;
+}
+
+@utility breakout-lg {
+	grid-column: breakout-lg;
+}
+
+@utility full-width {
+	grid-column: full-width;
+}
+
+@utility full-width-content {
+	grid-column: full-width;
+	display: grid;
+	grid-template-columns: inherit;
+}
+
+@utility full-width-fluid {
+	grid-column: full-width;
+	padding-inline: var(--content-grid-padding);
+}
+
 @layer components {
 	.content-grid {
 		& > * {
-			grid-column: content;
+			grid-column: var(--content-grid-default-grid-column);
 		}
 		& > img,
 		& > video,
 		& > canvas,
 		& > iframe,
-		& > figure,
-		& > .breakout {
-			grid-column: breakout;
+		& > figure {
+			@apply breakout;
 		}
-		& > .breakout-sm,
 		& > pre,
 		& > .code-block,
 		& > .component-example {
-			grid-column: breakout-sm;
-		}
-		& > .breakout-lg {
-			grid-column: breakout-lg;
-		}
-		& > .full-width {
-			grid-column: full-width;
-		}
-		& > .full-width-content {
-			grid-column: full-width;
-			display: grid;
-			grid-template-columns: inherit;
-		}
-		& > .full-width-fluid {
-			grid-column: full-width;
-			padding-inline: var(--content-grid-padding);
+			@apply breakout-sm;
 		}
 	}
 }

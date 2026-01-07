@@ -3,10 +3,8 @@
 	--prose-color-muted: color-mix(in oklab, var(--color-foreground) 60%, transparent);
 	--prose-heading-color: var(--color-foreground);
 	--prose-strong-color: var(--color-foreground);
-	--prose-link-color: var(--color-foreground);
 	--prose-code-color: var(--color-foreground);
 	--prose-marker-color: color-mix(in oklab, var(--color-gray-700) 25%, transparent);
-	--prose-link-underline-color: var(--color-primary);
 	--prose-th-borders: var(--color-gray-300);
 	--prose-td-borders: var(--color-gray-200);
 	--prose-hr-color: color-mix(in oklab, var(--color-foreground) 5%, transparent);
@@ -115,23 +113,7 @@
 	}
 
 	a:not(:where(:is(h2, h3, h4) *)):where(:not(.not-prose, .not-prose *)) {
-		color: var(--prose-link-color);
-		font-weight: var(--font-weight-semibold);
-		text-decoration: underline;
-		text-underline-offset: 2px;
-		text-decoration-color: var(--prose-link-underline-color);
-		text-decoration-thickness: 1px;
-		& code {
-			font-weight: var(--font-weight-semibold);
-		}
-	}
-
-	a:hover:where(:not(.not-prose, .not-prose *)) {
-		text-decoration-thickness: 2px;
-	}
-
-	a:where(:not(.not-prose, .not-prose *)):has(> [data-media]) {
-		display: block;
+		@apply link;
 	}
 
 	strong:where(:not(.not-prose, .not-prose *)) {

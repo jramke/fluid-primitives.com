@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './content-grid.css';
+@import './link.css';
 @import './typography.css' layer(components);
 @import './button.css' layer(components);
 @import './permalink.css' layer(components);
