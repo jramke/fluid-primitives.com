@@ -6,6 +6,7 @@
 @import './permalink.css' layer(components);
 @import './code-block.css' layer(components);
 @import './component-example.css' layer(components);
+@import './prose-component.css' layer(components);
 
 @custom-variant aria-current-page (&[aria-current="page"]);
 

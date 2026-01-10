@@ -1,0 +1,5 @@
+.prose-component {
+	&:has(.installation-tabs) {
+		@apply full-width;
+	}
+}

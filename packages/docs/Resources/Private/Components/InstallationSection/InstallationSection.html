@@ -1,11 +1,11 @@
 <ui:prop name="name" type="string" />
 
-<ui:tabs.root defaultValue="cli">
-    <ui:tabs.list class="not-prose">
+<ui:tabs.root defaultValue="cli" class="installation-tabs content-grid">
+    <ui:tabs.list class="not-prose mb-3">
         <ui:tabs.trigger value="cli">CLI</ui:tabs.trigger>
         <ui:tabs.trigger value="manual">Manual</ui:tabs.trigger>
     </ui:tabs.list>
-    <ui:tabs.content value="cli" class="not-prose">
+    <ui:tabs.content value="cli" class="not-prose breakout-sm">
         <docs:phiki grammar="bash">
             typo3 ui:add {context.nameLowerCaseDashed}
         </docs:phiki>
@@ -21,5 +21,6 @@
         </ui:alert.root>
     </ui:tabs.content>
 </ui:tabs.root>
-
-<p>Read more about installing <a href="/docs/core-concepts/primitives">Components and Primitives</a>.</p>
+<div class="content-grid">
+    <p>Read more about installing <a href="/docs/core-concepts/primitives">Components and Primitives</a>.</p>
+</div>
