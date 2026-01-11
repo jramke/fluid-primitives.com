@@ -49,6 +49,17 @@ dialog:
     - CloseTrigger.html
     - Close.html
 
+number-input:
+  name: NumberInput
+  description: A numeric input with increment and decrement controls
+  files:
+    - Root.html
+    - Label.html
+    - Control.html
+    - Input.html
+    - IncrementTrigger.html
+    - DecrementTrigger.html
+
 popover:
   name: Popover
   description: An accessible popup anchored to a button
