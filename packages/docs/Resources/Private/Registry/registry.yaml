@@ -49,6 +49,21 @@ dialog:
     - CloseTrigger.html
     - Close.html
 
+menu:
+  name: Menu
+  description: An accessible dropdown and context menu for actions and options
+  files:
+    - Root.html
+    - Trigger.html
+    - ContextTrigger.html
+    - Content.html
+    - Item.html
+    - OptionItem.html
+    - TriggerItem.html
+    - ItemGroup.html
+    - ItemGroupLabel.html
+    - Separator.html
+
 number-input:
   name: NumberInput
   description: A numeric input with increment and decrement controls
