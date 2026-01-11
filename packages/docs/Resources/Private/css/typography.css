@@ -78,7 +78,7 @@
 	}
 
 	ol:where(:not(.not-prose, .not-prose *)) {
-		padding-left: calc(var(--spacing) * 6);
+		padding-left: calc(var(--spacing) * 3);
 		list-style-type: decimal;
 	}
 
@@ -87,7 +87,7 @@
 	}
 
 	ol li + li:where(:not(.not-prose, .not-prose *)) {
-		margin-top: calc(var(--spacing) * 4);
+		margin-top: calc(var(--spacing) * 2);
 	}
 
 	ol li:where(:not(.not-prose, .not-prose *))::marker {
@@ -96,8 +96,8 @@
 	}
 
 	ul:where(:not(.not-prose, .not-prose *)) {
-		padding-left: calc(var(--spacing) * 6);
-		list-style-type: square;
+		padding-left: calc(var(--spacing) * 3);
+		list-style-type: '-';
 	}
 
 	ul li:where(:not(.not-prose, .not-prose *)) {
@@ -105,7 +105,7 @@
 	}
 
 	ul li + li:where(:not(.not-prose, .not-prose *)) {
-		margin-top: calc(var(--spacing) * 4);
+		margin-top: calc(var(--spacing) * 2);
 	}
 
 	ul li:where(:not(.not-prose, .not-prose *))::marker {
