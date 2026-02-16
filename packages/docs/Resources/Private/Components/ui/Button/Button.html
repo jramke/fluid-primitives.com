@@ -1,5 +1,6 @@
 <ui:prop name="variant" type="string" default="default" />
 <ui:prop name="size" type="string" default="default" />
+<ui:prop name="type" type="string" default="button" />
 
 <f:switch expression="{size}">
     <f:case value="icon">
@@ -12,6 +13,6 @@
 
 <ui:cn value="button button-{variant} {sizeClass} {class}" as="class" />
 
-<button class="{class}" {ui:attributes()}>
+<button class="{class}" type="{type}" {ui:attributes()}>
     <f:slot />
 </button>
