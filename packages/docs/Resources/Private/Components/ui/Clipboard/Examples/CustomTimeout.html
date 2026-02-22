@@ -1,0 +1,11 @@
+<ui:clipboard.root value="Copy me!" timeout="5000">
+    <ui:clipboard.control class="flex items-center gap-2">
+        <ui:clipboard.input class="w-32" />
+        <ui:clipboard.trigger asChild="{true}">
+            <ui:button>
+                <ui:clipboard.indicator state="idle">Copy</ui:clipboard.indicator>
+                <ui:clipboard.indicator state="copied">Copied for 5 seconds!</ui:clipboard.indicator>
+            </ui:button>
+        </ui:clipboard.trigger>
+    </ui:clipboard.control>
+</ui:clipboard.root>

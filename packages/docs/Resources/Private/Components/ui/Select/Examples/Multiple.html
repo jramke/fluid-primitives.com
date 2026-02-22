@@ -1,0 +1,23 @@
+<ui:listCollection
+    items="{
+        0: {value: 'react', label: 'React'},
+        1: {value: 'vue', label: 'Vue'},
+        2: {value: 'angular', label: 'Angular'},
+        3: {value: 'svelte', label: 'Svelte'}
+    }"
+    as="collection" />
+
+<ui:select.root collection="{collection}" multiple="{true}">
+    <ui:select.label>Select frameworks</ui:select.label>
+    <ui:select.control class="min-w-48">
+        <ui:select.trigger placeholder="Choose frameworks" />
+    </ui:select.control>
+    <ui:select.content>
+        <f:for each="{collection.items}" as="item">
+            <ui:select.item item="{item}">
+                <ui:select.itemText>{item.label}</ui:select.itemText>
+                <ui:select.itemIndicator />
+            </ui:select.item>
+        </f:for>
+    </ui:select.content>
+</ui:select.root>

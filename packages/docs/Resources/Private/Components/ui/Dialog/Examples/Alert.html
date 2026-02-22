@@ -1,0 +1,17 @@
+<ui:dialog.root role="alertdialog">
+    <ui:dialog.trigger asChild="{true}">
+        <ui:button>Delete Item</ui:button>
+    </ui:dialog.trigger>
+    <ui:dialog.content>
+        <ui:dialog.header>
+            <ui:dialog.title>Are you sure?</ui:dialog.title>
+            <ui:dialog.description>This action cannot be undone. This will permanently delete your item.</ui:dialog.description>
+        </ui:dialog.header>
+        <ui:dialog.footer>
+            <ui:dialog.close asChild="{true}">
+                <ui:button variant="secondary">Cancel</ui:button>
+            </ui:dialog.close>
+            <ui:button>Delete</ui:button>
+        </ui:dialog.footer>
+    </ui:dialog.content>
+</ui:dialog.root>

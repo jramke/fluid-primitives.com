@@ -1,0 +1,10 @@
+<ui:tabs.root defaultValue="tab1">
+    <ui:tabs.list class="mb-3">
+        <ui:tabs.trigger value="tab1">Enabled 1</ui:tabs.trigger>
+        <ui:tabs.trigger value="tab2" disabled="{true}">Disabled</ui:tabs.trigger>
+        <ui:tabs.trigger value="tab3">Enabled 2</ui:tabs.trigger>
+    </ui:tabs.list>
+    <ui:tabs.content value="tab1">First tab content.</ui:tabs.content>
+    <ui:tabs.content value="tab2">This tab is disabled.</ui:tabs.content>
+    <ui:tabs.content value="tab3">Third tab content.</ui:tabs.content>
+</ui:tabs.root>

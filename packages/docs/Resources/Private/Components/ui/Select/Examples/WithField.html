@@ -1,0 +1,25 @@
+<ui:listCollection
+    items="{
+        0: {value: 'us', label: 'United States'},
+        1: {value: 'uk', label: 'United Kingdom'},
+        2: {value: 'de', label: 'Germany'}
+    }"
+    as="collection" />
+
+<ui:field.root name="country" required="{true}">
+    <ui:select.root collection="{collection}">
+        <ui:select.label>Country</ui:select.label>
+        <ui:select.control class="min-w-48">
+            <ui:select.trigger placeholder="Select your country" />
+        </ui:select.control>
+        <ui:select.content>
+            <f:for each="{collection.items}" as="item">
+                <ui:select.item item="{item}">
+                    <ui:select.itemText>{item.label}</ui:select.itemText>
+                    <ui:select.itemIndicator />
+                </ui:select.item>
+            </f:for>
+        </ui:select.content>
+    </ui:select.root>
+    <ui:field.error />
+</ui:field.root>

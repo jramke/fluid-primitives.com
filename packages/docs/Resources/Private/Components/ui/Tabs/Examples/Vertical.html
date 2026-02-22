@@ -1,0 +1,24 @@
+<ui:tabs.root defaultValue="tab1" orientation="vertical" class="flex gap-4">
+    <ui:tabs.list class="flex-col h-auto items-end">
+        <ui:tabs.trigger value="tab1">Account</ui:tabs.trigger>
+        <ui:tabs.trigger value="tab2">Password</ui:tabs.trigger>
+        <ui:tabs.trigger value="tab3">Settings</ui:tabs.trigger>
+    </ui:tabs.list>
+    <div class="flex-1">
+        <ui:tabs.content value="tab1">
+            <div class="aspect-video w-84 rounded-md border-dashed border p-4 text-sm grid place-items-center text-center">
+                Manage your account settings and preferences.
+            </div>
+        </ui:tabs.content>
+        <ui:tabs.content value="tab2">
+            <div class="aspect-video w-84 rounded-md border-dashed border p-4 text-sm grid place-items-center text-center">
+                Change your password and other security options.
+            </div>
+        </ui:tabs.content>
+        <ui:tabs.content value="tab3">
+            <div class="aspect-video w-84 rounded-md border-dashed border p-4 text-sm grid place-items-center text-center">
+                Configure your application settings and preferences.
+            </div>
+        </ui:tabs.content>
+    </div>
+</ui:tabs.root>

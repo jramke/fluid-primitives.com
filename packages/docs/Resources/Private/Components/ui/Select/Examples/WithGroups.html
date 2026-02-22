@@ -1,0 +1,29 @@
+<ui:listCollection
+    items="{
+        0: {value: 'apple', label: 'Apple', type: 'Fruits'},
+        1: {value: 'banana', label: 'Banana', type: 'Fruits'},
+        2: {value: 'carrot', label: 'Carrot', type: 'Vegetables'},
+        3: {value: 'broccoli', label: 'Broccoli', type: 'Vegetables'}
+    }"
+    groupByKey="type"
+    as="collection" />
+
+<ui:select.root collection="{collection}">
+    <ui:select.label>Select produce</ui:select.label>
+    <ui:select.control class="min-w-48">
+        <ui:select.trigger placeholder="Choose produce" />
+    </ui:select.control>
+    <ui:select.content>
+        <f:for each="{collection.group}" as="group" key="type">
+            <ui:select.itemGroup>
+                <ui:select.itemGroupLabel>{type}</ui:select.itemGroupLabel>
+                <f:for each="{group}" as="item">
+                    <ui:select.item item="{item}">
+                        <ui:select.itemText>{item.label}</ui:select.itemText>
+                        <ui:select.itemIndicator />
+                    </ui:select.item>
+                </f:for>
+            </ui:select.itemGroup>
+        </f:for>
+    </ui:select.content>
+</ui:select.root>

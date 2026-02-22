@@ -1,0 +1,16 @@
+<ui:dialog.root closeOnInteractOutside="{false}">
+    <ui:dialog.trigger asChild="{true}">
+        <ui:button>Open Dialog</ui:button>
+    </ui:dialog.trigger>
+    <ui:dialog.content>
+        <ui:dialog.header>
+            <ui:dialog.title>Persistent Dialog</ui:dialog.title>
+            <ui:dialog.description>Click outside won't close this dialog.</ui:dialog.description>
+        </ui:dialog.header>
+        <ui:dialog.footer>
+            <ui:dialog.close asChild="{true}">
+                <ui:button>Close</ui:button>
+            </ui:dialog.close>
+        </ui:dialog.footer>
+    </ui:dialog.content>
+</ui:dialog.root>

@@ -18,117 +18,28 @@
 
 {% component: "ui:installationSection", arguments: { "name": "Dialog" } %}
 
-## Usage
-
-```html
-<ui:dialog.root>
-    <ui:dialog.trigger asChild="{true}">
-        <ui:button>Open Dialog</ui:button>
-    </ui:dialog.trigger>
-    <ui:dialog.content>
-        <ui:dialog.header>
-            <ui:dialog.title>Dialog Title</ui:dialog.title>
-            <ui:dialog.description>This is a dialog description.</ui:dialog.description>
-        </ui:dialog.header>
-        <p>Dialog content goes here.</p>
-        <ui:dialog.footer>
-            <ui:dialog.close asChild="{true}">
-                <ui:button>Close</ui:button>
-            </ui:dialog.close>
-        </ui:dialog.footer>
-    </ui:dialog.content>
-</ui:dialog.root>
-```
-
 ## Examples
 
-### Default Open
+### Alert Dialog
 
-Set the dialog to be open by default.
+For critical confirmations or destructive actions, use `role="alertdialog"`. Alert dialogs differ from regular dialogs in important ways:
 
-```html
-<ui:dialog.root defaultOpen="{true}">
-    <ui:dialog.trigger asChild="{true}">
-        <ui:button>Open Dialog</ui:button>
-    </ui:dialog.trigger>
-    <ui:dialog.content>
-        <ui:dialog.header>
-            <ui:dialog.title>Already Open</ui:dialog.title>
-        </ui:dialog.header>
-        <p>This dialog opens automatically.</p>
-    </ui:dialog.content>
-</ui:dialog.root>
-```
+- **Automatic focus:** The close/cancel button receives focus when opened, prioritizing the safest action
+- **Requires explicit dismissal:** Cannot be closed by clicking outside, only via button clicks or Escape key
+
+{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.alert" } %}
 
 ### Prevent Close on Outside Click
 
 Keep the dialog open when clicking outside.
 
-```html
-<ui:dialog.root closeOnInteractOutside="{false}">
-    <ui:dialog.trigger asChild="{true}">
-        <ui:button>Open Dialog</ui:button>
-    </ui:dialog.trigger>
-    <ui:dialog.content>
-        <ui:dialog.header>
-            <ui:dialog.title>Persistent Dialog</ui:dialog.title>
-        </ui:dialog.header>
-        <p>Click outside won't close this dialog.</p>
-        <ui:dialog.footer>
-            <ui:dialog.close asChild="{true}">
-                <ui:button>Close</ui:button>
-            </ui:dialog.close>
-        </ui:dialog.footer>
-    </ui:dialog.content>
-</ui:dialog.root>
-```
+{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.preventCloseOutside" } %}
 
 ### Prevent Close on Escape
 
 Disable closing the dialog with the Escape key.
 
-```html
-<ui:dialog.root closeOnEscape="{false}">
-    <ui:dialog.trigger asChild="{true}">
-        <ui:button>Open Dialog</ui:button>
-    </ui:dialog.trigger>
-    <ui:dialog.content>
-        <ui:dialog.header>
-            <ui:dialog.title>No Escape</ui:dialog.title>
-        </ui:dialog.header>
-        <p>Pressing Escape won't close this dialog.</p>
-        <ui:dialog.footer>
-            <ui:dialog.close asChild="{true}">
-                <ui:button>Close</ui:button>
-            </ui:dialog.close>
-        </ui:dialog.footer>
-    </ui:dialog.content>
-</ui:dialog.root>
-```
-
-### Confirmation Dialog
-
-A common pattern for confirming destructive actions.
-
-```html
-<ui:dialog.root>
-    <ui:dialog.trigger asChild="{true}">
-        <ui:button variant="destructive">Delete Item</ui:button>
-    </ui:dialog.trigger>
-    <ui:dialog.content>
-        <ui:dialog.header>
-            <ui:dialog.title>Are you sure?</ui:dialog.title>
-            <ui:dialog.description> This action cannot be undone. This will permanently delete your item. </ui:dialog.description>
-        </ui:dialog.header>
-        <ui:dialog.footer>
-            <ui:dialog.close asChild="{true}">
-                <ui:button variant="outline">Cancel</ui:button>
-            </ui:dialog.close>
-            <ui:button variant="destructive">Delete</ui:button>
-        </ui:dialog.footer>
-    </ui:dialog.content>
-</ui:dialog.root>
-```
+{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.preventCloseEscape" } %}
 
 ## Anatomy
 

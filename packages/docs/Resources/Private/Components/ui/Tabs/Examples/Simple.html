@@ -1,22 +1,22 @@
-<f:variable name="items" value="{
-    0: {value: 'item-1', label: 'Item one', content: 'This is the content of item one.'},
-    1: {value: 'item-2', label: 'Item two', content: 'This is the content of item two.'},
-    2: {value: 'item-3', label: 'Item three', content: 'This is the content of item three.'}
-}" />
-
-<primitives:tabs.root class="flex flex-col gap-2" defaultValue="item-1">
-    <primitives:tabs.list class="bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]">
-        <f:for each="{items}" as="item">
-            <primitives:tabs.trigger value="{item.value}" class="data-[selected]:bg-background focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring text-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[selected]:shadow-sm">
-                {item.label}
-            </primitives:tabs.trigger>
-        </f:for>
-    </primitives:tabs.list>
-    <f:for each="{items}" as="item">
-        <primitives:tabs.content value="{item.value}" class="flex-1 outline-none">
-            {item.content}
-        </primitives:tabs.content>
-    </f:for>
-</primitives:tabs.root>
-
-<vite:asset entry="EXT:fluid_primitives/Resources/Public/JavaScript/dist/tabs.entry.js" />
+<ui:tabs.root defaultValue="tab1">
+    <ui:tabs.list class="mb-3">
+        <ui:tabs.trigger value="tab1">Account</ui:tabs.trigger>
+        <ui:tabs.trigger value="tab2">Password</ui:tabs.trigger>
+        <ui:tabs.trigger value="tab3">Settings</ui:tabs.trigger>
+    </ui:tabs.list>
+    <ui:tabs.content value="tab1">
+        <div class="aspect-video w-84 rounded-md border-dashed border p-4 text-sm grid place-items-center text-center">
+            Manage your account settings and preferences.
+        </div>
+    </ui:tabs.content>
+    <ui:tabs.content value="tab2">
+        <div class="aspect-video w-84 rounded-md border-dashed border p-4 text-sm grid place-items-center text-center">
+            Change your password and other security options.
+        </div>
+    </ui:tabs.content>
+    <ui:tabs.content value="tab3">
+        <div class="aspect-video w-84 rounded-md border-dashed border p-4 text-sm grid place-items-center text-center">
+            Configure your application settings and preferences.
+        </div>
+    </ui:tabs.content>
+</ui:tabs.root>

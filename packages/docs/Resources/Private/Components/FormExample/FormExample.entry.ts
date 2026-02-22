@@ -7,8 +7,16 @@ mount('form-example', () => {
 
 	const form = new Form({
 		...data.props,
-		onSubmit: async ({ formData }) => {
+		onSubmit: async ({ formData, api }) => {
 			await new Promise(resolve => setTimeout(resolve, 800));
+
+			const formEl = api.getFormEl();
+			const urlInput = formEl?.querySelector<HTMLInputElement>('input[name="homepage"]');
+			if (!urlInput?.checkValidity()) {
+				throw new ValidationError({
+					homepage: { messages: ['Please enter a valid url.'] },
+				});
+			}
 
 			if (formData.get('homepage') === 'https://example.com') {
 				throw new ValidationError({
