@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "NumberInput" } %}
 
-{% component: "ui:numberInput.examples.simple" %}
+{% component: "ui:componentExample", arguments: { "componentName": "NumberInput.examples.simple" } %}
 
 ## Features
 

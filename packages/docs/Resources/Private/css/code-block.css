@@ -44,6 +44,6 @@
 	}
 	pre {
 		@apply border border-dashed;
-		background-color: #fcfcfc !important;
+		background-color: #fdfdfd !important;
 	}
 }

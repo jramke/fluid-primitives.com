@@ -21,6 +21,8 @@
     - docs/components/clipboard
     - docs/components/collapsible
     - docs/components/dialog
+    - docs/components/field
+    - docs/components/form
     - docs/components/number-input
     - docs/components/popover
     - docs/components/radio-group
@@ -36,6 +38,7 @@
     - docs/viewhelpers/cn
     - docs/viewhelpers/context
     - docs/viewhelpers/error
+    - docs/viewhelpers/exposeToClient
     - docs/viewhelpers/hydrationData
     - docs/viewhelpers/id
     - docs/viewhelpers/listCollection

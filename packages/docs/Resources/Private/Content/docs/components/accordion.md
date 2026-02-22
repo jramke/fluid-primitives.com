@@ -4,26 +4,31 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Accordion" } %}
 
-{% component: "ui:accordion.examples.simple" %}
+{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.simple" } %}
+
+## Features
+
+- Full keyboard navigation support
+- Supports single or multiple expanded panels
+- Supports horizontal and vertical orientations
 
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Accordion" } %}
 
-## Usage
+## Examples
 
-```html
-<ui:accordion.root>
-    <ui:accordion.item value="item-1">
-        <ui:accordion.itemTrigger>First item</ui:accordion.itemTrigger>
-        <ui:accordion.itemContent>Content for the first item.</ui:accordion.itemContent>
-    </ui:accordion.item>
-    <ui:accordion.item value="item-2">
-        <ui:accordion.itemTrigger>Second item</ui:accordion.itemTrigger>
-        <ui:accordion.itemContent>Content for the second item.</ui:accordion.itemContent>
-    </ui:accordion.item>
-</ui:accordion.root>
-```
+### Multiple Expanded Panels
+
+Allow multiple accordion items to be expanded at once by setting `multiple` to true.
+
+{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.multiple" } %}
+
+### Disabled Items
+
+Disable specific accordion items to prevent interaction.
+
+{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.disabled" } %}
 
 ## Anatomy
 

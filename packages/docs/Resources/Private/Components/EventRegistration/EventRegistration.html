@@ -1,0 +1,155 @@
+<ui:exposeToClient />
+<ui:prop name="object" type="FluidPrimitives\Docs\Domain\Model\EventRegistration" optional="{true}" />
+
+<ui:form
+    action="registration"
+    objectName="eventRegistration"
+    object="{object}"
+    controlled="{true}"
+    rootId="{rootId}-form"
+    class="group">
+    <h2 class="text-lg font-semibold">Event Registration</h2>
+
+    <div class="group-[[data-state=error]]:hidden group-[[data-state=success]]:hidden space-y-6">
+
+        <ui:listCollection
+            items="{
+                0: {value: 'vip', label: 'VIP'},
+                1: {value: 'standard', label: 'Standard'},
+                2: {value: 'student', label: 'Student'}
+            }"
+            as="ticketTypes" />
+
+        <ui:field.root name="ticketType" required="{true}">
+            <ui:select.root collection="{ticketTypes}" class="field">
+                <ui:select.label>Ticket Type</ui:select.label>
+                <ui:select.control>
+                    <ui:select.trigger placeholder="Select a ticket type" />
+                </ui:select.control>
+                <ui:select.content>
+                    <f:for each="{ticketTypes.items}" as="item">
+                        <ui:select.item item="{item}">
+                            <ui:select.itemText>{item.label}</ui:select.itemText>
+                            <ui:select.itemIndicator />
+                        </ui:select.item>
+                    </f:for>
+                </ui:select.content>
+            </ui:select.root>
+            <ui:field.error />
+        </ui:field.root>
+
+        <ui:field.root name="ticketCount" required="{true}">
+            <ui:numberInput.root min="1" max="10">
+                <ui:numberInput.scrubber>
+                    <ui:numberInput.label>How many tickets?</ui:numberInput.label>
+                </ui:numberInput.scrubber>
+                <ui:numberInput.control>
+                    <ui:numberInput.decrementTrigger />
+                    <ui:numberInput.input />
+                    <ui:numberInput.incrementTrigger />
+                </ui:numberInput.control>
+            </ui:numberInput.root>
+            <ui:field.error />
+        </ui:field.root>
+
+        <ui:field.root name="mode" required="{true}">
+            <ui:radioGroup.root>
+                <ui:radioGroup.label>Attendance Mode</ui:radioGroup.label>
+                <ui:radioGroup.item value="person">
+                    <ui:radioGroup.itemControl />
+                    <ui:radioGroup.itemText>In Person</ui:radioGroup.itemText>
+                </ui:radioGroup.item>
+                <ui:radioGroup.item value="virtual">
+                    <ui:radioGroup.itemControl />
+                    <ui:radioGroup.itemText>Virtual</ui:radioGroup.itemText>
+                </ui:radioGroup.item>
+            </ui:radioGroup.root>
+            <ui:field.error />
+        </ui:field.root>
+
+        <ui:field.root name="name" required="{true}">
+            <ui:field.label>Name</ui:field.label>
+            <ui:field.control asChild="{true}">
+                <ui:input autocomplete="name" />
+            </ui:field.control>
+            <ui:field.description>Your full name as it will appear on the ticket.</ui:field.description>
+            <ui:field.error />
+        </ui:field.root>
+
+        <ui:field.root name="email" required="{true}">
+            <ui:field.label>Email</ui:field.label>
+            <ui:field.control asChild="{true}">
+                <ui:input type="email" autocomplete="email" />
+            </ui:field.control>
+            <ui:field.description>Your email address will be used for registration confirmation and updates.</ui:field.description>
+            <ui:field.error />
+        </ui:field.root>
+
+        <ui:field.root name="phone">
+            <ui:field.label>Phone</ui:field.label>
+            <ui:field.control asChild="{true}">
+                <ui:input type="tel" autocomplete="tel" />
+            </ui:field.control>
+            <ui:field.description>Only used if we need to contact you about your registration.</ui:field.description>
+            <ui:field.error />
+        </ui:field.root>
+
+        <f:comment>
+            <!-- Note: checkbox groups are partly supported -->
+        </f:comment>
+        <fieldset class="field">
+            <legend class="sr-only">Accessibility Needs</legend>
+            <div class="label" aria-hidden="true">Accessibility Needs</div>
+            <ui:field.root name="a11yNeeds" hidden="{true}"></ui:field.root>
+            <ui:checkbox.root name="a11yNeeds[]" value="wheelchair">
+                <ui:checkbox.control />
+                <ui:checkbox.label class="font-normal">
+                    Wheelchair Access
+                </ui:checkbox.label>
+            </ui:checkbox.root>
+            <ui:checkbox.root name="a11yNeeds[]" value="sign-language">
+                <ui:checkbox.control />
+                <ui:checkbox.label class="font-normal">
+                    Sign Language Interpretation
+                </ui:checkbox.label>
+            </ui:checkbox.root>
+        </fieldset>
+
+        <ui:field.root name="comment">
+            <ui:field.label>Additional Comments</ui:field.label>
+            <ui:field.control asChild="{true}">
+                <ui:textarea placeholder="Type your message here..." />
+            </ui:field.control>
+            <ui:field.error />
+        </ui:field.root>
+
+        <ui:field.root name="privacy" required="{true}">
+            <ui:checkbox.root name="privacy">
+                <ui:checkbox.control />
+                <ui:checkbox.label>
+                    I consent to the processing of my data in accordance with the privacy policy.
+                </ui:checkbox.label>
+            </ui:checkbox.root>
+            <ui:field.error />
+        </ui:field.root>
+
+        <ui:button type="submit" attributes="{ui:ref(name: 'submit-button')}">
+            Register
+        </ui:button>
+    </div>
+
+    <div class="hidden group-[[data-state=error]]:block">
+        <h2 class="font-medium">Error</h2>
+        <p {ui:ref(name: 'error-message' )}>There was an error submitting your registration. Please try again.</p>
+        <ui:button class="mt-4" attributes="{ui:ref(name: 'retry-button')}">
+            Back to form
+        </ui:button>
+    </div>
+
+    <div class="hidden group-[[data-state=success]]:block">
+        <h2 class="font-medium">Success</h2>
+        <p>Your registration was submitted successfully. Thank you!</p>
+    </div>
+</ui:form>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/EventRegistration/EventRegistration.entry.ts" />

@@ -1,0 +1,10 @@
+<ui:accordion.root class="w-full max-w-[400px]">
+    <ui:accordion.item value="item-1">
+        <ui:accordion.itemTrigger>Enabled item</ui:accordion.itemTrigger>
+        <ui:accordion.itemContent>Content for the enabled item.</ui:accordion.itemContent>
+    </ui:accordion.item>
+    <ui:accordion.item value="item-2" disabled="{true}">
+        <ui:accordion.itemTrigger>Disabled item</ui:accordion.itemTrigger>
+        <ui:accordion.itemContent>This content cannot be accessed.</ui:accordion.itemContent>
+    </ui:accordion.item>
+</ui:accordion.root>

@@ -1,0 +1,16 @@
+<ui:exposeToClient />
+
+<ui:form controlled="{true}" rootId="example-form" class="min-w-[275px]">
+
+    <ui:field.root name="homepage" required="{true}" defaultValue="https://example.com">
+        <ui:field.label>Homepage</ui:field.label>
+        <ui:field.control asChild="{true}">
+            <ui:input type="url" placeholder="https://example.com" />
+        </ui:field.control>
+        <ui:field.error />
+    </ui:field.root>
+
+    <ui:button type="submit">Submit</ui:button>
+</ui:form>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/FormExample/FormExample.entry.ts" />

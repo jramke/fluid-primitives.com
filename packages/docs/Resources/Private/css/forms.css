@@ -1,0 +1,19 @@
+@utility field {
+	:where(&) {
+		@apply flex flex-col items-start gap-1.5;
+	}
+}
+
+@utility label {
+	:where(&) {
+		@apply font-medium text-sm;
+
+		@variant data-[required] {
+			@apply after:content-['*'] after:opacity-65;
+		}
+
+		@variant data-[invalid=true] {
+			@apply text-destructive;
+		}
+	}
+}

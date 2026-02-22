@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Controller;
 
+use FluidPrimitives\Docs\Domain\Model\EventRegistration;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
-use FluidPrimitives\Docs\Phiki\RemoveLangClassTransformer;
+use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -22,11 +23,9 @@ use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
 use League\CommonMark\MarkdownConverter;
 use League\CommonMark\Node\Query;
 use League\CommonMark\Renderer\HtmlRenderer;
-use Phiki\Grammar\Grammar;
-use Phiki\Phiki;
 use Phiki\Theme\Theme;
-use Phiki\Transformers\Decorations\PreDecoration;
 use TYPO3\CMS\Core\Core\Environment as Typo3Environment;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 use TYPO3Fluid\Fluid\Core\Component\ComponentDefinitionProviderInterface;
@@ -34,6 +33,8 @@ use TYPO3Fluid\Fluid\Core\Component\ComponentTemplateResolverInterface;
 
 class DocsController extends ActionController
 {
+    use AjaxValidationTrait;
+
     private ?MarkdownConverter $converter = null;
 
     public function __construct(
@@ -53,6 +54,12 @@ class DocsController extends ActionController
 
         if ($path === 'playground' && Typo3Environment::getContext()->isDevelopment()) {
             $this->view->assign('layout', 'playground');
+            $test = new EventRegistration();
+            // $test->setEmail('test@example.com');
+            // $test->setTicketType('vip');
+            // $test->setName('John Doe');
+            // $test->setMode('virtual');
+            $this->view->assign('defaultEventRegistration', $test);
             $this->pageTitleProvider->setTitle('Playground – Fluid Primitives');
             return $this->htmlResponse();
         }
@@ -108,6 +115,36 @@ class DocsController extends ActionController
         $this->pageTitleProvider->setTitle(($meta['title'] ?? 'Documentation') . ' – Fluid Primitives');
 
         return $this->htmlResponse();
+    }
+
+    public function registrationAction(EventRegistration $eventRegistration): ResponseInterface
+    {
+        $payload = ['success' => true];
+        $status = 200;
+
+        if ($eventRegistration->getTicketType() === 'vip') {
+            $payload = ['eventRegistration.ticketType' => ['VIP tickets are sold out.']];
+            $status = 422;
+        }
+
+        try {
+            // do something with the registration
+            // $this->eventRegistrationRepository->save($eventRegistration);
+            // throw new \RuntimeException('Simulated server error for demonstration purposes.');
+        } catch (\Exception $e) {
+            $payload = ['success' => false, 'message' => 'An unexpected error occurred. Please try again later.'];
+            $status = 500;
+        }
+
+        $json = json_encode($payload);
+        $response = $this->jsonResponse($json)->withStatus($status);
+        throw new PropagateResponseException($response, $status);
+    }
+
+    protected function errorAction(): ResponseInterface
+    {
+        $this->throwJsonValidationErrorResponse();
+        return parent::errorAction();
     }
 
     private function getMarkdownConverter(): MarkdownConverter
@@ -172,27 +209,16 @@ class DocsController extends ActionController
                         return '<div class="fluid-template-error">Error: Unknown component "' . htmlspecialchars($viewHelperName) . '"</div>';
                     }
 
-                    $isCodeExample = str_contains($fullViewHelperName, 'examples');
+                    $isCodeExample = $fullViewHelperName === 'ui:componentExample';
 
                     $componentRenderer = $viewHelperResolverDelegate->getComponentRenderer();
-                    $html = $componentRenderer->renderComponent($viewHelperName, [...$arguments, 'class' => 'not-prose'], [], $renderingContext);
 
                     if ($isCodeExample) {
-                        $templateName = $viewHelperResolverDelegate->resolveTemplateName($viewHelperName);
-                        $templateString = $viewHelperResolverDelegate->getTemplatePaths()->getTemplateSource('Default', $templateName);
-
-                        $highlightedTemplate = (new Phiki)
-                            ->codeToHtml($templateString, Grammar::Html, Theme::GithubLight)
-                            ->decoration(PreDecoration::make()->class('not-code-block'))
-                            ->transformer(new RemoveLangClassTransformer)
-                            ->toString();
-
-                        $html = $componentRenderer->renderComponent('ComponentExample', [
-                            'html' => $html,
-                            'templateHighlighted' => $highlightedTemplate,
-                            'templateRaw' => $templateString,
+                        $html = $componentRenderer->renderComponent($viewHelperName, [
+                            ...$arguments,
                         ], [], $renderingContext);
                     } else {
+                        $html = $componentRenderer->renderComponent($viewHelperName, [...$arguments, 'class' => 'not-prose'], [], $renderingContext);
                         $html = '<div class="prose-component">' . $html . '</div>';
                     }
 

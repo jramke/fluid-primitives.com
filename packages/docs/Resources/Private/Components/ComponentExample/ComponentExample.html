@@ -1,43 +1,73 @@
-<ui:prop name="html" type="string" />
-<ui:prop name="templateRaw" type="string" />
-<ui:prop name="templateHighlighted" type="string" />
+<ui:exposeToClient />
+
+<ui:prop name="componentName" type="string" />
+<ui:prop name="additionalFiles" type="array" optional="{true}" />
+
+<f:variable name="tabs">{context.tabs}</f:variable>
 
 <div class="component-example not-prose">
     <div>
-        <div class="component-example-preview">{html -> f:format.raw()}</div>
-        <div class="component-example-code">
+        <div class="component-example-preview">{context.html -> f:format.raw()}</div>
+        <div class="component-example-code isolate">
             <ui:collapsible.root collapsedHeight="120px">
-                <div class="p-1 pb-0 text-sm flex justify-between">
-                    <span class="font-mono font-semibold text-foreground/80 px-1 pt-1">Example.html</span>
-                    <div class="flex items-center gap-1">
-                        <ui:collapsible.trigger asChild="{true}">
-                            <ui:button variant="ghost">
-                                <ui:collapsible.triggerText openText="Show Code" closeText="Hide Code" />
-                            </ui:button>
-                        </ui:collapsible.trigger>
-                        <ui:clipboard.root value="{templateRaw -> f:format.raw()}">
-                            <ui:clipboard.trigger asChild="{true}">
-                                <ui:button variant="ghost" size="icon">
-                                    <ui:clipboard.indicator state="idle">
-                                        <ui:icon.copy />
-                                    </ui:clipboard.indicator>
-                                    <ui:clipboard.indicator state="copied">
-                                        <ui:icon.check />
-                                    </ui:clipboard.indicator>
-                                </ui:button>
-                            </ui:clipboard.trigger>
-                        </ui:clipboard.root>
+                <ui:tabs.root defaultValue="example-0" controlled="{true}" rootId="{rootId}-tabs">
+                    <div class="px-1 text-sm flex justify-between">
+                        <ui:tabs.list class="flex items-center gap-1 ps-0.5">
+                            <f:for each="{tabs}" as="tab" iteration="i">
+                                <ui:tabs.trigger value="example-{i.index}" class="font-mono font-semibold text-foreground/80 px-1 pt-1 rounded-md only:after:content-none">
+                                    {tab.label}
+                                </ui:tabs.trigger>
+                            </f:for>
+                        </ui:tabs.list>
+                        <f:for each="{tabs}" as="tab" iteration="i">
+                            <f:variable name="value">example-{i.index}</f:variable>
+                            <div class="flex items-center gap-1 z-1 pt-0.5" {ui:ref(name: 'tab-actions' , data: { value: value } )} {f:if(condition: '{value} !== example-0' , then: 'hidden' )}>
+                                <ui:collapsible.trigger asChild="{true}">
+                                    <ui:button variant="ghost" class="not-sm:size-8 not-sm:p-0">
+                                        <ui:collapsible.triggerText openText="Show Code" closeText="Hide Code" class="not-sm:sr-only" />
+                                        <ui:icon.listToggle class="sm:hidden" />
+                                    </ui:button>
+                                </ui:collapsible.trigger>
+                                <ui:clipboard.root value="{tab.templateRaw -> f:format.raw()}">
+                                    <ui:clipboard.trigger asChild="{true}">
+                                        <ui:button variant="ghost" size="icon">
+                                            <ui:clipboard.indicator state="idle">
+                                                <ui:icon.copy />
+                                            </ui:clipboard.indicator>
+                                            <ui:clipboard.indicator state="copied">
+                                                <ui:icon.check />
+                                            </ui:clipboard.indicator>
+                                        </ui:button>
+                                    </ui:clipboard.trigger>
+                                </ui:clipboard.root>
+                            </div>
+                        </f:for>
                     </div>
-                </div>
-                <ui:collapsible.content class="{ui:cn(value: '
-                    relative 
-                    after:absolute after:bottom-0 after:w-full after:h-0 after:transition-[height]
-                    after:bg-linear-to-b after:from-transparent after:to-background 
-                    data-[state=closed]:after:h-24
-                ')}">
-                    {templateHighlighted -> f:format.raw()}
-                </ui:collapsible.content>
+                    <ui:collapsible.content class="{ui:cn(value: '
+                        relative 
+                        after:absolute after:bottom-0 after:w-full after:h-0 after:transition-[height]
+                        after:bg-linear-to-b after:from-transparent after:to-background 
+                        data-[state=closed]:after:h-24
+                    ')}">
+                        <f:for each="{tabs}" as="tab" iteration="i">
+                            <ui:tabs.content value="example-{i.index}">
+                                <ui:scrollArea.root>
+                                    <ui:scrollArea.viewport>
+                                        <ui:scrollArea.content>
+                                            {tab.templateHighlighted -> f:format.raw()}
+                                        </ui:scrollArea.content>
+                                    </ui:scrollArea.viewport>
+                                    <ui:scrollArea.scrollbar orientation="horizontal">
+                                        <ui:scrollArea.thumb />
+                                    </ui:scrollArea.scrollbar>
+                                </ui:scrollArea.root>
+                            </ui:tabs.content>
+                        </f:for>
+                    </ui:collapsible.content>
+                </ui:tabs.root>
             </ui:collapsible.root>
         </div>
     </div>
 </div>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ComponentExample/ComponentExample.entry.ts" />
