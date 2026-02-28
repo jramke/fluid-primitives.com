@@ -45,6 +45,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts \
 # Build frontend assets if needed
 RUN if [ -f "package.json" ]; then \
         npm i && \
+        npm run primitives:build && \
         npm run docs:build; \
     fi
 
