@@ -1,0 +1,20 @@
+php-version = "8.3"
+
+[source]
+workspace = "."
+paths = ["packages", "config"]
+includes = ["vendor"]
+excludes = ["Public/**", "node_modules/**"]
+
+[formatter]
+preset = "default"
+
+[linter]
+integrations = ["symfony"]
+
+[linter.rules]
+ambiguous-function-call = { enabled = false }
+literal-named-argument = { enabled = false }
+halstead = { effort-threshold = 7000 }
+too-many-methods = { enabled = false }
+readable-literal = { enabled = false }

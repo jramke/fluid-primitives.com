@@ -9,14 +9,20 @@
             "typo3/cms-composer-installers": true
         },
         "platform": {
-            "php": "8.2.0"
+            "php": "8.3"
         },
         "sort-packages": true
+    },
+    "scripts": {
+        "lint": "mago lint --fix --format-after-fix",
+        "format": "mago format",
+        "format:stdin": "mago format --stdin-input",
+        "analyze": "mago analyze"
     },
     "require": {
         "brainworxx/includekrexx": "^6.1",
         "fluid-primitives/docs": "@dev",
-        "jramke/fluid-primitives": "^0.0.1",
+        "jramke/fluid-primitives": "@dev",
         "league/commonmark": "^2.7",
         "phiki/phiki": "^2.0",
         "praetorius/vite-asset-collector": "^1.14",
@@ -45,5 +51,8 @@
             "type": "path",
             "url": "./packages/*"
         }
-    ]
+    ],
+    "require-dev": {
+        "carthage-software/mago": "^1.13.2"
+    }
 }

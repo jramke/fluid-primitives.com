@@ -5,5 +5,14 @@
     },
     "html.format.wrapLineLength": 0,
     "html.format.wrapAttributes": "preserve",
-    "html.format.templating": true
+    "html.format.templating": true,
+    "[php]": {
+        "editor.defaultFormatter": "jkillian.custom-local-formatters"
+    },
+    "customLocalFormatters.formatters": [
+        {
+            "command": "ddev exec vendor/bin/mago format --stdin-input",
+            "languages": ["php"]
+        }
+    ]
 }
