@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Clipboard" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Clipboard.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "Clipboard.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

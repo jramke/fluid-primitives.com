@@ -18,8 +18,6 @@ npm install fluid-primitives
 
 {% component: "ui:alert.simple", arguments: {"title": "Make sure you use the same versions for the npm and composer packages.", "variant": "warning"} %}
 
-If you aren't using a package manager or frontend build process, you can also simply use the pre-built files from `EXT:fluid_primitives/Resources/Public/JavaScript/dist/` and include them in your templates.
-
 ## Setup Component Collection
 
 Create a `ComponentCollection` class in your sitepackage:

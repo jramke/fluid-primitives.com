@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Tooltip" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tooltip.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "Tooltip.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Collapsible" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Collapsible.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "Collapsible.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

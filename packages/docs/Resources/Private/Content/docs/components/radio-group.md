@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "RadioGroup" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "RadioGroup.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "RadioGroup.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

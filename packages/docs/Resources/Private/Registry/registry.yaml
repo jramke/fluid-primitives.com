@@ -6,6 +6,7 @@ accordion:
     - Item.html
     - ItemTrigger.html
     - ItemContent.html
+    - Accordion.entry.ts
 
 checkbox:
   name: Checkbox
@@ -14,6 +15,7 @@ checkbox:
     - Root.html
     - Label.html
     - Control.html
+    - Checkbox.entry.ts
 
 clipboard:
   name: Clipboard
@@ -25,6 +27,7 @@ clipboard:
     - Input.html
     - Trigger.html
     - Indicator.html
+    - Clipboard.entry.ts
 
 collapsible:
   name: Collapsible
@@ -34,6 +37,7 @@ collapsible:
     - Trigger.html
     - TriggerText.html
     - Content.html
+    - Collapsible.entry.ts
 
 dialog:
   name: Dialog
@@ -48,6 +52,25 @@ dialog:
     - Description.html
     - CloseTrigger.html
     - Close.html
+    - Dialog.entry.ts
+
+field:
+  name: Field
+  description: A wrapper for form fields with an optional label and description
+  files:
+    - Root.html
+    - Label.html
+    - Description.html
+    - Control.html
+    - Error.html
+    - Field.entry.ts
+
+form:
+  name: Form
+  description: A wrapper for forms that provides context for form controls
+  files:
+    - Form.html
+    - Form.entry.ts
 
 number-input:
   name: NumberInput
@@ -59,6 +82,7 @@ number-input:
     - Input.html
     - IncrementTrigger.html
     - DecrementTrigger.html
+    - NumberInput.entry.ts
 
 popover:
   name: Popover
@@ -71,6 +95,7 @@ popover:
     - Description.html
     - CloseTrigger.html
     - Close.html
+    - Popover.entry.ts
 
 radio-group:
   name: RadioGroup
@@ -81,6 +106,7 @@ radio-group:
     - Item.html
     - ItemControl.html
     - ItemText.html
+    - RadioGroup.entry.ts
 
 scroll-area:
   name: ScrollArea
@@ -91,6 +117,7 @@ scroll-area:
     - Content.html
     - Scrollbar.html
     - Thumb.html
+    - ScrollArea.entry.ts
 
 select:
   name: Select
@@ -107,6 +134,7 @@ select:
     - ItemIndicator.html
     - ItemGroup.html
     - ItemGroupLabel.html
+    - Select.entry.ts
 
 tabs:
   name: Tabs
@@ -116,6 +144,7 @@ tabs:
     - List.html
     - Trigger.html
     - Content.html
+    - Tabs.entry.ts
 
 tooltip:
   name: Tooltip
@@ -124,3 +153,4 @@ tooltip:
     - Root.html
     - Trigger.html
     - Content.html
+    - Tooltip.entry.ts

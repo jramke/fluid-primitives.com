@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "ScrollArea" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "ScrollArea.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ScrollArea.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

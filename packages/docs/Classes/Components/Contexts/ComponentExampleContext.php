@@ -11,19 +11,18 @@ use Phiki\Phiki;
 use Phiki\Theme\Theme;
 use Phiki\Transformers\Decorations\PreDecoration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\Component\ComponentDefinitionProviderInterface;
-use TYPO3Fluid\Fluid\Core\Component\ComponentTemplateResolverInterface;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperResolverDelegateInterface;
 
 class ComponentExampleContext extends AbstractComponentContext
 {
-    private ViewHelperResolverDelegateInterface & ComponentTemplateResolverInterface & ComponentDefinitionProviderInterface $viewHelperResolverDelegate;
-
     public function getHtml(): string
     {
         $componentRenderer = $this->getComponentResolver()->getComponentRenderer();
-        $html = $componentRenderer->renderComponent($this->get('componentName'), ['class' => 'not-prose'], [], $this->getRenderingContext());
+        $html = $componentRenderer->renderComponent(
+            $this->get('componentName'),
+            ['class' => 'not-prose'],
+            [],
+            $this->getRenderingContext(),
+        );
 
         return $html;
     }
@@ -36,8 +35,19 @@ class ComponentExampleContext extends AbstractComponentContext
                 'label' => explode('.', $this->get('componentName') ?? 'Example')[0] . '.html',
                 'templateHighlighted' => $this->highlightTemplateString($mainTemplateString, 'html'),
                 'templateRaw' => $mainTemplateString,
-            ]
+            ],
         ];
+
+        if ($this->get('withEntryFile')) {
+            $entryFileTemplateString = $this->getEntryFileTemplateString();
+            if (!empty($entryFileTemplateString)) {
+                $tabs[] = [
+                    'label' => explode('.', $this->get('componentName') ?? 'Example')[0] . '.ts',
+                    'templateHighlighted' => $this->highlightTemplateString($entryFileTemplateString, 'ts'),
+                    'templateRaw' => $entryFileTemplateString,
+                ];
+            }
+        }
 
         foreach ($this->get('additionalFiles') ?? [] as $label => $path) {
             $templateString = $this->getTemplateStringByPath($path);
@@ -55,9 +65,25 @@ class ComponentExampleContext extends AbstractComponentContext
     private function getMainComponentTemplateString(): string
     {
         $templateName = $this->getComponentResolver()->resolveTemplateName($this->get('componentName'));
-        $templateString = $this->getComponentResolver()->getTemplatePaths()->getTemplateSource('Default', $templateName);
-
+        $templateString = $this
+            ->getComponentResolver()
+            ->getTemplatePaths()
+            ->getTemplateSource('Default', $templateName);
         return $templateString;
+    }
+
+    private function getEntryFileTemplateString(): string
+    {
+        $componentBaseName = explode('.', $this->get('componentName') ?? '')[0];
+        foreach ($this->getComponentResolver()->getTemplatePaths()->getTemplateRootPaths() as $rootPath) {
+            $entryFilePath = $rootPath . $componentBaseName . '/' . $componentBaseName . '.entry.ts';
+            krexx($entryFilePath);
+            $templateString = $this->getTemplateStringByPath($entryFilePath);
+            if (!empty($templateString)) {
+                return $templateString;
+            }
+        }
+        return '';
     }
 
     private function getTemplateStringByPath(string $filePath): string
@@ -80,10 +106,10 @@ class ComponentExampleContext extends AbstractComponentContext
 
         $grammar = $languages[$language] ?? Grammar::Txt;
 
-        return (new Phiki)
+        return (new Phiki())
             ->codeToHtml($templateString, $grammar, Theme::GithubLight)
             ->decoration(PreDecoration::make()->class('not-code-block'))
-            ->transformer(new RemoveLangClassTransformer)
+            ->transformer(new RemoveLangClassTransformer())
             ->toString();
     }
 }

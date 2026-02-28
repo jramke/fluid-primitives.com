@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Popover" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

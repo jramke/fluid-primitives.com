@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Dialog" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

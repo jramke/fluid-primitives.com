@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Field" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Field.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "Field.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

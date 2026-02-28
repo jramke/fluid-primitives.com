@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Tabs" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tabs.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "Tabs.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

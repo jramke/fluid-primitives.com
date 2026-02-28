@@ -1,3 +1,5 @@
 <ui:useProps name="primitives:clipboard.input" />
 
-<primitives:clipboard.input spreadProps="{true}" class="{ui:cn(value: 'input {class}')}" />
+<primitives:clipboard.input class="{ui:cn(value: 'input {class}')}" spreadProps="{true}">
+    <f:slot />
+</primitives:clipboard.input>

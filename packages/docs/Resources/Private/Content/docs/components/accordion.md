@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Accordion" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

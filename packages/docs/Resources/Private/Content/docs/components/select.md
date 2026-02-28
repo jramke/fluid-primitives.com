@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Select" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Select.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "Select.examples.simple", "withEntryFile": true } %}
 
 ## Features
 

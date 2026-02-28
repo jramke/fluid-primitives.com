@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Checkbox" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Checkbox.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "Checkbox.examples.simple", "withEntryFile": true } %}
 
 ## Features
 
