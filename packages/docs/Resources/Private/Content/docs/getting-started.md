@@ -78,7 +78,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ui'][] = 'MyVendor\\M
 
 ## Optional: Component Settings
 
-Provide custom settings that are exposed as `{settings}` inside the component templates (merged to `lib.contentElement.settings`).
+Provide custom settings that are exposed as `{settings}` inside the component templates (merged with `lib.contentElement.settings`). So by default you get the normal content element settings.
 
 ```typoscript
 plugin.tx_fluidprimitives {
