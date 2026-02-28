@@ -8,6 +8,7 @@ excludes = ["Public/**", "node_modules/**"]
 
 [formatter]
 preset = "default"
+space-after-cast-unary-prefix-operators = false
 
 [linter]
 integrations = ["symfony"]
