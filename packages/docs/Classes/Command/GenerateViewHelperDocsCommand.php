@@ -4,26 +4,34 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Command;
 
+use ReflectionClass;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
-use ReflectionClass;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-#[AsCommand(
-    name: 'docs:generate-viewhelper-docs',
-    description: 'Generate documentation for Fluid ViewHelpers',
-)]
+#[AsCommand(name: 'docs:generate-viewhelper-docs', description: 'Generate documentation for Fluid ViewHelpers')]
 class GenerateViewHelperDocsCommand extends Command
 {
     protected function configure(): void
     {
         $this
             ->setDescription('Generate Fluid ViewHelper API documentation in Markdown')
-            ->addArgument('source', InputArgument::OPTIONAL, 'Source folder containing ViewHelper classes', 'packages/fluid-primitives/Classes/ViewHelpers')
-            ->addArgument('target', InputArgument::OPTIONAL, 'Target folder to write the markdown files into', 'packages/docs/Resources/Private/Content/docs/viewhelpers');
+            ->addArgument(
+                'source',
+                InputArgument::OPTIONAL,
+                'Source folder containing ViewHelper classes',
+                'packages/fluid-primitives/Classes/ViewHelpers',
+            )
+            ->addArgument(
+                'target',
+                InputArgument::OPTIONAL,
+                'Target folder to write the markdown files into',
+                'packages/docs/Resources/Private/Content/docs/viewhelpers',
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -45,6 +53,12 @@ class GenerateViewHelperDocsCommand extends Command
             }
 
             $reflection = new ReflectionClass($className);
+
+            // Skip abstract classes
+            if ($reflection->isAbstract()) {
+                continue;
+            }
+
             $docComment = $reflection->getDocComment() ?: '';
 
             $shortName = $reflection->getShortName();
@@ -52,7 +66,7 @@ class GenerateViewHelperDocsCommand extends Command
             $fileName = lcfirst($baseName) . '.md';
             $targetFile = $targetDir . '/' . $fileName;
 
-            $arguments = $this->extractArguments($reflection);
+            $arguments = $this->extractArguments($className);
 
             $markdown = $this->generateMarkdown($reflection, $docComment, $arguments);
 
@@ -76,41 +90,47 @@ class GenerateViewHelperDocsCommand extends Command
         return null;
     }
 
-    private function extractArguments(ReflectionClass $reflection): array
+    /**
+     * Extract arguments by instantiating the ViewHelper and reading its argument definitions.
+     * This is the same approach used by the official TYPO3 Fluid documentation generator.
+     */
+    private function extractArguments(string $className): array
     {
         $args = [];
 
-        if ($reflection->hasMethod('initializeArguments')) {
-            $method = $reflection->getMethod('initializeArguments');
-            $body = file($method->getFileName());
-            $lines = array_slice(
-                $body,
-                $method->getStartLine() - 1,
-                $method->getEndLine() - $method->getStartLine() + 1
-            );
+        if (!is_subclass_of($className, AbstractViewHelper::class)) {
+            return $args;
+        }
 
-            foreach ($lines as $line) {
-                // Match 2 to 5 arguments
-                if (preg_match(
-                    '/->registerArgument\(\s*' .
-                        '[\'"]([^\'"]+)[\'"]' . // name (1st)
-                        '\s*,\s*[\'"]([^\'"]+)[\'"]' . // type (2nd)
-                        '(?:\s*,\s*[\'"]([^\'"]*)[\'"])?' . // description (3rd, optional)
-                        '(?:\s*,\s*(true|false))?' . // required (4th, optional)
-                        '(?:\s*,\s*(.+?))?' . // default (5th, optional)
-                        '\s*\)/i',
-                    $line,
-                    $m
-                )) {
-                    $args[] = [
-                        'name' => $m[1],
-                        'type' => $m[2],
-                        'description' => $m[3] ?? '',
-                        'required' => isset($m[4]) ? filter_var($m[4], FILTER_VALIDATE_BOOLEAN) : false,
-                        'default' => $m[5] ?? 'null',
-                    ];
-                }
+        /** @var AbstractViewHelper $viewHelper */
+        $viewHelper = new $className();
+        $viewHelper->initializeArguments();
+
+        $argumentDefinitions = $viewHelper->prepareArguments();
+
+        foreach ($argumentDefinitions as $definition) {
+            $defaultValue = $definition->getDefaultValue();
+
+            // Format default value for display
+            if ($defaultValue === null) {
+                $defaultDisplay = 'null';
+            } elseif (is_bool($defaultValue)) {
+                $defaultDisplay = $defaultValue ? 'true' : 'false';
+            } elseif (is_array($defaultValue)) {
+                $defaultDisplay = empty($defaultValue) ? '[]' : json_encode($defaultValue);
+            } elseif (is_string($defaultValue)) {
+                $defaultDisplay = "'{$defaultValue}'";
+            } else {
+                $defaultDisplay = (string)$defaultValue;
             }
+
+            $args[] = [
+                'name' => $definition->getName(),
+                'type' => $definition->getType(),
+                'description' => $definition->getDescription(),
+                'required' => $definition->isRequired(),
+                'default' => $defaultDisplay,
+            ];
         }
 
         return $args;
@@ -125,17 +145,17 @@ class GenerateViewHelperDocsCommand extends Command
         $content = $this->extractRawDocComment($docComment);
 
         $markdown = <<<MD
-<!-- This file is auto-generated by the docs:generate-viewhelper-docs command. Do not edit directly -->
+            <!-- This file is auto-generated by the docs:generate-viewhelper-docs command. Do not edit directly -->
 
-# ui:$name
+            # ui:$name
 
-{% component: "ui:referenceButtons", arguments: { "name": "$shortName", "type": "viewhelper" } %}
+            {% component: "ui:referenceButtons", arguments: { "name": "$shortName", "type": "viewhelper" } %}
 
-{$content}
+            {$content}
 
-## Arguments
+            ## Arguments
 
-MD;
+            MD;
 
         if (empty($arguments)) {
             $markdown .= "\n_None_\n";
