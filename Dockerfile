@@ -44,10 +44,13 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts \
 
 # Build frontend assets if needed
 RUN if [ -f "package.json" ]; then \
+        cd packages/fluid-primitives && \
         npm i --include=dev && \
-        npm run primitives:build && \
-        npm run docs:build && \
-        rm -rf node_modules; \
+        npm run build && \
+        rm -rf node_modules && \
+        cd  ../.. && \
+        npm i && \
+        npm run docs:build;
     fi
 
 # Copy entrypoint
