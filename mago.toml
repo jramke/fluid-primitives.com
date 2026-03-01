@@ -9,9 +9,14 @@ excludes = ["Public/**", "node_modules/**"]
 [formatter]
 preset = "default"
 space-after-cast-unary-prefix-operators = false
+line-before-binary-operator = false
+indent-heredoc = false
 
 [linter]
 integrations = ["symfony"]
+excludes = ["config"]
+baseline = "lint-baseline.toml"
+baseline-variant = "loose"
 
 [linter.rules]
 ambiguous-function-call = { enabled = false }
@@ -19,3 +24,10 @@ literal-named-argument = { enabled = false }
 halstead = { effort-threshold = 7000 }
 too-many-methods = { enabled = false }
 readable-literal = { enabled = false }
+tagged-todo = { enabled = false }
+no-empty = { enabled = false }
+no-global = { enabled = false }
+no-isset = { enabled = false }
+no-shorthand-ternary = { enabled = false }
+cyclomatic-complexity = { threshold = 50 }
+kan-defect = { threshold = 3 }

@@ -1,0 +1,223 @@
+variant = "loose"
+
+[[issues]]
+file = "packages/docs/Classes/Command/GenerateViewHelperDocsCommand.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 2
+
+[[issues]]
+file = "packages/docs/Classes/Command/GenerateViewHelperDocsCommand.php"
+code = "no-else-clause"
+message = "Avoid `elseif` clauses."
+count = 3
+
+[[issues]]
+file = "packages/docs/Classes/Controller/DocsController.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 2
+
+[[issues]]
+file = "packages/docs/Classes/Controller/DocsController.php"
+code = "no-multi-assignments"
+message = "Avoid multiple assignments in a single statement."
+count = 1
+
+[[issues]]
+file = "packages/docs/Classes/Domain/Model/EventRegistration.php"
+code = "no-boolean-flag-parameter"
+message = "Avoid boolean flag parameters."
+count = 1
+
+[[issues]]
+file = "packages/docs/Classes/Routing/Aspect/ValidatedPathMapper.php"
+code = "no-empty-catch-clause"
+message = "Do not use empty `catch` blocks."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Command/ComponentAddCommand.php"
+code = "halstead"
+message = "Method has a high halstead effort"
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Command/ComponentAddCommand.php"
+code = "halstead"
+message = "Method has a high halstead volume"
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Command/ComponentAddCommand.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 3
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Command/ComponentAddCommand.php"
+code = "no-else-clause"
+message = "Avoid `elseif` clauses."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Component/ComponentRenderer.php"
+code = "block-statement"
+message = "`if` statement should use a block body."
+count = 4
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Component/ComponentRenderer.php"
+code = "halstead"
+message = "Method has a high halstead difficulty"
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Component/ComponentRenderer.php"
+code = "halstead"
+message = "Method has a high halstead effort"
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Component/ComponentRenderer.php"
+code = "halstead"
+message = "Method has a high halstead volume"
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Component/ComponentRenderer.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 5
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Component/ComponentRenderer.php"
+code = "no-else-clause"
+message = "Avoid `elseif` clauses."
+count = 2
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Component/ComponentRenderer.php"
+code = "no-goto"
+message = "`goto` labels are discouraged."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Component/ComponentRenderer.php"
+code = "no-redundant-label"
+message = "Redundant goto label `ContextService`."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Component/TemplateStructureViewHelperResolver.php"
+code = "strict-behavior"
+message = "Call to `in_array` must enforce strict comparison."
+count = 2
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Contexts/CheckboxContext.php"
+code = "no-nested-ternary"
+message = "Nested ternary expressions are confusing due to PHP's operator associativity rules."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Contexts/FieldContext.php"
+code = "block-statement"
+message = "`if` statement should use a block body."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Contexts/FormContext.php"
+code = "identity-comparison"
+message = "Use identity inequality `!==` instead of inequality comparison `!=`."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Contexts/FormContext.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 2
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Domain/Model/ListCollection.php"
+code = "block-statement"
+message = "`if` statement should use a block body."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Domain/Model/ListCollection.php"
+code = "halstead"
+message = "Method has a high halstead difficulty"
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Domain/Model/ListCollection.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Domain/Model/ListCollection.php"
+code = "no-else-clause"
+message = "Avoid `elseif` clauses."
+count = 3
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Domain/Model/TagAttributes.php"
+code = "no-boolean-flag-parameter"
+message = "Avoid boolean flag parameters."
+count = 2
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Domain/Model/TagAttributes.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Registry/HydrationRegistry.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Utility/ComponentUtility.php"
+code = "block-statement"
+message = "`if` statement should use a block body."
+count = 4
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Utility/ComponentUtility.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/Utility/PropsUtility.php"
+code = "no-boolean-flag-parameter"
+message = "Avoid boolean flag parameters."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/ViewHelpers/CnViewHelper.php"
+code = "identity-comparison"
+message = "Use identity inequality `!==` instead of inequality comparison `!=`."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/ViewHelpers/CnViewHelper.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 2
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/ViewHelpers/ListCollectionViewHelper.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 1
+
+[[issues]]
+file = "packages/fluid-primitives/Classes/ViewHelpers/UsePropsViewHelper.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 1

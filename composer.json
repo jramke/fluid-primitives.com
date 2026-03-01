@@ -14,7 +14,8 @@
         "sort-packages": true
     },
     "scripts": {
-        "lint": "mago lint --fix --format-after-fix",
+        "lint": "mago lint",
+        "lint:fix": "mago lint --fix --format-after-fix",
         "format": "mago format",
         "format:stdin": "mago format --stdin-input",
         "analyze": "mago analyze"
