@@ -48,9 +48,9 @@ RUN if [ -f "package.json" ]; then \
         npm i --include=dev && \
         npm run build && \
         rm -rf node_modules && \
-        cd  ../.. && \
+        cd ../.. && \
         npm i && \
-        npm run docs:build;
+        npm run docs:build; \
     fi
 
 # Copy entrypoint
