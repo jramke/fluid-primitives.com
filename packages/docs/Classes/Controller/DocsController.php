@@ -6,13 +6,9 @@ namespace FluidPrimitives\Docs\Controller;
 
 use FluidPrimitives\Docs\Domain\Model\EventRegistration;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
-use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
+use FluidPrimitives\Docs\Services\NavigationBuilder;
 use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
-use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Symfony\Component\Yaml\Yaml;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
@@ -24,9 +20,13 @@ use League\CommonMark\MarkdownConverter;
 use League\CommonMark\Node\Query;
 use League\CommonMark\Renderer\HtmlRenderer;
 use Phiki\Theme\Theme;
+use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Core\Environment as Typo3Environment;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 use TYPO3Fluid\Fluid\Core\Component\ComponentDefinitionProviderInterface;
 use TYPO3Fluid\Fluid\Core\Component\ComponentTemplateResolverInterface;
@@ -41,7 +41,7 @@ class DocsController extends ActionController
         private readonly ViewFactoryInterface $viewFactory,
         private readonly NavigationBuilder $navigationBuilder,
         private readonly RenderingContextFactory $renderingContextFactory,
-        private readonly DocsPageTitleProvider $pageTitleProvider
+        private readonly DocsPageTitleProvider $pageTitleProvider,
     ) {}
 
     public function showAction(string $path = ''): ResponseInterface
@@ -101,7 +101,11 @@ class DocsController extends ActionController
 
         if ($toc) {
             $toc = $renderer->renderNodes([$toc]);
-            $toc = str_replace('<ul class="table-of-contents">', '<ul class="table-of-contents"><li><a href="#">(Top)</a></li>', $toc);
+            $toc = str_replace(
+                '<ul class="table-of-contents">',
+                '<ul class="table-of-contents"><li><a href="#">(Top)</a></li>',
+                $toc,
+            );
         }
 
         $this->view->assignMultiple([
@@ -157,7 +161,7 @@ class DocsController extends ActionController
                     'apply_id_to_heading' => true,
                     'title' => '',
                     'symbol' => '',
-                    'insert' => 'after'
+                    'insert' => 'after',
                 ],
                 'external_link' => [
                     'internal_hosts' => $_SERVER['HTTP_HOST'],
@@ -202,11 +206,18 @@ class DocsController extends ActionController
                     [$namespace, $viewHelperName] = explode(':', $fullViewHelperName);
                     $viewHelperResolverDelegate = $renderingContext->getViewHelperResolver()->getResponsibleDelegate(
                         $namespace,
-                        $viewHelperName
+                        $viewHelperName,
                     );
 
-                    if (!$viewHelperResolverDelegate instanceof ComponentDefinitionProviderInterface || !$viewHelperResolverDelegate instanceof ComponentTemplateResolverInterface) {
-                        return '<div class="fluid-template-error">Error: Unknown component "' . htmlspecialchars($viewHelperName) . '"</div>';
+                    if (
+                        !$viewHelperResolverDelegate instanceof ComponentDefinitionProviderInterface ||
+                        !$viewHelperResolverDelegate instanceof ComponentTemplateResolverInterface
+                    ) {
+                        return (
+                            '<div class="fluid-template-error">Error: Unknown component "' .
+                            htmlspecialchars($viewHelperName) .
+                            '"</div>'
+                        );
                     }
 
                     $isCodeExample = $fullViewHelperName === 'ui:componentExample';
@@ -214,11 +225,21 @@ class DocsController extends ActionController
                     $componentRenderer = $viewHelperResolverDelegate->getComponentRenderer();
 
                     if ($isCodeExample) {
-                        $html = $componentRenderer->renderComponent($viewHelperName, [
-                            ...$arguments,
-                        ], [], $renderingContext);
+                        $html = $componentRenderer->renderComponent(
+                            $viewHelperName,
+                            [
+                                ...$arguments,
+                            ],
+                            [],
+                            $renderingContext,
+                        );
                     } else {
-                        $html = $componentRenderer->renderComponent($viewHelperName, [...$arguments, 'class' => 'not-prose'], [], $renderingContext);
+                        $html = $componentRenderer->renderComponent(
+                            $viewHelperName,
+                            [...$arguments, 'class' => 'not-prose'],
+                            [],
+                            $renderingContext,
+                        );
                         $html = '<div class="prose-component">' . $html . '</div>';
                     }
 
@@ -229,7 +250,7 @@ class DocsController extends ActionController
                     return '<div class="fluid-template-error">Error: ' . htmlspecialchars($e->getMessage()) . '</div>';
                 }
             },
-            $markdown
+            $markdown,
         );
     }
 
@@ -273,7 +294,7 @@ class DocsController extends ActionController
                 $preBlocks[$key] = $matches[0];
                 return $key;
             },
-            $html
+            $html,
         );
 
         // Remove HTML comments

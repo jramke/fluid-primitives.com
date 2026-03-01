@@ -16,7 +16,7 @@ class ArrayFillViewHelper extends AbstractViewHelper
 
     public function render(): array
     {
-        $count = (int) $this->arguments['count'];
+        $count = (int)$this->arguments['count'];
         $fill = $this->arguments['fill'];
 
         return array_fill(0, $count, $fill);

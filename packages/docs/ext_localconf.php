@@ -11,11 +11,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['vite'] = ['Praetorius
         \FluidPrimitives\Docs\Controller\DocsController::class => 'show,registration',
     ],
     [],
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
 );
 
-
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ValidatedPathMapper'] = \FluidPrimitives\Docs\Routing\Aspect\ValidatedPathMapper::class;
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ValidatedPathMapper'] =
+    \FluidPrimitives\Docs\Routing\Aspect\ValidatedPathMapper::class;
 
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ui'][] = 'FluidPrimitives\\Docs\\Components\\ComponentCollection';
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['docs'] = ['FluidPrimitives\\Docs\\ViewHelpers'];

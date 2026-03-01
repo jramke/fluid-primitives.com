@@ -19,13 +19,13 @@ class CodeBlockRenderer implements NodeRendererInterface
 {
     public function __construct(
         private string|array|Theme $theme,
-        private Phiki $phiki = new Phiki,
+        private Phiki $phiki = new Phiki(),
         private bool $withGutter = false,
     ) {}
 
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
-        if (! $node instanceof FencedCode) {
+        if (!$node instanceof FencedCode) {
             throw new InvalidArgumentException('Block must be instance of ' . FencedCode::class);
         }
 
@@ -33,24 +33,25 @@ class CodeBlockRenderer implements NodeRendererInterface
         $grammar = $this->detectGrammar($node);
         $meta = new Meta(markdownInfo: $node->getInfoWords()[1] ?? null);
 
-        return $this->phiki->codeToHtml($code, $grammar, $this->theme)
+        return $this->phiki
+            ->codeToHtml($code, $grammar, $this->theme)
             ->withGutter($this->withGutter)
             ->withMeta($meta)
-            ->transformer(new MetaTransformer)
-            ->transformer(new AnnotationsTransformer)
-            ->transformer(new RemoveLangClassTransformer)
+            ->transformer(new MetaTransformer())
+            ->transformer(new AnnotationsTransformer())
+            ->transformer(new RemoveLangClassTransformer())
             ->toString();
     }
 
     protected function detectGrammar(FencedCode $node): Grammar|string
     {
-        if (! isset($node->getInfoWords()[0]) || $node->getInfoWords()[0] === '') {
+        if (!isset($node->getInfoWords()[0]) || $node->getInfoWords()[0] === '') {
             return Grammar::Txt;
         }
 
         preg_match('/[a-zA-Z]+/', $node->getInfoWords()[0], $matches);
 
-        if (! $this->phiki->environment->grammars->has($matches[0])) {
+        if (!$this->phiki->environment->grammars->has($matches[0])) {
             return Grammar::Txt;
         }
 

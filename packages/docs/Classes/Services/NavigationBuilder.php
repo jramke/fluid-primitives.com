@@ -41,9 +41,7 @@ class NavigationBuilder
     private function scanDocs(string $baseDir): array
     {
         $docs = [];
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($baseDir)
-        );
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($baseDir));
 
         foreach ($iterator as $file) {
             if ($file->getExtension() !== 'md') {

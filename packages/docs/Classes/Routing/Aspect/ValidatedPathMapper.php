@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Routing\Aspect;
 
-use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Core\Environment;
+use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use Symfony\Component\Yaml\Yaml;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ValidatedPathMapper implements StaticMappableAspectInterface
 {
@@ -71,11 +71,7 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
             return false;
         }
 
-        if (
-            str_contains($path, '..') ||
-            str_contains($path, './') ||
-            str_contains($path, '\\')
-        ) {
+        if (str_contains($path, '..') || str_contains($path, './') || str_contains($path, '\\')) {
             return false;
         }
 
@@ -108,12 +104,7 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
         $this->validPaths = $this->extractValidPaths();
 
         if (self::$cache) {
-            self::$cache->set(
-                self::CACHE_IDENTIFIER,
-                $this->validPaths,
-                [],
-                self::CACHE_LIFETIME
-            );
+            self::$cache->set(self::CACHE_IDENTIFIER, $this->validPaths, [], self::CACHE_LIFETIME);
         }
     }
 
@@ -144,9 +135,7 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
 
     private function extractPathsFromNav(): array
     {
-        $navFile = GeneralUtility::getFileAbsFileName(
-            'EXT:docs/Resources/Private/Content/nav.yaml'
-        );
+        $navFile = GeneralUtility::getFileAbsFileName('EXT:docs/Resources/Private/Content/nav.yaml');
 
         if (!file_exists($navFile)) {
             return [];
@@ -181,9 +170,7 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
 
     private function extractRedirectSources(): array
     {
-        $redirectsFile = GeneralUtility::getFileAbsFileName(
-            'EXT:docs/Resources/Private/Content/redirects.yaml'
-        );
+        $redirectsFile = GeneralUtility::getFileAbsFileName('EXT:docs/Resources/Private/Content/redirects.yaml');
 
         if (!file_exists($redirectsFile)) {
             return [];

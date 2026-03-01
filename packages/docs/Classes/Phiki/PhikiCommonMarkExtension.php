@@ -18,7 +18,7 @@ class PhikiCommonMarkExtension implements ConfigurableExtensionInterface
      */
     public function __construct(
         private string|array|Theme $theme = Theme::Nord,
-        private Phiki $phiki = new Phiki,
+        private Phiki $phiki = new Phiki(),
         private bool $withGutter = false,
     ) {}
 
@@ -37,10 +37,6 @@ class PhikiCommonMarkExtension implements ConfigurableExtensionInterface
         $theme = $config->get('phiki/theme');
         $withGutter = $config->get('phiki/with_gutter');
 
-        $environment->addRenderer(
-            FencedCode::class,
-            new CodeBlockRenderer($theme, $this->phiki, $withGutter),
-            10,
-        );
+        $environment->addRenderer(FencedCode::class, new CodeBlockRenderer($theme, $this->phiki, $withGutter), 10);
     }
 }

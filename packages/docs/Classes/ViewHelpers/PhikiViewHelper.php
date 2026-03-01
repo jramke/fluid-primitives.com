@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\ViewHelpers;
 
 use FluidPrimitives\Docs\Phiki\RemoveLangClassTransformer;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use Phiki\Phiki;
 use Phiki\Grammar\Grammar;
+use Phiki\Phiki;
 use Phiki\Theme\Theme;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class PhikiViewHelper extends AbstractViewHelper
 {
@@ -24,9 +24,9 @@ class PhikiViewHelper extends AbstractViewHelper
     {
         $grammar = Grammar::tryFrom($this->arguments['grammar']) ?? Grammar::Txt;
 
-        $html = (new Phiki)
+        $html = (new Phiki())
             ->codeToHtml(trim($this->renderChildren()), $grammar, Theme::GithubLight)
-            ->transformer(new RemoveLangClassTransformer)
+            ->transformer(new RemoveLangClassTransformer())
             ->toString();
 
         return $html;

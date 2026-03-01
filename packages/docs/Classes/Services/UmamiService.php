@@ -15,21 +15,24 @@ class UmamiService
     private const WEBSITE_ID = '16212a52-92f6-4b33-aec6-d31f5ad0314d';
 
     public function __construct(
-        private readonly RequestFactory $requestFactory
+        private readonly RequestFactory $requestFactory,
     ) {}
 
     public function renderScriptTag(): string
     {
-        return '<script defer src="' . self::UMAMI_HOST . '/script.js" data-website-id="' . self::WEBSITE_ID . '"></script>';
+        return (
+            '<script defer src="' .
+            self::UMAMI_HOST .
+            '/script.js" data-website-id="' .
+            self::WEBSITE_ID .
+            '"></script>'
+        );
     }
 
-    public function trackEvent(
-        ServerRequestInterface $request,
-        string $eventName,
-        array $eventData = [],
-    ): void {
+    public function trackEvent(ServerRequestInterface $request, string $eventName, array $eventData = []): void
+    {
         try {
-            $url = (string) $request->getUri();
+            $url = (string)$request->getUri();
             $hostname = $request->getUri()->getHost();
             $referrer = $request->getHeaderLine('Referer');
             $userAgent = $request->getHeaderLine('User-Agent');
@@ -59,14 +62,10 @@ class UmamiService
                 'User-Agent' => $userAgent,
             ];
 
-            $this->requestFactory->request(
-                self::UMAMI_HOST . '/api/send',
-                'POST',
-                [
-                    'headers' => $headers,
-                    'body' => json_encode($payload),
-                ]
-            );
+            $this->requestFactory->request(self::UMAMI_HOST . '/api/send', 'POST', [
+                'headers' => $headers,
+                'body' => json_encode($payload),
+            ]);
         } catch (\Exception $e) {
         }
     }

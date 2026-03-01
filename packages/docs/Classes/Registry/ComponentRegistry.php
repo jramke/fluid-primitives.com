@@ -46,9 +46,7 @@ final class ComponentRegistry
             return;
         }
 
-        $registryFile = GeneralUtility::getFileAbsFileName(
-            'EXT:docs/Resources/Private/Registry/registry.yaml'
-        );
+        $registryFile = GeneralUtility::getFileAbsFileName('EXT:docs/Resources/Private/Registry/registry.yaml');
 
         if (!is_file($registryFile)) {
             return;

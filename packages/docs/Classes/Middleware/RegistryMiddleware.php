@@ -17,13 +17,11 @@ final class RegistryMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private readonly ComponentRegistry $componentRegistry,
-        private readonly UmamiService $umamiService
+        private readonly UmamiService $umamiService,
     ) {}
 
-    public function process(
-        ServerRequestInterface $request,
-        RequestHandlerInterface $handler
-    ): ResponseInterface {
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
         $path = $request->getUri()->getPath();
 
         if (!str_starts_with($path, '/registry/')) {
@@ -37,7 +35,6 @@ final class RegistryMiddleware implements MiddlewareInterface
 
         $parts = explode('/', trim($path, '/'));
 
-
         $component = $parts[2] ?? null;
         if (!$component || !$this->componentRegistry->has($component)) {
             return new JsonResponse(['error' => 'Not Found'], 404);
@@ -45,16 +42,12 @@ final class RegistryMiddleware implements MiddlewareInterface
 
         // /registry/components/{component}
         if (!str_contains($path, '/files/')) {
-            $this->umamiService->trackEvent(
-                $request,
-                "registry.component.{$component}",
-                ['component' => $component],
-            );
+            $this->umamiService->trackEvent($request, "registry.component.{$component}", ['component' => $component]);
             return $this->componentManifest($this->componentRegistry, $component);
         }
 
         // /registry/components/{component}/files/{file}
-        $file = ($parts[3] ?? null) === 'files' ? ($parts[4] ?? null) : null;
+        $file = ($parts[3] ?? null) === 'files' ? $parts[4] ?? null : null;
         if (!$file) {
             return new JsonResponse(['error' => 'Not Found'], 404);
         }
@@ -64,23 +57,18 @@ final class RegistryMiddleware implements MiddlewareInterface
 
     private function listComponents(ComponentRegistry $registry): ResponseInterface
     {
-        $list = array_map(
-            fn($c) => [
-                'key' => $c->key,
-                'name' => $c->name,
-                'description' => $c->meta['description'] ?? '',
-                'files' => $c->files,
-            ],
-            $registry->list()
-        );
+        $list = array_map(fn($c) => [
+            'key' => $c->key,
+            'name' => $c->name,
+            'description' => $c->meta['description'] ?? '',
+            'files' => $c->files,
+        ], $registry->list());
 
         return new JsonResponse($list, 200, $this->headers());
     }
 
-    private function componentManifest(
-        ComponentRegistry $registry,
-        string $component
-    ): ResponseInterface {
+    private function componentManifest(ComponentRegistry $registry, string $component): ResponseInterface
+    {
         $c = $registry->get($component);
 
         return new JsonResponse(
@@ -91,15 +79,12 @@ final class RegistryMiddleware implements MiddlewareInterface
                 'files' => $c->files,
             ],
             200,
-            $this->headers()
+            $this->headers(),
         );
     }
 
-    private function serveFile(
-        ComponentRegistry $registry,
-        string $component,
-        string $file
-    ): ResponseInterface {
+    private function serveFile(ComponentRegistry $registry, string $component, string $file): ResponseInterface
+    {
         $c = $registry->get($component);
 
         if (!in_array($file, $c->files, true)) {
@@ -109,16 +94,9 @@ final class RegistryMiddleware implements MiddlewareInterface
         $path = $c->basePath . $file;
         $stream = fopen($path, 'rb');
 
-        return new Response(
-            $stream,
-            200,
-            array_merge(
-                $this->headers(),
-                [
-                    'Content-Type' => 'text/plain; charset=utf-8',
-                ]
-            )
-        );
+        return new Response($stream, 200, array_merge($this->headers(), [
+            'Content-Type' => 'text/plain; charset=utf-8',
+        ]));
     }
 
     private function headers(): array

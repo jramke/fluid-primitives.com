@@ -10,7 +10,7 @@ class EventRegistration
     #[Validate(['validator' => 'NotEmpty'])]
     #[Validate([
         'validator' => 'RegularExpression',
-        'options' => ['regularExpression' => '/^(vip|standard|student)$/']
+        'options' => ['regularExpression' => '/^(vip|standard|student)$/'],
     ])]
     private string $ticketType = '';
 
@@ -47,7 +47,7 @@ class EventRegistration
     #[Validate(['validator' => 'NotEmpty'])]
     #[Validate([
         'validator' => 'RegularExpression',
-        'options' => ['regularExpression' => '/^(person|virtual)$/']
+        'options' => ['regularExpression' => '/^(person|virtual)$/'],
     ])]
     private string $mode = '';
 
@@ -75,6 +75,7 @@ class EventRegistration
     {
         return $this->ticketType;
     }
+
     public function setTicketType(string $ticketType): void
     {
         $this->ticketType = $ticketType;
@@ -84,6 +85,7 @@ class EventRegistration
     {
         return $this->ticketCount;
     }
+
     public function setTicketCount(int $ticketCount): void
     {
         $this->ticketCount = $ticketCount;
@@ -93,6 +95,7 @@ class EventRegistration
     {
         return $this->name;
     }
+
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -102,6 +105,7 @@ class EventRegistration
     {
         return $this->email;
     }
+
     public function setEmail(string $email): void
     {
         $this->email = $email;
@@ -111,6 +115,7 @@ class EventRegistration
     {
         return $this->phone;
     }
+
     public function setPhone(string $phone): void
     {
         $this->phone = $phone;
@@ -120,6 +125,7 @@ class EventRegistration
     {
         return $this->mode;
     }
+
     public function setMode(string $mode): void
     {
         $this->mode = $mode;
@@ -130,6 +136,7 @@ class EventRegistration
     {
         return $this->a11yNeeds;
     }
+
     /** @param array<string> $a11yNeeds */
     public function setA11yNeeds(array $a11yNeeds): void
     {
@@ -140,6 +147,7 @@ class EventRegistration
     {
         return $this->comment;
     }
+
     public function setComment(string $comment): void
     {
         $this->comment = $comment;
@@ -149,6 +157,7 @@ class EventRegistration
     {
         return $this->privacy;
     }
+
     public function setPrivacy(bool $privacy): void
     {
         $this->privacy = $privacy;
