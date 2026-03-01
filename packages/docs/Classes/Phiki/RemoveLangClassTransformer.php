@@ -18,9 +18,11 @@ class RemoveLangClassTransformer extends AbstractTransformer
             return $pre;
 
         foreach ($classes->all() as $class) {
-            if (str_starts_with($class, 'language-')) {
-                $classes->remove($class);
+            if (!str_starts_with($class, 'language-')) {
+                continue;
             }
+
+            $classes->remove($class);
         }
 
         return $pre;

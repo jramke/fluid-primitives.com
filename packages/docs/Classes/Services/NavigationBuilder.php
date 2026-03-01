@@ -26,10 +26,12 @@ class NavigationBuilder
             ];
 
             foreach ($section['items'] as $slug) {
-                if (isset($allDocs[$slug])) {
-                    $group['items'][] = $allDocs[$slug];
-                    unset($allDocs[$slug]);
+                if (!isset($allDocs[$slug])) {
+                    continue;
                 }
+
+                $group['items'][] = $allDocs[$slug];
+                unset($allDocs[$slug]);
             }
 
             $navigation[] = $group;

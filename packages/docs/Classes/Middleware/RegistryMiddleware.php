@@ -57,7 +57,7 @@ final class RegistryMiddleware implements MiddlewareInterface
 
     private function listComponents(ComponentRegistry $registry): ResponseInterface
     {
-        $list = array_map(fn($c) => [
+        $list = array_map(static fn($c) => [
             'key' => $c->key,
             'name' => $c->name,
             'description' => $c->meta['description'] ?? '',

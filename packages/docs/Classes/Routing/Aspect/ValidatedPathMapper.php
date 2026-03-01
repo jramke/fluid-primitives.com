@@ -125,9 +125,11 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
 
         $redirectSources = $this->extractRedirectSources();
         foreach ($redirectSources as $source) {
-            if (!str_starts_with($source, 'http://') && !str_starts_with($source, 'https://')) {
-                $paths[$source] = true;
+            if (!(!str_starts_with($source, 'http://') && !str_starts_with($source, 'https://'))) {
+                continue;
             }
+
+            $paths[$source] = true;
         }
 
         return $paths;
@@ -159,9 +161,11 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
             }
 
             foreach ($group['items'] as $item) {
-                if (is_string($item) && $item !== '') {
-                    $paths[] = $item;
+                if (!(is_string($item) && $item !== '')) {
+                    continue;
                 }
+
+                $paths[] = $item;
             }
         }
 

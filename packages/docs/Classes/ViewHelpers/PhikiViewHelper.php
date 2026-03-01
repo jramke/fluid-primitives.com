@@ -24,11 +24,9 @@ class PhikiViewHelper extends AbstractViewHelper
     {
         $grammar = Grammar::tryFrom($this->arguments['grammar']) ?? Grammar::Txt;
 
-        $html = (new Phiki())
+        return (new Phiki())
             ->codeToHtml(trim($this->renderChildren()), $grammar, Theme::GithubLight)
             ->transformer(new RemoveLangClassTransformer())
             ->toString();
-
-        return $html;
     }
 }

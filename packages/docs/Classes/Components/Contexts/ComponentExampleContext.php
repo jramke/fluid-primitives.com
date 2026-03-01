@@ -17,14 +17,12 @@ class ComponentExampleContext extends AbstractComponentContext
     public function getHtml(): string
     {
         $componentRenderer = $this->getComponentResolver()->getComponentRenderer();
-        $html = $componentRenderer->renderComponent(
+        return $componentRenderer->renderComponent(
             $this->get('componentName'),
             ['class' => 'not-prose'],
             [],
             $this->getRenderingContext(),
         );
-
-        return $html;
     }
 
     public function getTabs(): array
@@ -65,11 +63,7 @@ class ComponentExampleContext extends AbstractComponentContext
     private function getMainComponentTemplateString(): string
     {
         $templateName = $this->getComponentResolver()->resolveTemplateName($this->get('componentName'));
-        $templateString = $this
-            ->getComponentResolver()
-            ->getTemplatePaths()
-            ->getTemplateSource('Default', $templateName);
-        return $templateString;
+        return $this->getComponentResolver()->getTemplatePaths()->getTemplateSource('Default', $templateName);
     }
 
     private function getEntryFileTemplateString(): string

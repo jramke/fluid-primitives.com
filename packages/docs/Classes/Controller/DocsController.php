@@ -243,9 +243,7 @@ class DocsController extends ActionController
                         $html = '<div class="prose-component">' . $html . '</div>';
                     }
 
-                    $html = $this->cleanHtmlForMarkdown($html);
-
-                    return $html;
+                    return $this->cleanHtmlForMarkdown($html);
                 } catch (\Exception $e) {
                     return '<div class="fluid-template-error">Error: ' . htmlspecialchars($e->getMessage()) . '</div>';
                 }
@@ -289,7 +287,7 @@ class DocsController extends ActionController
         $preBlocks = [];
         $html = preg_replace_callback(
             '/<pre\b[^>]*>[\s\S]*?<\/pre>/i',
-            function ($matches) use (&$preBlocks) {
+            static function ($matches) use (&$preBlocks) {
                 $key = '###PRE_BLOCK_' . count($preBlocks) . '###';
                 $preBlocks[$key] = $matches[0];
                 return $key;
@@ -307,8 +305,6 @@ class DocsController extends ActionController
         $html = trim($html);
 
         // Restore <pre> blocks
-        $html = strtr($html, $preBlocks);
-
-        return $html;
+        return strtr($html, $preBlocks);
     }
 }
