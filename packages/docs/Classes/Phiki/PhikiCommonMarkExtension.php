@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FluidPrimitives\Docs\Phiki;
 
 use League\CommonMark\Environment\EnvironmentBuilderInterface;

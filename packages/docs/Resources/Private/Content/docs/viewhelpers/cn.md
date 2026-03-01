@@ -4,11 +4,11 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "CnViewHelper", "type": "viewhelper" } %}
 
- 
+
 A ViewHelper that mimics the behavior of the popular `clsx` library for conditional class name merging.
 It allows you to combine static class names with conditional ones based on the truthiness of values.
 
-It also helps you with whitespace management by filtering out empty or whitespace-only class names 
+It also helps you with whitespace management by filtering out empty or whitespace-only class names
 and makes it possible to declare your class in multiple lines, which is especially useful in combination with Tailwind CSS.
 
 ## Examples

@@ -14,8 +14,9 @@ class RemoveLangClassTransformer extends AbstractTransformer
     public function pre(Element $pre): Element
     {
         $classes = $pre->properties->get('class');
-        if (!$classes)
+        if (!$classes) {
             return $pre;
+        }
 
         foreach ($classes->all() as $class) {
             if (!str_starts_with($class, 'language-')) {

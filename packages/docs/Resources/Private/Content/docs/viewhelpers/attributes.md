@@ -25,7 +25,7 @@ This will render:
 ```
 
 ### Usage on other components
-When you need to pass the attributes to another component, you can use its attributes prop. 
+When you need to pass the attributes to another component, you can use its attributes prop.
 This prop is automatically added to components that use the `ui:attributes` ViewHelper inside them.
 ```html
 <ui:someComponent attributes="{ui:attributes()}" />

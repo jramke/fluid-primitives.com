@@ -11,7 +11,7 @@ Used internally and exposed for convenience.
 
 ## Examples
 
-``` 
+```
 {object -> ui:call(method: 'doSomething')}
 {object -> ui:call(method: 'doSomethingWithArguments', arguments: {0: 'foo', 1: 'bar'})}
 ```

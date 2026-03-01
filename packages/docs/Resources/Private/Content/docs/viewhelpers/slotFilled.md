@@ -19,4 +19,4 @@ Check if a slot has content.
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | Name of the slot | No | SlotViewHelper::DEFAULT_SLOT |
+| `name` | string | Name of the slot | No | 'default' |

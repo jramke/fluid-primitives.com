@@ -7,8 +7,8 @@
 
 Create a ListCollection from an array of items.
 
-This is needed for components like [Select](/docs/components/select) that expect a Zag.js [ListCollection](https://zagjs.com/guides/collection) instance. 
-This ViewHelper is a first approach to get this DX working. Currently you should format your items like `{value: string, label: string, disabled: boolean}`. 
+This is needed for components like [Select](/docs/components/select) that expect a Zag.js [ListCollection](https://zagjs.com/guides/collection) instance.
+This ViewHelper is a first approach to get this DX working. Currently you should format your items like `{value: string, label: string, disabled: boolean}`.
 
 The `itemToString`, `itemToValue`, `isItemDisabled` and `groupBy` props are currently supported as key props like `groupByKey`.
 
@@ -16,10 +16,10 @@ The `itemToString`, `itemToValue`, `isItemDisabled` and `groupBy` props are curr
 ```html
 <ui:listCollection
     items="{
-        0: {value: 'apple', label: 'Apple'}, 
+        0: {value: 'apple', label: 'Apple'},
         1: {value: 'banana', label: 'Banana', disabled: true}
     }"
-    as="collection" 
+    as="collection"
 />
 ```
 
@@ -28,12 +28,12 @@ Grouped example:
 ```html
 <ui:listCollection
     items="{
-        0: {value: 'apple', label: 'Apple', type: 'Fruits'}, 
+        0: {value: 'apple', label: 'Apple', type: 'Fruits'},
         1: {value: 'banana', label: 'Banana', disabled: true, type: 'Fruits'},
         2: {value: 'carrot', label: 'Carrot', type: 'Vegetables'},
         3: {value: 'broccoli', label: 'Broccoli', type: 'Vegetables'}
     }"
-    as="collection" 
+    as="collection"
     groupByKey="type"
 />
 ```

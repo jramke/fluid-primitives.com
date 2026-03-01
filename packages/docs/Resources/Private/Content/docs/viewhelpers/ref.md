@@ -36,4 +36,4 @@ This will generate:
 |------|------|-------------|----------|--------|
 | `name` | string | Name of the ref | Yes | null |
 | `asArray` | boolean | If true, the ref will be rendered as an array instead of a string of data-attributes | No | false |
-| `data` | array |  | No | 'Additional data attributes to include in the ref. Associative array with key-value pairs. Each key is prefixed with "data-".', false, [] |
+| `data` | array | Additional data attributes to include in the ref. Associative array with key-value pairs. Each key is prefixed with "data-". | No | [] |

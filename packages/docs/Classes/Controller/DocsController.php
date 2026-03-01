@@ -31,7 +31,7 @@ use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 use TYPO3Fluid\Fluid\Core\Component\ComponentDefinitionProviderInterface;
 use TYPO3Fluid\Fluid\Core\Component\ComponentTemplateResolverInterface;
 
-class DocsController extends ActionController
+final class DocsController extends ActionController
 {
     use AjaxValidationTrait;
 

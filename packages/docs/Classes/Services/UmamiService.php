@@ -66,6 +66,8 @@ class UmamiService
                 'headers' => $headers,
                 'body' => json_encode($payload),
             ]);
+
+            // @mago-expect lint:no-empty-catch-clause
         } catch (\Exception $e) {
         }
     }
