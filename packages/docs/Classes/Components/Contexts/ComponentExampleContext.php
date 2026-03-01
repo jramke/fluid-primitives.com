@@ -77,7 +77,6 @@ class ComponentExampleContext extends AbstractComponentContext
         $componentBaseName = explode('.', $this->get('componentName') ?? '')[0];
         foreach ($this->getComponentResolver()->getTemplatePaths()->getTemplateRootPaths() as $rootPath) {
             $entryFilePath = $rootPath . $componentBaseName . '/' . $componentBaseName . '.entry.ts';
-            krexx($entryFilePath);
             $templateString = $this->getTemplateStringByPath($entryFilePath);
             if (!empty($templateString)) {
                 return $templateString;
