@@ -14,7 +14,7 @@ indent-heredoc = false
 
 [linter]
 integrations = ["symfony"]
-excludes = ["config"]
+excludes = ["config", "**/ext_emconf.php"]
 baseline = "lint-baseline.toml"
 baseline-variant = "loose"
 
