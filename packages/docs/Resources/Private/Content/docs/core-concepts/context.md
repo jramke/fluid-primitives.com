@@ -117,7 +117,7 @@ class SomeContext extends AbstractComponentContext
 
 If you need to perform some actions before or after rendering of the component, you can implement an `afterRendering` or `beforeRendering` method in your components context class. These methods will be called automatically by the `ComponentRenderer`.
 
-{% component: "ui:alert.simple", arguments: {"title": "When modifying the ParentRenderingContext, make sure to clean it up in `afterRendering()`.", "variant": "warning"} %}
+{% component: "ui:alert", arguments: {"title": "When modifying the ParentRenderingContext, make sure to clean it up in `afterRendering()`.", "variant": "warning"} %}
 
 ```php
 public function beforeRendering(): void

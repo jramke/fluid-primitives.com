@@ -38,7 +38,7 @@ Here is an example file structure for a simple `Alert` component that uses the p
 ```html
 <ui:prop name="title" type="string" />
 <ui:prop name="text" type="string" optional="{true}" />
-<ui:prop name="variant" type="string" default="info" />
+<ui:useProps name="ui:alert.root" props="{0: 'variant'}" />
 
 <ui:alert.root class="{class}" variant="{variant}">
     <ui:alert.icon />
@@ -53,15 +53,15 @@ Here is an example file structure for a simple `Alert` component that uses the p
 </ui:alert.root>
 ```
 
-You can then store the file in `Components/Alert/Simple.html` and use it like this:
+You can then store the file in `Components/Alert/Alert.html` and use it like this:
 
 ```html
-<ui:alert.simple title="This is an alert" text="You can pass a title and text" />
+<ui:alert title="This is an alert" text="You can pass a title and text" />
 ```
 
 ```
 └── /Alert
-    └── Simple.html
+    └── Alert.html
 └── /ui
     └── /Alert
         ├── Content.html

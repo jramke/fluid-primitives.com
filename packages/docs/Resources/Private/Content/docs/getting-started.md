@@ -16,7 +16,7 @@ Then you need to add the client-side files. Just add the `fluid-primitives` pack
 npm install fluid-primitives
 ```
 
-{% component: "ui:alert.simple", arguments: {"title": "Make sure you use the same versions for the npm and composer packages.", "variant": "warning"} %}
+{% component: "ui:alert", arguments: {"title": "Make sure you use the same versions for the npm and composer packages.", "variant": "warning"} %}
 
 ## Setup Component Collection
 
@@ -72,7 +72,7 @@ Register the `ui` namespace for easier component usage:
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ui'][] = 'MyVendor\\MyExt\\Components\\ComponentCollection';
 ```
 
-{% component: "ui:alert.simple", arguments: {"title": "Fluid Primitives uses the `ui` namespace for its ViewHelpers. Add your path to the array rather than overwriting it.", "variant": "warning"} %}
+{% component: "ui:alert", arguments: {"title": "Fluid Primitives uses the `ui` namespace for its ViewHelpers. Add your path to the array rather than overwriting it.", "variant": "warning"} %}
 
 ## Optional: Component Settings
 

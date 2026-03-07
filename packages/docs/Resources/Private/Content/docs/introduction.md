@@ -4,7 +4,7 @@ Fluid Primitives is a headless component library for TYPO3 that allows developer
 
 It provides fully accessible and customizable primitives thanks to [Zag.js](https://zagjs.com/) as barebones.
 
-{% component: "ui:alert.simple", arguments: {"title": "Under Construction", "text": "Fluid Primitives is currently in early development. Expect breaking changes in minor releases until 1.0 is ready! We’re actively working on new components and features, so stay tuned!", "variant": "warning"} %}
+{% component: "ui:alert", arguments: {"title": "Under Construction", "text": "Fluid Primitives is currently in early development. Expect breaking changes in minor releases until 1.0 is ready! We’re actively working on new components and features, so stay tuned!", "variant": "warning"} %}
 
 ## Motivation
 

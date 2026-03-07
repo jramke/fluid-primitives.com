@@ -1,6 +1,6 @@
 <ui:prop name="title" type="string" />
 <ui:prop name="text" type="string" optional="{true}" />
-<ui:prop name="variant" type="string" default="info" />
+<ui:useProps name="ui:alert.root" props="{0: 'variant'}" />
 
 <ui:alert.root class="{class}" variant="{variant}">
     <ui:alert.icon />
