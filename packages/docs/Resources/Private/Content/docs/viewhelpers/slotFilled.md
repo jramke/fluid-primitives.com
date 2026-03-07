@@ -6,10 +6,14 @@
 
 
 Check if a slot has content.
+Returns the content of the slot if it has content, otherwise returns false.
+
+Using this ViewHelper is the equivalent of calling `{f:slot() -> f:trim()}`.
 
 ## Example
 ```html
-<f:if condition="{ui:slotFilled()}">
+<f:variable name="content" value="{ui:slotFilled()}" />
+<f:if condition="{content}">
     // Slot has content
 </f:if>
 ```

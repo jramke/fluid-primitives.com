@@ -12,7 +12,7 @@ This is helpful/needed when consuming the `primitives` components or when you wa
 
 You can also override default values of the imported props by passing a `defaults` array with key-value pairs.
 
-## Example
+## Examples
 
 `Tooltip/Root.html` that uses the tooltip primitive:
 ```html
@@ -21,6 +21,13 @@ You can also override default values of the imported props by passing a `default
 <primitives:tooltip.root spreadProps="{true}">
     <f:slot />
 </primitives:tooltip.root>
+```
+
+If you dont want all props from a component, you can also selectively import props by passing an array of prop names to the `props` argument.
+```html
+<ui:useProps name="primitives:tooltip.root" props="{0: 'openDelay', 1: 'closeDelay'}" />
+
+// ...
 ```
 
 ## Limitation
@@ -36,3 +43,4 @@ If a prop for a primitive is required, we use the [ui:error](./error) ViewHelper
 |------|------|-------------|----------|--------|
 | `name` | string | Name of component to use the props from | Yes | null |
 | `defaults` | array | Default values for props to override the imported ones. Key-value pairs | No | [] |
+| `props` | array | Only use a subset of props from the referenced component. Value should be an array of prop names. | No | [] |
