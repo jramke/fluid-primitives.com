@@ -3,16 +3,49 @@
 
 <aside class="border-r border-dashed fixed top-0 h-screen md:w-[250px] z-2">
     <f:render section="mainlink" arguments="{class: 'pt-4 hidden md:flex'}" />
-    <ui:scrollArea.root class="mt-4 pb-4 h-[calc(100vh-var(--spacing)*16)] hidden md:block">
-        <ui:scrollArea.viewport>
+    <ui:scrollArea.root class="persistent-sidebar mt-4 pb-4 h-[calc(100vh-var(--spacing)*16)] hidden md:block" controlled="{true}" rootId="sidebar-{rootId}">
+        <ui:scrollArea.viewport class="">
             <ui:scrollArea.content>
                 <f:render section="navitems" arguments="{nav: nav, path: path}" />
             </ui:scrollArea.content>
         </ui:scrollArea.viewport>
         <ui:scrollArea.scrollbar>
-            <ui:scrollArea.thumb />
+            <ui:scrollArea.thumb class="!transform-[var(--sidebar-stored-transform)] !h-[var(--sidebar-stored-thumb-height)]" />
         </ui:scrollArea.scrollbar>
     </ui:scrollArea.root>
+    <script>
+        (function () {
+            const root = document.querySelector('.persistent-sidebar');
+            const sidebar = root.querySelector('[data-scope="scroll-area"][data-part="viewport"]');
+            if (!sidebar) return;
+
+            const saved = sessionStorage.getItem("sidebar-scroll-top");
+            if (saved !== null) {
+                requestAnimationFrame(() => {
+                    sidebar.scrollTop = Number(saved);
+                });
+            }
+
+            const previouslyHovered = !!(sessionStorage.getItem("sidebar-hovered") ?? '0');
+            if (previouslyHovered) {
+                const thumbHeight = sessionStorage.getItem("sidebar-thumb-height");
+                if (thumbHeight) {
+                    document.documentElement?.style.setProperty('--sidebar-stored-thumb-height', thumbHeight);
+                }
+
+                const thumbTransform = sessionStorage.getItem("sidebar-thumb-transform");
+                if (thumbTransform) {
+                    document.documentElement?.style.setProperty('--sidebar-stored-transform', thumbTransform);
+                }
+
+                const els = root.querySelectorAll('[data-scope="scroll-area"]');
+                els.forEach(el => {
+                    el.setAttribute('data-overflow-y', '');
+                    el.setAttribute("data-hover", '');
+                });
+            }
+        })();
+    </script>
 </aside>
 
 <div class="fixed top-0 z-1 grid place-items-center w-full border-b border-dashed h-16 bg-background/80 backdrop-blur-sm pe-[var(--scrollbar-width,0px)]">
