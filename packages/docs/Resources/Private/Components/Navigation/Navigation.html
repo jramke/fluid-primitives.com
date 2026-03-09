@@ -10,7 +10,7 @@
             </ui:scrollArea.content>
         </ui:scrollArea.viewport>
         <ui:scrollArea.scrollbar>
-            <ui:scrollArea.thumb class="!transform-[var(--sidebar-stored-transform)] !h-[var(--sidebar-stored-thumb-height)]" />
+            <ui:scrollArea.thumb />
         </ui:scrollArea.scrollbar>
     </ui:scrollArea.root>
     <script>
@@ -24,18 +24,19 @@
                 requestAnimationFrame(() => {
                     sidebar.scrollTop = Number(saved);
                 });
-            }
 
-            const previouslyHovered = !!(sessionStorage.getItem("sidebar-hovered") ?? '0');
-            if (previouslyHovered) {
+                const thumb = root.querySelector('[data-scope="scroll-area"][data-part="thumb"]');
+
                 const thumbHeight = sessionStorage.getItem("sidebar-thumb-height");
                 if (thumbHeight) {
                     document.documentElement?.style.setProperty('--sidebar-stored-thumb-height', thumbHeight);
+                    thumb?.classList.add('!h-[var(--sidebar-stored-thumb-height)]');
                 }
 
                 const thumbTransform = sessionStorage.getItem("sidebar-thumb-transform");
                 if (thumbTransform) {
                     document.documentElement?.style.setProperty('--sidebar-stored-transform', thumbTransform);
+                    thumb?.classList.add('!transform-[var(--sidebar-stored-transform)]');
                 }
 
                 const els = root.querySelectorAll('[data-scope="scroll-area"]');

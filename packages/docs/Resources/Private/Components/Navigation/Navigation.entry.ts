@@ -22,14 +22,12 @@ mount('navigation', ({ props }) => {
 	}, 100);
 
 	window.addEventListener('beforeunload', () => {
-		sessionStorage.setItem(
-			'sidebar-scroll-top',
-			scrollArea.getElement('viewport')?.scrollTop.toString() ?? '0'
-		);
-
 		const hovered = scrollArea.api.getScrollbarState({ orientation: 'vertical' }).hovering;
 		if (hovered) {
-			sessionStorage.setItem('sidebar-hovered', '1');
+			sessionStorage.setItem(
+				'sidebar-scroll-top',
+				scrollArea.getElement('viewport')?.scrollTop.toString() ?? '0'
+			);
 			sessionStorage.setItem(
 				'sidebar-thumb-height',
 				scrollArea.getElement('root')?.style.getPropertyValue('--thumb-height') ?? ''
@@ -39,7 +37,7 @@ mount('navigation', ({ props }) => {
 				scrollArea.getElements('thumb')[0]?.style.getPropertyValue('transform') ?? ''
 			);
 		} else {
-			sessionStorage.removeItem('sidebar-hovered');
+			sessionStorage.removeItem('sidebar-scroll-top');
 			sessionStorage.removeItem('sidebar-thumb-height');
 			sessionStorage.removeItem('sidebar-thumb-transform');
 		}
