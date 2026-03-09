@@ -1,12 +1,34 @@
 # Primitives
 
-Fluid Primitives exposes headless (unstyled) primitives that you can use to build your own components. These primitives are built on top of [Zag.js](https://zagjs.com/) state machines and provide the necessary behavior and accessibility features.
+Fluid Primitives provides headless, accessible primitives built on [Zag.js](https://zagjs.com/) state machines. These handle behavior and accessibility; you handle styling.
 
-They are exposed in the `primitives` namespace.
+## What's a Primitive?
 
-## Primitive Anatomy
+A primitive is an unstyled component part with built-in:
 
-For example the `Tooltip` anatomy looks like this:
+- Keyboard navigation
+- Focus management
+- ARIA attributes
+- State handling
+
+Primitives use the `primitives` namespace:
+
+```html
+<primitives:accordion.root>
+    <primitives:accordion.item value="item-1">
+        <primitives:accordion.trigger>Section 1</primitives:accordion.trigger>
+        <primitives:accordion.content>Content here</primitives:accordion.content>
+    </primitives:accordion.item>
+</primitives:accordion.root>
+```
+
+## Primitive vs Component
+
+**Primitives** (`primitives:*`) are the raw building blocks. They're verbose but give you full control.
+
+**Components** (`ui:*`) are your design system wrappers around primitives. They add your styling, simplify the API, and enforce consistency.
+
+Example tooltip primitive anatomy:
 
 ```html
 <primitives:tooltip.root>
@@ -19,28 +41,21 @@ For example the `Tooltip` anatomy looks like this:
 </primitives:tooltip.root>
 ```
 
-You could use them directly in your templates and add your classes and styles. But they are mainly meant to be used as building blocks for your own components.
-
-## Building Components with Primitives
-
-Its recommended to create components for each primitive part, so you can easily customize the styling and behavior of your design system in one place. To help you with that we built a simple registry (inspired by [shadcn/ui](https://ui.shadcn.com/)) and a `typo3 ui:add <component>` command that generates a component for you based on the primitive anatomy.
-
-See the [File Structure](/docs/core-concepts/file-structure) documentation for more details.
-
-In case of the Tooltip we could simplify the primtive parts little bit and wrap the `positioner`, `content` and `arrow` parts into a single `content` part. Inside there you can then also use the [ui:portal](/docs/viewhelpers/portal) ViewHelper if you want.
-
-## Component Anatomy
-
-The anatomy of our `ui:tooltip` component would then look like this:
+Your simplified component might combine parts:
 
 ```html
 <ui:tooltip.root>
     <ui:tooltip.trigger />
     <ui:tooltip.content />
+    <!-- Wraps positioner + content + arrow -->
 </ui:tooltip.root>
 ```
 
-Inside the component files you can then use the [ui:useProps](/docs/viewhelpers/useProps) ViewHelper to import all props from the primitive and pass them to the primitive with `spreadProps="{true}"`.
+## Building Components from Primitives
+
+Create wrapper components that use primitives internally. Here's a typical pattern:
+
+**`ui/Tooltip/Root.html`:**
 
 ```html
 <ui:useProps name="primitives:tooltip.root" />
@@ -49,28 +64,94 @@ Inside the component files you can then use the [ui:useProps](/docs/viewhelpers/
     <f:slot />
 </primitives:tooltip.root>
 
-<vite:asset entry="EXT:docs/Resources/Private/Components/ui/Tooltip/source/Tooltip.entry.ts" />
+<vite:asset entry="EXT:my_ext/Resources/Private/Components/ui/Tooltip/tooltip.entry.ts" />
 ```
 
-Note that we also load the component's JavaScript entry file in our `Root.html` with the [Vite Asset Collector](https://extensions.typo3.org/extension/vite_asset_collector) ViewHelper here instead of in our main JavaScript file so its only included if we use the component.
+**`ui/Tooltip/Trigger.html`:**
 
-Now we can simply use our `ui:tooltip` component like this:
+```html
+<ui:useProps name="primitives:tooltip.trigger" />
+
+<primitives:tooltip.trigger class="{class}" spreadProps="{true}">
+    <f:slot />
+</primitives:tooltip.trigger>
+```
+
+**`ui/Tooltip/Content.html`:**
+
+```html
+<ui:useProps name="primitives:tooltip.content" />
+
+<primitives:tooltip.positioner>
+    <primitives:tooltip.content class="tooltip-content {class}" spreadProps="{true}">
+        <f:slot />
+        <primitives:tooltip.arrow class="tooltip-arrow" />
+    </primitives:tooltip.content>
+</primitives:tooltip.positioner>
+```
+
+Now you can use your styled, simplified API:
 
 ```html
 <ui:tooltip.root>
     <ui:tooltip.trigger>Hover me</ui:tooltip.trigger>
-    <ui:tooltip.content>This is the tooltip content.</ui:tooltip.content>
+    <ui:tooltip.content>Styled tooltip with arrow</ui:tooltip.content>
 </ui:tooltip.root>
 ```
 
+## Key Concepts
+
+### `ui:useProps`
+
+Imports prop definitions from another component. This ensures your wrapper accepts the same props as the primitive without redeclaring them.
+
+### `spreadProps="{true}"`
+
+Passes all inherited props from `ui:useProps` down to the primitive. Without this, you'd need to manually pass each prop.
+
+```html
+<!-- Import all props -->
+<ui:useProps name="primitives:accordion.root" />
+
+<!-- Import specific props -->
+<ui:useProps name="primitives:accordion.root" props="{0: 'multiple', 1: 'defaultValue'}" />
+```
+
+### JavaScript Entry Files
+
+Each primitive needs client-side initialization. Load it in the root template so it's only included when the component is used:
+
+```html
+<vite:asset entry="path/to/component.entry.ts" />
+
+<!-- Or with core asset ViewHelper -->
+<f:asset.script identifier="my-component" src="path/to/component.js" />
+```
+
+## Scaffolding with the CLI
+
+Use the TYPO3 CLI to scaffold components:
+
+```bash
+# List available primitives
+typo3 ui:list
+
+# Add a component to your project
+typo3 ui:add accordion
+```
+
+This generates component files with basic Tailwind styling as a starting point.
+
 ## Available Primitives
 
-You can find an overview of all available primitives in the [Components](/docs/components) section. Or you can use the `typo3 ui:list` command to get a list of all available components.
+See the [Components](/docs/components) section for all available primitives with examples and API documentation.
 
 ## Registry Limitations
 
-The registry is only meant to be used for scuffolding your components. Its not a fully fledged design system foundation/solution like shadcn/ui.
+The CLI scaffolding provides a starting point, not a complete design system. You'll need to:
 
-The Registry Components come with Tailwind CSS classes that only provide a basic styling. You will need to customize the styling and behavior of the components to fit your design system needs.
+- Customize styling to match your design
+- Possibly adjust the component structure
+- Adapt the JavaScript loading to your build setup
 
-We also use the [Vite Asset Collector](https://extensions.typo3.org/extension/vite_asset_collector) ViewHelper by default to load the JavaScript entry files of each component individually. You may need to adjust this to fit your build process and setup.
+It's inspired by [shadcn/ui](https://ui.shadcn.com/)'s approach: copy the code, own it, customize it.

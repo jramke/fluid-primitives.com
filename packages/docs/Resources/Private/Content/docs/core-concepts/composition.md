@@ -1,48 +1,54 @@
 # Composition
 
-When building complex UI's you will sometime need to make multiple components work together. That's where composition comes in.
+Build complex interfaces by combining simple parts. This is the core pattern in Fluid Primitives.
 
 ## The `asChild` Prop
 
-You can pass `asChild="{true}"` to a any component to have it merge its attributes into the first child element instead of rendering its default element. This is useful when you want to use your own element but still want the behavior of the component.
-
-This pattern is inspired by Radix UI's [asChild API](https://www.radix-ui.com/primitives/docs/guides/composition). Note that in our case we just merge html attributes with a regex. When using `asChild` you have to make sure that the used element remains accessible and behaves as expected. For example if you use a `<div>` instead of a `<button>` for a trigger, you will have to add the necessary keyboard event handlers and ARIA attributes yourself.
-
-### Example: Compose a trigger with your own element
+Sometimes you need a component's behavior on your own element. Pass `asChild="{true}"` to merge the component's attributes into its first child instead of rendering the default element.
 
 ```html
 <ui:tooltip.root>
     <ui:tooltip.trigger asChild="{true}">
-        <a href="https://fluid-primitives.com">Fluid Primitives</a>
+        <a href="https://example.com">Link with tooltip</a>
     </ui:tooltip.trigger>
-    <ui:tooltip.content>This is the tooltip content.</ui:tooltip.content>
+    <ui:tooltip.content>Tooltip for this link</ui:tooltip.content>
 </ui:tooltip.root>
 ```
 
-### Limitations and Notes
+The `<a>` tag receives all necessary attributes (`aria-describedby`, event handlers, etc.) while keeping its link behavior.
 
-- You must provide exactly one element as the default slot. Text nodes or multiple top-level nodes can’t receive merged attributes.
-- If the child already has an attribute, the component’s attribute is ignored.
-- Currently the template part inside the `asChild` component has no access to the components context or props. See [#1132](https://github.com/TYPO3/Fluid/issues/1132) for updates.
+This pattern comes from [Radix UI's asChild API](https://www.radix-ui.com/primitives/docs/guides/composition).
 
-## ID composition with `ids`
+### Limitations
 
-Zag.js machines operate on concrete DOM nodes. When composing components that need to work together, share IDs between them using the ids prop for proper accessibility and interaction.
+- **Single child element required.** Text nodes or multiple elements won't work.
+- **Child attributes take precedence.** If the child already has an attribute, it won't be overwritten.
+- **No context access inside asChild.** The slot content can't access the component's context. See [TYPO3/Fluid#1132](https://github.com/TYPO3/Fluid/issues/1132).
+
+### Accessibility Note
+
+When using `asChild`, ensure your element remains accessible. A `<div>` replacing a `<button>` needs proper `role`, `tabindex`, and keyboard handlers that the original element provided natively.
+
+## Sharing IDs Between Components
+
+When multiple components need to interact (like a collapsible trigger that also has a tooltip), share IDs to maintain proper accessibility bindings.
 
 ```html
-<f:variable name="triggerId" value="{ui:id()}" />
+<f:variable name="sharedTriggerId" value="{ui:id()}" />
 
-<ui:collapsible.root ids="{trigger: triggerId}">
-    <ui:tooltip.root ids="{trigger: triggerId}">
-        <ui:collapsible.trigger asChild="1">
-            <ui:tooltip.trigger>Collapsible with tooltip</ui:tooltip.trigger>
+<ui:collapsible.root ids="{trigger: sharedTriggerId}">
+    <ui:tooltip.root ids="{trigger: sharedTriggerId}">
+        <ui:collapsible.trigger asChild="{true}">
+            <ui:tooltip.trigger>Toggle with tooltip</ui:tooltip.trigger>
         </ui:collapsible.trigger>
-        <ui:tooltip.content>Tooltip content</ui:tooltip.content>
+        <ui:tooltip.content>Click to expand</ui:tooltip.content>
     </ui:tooltip.root>
     <ui:collapsible.content>
-        <p>Content of the collapsible section.</p>
+        <p>The expanded content.</p>
     </ui:collapsible.content>
 </ui:collapsible.root>
 ```
 
-Both components share the same id through their ids props, creating proper accessibility bindings, aria-\* attributes and interaction behavior.
+Both the collapsible and tooltip now reference the same trigger element, keeping `aria-controls`, `aria-describedby`, and other attributes in sync.
+
+The `ids` prop accepts an object where keys are part names (`trigger`, `content`, etc.) and values are the IDs to use.

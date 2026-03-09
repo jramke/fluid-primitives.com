@@ -1,88 +1,99 @@
 # Styling
 
-Fluid Primitives is a headless component library that works with any styling solution. It provides functional styles for elements like popovers for positioning, while leaving presentation styles up to you. Some components also expose CSS variables that can be used for styling or animations.
+Fluid Primitives is completely unstyled. Use any CSS approach you prefer: Tailwind, vanilla CSS, Sass, PostCSS or whatever you like.
+
+When you add a component via the `typo3 ui:add <component>` command, you get basic Tailwind styles as a starting point. If you don't use Tailwind, simply ask your AI to convert these classes to your preferred CSS syntax.
 
 ## Data Attributes
 
-Fluid Primitives components use `data-scope` and `data-part` attributes to target specific elements within a component. Interactive components often include `data-*` attributes to indicate their state. For example, here's what an open accordion item looks like:
+Every component part has `data-scope` and `data-part` attributes for precise targeting:
 
 ```html
 <div data-scope="accordion" data-part="item" data-state="open"></div>
 ```
 
-For more details on each component's data attributes, refer to their respective documentation.
+Interactive components also include state attributes like `data-state`, `data-disabled`, or `data-focus`.
 
 ## Styling with CSS
 
-When styling components with CSS, you can target the data attributes assigned to each component part for easy customization.
-
-### Styling a Part
-
-To style a specific component part, target its data-scope and data-part attributes:
+### Target by Part
 
 ```css
-[data-scope='accordion'][data-part='item'] {
-    border-bottom: 1px solid #e5e5e5;
+[data-scope='accordion'][data-part='trigger'] {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    font-weight: 500;
+}
+
+[data-scope='accordion'][data-part='content'] {
+    padding: 1rem;
+    overflow: hidden;
 }
 ```
 
-### Styling a State
-
-To style a component based on its state, use the data-state attribute:
+### Target by State
 
 ```css
 [data-scope='accordion'][data-part='item'][data-state='open'] {
-    background-color: #f5f5f5;
+    background-color: var(--color-surface-hover);
+}
+
+[data-scope='accordion'][data-part='trigger'][data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 ```
 
-### Class Names
-
-Tip: If you prefer using classes instead of data attributes, utilize the class or className prop to add custom classes to Fluid Primitives components.
-
-Class Names
-If you prefer using classes instead of data attributes, utilize class or className prop to add custom classes to Fluid Primitives components.
-
-Pass a class:
-
-```html
-<ui:accordion.root>
-    <ui:accordion.item class="accordion-item">…</ui:accordion.item>
-</ui:accordion.root>
-```
-
-Then use in styles:
+### Combine Selectors
 
 ```css
-.accordion-item {
-    border-bottom: 1px solid #e5e5e5;
+[data-scope='accordion'][data-part='trigger']:hover:not([data-disabled]) {
+    background-color: var(--color-surface-hover);
+}
 
-    &[data-state='open'] {
-        background-color: #f5f5f5;
-    }
+[data-scope='accordion'][data-part='trigger']:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
 }
 ```
 
 ## Styling with Tailwind CSS
 
-[Tailwind CSS](https://tailwindcss.com/) is a utility-first CSS framework providing a flexible way to style your components.
-
-### Styling a Part
-
-To style a part, apply classes directly to the parts using either class or className, depending on the JavaScript framework.
+Pass classes directly to component parts:
 
 ```html
 <ui:accordion.root>
-    <ui:accordion.item class="border-b border-gray-300">…</ui:accordion.item>
+    <ui:accordion.item class="border-b border-gray-200">
+        <ui:accordion.trigger class="flex w-full justify-between py-4 font-medium hover:underline"> Section Title </ui:accordion.trigger>
+        <ui:accordion.content class="pb-4 text-gray-600"> Content goes here. </ui:accordion.content>
+    </ui:accordion.item>
 </ui:accordion.root>
 ```
 
-### Styling a State
+### State-Based Styling
 
-Leverage Tailwind CSS's variant selector to style a component based on its data-state attribute.
+Use Tailwind's data attribute variants:
 
 ```html
-<ui:accordion.root>
-    <ui:accordion.item class="border-b border-gray-300 data-[state=open]:bg-gray-100">…</ui:accordion.item>
-</ui:accordion.root>
+<ui:accordion.item class="border-b data-[state=open]:bg-gray-50">
+    <ui:accordion.trigger class="py-4 data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed"> ... </ui:accordion.trigger>
+</ui:accordion.item>
+```
+
+### Common State Variants
+
+```html
+data-[state=open]:...
+<!-- Open state (accordion, collapsible, dialog) -->
+data-[state=closed]:...
+<!-- Closed state -->
+data-[state=active]:...
+<!-- Active tab -->
+data-[disabled]:...
+<!-- Disabled state -->
+data-[highlighted]:...
+<!-- Keyboard-highlighted item (menus, selects) -->
+data-[selected]:...
+<!-- Selected item -->
 ```

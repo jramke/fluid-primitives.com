@@ -1,22 +1,87 @@
-# Arguments
+# Arguments (Props)
 
-When building Components, you often want to make them configurable. This is done by defining arguments – we call them props – that can be passed to the component.
+Components accept typed arguments called props. Fluid Primitives extends Fluid's built-in argument system with additional features.
 
-Normally Fluid's [f:argument](https://docs.typo3.org/other/typo3/view-helper-reference/main/en-us/Global/Argument.html) ViewHelper is used to register template arguments. Fluid Primitives provides an `ui:prop` ViewHelper that extends the behavior of this ViewHelper. See more about [ui:prop](/docs/viewhelpers/prop).
+## Defining Props
 
-## `rootId`
+Use `ui:prop` instead of Fluid's `f:argument`:
 
-If a Component is composable, it gets a `rootId` prop that is filled automatically with a unique identifier if not provided. That ID is used to link the component with its parts.
+```html
+<ui:prop name="variant" type="string" default="primary" />
+<ui:prop name="disabled" type="boolean" optional="{true}" />
+<ui:prop name="items" type="array" />
+```
 
-## `class`
+See the [ui:prop ViewHelper reference](/docs/viewhelpers/prop) for all options.
 
-For convenience, each component automatically receives a `class` prop. This can be used to pass additional CSS classes to the component.
+## Automatic Props
 
-## Other Default Props
+Every component receives these props automatically:
 
-Other default props that are automatically added to each component are:
+### `class`
 
-- `asChild`: See [Composition](./composition) for more information.
-- `ids`: See [Composition](./composition) for more information.
-- `controlled`: See [Hydration](./hydration) for more information.
-- `attributes`: See [ui:attributes](/docs/viewhelpers/attributes) for more information.
+Pass additional CSS classes to any component:
+
+```html
+<ui:button class="mt-4 w-full">Submit</ui:button>
+```
+
+Inside your component, use `{class}` to apply them:
+
+```html
+<button class="btn {class}">
+    <f:slot />
+</button>
+```
+
+### `rootId`
+
+Composable components get a unique identifier. This links parts together and enables hydration.
+
+Usually auto-generated, but you can provide one:
+
+```html
+<ui:accordion.root rootId="faq-accordion"></ui:accordion.root>
+```
+
+See [Controlled Components](/docs/core-concepts/hydration#content-controlled-components).
+
+### `asChild`
+
+Merge attributes into child element instead of rendering the default wrapper. See [Composition](/docs/core-concepts/composition).
+
+### `ids`
+
+Override default IDs for component parts. Useful when composing multiple components together. See [Composition](/docs/core-concepts/composition).
+
+### `controlled`
+
+Mark a component as externally controlled, preventing automatic client-side initialization. See [Hydration](/docs/core-concepts/hydration#content-controlled-components).
+
+### `attributes`
+
+Forward additional HTML attributes. See [ui:attributes ViewHelper](/docs/viewhelpers/attributes).
+
+## Client Props
+
+Props needed for client-side behavior use `client="{true}"`:
+
+```html
+<ui:prop name="open" type="boolean" optional="{true}" client="{true}" />
+```
+
+These are serialized and passed to JavaScript during hydration.
+
+## Inheriting Props
+
+Use `ui:useProps` to inherit prop definitions from another component:
+
+```html
+<!-- Inherit all props from the primitive -->
+<ui:useProps name="primitives:accordion.root" />
+
+<!-- Inherit specific props only -->
+<ui:useProps name="primitives:accordion.root" props="{0: 'multiple', 1: 'collapsible'}" />
+```
+
+This is how you build wrapper components without redefining every prop.

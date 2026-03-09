@@ -1,20 +1,43 @@
 # Introduction
 
-Fluid Primitives is a headless component library for TYPO3 that allows developers to create flexible and reusable UI components using the Fluid templating engine. It promotes a composable approach to building user interfaces, making it easier to manage and maintain complex layouts.
+Fluid Primitives brings modern component patterns to TYPO3. Build accessible, composable UI components with the same developer experience you'd expect from React libraries like Radix or Base UI - but for Fluid templates.
 
-It provides fully accessible and customizable primitives thanks to [Zag.js](https://zagjs.com/) as barebones.
+{% component: "ui:alert", arguments: {"title": "Under Construction", "text": "Fluid Primitives is in early development. Expect breaking changes until v1.0. We're actively shipping new components and features.", "variant": "warning"} %}
 
-{% component: "ui:alert", arguments: {"title": "Under Construction", "text": "Fluid Primitives is currently in early development. Expect breaking changes in minor releases until 1.0 is ready! We’re actively working on new components and features, so stay tuned!", "variant": "warning"} %}
+## What You Get
 
-## Motivation
+**Accessible by default.** Every interactive component handles keyboard navigation, focus management, and ARIA attributes automatically via [Zag.js](https://zagjs.com/) state machines.
 
-Fluid Primitives was created because there was no elegant solution for building robust, composable components in TYPO3 Fluid. The composition approach is inspired by the broader frontend web ecosystem, particularly [Radix Primitives](https://www.radix-ui.com/primitives).
+**Composable API.** No more prop drilling. Build complex UIs by composing small, focused parts that work together.
 
-We also aimed to provide a seamless experience while solving the challenge of connecting DOM nodes between client and server-rendered markup. No more `rootEl.querySelector('[data-my-long-component-part]')`.
+**Unstyled.** Zero design opinions. Use Tailwind, vanilla CSS, or any styling approach. You control every pixel.
+
+**Server-rendered.** Components render on the server with PHP/Fluid, then hydrate on the client. No layout shift, great for SEO.
+
+## Quick Example
+
+A tooltip with full accessibility support in just a few lines:
+
+```html
+<ui:tooltip.root>
+    <ui:tooltip.trigger>Hover me</ui:tooltip.trigger>
+    <ui:tooltip.content>Tooltip content here</ui:tooltip.content>
+</ui:tooltip.root>
+```
+
+That's it. Keyboard support, focus handling, proper ARIA attributes - all handled.
+
+## Why This Exists
+
+TYPO3 Fluid lacked an elegant solution for building robust, interactive components. The typical approach leads to bloated templates with complex conditional logic, poor accessibility, and custom JavaScript that's hard to maintain.
+
+Fluid Primitives solves this by bringing proven patterns from the modern frontend ecosystem to TYPO3, while respecting its server-first architecture.
 
 ## Acknowledgments
 
-- [Zag.js](https://zagjs.com/) – The foundation of this project
-- [Ark UI](https://ark-ui.com/) – Integrating Zag machines
-- [Radix UI](https://www.radix-ui.com/primitives) – API design inspiration
-- [Base UI](https://base-ui.com/) – Component behavior design inspiration
+Built on the shoulders of giants:
+
+- [Zag.js](https://zagjs.com/) - The state machine foundation
+- [Radix UI](https://www.radix-ui.com/primitives) - API design inspiration
+- [Base UI](https://base-ui.com/) - Component behavior patterns
+- [Ark UI](https://ark-ui.com/) - Zag.js integration patterns

@@ -1,111 +1,180 @@
 # Context
 
-When building composable component parts we rely on a shared context so each sub-component can access information and props from a parent.
+Composable components need to share data between parts. Context makes this possible without prop drilling.
 
-Each component has its own context that can be accessed via the `{context}` variable.
+Every component has a `{context}` variable containing shared state from its parent parts.
 
-## Default Context
+## What's in Context
 
-The default context exposes, among other things, the components `rootId`, `baseName` and **all props defined in the root component**.
+By default, context includes:
 
-## Context Flag
+- `rootId` - Unique identifier for the component instance
+- `baseName` - The component's base name (e.g., "accordion", "dialog")
+- All props defined on the root component
 
-As mentioned you can also expose props from sub-components if you set `context={true}` in the `ui:prop` ViewHelper. You will mostly not need this as this prop is then also only available in children of that sub-component.
+```html
+<!-- In Accordion/Item.html -->
+<div data-item-id="{context.rootId}">
+    <!-- Access any prop from Accordion/Root.html -->
+</div>
+```
 
-## External Contexts
+## Exposing Props to Context
 
-You can also get context from other components using the `ui:context` ViewHelper. It takes a `name` prop which is the name `baseName` of any other component.
+Mark a prop to be available in child components with `context="{true}"`:
 
-So in this example we could get the cards context from inside the dialog template.
+```html
+<!-- In Accordion/Item.html -->
+<ui:prop name="value" type="string" context="{true}" />
+```
+
+Now `{context.value}` is available in `Trigger.html` and `Content.html`.
+
+## Accessing Other Components' Context
+
+Need data from a sibling or ancestor component? Use `ui:context`:
 
 ```html
 <ui:card.root>
-    ...
-    <ui:dialog.root> ... </ui:dialog.root>
+    <ui:dialog.root>
+        <!-- Inside the dialog, access the card's context -->
+        <ui:context name="card" as="cardContext">
+            <p>Card ID: {cardContext.rootId}</p>
+        </ui:context>
+    </ui:dialog.root>
 </ui:card.root>
 ```
 
-## Advanced Usage
+## Custom Context Classes
 
-By default the `context` object is a simple `BaseContext` class with all the context variables, that implements `ArrayAccess` and `Psr\Container\ContainerInterface` so you we can easily access context values in Fluid templates.
+For complex logic, create a PHP context class. This keeps templates clean and logic testable.
 
-Sometimes you may need some additional logic inside your templates that require more then just accessing basic primitive props. In these cases, you can create your own context classes for each component by extending the `AbstractComponentContext` class and adding your custom logic there.
+### Setup
 
-You need to name the context class the same as the component base name with a `Context` suffix and register the namespace of your context classes in your `ComponentCollection` implementation by overriding the `getContextNamespaces()` method.
+1. Create a class extending `AbstractComponentContext`
+2. Name it `{ComponentName}Context` (e.g., `AccordionContext`)
+3. Register the namespace in your `ComponentCollection`
 
 ```php
 public function getContextNamespaces(): array
 {
     return [
-        'MyVendor\MyExt\Components\Contexts',
+        'MyVendor\\MySitepackage\\Components\\Contexts',
     ];
 }
 ```
 
-This is then automatically picked up by the `ComponentRenderer` when rendering components and the appropriate context class is instantiated and made available in the template as the `{context}` variable.
-
 ### Example
-
-For example, if you have a component with the base name `Card`, you would create a context class named `CardContext` in the appropriate namespace.
 
 ```php
 <?php
 
-namespace MyVendor\MyExt\Components\Contexts;
+declare(strict_types=1);
+
+namespace MyVendor\MySitepackage\Components\Contexts;
 
 use Jramke\FluidPrimitives\Contexts\AbstractComponentContext;
 
-class CardContext extends AbstractComponentContext
+class AccordionContext extends AbstractComponentContext
 {
-    public function getSomething(): string
+    public function getItemCount(): int
     {
-        // $this->getRenderingContext()
-        // $this->getParentRenderingContext()
-        // $this->getAllVariables()
-        // $this->get('someContextProp')
-        return 'specialValue';
+        // Access context data
+        $items = $this->get('items') ?? [];
+        return count($items);
+    }
+
+    public function getItemState(array $item): object
+    {
+        $value = $item['value'] ?? null;
+        $disabled = $item['disabled'] ?? null;
+
+        $defaultValue = $this->get('defaultValue') ?? [];
+        $rootDisabled = $this->get('disabled') ?? false;
+
+        return (object)[
+            'expanded' => in_array($value, (array)$defaultValue, true),
+            'disabled' => $disabled ?? $rootDisabled,
+        ];
     }
 }
 ```
 
-This would make the `getSomething()` method available in your card's template via `{context.something}`. See Fluid's documentation on [arrays and objects](https://docs.typo3.org/permalink/fluid:variable-access-objects) for more information.
+**In templates:**
 
-If you need methods with arguments you can use the [ui:call](../viewhelpers/call) ViewHelper to call methods on the context object.
+```html
+<!-- Simple getter (no arguments) -->
+<span>Total items: {context.itemCount}</span>
 
-### Exposing Client Props from Context
+<!-- Method with arguments - use ui:call -->
+<f:variable name="itemState">{context -> ui:call(method: 'getItemState', arguments: {0: itemProps})}</f:variable>
+```
 
-It is also possible to expose getter methods from your context class as client props by using the `#[ExposeToClient]` attribute.
+### Available Methods in Context Classes
+
+```php
+$this->get('propName');              // Get a context value
+$this->getAllVariables();            // Get all context variables
+$this->getRenderingContext();        // Current Fluid rendering context
+$this->getParentRenderingContext();  // Parent component's rendering context
+```
+
+## Exposing Context to Client
+
+Need computed values on the client side? Use the `#[ExposeToClient]` attribute:
 
 ```php
 use Jramke\FluidPrimitives\Attributes\ExposeToClient;
-class CardContext extends AbstractComponentContext
+
+class AccordionContext extends AbstractComponentContext
 {
     #[ExposeToClient]
-    public function getSomeValue(): mixed
+    public function getDefaultValue(): ?string
     {
-        return 'someCalculatedValue';
+        // This will be available in client-side props
+        return $this->get('defaultOpen') ? $this->get('items')[0] : null;
+    }
+
+    #[ExposeToClient(name: 'customName')]
+    public function getSomething(): mixed
+    {
+        // Available as 'customName' in props, not 'something'
+        return 'value';
     }
 }
 ```
 
-This would add a `someValue` prop to the client props of the component with the value returned by the `getSomeValue()` method.
-Optionally you can provide a name to override the prop name.
+## Lifecycle Methods
+
+Run code before or after component rendering:
 
 ```php
-    #[ExposeToClient(name: 'overriddenName')]
-    public function getSomeValue(): mixed
+class DialogContext extends AbstractComponentContext
+{
+    public function beforeRendering(): void
     {
-        return 'someCalculatedValue';
+        // Setup, modify parent context, etc.
     }
+
+    public function afterRendering(string &$html): void
+    {
+        // Post-process HTML, cleanup, etc.
+    }
+}
 ```
 
-### Dependency Injection
+{% component: "ui:alert", arguments: {"title": "Cleanup Required", "text": "If you modify the parent rendering context in beforeRendering(), clean it up in afterRendering() to avoid side effects.", "variant": "warning"} %}
 
-When you need to inject services into your context class, you can use constructor injection. Make sure you declare the class as a `public` service.
+## Dependency Injection
+
+Inject TYPO3 services into context classes:
 
 ```php
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use TYPO3\CMS\Core\Page\PageRenderer;
+
 #[Autoconfigure(public: true)]
-class SomeContext extends AbstractComponentContext
+class MyContext extends AbstractComponentContext
 {
     public function __construct(
         protected readonly PageRenderer $pageRenderer,
@@ -113,20 +182,4 @@ class SomeContext extends AbstractComponentContext
 }
 ```
 
-### Lifecycle Methods
-
-If you need to perform some actions before or after rendering of the component, you can implement an `afterRendering` or `beforeRendering` method in your components context class. These methods will be called automatically by the `ComponentRenderer`.
-
-{% component: "ui:alert", arguments: {"title": "When modifying the ParentRenderingContext, make sure to clean it up in `afterRendering()`.", "variant": "warning"} %}
-
-```php
-public function beforeRendering(): void
-{
-    // Do something before rendering
-}
-
-public function afterRendering(string &$html): void
-{
-    // Do something after rendering
-}
-```
+The `#[Autoconfigure(public: true)]` attribute is required for the component renderer to instantiate your context.

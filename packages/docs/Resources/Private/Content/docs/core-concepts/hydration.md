@@ -1,89 +1,161 @@
 # Hydration
 
-All props of each component that is needed for hydrating them the client side is stored in a `HydrationRegistry` class that renders a script tag in the document head via the core's [AssetCollector](https://api.typo3.org/13.4/classes/TYPO3-CMS-Core-Page-AssetCollector.html). This creates a global `FluidPrimitives` window variable that can be used to initialize components on the client side.
+Fluid Primitives components render on the server, then "hydrate" on the client to add interactivity. Here's how that works.
 
-Each component that uses the [ui:ref](/docs/viewhelpers/ref) ViewHelper automatically gets registered for hydration.
+## How It Works
+
+1. **Server renders HTML.** Components output complete markup with data attributes
+2. **Props are collected.** Client-side props are gathered into a hydration registry
+3. **Script tag is injected.** Props are serialized to a `<script>` in the document head
+4. **Client initializes.** JavaScript reads the props and attaches behavior
+
+The result: fast initial paint, no layout shift, and progressive enhancement.
+
+## Marking Elements for Hydration
+
+Use `ui:ref` to connect DOM elements to their client-side counterparts:
+
+```html
+<!-- In Tooltip/Trigger.html -->
+<button {ui:ref(name: 'trigger')}>
+    <f:slot />
+</button>
+```
+
+This outputs:
+
+```html
+<button data-scope="tooltip" data-part="trigger" data-hydrate-tooltip="rootId">Hover me</button>
+```
+
+The data attributes let the client find and connect elements to the state machine.
 
 ## Initializing Components
 
-To initialize components on the client side you can use the `mount` function like this:
+On the client, use `mount` to initialize components:
 
-```ts
-import { Collapsible } from 'fluid-primitives/collapsible';
+```typescript
 import { mount } from 'fluid-primitives';
+import { Accordion } from 'fluid-primitives/accordion';
 
-mount('collapsible', ({ props }) => {
-    const collapsible = new Collapsible(props);
-    collapsible.init();
-    return collapsible;
+mount('accordion', ({ props }) => {
+    const accordion = new Accordion(props);
+    accordion.init();
+    return accordion;
 });
 ```
 
-This initializes all `collapsible` components on the page by extracting their props from the hydration data and passing them to the provided factory function where you can create and initialize the component instance. The initialized instance is then returned and stored in the `FluidPrimitives.uncontrolledInstances` window variable.
+This runs for every accordion on the page, extracting props from the hydration data and initializing each instance.
 
-If you aren't mounting a Component built via State Machines you will most likely need the `createHydrator` function that is provided as part of the hydration data to create a `ComponentHydrator` instance for the component. This is needed to connect the component parts on the client side. See the [Connecting Component Parts](#content-connecting-component-parts) section for more information.
+### Loading Scripts Per-Component
 
-Ideally you include the initialization script in the root part of your component via the `<f:asset.script>` or `<vite:asset>` ([Vite Asset Collector](https://extensions.typo3.org/extension/vite_asset_collector)) ViewHelper, so its just loaded when you use the component.
-
-## Connecting Component Parts
-
-### On the Server with `ui:ref`
-
-To connect parts of a component between server and client you can use the [ui:ref](/docs/viewhelpers/ref) ViewHelper.
-
-This abstracts away verbose data attributes or classes to identifiy parts manually with something like `myRootEl.querySelector('[my-complex-component-name-sub-part]')`. Instead you can simply use the `ComponentHydrator` class to find parts by their name.
-
-Inside of the `Tooltip/Trigger.html` template you would use the `ui:ref` ViewHelper like this:
+Include the initialization script in your component's root template:
 
 ```html
-<button {ui:ref(name: 'trigger' )}></button>
+<!-- Accordion/Root.html -->
+<primitives:accordion.root spreadProps="{true}">
+    <f:slot />
+</primitives:accordion.root>
+
+<!-- Only loads when the component is used -->
+<f:asset.script identifier="accordion" src="path/to/accordion.js" />
 ```
 
-this would then result in
+Or with Vite Asset Collector:
 
 ```html
-<button data-scope="tooltip" data-part="trigger" data-hydrate-tooltip="«rootId»"></button>
+<vite:asset entry="EXT:my_ext/Resources/Private/Components/Accordion/accordion.entry.ts" />
 ```
 
-See more about [ui:ref](/docs/viewhelpers/ref).
+## Connecting Parts in JavaScript
 
-### On the Client with `ComponentHydrator`
+When building custom components without using a state machine, use `ComponentHydrator` to find elements.
+The `mount` callback provides a `createHydrator` function to create an instance that is automatically scoped to the current component instance:
 
-On the client side you can then use the `ComponentHydrator` class to find the part like this:
+```typescript
+import { mount } from 'fluid-primitives';
 
-```ts
+mount('my-component', ({ props, createHydrator }) => {
+    const hydrator = createHydrator();
+
+    const triggers = hydrator.getElements('trigger');
+    const content = hydrator.getElement('content');
+
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            content.classList.toggle('open');
+        });
+    });
+});
+```
+
+The built-in `Component` base class includes the `getElement` and `getElements` methods so you can skip creating a hydrator manually.
+
+If you need to use `ComponentHydrator` outside of a `mount` callback, create an instance with the component name and root ID and optionally the `ids` mapping:
+
+```typescript
 import { ComponentHydrator } from 'fluid-primitives';
-
-const hydrator = new ComponentHydrator('tooltip', rootId);
-const trigger = hydrator.getElement('trigger'); // or hydrator.getElements('trigger') for multiple elements
+const hydrator = new ComponentHydrator('my-component', 'root-id-123');
 ```
-
-Most of the time you dont need the `ComponentHydrator` directly, because the `Component` base class already provides a `getElement` and `getElements` method that uses the `ComponentHydrator` internally.
 
 ## Controlled Components
 
-By default all components are uncontrolled, meaning that they manage their own state internally. If you want to control the state of a component from the outside, you can set the `controlled` prop to `true`. This will prevent the `mount` function from initializing the component automatically. You then need to initialize the component manually.
+By default, `mount` automatically initializes every component on the page. For components you want to control programmatically, set `controlled="{true}"`:
 
-### Manually accessing hydration data with `getHydrationData`
-
-For example when building a bigger custom component that uses one or more primitives internally, you might want to control the state of the primitives from the outside. In this case you would set the `controlled` prop to `true` and then initialize the primitives manually like this with the `getHydrationData` function inside your custom component:
-
-```ts
-import { Collapsible } from 'fluid-primitives/collapsible';
-import { getHydrationData } from 'fluid-primitives';
-
-export class MyCustomComponent {
-    private collapsible: Collapsible;
-
-    constructor(rootId: string) {
-        const collapsibleData = getHydrationData('collapsible', `${rootId}-collapsible`);
-        this.collapsible = new Collapsible({
-            ...collapsibleData,
-            onOpenChange: ({ open }) => {
-                // do something when the collapsible is opened or closed
-            },
-        });
-        this.collapsible.init();
-    }
-}
+```html
+<ui:collapsible.root controlled="{true}" rootId="my-collapsible"> ... </ui:collapsible.root>
 ```
+
+This prevents automatic initialization. You then initialize manually:
+
+```typescript
+import { getHydrationData } from 'fluid-primitives';
+import { Collapsible } from 'fluid-primitives/collapsible';
+
+// Get props without auto-initialization
+const props = getHydrationData('collapsible', 'my-collapsible');
+
+const collapsible = new Collapsible({
+    ...props,
+    onOpenChange: ({ open }) => {
+        console.log('Collapsible is now', open ? 'open' : 'closed');
+    },
+});
+collapsible.init();
+```
+
+This is useful when:
+
+- Building composite components that manage nested primitives
+- Adding custom event handlers
+- Integrating with external state management
+- Conditionally initializing based on viewport or user action
+
+## The Hydration Registry
+
+Under the hood, a global `window.FluidPrimitives` object stores hydration data:
+
+```javascript
+window.FluidPrimitives = {
+    hydrationData: {
+        accordion: {
+            'root-id-1': {
+                controlled: false,
+                props: {
+                    id: 'root-id-1',
+                    ids: [],
+                    multiple: true,
+                    defaultValue: ['item1']
+                },
+            },
+            'root-id-2': { ... },
+        },
+        collapsible: { ... },
+    },
+    uncontrolledInstances: {
+        // Initialized instances from mount()
+    },
+};
+```
+
+You rarely need to access this directly, but it's there for debugging or advanced use cases.

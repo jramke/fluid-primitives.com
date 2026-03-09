@@ -1,33 +1,37 @@
 # Getting Started
 
-Before you start, please take a look at the core [documentation of Fluid Components](https://docs.typo3.org/other/typo3fluid/fluid/main/en-us/Usage/Components.html) first.
+Get up and running with Fluid Primitives in just a few steps. This guide covers installation, basic setup, and creating your first component.
+
+## Prerequisites
+
+- TYPO3 13+
+- PHP 8.2+
+- Basic familiarity with [Fluid Components](https://docs.typo3.org/other/typo3fluid/fluid/main/en-us/Usage/Components.html)
+- A modern JavaScript build setup like Vite, Webpack, etc. (Recommended)
 
 ## Installation
 
-Install Fluid Primitives via Composer:
+Install both the PHP and JavaScript packages:
 
 ```bash
 composer require jramke/fluid-primitives
-```
-
-Then you need to add the client-side files. Just add the `fluid-primitives` package to your `package.json`.
-
-```bash
 npm install fluid-primitives
 ```
 
-{% component: "ui:alert", arguments: {"title": "Make sure you use the same versions for the npm and composer packages.", "variant": "warning"} %}
+{% component: "ui:alert", arguments: {"title": "Version Match", "text": "Keep the Composer and npm package versions in sync to avoid compatibility issues.", "variant": "warning"} %}
 
-## Setup Component Collection
+## Setup
 
-Create a `ComponentCollection` class in your sitepackage:
+### 1. Create a Component Collection
+
+Create a `ComponentCollection` class in your sitepackage to register your component paths and contexts:
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-namespace MyVendor\MyExt\Components;
+namespace MyVendor\MySitepackage\Components;
 
 use Jramke\FluidPrimitives\Component\AbstractComponentCollection;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -39,10 +43,8 @@ final class ComponentCollection extends AbstractComponentCollection
     {
         $templatePaths = new TemplatePaths();
         $templatePaths->setTemplateRootPaths([
-            $templatePaths->setTemplateRootPaths([
-                ExtensionManagementUtility::extPath('ext', 'Resources/Private/Components/ui'),
-                ExtensionManagementUtility::extPath('ext', 'Resources/Private/Components'),
-            ]);
+            ExtensionManagementUtility::extPath('my_sitepackage', 'Resources/Private/Components/ui'),
+            ExtensionManagementUtility::extPath('my_sitepackage', 'Resources/Private/Components'),
         ]);
         return $templatePaths;
     }
@@ -50,56 +52,96 @@ final class ComponentCollection extends AbstractComponentCollection
     public function getContextNamespaces(): array
     {
         return [
-            'MyVendor\MyExt\Components\Contexts',
+            'MyVendor\\MySitepackage\\Components\\Contexts',
         ];
     }
 }
 ```
 
-Make sure we use the `AbstractComponentCollection` class from Fluid Primitives and not from Fluid's core.
+**Important:** Use `AbstractComponentCollection` from Fluid Primitives, not Fluid core.
 
-See [File Structure Guide](./core-concepts/file-structure) for more information about why we used two template root paths.
+Why two template paths? This lets you use `<ui:button>` instead of `<ui:ui.button>`. See [File Structure](/docs/core-concepts/file-structure) for details.
 
-See [Context Guide](./core-concepts/context) for more information about component contexts and the new `getContextNamespaces` method.
+### 2. Register the Namespace
 
-## Register Global Namespace
-
-Register the `ui` namespace for easier component usage:
+Add the `ui` namespace to your `ext_localconf.php`:
 
 ```php
-// ext_localconf.php
-
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ui'][] = 'MyVendor\\MyExt\\Components\\ComponentCollection';
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ui'][] =
+    'MyVendor\\MySitepackage\\Components\\ComponentCollection';
 ```
 
-{% component: "ui:alert", arguments: {"title": "Fluid Primitives uses the `ui` namespace for its ViewHelpers. Add your path to the array rather than overwriting it.", "variant": "warning"} %}
+{% component: "ui:alert", arguments: {"title": "Namespace Array", "text": "Fluid Primitives already registers ViewHelpers under `ui`. Append to the array instead of overwriting it.", "variant": "warning"} %}
 
-## Optional: Component Settings
+### 3. Optional: Component Settings
 
-Provide custom settings that are exposed as `{settings}` inside the component templates (merged with `lib.contentElement.settings`). So by default you get the normal content element settings.
+Expose custom settings to component templates:
 
 ```typoscript
 plugin.tx_fluidprimitives {
-    settings {}
+    settings {
+        # Your custom settings here
+    }
 }
 ```
 
-## First Component
+These merge with `lib.contentElement.settings` and are available as `{settings}` in templates.
 
-Create a button component at `Resources/Private/Components/ui/Button/Button.html`:
+## Your First Component
+
+Create a simple button at `Resources/Private/Components/ui/Button/Button.html`:
 
 ```html
 <ui:prop name="variant" type="string" optional="{true}" default="primary" />
+<ui:prop name="type" type="string" optional="{true}" default="button" />
 
-<ui:cn value="button button--{variant} {class}" as="class" />
-
-<button class="{class}" {ui:attributes()}>
+<button type="{type}" class="{ui:cn(value: 'btn btn--{variant} {class}')}" {ui:attributes()}>
     <f:slot />
 </button>
 ```
 
-And use it in your templates like this:
+Use it anywhere in your templates:
 
 ```html
-<ui:button variant="secondary" class="another-class" data-test="abc"> Hello World </ui:button>
+<ui:button variant="secondary" data-analytics="cta"> Get Started </ui:button>
 ```
+
+**What's happening:**
+
+- [ui:prop](/docs/viewhelpers/ui-prop) defines the components arguments (props) with types and defaults
+- [ui:attributes](/docs/viewhelpers/ui-attributes) forwards any extra attributes (like `data-*`)
+- [ui:cn](/docs/viewhelpers/ui-cn) is a helper for conditional class names
+- `{class}` is automatically available for additional classes
+- `<f:slot />` renders child content
+
+## Adding Interactive Components
+
+For components with client-side behavior (accordion, dialog, tabs, etc.), you'll also need to initialize them in JavaScript.
+
+Example with a collapsible:
+
+```html
+<ui:collapsible.root>
+    <ui:collapsible.trigger>Toggle content</ui:collapsible.trigger>
+    <ui:collapsible.content> Hidden content that expands/collapses </ui:collapsible.content>
+</ui:collapsible.root>
+```
+
+```typescript
+import { mount } from 'fluid-primitives';
+import { Collapsible } from 'fluid-primitives/collapsible';
+
+mount('collapsible', ({ props }) => {
+    const collapsible = new Collapsible(props);
+    collapsible.init();
+    return collapsible;
+});
+```
+
+See [Hydration](/docs/core-concepts/hydration) for the full picture on client-side setup.
+
+## Next Steps
+
+- [Core Concepts](/docs/core-concepts) - Understand composition, context, and hydration
+- [Components](/docs/components) - Browse available primitives
+- [ViewHelpers](/docs/viewhelpers) - Reference for `ui:prop`, `ui:ref`, and more

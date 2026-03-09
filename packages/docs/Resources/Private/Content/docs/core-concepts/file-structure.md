@@ -1,39 +1,84 @@
 # File Structure
 
-The recommended place for your components is inside the `Resources/Private/Components` folder of your extension or site package.
+Organize your components for maintainability as your design system grows.
 
-## Composable Components
+## Basic Structure
 
-Each component needs its own folder named after the component, e.g. `Button`, `Tooltip` or `Collapsible`. Inside that folder you should have at least a `Root.html` file that contains the root part of your component. Other parts of the component need to be in separate files, e.g. `Trigger.html`, `Content.html` or `Item.html`.
+Components live in `Resources/Private/Components/` within your sitepackage.
 
-## Single-Part Components
+### Single-Part Components
 
-When building a single-part component, such as a button you need to create a `Button/Button.html` file that contains the full implementation of the component.
+Simple components like buttons go in a folder matching their name:
 
-## Opinionated Structure Recommendation
+```
+Components/
+└── ui/
+    └── Button/
+        └── Button.html
+```
 
-When your design system grows and you have a lot of components, its helpful to group your components inside the `Resources/Private/Components` folder. [Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/) is a popular methodology to structure components. However in practice it can quickly become arbitrary and complex. Therefore we recommend a simplified structure:
+### Multi-Part Components
 
-Create a `ui/` folder for your more primitive and smaller components like buttons, inputs, tooltips and so on. These components should be as unopinionated as possible and provide the basic building blocks for your design system.
+Composable components have a `Root.html` plus additional parts:
 
-All other components for specific use-cases or more complex components can go into the root of the `Components/` folder or in other folders that make sense for your project.
+```
+Components/
+└── ui/
+    └── Accordion/
+        ├── Root.html      # Main wrapper
+        ├── Item.html      # Individual accordion item
+        ├── Trigger.html   # Clickable header
+        └── Content.html   # Expandable content
+```
 
-In your `ComponentCollection` you can then just import both paths, because otherwise you would have to use the components from the `ui/` folder with their full path like `<ui:ui.button>` instead of just `<ui:button>`.
+## Recommended Structure
+
+As your component library grows, separate primitive building blocks from composed components:
+
+```
+Components/
+├── ui/                         # Primitives (small, unopinionated)
+│   ├── Button/
+│   ├── Accordion/
+│   ├── Dialog/
+│   ├── Tooltip/
+│   └── Alert/
+│       ├── Root.html
+│       ├── Icon.html
+│       ├── Title.html
+│       └── Content.html
+│
+├── Alert/                      # Composed component (opinionated)
+│   └── Alert.html
+│
+└── RegisterDialog/             # Other composed components
+    └── RegisterDialog.html
+```
+
+**Why this split?**
+
+- `ui/` contains flexible primitives with minimal opinions
+- Root `Components/` contains opinionated, ready-to-use compositions
+- You can use `<ui:alert.root>` for flexibility or `<ui:alert>` for convenience
+
+### Template Path Configuration
+
+Register both paths so `ui/` components don't need the extra prefix:
 
 ```php
 $templatePaths->setTemplateRootPaths([
-    ExtensionManagementUtility::extPath('ext', 'Resources/Private/Components/ui'),
-    ExtensionManagementUtility::extPath('ext', 'Resources/Private/Components'),
+    // First: ui/ subfolder (so <ui:button> works, not <ui:ui.button>)
+    ExtensionManagementUtility::extPath('my_sitepackage', 'Resources/Private/Components/ui'),
+    // Second: root Components folder
+    ExtensionManagementUtility::extPath('my_sitepackage', 'Resources/Private/Components'),
 ]);
 ```
 
-## Closed Components
+## Composed Components
 
-Writing a few lines of code every time you need a simple `Alert` can be tedious. Creating a dedicated component encapsulates logic, simplifies the API, ensures consistent usage, and maintains clean code.
+Creating wrapper components reduces repetitive markup. Here's an `Alert` that composes the primitive parts:
 
-With the `/ui` folder approach its easy to create closed components for more common use-cases of composable components.
-
-Here is an example file structure for a simple `Alert` component that uses the primitive parts from `ui/Alert`:
+**`Components/Alert/Alert.html`**:
 
 ```html
 <ui:prop name="title" type="string" />
@@ -53,19 +98,17 @@ Here is an example file structure for a simple `Alert` component that uses the p
 </ui:alert.root>
 ```
 
-You can then store the file in `Components/Alert/Alert.html` and use it like this:
+**Usage**:
 
 ```html
-<ui:alert title="This is an alert" text="You can pass a title and text" />
+<!-- Simple API for common cases -->
+<ui:alert title="Heads up" text="Something important happened" variant="warning" />
+
+<!-- Or use primitives directly for custom layouts -->
+<ui:alert.root variant="error">
+    <ui:alert.icon />
+    <ui:alert.content> <strong>Error:</strong> Custom layout with multiple paragraphs... </ui:alert.content>
+</ui:alert.root>
 ```
 
-```
-└── /Alert
-    └── Alert.html
-└── /ui
-    └── /Alert
-        ├── Content.html
-        ├── Icon.html
-        ├── Root.html
-        ├── Title.html
-```
+This pattern gives you both convenience and flexibility.
