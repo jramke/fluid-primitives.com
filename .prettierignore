@@ -4,3 +4,4 @@ composer.lock
 package-lock.json
 packages/fluid-primitives/Resources/Public/JavaScript
 packages/docs/Resources/Private/Content/docs/viewhelpers
+public

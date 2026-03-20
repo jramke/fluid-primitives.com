@@ -21,31 +21,31 @@
         "analyze": "mago analyze"
     },
     "require": {
-        "brainworxx/includekrexx": "^6.1",
+        "brainworxx/includekrexx": "^6",
         "fluid-primitives/docs": "@dev",
         "jramke/fluid-primitives": "@dev",
         "league/commonmark": "^2.7",
         "phiki/phiki": "^2.0",
-        "praetorius/vite-asset-collector": "^1.14",
+        "praetorius/vite-asset-collector": "^1",
         "symfony/yaml": "^7.3",
-        "typo3/cms-backend": "^13.4",
-        "typo3/cms-belog": "^13.4",
-        "typo3/cms-beuser": "^13.4",
-        "typo3/cms-core": "^13.4",
-        "typo3/cms-extbase": "^13.4",
-        "typo3/cms-extensionmanager": "^13.4",
-        "typo3/cms-filelist": "^13.4",
-        "typo3/cms-fluid": "^13.4",
-        "typo3/cms-fluid-styled-content": "^13.4",
-        "typo3/cms-frontend": "^13.4",
-        "typo3/cms-impexp": "^13.4",
-        "typo3/cms-info": "^13.4",
-        "typo3/cms-install": "^13.4",
-        "typo3/cms-lowlevel": "^13.4",
-        "typo3/cms-seo": "^13.4",
-        "typo3/cms-setup": "^13.4",
-        "typo3/cms-sys-note": "^13.4",
-        "typo3/cms-tstemplate": "^13.4"
+        "typo3/cms-backend": "^14.1",
+        "typo3/cms-belog": "^14.1",
+        "typo3/cms-beuser": "^14.1",
+        "typo3/cms-core": "^14.1",
+        "typo3/cms-extbase": "^14.1",
+        "typo3/cms-extensionmanager": "^14.1",
+        "typo3/cms-filelist": "^14.1",
+        "typo3/cms-fluid": "^14.1",
+        "typo3/cms-fluid-styled-content": "^14.1",
+        "typo3/cms-frontend": "^14.1",
+        "typo3/cms-impexp": "^14.1",
+        "typo3/cms-info": "^14.1",
+        "typo3/cms-install": "^14.1",
+        "typo3/cms-lowlevel": "^14.1",
+        "typo3/cms-seo": "^14.1",
+        "typo3/cms-setup": "^14.1",
+        "typo3/cms-sys-note": "^14.1",
+        "typo3/cms-tstemplate": "^14.1"
     },
     "repositories": [
         {
@@ -54,6 +54,6 @@
         }
     ],
     "require-dev": {
-        "carthage-software/mago": "^1.13.2"
+        "carthage-software/mago": "^1.15"
     }
 }

@@ -6,6 +6,7 @@ namespace FluidPrimitives\Docs\Services;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
 use TYPO3\CMS\Core\Http\RequestFactory;
 
 #[Autoconfigure(public: true)]
@@ -18,6 +19,7 @@ class UmamiService
         private readonly RequestFactory $requestFactory,
     ) {}
 
+    #[AsAllowedCallable]
     public function renderScriptTag(): string
     {
         return (

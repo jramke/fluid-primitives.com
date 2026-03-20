@@ -117,6 +117,7 @@ $this->get('propName');              // Get a context value
 $this->getAllVariables();            // Get all context variables
 $this->getRenderingContext();        // Current Fluid rendering context
 $this->getParentRenderingContext();  // Parent component's rendering context
+$this->getRequest();                 // Current HTTP request
 ```
 
 ## Exposing Context to Client
