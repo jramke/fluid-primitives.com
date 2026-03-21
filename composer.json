@@ -5,6 +5,7 @@
     "type": "project",
     "config": {
         "allow-plugins": {
+            "pestphp/pest-plugin": true,
             "typo3/class-alias-loader": true,
             "typo3/cms-composer-installers": true
         },
@@ -18,7 +19,8 @@
         "lint:fix": "mago lint --fix --format-after-fix",
         "format": "mago format",
         "format:stdin": "mago format --stdin-input",
-        "analyze": "mago analyze"
+        "analyze": "mago analyze",
+        "test": "pest -c packages/fluid-primitives/phpunit.xml --test-directory=packages/fluid-primitives/tests"
     },
     "require": {
         "brainworxx/includekrexx": "^6",
@@ -54,6 +56,14 @@
         }
     ],
     "require-dev": {
-        "carthage-software/mago": "^1.15"
+        "carthage-software/mago": "^1.15",
+        "mockery/mockery": "^1.6",
+        "pestphp/pest": "^4.4",
+        "typo3/testing-framework": "^9.4"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jramke\\FluidPrimitives\\Tests\\": "packages/fluid-primitives/tests"
+        }
     }
 }
