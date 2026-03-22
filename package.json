@@ -10,9 +10,12 @@
         "dev": "concurrently \"npm run primitives:dev\" \"npm run docs:dev\"",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "types": "tsc --noEmit"
+        "types": "tsc --noEmit",
+        "storybook": "storybook dev -p 8080 --host 0.0.0.0 --ci",
+        "build-storybook": "storybook build -o ./public/storybook/"
     },
     "devDependencies": {
+        "@andersundsehr/storybook-typo3": "^0.1.29",
         "concurrently": "^9.2.1",
         "prettier": "^3.6.2",
         "prettier-plugin-organize-imports": "^4.3.0",

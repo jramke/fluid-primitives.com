@@ -1,0 +1,18 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:dialog.examples.simple />
+    </f:case>
+    <f:case value="alert">
+        <ui:dialog.examples.alert />
+    </f:case>
+    <f:case value="prevent-close-escape">
+        <ui:dialog.examples.preventCloseEscape />
+    </f:case>
+    <f:case value="prevent-close-outside">
+        <ui:dialog.examples.preventCloseOutside />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

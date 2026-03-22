@@ -1,0 +1,19 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:numberInput.examples.simple />
+    </f:case>
+    <f:case value="min-max">
+        <ui:numberInput.examples.minMax />
+    </f:case>
+    <f:case value="format-options">
+        <ui:numberInput.examples.formatOptions />
+    </f:case>
+    <f:case value="mouse-wheel">
+        <ui:numberInput.examples.mouseWheel />
+    </f:case>
+    <f:case value="with-scrubber">
+        <ui:numberInput.examples.withScrubber />
+    </f:case>
+</f:switch>

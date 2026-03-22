@@ -1,0 +1,24 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:tooltip.examples.simple />
+    </f:case>
+    <f:case value="icon-button">
+        <ui:tooltip.examples.iconButton />
+    </f:case>
+    <f:case value="custom-positioning">
+        <ui:tooltip.examples.customPositioning />
+    </f:case>
+    <f:case value="open-delay">
+        <ui:tooltip.examples.openDelay />
+    </f:case>
+    <f:case value="close-delay">
+        <ui:tooltip.examples.closeDelay />
+    </f:case>
+    <f:case value="disabled">
+        <ui:tooltip.examples.disabled />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

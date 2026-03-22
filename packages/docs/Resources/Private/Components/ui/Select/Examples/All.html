@@ -1,0 +1,24 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:select.examples.simple />
+    </f:case>
+    <f:case value="default-value">
+        <ui:select.examples.defaultValue />
+    </f:case>
+    <f:case value="with-groups">
+        <ui:select.examples.withGroups />
+    </f:case>
+    <f:case value="with-field">
+        <ui:select.examples.withField />
+    </f:case>
+    <f:case value="multiple">
+        <ui:select.examples.multiple />
+    </f:case>
+    <f:case value="disabled-items">
+        <ui:select.examples.disabledItems />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

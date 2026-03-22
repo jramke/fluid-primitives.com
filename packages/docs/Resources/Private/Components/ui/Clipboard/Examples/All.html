@@ -1,0 +1,13 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:clipboard.examples.simple />
+    </f:case>
+    <f:case value="copy-button-only">
+        <ui:clipboard.examples.copyButtonOnly />
+    </f:case>
+    <f:case value="custom-timeout">
+        <ui:clipboard.examples.customTimeout />
+    </f:case>
+</f:switch>
