@@ -25,7 +25,7 @@
     "require": {
         "brainworxx/includekrexx": "^6",
         "fluid-primitives/docs": "@dev",
-        "jramke/fluid-primitives": "@dev",
+        "jramke/fluid-primitives": "*",
         "league/commonmark": "^2.7",
         "phiki/phiki": "^2.0",
         "praetorius/vite-asset-collector": "^1",
@@ -49,12 +49,16 @@
         "typo3/cms-sys-note": "^13.4",
         "typo3/cms-tstemplate": "^13.4"
     },
-    "repositories": [
-        {
+    "repositories": {
+        "docs": {
             "type": "path",
-            "url": "./packages/*"
+            "url": "./packages/docs"
+        },
+        "fluid-primitives": {
+            "type": "path",
+            "url": "./packages/fluid-primitives"
         }
-    ],
+    },
     "require-dev": {
         "andersundsehr/storybook": "^0.1.31",
         "carthage-software/mago": "^1.15",

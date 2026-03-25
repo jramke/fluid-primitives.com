@@ -38,6 +38,9 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copy files
 COPY . .
 
+# Remove local fluid-primitives path repository so latest release is used
+RUN composer config --unset repositories.fluid-primitives
+
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --no-scripts \
     && composer run-script post-install-cmd || true
