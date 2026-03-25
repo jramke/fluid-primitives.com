@@ -4,6 +4,8 @@ Fluid Primitives brings modern component patterns to TYPO3. Build accessible, co
 
 {% component: "ui:alert", arguments: {"title": "Under Construction", "text": "Fluid Primitives is in early development. Expect breaking changes until v1.0. We're actively shipping new components and features.", "variant": "warning"} %}
 
+If something is unclear, you found a bug or want a feature, please open an [issue](https://github.com/jramke/fluid-primitives/issues) or reach out via [slack](https://typo3.slack.com/archives/D07KMQW2A6N).
+
 ## What You Get
 
 **Accessible by default.** Every interactive component handles keyboard navigation, focus management, and ARIA attributes automatically via [Zag.js](https://zagjs.com/) state machines.
@@ -34,8 +36,6 @@ TYPO3 Fluid lacked an elegant solution for building robust, interactive componen
 Fluid Primitives solves this by bringing proven patterns from the modern frontend ecosystem to TYPO3, while respecting its server-first architecture.
 
 ## Acknowledgments
-
-Built on the shoulders of giants:
 
 - [Zag.js](https://zagjs.com/) - The state machine foundation
 - [Radix UI](https://www.radix-ui.com/primitives) - API design inspiration
