@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a2cfe71ac751e79cfb59c8e985397fe",
+    "content-hash": "f69ad572c5e3f78f4c6ca5853ffaeebc",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1326,11 +1326,11 @@
         },
         {
             "name": "jramke/fluid-primitives",
-            "version": "0.17.1",
+            "version": "0.17.2",
             "dist": {
                 "type": "path",
                 "url": "./packages/fluid-primitives",
-                "reference": "6b6df8f4c03f36d04e4dcd3acffe63a3448ae996"
+                "reference": "1c23dff3a8c781645b2ef36a43ff8a638578e074"
             },
             "require": {
                 "php": ">=8.2",
@@ -10488,8 +10488,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "fluid-primitives/docs": 20,
-        "jramke/fluid-primitives": 20
+        "fluid-primitives/docs": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
