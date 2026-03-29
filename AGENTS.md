@@ -61,15 +61,20 @@ Tests are located in `packages/fluid-primitives/tests/` and use Pest (on top of 
 
 ```
 packages/fluid-primitives/tests/
-├── Unit/                      # Fast tests, no TYPO3 environment needed
+├── Unit/                      # Core infrastructure tests (utilities, registry, base classes)
 ├── Functional/                # Full TYPO3 tests with database (SQLite)
 │   ├── ViewHelpers/           # ViewHelper rendering tests
-│   └── Components/            # Full component rendering tests
+│   └── Components/            # Component rendering tests (all primitives go here)
 ├── Bootstrap.php              # Test bootstrap (autoloader + TYPO3 testing framework)
 ├── Pest.php                   # Pest configuration
 ├── TestCase.php               # Base class for unit tests
 └── ViewHelperTestCase.php     # Base class for ViewHelper tests
 ```
+
+**Where to put tests:**
+
+- **Functional/Components/** - All component tests (Accordion, Checkbox, Dialog, etc.). These test the full integration: context logic → Fluid template → HTML output. This ensures the context is correct AND the template uses it correctly.
+- **Unit/** - Core infrastructure only (ComponentUtility, HydrationRegistry, TagAttributes, AbstractComponentContext). These are utilities/base classes not tied to specific components.
 
 ### Running Tests
 
@@ -99,6 +104,51 @@ it('renders component correctly', function () {
     $this->importCSVDataSet(__DIR__ . '/Fixtures/pages.csv');
     // Full TYPO3 environment available
 });
+```
+
+### Test Quality Guidelines
+
+Write meaningful tests that justify their existence. Avoid trivial tests.
+
+**DO NOT write tests for:**
+
+- Empty/null inputs returning empty/null outputs (e.g., `expect(new Foo())->toBeEmpty()`)
+- Simple getter/setter behavior
+- Single-line wrapper functions around standard library calls
+- Obvious type coercions (e.g., `'Accordion'` → `'accordion'`)
+- Edge cases that test the same code path as existing tests
+
+**DO write tests for:**
+
+- Complex business logic with multiple code paths
+- Integration points (e.g., HydrationRegistry + AssetCollector)
+- Error conditions and exception handling
+- State management logic (e.g., expanded/disabled states)
+- Security-relevant behavior (e.g., HTML escaping)
+
+**Consolidate related tests** into single test cases when they verify the same behavior:
+
+```php
+// BAD: Multiple trivial tests
+it('returns false when value not in array', function () { ... });
+it('returns true when value in array', function () { ... });
+it('handles multiple values', function () { ... });
+
+// GOOD: Single consolidated test
+it('returns expanded based on defaultValue array membership', function () {
+    expect($context->getItemState(['value' => 'item-1'])->expanded)->toBeTrue();
+    expect($context->getItemState(['value' => 'item-3'])->expanded)->toBeFalse();
+});
+```
+
+**Test names should describe behavior, not implementation:**
+
+```php
+// BAD
+it('calls str_contains with correct arguments', ...);
+
+// GOOD
+it('skips primitives namespace when extracting base name', ...);
 ```
 
 ## Code Formatting
