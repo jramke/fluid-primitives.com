@@ -29,6 +29,25 @@ For critical confirmations or destructive actions, use `role="alertdialog"`. Ale
 
 {% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.alert" } %}
 
+### Nested Dialogs
+
+Open a dialog from within another dialog.
+
+{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.nested" } %}
+
+### Scrollable Outside
+
+The dialog positioner can scroll when the content exceeds the viewport height, so the entire dialog can scroll together.
+
+{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.outsideScroll" } %}
+
+### Scrollable Inside
+
+With some additions, the dialog content can scroll when it exceeds the viewport height, while keeping the header and footer visible.
+Set a `max-height` on the content and use `overflow-y: auto` to enable scrolling inside the dialog's content area.
+
+{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.insideScroll" } %}
+
 ### Prevent Close on Outside Click
 
 Keep the dialog open when clicking outside.

@@ -24,3 +24,18 @@ export const PreventCloseOutside: StoryObj = {
 		example_id: 'prevent-close-outside',
 	},
 };
+export const Nested: StoryObj = {
+	args: {
+		example_id: 'nested',
+	},
+};
+export const InsideScroll: StoryObj = {
+	args: {
+		example_id: 'inside-scroll',
+	},
+};
+export const OutsideScroll: StoryObj = {
+	args: {
+		example_id: 'outside-scroll',
+	},
+};

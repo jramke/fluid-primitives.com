@@ -1,0 +1,32 @@
+<ui:dialog.root rootId="parent-dialog">
+    <ui:dialog.trigger asChild="{true}">
+        <ui:button>Open first Dialog</ui:button>
+    </ui:dialog.trigger>
+    <ui:dialog.content>
+        <ui:dialog.header>
+            <ui:dialog.title>Dialog Title</ui:dialog.title>
+            <ui:dialog.description>This is a simple dialog example.</ui:dialog.description>
+        </ui:dialog.header>
+        <ui:dialog.footer>
+            <ui:dialog.close asChild="{true}">
+                <ui:button variant="secondary">Close</ui:button>
+            </ui:dialog.close>
+            <ui:dialog.root rootId="nested-dialog">
+                <ui:dialog.trigger asChild="{true}">
+                    <ui:button>Open nested Dialog</ui:button>
+                </ui:dialog.trigger>
+                <ui:dialog.content>
+                    <ui:dialog.header>
+                        <ui:dialog.title>Nested Dialog Title</ui:dialog.title>
+                        <ui:dialog.description>This is a nested dialog example.</ui:dialog.description>
+                    </ui:dialog.header>
+                    <ui:dialog.footer>
+                        <ui:dialog.close asChild="{true}">
+                            <ui:button>Close nested Dialog</ui:button>
+                        </ui:dialog.close>
+                    </ui:dialog.footer>
+                </ui:dialog.content>
+            </ui:dialog.root>
+        </ui:dialog.footer>
+    </ui:dialog.content>
+</ui:dialog.root>
