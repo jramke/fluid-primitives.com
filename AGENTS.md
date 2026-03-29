@@ -51,6 +51,8 @@ ddev npm run docs:dev         # Dev server for docs (port 5173)
 ddev npm run format           # Format all files with Prettier
 ddev npm run format:check     # Check formatting without writing
 ddev npm run types            # TypeScript type checking (tsc --noEmit)
+ddev composer run format      # Format PHP files with Mago
+ddev composer run lint        # Static analysis for PHP with Mago
 ```
 
 ## Testing
