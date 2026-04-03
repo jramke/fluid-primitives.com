@@ -1,4 +1,3 @@
-# Use PHP 8.2 with Apache
 FROM php:8.3-apache
 
 # Install system dependencies and PHP extensions
@@ -47,16 +46,11 @@ RUN composer config --unset repositories.fluid-primitives \
 RUN composer install --no-dev --optimize-autoloader --no-scripts \
     && composer run-script post-install-cmd || true
 
-# Build frontend assets if needed
-RUN if [ -f "package.json" ]; then \
-        cd packages/fluid-primitives && \
-        npm i --include=dev && \
-        npm run build && \
-        rm -rf node_modules && \
-        cd ../.. && \
-        npm i && \
-        npm run docs:build; \
-    fi
+# Build frontend assets
+# Replace local file reference with published npm package (similar to composer approach above)
+RUN npm pkg set dependencies.fluid-primitives="*"  \
+    && npm ci \
+    && npm run docs:build; \
 
 # Copy entrypoint
 COPY entrypoint.sh /entrypoint.sh
