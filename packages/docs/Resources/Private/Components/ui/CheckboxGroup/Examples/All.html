@@ -1,0 +1,22 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:checkboxGroup.examples.simple />
+    </f:case>
+    <f:case value="default-checked">
+        <ui:checkboxGroup.examples.defaultChecked />
+    </f:case>
+    <f:case value="disabled-group">
+        <ui:checkboxGroup.examples.disabledGroup />
+    </f:case>
+    <f:case value="disabled-items">
+        <ui:checkboxGroup.examples.disabledItems />
+    </f:case>
+    <f:case value="max-selected">
+        <ui:checkboxGroup.examples.maxSelected />
+    </f:case>
+    <f:case value="select-all">
+        <ui:checkboxGroup.examples.selectAll />
+    </f:case>
+</f:switch>

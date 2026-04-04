@@ -1,0 +1,15 @@
+<ui:checkboxGroup.root name="plans" defaultValue="{0: 'basic'}">
+    <ui:checkboxGroup.label>Select plans:</ui:checkboxGroup.label>
+    <ui:checkbox.root value="basic">
+        <ui:checkbox.control />
+        <ui:checkbox.label>Basic Plan</ui:checkbox.label>
+    </ui:checkbox.root>
+    <ui:checkbox.root value="premium" disabled="{true}">
+        <ui:checkbox.control />
+        <ui:checkbox.label>Premium Plan (Unavailable)</ui:checkbox.label>
+    </ui:checkbox.root>
+    <ui:checkbox.root value="enterprise">
+        <ui:checkbox.control />
+        <ui:checkbox.label>Enterprise Plan</ui:checkbox.label>
+    </ui:checkbox.root>
+</ui:checkboxGroup.root>

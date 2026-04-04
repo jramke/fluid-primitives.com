@@ -1,5 +1,6 @@
 <ui:prop name="name" type="string" />
 <ui:prop name="type" type="string" optional="{true}" default="component" />
+<ui:prop name="skipZag" type="boolean" optional="{true}" default="{false}" />
 
 <f:variable name="additionalClass"></f:variable>
 
@@ -12,10 +13,20 @@
 
 <f:switch expression="{type}">
     <f:case value="component">
-        <f:variable name="items" value="{
-            1: {link: 'https://github.com/jramke/fluid-primitives/tree/main/Resources/Private/Primitives/{name}', label: 'View Source', icon: icon},
-            0: {link: 'https://zagjs.com/components/react/{context.nameLowerCaseDashed}', label: 'Zag.js Docs', icon: icon},
-        }" />
+        <f:variable name="primitive" value="{link: 'https://github.com/jramke/fluid-primitives/tree/main/Resources/Private/Primitives/{name}', label: 'View Source', icon: icon}" />
+        <f:if condition="{skipZag}">
+            <f:then>
+                <f:variable name="items" value="{
+                    0: primitive,
+                }" />
+            </f:then>
+            <f:else>
+                <f:variable name="items" value="{
+                    0: primitive,
+                    1: {link: 'https://zagjs.com/components/react/{context.nameLowerCaseDashed}', label: 'Zag.js Docs', icon: icon},
+                }" />
+            </f:else>
+        </f:if>
         <f:variable name="additionalClass">mb-4</f:variable>
     </f:case>
     <f:case value="viewhelper">

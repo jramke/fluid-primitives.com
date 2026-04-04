@@ -17,6 +17,14 @@ checkbox:
     - Control.html
     - Checkbox.entry.ts
 
+checkbox-group:
+  name: CheckboxGroup
+  description: A group of checkboxes for selecting multiple values
+  files:
+    - Root.html
+    - Label.html
+    - CheckboxGroup.entry.ts
+
 clipboard:
   name: Clipboard
   description: A component to copy text to the clipboard

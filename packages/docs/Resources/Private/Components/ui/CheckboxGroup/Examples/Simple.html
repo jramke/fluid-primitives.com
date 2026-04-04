@@ -1,0 +1,15 @@
+<f:variable name="items" value="{
+    0: { value: 'option1', text: 'Option 1' },
+    1: { value: 'option2', text: 'Option 2' },
+    2: { value: 'option3', text: 'Option 3' }
+}" />
+
+<ui:checkboxGroup.root name="options">
+    <ui:checkboxGroup.label>Select options:</ui:checkboxGroup.label>
+    <f:for each="{items}" as="item">
+        <ui:checkbox.root value="{item.value}">
+            <ui:checkbox.control />
+            <ui:checkbox.label>{item.text}</ui:checkbox.label>
+        </ui:checkbox.root>
+    </f:for>
+</ui:checkboxGroup.root>

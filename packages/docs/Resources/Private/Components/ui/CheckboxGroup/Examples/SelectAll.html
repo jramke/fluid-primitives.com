@@ -1,0 +1,25 @@
+<f:variable name="items" value="{
+    0: { value: 'dashboard', text: 'View Dashboard' },
+    1: { value: 'reports', text: 'Access Reports' },
+    2: { value: 'settings', text: 'Modify Settings' }
+}" />
+
+<ui:hydrationData name="checkbox-group" id="select-all-items" props="{items: items}" controlled="{true}" />
+
+<div class="space-y-3">
+    <ui:checkbox.root value="all" controlled="{true}" rootId="select-all" defaultChecked="indeterminate">
+        <ui:checkbox.control />
+        <ui:checkbox.label>All User Permissions</ui:checkbox.label>
+    </ui:checkbox.root>
+
+    <ui:checkboxGroup.root name="permissions" defaultValue="{0: 'reports'}" controlled="{true}" rootId="select-all-group" style="margin-inline-start: 1rem;">
+        <f:for each="{items}" as="item">
+            <ui:checkbox.root value="{item.value}">
+                <ui:checkbox.control />
+                <ui:checkbox.label>{item.text}</ui:checkbox.label>
+            </ui:checkbox.root>
+        </f:for>
+    </ui:checkboxGroup.root>
+</div>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/CheckboxGroup/Examples/SelectAll.entry.ts" />
