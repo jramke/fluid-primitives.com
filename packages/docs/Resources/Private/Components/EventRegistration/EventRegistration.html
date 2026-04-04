@@ -94,26 +94,24 @@
             <ui:field.error />
         </ui:field.root>
 
-        <f:comment>
-            <!-- Note: checkbox groups are partly supported -->
-        </f:comment>
-        <fieldset class="field">
-            <legend class="sr-only">Accessibility Needs</legend>
-            <div class="label" aria-hidden="true">Accessibility Needs</div>
-            <ui:field.root name="a11yNeeds" hidden="{true}"></ui:field.root>
-            <ui:checkbox.root name="a11yNeeds[]" value="wheelchair">
-                <ui:checkbox.control />
-                <ui:checkbox.label class="font-normal">
-                    Wheelchair Access
-                </ui:checkbox.label>
-            </ui:checkbox.root>
-            <ui:checkbox.root name="a11yNeeds[]" value="sign-language">
-                <ui:checkbox.control />
-                <ui:checkbox.label class="font-normal">
-                    Sign Language Interpretation
-                </ui:checkbox.label>
-            </ui:checkbox.root>
-        </fieldset>
+        <ui:field.root name="a11yNeeds">
+            <ui:checkboxGroup.root>
+                <ui:checkboxGroup.label>Accessibility Needs</ui:checkboxGroup.label>
+                <ui:checkbox.root value="wheelchair">
+                    <ui:checkbox.control />
+                    <ui:checkbox.label class="font-normal">
+                        Wheelchair Access
+                    </ui:checkbox.label>
+                </ui:checkbox.root>
+                <ui:checkbox.root value="sign-language">
+                    <ui:checkbox.control />
+                    <ui:checkbox.label class="font-normal">
+                        Sign Language Interpretation
+                    </ui:checkbox.label>
+                </ui:checkbox.root>
+            </ui:checkboxGroup.root>
+            <ui:field.error />
+        </ui:field.root>
 
         <ui:field.root name="comment">
             <ui:field.label>Additional Comments</ui:field.label>
@@ -141,7 +139,7 @@
     <div class="hidden group-[[data-state=error]]:block">
         <h2 class="font-medium">Error</h2>
         <p {ui:ref(name: 'error-message' )}>There was an error submitting your registration. Please try again.</p>
-        <ui:button class="mt-4" attributes="{ui:ref(name: 'retry-button')}">
+        <ui:button type="reset" class="mt-4">
             Back to form
         </ui:button>
     </div>

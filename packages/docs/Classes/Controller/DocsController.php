@@ -142,7 +142,7 @@ final class DocsController extends ActionController
 
         $json = json_encode($payload);
         $response = $this->jsonResponse($json)->withStatus($status);
-        throw new PropagateResponseException($response, $status);
+        throw new PropagateResponseException($response, $status); // or return $response; if standalone plugin
     }
 
     protected function errorAction(): ResponseInterface

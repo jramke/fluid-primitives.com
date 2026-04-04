@@ -95,6 +95,7 @@ class ComponentExampleContext extends AbstractComponentContext
             'js' => Grammar::Javascript,
             'ts' => Grammar::Typescript,
             'css' => Grammar::Css,
+            'php' => Grammar::Php,
         ];
 
         $grammar = $languages[$language] ?? Grammar::Txt;

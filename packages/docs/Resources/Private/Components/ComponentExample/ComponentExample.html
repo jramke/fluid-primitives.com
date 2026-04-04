@@ -12,17 +12,26 @@
         <div class="component-example-code isolate">
             <ui:collapsible.root collapsedHeight="120px">
                 <ui:tabs.root defaultValue="example-0" controlled="{true}" rootId="{rootId}-tabs">
-                    <div class="px-1 text-sm flex justify-between">
-                        <ui:tabs.list class="flex items-center gap-1 ps-0.5">
-                            <f:for each="{tabs}" as="tab" iteration="i">
-                                <ui:tabs.trigger value="example-{i.index}" class="font-mono font-semibold text-foreground/80 px-1 pt-1 rounded-md only:after:content-none">
-                                    {tab.label}
-                                </ui:tabs.trigger>
-                            </f:for>
+                    <div class="px-1 text-sm flex justify-between gap-2">
+                        <ui:tabs.list class="!w-auto !block min-w-0 !h-12">
+                            <ui:scrollArea.root class="h-full">
+                                <ui:scrollArea.viewport>
+                                    <ui:scrollArea.content class="flex gap-1 ps-0.5 pt-1.5 items-start h-full">
+                                        <f:for each="{tabs}" as="tab" iteration="i">
+                                            <ui:tabs.trigger value="example-{i.index}" class="font-mono font-semibold text-foreground/80 px-1 pt-1 rounded-md only:after:content-none">
+                                                {tab.label}
+                                            </ui:tabs.trigger>
+                                        </f:for>
+                                    </ui:scrollArea.content>
+                                </ui:scrollArea.viewport>
+                                <ui:scrollArea.scrollbar orientation="horizontal">
+                                    <ui:scrollArea.thumb />
+                                </ui:scrollArea.scrollbar>
+                            </ui:scrollArea.root>
                         </ui:tabs.list>
                         <f:for each="{tabs}" as="tab" iteration="i">
                             <f:variable name="value">example-{i.index}</f:variable>
-                            <div class="flex items-center gap-1 z-1 pt-0.5" {ui:ref(name: 'tab-actions' , data: { value: value } )} {f:if(condition: '{value} !== example-0' , then: 'hidden' )}>
+                            <div class="flex gap-1 z-1 pt-1" {ui:ref(name: 'tab-actions' , data: { value: value } )} {f:if(condition: '{value} !== example-0' , then: 'hidden' )}>
                                 <ui:collapsible.trigger asChild="{true}">
                                     <ui:button variant="ghost" class="not-sm:size-8 not-sm:p-0">
                                         <ui:collapsible.triggerText openText="Show Code" closeText="Hide Code" class="not-sm:sr-only" />
@@ -54,7 +63,7 @@
                             <ui:tabs.content value="example-{i.index}">
                                 <ui:scrollArea.root>
                                     <ui:scrollArea.viewport>
-                                        <ui:scrollArea.content>
+                                        <ui:scrollArea.content class="*:pt-1">
                                             {tab.templateHighlighted -> f:format.raw()}
                                         </ui:scrollArea.content>
                                     </ui:scrollArea.viewport>

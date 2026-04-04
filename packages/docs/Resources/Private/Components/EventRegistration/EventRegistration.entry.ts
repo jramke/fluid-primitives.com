@@ -65,12 +65,5 @@ mount('event-registration', ({ props, createHydrator }) => {
 		},
 	});
 
-	const retryButton = hydrator.getElement('retry-button');
-	if (retryButton) {
-		retryButton.addEventListener('click', () => {
-			form.api.reset();
-		});
-	}
-
 	form.init();
 });
