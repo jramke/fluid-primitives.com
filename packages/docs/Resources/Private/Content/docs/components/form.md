@@ -2,7 +2,7 @@
 
 **A powerful form component with client-side validation, AJAX submission, and seamless Extbase integration.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "Form" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Form", "skipZag": true } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "FormExample", "additionalFiles": {"FormExample.ts": "EXT:docs/Resources/Private/Components/FormExample/FormExample.entry.ts"} } %}
 

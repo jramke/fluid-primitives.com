@@ -2,7 +2,7 @@
 
 **A form field wrapper that provides accessible labeling, error handling, and state management for form inputs.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "Field" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Field", "skipZag": true } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "Field.examples.simple", "withEntryFile": true } %}
 
