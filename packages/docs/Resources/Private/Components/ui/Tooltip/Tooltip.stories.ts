@@ -34,3 +34,8 @@ export const Disabled: StoryObj = {
 		example_id: 'disabled',
 	},
 };
+export const MultipleNoDelay: StoryObj = {
+	args: {
+		example_id: 'multiple-no-delay',
+	},
+};
