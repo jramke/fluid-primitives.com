@@ -48,9 +48,9 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts \
 
 # Build frontend assets
 # Replace local file reference with published npm package (similar to composer approach above)
-RUN npm pkg set dependencies.fluid-primitives="*"  \
+RUN npm pkg set dependencies.fluid-primitives="*" \
     && npm ci \
-    && npm run docs:build; \
+    && npm run docs:build
 
 # Copy entrypoint
 COPY entrypoint.sh /entrypoint.sh
