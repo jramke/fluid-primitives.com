@@ -1,0 +1,48 @@
+<ui:navigationMenu.root withViewport="{true}">
+    <ui:navigationMenu.list>
+        <ui:navigationMenu.item value="products">
+            <ui:navigationMenu.trigger>Products</ui:navigationMenu.trigger>
+        </ui:navigationMenu.item>
+        <ui:navigationMenu.item value="company">
+            <ui:navigationMenu.trigger>Company</ui:navigationMenu.trigger>
+        </ui:navigationMenu.item>
+        <ui:navigationMenu.item value="docs">
+            <ui:navigationMenu.link href="#">Documentation</ui:navigationMenu.link>
+        </ui:navigationMenu.item>
+    </ui:navigationMenu.list>
+    <ui:navigationMenu.indicator>
+        <ui:navigationMenu.arrow />
+    </ui:navigationMenu.indicator>
+    <ui:navigationMenu.viewportPositioner>
+        <ui:navigationMenu.viewport>
+            <ui:navigationMenu.content value="products" class="w-90">
+                <div class="grid grid-cols-2">
+                    <ui:navigationMenu.link value="products" href="#" class="flex flex-col gap-0.5 !py-2 !px-3">
+                        <span class="font-medium text-sm">Analytics</span>
+                        <span class="text-xs text-muted-foreground">Track and analyze data</span>
+                    </ui:navigationMenu.link>
+                    <ui:navigationMenu.link value="products" href="#" class="flex flex-col gap-0.5 !py-2 !px-3">
+                        <span class="font-medium text-sm">Marketing</span>
+                        <span class="text-xs text-muted-foreground">Grow your audience</span>
+                    </ui:navigationMenu.link>
+                    <ui:navigationMenu.link value="products" href="#" class="flex flex-col gap-0.5 !py-2 !px-3">
+                        <span class="font-medium text-sm">Automation</span>
+                        <span class="text-xs text-muted-foreground">Save time with workflows</span>
+                    </ui:navigationMenu.link>
+                    <ui:navigationMenu.link value="products" href="#" class="flex flex-col gap-0.5 !py-2 !px-3">
+                        <span class="font-medium text-sm">Commerce</span>
+                        <span class="text-xs text-muted-foreground">Sell online with ease</span>
+                    </ui:navigationMenu.link>
+                </div>
+            </ui:navigationMenu.content>
+            <ui:navigationMenu.content value="company" class="w-32">
+                <div class="grid grid-cols-1">
+                    <ui:navigationMenu.link value="company" href="#">About Us</ui:navigationMenu.link>
+                    <ui:navigationMenu.link value="company" href="#">Blog</ui:navigationMenu.link>
+                    <ui:navigationMenu.link value="company" href="#">Careers</ui:navigationMenu.link>
+                    <ui:navigationMenu.link value="company" href="#">Press</ui:navigationMenu.link>
+                </div>
+            </ui:navigationMenu.content>
+        </ui:navigationMenu.viewport>
+    </ui:navigationMenu.viewportPositioner>
+</ui:navigationMenu.root>

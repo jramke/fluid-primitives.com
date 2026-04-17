@@ -25,6 +25,7 @@
     - docs/components/dialog
     - docs/components/field
     - docs/components/form
+    - docs/components/navigation-menu
     - docs/components/number-input
     - docs/components/popover
     - docs/components/radio-group

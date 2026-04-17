@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
 @import './content-grid.css';
 @import './link.css';
 @import './typography.css' layer(components);

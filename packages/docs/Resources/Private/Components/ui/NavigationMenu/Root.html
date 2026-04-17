@@ -1,0 +1,8 @@
+<ui:useProps name="primitives:navigationMenu.root" />
+<ui:prop name="withViewport" type="boolean" optional="{true}" default="{false}" />
+
+<primitives:navigationMenu.root spreadProps="{true}" class="{ui:cn(value: 'isolate relative z-1 [--arrow-size:12px] [--indicator-size:10px] {class}')}">
+    <f:slot />
+</primitives:navigationMenu.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/NavigationMenu/NavigationMenu.entry.ts" />

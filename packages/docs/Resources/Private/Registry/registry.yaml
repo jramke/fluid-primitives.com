@@ -80,6 +80,22 @@ form:
     - Form.html
     - Form.entry.ts
 
+navigation-menu:
+  name: NavigationMenu
+  description: A collection of links and menus for website navigation
+  files:
+    - Arrow.html
+    - Content.html
+    - Indicator.html
+    - Item.html
+    - Link.html
+    - List.html
+    - Root.html
+    - Trigger.html
+    - Viewport.html
+    - ViewportPositioner.html
+    - NavigationMenu.entry.ts
+
 number-input:
   name: NumberInput
   description: A numeric input with increment and decrement controls
