@@ -64,7 +64,7 @@
         "carthage-software/mago": "^1.15",
         "mockery/mockery": "^1.6",
         "pestphp/pest": "^4.4",
-        "typo3/testing-framework": "^9.4"
+        "typo3/testing-framework": "^9.5"
     },
     "autoload-dev": {
         "psr-4": {
