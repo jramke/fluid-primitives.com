@@ -30,6 +30,7 @@
     - docs/components/radio-group
     - docs/components/scroll-area
     - docs/components/select
+    - docs/components/switch
     - docs/components/tabs
     - docs/components/tooltip
 

@@ -144,6 +144,16 @@ select:
     - ItemGroupLabel.html
     - Select.entry.ts
 
+switch:
+  name: Switch
+  description: A toggle component for turning a single option on or off.
+  files:
+    - Control.html
+    - Indicator.html
+    - Label.html
+    - Root.html
+    - Switch.entry.ts
+
 tabs:
   name: Tabs
   description: A component for toggling between related panels on the same page

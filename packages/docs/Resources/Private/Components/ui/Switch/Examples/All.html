@@ -1,0 +1,19 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:switch.examples.simple />
+    </f:case>
+    <f:case value="default-checked">
+        <ui:switch.examples.defaultChecked />
+    </f:case>
+    <f:case value="disabled">
+        <ui:switch.examples.disabled />
+    </f:case>
+    <f:case value="with-field">
+        <ui:switch.examples.withField />
+    </f:case>
+    <f:defaultCase>
+        <ui:switch.examples.simple />
+    </f:defaultCase>
+</f:switch>
