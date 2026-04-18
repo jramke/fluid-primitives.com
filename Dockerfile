@@ -37,19 +37,19 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copy files
 COPY . .
 
-# Remove local fluid-primitives path repository so latest release is used from Packagist
-# Then update the package to re-resolve it (lock file still points to local path)
+# Remove the local path repository and resolve the latest main-branch snapshot from Packagist
+# This keeps the Docker build aligned with the npm @next snapshot channel
 RUN composer config --unset repositories.fluid-primitives \
-    && composer update jramke/fluid-primitives --no-dev --no-scripts
+    && composer require jramke/fluid-primitives:"dev-main" --no-update \
+    && composer update jramke/fluid-primitives --with-dependencies --no-dev --no-scripts
 
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --no-scripts \
     && composer run-script post-install-cmd || true
 
-# Build frontend assets
-# Replace local file reference with published npm package (similar to composer approach above)
-RUN npm pkg set dependencies.fluid-primitives="*" \
-    && npm ci \
+# Build frontend assets using the latest published next snapshot from npm
+RUN npm ci \
+    && npm install fluid-primitives@next --no-save \
     && npm run docs:build
 
 # Copy entrypoint

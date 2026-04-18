@@ -20,6 +20,15 @@ npm install fluid-primitives
 
 {% component: "ui:alert", arguments: {"title": "Version Match", "text": "Keep the Composer and npm package versions in sync to avoid compatibility issues.", "variant": "warning"} %}
 
+### Canary Builds
+
+Need a fix before the next release? Use the canary builds:
+
+```bash
+composer require jramke/fluid-primitives:"dev-main"
+npm install fluid-primitives@next
+```
+
 ## Setup
 
 ### 1. Create a Component Collection
