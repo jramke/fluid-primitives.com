@@ -38,6 +38,26 @@ Make the popover modal to trap focus and block interaction with the rest of the 
 
 {% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.modal" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Popover",
+        "parts": [
+            ["root", "Provides popover state and context for the composed parts. Renders no wrapper element."],
+            ["trigger", "Opens and closes the popover. Renders a `<button>` element."],
+            ["positioner", "Positions the popover content relative to the trigger. Renders a `<div>` element."],
+            ["content", "Contains the popover panel content. Renders a `<div>` element."],
+            ["arrow", "Displays a decorative arrow for the popover. Renders a `<div>` element."],
+            ["indicator", "Displays a decorative state indicator. Renders a `<div>` element."],
+            ["title", "Provides the accessible title for the popover. Renders a `<div>` element."],
+            ["description", "Provides supporting descriptive text for the popover. Renders a `<div>` element."],
+            ["closeTrigger", "Closes the popover when activated. Renders a `<button>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

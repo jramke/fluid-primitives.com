@@ -60,6 +60,25 @@ Disable closing the dialog with the Escape key.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.preventCloseEscape" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Dialog",
+        "parts": [
+            ["root", "Provides dialog state and context for the composed parts. Renders no wrapper element."],
+            ["trigger", "Opens the dialog. Renders a `<button>` element."],
+            ["backdrop", "Displays the overlay behind the dialog content. Renders a `<div>` element."],
+            ["positioner", "Positions the dialog content within the viewport. Renders a `<div>` element."],
+            ["content", "Contains the dialog surface and interactive content. Renders a `<div>` element."],
+            ["title", "Provides the accessible title for the dialog. Renders a `<div>` element."],
+            ["description", "Provides supporting descriptive text for the dialog. Renders a `<div>` element."],
+            ["closeTrigger", "Closes the dialog when activated. Renders a `<button>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

@@ -31,6 +31,24 @@ Disable the entire radio group.
 
 {% component: "ui:componentExample", arguments: { "componentName": "RadioGroup.examples.disabledGroup" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "RadioGroup",
+        "parts": [
+            ["root", "Provides shared radio group state and semantics. Renders a `<div>` element."],
+            ["label", "Labels the radio group. Renders a `<span>` element."],
+            ["item", "Wraps a single radio item and makes it clickable. Renders a `<label>` element."],
+            ["itemHiddenInput", "Provides the native radio input for form submission. Renders an `<input>` element."],
+            ["itemControl", "Displays the visual radio control. Renders a `<div>` element."],
+            ["itemText", "Displays the visible label text for a radio item. Renders a `<span>` element."],
+            ["indicator", "Displays the moving selection indicator. Renders a `<div>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

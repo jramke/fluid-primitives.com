@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Command;
 
+use FluidPrimitives\Docs\Utility\DocsUtility;
 use ReflectionClass;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -109,27 +110,12 @@ class GenerateViewHelperDocsCommand extends Command
         $argumentDefinitions = $viewHelper->prepareArguments();
 
         foreach ($argumentDefinitions as $definition) {
-            $defaultValue = $definition->getDefaultValue();
-
-            // Format default value for display
-            if ($defaultValue === null) {
-                $defaultDisplay = 'null';
-            } elseif (is_bool($defaultValue)) {
-                $defaultDisplay = $defaultValue ? 'true' : 'false';
-            } elseif (is_array($defaultValue)) {
-                $defaultDisplay = empty($defaultValue) ? '[]' : json_encode($defaultValue);
-            } elseif (is_string($defaultValue)) {
-                $defaultDisplay = "'{$defaultValue}'";
-            } else {
-                $defaultDisplay = (string)$defaultValue;
-            }
-
             $args[] = [
                 'name' => $definition->getName(),
-                'type' => $definition->getType(),
+                'type' => DocsUtility::displayType($definition->getType()),
                 'description' => $definition->getDescription(),
                 'required' => $definition->isRequired(),
-                'default' => $defaultDisplay,
+                'default' => DocsUtility::displayValue($definition->getDefaultValue()),
             ];
         }
 
@@ -160,6 +146,7 @@ class GenerateViewHelperDocsCommand extends Command
         if (empty($arguments)) {
             $markdown .= "\n_None_\n";
         } else {
+            // TODO: align with structure from component api table
             // Table header
             $markdown .= "\n| Name | Type | Description | Required | Default |\n";
             $markdown .= "|------|------|-------------|----------|--------|\n";

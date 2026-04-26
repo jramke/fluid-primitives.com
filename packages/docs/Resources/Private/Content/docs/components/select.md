@@ -51,6 +51,32 @@ Use with the Field component for form validation.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Select.examples.withField" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Select",
+        "parts": [
+            ["root", "Provides shared select state and wraps all related parts. Renders a `<div>` element."],
+            ["label", "Labels the select. Renders a `<label>` element."],
+            ["control", "Groups the trigger and optional clear button. Renders a `<div>` element."],
+            ["trigger", "Opens and closes the select menu. Renders a `<button>` element."],
+            ["valueText", "Displays the selected value or placeholder text. Renders a `<span>` element."],
+            ["indicator", "Displays a decorative indicator for the trigger. Renders a `<span>` element."],
+            ["clearTrigger", "Clears the current selection. Renders a `<button>` element."],
+            ["positioner", "Positions the floating select content. Renders a `<div>` element."],
+            ["content", "Contains the selectable options. Renders a `<div>` element."],
+            ["itemGroup", "Groups related options together. Renders a `<div>` element."],
+            ["itemGroupLabel", "Labels a group of related options. Renders a `<div>` element."],
+            ["item", "Represents a selectable option. Renders a `<div>` element."],
+            ["itemText", "Displays the text content of an option. Renders a `<span>` element."],
+            ["itemIndicator", "Displays the selected-state indicator for an option. Renders a `<div>` element."],
+            ["hiddenSelect", "Provides the native `<select>` element for form submission. Renders a `<select>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

@@ -32,6 +32,22 @@ Support scrolling in both vertical and horizontal directions.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ScrollArea.examples.bothDirections" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "ScrollArea",
+        "parts": [
+            ["root", "Provides the scroll area container and shared state. Renders a `<div>` element."],
+            ["viewport", "Provides the native scrollable viewport. Renders a `<div>` element."],
+            ["content", "Wraps the scrollable content to measure its size. Renders a `<div>` element."],
+            ["scrollbar", "Displays a custom scrollbar track. Renders a `<div>` element."],
+            ["thumb", "Displays the draggable scrollbar thumb. Renders a `<div>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

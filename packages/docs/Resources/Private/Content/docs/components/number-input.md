@@ -46,6 +46,25 @@ Enable changing the value with the mouse wheel when the input is focused.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NumberInput.examples.mouseWheel" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "NumberInput",
+        "parts": [
+            ["root", "Provides shared number input state and wraps all related parts. Renders a `<div>` element."],
+            ["label", "Labels the number input. Renders a `<label>` element."],
+            ["control", "Groups the input and stepper triggers. Renders a `<div>` element."],
+            ["input", "Provides the editable spinbutton input. Renders an `<input>` element."],
+            ["incrementTrigger", "Increases the current value. Renders a `<button>` element."],
+            ["decrementTrigger", "Decreases the current value. Renders a `<button>` element."],
+            ["scrubber", "Allows changing the value by dragging. Renders a `<div>` element."],
+            ["valueText", "Displays the formatted value as text. Renders a `<span>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

@@ -51,6 +51,23 @@ Use with the Checkbox component.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Field.examples.withCheckbox" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Field",
+        "skipZag": true,
+        "parts": [
+            ["root", "Provides shared field state for labels, descriptions, errors, and controls. Renders a `<div>` element."],
+            ["label", "Labels the associated form control. Renders a `<label>` element."],
+            ["control", "Wraps the slotted form control and wires up shared field attributes. Renders the element defined by the `asChild` prop."],
+            ["description", "Displays help or supporting text for the field. Renders a `<div>` element."],
+            ["error", "Displays validation error messages for the field. Renders a `<div>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

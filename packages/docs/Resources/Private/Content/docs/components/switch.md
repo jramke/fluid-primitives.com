@@ -38,6 +38,23 @@ Use the switch with the Field component for descriptions and validation.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Switch.examples.withField" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Switch",
+        "parts": [
+            ["root", "Groups the switch control, label, and input into one interactive label. Renders a `<label>` element."],
+            ["label", "Displays the visible label text for the switch. Renders a `<span>` element."],
+            ["control", "Displays the visual switch track. Renders a `<span>` element."],
+            ["thumb", "Displays the movable thumb inside the switch track. Renders a `<span>` element."],
+            ["indicator", "Displays UI for a specific switch state. Renders a `<span>` element."],
+            ["hiddenInput", "Provides the native checkbox input for form submission. Renders an `<input>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

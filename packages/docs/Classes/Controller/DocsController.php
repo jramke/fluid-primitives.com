@@ -8,6 +8,7 @@ use FluidPrimitives\Docs\Domain\Model\EventRegistration;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
+use FluidPrimitives\Docs\Utility\DocsUtility;
 use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
@@ -82,7 +83,7 @@ final class DocsController extends ActionController
         [$meta, $markdown] = $this->parseMarkdownFile($filePath);
 
         $processedMarkdown = $this->processFluidTemplates($markdown);
-        $converter = $this->getMarkdownConverter();
+        $converter = DocsUtility::getMarkdownConverter();
         $converted = $converter->convert($processedMarkdown);
 
         $document = $converted->getDocument();
@@ -98,6 +99,7 @@ final class DocsController extends ActionController
         $content = $renderer->renderDocument($document);
 
         $content = $this->wrapCodeBlocks($content->getContent());
+        $content = $this->wrapTables($content);
 
         if ($toc) {
             $toc = $renderer->renderNodes([$toc]);
@@ -151,51 +153,10 @@ final class DocsController extends ActionController
         return parent::errorAction();
     }
 
-    private function getMarkdownConverter(): MarkdownConverter
-    {
-        if ($this->converter === null) {
-            $environment = new Environment([
-                'heading_permalink' => [
-                    'min_heading_level' => 2,
-                    'max_heading_level' => 3,
-                    'apply_id_to_heading' => true,
-                    'title' => '',
-                    'symbol' => '',
-                    'insert' => 'after',
-                ],
-                'external_link' => [
-                    'internal_hosts' => $_SERVER['HTTP_HOST'],
-                    'open_in_new_window' => true,
-                ],
-                'table_of_contents' => [
-                    'html_class' => 'table-of-contents',
-                    'position' => 'top',
-                    'style' => 'bullet',
-                    'min_heading_level' => 2,
-                    'max_heading_level' => 3,
-                    'normalize' => 'relative',
-                    'placeholder' => null,
-                ],
-            ]);
-
-            $environment
-                ->addExtension(new CommonMarkCoreExtension())
-                ->addExtension(new PhikiCommonMarkExtension(Theme::GithubLight))
-                ->addExtension(new HeadingPermalinkExtension())
-                ->addExtension(new TableOfContentsExtension())
-                ->addExtension(new ExternalLinkExtension())
-                ->addExtension(new TableExtension());
-
-            $this->converter = new MarkdownConverter($environment);
-        }
-
-        return $this->converter;
-    }
-
     private function processFluidTemplates(string $markdown): string
     {
         return preg_replace_callback(
-            '/{% component:\s*"([^"]+)"(?:,\s*arguments:\s*({.*?}))?\s*%}/',
+            '/\{%\s*component:\s*"([^"]+)"(?:,\s*arguments:\s*(\{.*?\}))?\s*%\}/s',
             function ($matches) {
                 $fullViewHelperName = $matches[1];
                 $arguments = isset($matches[2]) ? json_decode($matches[2], true) ?? [] : [];
@@ -277,6 +238,15 @@ final class DocsController extends ActionController
         // Match <pre> tags that do NOT have class="not-code-block"
         $pattern = '/(<pre\b(?![^>]*\bclass\s*=\s*["\'][^"\']*\bnot-code-block\b[^"\']*["\']).*?<\/pre>)/is';
         $replacement = '<div class="code-block"><div>$1</div></div>';
+
+        return preg_replace($pattern, $replacement, $html);
+    }
+
+    private function wrapTables(string $html): string
+    {
+        // Match <table> tags that do NOT have class="not-prose"
+        $pattern = '/(<table\b(?![^>]*\bclass\s*=\s*["\'][^"\']*\bnot-prose\b[^"\']*["\']).*?<\/table>)/is';
+        $replacement = '<div class="table-wrapper">$1</div>';
 
         return preg_replace($pattern, $replacement, $html);
     }

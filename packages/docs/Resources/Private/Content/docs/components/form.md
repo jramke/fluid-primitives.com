@@ -20,10 +20,23 @@
 
 {% component: "ui:installationSection", arguments: { "name": "Form" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Form",
+        "skipZag": true,
+        "parts": [
+            ["", "Submits and manages the form state. Renders a `<form>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html
-<primitives:form.root>
+<primitives:form>
     <primitives:field.root>
         <primitives:field.label />
         <primitives:field.control asChild="{true}">
@@ -31,6 +44,5 @@
         </primitives:field.control>
         <primitives:field.error />
     </primitives:field.root>
-    <primitives:form.submit />
-</primitives:form.root>
+</primitives:form>
 ```

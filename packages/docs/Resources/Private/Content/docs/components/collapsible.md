@@ -30,6 +30,21 @@ Prevent the collapsible from being toggled.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Collapsible.examples.disabled" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Collapsible",
+        "parts": [
+            ["root", "Provides the collapsible state and wraps the trigger and content. Renders a `<div>` element."],
+            ["trigger", "Toggles the collapsible open and closed. Renders a `<button>` element."],
+            ["triggerText", "Displays alternate text for the open and closed states. Renders a `<span>` element."],
+            ["content", "Contains the collapsible content region. Renders a `<div>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

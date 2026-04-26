@@ -50,6 +50,22 @@ Common pattern for icon-only buttons that need accessible labels.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Tooltip.examples.iconButton" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Tooltip",
+        "parts": [
+            ["root", "Provides tooltip state and context for the composed parts. Renders no wrapper element."],
+            ["trigger", "Acts as the anchor that opens the tooltip. Renders a `<button>` element."],
+            ["positioner", "Positions the tooltip content relative to the trigger. Renders a `<div>` element."],
+            ["content", "Displays the tooltip bubble content. Renders a `<div>` element."],
+            ["arrow", "Displays a decorative tooltip arrow. Renders a `<div>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

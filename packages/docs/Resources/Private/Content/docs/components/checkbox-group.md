@@ -50,44 +50,31 @@ Implement a "Select All" checkbox that toggles all options.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroup.examples.selectAll" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "CheckboxGroup",
+        "skipZag": true,
+        "parts": [
+            ["root", "Provides shared state for a group of related checkboxes. Renders a `<div>` element."],
+            ["label", "Labels the checkbox group. Renders a `<span>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html
 <primitives:checkboxGroup.root>
     <primitives:checkboxGroup.label />
-    <primitives:checkboxGroup.item>
-        <primitives:checkboxGroup.itemControl>
-            <primitives:checkboxGroup.itemIndicator />
-        </primitives:checkboxGroup.itemControl>
-        <primitives:checkboxGroup.itemText />
-        <primitives:checkboxGroup.itemHiddenInput />
-    </primitives:checkboxGroup.item>
+    <primitives:checkbox.root>
+        <primitives:checkbox.control>
+            <primitives:checkbox.indicator />
+        </primitives:checkbox.control>
+        <primitives:checkbox.label />
+        <primitives:checkbox.hiddenInput />
+    </primitives:checkbox.root>
 </primitives:checkboxGroup.root>
 ```
-
-## API Reference
-
-### Root
-
-The container for the checkbox group.
-
-| Prop                | Type      | Default | Description                                       |
-| ------------------- | --------- | ------- | ------------------------------------------------- |
-| `defaultValue`      | `array`   | `[]`    | Array of values that should be checked by default |
-| `name`              | `string`  | -       | Name attribute for form submission                |
-| `form`              | `string`  | -       | Associates the group with a form element          |
-| `disabled`          | `boolean` | `false` | Disables all checkboxes in the group              |
-| `readOnly`          | `boolean` | `false` | Makes all checkboxes read-only                    |
-| `required`          | `boolean` | `false` | Marks the group as required                       |
-| `invalid`           | `boolean` | `false` | Marks the group as invalid                        |
-| `maxSelectedValues` | `integer` | -       | Maximum number of checkboxes that can be selected |
-
-### Item
-
-An individual checkbox item.
-
-| Prop       | Type      | Default      | Description                     |
-| ---------- | --------- | ------------ | ------------------------------- |
-| `value`    | `string`  | **required** | Unique value for this checkbox  |
-| `disabled` | `boolean` | `false`      | Disables this specific checkbox |
-| `invalid`  | `boolean` | `false`      | Marks this checkbox as invalid  |

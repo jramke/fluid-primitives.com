@@ -30,6 +30,23 @@ Disable specific accordion items to prevent interaction.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.disabled" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Accordion",
+        "parts": [
+            ["root", "Groups all parts of the accordion. Renders a `<div>` element."],
+            ["item", "Groups an accordion header with the corresponding content. Renders a `<div>` element."],
+            ["itemHeader", "A heading that labels the corresponding content. Renders an `<h3>` element."],
+            ["itemContent", "The content of the accordion item. Renders a `<div>` element."],
+            ["itemTrigger", "A button that opens and closes the corresponding item. Renders a `<button>` element."],
+            ["itemIndicator", "An optional visual indicator that can be used to show the open/closed state of the item. Renders a `<div>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

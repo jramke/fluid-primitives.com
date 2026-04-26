@@ -151,18 +151,80 @@
 		content: none;
 	}
 
+	.table-wrapper {
+		--border-offset-size: 20px;
+		@variant lg {
+			--border-offset-size: 40px;
+		}
+
+		overflow-x: auto;
+		margin-left: calc(var(--border-offset-size) * -1);
+		margin-right: calc(var(--border-offset-size) * -1);
+		margin-block: 8px;
+		position: relative;
+
+		@supports (animation-timeline: scroll()) {
+			mask:
+				linear-gradient(to right, var(--smooth-gradient-stops-white-transparent)) 0 50% / 0 100%
+					no-repeat,
+				linear-gradient(white, white) 50% 50% / 100% 100% no-repeat,
+				linear-gradient(to right, var(--smooth-gradient-stops-transparent-white)) 100% 50% / 50px
+					100% no-repeat;
+			mask-composite: exclude;
+			animation:
+				scroll-mask-left both linear,
+				scroll-mask-right both linear;
+			animation-timeline: scroll(self x);
+			animation-range:
+				0 2rem,
+				calc(100% - 2rem) 100%;
+		}
+	}
+
 	table:where(:not(.not-prose, .not-prose *)) {
-		width: 100%;
+		position: relative;
 		table-layout: auto;
-		margin-top: 2em;
-		margin-bottom: 2em;
 		font-size: var(--text-sm);
 		line-height: 1.4;
+
+		&:before {
+			content: '';
+			@apply bg-background mask-r-from-20%;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			height: 100%;
+			width: var(--border-offset-size);
+		}
+		&:after {
+			content: '';
+			@apply bg-background mask-l-from-20%;
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			height: 100%;
+			width: var(--border-offset-size);
+		}
+
+		&:has(+ h2, + h3, + h4) {
+			margin-bottom: calc(-1 * var(--border-offset-size) * 0.35);
+		}
 	}
 
 	thead:where(:not(.not-prose, .not-prose *)) {
 		border-bottom-width: 1px;
+		border-bottom-style: dashed;
 		border-bottom-color: var(--prose-th-borders);
+
+		&:before {
+			content: '';
+			@apply bg-background mask-b-from-20%;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			height: var(--border-offset-size);
+			width: 100%;
+		}
 	}
 
 	thead th:where(:not(.not-prose, .not-prose *)) {
@@ -172,27 +234,56 @@
 		padding-inline-end: 0.6em;
 		padding-bottom: 0.8em;
 		padding-inline-start: 0.6em;
+		padding-top: var(--border-offset-size);
 	}
 
 	thead th:first-child:where(:not(.not-prose, .not-prose *)) {
-		padding-inline-start: 0;
+		padding-inline-start: var(--border-offset-size);
 	}
 
 	thead th:last-child:where(:not(.not-prose, .not-prose *)) {
-		padding-inline-end: 0;
+		padding-inline-end: var(--border-offset-size);
+	}
+
+	thead th:where(:not(.not-prose, .not-prose *)):not(:last-child) {
+		border-right-width: 1px;
+		border-right-color: var(--prose-td-borders);
+		border-right-style: dashed;
+	}
+
+	tbody:where(:not(.not-prose, .not-prose *)) {
+		&:before {
+			content: '';
+			@apply bg-background mask-t-from-20%;
+			position: absolute;
+			bottom: 0px;
+			left: 0px;
+			height: var(--border-offset-size);
+			width: 100%;
+		}
 	}
 
 	tbody tr:where(:not(.not-prose, .not-prose *)) {
 		border-bottom-width: 1px;
 		border-bottom-color: var(--prose-td-borders);
+		border-bottom-style: dashed;
 	}
 
 	tbody tr:last-child:where(:not(.not-prose, .not-prose *)) {
-		border-bottom-width: 0;
+		/* border-bottom-width: 0; */
+
+		td {
+			padding-bottom: var(--border-offset-size);
+		}
 	}
 
 	tbody td:where(:not(.not-prose, .not-prose *)) {
 		vertical-align: baseline;
+	}
+	tbody td:where(:not(.not-prose, .not-prose *)):not(:last-child) {
+		border-right-width: 1px;
+		border-right-color: var(--prose-td-borders);
+		border-right-style: dashed;
 	}
 
 	tfoot:where(:not(.not-prose, .not-prose *)) {
@@ -214,12 +305,12 @@
 
 	tbody td:first-child:where(:not(.not-prose, .not-prose *)),
 	tfoot td:first-child:where(:not(.not-prose, .not-prose *)) {
-		padding-inline-start: 0;
+		padding-inline-start: var(--border-offset-size);
 	}
 
 	tbody td:last-child:where(:not(.not-prose, .not-prose *)),
 	tfoot td:last-child:where(:not(.not-prose, .not-prose *)) {
-		padding-inline-end: 0;
+		padding-inline-end: var(--border-offset-size);
 	}
 
 	th:where(:not(.not-prose, .not-prose *)),
@@ -229,6 +320,11 @@
 
 	td code:where(:not(.not-prose, .not-prose *)) {
 		font-size: 0.8125rem;
+	}
+
+	td pre:where(:not(.not-prose, .not-prose *)) {
+		@apply p-0 border-none;
+		line-height: inherit;
 	}
 
 	hr:where(:not(.not-prose, .not-prose *)) {

@@ -1,5 +1,6 @@
 .prose-component {
-	&:has(.installation-tabs) {
+	&:has(.installation-tabs),
+	&:has(.component-props-table) {
 		@apply full-width;
 	}
 }

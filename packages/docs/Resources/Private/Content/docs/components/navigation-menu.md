@@ -38,6 +38,31 @@ Use `withViewport="{true}"` to render dropdown content inside a shared viewport.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NavigationMenu.examples.withViewport" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "NavigationMenu",
+        "parts": [
+            ["root", "Provides shared navigation menu state and semantics. Renders a `<nav>` element."],
+            ["list", "Groups the top-level navigation items. Renders a `<ul>` element."],
+            ["item", "Wraps a single navigation item and its related parts. Renders an `<li>` element."],
+            ["trigger", "Opens and closes the related navigation content. Renders a `<button>` element."],
+            ["triggerProxy", "Provides a hidden focus proxy for shared viewport behavior. Renders a `<span>` element."],
+            ["link", "Renders a navigational link item. Renders an `<a>` element."],
+            ["indicatorTrack", "Provides a track for the active-item indicator. Renders a `<div>` element."],
+            ["indicator", "Displays the shared active-item indicator. Renders a `<div>` element."],
+            ["itemIndicator", "Displays an indicator for an open item. Renders a `<div>` element."],
+            ["content", "Contains the popup content for a navigation item. Renders a `<div>` element."],
+            ["viewportPositioner", "Positions the shared viewport element. Renders a `<div>` element."],
+            ["viewport", "Displays the shared viewport that can host item content. Renders a `<div>` element."],
+            ["viewportProxy", "Provides a proxy element used to size and align the viewport. Renders a `<span>` element."],
+            ["arrow", "Displays a decorative arrow for the indicator or content. Renders a `<div>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

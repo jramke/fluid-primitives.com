@@ -37,6 +37,22 @@ Prevent interaction with the checkbox.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Checkbox.examples.disabled" } %}
 
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Checkbox",
+        "parts": [
+            ["root", "Groups the checkbox control, label, and input into one interactive label. Renders a `<label>` element."],
+            ["hiddenInput", "Provides the native checkbox input for form submission and browser integration. Renders an `<input>` element."],
+            ["control", "Displays the visual checkbox box that reflects the checked state. Renders a `<div>` element."],
+            ["indicator", "Displays the checked or indeterminate indicator inside the control. Renders a `<div>` element."],
+            ["label", "Displays the visible label text for the checkbox. Renders a `<span>` element."]
+        ]
+    }
+%}
+
 ## Anatomy
 
 ```html

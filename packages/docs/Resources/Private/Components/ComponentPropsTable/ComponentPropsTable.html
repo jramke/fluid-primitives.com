@@ -1,0 +1,47 @@
+<ui:prop name="name" type="string" />
+<ui:prop name="parts" type="array" />
+<ui:prop name="skipZag" type="boolean" optional="{true}" default="{false}" />
+
+<div class="component-props-table">
+    <div class="content-grid">
+        <p>
+            The following tables cover the available props of the Fluid Primitives.
+            <f:if condition="!{skipZag}">
+                For a full list of available client side props and methods, see the <a href="https://zagjs.com/components/react/{context.nameLowerCaseDashed}#methods-and-properties" target="_blank" rel="noopener noreferrer">Zag.js Machine API</a>.
+            </f:if>
+        </p>
+
+        <f:for each="{context.partsWithProps}" as="part" iteration="i">
+            <h3>{part.name}</h3>
+            <div class="mt-2">{part.description -> f:format.raw()}</div>
+            <f:if condition="{part.props}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <f:for each="{part.props}" as="prop">
+                            <tr>
+                                <td><code>{prop.name}</code></td>
+                                <td>
+                                    <span class="mb-2 inline-block"><code>{prop.type}</code></span><br />
+                                    {prop.description}
+                                </td>
+                                <td>{prop.required}</td>
+                                <td>
+                                    <pre class="not-code-block text-xs">{prop.default}</pre>
+                                </td>
+                            </tr>
+                        </f:for>
+                    </tbody>
+                </table>
+            </f:if>
+        </f:for>
+    </div>
+
+</div>
