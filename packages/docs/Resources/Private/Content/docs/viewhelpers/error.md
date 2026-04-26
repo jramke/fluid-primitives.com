@@ -19,6 +19,6 @@ This is useful inside components to throw errors for required props or other mis
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `when` | bool | The condition that triggers the exception | Yes | null |
+| `when` | bool | The condition that triggers the exception | Yes | - |
 | `message` | string | The exception message | No | 'An error occurred in Fluid.' |
 | `code` | int | The exception code | No | 1759132287 |

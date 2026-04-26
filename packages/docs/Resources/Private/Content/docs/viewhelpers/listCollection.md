@@ -43,10 +43,10 @@ Grouped example:
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `as` | string | Variable name to assign the result to | No | null |
-| `items` | ListCollectionItem | The items of the collection. `{value: string, label: string, disabled: boolean}` | Yes | null |
-| `itemToValueKey` | string | The key to use for the item value. | No | null |
-| `itemToStringKey` | string | The key to use for the item label. | No | null |
-| `isItemDisabledKey` | string | The key to use for the item disabled state. | No | null |
-| `groupByKey` | string | The key to use for grouping items. | No | null |
-| `groupSort` | array\|string | Sorting for groups. | No | null |
+| `as` | string | Variable name to assign the result to | No | - |
+| `items` | array | The items of the collection. `{value: string, label: string, disabled: boolean}` | Yes | - |
+| `itemToValueKey` | string | The key to use for the item value. | No | - |
+| `itemToStringKey` | string | The key to use for the item label. | No | - |
+| `isItemDisabledKey` | string | The key to use for the item disabled state. | No | - |
+| `groupByKey` | string | The key to use for grouping items. | No | - |
+| `groupSort` | array\|string | Sorting for groups. | No | - |

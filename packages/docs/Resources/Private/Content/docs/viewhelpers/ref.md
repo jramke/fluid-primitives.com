@@ -34,6 +34,6 @@ This will generate:
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | Name of the ref | Yes | null |
+| `name` | string | Name of the ref | Yes | - |
 | `asArray` | boolean | If true, the ref will be rendered as an array instead of a string of data-attributes | No | false |
 | `data` | array | Additional data attributes to include in the ref. Associative array with key-value pairs. Each key is prefixed with "data-". | No | [] |

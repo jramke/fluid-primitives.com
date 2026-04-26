@@ -36,6 +36,6 @@ This prop is automatically added to components that use the `ui:attributes` View
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `skip` | string | A comma-separated list of attributes to skip | No | null |
-| `only` | string | A comma-separated list of attributes to include. All other attributes will be skipped | No | null |
+| `skip` | string | A comma-separated list of attributes to skip | No | - |
+| `only` | string | A comma-separated list of attributes to include. All other attributes will be skipped | No | - |
 | `asArray` | boolean | If true, the attributes will be rendered as an array instead of a string. Useful when you need to pass the attributes to a Tag-ViewHelper with the `additionalAttributes` argument | No | false |

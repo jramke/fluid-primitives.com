@@ -22,7 +22,7 @@ Example:
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | The name under which the hydration data should be exposed | Yes | null |
-| `id` | string | An optional identifier for the hydration data. If not provided, a unique id will be generated. | No | null |
-| `props` | mixed | The props/data to expose to the client | Yes | null |
+| `name` | string | The name under which the hydration data should be exposed | Yes | - |
+| `id` | string | An optional identifier for the hydration data. If not provided, a unique id will be generated. | No | - |
+| `props` | mixed | The props/data to expose to the client | Yes | - |
 | `controlled` | boolean | Whether the hydration data is for a controlled component | No | false |

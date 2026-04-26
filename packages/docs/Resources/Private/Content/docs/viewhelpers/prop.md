@@ -23,10 +23,11 @@ It mirrors the API of `f:argument` but adds some additional features like exposi
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | name of the template argument | Yes | null |
-| `type` | string | type of the template argument | Yes | null |
-| `description` | string | description of the template argument | No | null |
+| `name` | string | name of the template argument | Yes | - |
+| `type` | string | type of the template argument | Yes | - |
+| `description` | string | description of the template argument | No | - |
 | `optional` | boolean | true if the defined argument should be optional | No | false |
-| `default` | mixed | default value for optional argument | No | null |
+| `default` | mixed | default value for optional argument | No | - |
 | `client` | boolean | Whether the property should be exposed to the client hydration data. See [Hydration](/docs/core-concepts/hydration) for more information. | No | false |
 | `context` | boolean | Whether the property should be exposed to the components context. See [Context](/docs/core-concepts/context) for more information. | No | false |
+| `requiredAtRuntime` | boolean | Whether the property is required at runtime. This means that the component will throw an error if the property is not defined when rendering. This is used internally by the primitives so props spreading works. | No | false |

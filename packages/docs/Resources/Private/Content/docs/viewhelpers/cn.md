@@ -33,6 +33,6 @@ This will render the classes and if the component consumer passes a `class` prop
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `value` | string | The class input string to process | No | null |
-| `when` | array | Array of conditional classes where key is class(es) and value is condition | No | null |
-| `as` | string | Variable name to assign the result to | No | null |
+| `value` | string | The class input string to process | No | - |
+| `when` | array | Array of conditional classes where key is class(es) and value is condition | No | - |
+| `as` | string | Variable name to assign the result to | No | - |

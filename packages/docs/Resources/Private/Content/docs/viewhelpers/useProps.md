@@ -41,6 +41,6 @@ If a prop for a primitive is required, we use the [ui:error](./error) ViewHelper
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | Name of component to use the props from | Yes | null |
+| `name` | string | Name of component to use the props from | Yes | - |
 | `defaults` | array | Default values for props to override the imported ones. Key-value pairs | No | [] |
 | `props` | array | Only use a subset of props from the referenced component. Value should be an array of prop names. | No | [] |

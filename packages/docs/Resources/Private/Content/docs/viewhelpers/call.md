@@ -21,6 +21,6 @@ Used internally and exposed for convenience.
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `object` | object | The object to call a method on | No | null |
-| `method` | string | The method name to call | Yes | null |
+| `object` | object | The object to call a method on | No | - |
+| `method` | string | The method name to call | Yes | - |
 | `arguments` | array | Arguments to pass to the method | No | [] |
