@@ -8,6 +8,7 @@ use FluidPrimitives\Docs\Registry\ComponentRegistry;
 use FluidPrimitives\Docs\Services\UmamiService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
@@ -18,6 +19,7 @@ final class RegistryMiddleware implements MiddlewareInterface
     public function __construct(
         private readonly ComponentRegistry $componentRegistry,
         private readonly UmamiService $umamiService,
+        private readonly StreamFactoryInterface $streamFactory,
     ) {}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -92,7 +94,13 @@ final class RegistryMiddleware implements MiddlewareInterface
         }
 
         $path = $c->basePath . $file;
-        $stream = fopen($path, 'rb');
+
+        $resource = fopen($path, 'rb');
+        if ($resource === false) {
+            return new Response('File not readable', 500);
+        }
+
+        $stream = $this->streamFactory->createStreamFromResource($resource);
 
         return new Response($stream, 200, array_merge($this->headers(), [
             'Content-Type' => 'text/plain; charset=utf-8',
