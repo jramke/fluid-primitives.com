@@ -401,4 +401,11 @@ FileETag None
     RewriteRule ^(.*)$ https://fluid-primitives.com/$1 [R=301,L]
 </IfModule>
 
+# Allow registry entry files
+<IfModule mod_authz_core.c>
+	<If "%{REQUEST_URI} =~ m#^/registry/components/[^/]+/files/[^/]+\.ts$#">
+		Require all granted
+	</If>
+</IfModule>
+
 # SetEnv TYPO3_CONTEXT Production/Local
