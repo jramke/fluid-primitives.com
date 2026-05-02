@@ -29,6 +29,11 @@ export const Nested: StoryObj = {
 		example_id: 'nested',
 	},
 };
+export const WithPopover: StoryObj = {
+	args: {
+		example_id: 'with-popover',
+	},
+};
 export const InsideScroll: StoryObj = {
 	args: {
 		example_id: 'inside-scroll',

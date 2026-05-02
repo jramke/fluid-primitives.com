@@ -35,6 +35,12 @@ Open a dialog from within another dialog.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.nested" } %}
 
+### Popover Inside Dialog
+
+Render a popover inside dialog content when you need anchored secondary actions without breaking dialog focus management.
+
+{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.withPopover" } %}
+
 ### Scrollable Outside
 
 The dialog positioner can scroll when the content exceeds the viewport height, so the entire dialog can scroll together.
