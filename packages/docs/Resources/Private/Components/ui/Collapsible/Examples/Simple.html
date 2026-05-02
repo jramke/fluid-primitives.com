@@ -1,7 +1,8 @@
 <ui:collapsible.root class="w-48 text-sm">
     <ui:collapsible.trigger class="group cursor-pointer rounded-md bg-accent px-1.5 py-1 font-semibold w-full flex items-center gap-1.5">
         <div class="group-data-[state=open]:rotate-90 transition-transform size-4 leading-none grid place-items-center">▶</div>
-        <ui:collapsible.triggerText openText="Show recovery keys" closeText="Hide recovery keys" />
+        <ui:collapsible.indicator state="closed">Show recovery keys</ui:collapsible.indicator>
+        <ui:collapsible.indicator state="open">Hide recovery keys</ui:collapsible.indicator>
     </ui:collapsible.trigger>
     <ui:collapsible.content>
         <div class="mt-2 flex flex-col gap-1.5 rounded-md bg-accent py-2 px-3">

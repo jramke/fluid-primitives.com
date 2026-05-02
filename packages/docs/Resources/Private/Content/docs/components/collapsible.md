@@ -39,7 +39,7 @@ Prevent the collapsible from being toggled.
         "parts": [
             ["root", "Provides the collapsible state and wraps the trigger and content. Renders a `<div>` element."],
             ["trigger", "Toggles the collapsible open and closed. Renders a `<button>` element."],
-            ["triggerText", "Displays alternate text for the open and closed states. Renders a `<span>` element."],
+            ["indicator", "Displays state-specific content inside the trigger. Use `state=\"open\"` and `state=\"closed\"`. Renders a `<span>` element."],
             ["content", "Contains the collapsible content region. Renders a `<div>` element."]
         ]
     }
@@ -50,7 +50,8 @@ Prevent the collapsible from being toggled.
 ```html
 <primitives:collapsible.root>
     <primitives:collapsible.trigger>
-        <primitives:collapsible.triggerText />
+        <primitives:collapsible.indicator state="closed" />
+        <primitives:collapsible.indicator state="open" />
     </primitives:collapsible.trigger>
     <primitives:collapsible.content />
 </primitives:collapsible.root>
