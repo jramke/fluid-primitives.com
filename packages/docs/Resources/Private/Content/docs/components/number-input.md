@@ -46,6 +46,22 @@ Enable changing the value with the mouse wheel when the input is focused.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NumberInput.examples.mouseWheel" } %}
 
+### Localization
+
+Default increment and decrement labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop. Set a translation entry to `{false}` or an empty string to omit the corresponding aria-label.
+
+```html
+<f:variable
+    name="numberInputTranslations"
+    value="{
+        incrementLabel: '{f:translate(key: \'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:forms.quantity.increase\')}',
+        decrementLabel: '{f:translate(key: \'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:forms.quantity.decrease\')}'
+    }"
+/>
+
+<ui:numberInput.root translations="{numberInputTranslations}"> ... </ui:numberInput.root>
+```
+
 ## API Reference
 
 {%

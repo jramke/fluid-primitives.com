@@ -38,6 +38,20 @@ Make the popover modal to trap focus and block interaction with the rest of the 
 
 {% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.modal" } %}
 
+### Localization
+
+Default close trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop. Set `closeTriggerLabel` to `{false}` or an empty string to omit the `aria-label`.
+
+```html
+<ui:popover.root
+    translations="{
+        closeTriggerLabel: f:translate(key: 'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:popover.close')
+    }"
+>
+    ...
+</ui:popover.root>
+```
+
 ## API Reference
 
 {%

@@ -51,6 +51,21 @@ Use with the Field component for form validation.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Select.examples.withField" } %}
 
+### Localization
+
+Default clear trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop. Set `clearTriggerLabel` to `{false}` or an empty string to omit the `aria-label`.
+
+```html
+<ui:select.root
+    collection="{myCollection}"
+    translations="{
+        clearTriggerLabel: f:translate(key: 'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:select.clear')
+    }"
+>
+    ...
+</ui:select.root>
+```
+
 ## API Reference
 
 {%

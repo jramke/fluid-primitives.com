@@ -30,6 +30,24 @@ Set a custom duration for how long the "copied" state is shown.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Clipboard.examples.customTimeout" } %}
 
+### Localization
+
+Default clipboard trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop. Set a translation entry to `{false}` or an empty string to omit the corresponding `aria-label`.
+
+Note that Zag.js uses a function for the trigger label to allow dynamic labels based on the copied state. Fluid Primitives simplifies this by accepting static strings for both states, which are then merged into the appropriate function internally.
+
+```html
+<f:variable
+    name="clipboardTranslations"
+    value="{
+        triggerLabelIdle: '{f:translate(key: \'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:clipboard.copy\')}',
+        triggerLabelCopied: '{f:translate(key: \'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:clipboard.copied\')}'
+    }"
+/>
+
+<ui:clipboard.root value="Copy me" translations="{clipboardTranslations}"> ... </ui:clipboard.root>
+```
+
 ## API Reference
 
 {%
