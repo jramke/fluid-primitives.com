@@ -9,7 +9,7 @@
     </ui:alert.title>
     <f:if condition="{text}">
         <ui:alert.content>
-            <p>{text}</p>
+            {text -> docs:markdown()}
         </ui:alert.content>
     </f:if>
 </ui:alert.root>

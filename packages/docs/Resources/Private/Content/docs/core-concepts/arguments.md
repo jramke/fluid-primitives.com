@@ -1,4 +1,4 @@
-# Arguments (Props)
+# Arguments
 
 Components accept typed arguments called props. Fluid Primitives extends Fluid's built-in argument system with additional features.
 
@@ -13,6 +13,18 @@ Use `ui:prop` instead of Fluid's `f:argument`:
 ```
 
 See the [ui:prop ViewHelper reference](/docs/viewhelpers/prop) for all options.
+
+### Enum Props
+
+Some props use PHP backed enums. Until Fluid supports automatic enum conversion, pass enum cases with `f:constant`. This should get better once [PR #1271](https://github.com/TYPO3/Fluid/pull/1271) lands.
+
+```html
+<ui:tabs.root
+    orientation="{f:constant(name: '
+        Jramke\FluidPrimitives\Enum\Orientation::Horizontal
+    ')}"
+/>
+```
 
 ## Automatic Props
 
@@ -33,6 +45,8 @@ Inside your component, use `{class}` to apply them:
     <f:slot />
 </button>
 ```
+
+See [ui:cn ViewHelper](/docs/viewhelpers/cn) for conditional class names.
 
 ### `rootId`
 

@@ -57,6 +57,7 @@ class ComponentPropsTableContext extends AbstractComponentContext
                 'description' => $propDefinition->getDescription(),
                 'required' => $propDefinition->isRequired() || $hasRequiredAtRuntimeAnnotation ? 'Yes' : 'No',
                 'default' => DocsUtility::displayValue($propDefinition->getDefaultValue()),
+                'cases' => DocsUtility::getCasesStringFromType($propDefinition->getType()),
             ];
             $propsInfo[] = $propInfo;
         }

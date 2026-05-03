@@ -35,7 +35,23 @@ class DocsUtility
         if (is_string($value)) {
             return "'{$value}'";
         }
+        if ($value instanceof \BackedEnum || $value instanceof \UnitEnum) {
+            return $value->name;
+        }
         return (string)$value;
+    }
+
+    public static function getCasesStringFromType(string $type): string
+    {
+        if (!enum_exists($type)) {
+            return '';
+        }
+        $cases = [];
+        foreach ($type::cases() as $case) {
+            $cases[] = $case->name;
+        }
+
+        return implode(' | ', $cases);
     }
 
     public static function displayType(string $type): string

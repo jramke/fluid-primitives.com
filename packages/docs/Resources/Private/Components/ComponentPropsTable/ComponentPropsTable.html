@@ -29,7 +29,20 @@
                             <tr>
                                 <td><code>{prop.name}</code></td>
                                 <td>
-                                    <span class="mb-2 inline-block"><code>{prop.type}</code></span><br />
+                                    <span class="mb-2 inline-block">
+                                        <code>{prop.type}</code>
+                                        <f:if condition="{prop.cases}">
+                                            <ui:popover.root positioning="{placement: 'top'}">
+                                                <ui:popover.trigger class="m-0 inline-block ms-1 align-middle">
+                                                    <ui:icon.info class="opacity-70" />
+                                                </ui:popover.trigger>
+                                                <ui:popover.content class="max-w-xs w-auto text-xs font-mono font-medium !px-2 !py-1">
+                                                    {prop.cases}
+                                                </ui:popover.content>
+                                            </ui:popover.root>
+                                        </f:if>
+                                    </span>
+                                    <br />
                                     {prop.description}
                                 </td>
                                 <td>{prop.required}</td>
