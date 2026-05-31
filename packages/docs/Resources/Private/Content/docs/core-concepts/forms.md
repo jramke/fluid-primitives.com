@@ -11,10 +11,46 @@ The Form component replaces TYPO3's `f:form` ViewHelper with an AJAX-first alter
 - AJAX submission — no full-page reload
 - Automatic Extbase field name prefixing (`tx_myext[MyObject][field]`)
 - 422 error mapping from Extbase validation to individual fields
-- Optional client-side pre-validation with Zod
+- Optional client-side validation powered by TanStack Form (Standard Schema / Zod or validator functions)
 - Form state (`ready`, `submitting`, `invalid`, `success`, `error`) exposed as `data-state` for CSS
 - Field-level error display, label association, and ARIA wiring via the Field component
 - Works with all Field-aware primitives: Select, Checkbox, RadioGroup, NumberInput, and plain HTML inputs
+
+## How values flow
+
+The form has two value worlds:
+
+| Layer                               | Shape                                                                                      | Used for                        |
+| ----------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------- |
+| TanStack form (`form.state.values`) | Native JS values: `string`, `number`, `boolean`, `string[]`, `File`, `File[]`, `Date`, ... | Client-side validation, schemas |
+| Submission (`FormData`)             | Native HTML form-submission bytes (`'1'` / omitted / multipart for files)                  | Sending to the server (TYPO3)   |
+
+Each primitive (NumberInput, Select, Checkbox, RadioGroup, ...) pushes its own JS-typed value into the bound TanStack field. A serializer converts those values to `FormData` only at submit time.
+
+**Conversion rules**
+
+- `boolean true` → `'1'` (matches Extbase Boolean validators)
+- `boolean false`, `null`, `undefined` → omitted (matches an unchecked checkbox in a real `<form>`)
+- `File` / `Blob` → appended as a multipart part
+- `File[]` / `string[]` → multiple appends with `name[]`
+- `Date` → ISO string
+- `number` → `String(n)`
+- everything else → `String(value)`
+
+This separation is why your validation schemas can stay idiomatic:
+
+```typescript
+// Use JS types in your schema
+z.object({
+    name: z.string().min(1),
+    ticketCount: z.number().min(1).max(10),
+    privacy: z.literal(true), // not z.literal('1')
+    a11yNeeds: z.array(z.string()),
+    avatar: z.instanceof(File), // future file upload primitive
+});
+```
+
+…while the server still receives plain form-encoded bytes that TYPO3's property mapper understands (`tx_myext[obj][privacy]=1`, file uploads via `$request->getUploadedFiles()`, etc.).
 
 ## Installation
 
@@ -279,15 +315,19 @@ onSubmit: async ({ formData, api, post }) => {
 },
 ```
 
-## Client-Side Validation with Zod
+## Client-Side Validation
 
-Install Zod separately:
+Client-side validation is powered by [TanStack Form](https://tanstack.com/form). The `Form` machine wraps a TanStack `FormApi`, so you configure validation with TanStack's `validators` option — at the form level here, or per field on `ui:field.root` (see [Field-Level Validation](#field-level-validation)).
+
+Validators run on the events you wire them to (`onChange`, `onBlur`, `onSubmit`, plus their async counterparts). Errors are mapped to fields by key and exposed through `ui:field.error`.
+
+### With a Standard Schema (Zod)
+
+Any [Standard Schema](https://github.com/standard-schema/standard-schema) library works. Zod v4 schemas are Standard Schema compliant and can be passed directly to a validator:
 
 ```bash
 npm install zod
 ```
-
-Pass a Zod schema to the `Form` constructor. Validation runs on blur and before submission. Errors are mapped to fields by key:
 
 ```typescript
 import { z } from 'zod';
@@ -302,7 +342,10 @@ const schema = z.object({
 
 const form = new Form({
     ...data.props,
-    schema,
+    validators: {
+        onChange: schema,
+        onSubmit: schema,
+    },
     onSubmit: async ({ formData, api, post }) => {
         const response = await post(api.getAction(), formData);
         return response.ok;
@@ -310,21 +353,66 @@ const form = new Form({
 });
 ```
 
-Schema keys must match the field `name` props in the template. If client-side validation fails, the form stays in the `invalid` state and focus moves to the first invalid field. The `onSubmit` callback is not called.
+Schema keys must match the field `name` props in the template. If validation fails on submit, the form stays in the `invalid` state and focus moves to the first invalid field. The `onSubmit` callback is not called.
 
-## Manual Client-Side Validation
+### With a Validator Function
 
-If you prefer not to use Zod, throw a `ValidationError` from `onSubmit`:
+For logic that doesn't fit a schema, pass a function. Return an error keyed by field name (or a single string for a form-level error):
+
+```typescript
+const form = new Form({
+    ...data.props,
+    validators: {
+        onChange: ({ value }) => {
+            const errors: Record<string, string> = {};
+            if (!value.email?.includes('@')) {
+                errors.email = 'Please enter a valid email address';
+            }
+            return Object.keys(errors).length ? { fields: errors } : undefined;
+        },
+    },
+    onSubmit: async ({ formData, api, post }) => {
+        const response = await post(api.getAction(), formData);
+        return response.ok;
+    },
+});
+```
+
+### Field-Level Validation
+
+Validators can also live on the individual field via the `validators` prop on `ui:field.root`. This keeps a field's rules colocated with the field and is useful for async/remote checks:
+
+```html
+<ui:field.root name="username" validators="{...}">
+    <!-- ... -->
+</ui:field.root>
+```
+
+```typescript
+const field = new Field({
+    ...data.props,
+    validators: {
+        onChange: ({ value }) => (value.length < 3 ? 'Must be at least 3 characters' : undefined),
+        onChangeAsyncDebounceMs: 500,
+        onChangeAsync: async ({ value }) => {
+            const res = await fetch(`/api/check-username?u=${value}`);
+            return (await res.json()).taken ? 'Username is taken' : undefined;
+        },
+    },
+});
+```
+
+## Server-Side Errors from `onSubmit`
+
+To surface server-side (or business-rule) errors on individual fields, throw a `ValidationError` from `onSubmit`. The form writes the messages into the matching fields and transitions to `invalid`:
 
 ```typescript
 import { Form, ValidationError } from 'fluid-primitives/form';
 
 const form = new Form({
     ...data.props,
-    onSubmit: async ({ formData, api }) => {
-        const email = formData.get('email') as string;
-
-        if (!email || !email.includes('@')) {
+    onSubmit: async ({ value, formData, api }) => {
+        if (!value.email || !String(value.email).includes('@')) {
             throw new ValidationError({
                 email: { messages: ['Please enter a valid email address.'] },
             });
@@ -340,7 +428,7 @@ const form = new Form({
 });
 ```
 
-`ValidationError` accepts a `Record<string, { messages: string[] }>` with field names as keys. Throwing it transitions the form to `invalid` and maps errors to fields exactly like a 422 server response.
+`ValidationError` accepts a `Record<string, { messages: string[] }>` with field names as keys. The `post()` helper throws it automatically when the server returns a 422 response, so the same mechanism handles both Extbase validation and manual checks.
 
 ## Form State
 

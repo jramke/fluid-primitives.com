@@ -1,5 +1,5 @@
 import { getHydrationData, mount } from 'fluid-primitives';
-import { Form } from 'fluid-primitives/form';
+import { Form, revalidateLogic } from 'fluid-primitives/form';
 import { z } from 'zod';
 
 mount('event-registration', ({ props, createHydrator }) => {
@@ -10,7 +10,7 @@ mount('event-registration', ({ props, createHydrator }) => {
 
 	const schema = z.object({
 		ticketType: z.enum(['vip', 'standard', 'student'], 'Please select a ticket type'),
-		ticketCount: z.coerce
+		ticketCount: z
 			.number('Please enter a valid number of tickets')
 			.min(1, 'You must register at least 1 ticket')
 			.max(10, 'You can only register up to 10 tickets'),
@@ -18,14 +18,24 @@ mount('event-registration', ({ props, createHydrator }) => {
 		email: z.email('Please enter your email'),
 		phone: z.string().optional(),
 		mode: z.enum(['person', 'virtual'], 'Please select a mode of attendance'),
-		a11yNeeds: z.array(z.string()).optional(),
+		a11yNeeds: z
+			.array(z.string())
+			.min(1, 'Please select at least one accessibility need FOR TESTING'),
 		comment: z.string().optional(),
-		privacy: z.literal('1', 'You must agree to the privacy policy'),
+		privacy: z.literal(true, 'You must agree to the privacy policy'),
 	});
 
 	const form = new Form({
 		...data.props,
-		schema,
+		// validators: {
+		// 	// Zod v4 schemas are Standard Schema compliant and can be passed directly.
+		// 	onSubmit: schema,
+		// 	onBlur: schema,
+		// },
+		validationLogic: revalidateLogic({ mode: 'blur', modeAfterSubmission: 'change' }),
+		validators: {
+			onDynamic: schema,
+		},
 		onSubmit: async ({ formData, api, post }) => {
 			// Modify formData if needed before sending
 			console.log(Object.fromEntries(formData.entries()));

@@ -8,11 +8,11 @@
 
 ## Features
 
-- Optional client-side validation with Zod schema support
+- Client-side validation powered by TanStack Form (Standard Schema / Zod or validator functions)
 - AJAX form submission with automatic error handling
 - Seamless Extbase controller integration
-- Real-time field validation on blur and input
-- Form state management (submitting, dirty, invalid, success, error)
+- Form and field level validation (change, blur, submit, and async)
+- Form state management (submitting, dirty, touched, invalid, success, error)
 - Works with all Field-aware components and basic HTML inputs
 - Automatic field name prefixing for Extbase
 

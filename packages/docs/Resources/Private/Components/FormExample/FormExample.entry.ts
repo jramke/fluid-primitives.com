@@ -7,7 +7,7 @@ mount('form-example', () => {
 
 	const form = new Form({
 		...data.props,
-		onSubmit: async ({ formData, api }) => {
+		onSubmit: async ({ value, formData, api }) => {
 			await new Promise(resolve => setTimeout(resolve, 800));
 
 			const formEl = api.getFormEl();
@@ -18,7 +18,7 @@ mount('form-example', () => {
 				});
 			}
 
-			if (formData.get('homepage') === 'https://example.com') {
+			if (value.homepage === 'https://example.com') {
 				throw new ValidationError({
 					homepage: { messages: ['The example homepage is not allowed.'] },
 				});
