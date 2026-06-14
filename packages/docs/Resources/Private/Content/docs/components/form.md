@@ -16,6 +16,8 @@
 - Works with all Field-aware components and basic HTML inputs
 - Automatic field name prefixing for Extbase
 
+See the complete [Form Guide](/docs/core-concepts/forms) for a complete form integration.
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Form" } %}

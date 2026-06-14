@@ -175,6 +175,10 @@ When a Field-aware primitive is placed inside a `ui:field.root`, the field's sta
 
 ## Server-Side Validation
 
+Each form should have server-side validation to ensure your controller gets the expected data. Since server-side validation cant be easily bypassed this is our main source of truth. Client-side validation "just" enhances the UX of your forms. You should use both.
+
+Server-side errors are stored by its field and value. So like in the example, when the user submits a VIP registration he gets an error because vip tickets are sold out. When he changes the ticket type to standard the error resolves. However when the user switches back to the vip ticket we automatically show the server side error again.
+
 ### Extbase Model Validation
 
 Use PHP 8 attributes on your model to declare validation rules. Extbase runs these before your action is called. If validation fails, `errorAction` is triggered — which the `AjaxValidationTrait` converts to a 422 JSON response.
@@ -281,13 +285,17 @@ onSubmit: async ({ formData, api, post }) => {
 
 ## Client-Side Validation with Zod
 
+To enhance the UX of your forms you should also use (slimmed down) client-side validation in addition to (more complex) server-side validation.
+
+Client-side validation runs on blur and before submission. When a field was touched and has an error or if the form was submitted and resulted in errors, we validate the fields on change so the user can receive immediate feedback when fixing the error.
+
 Install Zod separately:
 
 ```bash
 npm install zod
 ```
 
-Pass a Zod schema to the `Form` constructor. Validation runs on blur and before submission. Errors are mapped to fields by key:
+Pass a Zod schema to the `Form` constructor. Errors are mapped to fields by key:
 
 ```typescript
 import { z } from 'zod';
