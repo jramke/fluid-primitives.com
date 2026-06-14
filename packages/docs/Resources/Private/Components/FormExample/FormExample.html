@@ -5,7 +5,7 @@
     <ui:field.root name="homepage" required="{true}" defaultValue="https://example.com">
         <ui:field.label>Homepage</ui:field.label>
         <ui:field.control asChild="{true}">
-            <ui:input type="url" placeholder="https://example.com" />
+            <ui:input type="url" pattern="https?://.*" placeholder="https://example.com" />
         </ui:field.control>
         <ui:field.error />
     </ui:field.root>

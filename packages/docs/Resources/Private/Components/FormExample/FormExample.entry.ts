@@ -8,10 +8,7 @@ mount('form-example', () => {
 	const form = new Form({
 		...data.props,
 		onSubmit: async ({ formData, api }) => {
-			await new Promise(resolve => setTimeout(resolve, 800));
-
-			const formEl = api.getFormEl();
-			const urlInput = formEl?.querySelector<HTMLInputElement>('input[name="homepage"]');
+			const urlInput = api.getFormControl('homepage');
 			if (!urlInput?.checkValidity()) {
 				throw new ValidationError({
 					homepage: { messages: ['Please enter a valid url.'] },
@@ -24,7 +21,9 @@ mount('form-example', () => {
 				});
 			}
 
-			console.log(Object.fromEntries(formData.entries()));
+			await new Promise(resolve => setTimeout(resolve, 800));
+
+			alert(JSON.stringify(api.formDataToObject(), null, 2));
 
 			return true;
 		},
