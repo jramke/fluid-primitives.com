@@ -82,7 +82,16 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ui'][] =
 
 {% component: "ui:alert", arguments: {"title": "Namespace Array", "text": "Fluid Primitives already registers ViewHelpers under `ui`. Append to the array instead of overwriting it.", "variant": "warning"} %}
 
-### 3. Optional: Component Settings
+### 3. Include the Site Set (or TypoScript manually)
+
+```yaml
+name: vendor/myext
+label: 'MyExt'
+dependencies:
+    - jramke/fluid-primitives
+```
+
+### 4. Optional: Component Settings
 
 Expose custom settings to component templates:
 
@@ -94,7 +103,7 @@ plugin.tx_fluidprimitives {
 }
 ```
 
-These merge with `lib.contentElement.settings` and are available as `{settings}` in templates.
+These merge with `lib.contentElement.settings` and are available as `{settings}` in component templates.
 
 ## Your First Component
 
