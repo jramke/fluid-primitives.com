@@ -1,115 +1,117 @@
 <ui:prop name="nav" type="array" />
 <ui:prop name="path" type="string" />
 
-<aside class="border-r border-dashed fixed top-0 h-screen md:w-[250px] z-2">
-    <f:render section="mainlink" arguments="{class: 'pt-4 hidden md:flex'}" />
-    <ui:scrollArea.root class="persistent-sidebar mt-4 pb-4 h-[calc(100vh-var(--spacing)*16)] hidden md:block" controlled="{true}" rootId="sidebar-{rootId}">
-        <ui:scrollArea.viewport class="">
-            <ui:scrollArea.content>
-                <f:render section="navitems" arguments="{nav: nav, path: path}" />
-            </ui:scrollArea.content>
-        </ui:scrollArea.viewport>
-        <ui:scrollArea.scrollbar>
-            <ui:scrollArea.thumb />
-        </ui:scrollArea.scrollbar>
-    </ui:scrollArea.root>
-    <script>
-        (function () {
-            const root = document.querySelector('.persistent-sidebar');
-            const sidebar = root.querySelector('[data-scope="scroll-area"][data-part="viewport"]');
-            if (!sidebar) return;
-
-            const saved = sessionStorage.getItem("sidebar-scroll-top");
-            if (saved !== null) {
-                requestAnimationFrame(() => {
-                    sidebar.scrollTop = Number(saved);
-                });
-
-                const thumb = root.querySelector('[data-scope="scroll-area"][data-part="thumb"]');
-
-                const thumbHeight = sessionStorage.getItem("sidebar-thumb-height");
-                if (thumbHeight) {
-                    document.documentElement?.style.setProperty('--sidebar-stored-thumb-height', thumbHeight);
-                    thumb?.classList.add('!h-[var(--sidebar-stored-thumb-height)]');
+<div class="isolate z-100 relative">
+    <aside class="border-r border-dashed fixed top-0 h-screen md:w-[250px] z-2">
+        <f:render section="mainlink" arguments="{class: 'pt-4 hidden md:flex'}" />
+        <ui:scrollArea.root class="persistent-sidebar mt-4 pb-4 h-[calc(100vh-var(--spacing)*16)] hidden md:block" controlled="{true}" rootId="sidebar-{rootId}">
+            <ui:scrollArea.viewport class="">
+                <ui:scrollArea.content>
+                    <f:render section="navitems" arguments="{nav: nav, path: path}" />
+                </ui:scrollArea.content>
+            </ui:scrollArea.viewport>
+            <ui:scrollArea.scrollbar>
+                <ui:scrollArea.thumb />
+            </ui:scrollArea.scrollbar>
+        </ui:scrollArea.root>
+        <script>
+            (function () {
+                const root = document.querySelector('.persistent-sidebar');
+                const sidebar = root.querySelector('[data-scope="scroll-area"][data-part="viewport"]');
+                if (!sidebar) return;
+    
+                const saved = sessionStorage.getItem("sidebar-scroll-top");
+                if (saved !== null) {
+                    requestAnimationFrame(() => {
+                        sidebar.scrollTop = Number(saved);
+                    });
+    
+                    const thumb = root.querySelector('[data-scope="scroll-area"][data-part="thumb"]');
+    
+                    const thumbHeight = sessionStorage.getItem("sidebar-thumb-height");
+                    if (thumbHeight) {
+                        document.documentElement?.style.setProperty('--sidebar-stored-thumb-height', thumbHeight);
+                        thumb?.classList.add('!h-[var(--sidebar-stored-thumb-height)]');
+                    }
+    
+                    const thumbTransform = sessionStorage.getItem("sidebar-thumb-transform");
+                    if (thumbTransform) {
+                        document.documentElement?.style.setProperty('--sidebar-stored-transform', thumbTransform);
+                        thumb?.classList.add('!transform-[var(--sidebar-stored-transform)]');
+                    }
+    
+                    const els = root.querySelectorAll('[data-scope="scroll-area"]');
+                    els.forEach(el => {
+                        el.setAttribute('data-overflow-y', '');
+                        el.setAttribute("data-hover", '');
+                    });
                 }
-
-                const thumbTransform = sessionStorage.getItem("sidebar-thumb-transform");
-                if (thumbTransform) {
-                    document.documentElement?.style.setProperty('--sidebar-stored-transform', thumbTransform);
-                    thumb?.classList.add('!transform-[var(--sidebar-stored-transform)]');
-                }
-
-                const els = root.querySelectorAll('[data-scope="scroll-area"]');
-                els.forEach(el => {
-                    el.setAttribute('data-overflow-y', '');
-                    el.setAttribute("data-hover", '');
-                });
-            }
-        })();
-    </script>
-</aside>
-
-<div class="fixed top-0 z-100 grid place-items-center w-full border-b border-dashed h-16 bg-background/80 backdrop-blur-sm pe-[var(--scrollbar-width,0px)]">
-    <f:comment>
-        <!-- <button type="button" class="w-70 cursor-pointer inline-flex items-center gap-2 rounded-lg border bg-secondary/50 p-1.5 ps-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-1">
-            <ui:icon.search />
-            Search
-            <div class="ms-auto inline-flex gap-0.5 test-xs">
-                <kbd class="rounded-md border bg-background px-1.5 content-center">⌘</kbd>
-                <kbd class="rounded-md border bg-background px-1.5 content-center">K</kbd>
-            </div>
-        </button> -->
-    </f:comment>
-    <a href="/github" class="hidden md:block absolute right-[calc((var(--spacing)*6)+var(--scrollbar-width,0px))] top-1/2 -translate-y-1/2" target="_blank" rel="noreferrer">
-        <span class="sr-only">GitHub</span>
-        <ui:icon.github class="size-5" />
-    </a>
-    <div class="md:hidden flex px-4 w-full items-center justify-between" {ui:ref(name: 'mainnav' )}>
-        <f:render section="mainlink" arguments="{class: '**:[span]:sr-only'}" />
-        <primitives:dialog.root controlled="{true}" rootId="nav-drawer-{rootId}">
-            <primitives:dialog.trigger asChild="{true}">
-                <ui:button variant="ghost" class="!px-2 !py-2">
-                    <ui:icon.menu />
-                    Navigation
-                </ui:button>
-            </primitives:dialog.trigger>
-            <ui:portal>
-                <primitives:dialog.backdrop class="{ui:cn(value: '
-                    fixed inset-0 bg-black/50 
-                    transition-all ease-[cubic-bezier(.17,.42,0,1)] duration-400 transition-discrete 
-                    starting:data-[state=open]:opacity-0 starting:data-[state=open]:backdrop-blur-none
-                    data-[state=closed]:opacity-0 data-[state=closed]:backdrop-blur-none
-                    data-[state=open]:opacity-100 data-[state=open]:backdrop-blur-xs
-                ')}" />
-                <primitives:dialog.positioner class="fixed inset-0 flex items-end justify-center p-6 pb-0">
-                    <primitives:dialog.content class="{ui:cn(value: '
-                        bg-popover text-popover-foreground rounded-xl rounded-b-none h-[93vh] shadow-lg w-full border
+            })();
+        </script>
+    </aside>
+    
+    <div class="fixed top-0 grid place-items-center w-full border-b border-dashed h-16 bg-background/80 backdrop-blur-sm pe-[var(--scrollbar-width,0px)]">
+        <f:comment>
+            <!-- <button type="button" class="w-70 cursor-pointer inline-flex items-center gap-2 rounded-lg border bg-secondary/50 p-1.5 ps-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-1">
+                <ui:icon.search />
+                Search
+                <div class="ms-auto inline-flex gap-0.5 test-xs">
+                    <kbd class="rounded-md border bg-background px-1.5 content-center">⌘</kbd>
+                    <kbd class="rounded-md border bg-background px-1.5 content-center">K</kbd>
+                </div>
+            </button> -->
+        </f:comment>
+        <a href="/github" class="hidden md:block absolute right-[calc((var(--spacing)*6)+var(--scrollbar-width,0px))] top-1/2 -translate-y-1/2" target="_blank" rel="noreferrer">
+            <span class="sr-only">GitHub</span>
+            <ui:icon.github class="size-5" />
+        </a>
+        <div class="md:hidden flex px-4 w-full items-center justify-between" {ui:ref(name: 'mainnav' )}>
+            <f:render section="mainlink" arguments="{class: '**:[span]:sr-only'}" />
+            <primitives:dialog.root controlled="{true}" rootId="nav-drawer-{rootId}">
+                <primitives:dialog.trigger asChild="{true}">
+                    <ui:button variant="ghost" class="!px-2 !py-2">
+                        <ui:icon.menu />
+                        Navigation
+                    </ui:button>
+                </primitives:dialog.trigger>
+                <ui:portal>
+                    <primitives:dialog.backdrop class="{ui:cn(value: '
+                        fixed inset-0 bg-black/50 
                         transition-all ease-[cubic-bezier(.17,.42,0,1)] duration-400 transition-discrete 
-                        starting:data-[state=open]:translate-y-[100%] starting:data-[state=open]:blur-[0px]
-                        data-[state=closed]:translate-y-[100%] data-[state=closed]:blur-[0px]
-                        data-[state=open]:translate-y-0 data-[state=open]:blur-0
-                        isolate
-                    ')}">
-                        <primitives:dialog.closeTrigger asChild="{true}">
-                            <ui:button variant="ghost" size="icon" class="absolute top-4 right-4 z-[1]">
-                                <ui:icon.x />
-                                <span class="sr-only">Close</span>
-                            </ui:button>
-                        </primitives:dialog.closeTrigger>
-                        <ui:scrollArea.root class="**:[p]:!border-t-0 h-full">
-                            <ui:scrollArea.viewport>
-                                <ui:scrollArea.content class="mt-2 mb-4">
-                                    <f:render section="navitems" arguments="{nav: nav, path: path}" />
-                                </ui:scrollArea.content>
-                            </ui:scrollArea.viewport>
-                            <ui:scrollArea.scrollbar>
-                                <ui:scrollArea.thumb />
-                            </ui:scrollArea.scrollbar>
-                        </ui:scrollArea.root>
-                    </primitives:dialog.content>
-                </primitives:dialog.positioner>
-            </ui:portal>
-        </primitives:dialog.root>
+                        starting:data-[state=open]:opacity-0 starting:data-[state=open]:backdrop-blur-none
+                        data-[state=closed]:opacity-0 data-[state=closed]:backdrop-blur-none
+                        data-[state=open]:opacity-100 data-[state=open]:backdrop-blur-xs
+                    ')}" />
+                    <primitives:dialog.positioner class="fixed inset-0 flex items-end justify-center p-6 pb-0">
+                        <primitives:dialog.content class="{ui:cn(value: '
+                            bg-popover text-popover-foreground rounded-xl rounded-b-none h-[93vh] shadow-lg w-full border
+                            transition-all ease-[cubic-bezier(.17,.42,0,1)] duration-400 transition-discrete 
+                            starting:data-[state=open]:translate-y-[100%] starting:data-[state=open]:blur-[0px]
+                            data-[state=closed]:translate-y-[100%] data-[state=closed]:blur-[0px]
+                            data-[state=open]:translate-y-0 data-[state=open]:blur-0
+                            isolate
+                        ')}">
+                            <primitives:dialog.closeTrigger asChild="{true}">
+                                <ui:button variant="ghost" size="icon" class="absolute top-4 right-4 z-[1]">
+                                    <ui:icon.x />
+                                    <span class="sr-only">Close</span>
+                                </ui:button>
+                            </primitives:dialog.closeTrigger>
+                            <ui:scrollArea.root class="**:[p]:!border-t-0 h-full">
+                                <ui:scrollArea.viewport>
+                                    <ui:scrollArea.content class="mt-2 mb-4">
+                                        <f:render section="navitems" arguments="{nav: nav, path: path}" />
+                                    </ui:scrollArea.content>
+                                </ui:scrollArea.viewport>
+                                <ui:scrollArea.scrollbar>
+                                    <ui:scrollArea.thumb />
+                                </ui:scrollArea.scrollbar>
+                            </ui:scrollArea.root>
+                        </primitives:dialog.content>
+                    </primitives:dialog.positioner>
+                </ui:portal>
+            </primitives:dialog.root>
+        </div>
     </div>
 </div>
 
