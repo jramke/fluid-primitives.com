@@ -6,11 +6,10 @@
     objectName="eventRegistration"
     object="{object}"
     controlled="{true}"
-    rootId="{rootId}-form"
-    class="group">
+    rootId="{rootId}-form">
     <h2 class="text-lg font-semibold">Event Registration</h2>
 
-    <div class="group-[[data-state=error]]:hidden group-[[data-state=success]]:hidden space-y-6">
+    <ui:form.content class="space-y-6">
 
         <ui:listCollection
             items="{
@@ -134,20 +133,24 @@
         <ui:button type="submit" attributes="{ui:ref(name: 'submit-button')}">
             Register
         </ui:button>
-    </div>
+    </ui:form.content>
 
-    <div class="hidden group-[[data-state=error]]:block">
+    <ui:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}"
+        class="space-y-3">
         <h2 class="font-medium">Error</h2>
-        <p {ui:ref(name: 'error-message' )}>There was an error submitting your registration. Please try again.</p>
+        <ui:form.errorText class="block">There was an error submitting your registration. Please try again.</ui:form.errorText>
         <ui:button type="reset" class="mt-4">
             Back to form
         </ui:button>
-    </div>
+    </ui:form.indicator>
 
-    <div class="hidden group-[[data-state=success]]:block">
+    <ui:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}"
+        class="space-y-3">
         <h2 class="font-medium">Success</h2>
-        <p>Your registration was submitted successfully. Thank you!</p>
-    </div>
+        <ui:form.successText class="block">Your registration was submitted successfully. Thank you!</ui:form.successText>
+    </ui:form.indicator>
 </ui:form>
 
 <vite:asset entry="EXT:docs/Resources/Private/Components/EventRegistration/EventRegistration.entry.ts" />

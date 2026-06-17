@@ -4,7 +4,7 @@ php-version = "8.3"
 workspace = "."
 paths = ["packages", "config"]
 includes = ["vendor"]
-excludes = ["Public/**", "node_modules/**"]
+excludes = ["Public/**", "node_modules/**", "packages/fluid-primitives/public", "packages/fluid-primitives/vendor"]
 
 [formatter]
 preset = "default"

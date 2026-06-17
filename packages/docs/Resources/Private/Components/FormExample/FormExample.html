@@ -1,16 +1,35 @@
 <ui:exposeToClient />
 
-<ui:form controlled="{true}" rootId="example-form" class="min-w-[275px]">
+<ui:form action="homepage" controlled="{true}" rootId="example-form" class="min-w-[275px]">
 
-    <ui:field.root name="homepage" required="{true}" defaultValue="https://example.com">
-        <ui:field.label>Homepage</ui:field.label>
-        <ui:field.control asChild="{true}">
-            <ui:input type="url" pattern="https?://.*" placeholder="https://example.com" />
-        </ui:field.control>
-        <ui:field.error />
-    </ui:field.root>
+    <ui:form.content class="space-y-4">
+        <ui:field.root name="homepage" required="{true}">
+            <ui:field.label>Homepage</ui:field.label>
+            <ui:field.control asChild="{true}">
+                <ui:input type="url" pattern="https?://.*" placeholder="https://example.com" />
+            </ui:field.control>
+            <ui:field.description>Use `https://down.example.com` to preview the generic error state.</ui:field.description>
+            <ui:field.error />
+        </ui:field.root>
 
-    <ui:button type="submit">Submit</ui:button>
+        <ui:button type="submit" attributes="{ui:ref(name: 'submit-button')}">Submit</ui:button>
+    </ui:form.content>
+
+    <ui:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}"
+        class="space-y-3">
+        <p class="font-medium">Submission failed</p>
+        <ui:form.errorText class="block">The demo server is unavailable right now.</ui:form.errorText>
+        <ui:button type="reset">Try again</ui:button>
+    </ui:form.indicator>
+
+    <ui:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}"
+        class="space-y-3">
+        <p class="font-medium">Submitted</p>
+        <ui:form.successText class="block">Your homepage was submitted successfully.</ui:form.successText>
+        <ui:button type="reset">Submit another</ui:button>
+    </ui:form.indicator>
 </ui:form>
 
 <vite:asset entry="EXT:docs/Resources/Private/Components/FormExample/FormExample.entry.ts" />

@@ -11,7 +11,7 @@ The Form component replaces TYPO3's `f:form` ViewHelper with an AJAX-first alter
 - AJAX submission — no full-page reload
 - Automatic Extbase field name prefixing (`tx_myext[MyObject][field]`)
 - 422 error mapping from Extbase validation to individual fields
-- Optional client-side pre-validation with Zod
+- Optional client-side validation with Standard Schema-compatible validators or callbacks
 - Form state (`ready`, `submitting`, `invalid`, `success`, `error`) exposed as `data-state` for CSS
 - Field-level error display, label association, and ARIA wiring via the Field component
 - Works with all Field-aware primitives: Select, Checkbox, RadioGroup, NumberInput, and plain HTML inputs
@@ -111,7 +111,7 @@ mount('my-form', () => {
 });
 ```
 
-The `post()` helper automatically adds the Extbase field name prefix (`tx_myext[MyObject][field]`) before sending, so your form fields can use plain names like `email` in the template.
+The `post()` helper automatically adds the Extbase field name prefix (`tx_myext[MyObject][field]`) before sending, so your form fields can use plain names like `email` in the template. It should be used for endpoints that expect the same payload shape as the form itself. It also handles 422 JSON validation responses for you by mapping them back to fields and transitioning the form to `invalid`.
 
 ## The Field Component
 
@@ -237,35 +237,34 @@ public function registrationAction(EventRegistration $eventRegistration): Respon
 }
 ```
 
-### Generic Error State
+### Submit Results And Status States
 
-When the server returns a non-422 error (500, etc.), the form transitions to `data-state="error"`. Use this to show a fallback message:
+`onSubmit` can return three outcomes:
+
+- `true` transitions the form to `success`
+- `false` transitions the form to the generic `error` state
+- `Record<string, { messages: string[] }>` transitions the form to `invalid` and assigns field errors
+
+For form-level messaging, use `api.setErrorText()` and `api.setSuccessText()`. The `form.content`, `form.indicator`, `form.errorText`, and `form.successText` primitives remove the need for `group-[[data-state=...]]` selectors:
 
 ```html
-<ui:form ... class="group">
-
-    <!-- Main form fields, hidden on error or success -->
-    <div class="group-[[data-state=error]]:hidden group-[[data-state=success]]:hidden">
+<ui:form ...>
+    <ui:form.content>
         <!-- fields -->
-    </div>
+    </ui:form.content>
 
-    <!-- Error state -->
-    <div class="hidden group-[[data-state=error]]:block">
-        <p {ui:ref(name: 'error-message')}>Something went wrong. Please try again.</p>
+    <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}">
+        <ui:form.errorText>Something went wrong. Please try again.</ui:form.errorText>
         <ui:button type="reset">Back to form</ui:button>
-    </div>
+    </ui:form.indicator>
 
-    <!-- Success state -->
-    <div class="hidden group-[[data-state=success]]:block">
-        <p>Your registration was submitted successfully. Thank you!</p>
-    </div>
-
+    <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}">
+        <ui:form.successText>Your registration was submitted successfully. Thank you!</ui:form.successText>
+    </ui:form.indicator>
 </ui:form>
 ```
 
-Add `group` to the form's `class` so Tailwind's group variant selectors work against `data-state`.
-
-In your entry file, update the error message element from the response body:
+Set the status text in your entry file and return the matching submit result:
 
 ```typescript
 onSubmit: async ({ formData, api, post }) => {
@@ -273,35 +272,38 @@ onSubmit: async ({ formData, api, post }) => {
     const json = await response.json();
 
     if (!response.ok) {
-        const errorMessageEl = hydrator.getElement('error-message');
-        if (errorMessageEl) {
-            errorMessageEl.textContent = json.message ?? 'Something went wrong.';
-        }
+        api.setErrorText(json.message ?? 'Something went wrong.');
+        return false;
     }
 
-    return response.ok;
+    api.setSuccessText(json.message ?? 'Your registration was submitted successfully.');
+    return true;
 },
 ```
 
-## Client-Side Validation with Zod
+When you use `post()`, 422 JSON validation responses do not come back as a normal `Response`. They are intercepted by the Form primitive, mapped to field errors automatically, and transition the form to `invalid`.
+
+## Client-Side Validation
 
 To enhance the UX of your forms you should also use (slimmed down) client-side validation in addition to (more complex) server-side validation.
 
 Client-side validation runs on blur and before submission. When a field was touched and has an error or if the form was submitted and resulted in errors, we validate the fields on change so the user can receive immediate feedback when fixing the error.
 
-Install Zod separately:
+Install your validator separately. For Zod:
 
 ```bash
 npm install zod
 ```
 
-Pass a Zod schema to the `Form` constructor. Errors are mapped to fields by key:
+You do not need an extra Standard Schema package in your app code. Just pass your existing schema object to `validation`.
+
+Pass a synchronous Standard Schema-compatible validator to the `Form` constructor. Zod works out of the box. Errors are mapped to fields by key:
 
 ```typescript
 import { z } from 'zod';
 import { Form } from 'fluid-primitives/form';
 
-const schema = z.object({
+const validation = z.object({
     name: z.string().min(1, 'Please enter your name'),
     email: z.email('Please enter a valid email address'),
     ticketCount: z.coerce.number().min(1).max(10),
@@ -310,7 +312,7 @@ const schema = z.object({
 
 const form = new Form({
     ...data.props,
-    schema,
+    validation,
     onSubmit: async ({ formData, api, post }) => {
         const response = await post(api.getAction(), formData);
         return response.ok;
@@ -318,37 +320,67 @@ const form = new Form({
 });
 ```
 
-Schema keys must match the field `name` props in the template. If client-side validation fails, the form stays in the `invalid` state and focus moves to the first invalid field. The `onSubmit` callback is not called.
+Any validator that implements the Standard Schema interface can be passed here without an adapter.
+
+Validation keys must match the field `name` props in the template. If client-side validation fails, the form stays in the `invalid` state and focus moves to the first invalid field. The `onSubmit` callback is not called.
 
 ## Manual Client-Side Validation
 
-If you prefer not to use Zod, throw a `ValidationError` from `onSubmit`:
+If you prefer not to use a schema library, pass a synchronous `validation` callback. It receives the current `formData` and should return the same field-keyed error shape used by server validation responses. Missing `value` properties are filled automatically with the current field value:
 
 ```typescript
-import { Form, ValidationError } from 'fluid-primitives/form';
+import { Form } from 'fluid-primitives/form';
 
 const form = new Form({
     ...data.props,
-    onSubmit: async ({ formData, api }) => {
+    validation: ({ formData }) => {
+        const errors: Record<string, { messages: string[] }> = {};
         const email = formData.get('email') as string;
 
         if (!email || !email.includes('@')) {
-            throw new ValidationError({
-                email: { messages: ['Please enter a valid email address.'] },
-            });
+            errors.email = { messages: ['Please enter a valid email address.'] };
         }
 
-        const response = await fetch(api.getAction(), {
-            method: 'POST',
-            body: formData,
-        });
+        return errors;
+    },
+    onSubmit: async ({ formData, api, post }) => {
+        const response = await post(api.getAction(), formData);
 
         return response.ok;
     },
 });
 ```
 
-`ValidationError` accepts a `Record<string, { messages: string[] }>` with field names as keys. Throwing it transitions the form to `invalid` and maps errors to fields exactly like a 422 server response.
+Validation callbacks must be synchronous. Use `onSubmit` for async checks.
+
+## Async Validation During Submission
+
+If a validation rule depends on async work inside `onSubmit`, prefer `post()` when the endpoint accepts the same form payload shape. If that endpoint returns a non-422 response, you can still map it to field errors yourself:
+
+```typescript
+import { Form } from 'fluid-primitives/form';
+
+const form = new Form({
+    ...data.props,
+    onSubmit: async ({ formData, post }) => {
+        const response = await post('/email-check', formData);
+
+        if (response.status === 409) {
+            return {
+                email: { messages: ['This email address is already registered.'] },
+            };
+        }
+
+        if (!response.ok) {
+            return false;
+        }
+
+        return true;
+    },
+});
+```
+
+Returning field errors from `onSubmit` transitions the form to `invalid` and maps errors to fields exactly like a 422 server response.
 
 ## Form State
 
@@ -383,6 +415,6 @@ render: form => {
 
 ## Complete Example: Event Registration
 
-A full event registration form with Extbase model validation, a server-side business rule (VIP tickets sold out), and Zod client-side pre-validation.
+A full event registration form with Extbase model validation, a server-side business rule (VIP tickets sold out), and Zod client-side pre-validation via `validation`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "EventRegistration", "additionalFiles": {"EventRegistration.entry.ts": "EXT:docs/Resources/Private/Components/EventRegistration/EventRegistration.entry.ts", "EventRegistrationController.php": "EXT:docs/Classes/Controller/EventRegistrationController.php", "EventRegistration.php": "EXT:docs/Classes/Domain/Model/EventRegistration.php"} } %}

@@ -10,7 +10,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['vite'] = ['Praetorius
     'Docs',
     'Docs',
     [
-        \FluidPrimitives\Docs\Controller\DocsController::class => 'show,registration',
+        \FluidPrimitives\Docs\Controller\DocsController::class => 'show,registration,homepage',
     ],
     [],
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,

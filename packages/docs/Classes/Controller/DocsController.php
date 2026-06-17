@@ -6,21 +6,13 @@ namespace FluidPrimitives\Docs\Controller;
 
 use FluidPrimitives\Docs\Domain\Model\EventRegistration;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
-use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Utility\DocsUtility;
 use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
-use League\CommonMark\Environment\Environment;
-use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
-use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
-use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
-use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContents;
-use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
 use League\CommonMark\MarkdownConverter;
 use League\CommonMark\Node\Query;
 use League\CommonMark\Renderer\HtmlRenderer;
-use Phiki\Theme\Theme;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Core\Environment as Typo3Environment;
@@ -145,6 +137,27 @@ final class DocsController extends ActionController
         $json = json_encode($payload);
         $response = $this->jsonResponse($json)->withStatus($status);
         throw new PropagateResponseException($response, $status); // or return $response; if standalone plugin
+    }
+
+    public function homepageAction(string $homepage = ''): ResponseInterface
+    {
+        $payload = [
+            'success' => true,
+            'message' => sprintf('Submitted homepage: %s', $homepage),
+        ];
+        $status = 200;
+
+        if ($homepage === 'https://down.example.com') {
+            $payload = [
+                'success' => false,
+                'message' => 'The demo server is unavailable right now.',
+            ];
+            $status = 500;
+        }
+
+        $json = json_encode($payload);
+        $response = $this->jsonResponse($json)->withStatus($status);
+        throw new PropagateResponseException($response, $status);
     }
 
     protected function errorAction(): ResponseInterface

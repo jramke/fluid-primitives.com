@@ -26,7 +26,10 @@ final class EventRegistrationController extends ActionController
         // Save the registration, send confirmation email, etc.
         // $this->eventRegistrationRepository->save($eventRegistration);
 
-        $response = $this->jsonResponse(json_encode(['success' => true]))->withStatus(200);
+        $response = $this->jsonResponse(json_encode([
+            'success' => true,
+            'message' => 'Your registration was submitted successfully. Thank you.',
+        ]))->withStatus(200);
         throw new PropagateResponseException($response, 200);
     }
 

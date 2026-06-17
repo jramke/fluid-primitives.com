@@ -1,5 +1,5 @@
 import { getHydrationData, mount } from 'fluid-primitives';
-import { Form, ValidationError } from 'fluid-primitives/form';
+import { Form } from 'fluid-primitives/form';
 
 mount('form-example', () => {
 	const data = getHydrationData('form', 'example-form');
@@ -7,23 +7,42 @@ mount('form-example', () => {
 
 	const form = new Form({
 		...data.props,
-		onSubmit: async ({ formData, api }) => {
-			const urlInput = api.getFormControl('homepage');
-			if (!urlInput?.checkValidity()) {
-				throw new ValidationError({
+		validation: ({ formData }) => {
+			const homepage = formData.get('homepage');
+			if (typeof homepage !== 'string' || homepage.trim() === '') {
+				return {
+					homepage: { messages: ['Please enter an url.'] },
+				};
+			}
+
+			try {
+				new URL(homepage);
+			} catch {
+				return {
 					homepage: { messages: ['Please enter a valid url.'] },
-				});
+				};
 			}
 
-			if (formData.get('homepage') === 'https://example.com') {
-				throw new ValidationError({
+			if (homepage === 'https://example.com') {
+				return {
 					homepage: { messages: ['The example homepage is not allowed.'] },
-				});
+				};
+			}
+		},
+		onSubmit: async ({ formData, api, post }) => {
+			const [response] = await Promise.all([
+				post(api.getAction(), formData),
+				new Promise(resolve => setTimeout(resolve, 800)),
+			]);
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				api.setErrorText(data.message || 'The demo server is unavailable right now.');
+				return false;
 			}
 
-			await new Promise(resolve => setTimeout(resolve, 800));
-
-			alert(JSON.stringify(api.formDataToObject(), null, 2));
+			api.setSuccessText(data.message || 'Your homepage was submitted successfully.');
 
 			return true;
 		},

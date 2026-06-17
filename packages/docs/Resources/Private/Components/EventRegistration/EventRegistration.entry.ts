@@ -8,7 +8,7 @@ mount('event-registration', ({ props, createHydrator }) => {
 
 	const hydrator = createHydrator();
 
-	const schema = z.object({
+	const validation = z.object({
 		ticketType: z.enum(['vip', 'standard', 'student'], 'Please select a ticket type'),
 		ticketCount: z.coerce
 			.number('Please enter a valid number of tickets')
@@ -25,7 +25,7 @@ mount('event-registration', ({ props, createHydrator }) => {
 
 	const form = new Form({
 		...data.props,
-		schema,
+		validation,
 		onSubmit: async ({ formData, api, post }) => {
 			// Modify formData if needed before sending
 			console.log(Object.fromEntries(formData.entries()));
@@ -39,15 +39,18 @@ mount('event-registration', ({ props, createHydrator }) => {
 			const data = await response.json();
 
 			if (!response.ok) {
-				const errorMessageEl = hydrator.getElement('error-message');
-				if (errorMessageEl) {
-					errorMessageEl.textContent =
-						data.message ||
-						'There was an error submitting your registration. Please try again.';
-				}
+				api.setErrorText(
+					data.message ||
+						'There was an error submitting your registration. Please try again.'
+				);
+				return false;
 			}
 
-			return response.ok;
+			api.setSuccessText(
+				data.message || 'Your registration was submitted successfully. Thank you.'
+			);
+
+			return true;
 		},
 		render: form => {
 			const submitButton = hydrator.getElement('submit-button');
