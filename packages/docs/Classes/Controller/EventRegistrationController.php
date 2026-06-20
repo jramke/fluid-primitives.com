@@ -33,6 +33,7 @@ final class EventRegistrationController extends ActionController
         throw new PropagateResponseException($response, 200);
     }
 
+    #[\Override]
     protected function errorAction(): ResponseInterface
     {
         $this->throwJsonValidationErrorResponse();

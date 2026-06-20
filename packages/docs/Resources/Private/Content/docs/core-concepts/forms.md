@@ -287,7 +287,9 @@ When you use `post()`, 422 JSON validation responses do not come back as a norma
 
 To enhance the UX of your forms you should also use (slimmed down) client-side validation in addition to (more complex) server-side validation.
 
-Client-side validation runs on blur and before submission. When a field was touched and has an error or if the form was submitted and resulted in errors, we validate the fields on change so the user can receive immediate feedback when fixing the error.
+Client-side validation runs on blur for dirty fields and before submission. Once a field already has an error, we validate it on change too so the user gets immediate feedback while fixing it.
+
+Each field also tracks local interaction metadata. `field.meta.isTouched` becomes `true` after the first change or blur, `field.meta.isDirty` stays `true` once the value was changed, `field.meta.isPristine` is the inverse of `isDirty`, `field.meta.isBlurred` becomes `true` after the first blur, and `field.meta.isDefaultValue` reflects whether the current value matches the initial value. The same state is mirrored to `field.root` as `data-touched`, `data-dirty`, `data-pristine`, `data-blurred`, and `data-default-value` attributes for styling.
 
 Install your validator separately. For Zod:
 

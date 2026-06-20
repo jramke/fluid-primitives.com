@@ -20,15 +20,15 @@ use Phiki\Transformers\Meta;
 class CodeBlockRenderer implements NodeRendererInterface
 {
     public function __construct(
-        private string|array|Theme $theme,
-        private Phiki $phiki = new Phiki(),
-        private bool $withGutter = false,
+        private readonly string|array|Theme $theme,
+        private readonly Phiki $phiki = new Phiki(),
+        private readonly bool $withGutter = false,
     ) {}
 
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
         if (!$node instanceof FencedCode) {
-            throw new InvalidArgumentException('Block must be instance of ' . FencedCode::class);
+            throw new InvalidArgumentException('Block must be instance of ' . FencedCode::class, 5820404978);
         }
 
         $code = rtrim($node->getLiteral(), "\n");

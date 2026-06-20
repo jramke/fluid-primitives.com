@@ -12,7 +12,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 final class ComponentRegistry
 {
     private array $components = [];
-    private VariableFrontend $cache;
+    private readonly VariableFrontend $cache;
 
     public function __construct(CacheManager $cacheManager)
     {
@@ -60,12 +60,12 @@ final class ComponentRegistry
         $baseDir = dirname($registryFile) . '/';
 
         foreach ($data as $key => $config) {
-            if (!is_array($config) || empty($config['files'])) {
+            if (!is_array($config) || !is_array($config['files']) || $config['files'] === []) {
                 continue;
             }
 
             $componentDir = $baseDir . ($config['name'] ?? '') . '/';
-            if (empty($componentDir) || !is_dir($componentDir)) {
+            if ($componentDir === '' || $componentDir === '0' || !is_dir($componentDir)) {
                 continue;
             }
 

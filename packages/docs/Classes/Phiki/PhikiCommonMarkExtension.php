@@ -19,9 +19,9 @@ class PhikiCommonMarkExtension implements ConfigurableExtensionInterface
      * @param  bool  $withGutter  Include a gutter in the generated HTML. The gutter typically contains line numbers and helps provide context for the code.
      */
     public function __construct(
-        private string|array|Theme $theme = Theme::Nord,
-        private Phiki $phiki = new Phiki(),
-        private bool $withGutter = false,
+        private readonly string|array|Theme $theme = Theme::Nord,
+        private readonly Phiki $phiki = new Phiki(),
+        private readonly bool $withGutter = false,
     ) {}
 
     public function configureSchema(ConfigurationBuilderInterface $builder): void

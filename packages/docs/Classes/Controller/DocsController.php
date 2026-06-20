@@ -11,11 +11,12 @@ use FluidPrimitives\Docs\Utility\DocsUtility;
 use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContents;
 use League\CommonMark\MarkdownConverter;
+use League\CommonMark\Node\Node;
 use League\CommonMark\Node\Query;
 use League\CommonMark\Renderer\HtmlRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Yaml\Yaml;
-use TYPO3\CMS\Core\Core\Environment as Typo3Environment;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
@@ -45,7 +46,7 @@ final class DocsController extends ActionController
             return $this->htmlResponse();
         }
 
-        if ($path === 'playground' && Typo3Environment::getContext()->isDevelopment()) {
+        if ($path === 'playground' && Environment::getContext()->isDevelopment()) {
             $this->view->assign('layout', 'playground');
             $test = new EventRegistration();
             // $test->setEmail('test@example.com');
@@ -62,7 +63,7 @@ final class DocsController extends ActionController
 
         if (!is_file($filePath)) {
             $redirects = Yaml::parseFile($baseDir . 'redirects.yaml') ?? [];
-            $target = $redirects[rtrim($path, '/')] ??= null;
+            $target = $redirects[rtrim($path, '/')] ?? null;
             if ($target) {
                 return $this->redirectToUri($target, 302);
             }
@@ -83,7 +84,7 @@ final class DocsController extends ActionController
         $toc = (new Query())
             ->where(Query::type(TableOfContents::class))
             ->findOne($document);
-        if ($toc) {
+        if ($toc instanceof Node) {
             $toc->detach();
         }
 
@@ -93,7 +94,7 @@ final class DocsController extends ActionController
         $content = $this->wrapCodeBlocks($content->getContent());
         $content = $this->wrapTables($content);
 
-        if ($toc) {
+        if ($toc instanceof Node) {
             $toc = $renderer->renderNodes([$toc]);
             $toc = str_replace(
                 '<ul class="table-of-contents">',
@@ -129,7 +130,7 @@ final class DocsController extends ActionController
             // do something with the registration
             // $this->eventRegistrationRepository->save($eventRegistration);
             // throw new \RuntimeException('Simulated server error for demonstration purposes.');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $payload = ['success' => false, 'message' => 'An unexpected error occurred. Please try again later.'];
             $status = 500;
         }
@@ -160,6 +161,7 @@ final class DocsController extends ActionController
         throw new PropagateResponseException($response, $status);
     }
 
+    #[\Override]
     protected function errorAction(): ResponseInterface
     {
         $this->throwJsonValidationErrorResponse();
@@ -239,7 +241,7 @@ final class DocsController extends ActionController
             $markdown = $content;
         }
 
-        if (empty($meta['title']) && preg_match('/^#\s+(.+)$/m', $markdown, $h1Match)) {
+        if (($meta['title'] ?? '') === '' && preg_match('/^#\s+(.+)$/m', $markdown, $h1Match)) {
             $meta['title'] = trim($h1Match[1]);
         }
 
@@ -279,13 +281,13 @@ final class DocsController extends ActionController
         );
 
         // Remove HTML comments
-        $html = preg_replace('/<!--[\s\S]*?-->/', '', $html);
+        $html = preg_replace('/<!--[\s\S]*?-->/', '', (string)$html);
         // Collapse whitespace between tags
-        $html = preg_replace('/>\s+</', '><', $html);
+        $html = preg_replace('/>\s+</', '><', (string)$html);
         // Collapse excessive whitespace inside tags/attributes
-        $html = preg_replace('/\s{2,}/', ' ', $html);
+        $html = preg_replace('/\s{2,}/', ' ', (string)$html);
         // Trim leading/trailing whitespace
-        $html = trim($html);
+        $html = trim((string)$html);
 
         // Restore <pre> blocks
         return strtr($html, $preBlocks);

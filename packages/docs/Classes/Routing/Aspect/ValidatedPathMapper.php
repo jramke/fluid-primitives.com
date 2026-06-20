@@ -13,17 +13,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ValidatedPathMapper implements StaticMappableAspectInterface
 {
-    private const MAX_PATH_LENGTH = 200;
-    private const ALLOWED_PATTERN = '/^[a-z0-9\/_-]*$/i';
-    private const CACHE_IDENTIFIER = 'docs_validated_paths';
-    private const CACHE_LIFETIME = 0; // Unlimited
+    private const int MAX_PATH_LENGTH = 200;
+    private const string ALLOWED_PATTERN = '/^[a-z0-9\/_-]*$/i';
+    private const string CACHE_IDENTIFIER = 'docs_validated_paths';
+    private const int CACHE_LIFETIME = 0; // Unlimited
 
     private array $validPaths = [];
     private static ?FrontendInterface $cache = null;
 
     public function __construct(array $settings = [])
     {
-        self::initializeCache();
+        $this->initializeCache();
         $this->loadValidPaths();
     }
 
@@ -78,12 +78,7 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
         if (str_contains($path, '//')) {
             return false;
         }
-
-        if (str_starts_with($path, '/') || str_ends_with($path, '/')) {
-            return false;
-        }
-
-        return true;
+        return !str_starts_with($path, '/') && !str_ends_with($path, '/');
     }
 
     private function isValidPath(string $path): bool
@@ -93,9 +88,9 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
 
     private function loadValidPaths(): void
     {
-        if (self::$cache !== null) {
+        if (self::$cache instanceof FrontendInterface) {
             $cached = self::$cache->get(self::CACHE_IDENTIFIER);
-            if (!empty($cached) && is_array($cached)) {
+            if (is_array($cached) && $cached !== []) {
                 $this->validPaths = $cached;
                 return;
             }
@@ -103,7 +98,7 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
 
         $this->validPaths = $this->extractValidPaths();
 
-        if (self::$cache) {
+        if (self::$cache instanceof FrontendInterface) {
             self::$cache->set(self::CACHE_IDENTIFIER, $this->validPaths, [], self::CACHE_LIFETIME);
         }
     }
@@ -125,7 +120,7 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
 
         $redirectSources = $this->extractRedirectSources();
         foreach ($redirectSources as $source) {
-            if (!(!str_starts_with($source, 'http://') && !str_starts_with($source, 'https://'))) {
+            if (!(!str_starts_with((string)$source, 'http://') && !str_starts_with((string)$source, 'https://'))) {
                 continue;
             }
 
@@ -145,7 +140,7 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
 
         try {
             $navData = Yaml::parseFile($navFile);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 
@@ -182,7 +177,7 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
 
         try {
             $redirects = Yaml::parseFile($redirectsFile);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 
@@ -193,28 +188,24 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
         return array_keys($redirects);
     }
 
-    private static function initializeCache(): void
+    private function initializeCache(): void
     {
-        if (self::$cache !== null) {
+        if (self::$cache instanceof FrontendInterface) {
             return;
         }
 
         try {
             $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
             self::$cache = $cacheManager->getCache('pages');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             self::$cache = null;
         }
     }
 
     public static function clearCache(): void
     {
-        try {
-            $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
-            $cache = $cacheManager->getCache('pages');
-            $cache->remove(self::CACHE_IDENTIFIER);
-        } catch (\Exception $e) {
-            // Ignore cache clear errors
-        }
+        $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
+        $cache = $cacheManager->getCache('pages');
+        $cache->remove(self::CACHE_IDENTIFIER);
     }
 }

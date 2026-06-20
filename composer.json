@@ -15,11 +15,11 @@
         "sort-packages": true
     },
     "scripts": {
-        "lint": "mago lint",
-        "lint:fix": "mago lint --fix --format-after-fix --unsafe",
+        "mago:lint": "mago lint",
+        "mago:lint:fix": "mago lint --fix --format-after-fix --unsafe",
+        "rector:process": "rector process",
         "format": "mago format",
-        "format:stdin": "mago format --stdin-input",
-        "analyze": "mago analyze",
+        "lint": ["@rector:process", "@format", "@mago:lint:fix"],
         "test": "pest -c packages/fluid-primitives/phpunit.xml --test-directory=packages/fluid-primitives/tests"
     },
     "require": {
@@ -64,6 +64,7 @@
         "andersundsehr/storybook": "^0.1.36",
         "carthage-software/mago": "^1.24",
         "pestphp/pest": "^4.4",
+        "ssch/typo3-rector": "^3.14",
         "typo3/testing-framework": "^9.5"
     },
     "autoload-dev": {

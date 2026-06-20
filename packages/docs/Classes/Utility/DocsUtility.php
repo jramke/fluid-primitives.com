@@ -28,7 +28,7 @@ class DocsUtility
             return $value ? 'true' : 'false';
         }
         if (is_array($value)) {
-            return empty($value)
+            return $value === []
                 ? '[]'
                 : json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }
@@ -67,7 +67,7 @@ class DocsUtility
 
     public static function getSimpleMarkdownConverter(): MarkdownConverter
     {
-        if (self::$simpleConverter === null) {
+        if (!self::$simpleConverter instanceof MarkdownConverter) {
             $environment = new Environment([
                 'external_link' => [
                     'internal_hosts' => $_SERVER['HTTP_HOST'],
@@ -84,7 +84,7 @@ class DocsUtility
 
     public static function getMarkdownConverter(): MarkdownConverter
     {
-        if (self::$converter === null) {
+        if (!self::$converter instanceof MarkdownConverter) {
             $environment = new Environment([
                 'heading_permalink' => [
                     'min_heading_level' => 2,

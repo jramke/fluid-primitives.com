@@ -79,7 +79,7 @@ class NavigationBuilder
         if (preg_match('/^---(.*?)---/s', $content, $matches)) {
             $meta = Yaml::parse($matches[1]);
             $body = preg_replace('/^---(.*?)---/s', '', $content, 1);
-            return [$meta, trim($body)];
+            return [$meta, trim((string)$body)];
         }
 
         return [[], $content];

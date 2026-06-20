@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Registry;
 
-final class ComponentRegistryDefinition
+final readonly class ComponentRegistryDefinition
 {
     public function __construct(
-        public readonly string $key,
-        public readonly string $name,
-        public readonly string $basePath,
-        public readonly array $files,
-        public readonly array $meta = [],
+        public string $key,
+        public string $name,
+        public string $basePath,
+        public array $files,
+        public array $meta = [],
     ) {}
 }

@@ -1,10 +1,12 @@
-php-version = "8.3"
+#:schema https://mago.carthage.software/1.30.0/schema.json
+version = "1"
+php-version = "8.3.0"
 
 [source]
 workspace = "."
 paths = ["packages", "config"]
 includes = ["vendor"]
-excludes = ["Public/**", "node_modules/**", "packages/fluid-primitives/public", "packages/fluid-primitives/vendor"]
+excludes = ["Public/**", "node_modules/**", "config/system/settings.php", "packages/fluid-primitives/public", "packages/fluid-primitives/vendor"]
 
 [formatter]
 preset = "default"
@@ -14,20 +16,19 @@ indent-heredoc = false
 
 [linter]
 integrations = ["symfony"]
-excludes = ["config", "**/ext_emconf.php"]
-baseline = "lint-baseline.toml"
-baseline-variant = "loose"
+# excludes = ["config", "**/ext_emconf.php"]
+# baseline = "lint-baseline.toml"
+# baseline-variant = "loose"
 
 [linter.rules]
-ambiguous-function-call = { enabled = false }
-literal-named-argument = { enabled = false }
-halstead = { effort-threshold = 7000 }
-too-many-methods = { enabled = false }
+too-many-methods = { threshold = 15 }
+cyclomatic-complexity = { threshold = 35 }
+kan-defect = { threshold = 3 }
+no-boolean-flag-parameter = { enabled = false }
+no-shorthand-ternary = { enabled = false }
 readable-literal = { enabled = false }
 tagged-todo = { enabled = false }
-no-empty = { enabled = false }
-no-global = { enabled = false }
+literal-named-argument = { enabled = false}
+no-else-clause = { enabled = false }
 no-isset = { enabled = false }
-no-shorthand-ternary = { enabled = false }
-cyclomatic-complexity = { threshold = 50 }
-kan-defect = { threshold = 3 }
+no-global = { enabled = false }
