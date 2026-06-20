@@ -6,16 +6,18 @@ This document provides guidance for AI coding agents working in this repository.
 
 Fluid Primitives is a headless component library for TYPO3 Fluid templating. It provides UI primitives (Accordion, Dialog, Tabs, Select, etc.) that are server-rendered with PHP/Fluid and hydrated client-side with TypeScript using Zag.js state machines.
 
+You can check out the docs `.md` files under `packages/docs/Resources/Private/Content/docs` or the index/nav under `packages/docs/Resources/Private/Content/nav.yaml` for more informations about core concepts of the library or some components.
+
 **Key technologies:**
 
 - PHP 8.3 (TYPO3 extension, ViewHelpers, Contexts)
 - TypeScript (client-side hydration using Zag.js)
 - TYPO3 Fluid (HTML-like templating language)
-- Tailwind CSS v4 (documentation site styling)
+- Tailwind CSS v4 (documentation site and registry styling)
 
 ## Project Structure
 
-```
+```txt
 packages/
 ├── fluid-primitives/          # Main library (NPM + Composer package)
 │   ├── Classes/               # PHP: ViewHelpers, Contexts, Services
@@ -24,7 +26,7 @@ packages/
 │   │   └── Primitives/        # Component implementations
 │   │       └── [Name]/        # e.g., Accordion/, Dialog/
 │   │           ├── *.ts       # Component class
-│   │           ├── *.entry.ts # Auto-mount entry
+│   │           ├── *.entry.ts # Client-Side component entry files
 │   │           └── *.html     # Fluid templates
 └── docs/                      # Documentation website (TYPO3 sitepackage)
 ```
@@ -51,24 +53,24 @@ ddev npm run docs:dev         # Dev server for docs (port 5173)
 ddev npm run format           # Format all files with Prettier
 ddev npm run format:check     # Check formatting without writing
 ddev npm run types            # TypeScript type checking (tsc --noEmit)
-ddev composer run format      # Format PHP files with Mago
-ddev composer run lint        # Static analysis for PHP with Mago
+ddev composer run format      # Format PHP files with Mago, always run after changes are done
+ddev composer run lint        # Static analysis for PHP with Mago and Rector
 ```
 
 ## Testing
 
-Tests are located in `packages/fluid-primitives/tests/` and use Pest (on top of PHPUnit) with TYPO3 testing framework.
+Tests are located in `packages/fluid-primitives/tests/` and use PHPUnit with the TYPO3 testing framework.
 
 ### Test Structure
 
-```
+```txt
 packages/fluid-primitives/tests/
 ├── Unit/                      # Core infrastructure tests (utilities, registry, base classes)
 ├── Functional/                # Full TYPO3 tests with database (SQLite)
 │   ├── ViewHelpers/           # ViewHelper rendering tests
 │   └── Components/            # Component rendering tests (all primitives go here)
 ├── Bootstrap.php              # Test bootstrap (autoloader + TYPO3 testing framework)
-├── Pest.php                   # Pest configuration
+
 ├── TestCase.php               # Base class for unit tests
 └── ViewHelperTestCase.php     # Base class for ViewHelper tests
 ```
@@ -83,29 +85,12 @@ packages/fluid-primitives/tests/
 ```bash
 # From monorepo root (recommended for development)
 ddev composer test              # Run all tests
+ddev composer test:unit         # Run unit tests
+ddev composer test:functional   # Run functional tests
 
 # From package directory (used by GitHub Actions)
 cd packages/fluid-primitives
 ddev composer test              # Run all tests
-```
-
-### Writing Tests
-
-**Unit tests** extend `Jramke\FluidPrimitives\Tests\TestCase`:
-
-```php
-it('does something', function () {
-    expect($result)->toBe($expected);
-});
-```
-
-**Functional tests** extend `Jramke\FluidPrimitives\Tests\Functional\FunctionalTestCase`:
-
-```php
-it('renders component correctly', function () {
-    $this->importCSVDataSet(__DIR__ . '/Fixtures/pages.csv');
-    // Full TYPO3 environment available
-});
 ```
 
 ### Test Quality Guidelines
@@ -132,14 +117,19 @@ Write meaningful tests that justify their existence. Avoid trivial tests.
 
 ```php
 // BAD: Multiple trivial tests
-it('returns false when value not in array', function () { ... });
-it('returns true when value in array', function () { ... });
-it('handles multiple values', function () { ... });
+#[Test]
+public function returnsFalseWhenValueNotInArray(): void
+#[Test]
+public function returnsTrueWhenValueInArray(): void
+#[Test]
+public function handlesMultipleValues(): void
 
 // GOOD: Single consolidated test
+#[Test]
+public function returnsExpandedBasedOnDefaultValueArrayMembership(): void
 it('returns expanded based on defaultValue array membership', function () {
-    expect($context->getItemState(['value' => 'item-1'])->expanded)->toBeTrue();
-    expect($context->getItemState(['value' => 'item-3'])->expanded)->toBeFalse();
+    $this->assertTrue($context->getItemState(['value' => 'item-1'])->expanded);
+    $this->assertFalse($context->getItemState(['value' => 'item-3'])->expanded);
 });
 ```
 
@@ -147,10 +137,12 @@ it('returns expanded based on defaultValue array membership', function () {
 
 ```php
 // BAD
-it('calls str_contains with correct arguments', ...);
+#[Test]
+public function itCallsStr_containsWithCorrectArguments(): void
 
 // GOOD
-it('skips primitives namespace when extracting base name', ...);
+#[Test]
+public function skipsPrimitivesNamespacesWhenExtractingBaseName(): void
 ```
 
 ## Code Formatting
@@ -170,13 +162,14 @@ Uses Prettier with `prettier-plugin-organize-imports` for automatic import sorti
 }
 ```
 
-Run `npm run format` before committing changes.
+We also use Mago for formatting PHP files.
+
+Run `ddev npm run format` and `ddev composer run format` before committing changes.
 
 ### EditorConfig
 
 - **Unix line endings (LF)** for all files
-- **Tabs** for: JS, TS, TSX, JSX, CSS, SCSS (size 4)
-- **Spaces** for: PHP, HTML, YAML, JSON, Markdown (size 4, YAML size 2)
+- **Spaces** for everything (size 4, YAML size 2)
 
 ## TypeScript Guidelines
 
@@ -233,13 +226,11 @@ Each component has an auto-mount entry file (`*.entry.ts`):
 import { mount } from '../../Client';
 import { Accordion } from './Accordion';
 
-(() => {
-    mount('accordion', ({ props }) => {
-        const accordion = new Accordion(props);
-        accordion.init();
-        return accordion;
-    });
-})();
+mount('accordion', ({ props }) => {
+    const accordion = new Accordion(props);
+    accordion.init();
+    return accordion;
+});
 ```
 
 ### Naming Conventions (TypeScript)

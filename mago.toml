@@ -16,9 +16,6 @@ indent-heredoc = false
 
 [linter]
 integrations = ["symfony"]
-# excludes = ["config", "**/ext_emconf.php"]
-# baseline = "lint-baseline.toml"
-# baseline-variant = "loose"
 
 [linter.rules]
 too-many-methods = { threshold = 15 }

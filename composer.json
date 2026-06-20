@@ -19,8 +19,10 @@
         "mago:lint:fix": "mago lint --fix --format-after-fix --unsafe",
         "rector:process": "rector process",
         "format": "mago format",
-        "lint": ["@rector:process", "@format", "@mago:lint:fix"],
-        "test": "pest -c packages/fluid-primitives/phpunit.xml --test-directory=packages/fluid-primitives/tests"
+        "lint": ["@rector:process", "@format", "@mago:lint:fix", "@mago:lint"],
+        "test": "composer run --working-dir=packages/fluid-primitives test --",
+        "test:unit": "composer run --working-dir=packages/fluid-primitives test:unit --",
+        "test:functional": "composer run --working-dir=packages/fluid-primitives test:functional --"
     },
     "require": {
         "brainworxx/includekrexx": "^6",
@@ -63,7 +65,6 @@
     "require-dev": {
         "andersundsehr/storybook": "^0.1.36",
         "carthage-software/mago": "^1.24",
-        "pestphp/pest": "^4.4",
         "ssch/typo3-rector": "^3.14",
         "typo3/testing-framework": "^9.5"
     },
