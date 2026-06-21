@@ -66,6 +66,21 @@
             <ui:field.error />
         </ui:field.root>
 
+        <ui:field.root name="parkingTicket" required="{true}">
+            <ui:radioGroup.root>
+                <ui:radioGroup.label>Parking Ticket</ui:radioGroup.label>
+                <ui:radioGroup.item value="a">
+                    <ui:radioGroup.itemControl />
+                    <ui:radioGroup.itemText>Parking spot A</ui:radioGroup.itemText>
+                </ui:radioGroup.item>
+                <ui:radioGroup.item value="b">
+                    <ui:radioGroup.itemControl />
+                    <ui:radioGroup.itemText>Parking spot B</ui:radioGroup.itemText>
+                </ui:radioGroup.item>
+            </ui:radioGroup.root>
+            <ui:field.error />
+        </ui:field.root>
+
         <ui:field.root name="name" required="{true}">
             <ui:field.label>Name</ui:field.label>
             <ui:field.control asChild="{true}">
