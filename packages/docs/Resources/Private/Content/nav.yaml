@@ -1,7 +1,6 @@
 - group: Overview
   items:
     - docs/introduction
-    - docs/why
     - docs/getting-started
 
 - group: Core Concepts

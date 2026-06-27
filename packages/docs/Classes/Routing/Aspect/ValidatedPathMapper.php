@@ -114,6 +114,8 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
 
         $paths[''] = true;
 
+        $paths['the-pitch'] = true;
+
         if (Environment::getContext()->isDevelopment()) {
             $paths['playground'] = true;
         }
