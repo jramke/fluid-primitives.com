@@ -4,73 +4,51 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Domain\Model;
 
-use TYPO3\CMS\Extbase\Annotation\Validate;
+use TYPO3\CMS\Extbase\Attribute\Validate;
 
 class EventRegistration
 {
-    #[Validate(['validator' => 'String'])]
-    #[Validate(['validator' => 'NotEmpty'])]
-    #[Validate([
-        'validator' => 'RegularExpression',
-        'options' => ['regularExpression' => '/^(vip|standard|student)$/'],
-    ])]
+    #[Validate(validator: 'String')]
+    #[Validate(validator: 'NotEmpty')]
+    #[Validate(validator: 'RegularExpression', options: ['regularExpression' => '/^(vip|standard|student)$/'])]
     private string $ticketType = '';
 
-    #[Validate([
-        'validator' => 'NumberRange',
-        'options' => ['minimum' => 1, 'maximum' => 10],
-    ])]
+    #[Validate(validator: 'NumberRange', options: ['minimum' => 1, 'maximum' => 10])]
     private int $ticketCount = 1;
 
-    #[Validate(['validator' => 'String'])]
-    #[Validate(['validator' => 'NotEmpty'])]
-    #[Validate([
-        'validator' => 'StringLength',
-        'options' => ['maximum' => 255],
-    ])]
+    #[Validate(validator: 'String')]
+    #[Validate(validator: 'NotEmpty')]
+    #[Validate(validator: 'StringLength', options: ['maximum' => 255])]
     private string $name = '';
 
-    #[Validate(['validator' => 'EmailAddress'])]
-    #[Validate(['validator' => 'NotEmpty'])]
-    #[Validate([
-        'validator' => 'StringLength',
-        'options' => ['maximum' => 255],
-    ])]
+    #[Validate(validator: 'EmailAddress')]
+    #[Validate(validator: 'NotEmpty')]
+    #[Validate(validator: 'StringLength', options: ['maximum' => 255])]
     private string $email = '';
 
-    #[Validate(['validator' => 'String'])]
-    #[Validate([
-        'validator' => 'StringLength',
-        'options' => ['maximum' => 255],
-    ])]
+    #[Validate(validator: 'String')]
+    #[Validate(validator: 'StringLength', options: ['maximum' => 255])]
     private string $phone = '';
 
-    #[Validate(['validator' => 'String'])]
-    #[Validate(['validator' => 'NotEmpty'])]
-    #[Validate([
-        'validator' => 'RegularExpression',
-        'options' => ['regularExpression' => '/^(person|virtual)$/'],
-    ])]
+    #[Validate(validator: 'String')]
+    #[Validate(validator: 'NotEmpty')]
+    #[Validate(validator: 'RegularExpression', options: ['regularExpression' => '/^(person|virtual)$/'])]
     private string $mode = '';
 
-    #[Validate([
-        'validator' => 'Collection',
-        'options' => ['elementValidator' => 'String'],
-    ])]
+    // TODO: add a custom validator for the whole model so we can check studentId based on ticket type
+    #[Validate(validator: 'String')]
+    #[Validate(validator: 'NotEmpty')]
+    private string $studentId = '';
+
+    #[Validate(validator: 'Collection', options: ['elementValidator' => 'String'])]
     /** @var array<string> */
     private array $a11yNeeds = [];
 
-    #[Validate(['validator' => 'Text'])]
-    #[Validate([
-        'validator' => 'StringLength',
-        'options' => ['maximum' => 500],
-    ])]
+    #[Validate(validator: 'Text')]
+    #[Validate(validator: 'StringLength', options: ['maximum' => 500])]
     private string $comment = '';
 
-    #[Validate([
-        'validator' => 'Boolean',
-        'options' => ['is' => true],
-    ])]
+    #[Validate(validator: 'Boolean', options: ['is' => true])]
     private bool $privacy = false;
 
     public function getTicketType(): string
@@ -131,6 +109,16 @@ class EventRegistration
     public function setMode(string $mode): void
     {
         $this->mode = $mode;
+    }
+
+    public function getStudentId(): string
+    {
+        return $this->studentId;
+    }
+
+    public function setStudentId(string $studentId): void
+    {
+        $this->studentId = $studentId;
     }
 
     /** @return array<string> */

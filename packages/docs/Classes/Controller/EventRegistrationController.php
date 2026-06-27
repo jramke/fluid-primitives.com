@@ -5,18 +5,23 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Controller;
 
 use FluidPrimitives\Docs\Domain\Model\EventRegistration;
+use FluidPrimitives\Docs\Domain\Validator\EventRegistrationValidator;
 use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
+use TYPO3\CMS\Extbase\Attribute\Validate;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 final class EventRegistrationController extends ActionController
 {
     use AjaxValidationTrait;
 
-    public function registrationAction(EventRegistration $eventRegistration): ResponseInterface
-    {
-        // Reject VIP tickets as a server-side business rule
+    public function registrationAction(
+        #[Validate(validator: EventRegistrationValidator::class)]
+        EventRegistration $eventRegistration,
+    ): ResponseInterface {
+        // Reject VIP tickets as a server-side business rule without a validator.
+        // Simply moving this into the validator and calling addErrorForProperty would result in the same behavior.
         if ($eventRegistration->getTicketType() === 'vip') {
             $payload = ['eventRegistration.ticketType' => ['VIP tickets are sold out.']];
             $response = $this->jsonResponse(json_encode($payload))->withStatus(422);

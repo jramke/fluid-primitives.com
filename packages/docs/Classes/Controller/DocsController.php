@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Controller;
 
 use FluidPrimitives\Docs\Domain\Model\EventRegistration;
+use FluidPrimitives\Docs\Domain\Validator\EventRegistrationValidator;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Utility\DocsUtility;
@@ -14,6 +15,7 @@ use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Attribute\Validate;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 
@@ -78,8 +80,10 @@ final class DocsController extends ActionController
         return $this->htmlResponse();
     }
 
-    public function registrationAction(EventRegistration $eventRegistration): ResponseInterface
-    {
+    public function registrationAction(
+        #[Validate(validator: EventRegistrationValidator::class)]
+        EventRegistration $eventRegistration,
+    ): ResponseInterface {
         $payload = ['success' => true];
         $status = 200;
 

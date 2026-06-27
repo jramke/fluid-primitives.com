@@ -37,6 +37,14 @@
             <ui:field.error />
         </ui:field.root>
 
+        <ui:field.root name="studentId" required="{true}" hidden="{true}" disabled="{true}">
+            <ui:field.label>Student ID</ui:field.label>
+            <ui:field.control asChild="{true}">
+                <ui:input />
+            </ui:field.control>
+            <ui:field.error />
+        </ui:field.root>
+
         <ui:field.root name="ticketCount" required="{true}">
             <ui:numberInput.root min="1" max="10">
                 <ui:numberInput.scrubber>
@@ -61,21 +69,6 @@
                 <ui:radioGroup.item value="virtual">
                     <ui:radioGroup.itemControl />
                     <ui:radioGroup.itemText>Virtual</ui:radioGroup.itemText>
-                </ui:radioGroup.item>
-            </ui:radioGroup.root>
-            <ui:field.error />
-        </ui:field.root>
-
-        <ui:field.root name="parkingTicket" required="{true}">
-            <ui:radioGroup.root>
-                <ui:radioGroup.label>Parking Ticket</ui:radioGroup.label>
-                <ui:radioGroup.item value="a">
-                    <ui:radioGroup.itemControl />
-                    <ui:radioGroup.itemText>Parking spot A</ui:radioGroup.itemText>
-                </ui:radioGroup.item>
-                <ui:radioGroup.item value="b">
-                    <ui:radioGroup.itemControl />
-                    <ui:radioGroup.itemText>Parking spot B</ui:radioGroup.itemText>
                 </ui:radioGroup.item>
             </ui:radioGroup.root>
             <ui:field.error />
