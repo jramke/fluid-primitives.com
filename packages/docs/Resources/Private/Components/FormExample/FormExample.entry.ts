@@ -7,8 +7,8 @@ mount('form-example', () => {
 
     const form = new Form({
         ...data.props,
-        validation: ({ formData }) => {
-            const homepage = formData.get('homepage');
+        validation: ({ values }) => {
+            const homepage = values.get('homepage');
             if (typeof homepage !== 'string' || homepage.trim() === '') {
                 return {
                     homepage: { messages: ['Please enter an url.'] },
@@ -29,9 +29,9 @@ mount('form-example', () => {
                 };
             }
         },
-        onSubmit: async ({ formData, api, post }) => {
+        onSubmit: async ({ api, post }) => {
             const [response] = await Promise.all([
-                post(api.getAction(), formData),
+                post(api.getAction()),
                 new Promise(resolve => setTimeout(resolve, 800)),
             ]);
 

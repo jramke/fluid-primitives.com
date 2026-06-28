@@ -1,6 +1,6 @@
 <ui:exposeToClient />
 
-<ui:form action="homepage" controlled="{true}" rootId="example-form" class="min-w-[275px]">
+<ui:form.root action="homepage" controlled="{true}" rootId="example-form" class="min-w-[275px]">
 
     <ui:form.content class="space-y-4">
         <ui:field.root name="homepage" required="{true}">
@@ -30,6 +30,6 @@
         <ui:form.successText class="block">Your homepage was submitted successfully.</ui:form.successText>
         <ui:button type="reset">Submit another</ui:button>
     </ui:form.indicator>
-</ui:form>
+</ui:form.root>
 
 <vite:asset entry="EXT:docs/Resources/Private/Components/FormExample/FormExample.entry.ts" />

@@ -5,51 +5,38 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Domain\Model;
 
 use TYPO3\CMS\Extbase\Attribute\Validate;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
-class EventRegistration
+class EventRegistration extends AbstractEntity
 {
     #[Validate(validator: 'String')]
     #[Validate(validator: 'NotEmpty')]
     #[Validate(validator: 'RegularExpression', options: ['regularExpression' => '/^(vip|standard|student)$/'])]
-    private string $ticketType = '';
+    protected string $ticketType = '';
 
     #[Validate(validator: 'NumberRange', options: ['minimum' => 1, 'maximum' => 10])]
-    private int $ticketCount = 1;
+    protected int $ticketCount = 1;
 
-    #[Validate(validator: 'String')]
-    #[Validate(validator: 'NotEmpty')]
-    #[Validate(validator: 'StringLength', options: ['maximum' => 255])]
-    private string $name = '';
-
-    #[Validate(validator: 'EmailAddress')]
-    #[Validate(validator: 'NotEmpty')]
-    #[Validate(validator: 'StringLength', options: ['maximum' => 255])]
-    private string $email = '';
-
-    #[Validate(validator: 'String')]
-    #[Validate(validator: 'StringLength', options: ['maximum' => 255])]
-    private string $phone = '';
+    protected EventRegistrationPerson $person;
 
     #[Validate(validator: 'String')]
     #[Validate(validator: 'NotEmpty')]
     #[Validate(validator: 'RegularExpression', options: ['regularExpression' => '/^(person|virtual)$/'])]
-    private string $mode = '';
+    protected string $mode = '';
 
-    // TODO: add a custom validator for the whole model so we can check studentId based on ticket type
     #[Validate(validator: 'String')]
-    #[Validate(validator: 'NotEmpty')]
-    private string $studentId = '';
+    protected string $studentId = '';
 
     #[Validate(validator: 'Collection', options: ['elementValidator' => 'String'])]
     /** @var array<string> */
-    private array $a11yNeeds = [];
+    protected array $a11yNeeds = [];
 
     #[Validate(validator: 'Text')]
     #[Validate(validator: 'StringLength', options: ['maximum' => 500])]
-    private string $comment = '';
+    protected string $comment = '';
 
     #[Validate(validator: 'Boolean', options: ['is' => true])]
-    private bool $privacy = false;
+    protected bool $privacy = false;
 
     public function getTicketType(): string
     {
@@ -71,34 +58,14 @@ class EventRegistration
         $this->ticketCount = $ticketCount;
     }
 
-    public function getName(): string
+    public function getPerson(): EventRegistrationPerson
     {
-        return $this->name;
+        return $this->person;
     }
 
-    public function setName(string $name): void
+    public function setPerson(EventRegistrationPerson $person): void
     {
-        $this->name = $name;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
-    }
-
-    public function getPhone(): string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(string $phone): void
-    {
-        $this->phone = $phone;
+        $this->person = $person;
     }
 
     public function getMode(): string

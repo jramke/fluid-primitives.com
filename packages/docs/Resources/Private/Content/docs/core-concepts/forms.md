@@ -31,7 +31,7 @@ typo3 ui:add form && typo3 ui:add field
 Use `ui:form` with `action` pointing to your Extbase action and `objectName` matching the argument name in your controller:
 
 ```html
-<ui:form action="registration" objectName="eventRegistration" object="{eventRegistration}" controlled="{true}" rootId="registration-form">
+<ui:form.root action="registration" objectName="eventRegistration" object="{eventRegistration}" controlled="{true}" rootId="registration-form">
     <ui:field.root name="email" required="{true}">
         <ui:field.label>Email</ui:field.label>
         <ui:field.control asChild="{true}">
@@ -42,7 +42,7 @@ Use `ui:form` with `action` pointing to your Extbase action and `objectName` mat
     </ui:field.root>
 
     <ui:button type="submit">Register</ui:button>
-</ui:form>
+</ui:form.root>
 ```
 
 The form renders as a standard `<form>` with `novalidate` and the Extbase action URL resolved server-side. The `object` prop pre-populates field values from an existing model instance.
@@ -101,8 +101,8 @@ mount('my-form', () => {
 
     const form = new Form({
         ...data.props,
-        onSubmit: async ({ formData, api, post }) => {
-            const response = await post(api.getAction(), formData);
+        onSubmit: async ({ api, post }) => {
+            const response = await post(api.getAction());
             return response.ok;
         },
     });
@@ -111,7 +111,9 @@ mount('my-form', () => {
 });
 ```
 
-The `post()` helper automatically adds the Extbase field name prefix (`tx_myext[MyObject][field]`) before sending, so your form fields can use plain names like `email` in the template. It should be used for endpoints that expect the same payload shape as the form itself. It also handles 422 JSON validation responses for you by mapping them back to fields and transitioning the form to `invalid`.
+The `post()` helper automatically adds the Extbase field name prefix (`tx_myext[MyObject][field]`) before sending, so your form fields can use plain names like `email` or nested dot paths like `person.name` in the template. It always submits the current form as `FormData`, and it also handles 422 JSON validation responses for you by mapping them back to fields and transitioning the form to `invalid`.
+
+The Form API exposes a `FormValues` object via `api.getValues()` and inside `validation` / `onSubmit` callbacks. `FormValues` keeps leaf values uncoerced as `string | File`, supports `get(path)`, `getAll(path)`, `has(path)`, `pick(path)`, and `toObject()`, and uses your field names as canonical dot paths. That means `ticketCount` still reads as `'2'`, not `2`, until your validator or application code converts it.
 
 ## The Field Component
 
@@ -248,7 +250,7 @@ public function registrationAction(EventRegistration $eventRegistration): Respon
 For form-level messaging, use `api.setErrorText()` and `api.setSuccessText()`. The `form.content`, `form.indicator`, `form.errorText`, and `form.successText` primitives remove the need for `group-[[data-state=...]]` selectors:
 
 ```html
-<ui:form ...>
+<ui:form.root ...>
     <ui:form.content>
         <!-- fields -->
     </ui:form.content>
@@ -261,14 +263,14 @@ For form-level messaging, use `api.setErrorText()` and `api.setSuccessText()`. T
     <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}">
         <ui:form.successText>Your registration was submitted successfully. Thank you!</ui:form.successText>
     </ui:form.indicator>
-</ui:form>
+</ui:form.root>
 ```
 
 Set the status text in your entry file and return the matching submit result:
 
 ```typescript
-onSubmit: async ({ formData, api, post }) => {
-    const response = await post(api.getAction(), formData);
+onSubmit: async ({ api, post }) => {
+    const response = await post(api.getAction());
     const json = await response.json();
 
     if (!response.ok) {
@@ -315,8 +317,8 @@ const validation = z.object({
 const form = new Form({
     ...data.props,
     validation,
-    onSubmit: async ({ formData, api, post }) => {
-        const response = await post(api.getAction(), formData);
+    onSubmit: async ({ api, post }) => {
+        const response = await post(api.getAction());
         return response.ok;
     },
 });
@@ -328,25 +330,25 @@ Validation keys must match the field `name` props in the template. If client-sid
 
 ## Manual Client-Side Validation
 
-If you prefer not to use a schema library, pass a synchronous `validation` callback. It receives the current `formData` and should return the same field-keyed error shape used by server validation responses. Missing `value` properties are filled automatically with the current field value:
+If you prefer not to use a schema library, pass a synchronous `validation` callback. It receives the current `values` object and should return the same flat field-keyed error shape used by server validation responses. Missing `value` properties are filled automatically with the current field value:
 
 ```typescript
 import { Form } from 'fluid-primitives/form';
 
 const form = new Form({
     ...data.props,
-    validation: ({ formData }) => {
+    validation: ({ values }) => {
         const errors: Record<string, { messages: string[] }> = {};
-        const email = formData.get('email') as string;
+        const email = values.get('email');
 
-        if (!email || !email.includes('@')) {
+        if (typeof email !== 'string' || !email.includes('@')) {
             errors.email = { messages: ['Please enter a valid email address.'] };
         }
 
         return errors;
     },
-    onSubmit: async ({ formData, api, post }) => {
-        const response = await post(api.getAction(), formData);
+    onSubmit: async ({ api, post }) => {
+        const response = await post(api.getAction());
 
         return response.ok;
     },
@@ -364,8 +366,8 @@ import { Form } from 'fluid-primitives/form';
 
 const form = new Form({
     ...data.props,
-    onSubmit: async ({ formData, post }) => {
-        const response = await post('/email-check', formData);
+    onSubmit: async ({ post }) => {
+        const response = await post('/email-check');
 
         if (response.status === 409) {
             return {

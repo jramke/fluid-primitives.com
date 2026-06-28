@@ -1,5 +1,5 @@
 import { getHydrationData, mount } from 'fluid-primitives';
-import { Form } from 'fluid-primitives/form';
+import { Form, type FormValues } from 'fluid-primitives/form';
 import { z } from 'zod';
 
 mount('event-registration', ({ props, createHydrator }) => {
@@ -14,9 +14,11 @@ mount('event-registration', ({ props, createHydrator }) => {
             .number('Please enter a valid number of tickets')
             .min(1, 'You must register at least 1 ticket')
             .max(10, 'You can only register up to 10 tickets'),
-        name: z.string('Please enter your name').min(1, 'Please enter your name'),
-        email: z.email('Please enter your email'),
-        phone: z.string().optional(),
+        person: z.object({
+            name: z.string('Please enter your name').min(1, 'Please enter your name'),
+            email: z.email('Please enter your email'),
+            phone: z.string().optional(),
+        }),
         mode: z.enum(['person', 'virtual'], 'Please select a mode of attendance'),
         studentId: z.string().optional(),
         a11yNeeds: z.array(z.string()).optional(),
@@ -24,21 +26,19 @@ mount('event-registration', ({ props, createHydrator }) => {
         privacy: z.literal('1', 'You must agree to the privacy policy'),
     });
 
-    const needsStudentId = (formData: FormData) => formData.get('ticketType') === 'student';
+    const needsStudentId = (values: FormValues) => values.get('ticketType') === 'student';
 
     const form = new Form({
         ...data.props,
         // We need to manually validate the schema because of the conditional logic for studentId.
         // Zod's refine or discriminatedUnion would result in inconsistent validation while the user interacts with the form
         // otherwise we could just pass the schema instead of the callback
-        validation: ({ formData, validateWithStandardSchema }) => {
-            let errors = validateWithStandardSchema(schema, formData);
-            console.log('validation', { errors, studentId: formData.get('studentId') });
+        validation: ({ values, validateWithStandardSchema }) => {
+            let errors = validateWithStandardSchema(schema);
 
-            const hasStudentId =
-                formData.get('studentId') !== null && formData.get('studentId') !== '';
+            const hasStudentId = values.get('studentId') !== null && values.get('studentId') !== '';
 
-            if (needsStudentId(formData) && !hasStudentId) {
+            if (needsStudentId(values) && !hasStudentId) {
                 errors = {
                     ...errors,
                     studentId: {
@@ -49,13 +49,10 @@ mount('event-registration', ({ props, createHydrator }) => {
 
             return errors;
         },
-        onSubmit: async ({ formData, api, post }) => {
-            // Modify formData if needed before sending
-            console.log(Object.fromEntries(formData.entries()));
-
+        onSubmit: async ({ api, post }) => {
             // Wait at least 800ms so we dont flash a loading state and show were working very hard
             const [response] = await Promise.all([
-                post(api.getAction(), formData),
+                post(api.getAction()),
                 new Promise(resolve => setTimeout(resolve, 800)),
             ]);
 

@@ -74,7 +74,7 @@
             <ui:field.error />
         </ui:field.root>
 
-        <ui:field.root name="name" required="{true}">
+        <ui:field.root name="person.name" required="{true}">
             <ui:field.label>Name</ui:field.label>
             <ui:field.control asChild="{true}">
                 <ui:input autocomplete="name" />
@@ -83,7 +83,7 @@
             <ui:field.error />
         </ui:field.root>
 
-        <ui:field.root name="email" required="{true}">
+        <ui:field.root name="person.email" required="{true}">
             <ui:field.label>Email</ui:field.label>
             <ui:field.control asChild="{true}">
                 <ui:input type="email" autocomplete="email" />
@@ -92,7 +92,7 @@
             <ui:field.error />
         </ui:field.root>
 
-        <ui:field.root name="phone">
+        <ui:field.root name="person.phone">
             <ui:field.label>Phone</ui:field.label>
             <ui:field.control asChild="{true}">
                 <ui:input type="tel" autocomplete="tel" />
