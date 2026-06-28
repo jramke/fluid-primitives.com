@@ -1,7 +1,7 @@
 <ui:exposeToClient />
 <ui:prop name="object" type="FluidPrimitives\Docs\Domain\Model\EventRegistration" optional="{true}" />
 
-<ui:form
+<ui:form.root
     action="registration"
     objectName="eventRegistration"
     object="{object}"
@@ -159,6 +159,6 @@
         <h2 class="font-medium">Success</h2>
         <ui:form.successText class="block">Your registration was submitted successfully. Thank you!</ui:form.successText>
     </ui:form.indicator>
-</ui:form>
+</ui:form.root>
 
 <vite:asset entry="EXT:docs/Resources/Private/Components/EventRegistration/EventRegistration.entry.ts" />
