@@ -21,6 +21,7 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         'Public/**',
+        // '**/public/**',
         'node_modules/**',
         'config/system/settings.php',
         'packages/fluid-primitives/public',
@@ -28,11 +29,11 @@ return RectorConfig::configure()
     ])
     // uncomment to reach your current PHP version
     // ->withPhpSets()
-    ->withPhpVersion(PhpVersion::PHP_83)
+    ->withPhpVersion(PhpVersion::PHP_82)
     ->withSets([
         // Rector rules
         SetList::CODE_QUALITY,
-        LevelSetList::UP_TO_PHP_83,
+        LevelSetList::UP_TO_PHP_82,
 
         Typo3SetList::CODE_QUALITY,
         Typo3SetList::GENERAL,
