@@ -28,7 +28,6 @@ return RectorConfig::configure()
     ])
     // uncomment to reach your current PHP version
     // ->withPhpSets()
-    ->withoutParallel()
     ->withPhpVersion(PhpVersion::PHP_83)
     ->withSets([
         // Rector rules
