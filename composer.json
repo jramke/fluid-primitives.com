@@ -20,9 +20,7 @@
         "rector:process": "rector process",
         "format": "mago format",
         "lint": ["@rector:process", "@format", "@mago:lint:fix", "@mago:lint"],
-        "test": "composer run --working-dir=packages/fluid-primitives test --",
-        "test:unit": "composer run --working-dir=packages/fluid-primitives test:unit --",
-        "test:functional": "composer run --working-dir=packages/fluid-primitives test:functional --"
+        "test": "composer run --working-dir=packages/fluid-primitives test:fromdocs --"
     },
     "require": {
         "brainworxx/includekrexx": "^6",
