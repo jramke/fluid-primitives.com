@@ -11,6 +11,7 @@ use Phiki\Transformers\AbstractTransformer;
 // @see https://github.com/phikiphp/phiki/issues/131
 class RemoveLangClassTransformer extends AbstractTransformer
 {
+    #[\Override]
     public function pre(Element $pre): Element
     {
         $classes = $pre->properties->get('class');

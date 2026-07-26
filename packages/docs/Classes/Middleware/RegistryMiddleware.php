@@ -14,12 +14,12 @@ use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 
-final class RegistryMiddleware implements MiddlewareInterface
+final readonly class RegistryMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly ComponentRegistry $componentRegistry,
-        private readonly UmamiService $umamiService,
-        private readonly StreamFactoryInterface $streamFactory,
+        private ComponentRegistry $componentRegistry,
+        private UmamiService $umamiService,
+        private StreamFactoryInterface $streamFactory,
     ) {}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

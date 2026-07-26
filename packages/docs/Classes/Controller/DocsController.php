@@ -5,41 +5,25 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Controller;
 
 use FluidPrimitives\Docs\Domain\Model\EventRegistration;
+use FluidPrimitives\Docs\Domain\Validator\EventRegistrationValidator;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
-use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Utility\DocsUtility;
 use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
-use League\CommonMark\Environment\Environment;
-use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
-use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
-use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
-use League\CommonMark\Extension\Table\TableExtension;
-use League\CommonMark\Extension\TableOfContents\Node\TableOfContents;
-use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
-use League\CommonMark\MarkdownConverter;
-use League\CommonMark\Node\Query;
-use League\CommonMark\Renderer\HtmlRenderer;
-use Phiki\Theme\Theme;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Yaml\Yaml;
-use TYPO3\CMS\Core\Core\Environment as Typo3Environment;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\View\ViewFactoryInterface;
+use TYPO3\CMS\Extbase\Attribute\Validate;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
-use TYPO3Fluid\Fluid\Core\Component\ComponentDefinitionProviderInterface;
-use TYPO3Fluid\Fluid\Core\Component\ComponentTemplateResolverInterface;
 
 final class DocsController extends ActionController
 {
     use AjaxValidationTrait;
 
-    private ?MarkdownConverter $converter = null;
-
     public function __construct(
-        private readonly ViewFactoryInterface $viewFactory,
         private readonly NavigationBuilder $navigationBuilder,
         private readonly RenderingContextFactory $renderingContextFactory,
         private readonly DocsPageTitleProvider $pageTitleProvider,
@@ -53,7 +37,7 @@ final class DocsController extends ActionController
             return $this->htmlResponse();
         }
 
-        if ($path === 'playground' && Typo3Environment::getContext()->isDevelopment()) {
+        if ($path === 'playground' && Environment::getContext()->isDevelopment()) {
             $this->view->assign('layout', 'playground');
             $test = new EventRegistration();
             // $test->setEmail('test@example.com');
@@ -70,7 +54,7 @@ final class DocsController extends ActionController
 
         if (!is_file($filePath)) {
             $redirects = Yaml::parseFile($baseDir . 'redirects.yaml') ?? [];
-            $target = $redirects[rtrim($path, '/')] ??= null;
+            $target = $redirects[rtrim($path, '/')] ?? null;
             if ($target) {
                 return $this->redirectToUri($target, 302);
             }
@@ -81,37 +65,10 @@ final class DocsController extends ActionController
         }
 
         [$meta, $markdown] = $this->parseMarkdownFile($filePath);
-
-        $processedMarkdown = $this->processFluidTemplates($markdown);
-        $converter = DocsUtility::getMarkdownConverter();
-        $converted = $converter->convert($processedMarkdown);
-
-        $document = $converted->getDocument();
-
-        $toc = (new Query())
-            ->where(Query::type(TableOfContents::class))
-            ->findOne($document);
-        if ($toc) {
-            $toc->detach();
-        }
-
-        $renderer = new HtmlRenderer($converter->getEnvironment());
-        $content = $renderer->renderDocument($document);
-
-        $content = $this->wrapCodeBlocks($content->getContent());
-        $content = $this->wrapTables($content);
-
-        if ($toc) {
-            $toc = $renderer->renderNodes([$toc]);
-            $toc = str_replace(
-                '<ul class="table-of-contents">',
-                '<ul class="table-of-contents"><li><a href="#">(Top)</a></li>',
-                $toc,
-            );
-        }
+        [$content, $toc] = DocsUtility::MarkdownToHtml($markdown, $this->request);
 
         $this->view->assignMultiple([
-            'content' => (string)$content,
+            'content' => $content,
             'toc' => $toc,
             'nav' => $this->navigationBuilder->buildNavigation($baseDir, $baseDir . 'nav.yaml'),
             'meta' => $meta,
@@ -123,8 +80,10 @@ final class DocsController extends ActionController
         return $this->htmlResponse();
     }
 
-    public function registrationAction(EventRegistration $eventRegistration): ResponseInterface
-    {
+    public function registrationAction(
+        #[Validate(validator: EventRegistrationValidator::class)]
+        EventRegistration $eventRegistration,
+    ): ResponseInterface {
         $payload = ['success' => true];
         $status = 200;
 
@@ -137,7 +96,7 @@ final class DocsController extends ActionController
             // do something with the registration
             // $this->eventRegistrationRepository->save($eventRegistration);
             // throw new \RuntimeException('Simulated server error for demonstration purposes.');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $payload = ['success' => false, 'message' => 'An unexpected error occurred. Please try again later.'];
             $status = 500;
         }
@@ -147,70 +106,32 @@ final class DocsController extends ActionController
         throw new PropagateResponseException($response, $status); // or return $response; if standalone plugin
     }
 
+    public function homepageAction(string $homepage = ''): ResponseInterface
+    {
+        $payload = [
+            'success' => true,
+            'message' => sprintf('Submitted homepage: %s', $homepage),
+        ];
+        $status = 200;
+
+        if ($homepage === 'https://down.example.com') {
+            $payload = [
+                'success' => false,
+                'message' => 'The demo server is unavailable right now.',
+            ];
+            $status = 500;
+        }
+
+        $json = json_encode($payload);
+        $response = $this->jsonResponse($json)->withStatus($status);
+        throw new PropagateResponseException($response, $status);
+    }
+
+    #[\Override]
     protected function errorAction(): ResponseInterface
     {
         $this->throwJsonValidationErrorResponse();
         return parent::errorAction();
-    }
-
-    private function processFluidTemplates(string $markdown): string
-    {
-        return preg_replace_callback(
-            '/\{%\s*component:\s*"([^"]+)"(?:,\s*arguments:\s*(\{.*?\}))?\s*%\}/s',
-            function ($matches) {
-                $fullViewHelperName = $matches[1];
-                $arguments = isset($matches[2]) ? json_decode($matches[2], true) ?? [] : [];
-
-                try {
-                    $renderingContext = $this->renderingContextFactory->create(request: $this->request);
-
-                    [$namespace, $viewHelperName] = explode(':', $fullViewHelperName);
-                    $viewHelperResolverDelegate = $renderingContext->getViewHelperResolver()->getResponsibleDelegate(
-                        $namespace,
-                        $viewHelperName,
-                    );
-
-                    if (
-                        !$viewHelperResolverDelegate instanceof ComponentDefinitionProviderInterface ||
-                        !$viewHelperResolverDelegate instanceof ComponentTemplateResolverInterface
-                    ) {
-                        return (
-                            '<div class="fluid-template-error">Error: Unknown component "' .
-                            htmlspecialchars($viewHelperName) .
-                            '"</div>'
-                        );
-                    }
-
-                    $isCodeExample = $fullViewHelperName === 'ui:componentExample';
-
-                    $componentRenderer = $viewHelperResolverDelegate->getComponentRenderer();
-
-                    if ($isCodeExample) {
-                        $html = $componentRenderer->renderComponent(
-                            $viewHelperName,
-                            [
-                                ...$arguments,
-                            ],
-                            [],
-                            $renderingContext,
-                        );
-                    } else {
-                        $html = $componentRenderer->renderComponent(
-                            $viewHelperName,
-                            [...$arguments, 'class' => 'not-prose'],
-                            [],
-                            $renderingContext,
-                        );
-                        $html = '<div class="prose-component">' . $html . '</div>';
-                    }
-
-                    return $this->cleanHtmlForMarkdown($html);
-                } catch (\Exception $e) {
-                    return '<div class="fluid-template-error">Error: ' . htmlspecialchars($e->getMessage()) . '</div>';
-                }
-            },
-            $markdown,
-        );
     }
 
     private function parseMarkdownFile(string $filePath): array
@@ -226,55 +147,10 @@ final class DocsController extends ActionController
             $markdown = $content;
         }
 
-        if (empty($meta['title']) && preg_match('/^#\s+(.+)$/m', $markdown, $h1Match)) {
+        if (($meta['title'] ?? '') === '' && preg_match('/^#\s+(.+)$/m', $markdown, $h1Match)) {
             $meta['title'] = trim($h1Match[1]);
         }
 
         return [$meta, $markdown];
-    }
-
-    private function wrapCodeBlocks(string $html): string
-    {
-        // Match <pre> tags that do NOT have class="not-code-block"
-        $pattern = '/(<pre\b(?![^>]*\bclass\s*=\s*["\'][^"\']*\bnot-code-block\b[^"\']*["\']).*?<\/pre>)/is';
-        $replacement = '<div class="code-block"><div>$1</div></div>';
-
-        return preg_replace($pattern, $replacement, $html);
-    }
-
-    private function wrapTables(string $html): string
-    {
-        // Match <table> tags that do NOT have class="not-prose"
-        $pattern = '/(<table\b(?![^>]*\bclass\s*=\s*["\'][^"\']*\bnot-prose\b[^"\']*["\']).*?<\/table>)/is';
-        $replacement = '<div class="table-wrapper">$1</div>';
-
-        return preg_replace($pattern, $replacement, $html);
-    }
-
-    private function cleanHtmlForMarkdown(string $html): string
-    {
-        // Extract <pre> blocks so we don't accidentally clean them up
-        $preBlocks = [];
-        $html = preg_replace_callback(
-            '/<pre\b[^>]*>[\s\S]*?<\/pre>/i',
-            static function ($matches) use (&$preBlocks) {
-                $key = '###PRE_BLOCK_' . count($preBlocks) . '###';
-                $preBlocks[$key] = $matches[0];
-                return $key;
-            },
-            $html,
-        );
-
-        // Remove HTML comments
-        $html = preg_replace('/<!--[\s\S]*?-->/', '', $html);
-        // Collapse whitespace between tags
-        $html = preg_replace('/>\s+</', '><', $html);
-        // Collapse excessive whitespace inside tags/attributes
-        $html = preg_replace('/\s{2,}/', ' ', $html);
-        // Trim leading/trailing whitespace
-        $html = trim($html);
-
-        // Restore <pre> blocks
-        return strtr($html, $preBlocks);
     }
 }

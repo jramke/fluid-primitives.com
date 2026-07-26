@@ -64,7 +64,7 @@ class GenerateViewHelperDocsCommand extends Command
 
             $shortName = $reflection->getShortName();
             $baseName = preg_replace('/ViewHelper$/', '', $shortName);
-            $fileName = lcfirst($baseName) . '.md';
+            $fileName = lcfirst((string)$baseName) . '.md';
             $targetFile = $targetDir . '/' . $fileName;
 
             $arguments = $this->extractArguments($className);
@@ -83,8 +83,8 @@ class GenerateViewHelperDocsCommand extends Command
         $contents = file_get_contents($filePath);
         $contentsWithoutComments = preg_replace('#//.*|/\*[\s\S]*?\*/#', '', $contents);
         if (
-            preg_match('/namespace\s+([^;]+);/', $contentsWithoutComments, $ns) &&
-            preg_match('/class\s+([^\s]+)/', $contentsWithoutComments, $cls)
+            preg_match('/namespace\s+([^;]+);/', (string)$contentsWithoutComments, $ns) &&
+            preg_match('/class\s+([^\s]+)/', (string)$contentsWithoutComments, $cls)
         ) {
             return $ns[1] . '\\' . $cls[1];
         }
@@ -126,7 +126,7 @@ class GenerateViewHelperDocsCommand extends Command
     {
         $shortName = $reflection->getShortName();
         $baseName = preg_replace('/ViewHelper$/', '', $shortName);
-        $name = lcfirst($baseName);
+        $name = lcfirst((string)$baseName);
 
         $content = $this->extractRawDocComment($docComment);
 
@@ -143,7 +143,7 @@ class GenerateViewHelperDocsCommand extends Command
 
         MD;
 
-        if (empty($arguments)) {
+        if ($arguments === []) {
             $markdown .= "\n_None_\n";
         } else {
             // TODO: align with structure from component api table
@@ -154,7 +154,7 @@ class GenerateViewHelperDocsCommand extends Command
             foreach ($arguments as $arg) {
                 // Escape pipe characters in description
                 $description = str_replace('|', '\\|', $arg['description'] ?? '');
-                $required = !empty($arg['required']) ? 'Yes' : 'No';
+                $required = $arg['required'] ?? false ? 'No' : 'Yes';
                 $default = $arg['default'] ?? '';
                 $type = str_replace('|', '\\|', $arg['type'] ?? '');
                 $markdown .= "| `{$arg['name']}` | {$type} | {$description} | {$required} | {$default} |\n";
@@ -168,9 +168,9 @@ class GenerateViewHelperDocsCommand extends Command
     {
         // Remove /** at the start and */ at the end
         $docComment = preg_replace('#^/\*\*#', '', $docComment);
-        $docComment = preg_replace('#\*/$#', '', $docComment);
+        $docComment = preg_replace('#\*/$#', '', (string)$docComment);
 
-        $lines = explode("\n", $docComment);
+        $lines = explode("\n", (string)$docComment);
         $cleanLines = [];
 
         foreach ($lines as $line) {

@@ -20,6 +20,7 @@ final class ComponentCollection extends AbstractComponentCollection
         return $templatePaths;
     }
 
+    #[\Override]
     public function getContextNamespaces(): array
     {
         return [

@@ -12,8 +12,8 @@ use TYPO3\CMS\Core\Http\RequestFactory;
 #[Autoconfigure(public: true)]
 class UmamiService
 {
-    private const UMAMI_HOST = 'https://umami.joostramke.com';
-    private const WEBSITE_ID = '16212a52-92f6-4b33-aec6-d31f5ad0314d';
+    private const string UMAMI_HOST = 'https://umami.joostramke.com';
+    private const string WEBSITE_ID = '16212a52-92f6-4b33-aec6-d31f5ad0314d';
 
     public function __construct(
         private readonly RequestFactory $requestFactory,
@@ -70,7 +70,7 @@ class UmamiService
             ]);
 
             // @mago-expect lint:no-empty-catch-clause
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
     }
 }

@@ -8,7 +8,7 @@ $EM_CONF[$_EXTKEY] = [
     'category' => 'templates',
     'constraints' => [
         'depends' => [
-            'typo3' => '13.4.0-13.4.99',
+            'typo3' => '14.0.0-14.3.99',
         ],
         'conflicts' => [],
     ],
@@ -18,9 +18,6 @@ $EM_CONF[$_EXTKEY] = [
         ],
     ],
     'state' => 'stable',
-    'uploadfolder' => 0,
-    'createDirs' => '',
-    'clearCacheOnLoad' => 1,
     'author' => 'Joost Ramke',
     'author_email' => 'hey@joostramke.com',
     'author_company' => 'jramke',

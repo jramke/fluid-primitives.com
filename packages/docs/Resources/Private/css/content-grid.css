@@ -1,73 +1,73 @@
 @utility content-grid {
-	--content-grid-padding: 2rem;
-	--content-grid-default-grid-column: content;
-	--breakout-sm-size: calc((var(--spacing-breakout-sm) - var(--spacing-reading)) / 2);
-	--breakout-size: calc((var(--spacing-breakout) - var(--spacing-reading)) / 2);
-	--breakout-lg-size: calc((var(--spacing-breakout-lg) - var(--spacing-reading)) / 2);
-	display: grid;
-	grid-template-columns:
-		[full-width-start] minmax(var(--content-grid-padding), 1fr)
-		[breakout-lg-start] minmax(0, var(--breakout-lg-size))
-		[breakout-start] minmax(0, var(--breakout-size))
-		[breakout-sm-start] minmax(0, var(--breakout-sm-size))
-		[content-start]
-		min(100% - (var(--content-grid-padding) * 2), var(--spacing-reading))
-		[content-end]
-		minmax(0, var(--breakout-sm-size)) [breakout-sm-end]
-		minmax(0, var(--breakout-size)) [breakout-end]
-		minmax(0, var(--breakout-lg-size)) [breakout-lg-end]
-		minmax(var(--content-grid-padding), 1fr) [full-width-end];
+    --content-grid-padding: 2rem;
+    --content-grid-default-grid-column: content;
+    --breakout-sm-size: calc((var(--spacing-breakout-sm) - var(--spacing-reading)) / 2);
+    --breakout-size: calc((var(--spacing-breakout) - var(--spacing-reading)) / 2);
+    --breakout-lg-size: calc((var(--spacing-breakout-lg) - var(--spacing-reading)) / 2);
+    display: grid;
+    grid-template-columns:
+        [full-width-start] minmax(var(--content-grid-padding), 1fr)
+        [breakout-lg-start] minmax(0, var(--breakout-lg-size))
+        [breakout-start] minmax(0, var(--breakout-size))
+        [breakout-sm-start] minmax(0, var(--breakout-sm-size))
+        [content-start]
+        min(100% - (var(--content-grid-padding) * 2), var(--spacing-reading))
+        [content-end]
+        minmax(0, var(--breakout-sm-size)) [breakout-sm-end]
+        minmax(0, var(--breakout-size)) [breakout-end]
+        minmax(0, var(--breakout-lg-size)) [breakout-lg-end]
+        minmax(var(--content-grid-padding), 1fr) [full-width-end];
 }
 
 @utility content-grid-none {
-	--content-grid-default-grid-column: auto;
-	display: initial;
-	grid-template-columns: initial;
+    --content-grid-default-grid-column: auto;
+    display: initial;
+    grid-template-columns: initial;
 }
 
 @utility breakout {
-	grid-column: breakout;
+    grid-column: breakout;
 }
 
 @utility breakout-sm {
-	grid-column: breakout-sm;
+    grid-column: breakout-sm;
 }
 
 @utility breakout-lg {
-	grid-column: breakout-lg;
+    grid-column: breakout-lg;
 }
 
 @utility full-width {
-	grid-column: full-width;
+    grid-column: full-width;
 }
 
 @utility full-width-content {
-	grid-column: full-width;
-	display: grid;
-	grid-template-columns: inherit;
+    grid-column: full-width;
+    display: grid;
+    grid-template-columns: inherit;
 }
 
 @utility full-width-fluid {
-	grid-column: full-width;
-	padding-inline: var(--content-grid-padding);
+    grid-column: full-width;
+    padding-inline: var(--content-grid-padding);
 }
 
 @layer components {
-	.content-grid {
-		& > * {
-			grid-column: var(--content-grid-default-grid-column);
-		}
-		& > img,
-		& > video,
-		& > canvas,
-		& > iframe,
-		& > figure {
-			@apply breakout;
-		}
-		& > pre,
-		& > .code-block,
-		& > .component-example {
-			@apply breakout-sm;
-		}
-	}
+    .content-grid {
+        & > * {
+            grid-column: var(--content-grid-default-grid-column);
+        }
+        & > img,
+        & > video,
+        & > canvas,
+        & > iframe,
+        & > figure {
+            @apply breakout;
+        }
+        & > pre,
+        & > .code-block,
+        & > .component-example {
+            @apply breakout-sm;
+        }
+    }
 }

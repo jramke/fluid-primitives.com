@@ -38,7 +38,7 @@ class ComponentExampleContext extends AbstractComponentContext
 
         if ($this->get('withEntryFile')) {
             $entryFileTemplateString = $this->getEntryFileTemplateString();
-            if (!empty($entryFileTemplateString)) {
+            if ($entryFileTemplateString !== '' && $entryFileTemplateString !== '0') {
                 $tabs[] = [
                     'label' => explode('.', $this->get('componentName') ?? 'Example')[0] . '.ts',
                     'templateHighlighted' => $this->highlightTemplateString($entryFileTemplateString, 'ts'),
@@ -49,7 +49,7 @@ class ComponentExampleContext extends AbstractComponentContext
 
         foreach ($this->get('additionalFiles') ?? [] as $label => $path) {
             $templateString = $this->getTemplateStringByPath($path);
-            $language = pathinfo($path, PATHINFO_EXTENSION);
+            $language = pathinfo((string)$path, PATHINFO_EXTENSION);
             $tabs[] = [
                 'label' => $label,
                 'templateHighlighted' => $this->highlightTemplateString($templateString, $language),
@@ -72,7 +72,7 @@ class ComponentExampleContext extends AbstractComponentContext
         foreach ($this->getComponentResolver()->getTemplatePaths()->getTemplateRootPaths() as $rootPath) {
             $entryFilePath = $rootPath . $componentBaseName . '/' . $componentBaseName . '.entry.ts';
             $templateString = $this->getTemplateStringByPath($entryFilePath);
-            if (!empty($templateString)) {
+            if ($templateString !== '' && $templateString !== '0') {
                 return $templateString;
             }
         }

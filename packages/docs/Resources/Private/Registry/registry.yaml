@@ -77,7 +77,11 @@ form:
   name: Form
   description: A wrapper for forms that provides context for form controls
   files:
-    - Form.html
+    - Root.html
+    - Content.html
+    - Indicator.html
+    - ErrorText.html
+    - SuccessText.html
     - Form.entry.ts
 
 navigation-menu:

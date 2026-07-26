@@ -1,5 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
+use TYPO3\CMS\Core\Cache\Backend\NullBackend;
 use TYPO3\CMS\Core\Core\Environment;
 
 if (Environment::getContext()->isProduction()) {
@@ -24,7 +27,7 @@ if (Environment::getContext()->isProduction()) {
     ]);
 }
 
-if (getenv('IS_DDEV_PROJECT') == 'true') {
+if (getenv('IS_DDEV_PROJECT') === 'true') {
     $GLOBALS['TYPO3_CONF_VARS'] = array_replace_recursive($GLOBALS['TYPO3_CONF_VARS'], [
         'DB' => [
             'Connections' => [
@@ -32,7 +35,7 @@ if (getenv('IS_DDEV_PROJECT') == 'true') {
                     'dbname' => 'db',
                     'driver' => 'mysqli',
                     'host' => 'db',
-                    'password' => 'db',
+                    'password' => 'db', // @mago-expect lint:no-literal-password
                     'port' => '3306',
                     'user' => 'db',
                 ],
@@ -58,28 +61,28 @@ if (getenv('IS_DDEV_PROJECT') == 'true') {
             'caching' => [
                 'cacheConfigurations' => [
                     'l10n' => [
-                        'backend' => 'TYPO3\CMS\Core\Cache\Backend\NullBackend',
+                        'backend' => NullBackend::class,
                     ],
                     'hash' => [
-                        'backend' => 'TYPO3\CMS\Core\Cache\Backend\NullBackend',
+                        'backend' => NullBackend::class,
                     ],
                     'pages' => [
-                        'backend' => 'TYPO3\CMS\Core\Cache\Backend\NullBackend',
+                        'backend' => NullBackend::class,
                     ],
                     'typoscript' => [
-                        'backend' => 'TYPO3\CMS\Core\Cache\Backend\NullBackend',
+                        'backend' => NullBackend::class,
                     ],
                     'core' => [
-                        'backend' => 'TYPO3\CMS\Core\Cache\Backend\NullBackend',
+                        'backend' => NullBackend::class,
                     ],
                     'rootline' => [
-                        'backend' => 'TYPO3\CMS\Core\Cache\Backend\NullBackend',
+                        'backend' => NullBackend::class,
                     ],
                     'extbase' => [
-                        'backend' => 'TYPO3\CMS\Core\Cache\Backend\NullBackend',
+                        'backend' => NullBackend::class,
                     ],
                     'database_schema' => [
-                        'backend' => 'TYPO3\CMS\Core\Cache\Backend\NullBackend',
+                        'backend' => NullBackend::class,
                     ],
                 ],
             ],

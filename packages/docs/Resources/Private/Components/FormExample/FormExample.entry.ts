@@ -1,39 +1,58 @@
 import { getHydrationData, mount } from 'fluid-primitives';
-import { Form, ValidationError } from 'fluid-primitives/form';
+import { Form } from 'fluid-primitives/form';
 
 mount('form-example', () => {
-	const data = getHydrationData('form', 'example-form');
-	if (!data) return;
+    const data = getHydrationData('form', 'example-form');
+    if (!data) return;
 
-	const form = new Form({
-		...data.props,
-		onSubmit: async ({ formData, api }) => {
-			const urlInput = api.getFormControl('homepage');
-			if (!urlInput?.checkValidity()) {
-				throw new ValidationError({
-					homepage: { messages: ['Please enter a valid url.'] },
-				});
-			}
+    const form = new Form({
+        ...data.props,
+        validation: ({ values }) => {
+            const homepage = values.get('homepage');
+            if (typeof homepage !== 'string' || homepage.trim() === '') {
+                return {
+                    homepage: { messages: ['Please enter an url.'] },
+                };
+            }
 
-			if (formData.get('homepage') === 'https://example.com') {
-				throw new ValidationError({
-					homepage: { messages: ['The example homepage is not allowed.'] },
-				});
-			}
+            try {
+                new URL(homepage);
+            } catch {
+                return {
+                    homepage: { messages: ['Please enter a valid url.'] },
+                };
+            }
 
-			await new Promise(resolve => setTimeout(resolve, 800));
+            if (homepage === 'https://example.com') {
+                return {
+                    homepage: { messages: ['The example homepage is not allowed.'] },
+                };
+            }
+        },
+        onSubmit: async ({ api, post }) => {
+            const [response] = await Promise.all([
+                post(api.getAction()),
+                new Promise(resolve => setTimeout(resolve, 800)),
+            ]);
 
-			alert(JSON.stringify(api.formDataToObject(), null, 2));
+            const data = await response.json();
 
-			return true;
-		},
-		render: form => {
-			form.api
-				.getFormEl()
-				?.querySelector('button[type="submit"]')
-				?.setAttribute('aria-disabled', form.api.isSubmitting ? 'true' : 'false');
-		},
-	});
+            if (!response.ok) {
+                api.setErrorText(data.message || 'The demo server is unavailable right now.');
+                return false;
+            }
 
-	form.init();
+            api.setSuccessText(data.message || 'Your homepage was submitted successfully.');
+
+            return true;
+        },
+        render: form => {
+            form.api
+                .getFormEl()
+                ?.querySelector('button[type="submit"]')
+                ?.setAttribute('aria-disabled', form.api.isSubmitting ? 'true' : 'false');
+        },
+    });
+
+    form.init();
 });

@@ -20,16 +20,14 @@ class ComponentPropsTableContext extends AbstractComponentContext
         $componentName = lcfirst((string)($this->get('name') ?? ''));
         $parts = $this->get('parts');
 
-        $componentDefinitions = array_map(function ($value) use ($primitivesCollection, $componentName) {
+        return array_map(function ($value) use ($primitivesCollection, $componentName) {
             $part = $value[0];
             $text = $value[1] ?? '';
             $viewHelperName = $part === '' ? $componentName : "{$componentName}.{$part}";
             $compDefinition = $primitivesCollection->getComponentDefinition($viewHelperName);
             $props = array_filter(
                 $compDefinition->getArgumentDefinitions(),
-                static function ($value) {
-                    return !in_array($value, Constants::GLOBAL_PROPS);
-                },
+                static fn($value) => !in_array($value, Constants::GLOBAL_PROPS, strict: true),
                 ARRAY_FILTER_USE_KEY,
             );
             return [
@@ -38,8 +36,6 @@ class ComponentPropsTableContext extends AbstractComponentContext
                 'description' => DocsUtility::simpleMarkdownToHtml($text),
             ];
         }, $parts);
-
-        return $componentDefinitions;
     }
 
     private function buildPropsInfo(array $props): array
@@ -47,9 +43,10 @@ class ComponentPropsTableContext extends AbstractComponentContext
         $propsInfo = [];
         foreach ($props as $propDefinition) {
             $hasRequiredAtRuntimeAnnotation =
-                count(array_filter($propDefinition->getAnnotations(), static function ($annotation) {
-                    return $annotation instanceof RequiredAtRuntimeArgumentAnnotation;
-                })) > 0;
+                count(array_filter(
+                    $propDefinition->getAnnotations(),
+                    static fn($annotation) => $annotation instanceof RequiredAtRuntimeArgumentAnnotation,
+                )) > 0;
 
             $propInfo = [
                 'name' => $propDefinition->getName(),

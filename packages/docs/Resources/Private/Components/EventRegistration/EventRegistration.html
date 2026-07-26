@@ -1,16 +1,15 @@
 <ui:exposeToClient />
 <ui:prop name="object" type="FluidPrimitives\Docs\Domain\Model\EventRegistration" optional="{true}" />
 
-<ui:form
+<ui:form.root
     action="registration"
     objectName="eventRegistration"
     object="{object}"
     controlled="{true}"
-    rootId="{rootId}-form"
-    class="group">
+    rootId="{rootId}-form">
     <h2 class="text-lg font-semibold">Event Registration</h2>
 
-    <div class="group-[[data-state=error]]:hidden group-[[data-state=success]]:hidden space-y-6">
+    <ui:form.content class="space-y-6">
 
         <ui:listCollection
             items="{
@@ -35,6 +34,14 @@
                     </f:for>
                 </ui:select.content>
             </ui:select.root>
+            <ui:field.error />
+        </ui:field.root>
+
+        <ui:field.root name="studentId" required="{true}" hidden="{true}" disabled="{true}">
+            <ui:field.label>Student ID</ui:field.label>
+            <ui:field.control asChild="{true}">
+                <ui:input />
+            </ui:field.control>
             <ui:field.error />
         </ui:field.root>
 
@@ -67,7 +74,7 @@
             <ui:field.error />
         </ui:field.root>
 
-        <ui:field.root name="name" required="{true}">
+        <ui:field.root name="person.name" required="{true}">
             <ui:field.label>Name</ui:field.label>
             <ui:field.control asChild="{true}">
                 <ui:input autocomplete="name" />
@@ -76,7 +83,7 @@
             <ui:field.error />
         </ui:field.root>
 
-        <ui:field.root name="email" required="{true}">
+        <ui:field.root name="person.email" required="{true}">
             <ui:field.label>Email</ui:field.label>
             <ui:field.control asChild="{true}">
                 <ui:input type="email" autocomplete="email" />
@@ -85,7 +92,7 @@
             <ui:field.error />
         </ui:field.root>
 
-        <ui:field.root name="phone">
+        <ui:field.root name="person.phone">
             <ui:field.label>Phone</ui:field.label>
             <ui:field.control asChild="{true}">
                 <ui:input type="tel" autocomplete="tel" />
@@ -131,23 +138,27 @@
             <ui:field.error />
         </ui:field.root>
 
-        <ui:button type="submit" attributes="{ui:ref(name: 'submit-button')}">
+        <ui:button type="submit" attributes="{ui:ref(name: 'submit-button', asArray: '{true}')}">
             Register
         </ui:button>
-    </div>
+    </ui:form.content>
 
-    <div class="hidden group-[[data-state=error]]:block">
+    <ui:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}"
+        class="space-y-3">
         <h2 class="font-medium">Error</h2>
-        <p {ui:ref(name: 'error-message' )}>There was an error submitting your registration. Please try again.</p>
+        <ui:form.errorText class="block">There was an error submitting your registration. Please try again.</ui:form.errorText>
         <ui:button type="reset" class="mt-4">
             Back to form
         </ui:button>
-    </div>
+    </ui:form.indicator>
 
-    <div class="hidden group-[[data-state=success]]:block">
+    <ui:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}"
+        class="space-y-3">
         <h2 class="font-medium">Success</h2>
-        <p>Your registration was submitted successfully. Thank you!</p>
-    </div>
-</ui:form>
+        <ui:form.successText class="block">Your registration was submitted successfully. Thank you!</ui:form.successText>
+    </ui:form.indicator>
+</ui:form.root>
 
 <vite:asset entry="EXT:docs/Resources/Private/Components/EventRegistration/EventRegistration.entry.ts" />
