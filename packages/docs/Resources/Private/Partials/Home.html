@@ -14,7 +14,7 @@
         <div class="flex items-center gap-3 max-[500px]:hidden">
             <f:for each="{links}" as="link" iteration="i">
                 <a href="{link.href}" class="text-sm font-medium">
-                    <span class="inline-flex font-normal border-box after:content-[attr(data-text)] after:font-black after:pointer-none after:overflow-hidden after:select-none after:invisible after:h-0 transition-all hover:font-semibold flex-col ease-out" data-text="{link.title}">{link.title}</span>
+                    <span class="inline-flex font-normal border-box after:content-[attr(data-text)] after:font-black after:pointer-none after:overflow-hidden after:select-none after:invisible after:h-0 transition-all hover:font-semibold flex-col items-center ease-out" data-text="{link.title}">{link.title}</span>
                 </a>
             </f:for>
         </div>
