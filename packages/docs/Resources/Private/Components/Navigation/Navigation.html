@@ -17,35 +17,37 @@
         <script>
             (function () {
                 const root = document.querySelector('.persistent-sidebar');
-                const sidebar = root.querySelector('[data-scope="scroll-area"][data-part="viewport"]');
-                if (!sidebar) return;
-    
+                if (!root) return;
+
+                // Only run visual pre-hydration if we have a saved scroll position.
+                // Scroll restoration itself happens in Navigation.entry.ts after the
+                // scroll-area machine has initialised, so it is never overridden.
                 const saved = sessionStorage.getItem("sidebar-scroll-top");
-                if (saved !== null) {
-                    requestAnimationFrame(() => {
-                        sidebar.scrollTop = Number(saved);
-                    });
-    
-                    const thumb = root.querySelector('[data-scope="scroll-area"][data-part="thumb"]');
-    
-                    const thumbHeight = sessionStorage.getItem("sidebar-thumb-height");
-                    if (thumbHeight) {
-                        document.documentElement?.style.setProperty('--sidebar-stored-thumb-height', thumbHeight);
-                        thumb?.classList.add('!h-[var(--sidebar-stored-thumb-height)]');
-                    }
-    
-                    const thumbTransform = sessionStorage.getItem("sidebar-thumb-transform");
-                    if (thumbTransform) {
-                        document.documentElement?.style.setProperty('--sidebar-stored-transform', thumbTransform);
-                        thumb?.classList.add('!transform-[var(--sidebar-stored-transform)]');
-                    }
-    
-                    const els = root.querySelectorAll('[data-scope="scroll-area"]');
-                    els.forEach(el => {
-                        el.setAttribute('data-overflow-y', '');
-                        el.setAttribute("data-hover", '');
-                    });
+                if (saved === null) return;
+
+                const thumb = root.querySelector('[data-scope="scroll-area"][data-part="thumb"]');
+
+                // Apply stored thumb size / position before the machine boots so the
+                // scrollbar does not flash to 0 on slow pages.
+                const thumbHeight = sessionStorage.getItem("sidebar-thumb-height");
+                if (thumbHeight) {
+                    document.documentElement?.style.setProperty('--sidebar-stored-thumb-height', thumbHeight);
+                    thumb?.classList.add('!h-[var(--sidebar-stored-thumb-height)]');
                 }
+
+                const thumbTransform = sessionStorage.getItem("sidebar-thumb-transform");
+                if (thumbTransform) {
+                    document.documentElement?.style.setProperty('--sidebar-stored-transform', thumbTransform);
+                    thumb?.classList.add('!transform-[var(--sidebar-stored-transform)]');
+                }
+
+                // Make the scrollbar visible immediately so there is no layout flash.
+                // The machine will take over these attributes once it initialises.
+                const els = root.querySelectorAll('[data-scope="scroll-area"]');
+                els.forEach(el => {
+                    el.setAttribute('data-overflow-y', '');
+                    el.setAttribute('data-hover', '');
+                });
             })();
         </script>
     </aside>
