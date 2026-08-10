@@ -19,11 +19,18 @@
                 const root = document.querySelector('.persistent-sidebar');
                 if (!root) return;
 
-                // Only run visual pre-hydration if we have a saved scroll position.
-                // Scroll restoration itself happens in Navigation.entry.ts after the
-                // scroll-area machine has initialised, so it is never overridden.
+                // Only run pre-hydration restoration if we have a saved scroll position.
                 const saved = sessionStorage.getItem("sidebar-scroll-top");
                 if (saved === null) return;
+
+                // Restore the scroll position synchronously (no rAF) so the viewport is
+                // at the correct offset from the very first paint and there is no visible
+                // jump to the top.  Navigation.entry.ts re-applies this after machine init
+                // as a safety net in case any observer resets it during hydration.
+                const viewport = root.querySelector('[data-scope="scroll-area"][data-part="viewport"]');
+                if (viewport) {
+                    viewport.scrollTop = Number(saved);
+                }
 
                 const thumb = root.querySelector('[data-scope="scroll-area"][data-part="thumb"]');
 
