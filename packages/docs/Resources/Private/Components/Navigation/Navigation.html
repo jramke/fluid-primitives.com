@@ -17,35 +17,48 @@
         <script>
             (function () {
                 const root = document.querySelector('.persistent-sidebar');
-                const sidebar = root.querySelector('[data-scope="scroll-area"][data-part="viewport"]');
-                if (!sidebar) return;
-    
+                if (!root) return;
+
+                // Eagerly mark overflow so the scrollbar is visible immediately on every
+                // page load, not just when a saved position exists.  Without this the
+                // scrollbar stays hidden until the first mouse-move triggers the machine.
+                const els = root.querySelectorAll('[data-scope="scroll-area"]');
+                els.forEach(el => {
+                    el.setAttribute('data-overflow-y', '');
+                });
+
                 const saved = sessionStorage.getItem("sidebar-scroll-top");
-                if (saved !== null) {
-                    requestAnimationFrame(() => {
-                        sidebar.scrollTop = Number(saved);
-                    });
-    
-                    const thumb = root.querySelector('[data-scope="scroll-area"][data-part="thumb"]');
-    
-                    const thumbHeight = sessionStorage.getItem("sidebar-thumb-height");
-                    if (thumbHeight) {
-                        document.documentElement?.style.setProperty('--sidebar-stored-thumb-height', thumbHeight);
-                        thumb?.classList.add('!h-[var(--sidebar-stored-thumb-height)]');
-                    }
-    
-                    const thumbTransform = sessionStorage.getItem("sidebar-thumb-transform");
-                    if (thumbTransform) {
-                        document.documentElement?.style.setProperty('--sidebar-stored-transform', thumbTransform);
-                        thumb?.classList.add('!transform-[var(--sidebar-stored-transform)]');
-                    }
-    
-                    const els = root.querySelectorAll('[data-scope="scroll-area"]');
-                    els.forEach(el => {
-                        el.setAttribute('data-overflow-y', '');
-                        el.setAttribute("data-hover", '');
-                    });
+                if (saved === null) return;
+
+                // Make the viewport scrollable immediately (Zag normally sets overflow via
+                // an inline style once the machine boots, but we need it before that so
+                // scrollTop assignment is not silently ignored by the browser).
+                const viewport = root.querySelector('[data-scope="scroll-area"][data-part="viewport"]');
+                if (viewport instanceof HTMLElement) {
+                    viewport.style.overflow = 'scroll';
+                    viewport.scrollTop = Number(saved);
                 }
+
+                const thumb = root.querySelector('[data-scope="scroll-area"][data-part="thumb"]');
+
+                // Apply stored thumb size / position before the machine boots so the
+                // scrollbar thumb does not flash back to 0.
+                const thumbHeight = sessionStorage.getItem("sidebar-thumb-height");
+                if (thumbHeight) {
+                    document.documentElement?.style.setProperty('--sidebar-stored-thumb-height', thumbHeight);
+                    thumb?.classList.add('!h-[var(--sidebar-stored-thumb-height)]');
+                }
+
+                const thumbTransform = sessionStorage.getItem("sidebar-thumb-transform");
+                if (thumbTransform) {
+                    document.documentElement?.style.setProperty('--sidebar-stored-transform', thumbTransform);
+                    thumb?.classList.add('!transform-[var(--sidebar-stored-transform)]');
+                }
+
+                // Show the scrollbar immediately when we know there was a saved position.
+                els.forEach(el => {
+                    el.setAttribute('data-hover', '');
+                });
             })();
         </script>
     </aside>
