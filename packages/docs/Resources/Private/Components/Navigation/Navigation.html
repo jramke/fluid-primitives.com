@@ -19,23 +19,30 @@
                 const root = document.querySelector('.persistent-sidebar');
                 if (!root) return;
 
-                // Only run pre-hydration restoration if we have a saved scroll position.
+                // Eagerly mark overflow so the scrollbar is visible immediately on every
+                // page load, not just when a saved position exists.  Without this the
+                // scrollbar stays hidden until the first mouse-move triggers the machine.
+                const els = root.querySelectorAll('[data-scope="scroll-area"]');
+                els.forEach(el => {
+                    el.setAttribute('data-overflow-y', '');
+                });
+
                 const saved = sessionStorage.getItem("sidebar-scroll-top");
                 if (saved === null) return;
 
-                // Restore the scroll position synchronously (no rAF) so the viewport is
-                // at the correct offset from the very first paint and there is no visible
-                // jump to the top.  Navigation.entry.ts re-applies this after machine init
-                // as a safety net in case any observer resets it during hydration.
+                // Make the viewport scrollable immediately (Zag normally sets overflow via
+                // an inline style once the machine boots, but we need it before that so
+                // scrollTop assignment is not silently ignored by the browser).
                 const viewport = root.querySelector('[data-scope="scroll-area"][data-part="viewport"]');
-                if (viewport) {
+                if (viewport instanceof HTMLElement) {
+                    viewport.style.overflow = 'scroll';
                     viewport.scrollTop = Number(saved);
                 }
 
                 const thumb = root.querySelector('[data-scope="scroll-area"][data-part="thumb"]');
 
                 // Apply stored thumb size / position before the machine boots so the
-                // scrollbar does not flash to 0 on slow pages.
+                // scrollbar thumb does not flash back to 0.
                 const thumbHeight = sessionStorage.getItem("sidebar-thumb-height");
                 if (thumbHeight) {
                     document.documentElement?.style.setProperty('--sidebar-stored-thumb-height', thumbHeight);
@@ -48,11 +55,8 @@
                     thumb?.classList.add('!transform-[var(--sidebar-stored-transform)]');
                 }
 
-                // Make the scrollbar visible immediately so there is no layout flash.
-                // The machine will take over these attributes once it initialises.
-                const els = root.querySelectorAll('[data-scope="scroll-area"]');
+                // Show the scrollbar immediately when we know there was a saved position.
                 els.forEach(el => {
-                    el.setAttribute('data-overflow-y', '');
                     el.setAttribute('data-hover', '');
                 });
             })();
