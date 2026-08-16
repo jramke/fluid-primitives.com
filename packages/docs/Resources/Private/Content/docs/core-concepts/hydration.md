@@ -25,10 +25,10 @@ Use `ui:ref` to connect DOM elements to their client-side counterparts:
 This outputs:
 
 ```html
-<button data-scope="tooltip" data-part="trigger" data-hydrate-tooltip="rootId">Hover me</button>
+<button data-scope="tooltip" data-part="trigger" id="tooltip:[rootId]:trigger">Hover me</button>
 ```
 
-The data attributes let the client find and connect elements to the state machine.
+The data attributes and id let the client find and connect elements to the state machine.
 
 ## Initializing Components
 
