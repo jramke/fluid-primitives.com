@@ -28,5 +28,5 @@ Common use case inside `Tooltip/Content.html`:
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | The name of the target container | No | 'default' |
-| `disabled` | bool | If set to true, the portal functionality is disabled and content is rendered in place | No | false |
+| `name` | string | The name of the target container | Yes | 'default' |
+| `disabled` | bool | If set to true, the portal functionality is disabled and content is rendered in place | Yes | false |

@@ -22,4 +22,4 @@ Place this in your main layout or page template, typically just before the closi
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | The name of the container | No | 'default' |
+| `name` | string | The name of the container | Yes | 'default' |

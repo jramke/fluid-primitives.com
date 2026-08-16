@@ -8,7 +8,8 @@
 Generates a reference to a part of a component.
 
 This is used to mark parts of a component for JavaScript interaction or styling.
-It generates data attributes that can be used to identify the part within the component's scope.
+It generates the element `id` (using a deterministic formula based on component name, root ID and part name)
+along with `data-scope` and `data-part` attributes.
 
 ## Example
 ```html
@@ -16,24 +17,36 @@ It generates data attributes that can be used to identify the part within the co
 ```
 This will generate:
 ```html
-<div data-scope="my-component" data-part="button" data-hydrate-my-component="«uniqueRootId»">Click me</div>
+<div id="my-component:«uniqueRootId»:button" data-scope="my-component" data-part="button">Click me</div>
+```
+
+For multi-instance parts (e.g. accordion items, tab panels) pass a `value:` discriminator:
+```html
+<div {ui:ref(name: 'item', value: value)}">...</div>
 ```
 
 You can also pass additional data attributes:
 ```html
-<div {ui:ref(name: 'button', data: { action: 'submit', id: '123' })}">Click me</div>
+<div {ui:ref(name: 'button', data: { action: 'submit' })}">Click me</div>
 ```
 This will generate:
 ```html
-<div data-scope="my-component" data-part="button" data-hydrate-my-component="«uniqueRootId»" data-action="submit" data-id="123">Click me</div>
+<div id="..." data-scope="my-component" data-part="button" data-action="submit">Click me</div>
 ```
 
+Use `withId: false` to suppress the `id` attribute (e.g. for parts that have no unique
+discriminator and would produce duplicate IDs):
+```html
+<div {ui:ref(name: 'item-group-label', withId: false)}>...</div>
+```
  
 
 ## Arguments
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | Name of the ref | Yes | - |
-| `asArray` | boolean | If true, the ref will be rendered as an array instead of a string of data-attributes | No | false |
-| `data` | array | Additional data attributes to include in the ref. Associative array with key-value pairs. Each key is prefixed with "data-". | No | [] |
+| `name` | string | Name of the ref | No | - |
+| `asArray` | boolean | If true, the ref will be rendered as an array instead of a string of data-attributes | Yes | false |
+| `data` | array | Additional data attributes to include in the ref. Associative array with key-value pairs. Each key is prefixed with "data-". | Yes | [] |
+| `value` | string\|BackedEnum\|UnitEnum\|null\|array | Optional discriminator for multi-instance parts (e.g. accordion items, tab triggers). | Yes | - |
+| `withId` | boolean | Whether to emit the id attribute. Set to false for parts that have no unique discriminator and would produce duplicate IDs. | Yes | true |

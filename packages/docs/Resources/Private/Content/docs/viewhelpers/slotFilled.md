@@ -23,4 +23,4 @@ Using this ViewHelper is the equivalent of calling `{f:slot() -> f:trim()}`.
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | Name of the slot | No | 'default' |
+| `name` | string | Name of the slot | Yes | 'default' |
