@@ -1,0 +1,213 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "Saves the edited content and exits edit mode."
+            },
+            {
+                "keys": [
+                    "Escape"
+                ],
+                "description": "Discards the changes and exits edit mode."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "editing": {
+                "type": "boolean",
+                "description": "Whether the editable is in edit mode"
+            },
+            "empty": {
+                "type": "boolean",
+                "description": "Whether the editable value is empty"
+            },
+            "value": {
+                "type": "string",
+                "description": "The current value of the editable"
+            },
+            "valueText": {
+                "type": "string",
+                "description": "The current value of the editable, or the placeholder if the value is empty"
+            },
+            "setValue": {
+                "type": "(value: string) => void",
+                "description": "Function to set the value of the editable"
+            },
+            "clearValue": {
+                "type": "VoidFunction",
+                "description": "Function to clear the value of the editable"
+            },
+            "edit": {
+                "type": "VoidFunction",
+                "description": "Function to enter edit mode"
+            },
+            "cancel": {
+                "type": "VoidFunction",
+                "description": "Function to exit edit mode, and discard any changes"
+            },
+            "submit": {
+                "type": "VoidFunction",
+                "description": "Function to exit edit mode, and submit any changes"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the editable. Useful for composition."
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the input's value is invalid."
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name attribute of the editable component. Used for form submission."
+            },
+            "form": {
+                "type": "string | undefined",
+                "description": "The associate form of the underlying input."
+            },
+            "autoResize": {
+                "type": "boolean | undefined",
+                "description": "Whether the editable should auto-resize to fit the content."
+            },
+            "activationMode": {
+                "type": "ActivationMode | undefined",
+                "description": "The activation mode for the preview element.\n\n- \"focus\" - Enter edit mode when the preview is focused\n- \"dblclick\" - Enter edit mode when the preview is double-clicked\n- \"click\" - Enter edit mode when the preview is clicked\n- \"none\" - Edit can be triggered programmatically only",
+                "defaultValue": "\"focus\""
+            },
+            "submitMode": {
+                "type": "SubmitMode | undefined",
+                "description": "The action that triggers submit in the edit mode:\n\n- \"enter\" - Trigger submit when the enter key is pressed\n- \"blur\" - Trigger submit when the editable is blurred\n- \"none\" - No action will trigger submit. You need to use the submit button\n- \"both\" - Pressing `Enter` and blurring the input will trigger submit",
+                "defaultValue": "\"both\""
+            },
+            "selectOnFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to select the text in the input when it is focused.",
+                "defaultValue": "true"
+            },
+            "edit": {
+                "type": "boolean | undefined",
+                "description": "Whether the editable is in edit mode."
+            },
+            "defaultEdit": {
+                "type": "boolean | undefined",
+                "description": "Whether the editable is in edit mode by default."
+            },
+            "onEditChange": {
+                "type": "((details: EditChangeDetails) => void) | undefined",
+                "description": "Function to call when the edit mode changes."
+            },
+            "maxLength": {
+                "type": "number | undefined",
+                "description": "The maximum number of characters allowed in the editable"
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the editable is disabled."
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the editable is read-only."
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the editable is required."
+            },
+            "placeholder": {
+                "type": "string | { edit: string; preview: string } | undefined",
+                "description": "The placeholder text for the editable."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "The translations for the editable."
+            },
+            "finalFocusEl": {
+                "type": "(() => HTMLElement | null) | undefined",
+                "description": "The element to receive focus when the editable is closed."
+            },
+            "value": {
+                "type": "string | undefined",
+                "description": "The controlled value of the editable."
+            },
+            "defaultValue": {
+                "type": "string | undefined",
+                "description": "The initial value of the editable when rendered.\nUse when you don't need to control the value of the editable."
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function to call when the value changes."
+            },
+            "onValueRevert": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function to call when the value is reverted."
+            },
+            "onValueCommit": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function to call when the value is committed."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            },
+            "onPointerDownOutside": {
+                "type": "((event: PointerDownOutsideEvent) => void) | undefined",
+                "description": "Function called when the pointer is pressed down outside the component"
+            },
+            "onFocusOutside": {
+                "type": "((event: FocusOutsideEvent) => void) | undefined",
+                "description": "Function called when the focus is moved outside the component"
+            },
+            "onInteractOutside": {
+                "type": "((event: InteractOutsideEvent) => void) | undefined",
+                "description": "Function called when an interaction happens outside the component"
+            }
+        }
+    },
+    "dataAttributes": {
+        "Area": {
+            "data-scope": "editable",
+            "data-part": "area",
+            "data-focus": "Present when focused",
+            "data-disabled": "Present when disabled",
+            "data-placeholder-shown": "Present when placeholder is shown"
+        },
+        "Label": {
+            "data-scope": "editable",
+            "data-part": "label",
+            "data-focus": "Present when focused",
+            "data-invalid": "Present when invalid",
+            "data-required": "Present when required"
+        },
+        "Input": {
+            "data-scope": "editable",
+            "data-part": "input",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
+            "data-autoresize": ""
+        },
+        "Preview": {
+            "data-scope": "editable",
+            "data-part": "preview",
+            "data-placeholder-shown": "Present when placeholder is shown",
+            "data-readonly": "Present when read-only",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-autoresize": ""
+        }
+    }
+}

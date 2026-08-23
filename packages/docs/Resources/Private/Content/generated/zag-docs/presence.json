@@ -1,0 +1,38 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "skip": {
+                "type": "boolean",
+                "description": "Whether the animation should be skipped."
+            },
+            "present": {
+                "type": "boolean",
+                "description": "Whether the node is present in the DOM."
+            },
+            "setNode": {
+                "type": "(node: HTMLElement | null) => void",
+                "description": "Function to set the node (as early as possible)"
+            },
+            "unmount": {
+                "type": "VoidFunction",
+                "description": "Function to programmatically unmount the node"
+            }
+        },
+        "context": {
+            "present": {
+                "type": "boolean | undefined",
+                "description": "Whether the node is present (controlled by the user)"
+            },
+            "onExitComplete": {
+                "type": "VoidFunction | undefined",
+                "description": "Function called when the animation ends in the closed state"
+            },
+            "immediate": {
+                "type": "boolean | undefined",
+                "description": "Whether to synchronize the present change immediately or defer it to the next frame"
+            }
+        }
+    },
+    "dataAttributes": []
+}

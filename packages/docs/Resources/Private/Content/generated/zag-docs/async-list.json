@@ -1,0 +1,106 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "items": {
+                "type": "T[]",
+                "description": "The items in the list."
+            },
+            "filterText": {
+                "type": "string",
+                "description": "The filter text."
+            },
+            "cursor": {
+                "type": "C | undefined",
+                "description": "The cursor."
+            },
+            "sortDescriptor": {
+                "type": "SortDescriptor<T> | undefined",
+                "description": "The sort descriptor."
+            },
+            "loading": {
+                "type": "boolean",
+                "description": "Whether the list is loading."
+            },
+            "sorting": {
+                "type": "boolean",
+                "description": "Whether the list is sorting."
+            },
+            "empty": {
+                "type": "boolean",
+                "description": "Whether the list is empty."
+            },
+            "hasMore": {
+                "type": "boolean",
+                "description": "Whether there are more items to load."
+            },
+            "error": {
+                "type": "any | undefined",
+                "description": "The error instance returned by the last fetch."
+            },
+            "abort": {
+                "type": "VoidFunction",
+                "description": "Function to abort the current fetch."
+            },
+            "reload": {
+                "type": "VoidFunction",
+                "description": "Function to reload the list"
+            },
+            "loadMore": {
+                "type": "VoidFunction",
+                "description": "Function to load more items"
+            },
+            "sort": {
+                "type": "(sortDescriptor: SortDescriptor<T>) => void",
+                "description": "Function to sort the list"
+            },
+            "setFilterText": {
+                "type": "(filterText: string) => void",
+                "description": "Function to set the filter text"
+            },
+            "clearFilter": {
+                "type": "VoidFunction",
+                "description": "Function to clear the filter text"
+            }
+        },
+        "context": {
+            "load": {
+                "type": "(args: LoadDetails<T, C>) => Promise<LoadResult<T, C>>",
+                "description": "The function to call when the list is loaded"
+            },
+            "sort": {
+                "type": "((args: SortDetails<T>) => Promise<{ items: T[] }> | { items: T[] } | undefined) | undefined",
+                "description": "The function to call when the list is sorted"
+            },
+            "initialItems": {
+                "type": "T[] | undefined",
+                "description": "The initial items to display"
+            },
+            "initialSortDescriptor": {
+                "type": "SortDescriptor<T> | undefined",
+                "description": "The initial sort descriptor to use"
+            },
+            "initialFilterText": {
+                "type": "string | undefined",
+                "description": "The initial filter text to use"
+            },
+            "dependencies": {
+                "type": "LoadDependency[] | undefined",
+                "description": "The dependencies to watch for changes"
+            },
+            "autoReload": {
+                "type": "boolean | undefined",
+                "description": "Whether to automatically reload the list when the dependencies change"
+            },
+            "onSuccess": {
+                "type": "((details: { items: T[] }) => void | undefined) | undefined",
+                "description": "The function to call when the list is loaded successfully"
+            },
+            "onError": {
+                "type": "((details: { error: Error }) => void | undefined) | undefined",
+                "description": "The function to call when the list fails to load"
+            }
+        }
+    },
+    "dataAttributes": []
+}

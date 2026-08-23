@@ -1,0 +1,164 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "dragging": {
+                "type": "boolean",
+                "description": "Whether the splitter is currently being resized."
+            },
+            "orientation": {
+                "type": "\"horizontal\" | \"vertical\"",
+                "description": "The orientation of the splitter."
+            },
+            "getSizes": {
+                "type": "() => number[]",
+                "description": "Returns the current sizes of the panels."
+            },
+            "setSizes": {
+                "type": "(size: PanelSize[]) => void",
+                "description": "Sets the sizes of the panels."
+            },
+            "getItems": {
+                "type": "() => SplitterItem[]",
+                "description": "Returns the items of the splitter."
+            },
+            "getPanels": {
+                "type": "() => PanelData[]",
+                "description": "Returns the panels of the splitter."
+            },
+            "getPanelById": {
+                "type": "(id: PanelId) => PanelData",
+                "description": "Returns the panel with the specified id."
+            },
+            "getPanelSize": {
+                "type": "(id: PanelId) => number",
+                "description": "Returns the size of the specified panel."
+            },
+            "isPanelCollapsed": {
+                "type": "(id: PanelId) => boolean",
+                "description": "Returns whether the specified panel is collapsed."
+            },
+            "isPanelExpanded": {
+                "type": "(id: PanelId) => boolean",
+                "description": "Returns whether the specified panel is expanded."
+            },
+            "collapsePanel": {
+                "type": "(id: PanelId) => void",
+                "description": "Collapses the specified panel."
+            },
+            "expandPanel": {
+                "type": "(id: PanelId, minSize?: number) => void",
+                "description": "Expands the specified panel."
+            },
+            "resizePanel": {
+                "type": "(id: PanelId, unsafePanelSize: number) => void",
+                "description": "Resizes the specified panel."
+            },
+            "getLayout": {
+                "type": "() => string",
+                "description": "Returns the layout of the splitter."
+            },
+            "resetSizes": {
+                "type": "VoidFunction",
+                "description": "Resets the splitter to its initial state."
+            },
+            "getResizeTriggerState": {
+                "type": "(props: ResizeTriggerProps) => ResizeTriggerState",
+                "description": "Returns the state of the resize trigger."
+            }
+        },
+        "context": {
+            "orientation": {
+                "type": "\"horizontal\" | \"vertical\" | undefined",
+                "description": "The orientation of the splitter. Can be `horizontal` or `vertical`",
+                "defaultValue": "\"horizontal\""
+            },
+            "size": {
+                "type": "PanelSize[] | undefined",
+                "description": "The controlled size data of the panels"
+            },
+            "defaultSize": {
+                "type": "PanelSize[] | undefined",
+                "description": "The initial size of the panels when rendered.\nUse when you don't need to control the size of the panels."
+            },
+            "panels": {
+                "type": "PanelData[]",
+                "description": "The size constraints of the panels."
+            },
+            "onResize": {
+                "type": "((details: ResizeDetails) => void) | undefined",
+                "description": "Function called when the splitter is resized."
+            },
+            "onResizeStart": {
+                "type": "(() => void) | undefined",
+                "description": "Function called when the splitter resize starts."
+            },
+            "onResizeEnd": {
+                "type": "((details: ResizeEndDetails) => void) | undefined",
+                "description": "Function called when the splitter resize ends."
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the splitter. Useful for composition."
+            },
+            "keyboardResizeBy": {
+                "type": "number | null | undefined",
+                "description": "The number of pixels to resize the panel by when the keyboard is used."
+            },
+            "nonce": {
+                "type": "string | undefined",
+                "description": "The nonce for the injected splitter cursor stylesheet."
+            },
+            "onCollapse": {
+                "type": "((details: ExpandCollapseDetails) => void) | undefined",
+                "description": "Function called when a panel is collapsed."
+            },
+            "onExpand": {
+                "type": "((details: ExpandCollapseDetails) => void) | undefined",
+                "description": "Function called when a panel is expanded."
+            },
+            "registry": {
+                "type": "SplitterRegistry | undefined",
+                "description": "The splitter registry to use for multi-drag support.\nWhen provided, enables dragging at the intersection of multiple splitters."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "splitter",
+            "data-part": "root",
+            "data-orientation": "The orientation of the splitter",
+            "data-dragging": "Present when in the dragging state"
+        },
+        "Panel": {
+            "data-scope": "splitter",
+            "data-part": "panel",
+            "data-orientation": "The orientation of the panel",
+            "data-dragging": "Present when in the dragging state",
+            "data-id": "",
+            "data-index": "The index of the item"
+        },
+        "ResizeTrigger": {
+            "data-scope": "splitter",
+            "data-part": "resize-trigger",
+            "data-id": "",
+            "data-orientation": "The orientation of the resizetrigger",
+            "data-focus": "Present when focused",
+            "data-dragging": "Present when in the dragging state",
+            "data-disabled": "Present when disabled"
+        }
+    }
+}

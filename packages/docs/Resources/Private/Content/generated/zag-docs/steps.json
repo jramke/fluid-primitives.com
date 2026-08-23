@@ -1,0 +1,174 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "value": {
+                "type": "number",
+                "description": "The value of the stepper."
+            },
+            "percent": {
+                "type": "number",
+                "description": "The percentage of the stepper."
+            },
+            "count": {
+                "type": "number",
+                "description": "The total number of steps."
+            },
+            "hasNextStep": {
+                "type": "boolean",
+                "description": "Whether the stepper has a next step."
+            },
+            "hasPrevStep": {
+                "type": "boolean",
+                "description": "Whether the stepper has a previous step."
+            },
+            "isCompleted": {
+                "type": "boolean",
+                "description": "Whether the stepper is completed."
+            },
+            "isStepValid": {
+                "type": "(index: number) => boolean",
+                "description": "Check if a specific step is valid (lazy evaluation)"
+            },
+            "isStepSkippable": {
+                "type": "(index: number) => boolean",
+                "description": "Check if a specific step can be skipped"
+            },
+            "setStep": {
+                "type": "(step: number) => void",
+                "description": "Function to set the value of the stepper."
+            },
+            "goToNextStep": {
+                "type": "VoidFunction",
+                "description": "Function to go to the next step."
+            },
+            "goToPrevStep": {
+                "type": "VoidFunction",
+                "description": "Function to go to the previous step."
+            },
+            "resetStep": {
+                "type": "VoidFunction",
+                "description": "Function to go to reset the stepper."
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of the item at the given index."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The custom ids for the stepper elements"
+            },
+            "step": {
+                "type": "number | undefined",
+                "description": "The controlled value of the stepper"
+            },
+            "defaultStep": {
+                "type": "number | undefined",
+                "description": "The initial value of the stepper when rendered.\nUse when you don't need to control the value of the stepper."
+            },
+            "onStepChange": {
+                "type": "((details: StepChangeDetails) => void) | undefined",
+                "description": "Callback to be called when the value changes"
+            },
+            "onStepComplete": {
+                "type": "VoidFunction | undefined",
+                "description": "Callback to be called when a step is completed"
+            },
+            "linear": {
+                "type": "boolean | undefined",
+                "description": "If `true`, the stepper requires the user to complete the steps in order"
+            },
+            "orientation": {
+                "type": "\"horizontal\" | \"vertical\" | undefined",
+                "description": "The orientation of the stepper",
+                "defaultValue": "\"horizontal\""
+            },
+            "count": {
+                "type": "number | undefined",
+                "description": "The total number of steps"
+            },
+            "isStepValid": {
+                "type": "((index: number) => boolean) | undefined",
+                "description": "Whether a step is valid. Invalid steps block forward navigation in linear mode.",
+                "defaultValue": "() => true"
+            },
+            "isStepSkippable": {
+                "type": "((index: number) => boolean) | undefined",
+                "description": "Whether a step can be skipped during navigation.\nSkippable steps are bypassed when using next/prev.",
+                "defaultValue": "() => false"
+            },
+            "onStepInvalid": {
+                "type": "((details: StepInvalidDetails) => void) | undefined",
+                "description": "Called when navigation is blocked due to an invalid step."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "steps",
+            "data-part": "root",
+            "data-orientation": "The orientation of the steps"
+        },
+        "List": {
+            "data-scope": "steps",
+            "data-part": "list",
+            "data-orientation": "The orientation of the list"
+        },
+        "Item": {
+            "data-scope": "steps",
+            "data-part": "item",
+            "data-orientation": "The orientation of the item",
+            "data-skippable": ""
+        },
+        "Trigger": {
+            "data-scope": "steps",
+            "data-part": "trigger",
+            "data-state": "\"open\" | \"closed\"",
+            "data-orientation": "The orientation of the trigger",
+            "data-complete": "Present when the trigger value is complete",
+            "data-current": "Present when current",
+            "data-incomplete": ""
+        },
+        "Content": {
+            "data-scope": "steps",
+            "data-part": "content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-orientation": "The orientation of the content"
+        },
+        "Indicator": {
+            "data-scope": "steps",
+            "data-part": "indicator",
+            "data-complete": "Present when the indicator value is complete",
+            "data-current": "Present when current",
+            "data-incomplete": ""
+        },
+        "Separator": {
+            "data-scope": "steps",
+            "data-part": "separator",
+            "data-orientation": "The orientation of the separator",
+            "data-complete": "Present when the separator value is complete",
+            "data-current": "Present when current",
+            "data-incomplete": ""
+        },
+        "Progress": {
+            "data-scope": "steps",
+            "data-part": "progress",
+            "data-complete": "Present when the progress value is complete"
+        }
+    }
+}

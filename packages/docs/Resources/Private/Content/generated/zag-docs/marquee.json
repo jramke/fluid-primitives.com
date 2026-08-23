@@ -1,0 +1,157 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "paused": {
+                "type": "boolean",
+                "description": "Whether the marquee is currently paused."
+            },
+            "orientation": {
+                "type": "\"horizontal\" | \"vertical\"",
+                "description": "The current orientation of the marquee."
+            },
+            "side": {
+                "type": "Side",
+                "description": "The current side/direction of the marquee."
+            },
+            "multiplier": {
+                "type": "number",
+                "description": "The multiplier for auto-fill. Indicates how many times to duplicate content.\nWhen autoFill is enabled and content is smaller than container, this returns\nthe number of additional copies needed. Otherwise returns 1."
+            },
+            "contentCount": {
+                "type": "number",
+                "description": "The total number of content elements to render (original + clones).\nUse this value when rendering your content in a loop."
+            },
+            "pause": {
+                "type": "VoidFunction",
+                "description": "Pause the marquee animation."
+            },
+            "resume": {
+                "type": "VoidFunction",
+                "description": "Resume the marquee animation."
+            },
+            "togglePause": {
+                "type": "VoidFunction",
+                "description": "Toggle the pause state."
+            },
+            "restart": {
+                "type": "VoidFunction",
+                "description": "Restart the marquee animation from the beginning."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the marquee. Useful for composition."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "The localized messages to use."
+            },
+            "side": {
+                "type": "Side | undefined",
+                "description": "The side/direction the marquee scrolls towards.",
+                "defaultValue": "\"start\""
+            },
+            "speed": {
+                "type": "number | undefined",
+                "description": "The speed of the marquee animation in pixels per second.",
+                "defaultValue": "50"
+            },
+            "delay": {
+                "type": "number | undefined",
+                "description": "The delay before the animation starts (in seconds).",
+                "defaultValue": "0"
+            },
+            "loopCount": {
+                "type": "number | undefined",
+                "description": "The number of times to loop the animation (0 = infinite).",
+                "defaultValue": "0"
+            },
+            "spacing": {
+                "type": "string | undefined",
+                "description": "The spacing between marquee items.",
+                "defaultValue": "\"1rem\""
+            },
+            "autoFill": {
+                "type": "boolean | undefined",
+                "description": "Whether to automatically duplicate content to fill the container.",
+                "defaultValue": "false"
+            },
+            "pauseOnInteraction": {
+                "type": "boolean | undefined",
+                "description": "Whether to pause the marquee on user interaction (hover, focus).",
+                "defaultValue": "false"
+            },
+            "reverse": {
+                "type": "boolean | undefined",
+                "description": "Whether to reverse the animation direction.",
+                "defaultValue": "false"
+            },
+            "paused": {
+                "type": "boolean | undefined",
+                "description": "Whether the marquee is paused."
+            },
+            "defaultPaused": {
+                "type": "boolean | undefined",
+                "description": "Whether the marquee is paused by default.",
+                "defaultValue": "false"
+            },
+            "onPauseChange": {
+                "type": "((details: PauseStatusDetails) => void) | undefined",
+                "description": "Function called when the pause status changes."
+            },
+            "onLoopComplete": {
+                "type": "(() => void) | undefined",
+                "description": "Function called when the marquee completes one loop iteration."
+            },
+            "onComplete": {
+                "type": "(() => void) | undefined",
+                "description": "Function called when the marquee completes all loops and stops.\nOnly fires for finite loops (loopCount > 0)."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "marquee",
+            "data-part": "root",
+            "data-state": "\"paused\" | \"idle\"",
+            "data-orientation": "The orientation of the marquee",
+            "data-paused": "Present when paused"
+        },
+        "Viewport": {
+            "data-scope": "marquee",
+            "data-part": "",
+            "data-orientation": "The orientation of the viewport",
+            "data-side": "The side of the trigger that the viewport is positioned on"
+        },
+        "Content": {
+            "data-scope": "marquee",
+            "data-part": "",
+            "data-index": "The index of the item",
+            "data-orientation": "The orientation of the content",
+            "data-side": "The side of the trigger that the content is positioned on",
+            "data-reverse": "",
+            "data-clone": ""
+        },
+        "Edge": {
+            "data-scope": "marquee",
+            "data-part": "",
+            "data-side": "The side of the trigger that the edge is positioned on",
+            "data-orientation": "The orientation of the edge"
+        }
+    }
+}

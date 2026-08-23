@@ -1,0 +1,238 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "focused": {
+                "type": "boolean",
+                "description": "Whether the date input is focused"
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the date input is disabled"
+            },
+            "invalid": {
+                "type": "boolean",
+                "description": "Whether the date input is invalid"
+            },
+            "value": {
+                "type": "DateValue[]",
+                "description": "The selected date(s)."
+            },
+            "valueAsDate": {
+                "type": "Date[]",
+                "description": "The selected date(s) as Date objects."
+            },
+            "valueAsString": {
+                "type": "string[]",
+                "description": "The selected date(s) as strings."
+            },
+            "placeholderValue": {
+                "type": "DateValue",
+                "description": "The placeholder date."
+            },
+            "displayValues": {
+                "type": "IncompleteDate[]",
+                "description": "Per-group editing state. Each IncompleteDate tracks which segments have been\nfilled in by the user (non-null = entered, null = placeholder)."
+            },
+            "focus": {
+                "type": "VoidFunction",
+                "description": "Focuses the first segment."
+            },
+            "setValue": {
+                "type": "(values: DateValue[]) => void",
+                "description": "Sets the selected date(s) to the given values."
+            },
+            "clearValue": {
+                "type": "VoidFunction",
+                "description": "Clears the selected date(s)."
+            },
+            "getSegments": {
+                "type": "(props?: SegmentsProps | undefined) => DateSegment[]",
+                "description": "Returns the segments for the given index."
+            },
+            "getSegmentState": {
+                "type": "(props: SegmentProps) => SegmentState",
+                "description": "Returns the state details for a given segment."
+            }
+        },
+        "context": {
+            "locale": {
+                "type": "string | undefined",
+                "description": "The locale (BCP 47 language tag) to use when formatting the date.",
+                "defaultValue": "\"en-US\""
+            },
+            "createCalendar": {
+                "type": "((identifier: CalendarIdentifier) => Calendar) | undefined",
+                "description": "A function that creates a calendar object for a given calendar identifier.\nUse this to support non-Gregorian calendars (e.g., Persian, Islamic, Buddhist)."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "The localized messages to use."
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the date input. Useful for composition."
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The `name` attribute of the input element."
+            },
+            "form": {
+                "type": "string | undefined",
+                "description": "The `form` attribute of the hidden input element."
+            },
+            "timeZone": {
+                "type": "string | undefined",
+                "description": "The time zone to use",
+                "defaultValue": "\"UTC\""
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the date input is disabled."
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the date input is read-only."
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the date input is required"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the date input is invalid"
+            },
+            "isDateUnavailable": {
+                "type": "((date: DateValue, locale: string) => boolean) | undefined",
+                "description": "Returns whether a date is unavailable.\nWhen a committed date matches, the input is marked as invalid."
+            },
+            "min": {
+                "type": "DateValue | undefined",
+                "description": "The minimum date that can be selected."
+            },
+            "max": {
+                "type": "DateValue | undefined",
+                "description": "The maximum date that can be selected."
+            },
+            "value": {
+                "type": "DateValue[] | undefined",
+                "description": "The controlled selected date(s)."
+            },
+            "defaultValue": {
+                "type": "DateValue[] | undefined",
+                "description": "The initial selected date(s) when rendered.\nUse when you don't need to control the selected date(s)."
+            },
+            "placeholderValue": {
+                "type": "DateValue | undefined",
+                "description": "The controlled placeholder date."
+            },
+            "defaultPlaceholderValue": {
+                "type": "DateValue | undefined",
+                "description": "The initial placeholder date when rendered."
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function called when the value changes."
+            },
+            "onPlaceholderChange": {
+                "type": "((details: PlaceholderChangeDetails) => void) | undefined",
+                "description": "A function called when the placeholder value changes."
+            },
+            "onFocusChange": {
+                "type": "((details: FocusChangeDetails) => void) | undefined",
+                "description": "A function called when the date input gains or loses focus."
+            },
+            "selectionMode": {
+                "type": "SelectionMode | undefined",
+                "description": "The selection mode of the date input.\n- `single` - only one date can be entered\n- `range` - a range of dates can be entered (start and end)",
+                "defaultValue": "\"single\""
+            },
+            "hourCycle": {
+                "type": "HourCycle | undefined",
+                "description": "Whether to use 12-hour or 24-hour time format.\nBy default, this is determined by the locale."
+            },
+            "hideTimeZone": {
+                "type": "boolean | undefined",
+                "description": "Whether to hide the time zone segment when the value is a `ZonedDateTime`.\nHas no effect for values without a time zone.",
+                "defaultValue": "false"
+            },
+            "granularity": {
+                "type": "DateGranularity | undefined",
+                "description": "Determines the smallest unit that is displayed in the date input.",
+                "defaultValue": "\"day\""
+            },
+            "shouldForceLeadingZeros": {
+                "type": "boolean | undefined",
+                "description": "Whether to always show leading zeros in month, day, and hour fields.\nWhen false, formatting follows the locale default (e.g. \"1\" instead of \"01\").",
+                "defaultValue": "false"
+            },
+            "formatter": {
+                "type": "DateFormatter | undefined",
+                "description": "The date formatter to use."
+            },
+            "allSegments": {
+                "type": "Segments | undefined",
+                "description": "The computed segments map for the formatter."
+            },
+            "format": {
+                "type": "((date: DateValue, details: FormatDateDetails) => string) | undefined",
+                "description": "The format function for converting a DateValue to a string."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "date-input",
+            "data-part": "root",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid"
+        },
+        "Label": {
+            "data-scope": "date-input",
+            "data-part": "label",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid"
+        },
+        "Control": {
+            "data-scope": "date-input",
+            "data-part": "control",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
+            "data-focus": "Present when focused"
+        },
+        "SegmentGroup": {
+            "data-scope": "date-input",
+            "data-part": "segment-group",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
+            "data-focus": "Present when focused"
+        },
+        "Segment": {
+            "data-scope": "date-input",
+            "data-part": "segment",
+            "data-type": "The type of the item",
+            "data-readonly": "Present when read-only",
+            "data-disabled": "Present when disabled",
+            "data-value": "The value of the item",
+            "data-editable": "",
+            "data-placeholder-shown": "Present when placeholder is shown"
+        }
+    }
+}

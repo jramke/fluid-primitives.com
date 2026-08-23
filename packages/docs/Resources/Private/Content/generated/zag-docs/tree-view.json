@@ -1,0 +1,395 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Tab"
+                ],
+                "description": "Moves focus to the tree view, placing the first tree view item in focus."
+            },
+            {
+                "keys": [
+                    "Enter",
+                    "Space"
+                ],
+                "description": "Selects the item or branch node"
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "Moves focus to the next node"
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "Moves focus to the previous node"
+            },
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "When focus is on a closed branch node, opens the branch.<br> When focus is on an open branch node, moves focus to the first item node."
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "When focus is on an open branch node, closes the node.<br> When focus is on an item or branch node, moves focus to its parent branch node."
+            },
+            {
+                "keys": [
+                    "Home"
+                ],
+                "description": "Moves focus to first node without opening or closing a node."
+            },
+            {
+                "keys": [
+                    "End"
+                ],
+                "description": "Moves focus to the last node that can be focused without expanding any nodes that are closed."
+            },
+            {
+                "keys": [
+                    "a-z",
+                    "A-Z"
+                ],
+                "description": "Focus moves to the next node with a name that starts with the typed character. The search logic ignores nodes that are descendants of closed branch."
+            },
+            {
+                "keys": [
+                    "*"
+                ],
+                "description": "Expands all sibling nodes that are at the same depth as the focused node."
+            },
+            {
+                "keys": [
+                    "Shift + ArrowDown"
+                ],
+                "description": "Moves focus to and toggles the selection state of the next node."
+            },
+            {
+                "keys": [
+                    "Shift + ArrowUp"
+                ],
+                "description": "Moves focus to and toggles the selection state of the previous node."
+            },
+            {
+                "keys": [
+                    "Ctrl + A"
+                ],
+                "description": "Selects all nodes in the tree. If all nodes are selected, unselects all nodes."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "collection": {
+                "type": "TreeCollection<V>",
+                "description": "The tree collection data"
+            },
+            "expandedValue": {
+                "type": "string[]",
+                "description": "The value of the expanded nodes."
+            },
+            "setExpandedValue": {
+                "type": "(value: string[]) => void",
+                "description": "Sets the expanded value"
+            },
+            "selectedValue": {
+                "type": "string[]",
+                "description": "The value of the selected nodes."
+            },
+            "setSelectedValue": {
+                "type": "(value: string[]) => void",
+                "description": "Sets the selected value"
+            },
+            "checkedValue": {
+                "type": "string[]",
+                "description": "The value of the checked nodes"
+            },
+            "toggleChecked": {
+                "type": "(value: string, isBranch: boolean) => void",
+                "description": "Toggles the checked value of a node"
+            },
+            "setChecked": {
+                "type": "(value: string[]) => void",
+                "description": "Sets the checked value of a node"
+            },
+            "clearChecked": {
+                "type": "VoidFunction",
+                "description": "Clears the checked value of a node"
+            },
+            "getCheckedMap": {
+                "type": "() => CheckedValueMap",
+                "description": "Returns the checked details of branch and leaf nodes"
+            },
+            "getVisibleNodes": {
+                "type": "() => VisibleNode<V>[]",
+                "description": "Returns the visible nodes as a flat array of nodes and their index path.\nUseful for rendering virtualized tree views."
+            },
+            "expand": {
+                "type": "(value?: string[]) => void",
+                "description": "Function to expand nodes.\nIf no value is provided, all nodes will be expanded"
+            },
+            "collapse": {
+                "type": "(value?: string[]) => void",
+                "description": "Function to collapse nodes\nIf no value is provided, all nodes will be collapsed"
+            },
+            "select": {
+                "type": "(value?: string[]) => void",
+                "description": "Function to select nodes\nIf no value is provided, all nodes will be selected"
+            },
+            "deselect": {
+                "type": "(value?: string[]) => void",
+                "description": "Function to deselect nodes\nIf no value is provided, all nodes will be deselected"
+            },
+            "focus": {
+                "type": "(value: string) => void",
+                "description": "Function to focus a node by value"
+            },
+            "selectParent": {
+                "type": "(value: string) => void",
+                "description": "Function to select the parent node of the focused node"
+            },
+            "expandParent": {
+                "type": "(value: string) => void",
+                "description": "Function to expand the parent node of the focused node"
+            },
+            "startRenaming": {
+                "type": "(value: string) => void",
+                "description": "Function to start renaming a node by value"
+            },
+            "submitRenaming": {
+                "type": "(value: string, label: string) => void",
+                "description": "Function to submit the rename and update the node label"
+            },
+            "cancelRenaming": {
+                "type": "() => void",
+                "description": "Function to cancel renaming without changes"
+            }
+        },
+        "context": {
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+            },
+            "collection": {
+                "type": "TreeCollection<T> | undefined",
+                "description": "The tree collection data"
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the tree elements. Useful for composition."
+            },
+            "expandedValue": {
+                "type": "string[] | undefined",
+                "description": "The controlled expanded node ids"
+            },
+            "defaultExpandedValue": {
+                "type": "string[] | undefined",
+                "description": "The initial expanded node ids when rendered.\nUse when you don't need to control the expanded node value."
+            },
+            "selectedValue": {
+                "type": "string[] | undefined",
+                "description": "The controlled selected node value"
+            },
+            "defaultSelectedValue": {
+                "type": "string[] | undefined",
+                "description": "The initial selected node value when rendered.\nUse when you don't need to control the selected node value."
+            },
+            "defaultCheckedValue": {
+                "type": "string[] | undefined",
+                "description": "The initial checked node value when rendered.\nUse when you don't need to control the checked node value."
+            },
+            "checkedValue": {
+                "type": "string[] | undefined",
+                "description": "The controlled checked node value"
+            },
+            "defaultFocusedValue": {
+                "type": "string | null | undefined",
+                "description": "The initial focused node value when rendered.\nUse when you don't need to control the focused node value."
+            },
+            "focusedValue": {
+                "type": "string | null | undefined",
+                "description": "The value of the focused node"
+            },
+            "selectionMode": {
+                "type": "\"single\" | \"multiple\" | undefined",
+                "description": "Whether the tree supports multiple selection\n- \"single\": only one node can be selected\n- \"multiple\": multiple nodes can be selected",
+                "defaultValue": "\"single\""
+            },
+            "onExpandedChange": {
+                "type": "((details: ExpandedChangeDetails<T>) => void) | undefined",
+                "description": "Called when the tree is opened or closed"
+            },
+            "onSelectionChange": {
+                "type": "((details: SelectionChangeDetails<T>) => void) | undefined",
+                "description": "Called when the selection changes"
+            },
+            "onFocusChange": {
+                "type": "((details: FocusChangeDetails<T>) => void) | undefined",
+                "description": "Called when the focused node changes"
+            },
+            "onCheckedChange": {
+                "type": "((details: CheckedChangeDetails) => void) | undefined",
+                "description": "Called when the checked value changes"
+            },
+            "canRename": {
+                "type": "((node: T, indexPath: IndexPath) => boolean) | undefined",
+                "description": "Function to determine if a node can be renamed"
+            },
+            "onRenameStart": {
+                "type": "((details: RenameStartDetails<T>) => void) | undefined",
+                "description": "Called when a node starts being renamed"
+            },
+            "onBeforeRename": {
+                "type": "((details: RenameCompleteDetails) => boolean) | undefined",
+                "description": "Called before a rename is completed. Return false to prevent the rename."
+            },
+            "onRenameComplete": {
+                "type": "((details: RenameCompleteDetails) => void) | undefined",
+                "description": "Called when a node label rename is completed"
+            },
+            "onLoadChildrenComplete": {
+                "type": "((details: LoadChildrenCompleteDetails<T>) => void) | undefined",
+                "description": "Called when a node finishes loading children"
+            },
+            "onLoadChildrenError": {
+                "type": "((details: LoadChildrenErrorDetails<T>) => void) | undefined",
+                "description": "Called when loading children fails for one or more nodes"
+            },
+            "expandOnClick": {
+                "type": "boolean | undefined",
+                "description": "Whether clicking on a branch should open it or not",
+                "defaultValue": "true"
+            },
+            "typeahead": {
+                "type": "boolean | undefined",
+                "description": "Whether the tree supports typeahead search",
+                "defaultValue": "true"
+            },
+            "loadChildren": {
+                "type": "((details: LoadChildrenDetails<T>) => Promise<T[]>) | undefined",
+                "description": "Function to load children for a node asynchronously.\nWhen provided, branches will wait for this promise to resolve before expanding."
+            },
+            "scrollToIndexFn": {
+                "type": "((details: ScrollToIndexDetails<T>) => void) | undefined",
+                "description": "Function to scroll to a specific index.\nUseful for virtualized tree views."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Item": {
+            "data-scope": "tree-view",
+            "data-part": "item",
+            "data-path": "The path of the item",
+            "data-value": "The value of the item",
+            "data-focus": "Present when focused",
+            "data-selected": "Present when selected",
+            "data-disabled": "Present when disabled",
+            "data-renaming": "",
+            "data-checked": "Present when checked",
+            "data-indeterminate": "",
+            "data-depth": "The depth of the item"
+        },
+        "ItemText": {
+            "data-scope": "tree-view",
+            "data-part": "item-text",
+            "data-disabled": "Present when disabled",
+            "data-selected": "Present when selected",
+            "data-focus": "Present when focused"
+        },
+        "ItemIndicator": {
+            "data-scope": "tree-view",
+            "data-part": "item-indicator",
+            "data-disabled": "Present when disabled",
+            "data-selected": "Present when selected",
+            "data-focus": "Present when focused"
+        },
+        "Branch": {
+            "data-scope": "tree-view",
+            "data-part": "branch",
+            "data-depth": "The depth of the item",
+            "data-branch": "",
+            "data-value": "The value of the item",
+            "data-path": "The path of the item",
+            "data-selected": "Present when selected",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
+            "data-loading": "Present when loading"
+        },
+        "BranchIndicator": {
+            "data-scope": "tree-view",
+            "data-part": "branch-indicator",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
+            "data-selected": "Present when selected",
+            "data-focus": "Present when focused",
+            "data-loading": "Present when loading"
+        },
+        "BranchTrigger": {
+            "data-scope": "tree-view",
+            "data-part": "branch-trigger",
+            "data-disabled": "Present when disabled",
+            "data-state": "\"open\" | \"closed\"",
+            "data-value": "The value of the item",
+            "data-loading": "Present when loading"
+        },
+        "BranchControl": {
+            "data-scope": "tree-view",
+            "data-part": "branch-control",
+            "data-path": "The path of the item",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
+            "data-selected": "Present when selected",
+            "data-focus": "Present when focused",
+            "data-renaming": "",
+            "data-checked": "Present when checked",
+            "data-indeterminate": "",
+            "data-value": "The value of the item",
+            "data-depth": "The depth of the item",
+            "data-loading": "Present when loading"
+        },
+        "BranchText": {
+            "data-scope": "tree-view",
+            "data-part": "branch-text",
+            "data-disabled": "Present when disabled",
+            "data-state": "\"open\" | \"closed\"",
+            "data-loading": "Present when loading"
+        },
+        "BranchContent": {
+            "data-scope": "tree-view",
+            "data-part": "branch-content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-depth": "The depth of the item",
+            "data-path": "The path of the item",
+            "data-value": "The value of the item"
+        },
+        "BranchIndentGuide": {
+            "data-scope": "tree-view",
+            "data-part": "branch-indent-guide",
+            "data-depth": "The depth of the item"
+        },
+        "NodeCheckbox": {
+            "data-scope": "tree-view",
+            "data-part": "node-checkbox",
+            "data-state": "\"checked\" | \"unchecked\" | \"indeterminate\"",
+            "data-disabled": "Present when disabled"
+        }
+    }
+}

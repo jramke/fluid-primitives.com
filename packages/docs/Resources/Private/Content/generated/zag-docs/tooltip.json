@@ -1,0 +1,150 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Tab"
+                ],
+                "description": "Opens/closes the tooltip without delay."
+            },
+            {
+                "keys": [
+                    "Escape"
+                ],
+                "description": "If open, closes the tooltip without delay."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "open": {
+                "type": "boolean",
+                "description": "Whether the tooltip is open."
+            },
+            "setOpen": {
+                "type": "(open: boolean) => void",
+                "description": "Function to open the tooltip."
+            },
+            "triggerValue": {
+                "type": "string | null",
+                "description": "The trigger value"
+            },
+            "setTriggerValue": {
+                "type": "(value: string | null) => void",
+                "description": "Function to set the trigger value"
+            },
+            "reposition": {
+                "type": "(options?: Partial<PositioningOptions>) => void",
+                "description": "Function to reposition the popover"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the tooltip. Useful for composition."
+            },
+            "openDelay": {
+                "type": "number | undefined",
+                "description": "The open delay of the tooltip.",
+                "defaultValue": "400"
+            },
+            "closeDelay": {
+                "type": "number | undefined",
+                "description": "The close delay of the tooltip.",
+                "defaultValue": "150"
+            },
+            "closeOnPointerDown": {
+                "type": "boolean | undefined",
+                "description": "Whether to close the tooltip on pointerdown.",
+                "defaultValue": "true"
+            },
+            "closeOnEscape": {
+                "type": "boolean | undefined",
+                "description": "Whether to close the tooltip when the Escape key is pressed.",
+                "defaultValue": "true"
+            },
+            "closeOnScroll": {
+                "type": "boolean | undefined",
+                "description": "Whether the tooltip should close on scroll",
+                "defaultValue": "true"
+            },
+            "closeOnClick": {
+                "type": "boolean | undefined",
+                "description": "Whether the tooltip should close on click",
+                "defaultValue": "true"
+            },
+            "interactive": {
+                "type": "boolean | undefined",
+                "description": "Whether the tooltip's content is interactive.\nIn this mode, the tooltip will remain open when user hovers over the content.",
+                "defaultValue": "false"
+            },
+            "onOpenChange": {
+                "type": "((details: OpenChangeDetails) => void) | undefined",
+                "description": "Function called when the tooltip is opened."
+            },
+            "aria-label": {
+                "type": "string | undefined",
+                "description": "Custom label for the tooltip."
+            },
+            "positioning": {
+                "type": "PositioningOptions | undefined",
+                "description": "The user provided options used to position the popover content"
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the tooltip is disabled"
+            },
+            "open": {
+                "type": "boolean | undefined",
+                "description": "The controlled open state of the tooltip"
+            },
+            "defaultOpen": {
+                "type": "boolean | undefined",
+                "description": "The initial open state of the tooltip when rendered.\nUse when you don't need to control the open state of the tooltip."
+            },
+            "triggerValue": {
+                "type": "string | null | undefined",
+                "description": "The controlled trigger value"
+            },
+            "defaultTriggerValue": {
+                "type": "string | null | undefined",
+                "description": "The initial trigger value when rendered.\nUse when you don't need to control the trigger value."
+            },
+            "onTriggerValueChange": {
+                "type": "((details: TriggerValueChangeDetails) => void) | undefined",
+                "description": "Function called when the trigger value changes."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Trigger": {
+            "data-scope": "tooltip",
+            "data-part": "trigger",
+            "data-value": "The value of the item",
+            "data-current": "Present when current",
+            "data-expanded": "Present when expanded",
+            "data-state": "\"open\" | \"closed\""
+        },
+        "Content": {
+            "data-scope": "tooltip",
+            "data-part": "content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-instant": "",
+            "data-placement": "The placement of the content",
+            "data-side": "The side of the trigger that the content is positioned on"
+        }
+    }
+}

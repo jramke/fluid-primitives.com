@@ -1,0 +1,378 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Space"
+                ],
+                "description": "<span>When focus is on trigger, opens the cascade select and focuses the first item.<br />When focus is on the content, selects the highlighted item.</span>"
+            },
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "<span>When focus is on trigger, opens the cascade select and focuses the first item.<br />When focus is on content, selects the highlighted item.</span>"
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "<span>When focus is on trigger, opens the cascade select.<br />When focus is on content, moves focus to the next item in the current level.</span>"
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "<span>When focus is on trigger, opens the cascade select and focuses the last item.<br />When focus is on content, moves focus to the previous item in the current level.</span>"
+            },
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "<span>When focus is on a branch item, expands the next level and moves focus into it.</span>"
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "<span>When focus is on a nested level, collapses it and moves focus back to the parent.<br />When focus is at the root level, closes the cascade select.</span>"
+            },
+            {
+                "keys": [
+                    "Home"
+                ],
+                "description": "<span>Moves focus to the first item in the current level.</span>"
+            },
+            {
+                "keys": [
+                    "End"
+                ],
+                "description": "<span>Moves focus to the last item in the current level.</span>"
+            },
+            {
+                "keys": [
+                    "Esc"
+                ],
+                "description": "<span>Closes the cascade select and moves focus to trigger.</span>"
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "collection": {
+                "type": "TreeCollection<V>",
+                "description": "The tree collection data"
+            },
+            "open": {
+                "type": "boolean",
+                "description": "Whether the cascade-select is open"
+            },
+            "focused": {
+                "type": "boolean",
+                "description": "Whether the cascade-select is focused"
+            },
+            "multiple": {
+                "type": "boolean",
+                "description": "Whether the cascade-select allows multiple selections"
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the cascade-select is disabled"
+            },
+            "highlightedValue": {
+                "type": "string[]",
+                "description": "The value of the highlighted item"
+            },
+            "highlightedItems": {
+                "type": "V[]",
+                "description": "The items along the highlighted path"
+            },
+            "selectedItems": {
+                "type": "V[][]",
+                "description": "The selected items"
+            },
+            "hasSelectedItems": {
+                "type": "boolean",
+                "description": "Whether there's a selected option"
+            },
+            "empty": {
+                "type": "boolean",
+                "description": "Whether the cascade-select value is empty"
+            },
+            "value": {
+                "type": "string[][]",
+                "description": "The current value of the cascade-select"
+            },
+            "valueAsString": {
+                "type": "string",
+                "description": "The current value as text"
+            },
+            "focus": {
+                "type": "() => void",
+                "description": "Function to focus on the select input"
+            },
+            "reposition": {
+                "type": "(options?: any) => void",
+                "description": "Function to set the positioning options of the cascade-select"
+            },
+            "setOpen": {
+                "type": "(open: boolean) => void",
+                "description": "Function to open the cascade-select"
+            },
+            "setHighlightValue": {
+                "type": "(value: string | string[]) => void",
+                "description": "Function to set the highlighted value (path or single value to find)"
+            },
+            "clearHighlightValue": {
+                "type": "() => void",
+                "description": "Function to clear the highlighted value"
+            },
+            "selectValue": {
+                "type": "(value: string[]) => void",
+                "description": "Function to select a value"
+            },
+            "setValue": {
+                "type": "(value: string[][]) => void",
+                "description": "Function to set the value"
+            },
+            "clearValue": {
+                "type": "(value?: string[] | undefined) => void",
+                "description": "Function to clear the value"
+            },
+            "getItemState": {
+                "type": "(props: ItemProps<V>) => ItemState<V>",
+                "description": "Returns the state of a cascade-select item"
+            }
+        },
+        "context": {
+            "collection": {
+                "type": "TreeCollection<T> | undefined",
+                "description": "The tree collection data"
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the cascade-select elements. Useful for composition."
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name attribute of the underlying input element"
+            },
+            "form": {
+                "type": "string | undefined",
+                "description": "The form attribute of the underlying input element"
+            },
+            "value": {
+                "type": "string[][] | undefined",
+                "description": "The controlled value of the cascade-select"
+            },
+            "defaultValue": {
+                "type": "string[][] | undefined",
+                "description": "The initial value of the cascade-select when rendered.\nUse when you don't need to control the value."
+            },
+            "highlightedValue": {
+                "type": "string[] | undefined",
+                "description": "The controlled highlighted value of the cascade-select"
+            },
+            "defaultHighlightedValue": {
+                "type": "string[] | undefined",
+                "description": "The initial highlighted value of the cascade-select when rendered."
+            },
+            "multiple": {
+                "type": "boolean | undefined",
+                "description": "Whether to allow multiple selections",
+                "defaultValue": "false"
+            },
+            "open": {
+                "type": "boolean | undefined",
+                "description": "The controlled open state of the cascade-select"
+            },
+            "defaultOpen": {
+                "type": "boolean | undefined",
+                "description": "The initial open state of the cascade-select when rendered.\nUse when you don't need to control the open state."
+            },
+            "highlightTrigger": {
+                "type": "\"click\" | \"hover\" | undefined",
+                "description": "What triggers highlighting of items",
+                "defaultValue": "\"click\""
+            },
+            "closeOnSelect": {
+                "type": "boolean | undefined",
+                "description": "Whether the cascade-select should close when an item is selected",
+                "defaultValue": "true"
+            },
+            "loopFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether the cascade-select should loop focus when navigating with keyboard",
+                "defaultValue": "false"
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the cascade-select is disabled"
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the cascade-select is read-only"
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the cascade-select is required"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the cascade-select is invalid"
+            },
+            "positioning": {
+                "type": "PositioningOptions | undefined",
+                "description": "The positioning options for the cascade-select content"
+            },
+            "scrollToIndexFn": {
+                "type": "((details: ScrollToIndexDetails) => void) | undefined",
+                "description": "Function to scroll to a specific index in a list"
+            },
+            "formatValue": {
+                "type": "((selectedItems: T[][]) => string) | undefined",
+                "description": "Function to format the display value"
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails<T>) => void) | undefined",
+                "description": "Called when the value changes"
+            },
+            "onHighlightChange": {
+                "type": "((details: HighlightChangeDetails<T>) => void) | undefined",
+                "description": "Called when the highlighted value changes"
+            },
+            "onOpenChange": {
+                "type": "((details: OpenChangeDetails) => void) | undefined",
+                "description": "Called when the open state changes"
+            },
+            "allowParentSelection": {
+                "type": "boolean | undefined",
+                "description": "Whether parent (branch) items can be selectable"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            },
+            "onPointerDownOutside": {
+                "type": "((event: PointerDownOutsideEvent) => void) | undefined",
+                "description": "Function called when the pointer is pressed down outside the component"
+            },
+            "onFocusOutside": {
+                "type": "((event: FocusOutsideEvent) => void) | undefined",
+                "description": "Function called when the focus is moved outside the component"
+            },
+            "onInteractOutside": {
+                "type": "((event: InteractOutsideEvent) => void) | undefined",
+                "description": "Function called when an interaction happens outside the component"
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "cascade-select",
+            "data-part": "root",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
+            "data-state": "\"open\" | \"closed\""
+        },
+        "Label": {
+            "data-scope": "cascade-select",
+            "data-part": "label",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid"
+        },
+        "Control": {
+            "data-scope": "cascade-select",
+            "data-part": "control",
+            "data-disabled": "Present when disabled",
+            "data-focus": "Present when focused",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
+            "data-state": "\"open\" | \"closed\""
+        },
+        "Trigger": {
+            "data-scope": "cascade-select",
+            "data-part": "trigger",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
+            "data-focus": "Present when focused",
+            "data-placement": "The placement of the trigger",
+            "data-side": "The side of the trigger that the trigger is positioned on",
+            "data-placeholder-shown": "Present when placeholder is shown"
+        },
+        "ClearTrigger": {
+            "data-scope": "cascade-select",
+            "data-part": "clear-trigger",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid"
+        },
+        "Content": {
+            "data-scope": "cascade-select",
+            "data-part": "content",
+            "data-activedescendant": "The id the active descendant of the content",
+            "data-state": "\"open\" | \"closed\""
+        },
+        "List": {
+            "data-scope": "cascade-select",
+            "data-part": "list",
+            "data-depth": "The depth of the item"
+        },
+        "Indicator": {
+            "data-scope": "cascade-select",
+            "data-part": "indicator",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid"
+        },
+        "Item": {
+            "data-scope": "cascade-select",
+            "data-part": "item",
+            "data-value": "The value of the item",
+            "data-disabled": "Present when disabled",
+            "data-highlighted": "Present when highlighted",
+            "data-selected": "Present when selected",
+            "data-depth": "The depth of the item",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-type": "The type of the item",
+            "data-index-path": ""
+        },
+        "ItemText": {
+            "data-scope": "cascade-select",
+            "data-part": "item-text",
+            "data-value": "The value of the item",
+            "data-highlighted": "Present when highlighted",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-disabled": "Present when disabled"
+        },
+        "ItemIndicator": {
+            "data-scope": "cascade-select",
+            "data-part": "item-indicator",
+            "data-value": "The value of the item",
+            "data-highlighted": "Present when highlighted",
+            "data-type": "The type of the item",
+            "data-state": "\"checked\" | \"unchecked\""
+        },
+        "ValueText": {
+            "data-scope": "cascade-select",
+            "data-part": "value-text",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-focus": "Present when focused"
+        }
+    }
+}

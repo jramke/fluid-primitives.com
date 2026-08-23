@@ -1,0 +1,645 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "Moves focus to the previous day within the current week."
+            },
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "Moves focus to the next day within the current week."
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "Moves focus to the same day of the week in the previous week."
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "Moves focus to the same day of the week in the next week."
+            },
+            {
+                "keys": [
+                    "Home"
+                ],
+                "description": "Moves focus to the first day of the current month."
+            },
+            {
+                "keys": [
+                    "End"
+                ],
+                "description": "Moves focus to the last day of the current month."
+            },
+            {
+                "keys": [
+                    "PageUp"
+                ],
+                "description": "Moves focus to the same day of the month in the previous month."
+            },
+            {
+                "keys": [
+                    "PageDown"
+                ],
+                "description": "Moves focus to the same day of the month in the next month."
+            },
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "Selects the focused date and closes the date picker."
+            },
+            {
+                "keys": [
+                    "Esc"
+                ],
+                "description": "Closes the date picker without selecting any date."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "focused": {
+                "type": "boolean",
+                "description": "Whether the input is focused"
+            },
+            "open": {
+                "type": "boolean",
+                "description": "Whether the date picker is open"
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the date picker is disabled"
+            },
+            "invalid": {
+                "type": "boolean",
+                "description": "Whether the date picker is invalid"
+            },
+            "readOnly": {
+                "type": "boolean",
+                "description": "Whether the date picker is read-only"
+            },
+            "inline": {
+                "type": "boolean",
+                "description": "Whether the date picker is rendered inline"
+            },
+            "numOfMonths": {
+                "type": "number",
+                "description": "The number of months to display"
+            },
+            "showWeekNumbers": {
+                "type": "boolean",
+                "description": "Whether the week number column is shown in the day view"
+            },
+            "selectionMode": {
+                "type": "SelectionMode",
+                "description": "The selection mode (single, multiple, or range)"
+            },
+            "maxSelectedDates": {
+                "type": "number | undefined",
+                "description": "The maximum number of dates that can be selected (only for multiple selection mode)."
+            },
+            "isMaxSelected": {
+                "type": "boolean",
+                "description": "Whether the maximum number of selected dates has been reached."
+            },
+            "view": {
+                "type": "DateView",
+                "description": "The current view of the date picker"
+            },
+            "getWeekNumber": {
+                "type": "(week: DateValue[]) => number",
+                "description": "Returns the ISO 8601 week number (1-53) for the given week (array of dates)."
+            },
+            "getDaysInWeek": {
+                "type": "(week: number, from?: DateValue) => DateValue[]",
+                "description": "Returns an array of days in the week index counted from the provided start date, or the first visible date if not given."
+            },
+            "getOffset": {
+                "type": "(duration: DateDuration) => DateValueOffset",
+                "description": "Returns the offset of the month based on the provided number of months."
+            },
+            "getRangePresetValue": {
+                "type": "(value: DateRangePreset) => DateValue[]",
+                "description": "Returns the range of dates based on the provided date range preset."
+            },
+            "getMonthWeeks": {
+                "type": "(from?: DateValue) => DateValue[][]",
+                "description": "Returns the weeks of the month from the provided date. Represented as an array of arrays of dates."
+            },
+            "isUnavailable": {
+                "type": "(date: DateValue) => boolean",
+                "description": "Returns whether the provided date is available (or can be selected)"
+            },
+            "weeks": {
+                "type": "DateValue[][]",
+                "description": "The weeks of the month. Represented as an array of arrays of dates."
+            },
+            "weekDays": {
+                "type": "WeekDay[]",
+                "description": "The days of the week. Represented as an array of strings."
+            },
+            "visibleRange": {
+                "type": "VisibleRange",
+                "description": "The visible range of dates."
+            },
+            "visibleRangeText": {
+                "type": "VisibleRangeText",
+                "description": "The human readable text for the visible range of dates."
+            },
+            "value": {
+                "type": "DateValue[]",
+                "description": "The selected date."
+            },
+            "valueAsDate": {
+                "type": "Date[]",
+                "description": "The selected date as a Date object."
+            },
+            "valueAsString": {
+                "type": "string[]",
+                "description": "The selected date as a string."
+            },
+            "focusedValue": {
+                "type": "DateValue",
+                "description": "The focused date."
+            },
+            "focusedValueAsDate": {
+                "type": "Date",
+                "description": "The focused date as a Date object."
+            },
+            "focusedValueAsString": {
+                "type": "string",
+                "description": "The focused date as a string."
+            },
+            "selectToday": {
+                "type": "VoidFunction",
+                "description": "Sets the selected date to today."
+            },
+            "setValue": {
+                "type": "(values: DateValue[]) => void",
+                "description": "Sets the selected date to the given date."
+            },
+            "setTime": {
+                "type": "(time: Time, index?: number) => void",
+                "description": "Sets the time for a specific date value.\nConverts CalendarDate to CalendarDateTime if needed."
+            },
+            "setFocusedValue": {
+                "type": "(value: DateValue) => void",
+                "description": "Sets the focused date to the given date."
+            },
+            "clearValue": {
+                "type": "(options?: { focus?: boolean }) => void",
+                "description": "Clears the selected date(s)."
+            },
+            "setOpen": {
+                "type": "(open: boolean) => void",
+                "description": "Function to open or close the calendar."
+            },
+            "focusMonth": {
+                "type": "(month: number) => void",
+                "description": "Function to set the selected month."
+            },
+            "focusYear": {
+                "type": "(year: number) => void",
+                "description": "Function to set the selected year."
+            },
+            "getYears": {
+                "type": "() => Cell[]",
+                "description": "Returns the months of the year"
+            },
+            "getYearsGrid": {
+                "type": "(props?: YearGridProps) => YearGridValue",
+                "description": "Returns the years of the decade based on the columns.\nRepresented as an array of arrays of years."
+            },
+            "getDecade": {
+                "type": "() => Range<number | undefined>",
+                "description": "Returns the start and end years of the decade."
+            },
+            "getMonths": {
+                "type": "(props?: MonthFormatOptions) => Cell[]",
+                "description": "Returns the months of the year"
+            },
+            "getMonthsGrid": {
+                "type": "(props?: MonthGridProps) => MonthGridValue",
+                "description": "Returns the months of the year based on the columns.\nRepresented as an array of arrays of months."
+            },
+            "format": {
+                "type": "(value: DateValue, opts?: Intl.DateTimeFormatOptions) => string",
+                "description": "Formats the given date value based on the provided options."
+            },
+            "setView": {
+                "type": "(view: DateView) => void",
+                "description": "Sets the view of the date picker."
+            },
+            "goToNext": {
+                "type": "VoidFunction",
+                "description": "Goes to the next month/year/decade."
+            },
+            "goToPrev": {
+                "type": "VoidFunction",
+                "description": "Goes to the previous month/year/decade."
+            },
+            "getDayTableCellState": {
+                "type": "(props: DayTableCellProps) => DayTableCellState",
+                "description": "Returns the state details for a given cell."
+            },
+            "getMonthTableCellState": {
+                "type": "(props: TableCellProps) => TableCellState",
+                "description": "Returns the state details for a given month cell."
+            },
+            "getYearTableCellState": {
+                "type": "(props: TableCellProps) => TableCellState",
+                "description": "Returns the state details for a given year cell."
+            }
+        },
+        "context": {
+            "locale": {
+                "type": "string | undefined",
+                "description": "The locale (BCP 47 language tag) to use when formatting the date.",
+                "defaultValue": "\"en-US\""
+            },
+            "createCalendar": {
+                "type": "((identifier: CalendarIdentifier) => Calendar) | undefined",
+                "description": "A function that creates a Calendar object for a given calendar identifier.\nEnables non-Gregorian calendar support (Persian, Buddhist, Islamic, etc.)\nwithout bundling all calendars by default."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "The localized messages to use."
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the date picker. Useful for composition."
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The `name` attribute of the input element."
+            },
+            "timeZone": {
+                "type": "string | undefined",
+                "description": "The time zone to use",
+                "defaultValue": "\"UTC\""
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the calendar is disabled."
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the calendar is read-only."
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the date picker is required"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the date picker is invalid"
+            },
+            "outsideDaySelectable": {
+                "type": "boolean | undefined",
+                "description": "Whether day outside the visible range can be selected.",
+                "defaultValue": "false"
+            },
+            "min": {
+                "type": "DateValue | undefined",
+                "description": "The minimum date that can be selected."
+            },
+            "max": {
+                "type": "DateValue | undefined",
+                "description": "The maximum date that can be selected."
+            },
+            "closeOnSelect": {
+                "type": "boolean | undefined",
+                "description": "Whether the calendar should close after the date selection is complete.\nThis is ignored when the selection mode is `multiple`.",
+                "defaultValue": "true"
+            },
+            "openOnClick": {
+                "type": "boolean | undefined",
+                "description": "Whether to open the calendar when the input is clicked.",
+                "defaultValue": "false"
+            },
+            "value": {
+                "type": "DateValue[] | undefined",
+                "description": "The controlled selected date(s)."
+            },
+            "defaultValue": {
+                "type": "DateValue[] | undefined",
+                "description": "The initial selected date(s) when rendered.\nUse when you don't need to control the selected date(s) of the date picker."
+            },
+            "focusedValue": {
+                "type": "DateValue | undefined",
+                "description": "The controlled focused date."
+            },
+            "defaultFocusedValue": {
+                "type": "DateValue | undefined",
+                "description": "The initial focused date when rendered.\nUse when you don't need to control the focused date of the date picker."
+            },
+            "numOfMonths": {
+                "type": "number | undefined",
+                "description": "The number of months to display."
+            },
+            "startOfWeek": {
+                "type": "number | undefined",
+                "description": "The first day of the week.\n `0` - Sunday\n `1` - Monday\n `2` - Tuesday\n `3` - Wednesday\n `4` - Thursday\n `5` - Friday\n `6` - Saturday"
+            },
+            "fixedWeeks": {
+                "type": "boolean | undefined",
+                "description": "Whether the calendar should have a fixed number of weeks.\nThis renders the calendar with 6 weeks instead of 5 or 6."
+            },
+            "showWeekNumbers": {
+                "type": "boolean | undefined",
+                "description": "Whether to show the week number column in the day view."
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function called when the value changes."
+            },
+            "onFocusChange": {
+                "type": "((details: FocusChangeDetails) => void) | undefined",
+                "description": "Function called when the focused date changes."
+            },
+            "onViewChange": {
+                "type": "((details: ViewChangeDetails) => void) | undefined",
+                "description": "Function called when the view changes."
+            },
+            "onVisibleRangeChange": {
+                "type": "((details: VisibleRangeChangeDetails) => void) | undefined",
+                "description": "Function called when the visible range changes."
+            },
+            "onOpenChange": {
+                "type": "((details: OpenChangeDetails) => void) | undefined",
+                "description": "Function called when the calendar opens or closes."
+            },
+            "isDateUnavailable": {
+                "type": "((date: DateValue, locale: string) => boolean) | undefined",
+                "description": "Returns whether a date of the calendar is available."
+            },
+            "selectionMode": {
+                "type": "SelectionMode | undefined",
+                "description": "The selection mode of the calendar.\n- `single` - only one date can be selected\n- `multiple` - multiple dates can be selected\n- `range` - a range of dates can be selected",
+                "defaultValue": "\"single\""
+            },
+            "maxSelectedDates": {
+                "type": "number | undefined",
+                "description": "The maximum number of dates that can be selected.\nThis is only applicable when `selectionMode` is `multiple`."
+            },
+            "format": {
+                "type": "((date: DateValue, details: LocaleDetails) => string) | undefined",
+                "description": "The format of the date to display in the input."
+            },
+            "parse": {
+                "type": "((value: string, details: LocaleDetails) => DateValue | undefined) | undefined",
+                "description": "Function to parse the date from the input back to a DateValue."
+            },
+            "placeholder": {
+                "type": "string | undefined",
+                "description": "The placeholder text to display in the input."
+            },
+            "view": {
+                "type": "DateView | undefined",
+                "description": "The view of the calendar"
+            },
+            "defaultView": {
+                "type": "DateView | undefined",
+                "description": "The default view of the calendar",
+                "defaultValue": "\"day\""
+            },
+            "minView": {
+                "type": "DateView | undefined",
+                "description": "The minimum view of the calendar",
+                "defaultValue": "\"day\""
+            },
+            "maxView": {
+                "type": "DateView | undefined",
+                "description": "The maximum view of the calendar",
+                "defaultValue": "\"year\""
+            },
+            "positioning": {
+                "type": "PositioningOptions | undefined",
+                "description": "The user provided options used to position the date picker content"
+            },
+            "open": {
+                "type": "boolean | undefined",
+                "description": "The controlled open state of the date picker"
+            },
+            "defaultOpen": {
+                "type": "boolean | undefined",
+                "description": "The initial open state of the date picker when rendered.\nUse when you don't need to control the open state of the date picker."
+            },
+            "inline": {
+                "type": "boolean | undefined",
+                "description": "Whether to render the date picker inline"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "date-picker",
+            "data-part": "root",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-empty": "Present when the content is empty"
+        },
+        "Label": {
+            "data-scope": "date-picker",
+            "data-part": "label",
+            "data-state": "\"open\" | \"closed\"",
+            "data-index": "The index of the item",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only"
+        },
+        "Control": {
+            "data-scope": "date-picker",
+            "data-part": "control",
+            "data-disabled": "Present when disabled",
+            "data-placeholder-shown": "Present when placeholder is shown"
+        },
+        "Content": {
+            "data-scope": "date-picker",
+            "data-part": "content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-nested": "popover",
+            "data-has-nested": "popover",
+            "data-placement": "The placement of the content",
+            "data-side": "The side of the trigger that the content is positioned on",
+            "data-inline": "Present when the content is inline"
+        },
+        "Table": {
+            "data-scope": "date-picker",
+            "data-part": "table",
+            "data-columns": "",
+            "data-view": "The view of the table"
+        },
+        "TableHead": {
+            "data-scope": "date-picker",
+            "data-part": "table-head",
+            "data-view": "The view of the tablehead",
+            "data-disabled": "Present when disabled"
+        },
+        "TableHeader": {
+            "data-scope": "date-picker",
+            "data-part": "table-header",
+            "data-view": "The view of the tableheader",
+            "data-disabled": "Present when disabled"
+        },
+        "TableBody": {
+            "data-scope": "date-picker",
+            "data-part": "table-body",
+            "data-view": "The view of the tablebody",
+            "data-disabled": "Present when disabled"
+        },
+        "TableRow": {
+            "data-scope": "date-picker",
+            "data-part": "table-row",
+            "data-disabled": "Present when disabled",
+            "data-view": "The view of the tablerow"
+        },
+        "WeekNumberHeaderCell": {
+            "data-scope": "date-picker",
+            "data-part": "week-number-header-cell",
+            "data-view": "The view of the weeknumberheadercell",
+            "data-type": "The type of the item",
+            "data-disabled": "Present when disabled"
+        },
+        "WeekNumberCell": {
+            "data-scope": "date-picker",
+            "data-part": "week-number-cell",
+            "data-view": "The view of the weeknumbercell",
+            "data-week-index": "",
+            "data-type": "The type of the item",
+            "data-disabled": "Present when disabled"
+        },
+        "DayTableCell": {
+            "data-scope": "date-picker",
+            "data-part": "day-table-cell",
+            "data-value": "The value of the item"
+        },
+        "DayTableCellTrigger": {
+            "data-scope": "date-picker",
+            "data-part": "day-table-cell-trigger",
+            "data-disabled": "Present when disabled",
+            "data-selectable": "",
+            "data-selected": "Present when selected",
+            "data-value": "The value of the item",
+            "data-view": "The view of the daytablecelltrigger",
+            "data-today": "Present when the date represents today",
+            "data-focus": "Present when focused",
+            "data-unavailable": "Present when the date is unavailable based on the min and max date",
+            "data-range-start": "Present when is the start of a range",
+            "data-range-end": "Present when is the end of a range",
+            "data-in-range": "Present when is within the range",
+            "data-outside-range": "Present when is outside the range",
+            "data-weekend": "Present when is a weekend day",
+            "data-in-hover-range": "Present when in hovered range",
+            "data-hover-range-start": "Present when is the start of the hovered range",
+            "data-hover-range-end": "Present when is the end of the hovered range"
+        },
+        "MonthTableCell": {
+            "data-scope": "date-picker",
+            "data-part": "month-table-cell",
+            "data-selected": "Present when selected",
+            "data-value": "The value of the item"
+        },
+        "MonthTableCellTrigger": {
+            "data-scope": "date-picker",
+            "data-part": "month-table-cell-trigger",
+            "data-disabled": "Present when disabled",
+            "data-selectable": "",
+            "data-selected": "Present when selected",
+            "data-value": "The value of the item",
+            "data-view": "The view of the monthtablecelltrigger",
+            "data-focus": "Present when focused",
+            "data-outside-range": "Present when is outside the range",
+            "data-range-start": "Present when is the start of a range",
+            "data-range-end": "Present when is the end of a range",
+            "data-in-range": "Present when is within the range",
+            "data-in-hover-range": "Present when in hovered range",
+            "data-hover-range-start": "Present when is the start of the hovered range",
+            "data-hover-range-end": "Present when is the end of the hovered range"
+        },
+        "YearTableCell": {
+            "data-scope": "date-picker",
+            "data-part": "year-table-cell",
+            "data-selected": "Present when selected",
+            "data-value": "The value of the item"
+        },
+        "YearTableCellTrigger": {
+            "data-scope": "date-picker",
+            "data-part": "year-table-cell-trigger",
+            "data-disabled": "Present when disabled",
+            "data-selectable": "",
+            "data-selected": "Present when selected",
+            "data-value": "The value of the item",
+            "data-view": "The view of the yeartablecelltrigger",
+            "data-focus": "Present when focused",
+            "data-outside-range": "Present when is outside the range",
+            "data-range-start": "Present when is the start of a range",
+            "data-range-end": "Present when is the end of a range",
+            "data-in-range": "Present when is within the range",
+            "data-in-hover-range": "Present when in hovered range",
+            "data-hover-range-start": "Present when is the start of the hovered range",
+            "data-hover-range-end": "Present when is the end of the hovered range"
+        },
+        "NextTrigger": {
+            "data-scope": "date-picker",
+            "data-part": "next-trigger",
+            "data-disabled": "Present when disabled"
+        },
+        "PrevTrigger": {
+            "data-scope": "date-picker",
+            "data-part": "prev-trigger",
+            "data-disabled": "Present when disabled"
+        },
+        "Trigger": {
+            "data-scope": "date-picker",
+            "data-part": "trigger",
+            "data-placement": "The placement of the trigger",
+            "data-side": "The side of the trigger that the trigger is positioned on",
+            "data-state": "\"open\" | \"closed\"",
+            "data-placeholder-shown": "Present when placeholder is shown"
+        },
+        "View": {
+            "data-scope": "date-picker",
+            "data-part": "view",
+            "data-view": "The view of the view"
+        },
+        "ViewTrigger": {
+            "data-scope": "date-picker",
+            "data-part": "view-trigger",
+            "data-view": "The view of the viewtrigger"
+        },
+        "ViewControl": {
+            "data-scope": "date-picker",
+            "data-part": "view-control",
+            "data-view": "The view of the viewcontrol"
+        },
+        "Input": {
+            "data-scope": "date-picker",
+            "data-part": "input",
+            "data-index": "The index of the item",
+            "data-state": "\"open\" | \"closed\"",
+            "data-placeholder-shown": "Present when placeholder is shown",
+            "data-invalid": "Present when invalid"
+        }
+    }
+}

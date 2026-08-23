@@ -1,0 +1,58 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "loaded": {
+                "type": "boolean",
+                "description": "Whether the image is loaded."
+            },
+            "setSrc": {
+                "type": "(src: string) => void",
+                "description": "Function to set new src."
+            },
+            "setLoaded": {
+                "type": "VoidFunction",
+                "description": "Function to set loaded state."
+            },
+            "setError": {
+                "type": "VoidFunction",
+                "description": "Function to set error state."
+            }
+        },
+        "context": {
+            "onStatusChange": {
+                "type": "((details: StatusChangeDetails) => void) | undefined",
+                "description": "Functional called when the image loading status changes."
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the avatar. Useful for composition."
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            }
+        }
+    },
+    "dataAttributes": {
+        "Image": {
+            "data-scope": "avatar",
+            "data-part": "image",
+            "data-state": "\"visible\" | \"hidden\""
+        },
+        "Fallback": {
+            "data-scope": "avatar",
+            "data-part": "fallback",
+            "data-state": "\"hidden\" | \"visible\""
+        }
+    }
+}

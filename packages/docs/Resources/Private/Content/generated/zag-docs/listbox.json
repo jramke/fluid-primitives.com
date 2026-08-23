@@ -1,0 +1,239 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "empty": {
+                "type": "boolean",
+                "description": "Whether the select value is empty"
+            },
+            "highlightedValue": {
+                "type": "string | null",
+                "description": "The value of the highlighted item"
+            },
+            "highlightedItem": {
+                "type": "V | null",
+                "description": "The highlighted item"
+            },
+            "highlightValue": {
+                "type": "(value: string) => void",
+                "description": "Function to highlight a value"
+            },
+            "highlightFirst": {
+                "type": "VoidFunction",
+                "description": "Function to highlight the first value"
+            },
+            "highlightLast": {
+                "type": "VoidFunction",
+                "description": "Function to highlight the last value"
+            },
+            "highlightNext": {
+                "type": "VoidFunction",
+                "description": "Function to highlight the next value"
+            },
+            "highlightPrevious": {
+                "type": "VoidFunction",
+                "description": "Function to highlight the previous value"
+            },
+            "clearHighlightedValue": {
+                "type": "VoidFunction",
+                "description": "Function to clear the highlighted value"
+            },
+            "selectedItems": {
+                "type": "V[]",
+                "description": "The selected items"
+            },
+            "hasSelectedItems": {
+                "type": "boolean",
+                "description": "Whether there's a selected option"
+            },
+            "value": {
+                "type": "string[]",
+                "description": "The selected item keys"
+            },
+            "valueAsString": {
+                "type": "string",
+                "description": "The string representation of the selected items"
+            },
+            "selectValue": {
+                "type": "(value: string) => void",
+                "description": "Function to select a value"
+            },
+            "selectAll": {
+                "type": "VoidFunction",
+                "description": "Function to select all values.\n\n**Note**: This should only be called when the selectionMode is `multiple` or `extended`.\nOtherwise, an exception will be thrown."
+            },
+            "setValue": {
+                "type": "(value: string[]) => void",
+                "description": "Function to set the value of the select"
+            },
+            "clearValue": {
+                "type": "(value?: string) => void",
+                "description": "Function to clear the value of the select.\nIf a value is provided, it will only clear that value, otherwise, it will clear all values."
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of a select item"
+            },
+            "collection": {
+                "type": "ListCollection<V>",
+                "description": "Function to toggle the select"
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the select is disabled"
+            }
+        },
+        "context": {
+            "orientation": {
+                "type": "\"horizontal\" | \"vertical\" | undefined",
+                "description": "The orientation of the listbox.",
+                "defaultValue": "\"vertical\""
+            },
+            "collection": {
+                "type": "ListCollection<T> | GridCollection<T>",
+                "description": "The item collection"
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the listbox. Useful for composition."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the listbox is disabled"
+            },
+            "disallowSelectAll": {
+                "type": "boolean | undefined",
+                "description": "Whether to disallow selecting all items when `meta+a` is pressed"
+            },
+            "onHighlightChange": {
+                "type": "((details: HighlightChangeDetails<T>) => void) | undefined",
+                "description": "The callback fired when the highlighted item changes."
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails<T>) => void) | undefined",
+                "description": "The callback fired when the selected item changes."
+            },
+            "value": {
+                "type": "string[] | undefined",
+                "description": "The controlled keys of the selected items"
+            },
+            "defaultValue": {
+                "type": "string[] | undefined",
+                "description": "The initial default value of the listbox when rendered.\nUse when you don't need to control the value of the listbox.",
+                "defaultValue": "[]"
+            },
+            "highlightedValue": {
+                "type": "string | null | undefined",
+                "description": "The controlled key of the highlighted item"
+            },
+            "defaultHighlightedValue": {
+                "type": "string | null | undefined",
+                "description": "The initial value of the highlighted item when opened.\nUse when you don't need to control the highlighted value of the listbox."
+            },
+            "loopFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to loop the keyboard navigation through the options",
+                "defaultValue": "false"
+            },
+            "selectionMode": {
+                "type": "SelectionMode | undefined",
+                "description": "How multiple selection should behave in the listbox.\n\n- `single`: The user can select a single item.\n- `multiple`: The user can select multiple items without using modifier keys.\n- `extended`: The user can select multiple items by using modifier keys.",
+                "defaultValue": "\"single\""
+            },
+            "scrollToIndexFn": {
+                "type": "((details: ScrollToIndexDetails) => void) | undefined",
+                "description": "Function to scroll to a specific index"
+            },
+            "selectOnHighlight": {
+                "type": "boolean | undefined",
+                "description": "Whether to select the item when it is highlighted"
+            },
+            "deselectable": {
+                "type": "boolean | undefined",
+                "description": "Whether to disallow empty selection"
+            },
+            "typeahead": {
+                "type": "boolean | undefined",
+                "description": "Whether to enable typeahead on the listbox"
+            },
+            "onSelect": {
+                "type": "((details: SelectionDetails) => void) | undefined",
+                "description": "Function called when an item is selected"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "listbox",
+            "data-part": "root",
+            "data-orientation": "The orientation of the listbox",
+            "data-disabled": "Present when disabled"
+        },
+        "Input": {
+            "data-scope": "listbox",
+            "data-part": "input",
+            "data-disabled": "Present when disabled"
+        },
+        "Label": {
+            "data-scope": "listbox",
+            "data-part": "label",
+            "data-disabled": "Present when disabled"
+        },
+        "ValueText": {
+            "data-scope": "listbox",
+            "data-part": "value-text",
+            "data-disabled": "Present when disabled"
+        },
+        "Item": {
+            "data-scope": "listbox",
+            "data-part": "item",
+            "data-value": "The value of the item",
+            "data-selected": "Present when selected",
+            "data-layout": "",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-orientation": "The orientation of the item",
+            "data-highlighted": "Present when highlighted",
+            "data-disabled": "Present when disabled"
+        },
+        "ItemText": {
+            "data-scope": "listbox",
+            "data-part": "item-text",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-disabled": "Present when disabled",
+            "data-highlighted": "Present when highlighted"
+        },
+        "ItemIndicator": {
+            "data-scope": "listbox",
+            "data-part": "item-indicator",
+            "data-state": "\"checked\" | \"unchecked\""
+        },
+        "ItemGroup": {
+            "data-scope": "listbox",
+            "data-part": "item-group",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the item",
+            "data-empty": "Present when the content is empty"
+        },
+        "Content": {
+            "data-scope": "listbox",
+            "data-part": "content",
+            "data-activedescendant": "The id the active descendant of the content",
+            "data-orientation": "The orientation of the content",
+            "data-layout": "",
+            "data-empty": "Present when the content is empty"
+        }
+    }
+}

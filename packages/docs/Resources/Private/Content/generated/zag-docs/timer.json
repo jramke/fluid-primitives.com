@@ -1,0 +1,111 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "running": {
+                "type": "boolean",
+                "description": "Whether the timer is running."
+            },
+            "paused": {
+                "type": "boolean",
+                "description": "Whether the timer is paused."
+            },
+            "time": {
+                "type": "Time",
+                "description": "The formatted timer count value."
+            },
+            "formattedTime": {
+                "type": "Time<string>",
+                "description": "The formatted time parts of the timer count."
+            },
+            "start": {
+                "type": "VoidFunction",
+                "description": "Function to start the timer."
+            },
+            "pause": {
+                "type": "VoidFunction",
+                "description": "Function to pause the timer."
+            },
+            "resume": {
+                "type": "VoidFunction",
+                "description": "Function to resume the timer."
+            },
+            "reset": {
+                "type": "VoidFunction",
+                "description": "Function to reset the timer."
+            },
+            "restart": {
+                "type": "VoidFunction",
+                "description": "Function to restart the timer."
+            },
+            "progressPercent": {
+                "type": "number",
+                "description": "The progress percentage of the timer."
+            }
+        },
+        "context": {
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the timer parts"
+            },
+            "countdown": {
+                "type": "boolean | undefined",
+                "description": "Whether the timer should countdown, decrementing the timer on each tick."
+            },
+            "startMs": {
+                "type": "number | undefined",
+                "description": "The total duration of the timer in milliseconds."
+            },
+            "targetMs": {
+                "type": "number | undefined",
+                "description": "The minimum count of the timer in milliseconds."
+            },
+            "autoStart": {
+                "type": "boolean | undefined",
+                "description": "Whether the timer should start automatically"
+            },
+            "interval": {
+                "type": "number | undefined",
+                "description": "The interval in milliseconds to update the timer count.",
+                "defaultValue": "1000"
+            },
+            "onTick": {
+                "type": "((details: TickDetails) => void) | undefined",
+                "description": "Function invoked when the timer ticks"
+            },
+            "onComplete": {
+                "type": "(() => void) | undefined",
+                "description": "Function invoked when the timer is completed"
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Item": {
+            "data-scope": "timer",
+            "data-part": "item",
+            "data-type": "The type of the item"
+        },
+        "ItemLabel": {
+            "data-scope": "timer",
+            "data-part": "item-label",
+            "data-type": "The type of the item"
+        },
+        "ItemValue": {
+            "data-scope": "timer",
+            "data-part": "item-value",
+            "data-type": "The type of the item"
+        }
+    }
+}

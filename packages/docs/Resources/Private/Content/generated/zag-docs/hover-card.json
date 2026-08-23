@@ -1,0 +1,120 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "open": {
+                "type": "boolean",
+                "description": "Whether the hover card is open"
+            },
+            "setOpen": {
+                "type": "(open: boolean) => void",
+                "description": "Function to open the hover card"
+            },
+            "triggerValue": {
+                "type": "string | null",
+                "description": "The trigger value"
+            },
+            "setTriggerValue": {
+                "type": "(value: string | null) => void",
+                "description": "Function to set the trigger value"
+            },
+            "reposition": {
+                "type": "(options?: Partial<PositioningOptions>) => void",
+                "description": "Function to reposition the popover"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the popover. Useful for composition."
+            },
+            "onOpenChange": {
+                "type": "((details: OpenChangeDetails) => void) | undefined",
+                "description": "Function called when the hover card opens or closes."
+            },
+            "openDelay": {
+                "type": "number | undefined",
+                "description": "The duration from when the mouse enters the trigger until the hover card opens.",
+                "defaultValue": "600"
+            },
+            "closeDelay": {
+                "type": "number | undefined",
+                "description": "The duration from when the mouse leaves the trigger or content until the hover card closes.",
+                "defaultValue": "300"
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the hover card is disabled"
+            },
+            "open": {
+                "type": "boolean | undefined",
+                "description": "The controlled open state of the hover card"
+            },
+            "defaultOpen": {
+                "type": "boolean | undefined",
+                "description": "The initial open state of the hover card when rendered.\nUse when you don't need to control the open state of the hover card."
+            },
+            "positioning": {
+                "type": "PositioningOptions | undefined",
+                "description": "The user provided options used to position the popover content"
+            },
+            "triggerValue": {
+                "type": "string | null | undefined",
+                "description": "The controlled trigger value"
+            },
+            "defaultTriggerValue": {
+                "type": "string | null | undefined",
+                "description": "The initial trigger value when rendered.\nUse when you don't need to control the trigger value."
+            },
+            "onTriggerValueChange": {
+                "type": "((details: TriggerValueChangeDetails) => void) | undefined",
+                "description": "Function called when the trigger value changes."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            },
+            "onPointerDownOutside": {
+                "type": "((event: PointerDownOutsideEvent) => void) | undefined",
+                "description": "Function called when the pointer is pressed down outside the component"
+            },
+            "onFocusOutside": {
+                "type": "((event: FocusOutsideEvent) => void) | undefined",
+                "description": "Function called when the focus is moved outside the component"
+            },
+            "onInteractOutside": {
+                "type": "((event: InteractOutsideEvent) => void) | undefined",
+                "description": "Function called when an interaction happens outside the component"
+            }
+        }
+    },
+    "dataAttributes": {
+        "Trigger": {
+            "data-scope": "hover-card",
+            "data-part": "trigger",
+            "data-placement": "The placement of the trigger",
+            "data-side": "The side of the trigger that the trigger is positioned on",
+            "data-value": "The value of the item",
+            "data-current": "Present when current",
+            "data-state": "\"open\" | \"closed\""
+        },
+        "Content": {
+            "data-scope": "hover-card",
+            "data-part": "content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-nested": "popover",
+            "data-has-nested": "popover",
+            "data-placement": "The placement of the content",
+            "data-side": "The side of the trigger that the content is positioned on"
+        }
+    }
+}

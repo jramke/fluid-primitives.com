@@ -1,0 +1,255 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Space"
+                ],
+                "description": "Activates/Selects the highlighted item"
+            },
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "Activates/Selects the highlighted item"
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "Highlights the next item in the menu"
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "Highlights the previous item in the menu"
+            },
+            {
+                "keys": [
+                    "ArrowRight",
+                    "ArrowLeft"
+                ],
+                "description": "<span>When focus is on trigger, opens or closes the submenu depending on reading direction.</span>"
+            },
+            {
+                "keys": [
+                    "Esc"
+                ],
+                "description": "Closes the menu and moves focus to the trigger"
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "open": {
+                "type": "boolean",
+                "description": "Whether the menu is open"
+            },
+            "setOpen": {
+                "type": "(open: boolean) => void",
+                "description": "Function to open or close the menu"
+            },
+            "triggerValue": {
+                "type": "string | null",
+                "description": "The trigger value"
+            },
+            "setTriggerValue": {
+                "type": "(value: string | null) => void",
+                "description": "Function to set the trigger value"
+            },
+            "highlightedValue": {
+                "type": "string | null",
+                "description": "The id of the currently highlighted menuitem"
+            },
+            "setHighlightedValue": {
+                "type": "(value: string) => void",
+                "description": "Function to set the highlighted menuitem"
+            },
+            "setParent": {
+                "type": "(parent: MenuService) => void",
+                "description": "Function to register a parent menu. This is used for submenus"
+            },
+            "setChild": {
+                "type": "(child: MenuService) => void",
+                "description": "Function to register a child menu. This is used for submenus"
+            },
+            "reposition": {
+                "type": "(options?: Partial<PositioningOptions>) => void",
+                "description": "Function to reposition the popover"
+            },
+            "getOptionItemState": {
+                "type": "(props: OptionItemProps) => OptionItemState",
+                "description": "Returns the state of the option item"
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of the menu item"
+            },
+            "addItemListener": {
+                "type": "(props: ItemListenerProps) => VoidFunction | undefined",
+                "description": "Setup the custom event listener for item selection event"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the menu. Useful for composition."
+            },
+            "defaultHighlightedValue": {
+                "type": "string | null | undefined",
+                "description": "The initial highlighted value of the menu item when rendered.\nUse when you don't need to control the highlighted value of the menu item."
+            },
+            "highlightedValue": {
+                "type": "string | null | undefined",
+                "description": "The controlled highlighted value of the menu item."
+            },
+            "onHighlightChange": {
+                "type": "((details: HighlightChangeDetails) => void) | undefined",
+                "description": "Function called when the highlighted menu item changes."
+            },
+            "onSelect": {
+                "type": "((details: SelectionDetails) => void) | undefined",
+                "description": "Function called when a menu item is selected."
+            },
+            "anchorPoint": {
+                "type": "Point | null | undefined",
+                "description": "The positioning point for the menu. Can be set by the context menu trigger or the button trigger."
+            },
+            "loopFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to loop the keyboard navigation.",
+                "defaultValue": "false"
+            },
+            "positioning": {
+                "type": "PositioningOptions | undefined",
+                "description": "The options used to dynamically position the menu"
+            },
+            "closeOnSelect": {
+                "type": "boolean | undefined",
+                "description": "Whether to close the menu when an option is selected",
+                "defaultValue": "true"
+            },
+            "aria-label": {
+                "type": "string | undefined",
+                "description": "The accessibility label for the menu"
+            },
+            "open": {
+                "type": "boolean | undefined",
+                "description": "The controlled open state of the menu"
+            },
+            "onOpenChange": {
+                "type": "((details: OpenChangeDetails) => void) | undefined",
+                "description": "Function called when the menu opens or closes"
+            },
+            "defaultOpen": {
+                "type": "boolean | undefined",
+                "description": "The initial open state of the menu when rendered.\nUse when you don't need to control the open state of the menu."
+            },
+            "typeahead": {
+                "type": "boolean | undefined",
+                "description": "Whether the pressing printable characters should trigger typeahead navigation",
+                "defaultValue": "true"
+            },
+            "composite": {
+                "type": "boolean | undefined",
+                "description": "Whether the menu is a composed with other composite widgets like a combobox or tabs",
+                "defaultValue": "true"
+            },
+            "navigate": {
+                "type": "((details: NavigateDetails) => void) | null | undefined",
+                "description": "Function to navigate to the selected item if it's an anchor element"
+            },
+            "triggerValue": {
+                "type": "string | null | undefined",
+                "description": "The controlled trigger value"
+            },
+            "defaultTriggerValue": {
+                "type": "string | null | undefined",
+                "description": "The initial trigger value when rendered.\nUse when you don't need to control the trigger value."
+            },
+            "onTriggerValueChange": {
+                "type": "((details: TriggerValueChangeDetails) => void) | undefined",
+                "description": "Function called when the trigger value changes."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "ContextTrigger": {
+            "data-scope": "menu",
+            "data-part": "context-trigger",
+            "data-value": "The value of the item",
+            "data-current": "Present when current",
+            "data-state": "\"open\" | \"closed\""
+        },
+        "Trigger": {
+            "data-scope": "menu",
+            "data-part": "trigger",
+            "data-placement": "The placement of the trigger",
+            "data-side": "The side of the trigger that the trigger is positioned on",
+            "data-value": "The value of the item",
+            "data-current": "Present when current",
+            "data-controls": "",
+            "data-state": "\"open\" | \"closed\""
+        },
+        "Indicator": {
+            "data-scope": "menu",
+            "data-part": "indicator",
+            "data-state": "\"open\" | \"closed\""
+        },
+        "Content": {
+            "data-scope": "menu",
+            "data-part": "content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-nested": "menu",
+            "data-has-nested": "menu",
+            "data-placement": "The placement of the content",
+            "data-side": "The side of the trigger that the content is positioned on"
+        },
+        "Item": {
+            "data-scope": "menu",
+            "data-part": "item",
+            "data-disabled": "Present when disabled",
+            "data-highlighted": "Present when highlighted",
+            "data-value": "The value of the item",
+            "data-valuetext": "The human-readable value"
+        },
+        "OptionItem": {
+            "data-scope": "menu",
+            "data-part": "option-item",
+            "data-type": "The type of the item",
+            "data-value": "The value of the item",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-disabled": "Present when disabled",
+            "data-highlighted": "Present when highlighted",
+            "data-valuetext": "The human-readable value"
+        },
+        "ItemIndicator": {
+            "data-scope": "menu",
+            "data-part": "item-indicator",
+            "data-disabled": "Present when disabled",
+            "data-highlighted": "Present when highlighted",
+            "data-state": "\"checked\""
+        },
+        "ItemText": {
+            "data-scope": "menu",
+            "data-part": "item-text",
+            "data-disabled": "Present when disabled",
+            "data-highlighted": "Present when highlighted",
+            "data-state": "\"checked\""
+        }
+    }
+}

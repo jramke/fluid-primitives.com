@@ -1,0 +1,59 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "value": {
+                "type": "string",
+                "description": "The value to encode."
+            },
+            "setValue": {
+                "type": "(value: string) => void",
+                "description": "Set the value to encode."
+            },
+            "getDataUrl": {
+                "type": "(type: DataUrlType, quality?: number) => Promise<string>",
+                "description": "Returns the data URL of the qr code."
+            }
+        },
+        "context": {
+            "value": {
+                "type": "string | undefined",
+                "description": "The controlled value to encode."
+            },
+            "defaultValue": {
+                "type": "string | undefined",
+                "description": "The initial value to encode when rendered.\nUse when you don't need to control the value of the qr code."
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The element ids."
+            },
+            "encoding": {
+                "type": "QrCodeGenerateOptions | undefined",
+                "description": "The qr code encoding options."
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Callback fired when the value changes."
+            },
+            "pixelSize": {
+                "type": "number | undefined",
+                "description": "The pixel size of the qr code."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": []
+}

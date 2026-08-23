@@ -1,0 +1,334 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "Moves the crop selection upward by the configured nudge step. Hold Shift for the `nudgeStepShift` value or Ctrl/Cmd for `nudgeStepCtrl`."
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "Moves the crop selection downward by the configured nudge step. Hold Shift for the `nudgeStepShift` value or Ctrl/Cmd for `nudgeStepCtrl`."
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "Moves the crop selection to the left by the configured nudge step. Hold Shift for the `nudgeStepShift` value or Ctrl/Cmd for `nudgeStepCtrl`."
+            },
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "Moves the crop selection to the right by the configured nudge step. Hold Shift for the `nudgeStepShift` value or Ctrl/Cmd for `nudgeStepCtrl`."
+            },
+            {
+                "keys": [
+                    "Alt + ArrowUp"
+                ],
+                "description": "Resizes the crop vertically from the bottom handle, reducing the height. Hold Shift or Ctrl/Cmd for the larger nudge steps."
+            },
+            {
+                "keys": [
+                    "Alt + ArrowDown"
+                ],
+                "description": "Resizes the crop vertically from the bottom handle, increasing the height. Hold Shift or Ctrl/Cmd for the larger nudge steps."
+            },
+            {
+                "keys": [
+                    "Alt + ArrowLeft"
+                ],
+                "description": "Resizes the crop horizontally from the right handle, reducing the width. Hold Shift or Ctrl/Cmd for the larger nudge steps."
+            },
+            {
+                "keys": [
+                    "Alt + ArrowRight"
+                ],
+                "description": "Resizes the crop horizontally from the right handle, increasing the width. Hold Shift or Ctrl/Cmd for the larger nudge steps."
+            },
+            {
+                "keys": [
+                    "+"
+                ],
+                "description": "Zooms in on the image. The `=` key performs the same action on keyboards where both symbols share a key."
+            },
+            {
+                "keys": [
+                    "-"
+                ],
+                "description": "Zooms out of the image. The `_` key performs the same action on keyboards where both symbols share a key."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "zoom": {
+                "type": "number",
+                "description": "The current zoom level of the image."
+            },
+            "rotation": {
+                "type": "number",
+                "description": "The current rotation of the image in degrees."
+            },
+            "flip": {
+                "type": "FlipState",
+                "description": "The current flip state of the image."
+            },
+            "crop": {
+                "type": "Rect",
+                "description": "The current crop area rectangle in viewport coordinates."
+            },
+            "offset": {
+                "type": "Point",
+                "description": "The current offset (pan position) of the image."
+            },
+            "naturalSize": {
+                "type": "Size",
+                "description": "The natural (original) size of the image."
+            },
+            "viewportRect": {
+                "type": "BoundingRect",
+                "description": "The viewport rectangle dimensions and position."
+            },
+            "dragging": {
+                "type": "boolean",
+                "description": "Whether the crop area is currently being dragged."
+            },
+            "panning": {
+                "type": "boolean",
+                "description": "Whether the image is currently being panned."
+            },
+            "setZoom": {
+                "type": "(zoom: number) => void",
+                "description": "Function to set the zoom level of the image."
+            },
+            "zoomBy": {
+                "type": "(delta: number) => void",
+                "description": "Function to zoom the image by a relative amount."
+            },
+            "setRotation": {
+                "type": "(rotation: number) => void",
+                "description": "Function to set the rotation of the image."
+            },
+            "rotateBy": {
+                "type": "(degrees: number) => void",
+                "description": "Function to rotate the image by a relative amount in degrees."
+            },
+            "setFlip": {
+                "type": "(flip: Partial<FlipState>) => void",
+                "description": "Function to set the flip state of the image."
+            },
+            "flipHorizontally": {
+                "type": "(value?: boolean) => void",
+                "description": "Function to flip the image horizontally. Pass a boolean to set explicitly or omit to toggle."
+            },
+            "flipVertically": {
+                "type": "(value?: boolean) => void",
+                "description": "Function to flip the image vertically. Pass a boolean to set explicitly or omit to toggle."
+            },
+            "resize": {
+                "type": "(handlePosition: HandlePosition, delta: number) => void",
+                "description": "Function to resize the crop area from a handle programmatically."
+            },
+            "reset": {
+                "type": "() => void",
+                "description": "Function to reset the cropper to its initial state."
+            },
+            "getCroppedImage": {
+                "type": "(options?: GetCroppedImageOptions) => Promise<Blob | string | null>",
+                "description": "Function to get the cropped image with all transformations applied.\nReturns a Promise that resolves to either a Blob or data URL."
+            },
+            "getCropData": {
+                "type": "() => CropData",
+                "description": "Function to get the crop geometry in natural image pixels.\nThe rect is axis-aligned; `corners` preserves the exact source quad."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the image cropper elements"
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "Specifies the localized strings that identify accessibility elements and their states."
+            },
+            "initialCrop": {
+                "type": "Rect | undefined",
+                "description": "The initial rectangle of the crop area.\nIf not provided, a smart default will be computed based on viewport size and aspect ratio."
+            },
+            "minWidth": {
+                "type": "number | undefined",
+                "description": "The minimum width of the crop area",
+                "defaultValue": "40"
+            },
+            "minHeight": {
+                "type": "number | undefined",
+                "description": "The minimum height of the crop area",
+                "defaultValue": "40"
+            },
+            "maxWidth": {
+                "type": "number | undefined",
+                "description": "The maximum width of the crop area",
+                "defaultValue": "Infinity"
+            },
+            "maxHeight": {
+                "type": "number | undefined",
+                "description": "The maximum height of the crop area",
+                "defaultValue": "Infinity"
+            },
+            "aspectRatio": {
+                "type": "number | undefined",
+                "description": "The aspect ratio to maintain for the crop area (width / height).\nFor example, an aspect ratio of 16 / 9 will maintain a width to height ratio of 16:9.\nIf not provided, the crop area can be freely resized."
+            },
+            "cropShape": {
+                "type": "\"rectangle\" | \"circle\" | undefined",
+                "description": "The shape of the crop area.",
+                "defaultValue": "\"rectangle\""
+            },
+            "zoom": {
+                "type": "number | undefined",
+                "description": "The controlled zoom level of the image."
+            },
+            "rotation": {
+                "type": "number | undefined",
+                "description": "The controlled rotation of the image in degrees (0 - 360)."
+            },
+            "flip": {
+                "type": "FlipState | undefined",
+                "description": "The controlled flip state of the image."
+            },
+            "defaultZoom": {
+                "type": "number | undefined",
+                "description": "The initial zoom factor to apply to the image.",
+                "defaultValue": "1"
+            },
+            "defaultRotation": {
+                "type": "number | undefined",
+                "description": "The initial rotation to apply to the image in degrees.",
+                "defaultValue": "0"
+            },
+            "defaultFlip": {
+                "type": "FlipState | undefined",
+                "description": "The initial flip state to apply to the image.",
+                "defaultValue": "{ horizontal: false, vertical: false }"
+            },
+            "zoomStep": {
+                "type": "number | undefined",
+                "description": "The amount of zoom applied per wheel step.",
+                "defaultValue": "0.1"
+            },
+            "zoomSensitivity": {
+                "type": "number | undefined",
+                "description": "Controls how responsive pinch-to-zoom is.",
+                "defaultValue": "2"
+            },
+            "minZoom": {
+                "type": "number | undefined",
+                "description": "The minimum zoom factor allowed.",
+                "defaultValue": "1"
+            },
+            "maxZoom": {
+                "type": "number | undefined",
+                "description": "The maximum zoom factor allowed.",
+                "defaultValue": "5"
+            },
+            "nudgeStep": {
+                "type": "number | undefined",
+                "description": "The base nudge step for keyboard arrow keys (in pixels).",
+                "defaultValue": "1"
+            },
+            "nudgeStepShift": {
+                "type": "number | undefined",
+                "description": "The nudge step when Shift key is held (in pixels).",
+                "defaultValue": "10"
+            },
+            "nudgeStepCtrl": {
+                "type": "number | undefined",
+                "description": "The nudge step when Ctrl/Cmd key is held (in pixels).",
+                "defaultValue": "50"
+            },
+            "onZoomChange": {
+                "type": "((details: ZoomChangeDetails) => void) | undefined",
+                "description": "Callback fired when the zoom level changes."
+            },
+            "onRotationChange": {
+                "type": "((details: RotationChangeDetails) => void) | undefined",
+                "description": "Callback fired when the rotation changes."
+            },
+            "onFlipChange": {
+                "type": "((details: FlipChangeDetails) => void) | undefined",
+                "description": "Callback fired when the flip state changes."
+            },
+            "onCropChange": {
+                "type": "((details: CropChangeDetails) => void) | undefined",
+                "description": "Callback fired when the crop area changes."
+            },
+            "fixedCropArea": {
+                "type": "boolean | undefined",
+                "description": "Whether the crop area is fixed in size and position.",
+                "defaultValue": "false"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "image-cropper",
+            "data-part": "root",
+            "data-fixed": "",
+            "data-shape": "",
+            "data-pinch": "",
+            "data-dragging": "Present when in the dragging state",
+            "data-panning": ""
+        },
+        "Viewport": {
+            "data-scope": "image-cropper",
+            "data-part": "viewport",
+            "data-disabled": "Present when disabled"
+        },
+        "Image": {
+            "data-scope": "image-cropper",
+            "data-part": "image",
+            "data-ready": "",
+            "data-flip-horizontal": "",
+            "data-flip-vertical": ""
+        },
+        "Selection": {
+            "data-scope": "image-cropper",
+            "data-part": "selection",
+            "data-disabled": "Present when disabled",
+            "data-shape": "",
+            "data-measured": "",
+            "data-dragging": "Present when in the dragging state",
+            "data-panning": ""
+        },
+        "Handle": {
+            "data-scope": "image-cropper",
+            "data-part": "handle",
+            "data-position": "",
+            "data-disabled": "Present when disabled"
+        },
+        "Grid": {
+            "data-scope": "image-cropper",
+            "data-part": "grid",
+            "data-axis": "The axis to resize",
+            "data-dragging": "Present when in the dragging state",
+            "data-panning": ""
+        }
+    }
+}

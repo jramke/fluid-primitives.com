@@ -1,0 +1,115 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "isAtTop": {
+                "type": "boolean",
+                "description": "Whether the scroll area is at the top"
+            },
+            "isAtBottom": {
+                "type": "boolean",
+                "description": "Whether the scroll area is at the bottom"
+            },
+            "isAtLeft": {
+                "type": "boolean",
+                "description": "Whether the scroll area is at the left"
+            },
+            "isAtRight": {
+                "type": "boolean",
+                "description": "Whether the scroll area is at the right"
+            },
+            "hasOverflowX": {
+                "type": "boolean",
+                "description": "Whether the scroll area has horizontal overflow"
+            },
+            "hasOverflowY": {
+                "type": "boolean",
+                "description": "Whether the scroll area has vertical overflow"
+            },
+            "getScrollProgress": {
+                "type": "() => Point",
+                "description": "Get the scroll progress as values between 0 and 1"
+            },
+            "scrollToEdge": {
+                "type": "(details: ScrollToEdgeDetails) => void",
+                "description": "Scroll to the edge of the scroll area"
+            },
+            "scrollTo": {
+                "type": "(details: ScrollToDetails) => void",
+                "description": "Scroll to specific coordinates"
+            },
+            "getScrollbarState": {
+                "type": "(props: ScrollbarProps) => ScrollbarState",
+                "description": "Returns the state of the scrollbar"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the scroll area elements"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "scroll-area",
+            "data-part": "root",
+            "data-overflow-x": "Present when the content overflows the x-axis",
+            "data-overflow-y": "Present when the content overflows the y-axis"
+        },
+        "Viewport": {
+            "data-scope": "scroll-area",
+            "data-part": "viewport",
+            "data-at-top": "Present when scrolled to the top edge",
+            "data-at-bottom": "Present when scrolled to the bottom edge",
+            "data-at-left": "Present when scrolled to the left edge",
+            "data-at-right": "Present when scrolled to the right edge",
+            "data-overflow-x": "Present when the content overflows the x-axis",
+            "data-overflow-y": "Present when the content overflows the y-axis"
+        },
+        "Content": {
+            "data-scope": "scroll-area",
+            "data-part": "content",
+            "data-overflow-x": "Present when the content overflows the x-axis",
+            "data-overflow-y": "Present when the content overflows the y-axis"
+        },
+        "Scrollbar": {
+            "data-scope": "scroll-area",
+            "data-part": "scrollbar",
+            "data-orientation": "The orientation of the scrollbar",
+            "data-scrolling": "Present when scrolling",
+            "data-hover": "Present when hovered",
+            "data-dragging": "Present when in the dragging state",
+            "data-overflow-x": "Present when the content overflows the x-axis",
+            "data-overflow-y": "Present when the content overflows the y-axis"
+        },
+        "Thumb": {
+            "data-scope": "scroll-area",
+            "data-part": "thumb",
+            "data-orientation": "The orientation of the thumb",
+            "data-hover": "Present when hovered",
+            "data-dragging": "Present when in the dragging state"
+        },
+        "Corner": {
+            "data-scope": "scroll-area",
+            "data-part": "corner",
+            "data-hover": "Present when hovered",
+            "data-state": "\"hidden\" | \"visible\"",
+            "data-overflow-x": "Present when the content overflows the x-axis",
+            "data-overflow-y": "Present when the content overflows the y-axis"
+        }
+    }
+}

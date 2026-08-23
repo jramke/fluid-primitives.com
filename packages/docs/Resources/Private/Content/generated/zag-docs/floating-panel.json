@@ -1,0 +1,263 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "open": {
+                "type": "boolean",
+                "description": "Whether the panel is open"
+            },
+            "setOpen": {
+                "type": "(open: boolean) => void",
+                "description": "Function to open or close the panel"
+            },
+            "dragging": {
+                "type": "boolean",
+                "description": "Whether the panel is being dragged"
+            },
+            "resizing": {
+                "type": "boolean",
+                "description": "Whether the panel is being resized"
+            },
+            "position": {
+                "type": "Point",
+                "description": "The position of the panel"
+            },
+            "setPosition": {
+                "type": "(position: Point) => void",
+                "description": "Function to set the position of the panel"
+            },
+            "size": {
+                "type": "Size",
+                "description": "The size of the panel"
+            },
+            "setSize": {
+                "type": "(size: Size) => void",
+                "description": "Function to set the size of the panel"
+            },
+            "minimize": {
+                "type": "VoidFunction",
+                "description": "Function to minimize the panel"
+            },
+            "maximize": {
+                "type": "VoidFunction",
+                "description": "Function to maximize the panel"
+            },
+            "restore": {
+                "type": "VoidFunction",
+                "description": "Function to restore the panel before it was minimized or maximized"
+            },
+            "resizable": {
+                "type": "boolean",
+                "description": "Whether the panel is resizable"
+            },
+            "draggable": {
+                "type": "boolean",
+                "description": "Whether the panel is draggable"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the floating panel. Useful for composition."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "The translations for the floating panel."
+            },
+            "strategy": {
+                "type": "\"absolute\" | \"fixed\" | undefined",
+                "description": "The strategy to use for positioning",
+                "defaultValue": "\"fixed\""
+            },
+            "allowOverflow": {
+                "type": "boolean | undefined",
+                "description": "Whether the panel should be strictly contained within the boundary when dragging",
+                "defaultValue": "true"
+            },
+            "open": {
+                "type": "boolean | undefined",
+                "description": "The controlled open state of the panel"
+            },
+            "defaultOpen": {
+                "type": "boolean | undefined",
+                "description": "The initial open state of the panel when rendered.\nUse when you don't need to control the open state of the panel.",
+                "defaultValue": "false"
+            },
+            "draggable": {
+                "type": "boolean | undefined",
+                "description": "Whether the panel is draggable",
+                "defaultValue": "true"
+            },
+            "resizable": {
+                "type": "boolean | undefined",
+                "description": "Whether the panel is resizable",
+                "defaultValue": "true"
+            },
+            "size": {
+                "type": "Size | undefined",
+                "description": "The size of the panel"
+            },
+            "defaultSize": {
+                "type": "Size | undefined",
+                "description": "The default size of the panel"
+            },
+            "minSize": {
+                "type": "Size | undefined",
+                "description": "The minimum size of the panel"
+            },
+            "maxSize": {
+                "type": "Size | undefined",
+                "description": "The maximum size of the panel"
+            },
+            "position": {
+                "type": "Point | undefined",
+                "description": "The controlled position of the panel"
+            },
+            "defaultPosition": {
+                "type": "Point | undefined",
+                "description": "The initial position of the panel when rendered.\nUse when you don't need to control the position of the panel."
+            },
+            "getAnchorPosition": {
+                "type": "((details: AnchorPositionDetails) => Point) | undefined",
+                "description": "Function that returns the initial position of the panel when it is opened.\nIf provided, will be used instead of the default position."
+            },
+            "lockAspectRatio": {
+                "type": "boolean | undefined",
+                "description": "Whether the panel is locked to its aspect ratio"
+            },
+            "closeOnEscape": {
+                "type": "boolean | undefined",
+                "description": "Whether the panel should close when the escape key is pressed"
+            },
+            "getBoundaryEl": {
+                "type": "(() => HTMLElement | null) | undefined",
+                "description": "The boundary of the panel. Useful for recalculating the boundary rect when\nthe it is resized."
+            },
+            "initialFocusEl": {
+                "type": "(() => HTMLElement | null) | undefined",
+                "description": "Element to receive focus when the panel is opened.\nBy default, the first focusable element in the content is focused."
+            },
+            "finalFocusEl": {
+                "type": "(() => HTMLElement | null) | undefined",
+                "description": "Element to receive focus when the panel is closed.\nBy default, the trigger element is focused."
+            },
+            "restoreFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to restore focus to the trigger when the panel is closed.",
+                "defaultValue": "true"
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the panel is disabled"
+            },
+            "onPositionChange": {
+                "type": "((details: PositionChangeDetails) => void) | undefined",
+                "description": "Function called when the position of the panel changes via dragging"
+            },
+            "onPositionChangeEnd": {
+                "type": "((details: PositionChangeDetails) => void) | undefined",
+                "description": "Function called when the position of the panel changes via dragging ends"
+            },
+            "onOpenChange": {
+                "type": "((details: OpenChangeDetails) => void) | undefined",
+                "description": "Function called when the panel is opened or closed"
+            },
+            "onSizeChange": {
+                "type": "((details: SizeChangeDetails) => void) | undefined",
+                "description": "Function called when the size of the panel changes via resizing"
+            },
+            "onSizeChangeEnd": {
+                "type": "((details: SizeChangeDetails) => void) | undefined",
+                "description": "Function called when the size of the panel changes via resizing ends"
+            },
+            "persistRect": {
+                "type": "boolean | undefined",
+                "description": "Whether the panel size and position should be preserved when it is closed"
+            },
+            "gridSize": {
+                "type": "number | undefined",
+                "description": "The snap grid for the panel",
+                "defaultValue": "1"
+            },
+            "onStageChange": {
+                "type": "((details: StageChangeDetails) => void) | undefined",
+                "description": "Function called when the stage of the panel changes"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Trigger": {
+            "data-scope": "floating-panel",
+            "data-part": "trigger",
+            "data-state": "\"open\" | \"closed\"",
+            "data-dragging": "Present when in the dragging state"
+        },
+        "Content": {
+            "data-scope": "floating-panel",
+            "data-part": "content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-dragging": "Present when in the dragging state",
+            "data-topmost": "Present when topmost",
+            "data-behind": "Present when not topmost",
+            "data-minimized": "Present when minimized",
+            "data-maximized": "Present when maximized",
+            "data-staged": "Present when not in default stage"
+        },
+        "StageTrigger": {
+            "data-scope": "floating-panel",
+            "data-part": "stage-trigger",
+            "data-stage": "The stage of the stagetrigger"
+        },
+        "ResizeTrigger": {
+            "data-scope": "floating-panel",
+            "data-part": "resize-trigger",
+            "data-disabled": "Present when disabled",
+            "data-axis": "The axis to resize"
+        },
+        "DragTrigger": {
+            "data-scope": "floating-panel",
+            "data-part": "drag-trigger",
+            "data-disabled": "Present when disabled"
+        },
+        "Control": {
+            "data-scope": "floating-panel",
+            "data-part": "control",
+            "data-disabled": "Present when disabled",
+            "data-stage": "The stage of the control",
+            "data-minimized": "Present when minimized",
+            "data-maximized": "Present when maximized",
+            "data-staged": "Present when not in default stage"
+        },
+        "Header": {
+            "data-scope": "floating-panel",
+            "data-part": "header",
+            "data-dragging": "Present when in the dragging state",
+            "data-topmost": "Present when topmost",
+            "data-behind": "Present when not topmost",
+            "data-minimized": "Present when minimized",
+            "data-maximized": "Present when maximized",
+            "data-staged": "Present when not in default stage"
+        },
+        "Body": {
+            "data-scope": "floating-panel",
+            "data-part": "body",
+            "data-dragging": "Present when in the dragging state",
+            "data-minimized": "Present when minimized",
+            "data-maximized": "Present when maximized",
+            "data-staged": "Present when not in default stage"
+        }
+    }
+}

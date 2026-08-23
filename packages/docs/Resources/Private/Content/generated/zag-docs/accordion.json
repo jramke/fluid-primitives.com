@@ -1,0 +1,167 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Space"
+                ],
+                "description": "When focus is on an trigger of a collapsed item, the item is expanded"
+            },
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "When focus is on an trigger of a collapsed section, expands the section."
+            },
+            {
+                "keys": [
+                    "Tab"
+                ],
+                "description": "Moves focus to the next focusable element"
+            },
+            {
+                "keys": [
+                    "Shift + Tab"
+                ],
+                "description": "Moves focus to the previous focusable element"
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "Moves focus to the next trigger"
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "Moves focus to the previous trigger."
+            },
+            {
+                "keys": [
+                    "Home"
+                ],
+                "description": "When focus is on an trigger, moves focus to the first trigger."
+            },
+            {
+                "keys": [
+                    "End"
+                ],
+                "description": "When focus is on an trigger, moves focus to the last trigger."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "focusedValue": {
+                "type": "string | null",
+                "description": "The value of the focused accordion item."
+            },
+            "value": {
+                "type": "string[]",
+                "description": "The value of the accordion"
+            },
+            "setValue": {
+                "type": "(value: string[]) => void",
+                "description": "Sets the value of the accordion"
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of an accordion item."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the accordion. Useful for composition."
+            },
+            "multiple": {
+                "type": "boolean | undefined",
+                "description": "Whether multiple accordion items can be expanded at the same time.",
+                "defaultValue": "false"
+            },
+            "collapsible": {
+                "type": "boolean | undefined",
+                "description": "Whether an accordion item can be closed after it has been expanded.",
+                "defaultValue": "false"
+            },
+            "value": {
+                "type": "string[] | undefined",
+                "description": "The controlled value of the expanded accordion items."
+            },
+            "defaultValue": {
+                "type": "string[] | undefined",
+                "description": "The initial value of the expanded accordion items.\nUse when you don't need to control the value of the accordion."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the accordion items are disabled"
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "The callback fired when the state of expanded/collapsed accordion items changes."
+            },
+            "onFocusChange": {
+                "type": "((details: FocusChangeDetails) => void) | undefined",
+                "description": "The callback fired when the focused accordion item changes."
+            },
+            "orientation": {
+                "type": "\"horizontal\" | \"vertical\" | undefined",
+                "description": "The orientation of the accordion items.",
+                "defaultValue": "\"vertical\""
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "accordion",
+            "data-part": "root",
+            "data-orientation": "The orientation of the accordion"
+        },
+        "Item": {
+            "data-scope": "accordion",
+            "data-part": "item",
+            "data-state": "\"open\" | \"closed\"",
+            "data-focus": "Present when focused",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the item"
+        },
+        "ItemContent": {
+            "data-scope": "accordion",
+            "data-part": "item-content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
+            "data-focus": "Present when focused",
+            "data-orientation": "The orientation of the item"
+        },
+        "ItemIndicator": {
+            "data-scope": "accordion",
+            "data-part": "item-indicator",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
+            "data-focus": "Present when focused",
+            "data-orientation": "The orientation of the item"
+        },
+        "ItemTrigger": {
+            "data-scope": "accordion",
+            "data-part": "item-trigger",
+            "data-controls": "",
+            "data-orientation": "The orientation of the item",
+            "data-state": "\"open\" | \"closed\"",
+            "data-focus": "Present when focused"
+        }
+    }
+}

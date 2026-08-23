@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Components\Contexts;
 
 use FluidPrimitives\Docs\Utility\DocsUtility;
+use FluidPrimitives\Docs\Utility\ZagDocsMetadata;
 use Jramke\FluidPrimitives\Annotations\RequiredAtRuntimeArgumentAnnotation;
 use Jramke\FluidPrimitives\Component\ComponentPrimitivesCollection;
 use Jramke\FluidPrimitives\Constants;
@@ -34,8 +35,88 @@ class ComponentPropsTableContext extends AbstractComponentContext
                 'name' => $compDefinition->getName(),
                 'props' => $this->buildPropsInfo($props),
                 'description' => DocsUtility::simpleMarkdownToHtml($text),
+                'dataAttributes' => $this->getZagDataAttributesForPart((string)$part),
             ];
         }, $parts);
+    }
+
+    public function getZagAccessibility(): array
+    {
+        if ($this->get('skipZag') === true) {
+            return [];
+        }
+
+        $name = (string)($this->get('name') ?? '');
+        if ($name === '') {
+            return [];
+        }
+
+        return (
+            ZagDocsMetadata::forPrimitive(ComponentUtility::camelCaseToLowerCaseDashed(
+                $name,
+            ))['accessibility']['keyboard'] ?? []
+        );
+    }
+
+    public function getZagApi(): array
+    {
+        if ($this->get('skipZag') === true) {
+            return [];
+        }
+
+        $name = (string)($this->get('name') ?? '');
+        if ($name === '') {
+            return [];
+        }
+
+        return ZagDocsMetadata::forPrimitive(ComponentUtility::camelCaseToLowerCaseDashed($name))['api'] ?? [];
+    }
+
+    private function getZagDataAttributesForPart(string $partName): array
+    {
+        if ($this->get('skipZag') === true) {
+            return [];
+        }
+
+        $name = (string)($this->get('name') ?? '');
+        if ($name === '') {
+            return [];
+        }
+
+        $primitive = ZagDocsMetadata::forPrimitive(ComponentUtility::camelCaseToLowerCaseDashed($name));
+        $attributes = $primitive['dataAttributes'] ?? [];
+        if ($attributes === []) {
+            return [];
+        }
+
+        $normalizedPartName = $this->normalizeZagPartName($partName);
+        if ($normalizedPartName === '') {
+            return [];
+        }
+
+        $data = $attributes[$normalizedPartName] ?? [];
+        if (!is_array($data)) {
+            return [];
+        }
+
+        return $data;
+    }
+
+    private function normalizeZagPartName(string $partName): string
+    {
+        if ($partName === '') {
+            return '';
+        }
+
+        $value = preg_replace('/[^a-zA-Z0-9]+/', ' ', $partName);
+        $value = ucwords((string)$value);
+        $value = str_replace(' ', '', $value);
+
+        if ($value === '') {
+            return '';
+        }
+
+        return $value;
     }
 
     private function buildPropsInfo(array $props): array

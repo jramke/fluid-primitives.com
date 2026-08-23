@@ -1,0 +1,348 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "<span>When focus is on the trigger, opens the color picker<br />When focus is on a trigger of a swatch, selects the color (and closes the color picker)<br />When focus is on the input or channel inputs, selects the color</span>"
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "<span>When focus is on the color area, decreases the hue value of the color<br />When focus is on the channel sliders, decreases the value of the channel</span>"
+            },
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "<span>When focus is on the color area, increases the hue value of the color<br />When focus is on the channel sliders, increases the value of the channel</span>"
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "<span>When focus is on the color area, increases the saturation value of the color<br />When focus is on the channel sliders, increases the value of the channel</span>"
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "<span>When focus is on the color area, decreases the saturation value of the color<br />When focus is on the channel sliders, decreases the value of the channel</span>"
+            },
+            {
+                "keys": [
+                    "Esc"
+                ],
+                "description": "Closes the color picker and moves focus to the trigger"
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "dragging": {
+                "type": "boolean",
+                "description": "Whether the color picker is being dragged"
+            },
+            "open": {
+                "type": "boolean",
+                "description": "Whether the color picker is open"
+            },
+            "inline": {
+                "type": "boolean",
+                "description": "Whether the color picker is rendered inline"
+            },
+            "value": {
+                "type": "Color",
+                "description": "The current color value (as a string)"
+            },
+            "valueAsString": {
+                "type": "string",
+                "description": "The current color value (as a Color object)"
+            },
+            "setValue": {
+                "type": "(value: string | Color) => void",
+                "description": "Function to set the color value"
+            },
+            "getChannelValue": {
+                "type": "(channel: ColorChannel) => string",
+                "description": "Function to set the color value"
+            },
+            "getChannelValueText": {
+                "type": "(channel: ColorChannel, locale: string) => string",
+                "description": "Function to get the formatted and localized value of a specific channel"
+            },
+            "setChannelValue": {
+                "type": "(channel: ColorChannel, value: number) => void",
+                "description": "Function to set the color value of a specific channel"
+            },
+            "format": {
+                "type": "ColorFormat",
+                "description": "The current color format"
+            },
+            "setFormat": {
+                "type": "(format: ColorFormat) => void",
+                "description": "Function to set the color format"
+            },
+            "alpha": {
+                "type": "number",
+                "description": "The alpha value of the color"
+            },
+            "setAlpha": {
+                "type": "(value: number) => void",
+                "description": "Function to set the color alpha"
+            },
+            "setOpen": {
+                "type": "(open: boolean) => void",
+                "description": "Function to open or close the color picker"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the color picker. Useful for composition."
+            },
+            "value": {
+                "type": "Color | undefined",
+                "description": "The controlled color value of the color picker"
+            },
+            "defaultValue": {
+                "type": "Color | undefined",
+                "description": "The initial color value when rendered.\nUse when you don't need to control the color value of the color picker.",
+                "defaultValue": "#000000"
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the color picker is disabled"
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the color picker is read-only"
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the color picker is required"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the color picker is invalid"
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Handler that is called when the value changes, as the user drags."
+            },
+            "onValueChangeEnd": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Handler that is called when the user stops dragging."
+            },
+            "onOpenChange": {
+                "type": "((details: OpenChangeDetails) => void) | undefined",
+                "description": "Handler that is called when the user opens or closes the color picker."
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name for the form input"
+            },
+            "positioning": {
+                "type": "PositioningOptions | undefined",
+                "description": "The positioning options for the color picker"
+            },
+            "initialFocusEl": {
+                "type": "(() => HTMLElement | null) | undefined",
+                "description": "The initial focus element when the color picker is opened."
+            },
+            "open": {
+                "type": "boolean | undefined",
+                "description": "The controlled open state of the color picker"
+            },
+            "defaultOpen": {
+                "type": "boolean | undefined",
+                "description": "The initial open state of the color picker when rendered.\nUse when you don't need to control the open state of the color picker."
+            },
+            "format": {
+                "type": "ColorFormat | undefined",
+                "description": "The controlled color format to use"
+            },
+            "defaultFormat": {
+                "type": "ColorFormat | undefined",
+                "description": "The initial color format when rendered.\nUse when you don't need to control the color format of the color picker.",
+                "defaultValue": "\"rgba\""
+            },
+            "onFormatChange": {
+                "type": "((details: FormatChangeDetails) => void) | undefined",
+                "description": "Function called when the color format changes"
+            },
+            "closeOnSelect": {
+                "type": "boolean | undefined",
+                "description": "Whether to close the color picker when a swatch is selected",
+                "defaultValue": "false"
+            },
+            "openAutoFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to auto focus the color picker when it is opened",
+                "defaultValue": "true"
+            },
+            "inline": {
+                "type": "boolean | undefined",
+                "description": "Whether to render the color picker inline"
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "onPointerDownOutside": {
+                "type": "((event: PointerDownOutsideEvent) => void) | undefined",
+                "description": "Function called when the pointer is pressed down outside the component"
+            },
+            "onFocusOutside": {
+                "type": "((event: FocusOutsideEvent) => void) | undefined",
+                "description": "Function called when the focus is moved outside the component"
+            },
+            "onInteractOutside": {
+                "type": "((event: InteractOutsideEvent) => void) | undefined",
+                "description": "Function called when an interaction happens outside the component"
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "color-picker",
+            "data-part": "root",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid"
+        },
+        "Label": {
+            "data-scope": "color-picker",
+            "data-part": "label",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
+            "data-required": "Present when required",
+            "data-focus": "Present when focused"
+        },
+        "Control": {
+            "data-scope": "color-picker",
+            "data-part": "control",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
+            "data-state": "\"open\" | \"closed\"",
+            "data-focus": "Present when focused"
+        },
+        "Trigger": {
+            "data-scope": "color-picker",
+            "data-part": "trigger",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
+            "data-placement": "The placement of the trigger",
+            "data-side": "The side of the trigger that the trigger is positioned on",
+            "data-state": "\"open\" | \"closed\"",
+            "data-focus": "Present when focused"
+        },
+        "Content": {
+            "data-scope": "color-picker",
+            "data-part": "content",
+            "data-placement": "The placement of the content",
+            "data-nested": "popover",
+            "data-has-nested": "popover",
+            "data-side": "The side of the trigger that the content is positioned on",
+            "data-state": "\"open\" | \"closed\""
+        },
+        "ValueText": {
+            "data-scope": "color-picker",
+            "data-part": "value-text",
+            "data-disabled": "Present when disabled",
+            "data-focus": "Present when focused"
+        },
+        "Area": {
+            "data-scope": "color-picker",
+            "data-part": "area",
+            "data-invalid": "Present when invalid",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only"
+        },
+        "AreaBackground": {
+            "data-scope": "color-picker",
+            "data-part": "area-background",
+            "data-invalid": "Present when invalid",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only"
+        },
+        "AreaThumb": {
+            "data-scope": "color-picker",
+            "data-part": "area-thumb",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-readonly": "Present when read-only"
+        },
+        "ChannelSlider": {
+            "data-scope": "color-picker",
+            "data-part": "channel-slider",
+            "data-channel": "The color channel of the channelslider",
+            "data-orientation": "The orientation of the channelslider"
+        },
+        "ChannelSliderTrack": {
+            "data-scope": "color-picker",
+            "data-part": "channel-slider-track",
+            "data-channel": "The color channel of the channelslidertrack",
+            "data-orientation": "The orientation of the channelslidertrack"
+        },
+        "ChannelSliderLabel": {
+            "data-scope": "color-picker",
+            "data-part": "channel-slider-label",
+            "data-channel": "The color channel of the channelsliderlabel"
+        },
+        "ChannelSliderValueText": {
+            "data-scope": "color-picker",
+            "data-part": "channel-slider-value-text",
+            "data-channel": "The color channel of the channelslidervaluetext"
+        },
+        "ChannelSliderThumb": {
+            "data-scope": "color-picker",
+            "data-part": "channel-slider-thumb",
+            "data-channel": "The color channel of the channelsliderthumb",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the channelsliderthumb"
+        },
+        "ChannelInput": {
+            "data-scope": "color-picker",
+            "data-part": "channel-input",
+            "data-channel": "The color channel of the channelinput",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-readonly": "Present when read-only"
+        },
+        "EyeDropperTrigger": {
+            "data-scope": "color-picker",
+            "data-part": "eye-dropper-trigger",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-readonly": "Present when read-only"
+        },
+        "SwatchTrigger": {
+            "data-scope": "color-picker",
+            "data-part": "swatch-trigger",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-value": "The value of the item",
+            "data-disabled": "Present when disabled"
+        },
+        "Swatch": {
+            "data-scope": "color-picker",
+            "data-part": "swatch",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-value": "The value of the item"
+        }
+    }
+}

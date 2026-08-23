@@ -1,0 +1,71 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Space",
+                    "Enter"
+                ],
+                "description": "Toggle the pressed state"
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "pressed": {
+                "type": "boolean",
+                "description": "Whether the toggle is pressed."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the toggle is disabled."
+            },
+            "setPressed": {
+                "type": "(pressed: boolean) => void",
+                "description": "Sets the pressed state of the toggle."
+            },
+            "getRootProps": {
+                "type": "() => T[\"element\"]",
+                "description": "Props for the root `button` element."
+            },
+            "getIndicatorProps": {
+                "type": "() => T[\"element\"]",
+                "description": "Props for the optional visual indicator (e.g. icon) element."
+            }
+        },
+        "context": {
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the toggle is disabled."
+            },
+            "defaultPressed": {
+                "type": "boolean | undefined",
+                "description": "The default pressed state of the toggle."
+            },
+            "pressed": {
+                "type": "boolean | undefined",
+                "description": "The pressed state of the toggle."
+            },
+            "onPressedChange": {
+                "type": "((pressed: boolean) => void) | undefined",
+                "description": "Event handler called when the pressed state of the toggle changes."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "toggle",
+            "data-part": "root",
+            "data-state": "\"on\" | \"off\"",
+            "data-pressed": "Present when pressed",
+            "data-disabled": "Present when disabled"
+        },
+        "Indicator": {
+            "data-scope": "toggle",
+            "data-part": "indicator",
+            "data-disabled": "Present when disabled",
+            "data-pressed": "Present when pressed",
+            "data-state": "\"on\" | \"off\""
+        }
+    }
+}

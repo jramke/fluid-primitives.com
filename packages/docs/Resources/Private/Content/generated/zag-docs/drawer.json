@@ -1,0 +1,228 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "open": {
+                "type": "boolean",
+                "description": "Whether the drawer is open."
+            },
+            "dragging": {
+                "type": "boolean",
+                "description": "Whether the drawer is currently being dragged."
+            },
+            "triggerValue": {
+                "type": "string | null",
+                "description": "The value of the active trigger."
+            },
+            "setTriggerValue": {
+                "type": "(value: string | null) => void",
+                "description": "Set the active trigger value."
+            },
+            "setOpen": {
+                "type": "(open: boolean) => void",
+                "description": "Function to open or close the menu."
+            },
+            "snapPoints": {
+                "type": "SnapPoint[]",
+                "description": "The snap points of the drawer."
+            },
+            "swipeDirection": {
+                "type": "SwipeDirection",
+                "description": "The swipe direction of the drawer."
+            },
+            "snapPoint": {
+                "type": "SnapPoint | null",
+                "description": "The currently active snap point."
+            },
+            "setSnapPoint": {
+                "type": "(snapPoint: SnapPoint | null) => void",
+                "description": "Function to set the active snap point."
+            },
+            "getOpenPercentage": {
+                "type": "() => number",
+                "description": "Get the current open percentage of the drawer."
+            },
+            "getSnapPointIndex": {
+                "type": "() => number",
+                "description": "Get the index of the currently active snap point."
+            },
+            "getContentSize": {
+                "type": "() => number | null",
+                "description": "Get the current main-axis size of the drawer content."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the drawer. Useful for composition."
+            },
+            "trapFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to trap focus inside the sheet when it's opened.",
+                "defaultValue": "true"
+            },
+            "preventScroll": {
+                "type": "boolean | undefined",
+                "description": "Whether to prevent scrolling behind the sheet when it's opened",
+                "defaultValue": "true"
+            },
+            "modal": {
+                "type": "boolean | undefined",
+                "description": "Whether to prevent pointer interaction outside the element and hide all content below it.",
+                "defaultValue": "true"
+            },
+            "initialFocusEl": {
+                "type": "(() => MaybeElement) | undefined",
+                "description": "Element to receive focus when the sheet is opened."
+            },
+            "finalFocusEl": {
+                "type": "(() => MaybeElement) | undefined",
+                "description": "Element to receive focus when the sheet is closed."
+            },
+            "restoreFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to restore focus to the element that had focus before the sheet was opened.",
+                "defaultValue": "true"
+            },
+            "role": {
+                "type": "\"dialog\" | \"alertdialog\" | undefined",
+                "description": "The sheet's role",
+                "defaultValue": "\"dialog\""
+            },
+            "triggerValue": {
+                "type": "string | null | undefined",
+                "description": "The value of the trigger that currently controls the drawer."
+            },
+            "defaultTriggerValue": {
+                "type": "string | null | undefined",
+                "description": "The default trigger value (uncontrolled)."
+            },
+            "onTriggerValueChange": {
+                "type": "((details: TriggerValueChangeDetails) => void) | undefined",
+                "description": "Callback when the active trigger value changes."
+            },
+            "open": {
+                "type": "boolean | undefined",
+                "description": "Whether the drawer is open."
+            },
+            "defaultOpen": {
+                "type": "boolean | undefined",
+                "description": "The initial open state of the drawer."
+            },
+            "onOpenChange": {
+                "type": "((details: OpenChangeDetails) => void) | undefined",
+                "description": "Function called when the open state changes."
+            },
+            "closeOnInteractOutside": {
+                "type": "boolean | undefined",
+                "description": "Whether to close the drawer when the outside is clicked.",
+                "defaultValue": "true"
+            },
+            "closeOnEscape": {
+                "type": "boolean | undefined",
+                "description": "Whether to close the drawer when the escape key is pressed.",
+                "defaultValue": "true"
+            },
+            "snapPoints": {
+                "type": "SnapPoint[] | undefined",
+                "description": "The snap points of the drawer.\nArray of numbers or strings representing the snap points.",
+                "defaultValue": "[1]"
+            },
+            "swipeDirection": {
+                "type": "SwipeDirection | undefined",
+                "description": "The direction in which the drawer can be swiped.",
+                "defaultValue": "\"down\""
+            },
+            "snapToSequentialPoints": {
+                "type": "boolean | undefined",
+                "description": "Whether the drawer should snap to sequential points when swiping.",
+                "defaultValue": "false"
+            },
+            "swipeVelocityThreshold": {
+                "type": "number | undefined",
+                "description": "The threshold velocity (in pixels/s) for closing the drawer.",
+                "defaultValue": "700"
+            },
+            "closeThreshold": {
+                "type": "number | undefined",
+                "description": "The threshold distance for dismissing the drawer.",
+                "defaultValue": "0.25"
+            },
+            "preventDragOnScroll": {
+                "type": "boolean | undefined",
+                "description": "Whether to prevent dragging on scrollable elements.\nWhen enabled, the sheet will not start dragging if the user is interacting with a scrollable element.",
+                "defaultValue": "true"
+            },
+            "snapPoint": {
+                "type": "SnapPoint | null | undefined",
+                "description": "The currently active snap point."
+            },
+            "defaultSnapPoint": {
+                "type": "SnapPoint | null | undefined",
+                "description": "The default snap point of the drawer.",
+                "defaultValue": "1"
+            },
+            "onSnapPointChange": {
+                "type": "((details: SnapPointChangeDetails) => void) | undefined",
+                "description": "Callback fired when the snap point changes."
+            },
+            "stack": {
+                "type": "DrawerStack | undefined",
+                "description": "Optional external store for coordinating app-level drawer stack visuals\n(e.g. indent and background layers)."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Positioner": {
+            "data-scope": "drawer",
+            "data-part": "positioner",
+            "data-state": "\"open\" | \"closed\"",
+            "data-swipe-direction": ""
+        },
+        "Content": {
+            "data-scope": "drawer",
+            "data-part": "content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-expanded": "Present when expanded",
+            "data-swipe-direction": "",
+            "data-swiping": "",
+            "data-dragging": "Present when in the dragging state",
+            "data-nested-drawer-open": "",
+            "data-nested-drawer-swiping": ""
+        },
+        "Trigger": {
+            "data-scope": "drawer",
+            "data-part": "trigger",
+            "data-value": "The value of the item",
+            "data-state": "\"open\" | \"closed\"",
+            "data-current": "Present when current"
+        },
+        "Backdrop": {
+            "data-scope": "drawer",
+            "data-part": "backdrop",
+            "data-state": "\"open\" | \"closed\"",
+            "data-swiping": ""
+        },
+        "SwipeArea": {
+            "data-scope": "drawer",
+            "data-part": "swipe-area",
+            "data-state": "\"open\" | \"closed\"",
+            "data-swiping": "",
+            "data-swipe-direction": "",
+            "data-disabled": "Present when disabled"
+        }
+    }
+}

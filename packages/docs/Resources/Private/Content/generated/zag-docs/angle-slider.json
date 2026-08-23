@@ -1,0 +1,176 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "<span>Increments the angle slider based on defined step</span>"
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "<span>Decrements the angle slider based on defined step</span>"
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "<span>Decreases the value by the step amount.</span>"
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "<span>Increases the value by the step amount.</span>"
+            },
+            {
+                "keys": [
+                    "Shift + ArrowUp"
+                ],
+                "description": "<span>Decreases the value by a larger step</span>"
+            },
+            {
+                "keys": [
+                    "Shift + ArrowDown"
+                ],
+                "description": "<span>Increases the value by a larger step</span>"
+            },
+            {
+                "keys": [
+                    "Home"
+                ],
+                "description": "Sets the value to 0 degrees."
+            },
+            {
+                "keys": [
+                    "End"
+                ],
+                "description": "Sets the value to 360 degrees."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "value": {
+                "type": "number",
+                "description": "The current value of the angle slider"
+            },
+            "valueAsDegree": {
+                "type": "string",
+                "description": "The current value as a degree string"
+            },
+            "setValue": {
+                "type": "(value: number) => void",
+                "description": "Sets the value of the angle slider"
+            },
+            "dragging": {
+                "type": "boolean",
+                "description": "Whether the slider is being dragged."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the machine.\nUseful for composition."
+            },
+            "step": {
+                "type": "number | undefined",
+                "description": "The step value for the slider.",
+                "defaultValue": "1"
+            },
+            "value": {
+                "type": "number | undefined",
+                "description": "The value of the slider."
+            },
+            "defaultValue": {
+                "type": "number | undefined",
+                "description": "The initial value of the slider.\nUse when you don't need to control the value of the slider.",
+                "defaultValue": "0"
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "The callback function for when the value changes."
+            },
+            "onValueChangeEnd": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "The callback function for when the value changes ends."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the slider is disabled."
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the slider is read-only."
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the slider is invalid."
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name of the slider. Useful for form submission."
+            },
+            "aria-label": {
+                "type": "string | undefined",
+                "description": "The accessible label for the slider thumb."
+            },
+            "aria-labelledby": {
+                "type": "string | undefined",
+                "description": "The id of the element that labels the slider thumb."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "angle-slider",
+            "data-part": "root",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-readonly": "Present when read-only"
+        },
+        "Label": {
+            "data-scope": "angle-slider",
+            "data-part": "label",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-readonly": "Present when read-only"
+        },
+        "Control": {
+            "data-scope": "angle-slider",
+            "data-part": "control",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-readonly": "Present when read-only"
+        },
+        "Thumb": {
+            "data-scope": "angle-slider",
+            "data-part": "thumb",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-readonly": "Present when read-only"
+        },
+        "Marker": {
+            "data-scope": "angle-slider",
+            "data-part": "marker",
+            "data-value": "The value of the item",
+            "data-state": "",
+            "data-disabled": "Present when disabled"
+        }
+    }
+}

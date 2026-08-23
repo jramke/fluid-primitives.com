@@ -1,0 +1,144 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "value": {
+                "type": "number | null",
+                "description": "The current value of the progress bar."
+            },
+            "valueAsString": {
+                "type": "string",
+                "description": "The current value of the progress bar as a string."
+            },
+            "setValue": {
+                "type": "(value: number | null) => void",
+                "description": "Sets the current value of the progress bar."
+            },
+            "setToMax": {
+                "type": "VoidFunction",
+                "description": "Sets the current value of the progress bar to the max value."
+            },
+            "setToMin": {
+                "type": "VoidFunction",
+                "description": "Sets the current value of the progress bar to the min value."
+            },
+            "percent": {
+                "type": "number",
+                "description": "The percentage of the progress bar's value."
+            },
+            "percentAsString": {
+                "type": "string",
+                "description": "The percentage of the progress bar's value as a string."
+            },
+            "min": {
+                "type": "number",
+                "description": "The minimum allowed value of the progress bar."
+            },
+            "max": {
+                "type": "number",
+                "description": "The maximum allowed value of the progress bar."
+            },
+            "indeterminate": {
+                "type": "boolean",
+                "description": "Whether the progress bar is indeterminate."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the progress bar. Useful for composition."
+            },
+            "value": {
+                "type": "number | null | undefined",
+                "description": "The controlled value of the progress bar."
+            },
+            "defaultValue": {
+                "type": "number | null | undefined",
+                "description": "The initial value of the progress bar when rendered.\nUse when you don't need to control the value of the progress bar.",
+                "defaultValue": "50"
+            },
+            "min": {
+                "type": "number | undefined",
+                "description": "The minimum allowed value of the progress bar.",
+                "defaultValue": "0"
+            },
+            "max": {
+                "type": "number | undefined",
+                "description": "The maximum allowed value of the progress bar.",
+                "defaultValue": "100"
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "The localized messages to use."
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Callback fired when the value changes."
+            },
+            "formatOptions": {
+                "type": "Intl.NumberFormatOptions | undefined",
+                "description": "The options to use for formatting the value.",
+                "defaultValue": "{ style: \"percent\" }"
+            },
+            "locale": {
+                "type": "string | undefined",
+                "description": "The locale to use for formatting the value.",
+                "defaultValue": "\"en-US\""
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            },
+            "orientation": {
+                "type": "\"horizontal\" | \"vertical\" | undefined",
+                "description": "The orientation of the element.",
+                "defaultValue": "\"horizontal\""
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "progress",
+            "data-part": "root",
+            "data-max": "",
+            "data-value": "The value of the item",
+            "data-state": "",
+            "data-orientation": "The orientation of the progress"
+        },
+        "Label": {
+            "data-scope": "progress",
+            "data-part": "label",
+            "data-orientation": "The orientation of the label"
+        },
+        "Range": {
+            "data-scope": "progress",
+            "data-part": "range",
+            "data-orientation": "The orientation of the range",
+            "data-state": ""
+        },
+        "CircleTrack": {
+            "data-scope": "progress",
+            "data-part": "circle-track",
+            "data-orientation": "The orientation of the circletrack"
+        },
+        "CircleRange": {
+            "data-scope": "progress",
+            "data-part": "circle-range",
+            "data-state": ""
+        },
+        "View": {
+            "data-scope": "progress",
+            "data-part": "view",
+            "data-state": ""
+        }
+    }
+}

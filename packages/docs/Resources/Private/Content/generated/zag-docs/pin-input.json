@@ -1,0 +1,217 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "Moves focus to the previous input"
+            },
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "Moves focus to the next input"
+            },
+            {
+                "keys": [
+                    "Backspace"
+                ],
+                "description": "Deletes the value in the current input and moves focus to the previous input"
+            },
+            {
+                "keys": [
+                    "Delete"
+                ],
+                "description": "Deletes the value in the current input"
+            },
+            {
+                "keys": [
+                    "Control + V"
+                ],
+                "description": "Pastes the value into the input fields"
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "value": {
+                "type": "string[]",
+                "description": "The value of the input as an array of strings."
+            },
+            "valueAsString": {
+                "type": "string",
+                "description": "The value of the input as a string."
+            },
+            "complete": {
+                "type": "boolean",
+                "description": "Whether all inputs are filled."
+            },
+            "count": {
+                "type": "number",
+                "description": "The number of inputs to render"
+            },
+            "items": {
+                "type": "number[]",
+                "description": "The array of input values."
+            },
+            "setValue": {
+                "type": "(value: string[]) => void",
+                "description": "Function to set the value of the inputs."
+            },
+            "clearValue": {
+                "type": "VoidFunction",
+                "description": "Function to clear the value of the inputs."
+            },
+            "setValueAtIndex": {
+                "type": "(index: number, value: string) => void",
+                "description": "Function to set the value of the input at a specific index."
+            },
+            "focus": {
+                "type": "VoidFunction",
+                "description": "Function to focus the pin-input. This will focus the first input."
+            }
+        },
+        "context": {
+            "name": {
+                "type": "string | undefined",
+                "description": "The name of the input element. Useful for form submission."
+            },
+            "form": {
+                "type": "string | undefined",
+                "description": "The associate form of the underlying input element."
+            },
+            "pattern": {
+                "type": "string | undefined",
+                "description": "The regular expression that the user-entered input value is checked against."
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the pin input. Useful for composition."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the inputs are disabled"
+            },
+            "placeholder": {
+                "type": "string | undefined",
+                "description": "The placeholder text for the input",
+                "defaultValue": "\"\u25cb\""
+            },
+            "autoFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to auto-focus the first input."
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the pin input is in the invalid state"
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the pin input is required"
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the pin input is in the valid state"
+            },
+            "otp": {
+                "type": "boolean | undefined",
+                "description": "If `true`, the pin input component signals to its fields that they should\nuse `autocomplete=\"one-time-code\"`."
+            },
+            "value": {
+                "type": "string[] | undefined",
+                "description": "The controlled value of the the pin input."
+            },
+            "defaultValue": {
+                "type": "string[] | undefined",
+                "description": "The initial value of the the pin input when rendered.\nUse when you don't need to control the value of the pin input."
+            },
+            "type": {
+                "type": "\"alphanumeric\" | \"numeric\" | \"alphabetic\" | undefined",
+                "description": "The type of value the pin-input should allow",
+                "defaultValue": "\"numeric\""
+            },
+            "onValueComplete": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function called when all inputs have valid values"
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function called on input change"
+            },
+            "onValueInvalid": {
+                "type": "((details: ValueInvalidDetails) => void) | undefined",
+                "description": "Function called when an invalid value is entered"
+            },
+            "mask": {
+                "type": "boolean | undefined",
+                "description": "If `true`, the input's value will be masked just like `type=password`"
+            },
+            "autoSubmit": {
+                "type": "boolean | undefined",
+                "description": "Whether to auto-submit the owning form when all inputs are filled."
+            },
+            "blurOnComplete": {
+                "type": "boolean | undefined",
+                "description": "Whether to blur the input when the value is complete"
+            },
+            "selectOnFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to select input value when input is focused"
+            },
+            "sanitizeValue": {
+                "type": "((value: string) => string) | undefined",
+                "description": "Function to sanitize pasted values before validation.\nUseful for stripping dashes, spaces, or other formatting."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+            },
+            "count": {
+                "type": "number | undefined",
+                "description": "The number of inputs to render to improve SSR aria attributes.\nThis will be required in next major version."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "pin-input",
+            "data-part": "root",
+            "data-invalid": "Present when invalid",
+            "data-disabled": "Present when disabled",
+            "data-complete": "Present when the pin-input value is complete",
+            "data-readonly": "Present when read-only"
+        },
+        "Label": {
+            "data-scope": "pin-input",
+            "data-part": "label",
+            "data-invalid": "Present when invalid",
+            "data-disabled": "Present when disabled",
+            "data-complete": "Present when the label value is complete",
+            "data-required": "Present when required",
+            "data-readonly": "Present when read-only"
+        },
+        "Input": {
+            "data-scope": "pin-input",
+            "data-part": "input",
+            "data-disabled": "Present when disabled",
+            "data-complete": "Present when the input value is complete",
+            "data-filled": "",
+            "data-index": "The index of the item",
+            "data-invalid": "Present when invalid"
+        }
+    }
+}

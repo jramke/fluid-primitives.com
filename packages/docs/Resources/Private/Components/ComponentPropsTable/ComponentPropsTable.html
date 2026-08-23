@@ -54,7 +54,72 @@
                     </tbody>
                 </table>
             </f:if>
+            <f:if condition="{part.dataAttributes}">
+                <h4 class="[.table-wrapper_+_&]:mt-3">Rendered data attributes</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Attribute</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <f:for each="{part.dataAttributes}" as="description" key="attribute">
+                            <tr>
+                                <td><code>{attribute}</code></td>
+                                <td>{description}</td>
+                            </tr>
+                        </f:for>
+                    </tbody>
+                </table>
+            </f:if>
         </f:for>
+
+        <f:if condition="{context.zagApi}">
+            <h3>Machine JavaScript API</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <f:for each="{context.zagApi.api}" as="entry" key="name">
+                        <tr>
+                            <td><code>{name}</code></td>
+                            <td><code>{entry.type}</code></td>
+                            <td>{entry.description -> f:format.raw()}</td>
+                        </tr>
+                    </f:for>
+                </tbody>
+            </table>
+        </f:if>
+
+        <f:if condition="{context.zagAccessibility}">
+            <h3>Accessibility</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <f:for each="{context.zagAccessibility}" as="item">
+                        <tr>
+                            <td>
+                                <f:for each="{item.keys}" as="key">
+                                    <code>{key -> f:format.raw()}</code>
+                                </f:for>
+                            </td>
+                            <td>{item.description -> f:format.raw()}</td>
+                        </tr>
+                    </f:for>
+                </tbody>
+            </table>
+        </f:if>
     </div>
 
 </div>

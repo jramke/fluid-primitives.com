@@ -1,0 +1,167 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "page": {
+                "type": "number",
+                "description": "The current page."
+            },
+            "count": {
+                "type": "number",
+                "description": "The total number of data items."
+            },
+            "pageSize": {
+                "type": "number",
+                "description": "The number of data items per page."
+            },
+            "totalPages": {
+                "type": "number",
+                "description": "The total number of pages."
+            },
+            "pages": {
+                "type": "Pages",
+                "description": "The page range. Represented as an array of page numbers (including ellipsis)"
+            },
+            "previousPage": {
+                "type": "number | null",
+                "description": "The previous page."
+            },
+            "nextPage": {
+                "type": "number | null",
+                "description": "The next page."
+            },
+            "pageRange": {
+                "type": "PageRange",
+                "description": "The page range. Represented as an object with `start` and `end` properties."
+            },
+            "slice": {
+                "type": "<V>(data: V[]) => V[]",
+                "description": "Function to slice an array of data based on the current page."
+            },
+            "setPageSize": {
+                "type": "(size: number) => void",
+                "description": "Function to set the page size."
+            },
+            "setPage": {
+                "type": "(page: number) => void",
+                "description": "Function to set the current page."
+            },
+            "goToNextPage": {
+                "type": "VoidFunction",
+                "description": "Function to go to the next page."
+            },
+            "goToPrevPage": {
+                "type": "VoidFunction",
+                "description": "Function to go to the previous page."
+            },
+            "goToFirstPage": {
+                "type": "VoidFunction",
+                "description": "Function to go to the first page."
+            },
+            "goToLastPage": {
+                "type": "VoidFunction",
+                "description": "Function to go to the last page."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the accordion. Useful for composition."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+            },
+            "count": {
+                "type": "number | undefined",
+                "description": "Total number of data items"
+            },
+            "pageSize": {
+                "type": "number | undefined",
+                "description": "The controlled number of data items per page"
+            },
+            "defaultPageSize": {
+                "type": "number | undefined",
+                "description": "The initial number of data items per page when rendered.\nUse when you don't need to control the page size of the pagination.",
+                "defaultValue": "10"
+            },
+            "siblingCount": {
+                "type": "number | undefined",
+                "description": "Number of pages to show beside active page",
+                "defaultValue": "1"
+            },
+            "boundaryCount": {
+                "type": "number | undefined",
+                "description": "Number of pages to show at the beginning and end",
+                "defaultValue": "1"
+            },
+            "page": {
+                "type": "number | undefined",
+                "description": "The controlled active page"
+            },
+            "defaultPage": {
+                "type": "number | undefined",
+                "description": "The initial active page when rendered.\nUse when you don't need to control the active page of the pagination.",
+                "defaultValue": "1"
+            },
+            "onPageChange": {
+                "type": "((details: PageChangeDetails) => void) | undefined",
+                "description": "Called when the page number is changed"
+            },
+            "onPageSizeChange": {
+                "type": "((details: PageSizeChangeDetails) => void) | undefined",
+                "description": "Called when the page size is changed"
+            },
+            "type": {
+                "type": "\"button\" | \"link\" | undefined",
+                "description": "The type of the trigger element",
+                "defaultValue": "\"button\""
+            },
+            "getPageUrl": {
+                "type": "((details: PageUrlDetails) => string) | undefined",
+                "description": "Function to generate href attributes for pagination links.\nOnly used when `type` is set to \"link\"."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Item": {
+            "data-scope": "pagination",
+            "data-part": "item",
+            "data-index": "The index of the item",
+            "data-selected": "Present when selected"
+        },
+        "PrevTrigger": {
+            "data-scope": "pagination",
+            "data-part": "prev-trigger",
+            "data-disabled": "Present when disabled"
+        },
+        "FirstTrigger": {
+            "data-scope": "pagination",
+            "data-part": "first-trigger",
+            "data-disabled": "Present when disabled"
+        },
+        "NextTrigger": {
+            "data-scope": "pagination",
+            "data-part": "next-trigger",
+            "data-disabled": "Present when disabled"
+        },
+        "LastTrigger": {
+            "data-scope": "pagination",
+            "data-part": "last-trigger",
+            "data-disabled": "Present when disabled"
+        }
+    }
+}

@@ -1,0 +1,152 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Tab"
+                ],
+                "description": "Moves focus to either the pressed item or the first item in the group."
+            },
+            {
+                "keys": [
+                    "Space"
+                ],
+                "description": "Activates/deactivates the item."
+            },
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "Activates/deactivates the item."
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "Moves focus to the next item in the group."
+            },
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "Moves focus to the next item in the group."
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "Moves focus to the previous item in the group."
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "Moves focus to the previous item in the group."
+            },
+            {
+                "keys": [
+                    "Home"
+                ],
+                "description": "Moves focus to the first item."
+            },
+            {
+                "keys": [
+                    "End"
+                ],
+                "description": "Moves focus to the last item."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "value": {
+                "type": "string[]",
+                "description": "The value of the toggle group."
+            },
+            "setValue": {
+                "type": "(value: string[]) => void",
+                "description": "Sets the value of the toggle group."
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of the toggle item."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the toggle. Useful for composition."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the toggle is disabled."
+            },
+            "value": {
+                "type": "string[] | undefined",
+                "description": "The controlled selected value of the toggle group."
+            },
+            "defaultValue": {
+                "type": "string[] | undefined",
+                "description": "The initial selected value of the toggle group when rendered.\nUse when you don't need to control the selected value of the toggle group."
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function to call when the toggle is clicked."
+            },
+            "loopFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to loop focus inside the toggle group.",
+                "defaultValue": "true"
+            },
+            "rovingFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to use roving tab index to manage focus.",
+                "defaultValue": "true"
+            },
+            "orientation": {
+                "type": "Orientation | undefined",
+                "description": "The orientation of the toggle group.",
+                "defaultValue": "\"horizontal\""
+            },
+            "multiple": {
+                "type": "boolean | undefined",
+                "description": "Whether to allow multiple toggles to be selected."
+            },
+            "deselectable": {
+                "type": "boolean | undefined",
+                "description": "Whether the toggle group allows empty selection.\n**Note:** This is ignored if `multiple` is `true`.",
+                "defaultValue": "true"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "toggle-group",
+            "data-part": "root",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the toggle-group",
+            "data-focus": "Present when focused"
+        },
+        "Item": {
+            "data-scope": "toggle-group",
+            "data-part": "item",
+            "data-focus": "Present when focused",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the item",
+            "data-state": "\"on\" | \"off\""
+        }
+    }
+}

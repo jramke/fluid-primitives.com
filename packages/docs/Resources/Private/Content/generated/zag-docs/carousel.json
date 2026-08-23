@@ -1,0 +1,227 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "page": {
+                "type": "number",
+                "description": "The current index of the carousel"
+            },
+            "pageSnapPoints": {
+                "type": "number[]",
+                "description": "The current snap points of the carousel"
+            },
+            "isPlaying": {
+                "type": "boolean",
+                "description": "Whether the carousel is auto playing"
+            },
+            "isDragging": {
+                "type": "boolean",
+                "description": "Whether the carousel is being dragged. This only works when `draggable` is true."
+            },
+            "canScrollNext": {
+                "type": "boolean",
+                "description": "Whether the carousel is can scroll to the next view"
+            },
+            "canScrollPrev": {
+                "type": "boolean",
+                "description": "Whether the carousel is can scroll to the previous view"
+            },
+            "scrollToIndex": {
+                "type": "(index: number, instant?: boolean) => void",
+                "description": "Function to scroll to a specific item index"
+            },
+            "scrollTo": {
+                "type": "(page: number, instant?: boolean) => void",
+                "description": "Function to scroll to a specific page"
+            },
+            "scrollNext": {
+                "type": "(instant?: boolean) => void",
+                "description": "Function to scroll to the next page"
+            },
+            "scrollPrev": {
+                "type": "(instant?: boolean) => void",
+                "description": "Function to scroll to the previous page"
+            },
+            "getProgress": {
+                "type": "() => number",
+                "description": "Returns the current scroll progress as a percentage"
+            },
+            "getProgressText": {
+                "type": "() => string",
+                "description": "Returns the progress text"
+            },
+            "play": {
+                "type": "VoidFunction",
+                "description": "Function to start/resume autoplay"
+            },
+            "pause": {
+                "type": "VoidFunction",
+                "description": "Function to pause autoplay"
+            },
+            "isInView": {
+                "type": "(index: number) => boolean",
+                "description": "Whether the item is in view"
+            },
+            "refresh": {
+                "type": "VoidFunction",
+                "description": "Function to re-compute the snap points\nand clamp the page"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the carousel. Useful for composition."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "The localized messages to use."
+            },
+            "slidesPerPage": {
+                "type": "number | undefined",
+                "description": "The number of slides to show at a time.",
+                "defaultValue": "1"
+            },
+            "autoSize": {
+                "type": "boolean | undefined",
+                "description": "Whether to enable variable width slides.",
+                "defaultValue": "false"
+            },
+            "slidesPerMove": {
+                "type": "number | \"auto\" | undefined",
+                "description": "The number of slides to scroll at a time.\n\nWhen set to `auto`, the number of slides to scroll is determined by the\n`slidesPerPage` property.",
+                "defaultValue": "\"auto\""
+            },
+            "autoplay": {
+                "type": "boolean | { delay: number } | undefined",
+                "description": "Whether to scroll automatically. The default delay is 4000ms.",
+                "defaultValue": "false"
+            },
+            "allowMouseDrag": {
+                "type": "boolean | undefined",
+                "description": "Whether to allow scrolling via dragging with mouse",
+                "defaultValue": "false"
+            },
+            "loop": {
+                "type": "boolean | undefined",
+                "description": "Whether the carousel should loop around.",
+                "defaultValue": "false"
+            },
+            "page": {
+                "type": "number | undefined",
+                "description": "The controlled page of the carousel."
+            },
+            "defaultPage": {
+                "type": "number | undefined",
+                "description": "The initial page to scroll to when rendered.\nUse when you don't need to control the page of the carousel.",
+                "defaultValue": "0"
+            },
+            "spacing": {
+                "type": "string | undefined",
+                "description": "The amount of space between items.",
+                "defaultValue": "\"0px\""
+            },
+            "padding": {
+                "type": "string | undefined",
+                "description": "Defines the extra space added around the scrollable area,\nenabling nearby items to remain partially in view."
+            },
+            "onPageChange": {
+                "type": "((details: PageChangeDetails) => void) | undefined",
+                "description": "Function called when the page changes."
+            },
+            "inViewThreshold": {
+                "type": "number | number[] | undefined",
+                "description": "The threshold for determining if an item is in view.",
+                "defaultValue": "0.6"
+            },
+            "snapType": {
+                "type": "\"proximity\" | \"mandatory\" | undefined",
+                "description": "The snap type of the item.",
+                "defaultValue": "\"mandatory\""
+            },
+            "slideCount": {
+                "type": "number",
+                "description": "The total number of slides.\nUseful for SSR to render the initial ating the snap points."
+            },
+            "onDragStatusChange": {
+                "type": "((details: DragStatusDetails) => void) | undefined",
+                "description": "Function called when the drag status changes."
+            },
+            "onAutoplayStatusChange": {
+                "type": "((details: AutoplayStatusDetails) => void) | undefined",
+                "description": "Function called when the autoplay status changes."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            },
+            "orientation": {
+                "type": "\"horizontal\" | \"vertical\" | undefined",
+                "description": "The orientation of the element.",
+                "defaultValue": "\"horizontal\""
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "carousel",
+            "data-part": "root",
+            "data-orientation": "The orientation of the carousel"
+        },
+        "ItemGroup": {
+            "data-scope": "carousel",
+            "data-part": "item-group",
+            "data-orientation": "The orientation of the item",
+            "data-dragging": "Present when in the dragging state"
+        },
+        "Item": {
+            "data-scope": "carousel",
+            "data-part": "item",
+            "data-index": "The index of the item",
+            "data-inview": "Present when in viewport",
+            "data-orientation": "The orientation of the item"
+        },
+        "Control": {
+            "data-scope": "carousel",
+            "data-part": "control",
+            "data-orientation": "The orientation of the control"
+        },
+        "PrevTrigger": {
+            "data-scope": "carousel",
+            "data-part": "prev-trigger",
+            "data-orientation": "The orientation of the prevtrigger"
+        },
+        "NextTrigger": {
+            "data-scope": "carousel",
+            "data-part": "next-trigger",
+            "data-orientation": "The orientation of the nexttrigger"
+        },
+        "IndicatorGroup": {
+            "data-scope": "carousel",
+            "data-part": "indicator-group",
+            "data-orientation": "The orientation of the indicatorgroup"
+        },
+        "Indicator": {
+            "data-scope": "carousel",
+            "data-part": "indicator",
+            "data-orientation": "The orientation of the indicator",
+            "data-index": "The index of the item",
+            "data-readonly": "Present when read-only",
+            "data-current": "Present when current"
+        },
+        "AutoplayTrigger": {
+            "data-scope": "carousel",
+            "data-part": "autoplay-trigger",
+            "data-orientation": "The orientation of the autoplaytrigger",
+            "data-pressed": "Present when pressed"
+        }
+    }
+}

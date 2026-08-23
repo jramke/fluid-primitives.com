@@ -1,0 +1,155 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "Moves focus to the next star, increasing the rating value based on the `allowHalf` property."
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "Moves focus to the previous star, decreasing the rating value based on the `allowHalf` property."
+            },
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "Selects the focused star in the rating group."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "setValue": {
+                "type": "(value: number) => void",
+                "description": "Sets the value of the rating group"
+            },
+            "clearValue": {
+                "type": "VoidFunction",
+                "description": "Clears the value of the rating group"
+            },
+            "hovering": {
+                "type": "boolean",
+                "description": "Whether the rating group is being hovered"
+            },
+            "value": {
+                "type": "number",
+                "description": "The current value of the rating group"
+            },
+            "hoveredValue": {
+                "type": "number",
+                "description": "The value of the currently hovered rating"
+            },
+            "count": {
+                "type": "number",
+                "description": "The total number of ratings"
+            },
+            "items": {
+                "type": "number[]",
+                "description": "The array of rating values. Returns an array of numbers from 1 to the max value."
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of a rating item"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the rating. Useful for composition."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+            },
+            "count": {
+                "type": "number | undefined",
+                "description": "The total number of ratings.",
+                "defaultValue": "5"
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name attribute of the rating element (used in forms)."
+            },
+            "form": {
+                "type": "string | undefined",
+                "description": "The associate form of the underlying input element."
+            },
+            "value": {
+                "type": "number | undefined",
+                "description": "The controlled value of the rating"
+            },
+            "defaultValue": {
+                "type": "number | undefined",
+                "description": "The initial value of the rating when rendered.\nUse when you don't need to control the value of the rating."
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the rating is readonly."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the rating is disabled."
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the rating is required."
+            },
+            "allowHalf": {
+                "type": "boolean | undefined",
+                "description": "Whether to allow half stars."
+            },
+            "autoFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to autofocus the rating."
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function to be called when the rating value changes."
+            },
+            "onHoverChange": {
+                "type": "((details: HoverChangeDetails) => void) | undefined",
+                "description": "Function to be called when the rating value is hovered."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Label": {
+            "data-scope": "rating-group",
+            "data-part": "label",
+            "data-disabled": "Present when disabled",
+            "data-required": "Present when required"
+        },
+        "Control": {
+            "data-scope": "rating-group",
+            "data-part": "control",
+            "data-readonly": "Present when read-only",
+            "data-disabled": "Present when disabled"
+        },
+        "Item": {
+            "data-scope": "rating-group",
+            "data-part": "item",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-checked": "Present when checked",
+            "data-highlighted": "Present when highlighted",
+            "data-half": ""
+        }
+    }
+}

@@ -1,0 +1,128 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "getCount": {
+                "type": "() => number",
+                "description": "The total number of toasts"
+            },
+            "getToasts": {
+                "type": "() => ToastProps[]",
+                "description": "The toasts"
+            },
+            "subscribe": {
+                "type": "(callback: (toasts: Options<O>[]) => void) => VoidFunction",
+                "description": "Subscribe to the toast group"
+            }
+        },
+        "context": {
+            "attrs": {
+                "type": "Required<ToastStoreProps>",
+                "description": "The attributes of the toast store"
+            },
+            "subscribe": {
+                "type": "(subscriber: (...args: any[]) => void) => VoidFunction",
+                "description": "Subscribe to the toast store"
+            },
+            "create": {
+                "type": "(data: Options<V>) => string",
+                "description": "Create a new toast with the given options"
+            },
+            "update": {
+                "type": "(id: string, data: Partial<ToastProps<V>>) => string",
+                "description": "Update an existing toast with new properties"
+            },
+            "remove": {
+                "type": "(id?: string) => void",
+                "description": "Remove a toast by its ID"
+            },
+            "dismiss": {
+                "type": "(id?: string) => void",
+                "description": "Dismiss a toast by its ID. If no ID is provided, dismisses all toasts"
+            },
+            "error": {
+                "type": "(data: Options<V>) => void",
+                "description": "Create an error toast with the given options"
+            },
+            "success": {
+                "type": "(data: Options<V>) => void",
+                "description": "Create a success toast with the given options"
+            },
+            "info": {
+                "type": "(data: Options<V>) => void",
+                "description": "Create an info toast with the given options"
+            },
+            "warning": {
+                "type": "(data: Options<V>) => void",
+                "description": "Create a warning toast with the given options"
+            },
+            "loading": {
+                "type": "(data: Options<V>) => void",
+                "description": "Create a loading toast with the given options"
+            },
+            "getVisibleToasts": {
+                "type": "() => Partial<ToastProps<V>>[]",
+                "description": "Get all currently visible toasts"
+            },
+            "getCount": {
+                "type": "() => number",
+                "description": "Get the total number of toasts"
+            },
+            "promise": {
+                "type": "<T>(\n    promise: Promise<T> | (() => Promise<T>),\n    options: PromiseOptions<T, V>,\n    shared?: Omit<Options<V>, \"type\">,\n  ) => { id: string | undefined; unwrap: () => Promise<T> } | undefined",
+                "description": "Create a toast that tracks a promise's state"
+            },
+            "pause": {
+                "type": "(id?: string) => void",
+                "description": "Pause a toast's auto-dismiss timer. If no ID is provided, pauses all toasts"
+            },
+            "resume": {
+                "type": "(id?: string) => void",
+                "description": "Resume a toast's auto-dismiss timer. If no ID is provided, resumes all toasts"
+            },
+            "isVisible": {
+                "type": "(id: string) => boolean",
+                "description": "Check if a toast with the given ID is currently visible"
+            },
+            "isDismissed": {
+                "type": "(id: string) => boolean",
+                "description": "Check if a toast with the given ID has been dismissed"
+            },
+            "expand": {
+                "type": "VoidFunction",
+                "description": "Expand all toasts to show their full content (overlap mode)"
+            },
+            "collapse": {
+                "type": "VoidFunction",
+                "description": "Collapse all toasts to their compact state (overlap mode)"
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "toast",
+            "data-part": "root",
+            "data-state": "\"open\" | \"closed\"",
+            "data-type": "The type of the item",
+            "data-placement": "The placement of the toast",
+            "data-align": "",
+            "data-side": "The side of the trigger that the toast is positioned on",
+            "data-mounted": "Present when mounted",
+            "data-paused": "Present when paused",
+            "data-first": "",
+            "data-sibling": "",
+            "data-stack": "",
+            "data-overlap": "Present when overlapping"
+        },
+        "GhostBefore": {
+            "data-scope": "toast",
+            "data-part": "ghost-before",
+            "data-ghost": ""
+        },
+        "GhostAfter": {
+            "data-scope": "toast",
+            "data-part": "ghost-after",
+            "data-ghost": ""
+        }
+    }
+}

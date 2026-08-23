@@ -1,0 +1,200 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Tab"
+                ],
+                "description": "When focus moves onto the tabs, focuses the active trigger. When a trigger is focused, moves focus to the active content."
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "Moves focus to the next trigger in vertical orientation and activates its associated content."
+            },
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "Moves focus to the next trigger in horizontal orientation and activates its associated content."
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "Moves focus to the previous trigger in vertical orientation and activates its associated content."
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "Moves focus to the previous trigger in horizontal orientation and activates its associated content."
+            },
+            {
+                "keys": [
+                    "Home"
+                ],
+                "description": "Moves focus to the first trigger and activates its associated content."
+            },
+            {
+                "keys": [
+                    "End"
+                ],
+                "description": "Moves focus to the last trigger and activates its associated content."
+            },
+            {
+                "keys": [
+                    "Enter",
+                    "Space"
+                ],
+                "description": "In manual mode, when a trigger is focused, moves focus to its associated content."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "value": {
+                "type": "string | null",
+                "description": "The current value of the tabs."
+            },
+            "focusedValue": {
+                "type": "string | null",
+                "description": "The value of the tab that is currently focused."
+            },
+            "setValue": {
+                "type": "(value: string) => void",
+                "description": "Sets the value of the tabs."
+            },
+            "clearValue": {
+                "type": "VoidFunction",
+                "description": "Clears the value of the tabs."
+            },
+            "setIndicatorRect": {
+                "type": "(value: string) => void",
+                "description": "Sets the indicator rect to the tab with the given value"
+            },
+            "syncTabIndex": {
+                "type": "VoidFunction",
+                "description": "Synchronizes the tab index of the content element.\nUseful when rendering tabs within a select or combobox"
+            },
+            "focus": {
+                "type": "VoidFunction",
+                "description": "Set focus on the selected tab trigger"
+            },
+            "selectNext": {
+                "type": "(fromValue?: string) => void",
+                "description": "Selects the next tab"
+            },
+            "selectPrev": {
+                "type": "(fromValue?: string) => void",
+                "description": "Selects the previous tab"
+            },
+            "getTriggerState": {
+                "type": "(props: TriggerProps) => TriggerState",
+                "description": "Returns the state of the trigger with the given props"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the tabs. Useful for composition."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+            },
+            "loopFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether the keyboard navigation will loop from last tab to first, and vice versa.",
+                "defaultValue": "true"
+            },
+            "value": {
+                "type": "string | null | undefined",
+                "description": "The controlled selected tab value"
+            },
+            "defaultValue": {
+                "type": "string | null | undefined",
+                "description": "The initial selected tab value when rendered.\nUse when you don't need to control the selected tab value."
+            },
+            "orientation": {
+                "type": "\"horizontal\" | \"vertical\" | undefined",
+                "description": "The orientation of the tabs. Can be `horizontal` or `vertical`\n- `horizontal`: only left and right arrow key navigation will work.\n- `vertical`: only up and down arrow key navigation will work.",
+                "defaultValue": "\"horizontal\""
+            },
+            "activationMode": {
+                "type": "\"manual\" | \"automatic\" | undefined",
+                "description": "The activation mode of the tabs. Can be `manual` or `automatic`\n- `manual`: Tabs are activated when clicked or press `enter` key.\n- `automatic`: Tabs are activated when receiving focus",
+                "defaultValue": "\"automatic\""
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Callback to be called when the selected/active tab changes"
+            },
+            "onFocusChange": {
+                "type": "((details: FocusChangeDetails) => void) | undefined",
+                "description": "Callback to be called when the focused tab changes"
+            },
+            "composite": {
+                "type": "boolean | undefined",
+                "description": "Whether the tab is composite"
+            },
+            "deselectable": {
+                "type": "boolean | undefined",
+                "description": "Whether the active tab can be deselected when clicking on it."
+            },
+            "navigate": {
+                "type": "((details: NavigateDetails) => void) | null | undefined",
+                "description": "Function to navigate to the selected tab when clicking on it.\nUseful if tab triggers are anchor elements."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "tabs",
+            "data-part": "root",
+            "data-orientation": "The orientation of the tabs",
+            "data-focus": "Present when focused"
+        },
+        "List": {
+            "data-scope": "tabs",
+            "data-part": "list",
+            "data-focus": "Present when focused",
+            "data-orientation": "The orientation of the list"
+        },
+        "Trigger": {
+            "data-scope": "tabs",
+            "data-part": "trigger",
+            "data-orientation": "The orientation of the trigger",
+            "data-disabled": "Present when disabled",
+            "data-value": "The value of the item",
+            "data-selected": "Present when selected",
+            "data-focus": "Present when focused",
+            "data-ssr": "Present when not rendered in the browser. Useful for ssr styling"
+        },
+        "Content": {
+            "data-scope": "tabs",
+            "data-part": "content",
+            "data-selected": "Present when selected",
+            "data-orientation": "The orientation of the content"
+        },
+        "Indicator": {
+            "data-scope": "tabs",
+            "data-part": "indicator",
+            "data-orientation": "The orientation of the indicator"
+        }
+    }
+}

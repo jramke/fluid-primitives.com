@@ -1,0 +1,311 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "Increments the value of the number input by a predefined step."
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "Decrements the value of the number input by a predefined step."
+            },
+            {
+                "keys": [
+                    "Shift + ArrowUp"
+                ],
+                "description": "Increments the value of the number input by the `largeStep` amount."
+            },
+            {
+                "keys": [
+                    "Shift + ArrowDown"
+                ],
+                "description": "Decrements the value of the number input by the `largeStep` amount."
+            },
+            {
+                "keys": [
+                    "Alt + ArrowUp"
+                ],
+                "description": "Increments the value of the number input by the `smallStep` amount."
+            },
+            {
+                "keys": [
+                    "Alt + ArrowDown"
+                ],
+                "description": "Decrements the value of the number input by the `smallStep` amount."
+            },
+            {
+                "keys": [
+                    "Home"
+                ],
+                "description": "Sets the value of the number input to its minimum allowed value."
+            },
+            {
+                "keys": [
+                    "End"
+                ],
+                "description": "Sets the value of the number input to its maximum allowed value."
+            },
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "Submits the value entered in the number input."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "focused": {
+                "type": "boolean",
+                "description": "Whether the input is focused."
+            },
+            "invalid": {
+                "type": "boolean",
+                "description": "Whether the input is invalid."
+            },
+            "empty": {
+                "type": "boolean",
+                "description": "Whether the input value is empty."
+            },
+            "value": {
+                "type": "string",
+                "description": "The formatted value of the input."
+            },
+            "valueAsNumber": {
+                "type": "number",
+                "description": "The value of the input as a number."
+            },
+            "setValue": {
+                "type": "(value: number) => void",
+                "description": "Function to set the value of the input."
+            },
+            "clearValue": {
+                "type": "VoidFunction",
+                "description": "Function to clear the value of the input."
+            },
+            "increment": {
+                "type": "VoidFunction",
+                "description": "Function to increment the value of the input by the step."
+            },
+            "decrement": {
+                "type": "VoidFunction",
+                "description": "Function to decrement the value of the input by the step."
+            },
+            "setToMax": {
+                "type": "VoidFunction",
+                "description": "Function to set the value of the input to the max."
+            },
+            "setToMin": {
+                "type": "VoidFunction",
+                "description": "Function to set the value of the input to the min."
+            },
+            "focus": {
+                "type": "VoidFunction",
+                "description": "Function to focus the input."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the number input. Useful for composition."
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name attribute of the number input. Useful for form submission."
+            },
+            "form": {
+                "type": "string | undefined",
+                "description": "The associate form of the input element."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the number input is disabled."
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the number input is readonly"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the number input value is invalid."
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the number input is required"
+            },
+            "pattern": {
+                "type": "string | undefined",
+                "description": "The pattern used to check the <input> element's value against",
+                "defaultValue": "\"-?[0-9]*(.[0-9]+)?\""
+            },
+            "value": {
+                "type": "string | undefined",
+                "description": "The controlled value of the input"
+            },
+            "defaultValue": {
+                "type": "string | undefined",
+                "description": "The initial value of the input when rendered.\nUse when you don't need to control the value of the input."
+            },
+            "min": {
+                "type": "number | undefined",
+                "description": "The minimum value of the number input",
+                "defaultValue": "Number.MIN_SAFE_INTEGER"
+            },
+            "max": {
+                "type": "number | undefined",
+                "description": "The maximum value of the number input",
+                "defaultValue": "Number.MAX_SAFE_INTEGER"
+            },
+            "step": {
+                "type": "number | undefined",
+                "description": "The amount to increment or decrement the value by",
+                "defaultValue": "1"
+            },
+            "largeStep": {
+                "type": "number | undefined",
+                "description": "The amount to increment or decrement the value by when the `Shift` key is held.",
+                "defaultValue": "10 * step"
+            },
+            "smallStep": {
+                "type": "number | undefined",
+                "description": "The amount to increment or decrement the value by when the `Alt` key is held.",
+                "defaultValue": "step / 10"
+            },
+            "allowMouseWheel": {
+                "type": "boolean | undefined",
+                "description": "Whether to allow mouse wheel to change the value"
+            },
+            "allowOverflow": {
+                "type": "boolean | undefined",
+                "description": "Whether to allow the value overflow the min/max range",
+                "defaultValue": "true"
+            },
+            "clampValueOnBlur": {
+                "type": "boolean | undefined",
+                "description": "Whether to clamp the value when the input loses focus (blur)",
+                "defaultValue": "true"
+            },
+            "focusInputOnChange": {
+                "type": "boolean | undefined",
+                "description": "Whether to focus input when the value changes",
+                "defaultValue": "true"
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+            },
+            "formatOptions": {
+                "type": "Intl.NumberFormatOptions | undefined",
+                "description": "The options to pass to the `Intl.NumberFormat` constructor"
+            },
+            "inputMode": {
+                "type": "InputMode | undefined",
+                "description": "Hints at the type of data that might be entered by the user. It also determines\nthe type of keyboard shown to the user on mobile devices",
+                "defaultValue": "\"decimal\""
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function invoked when the value changes"
+            },
+            "onValueInvalid": {
+                "type": "((details: ValueInvalidDetails) => void) | undefined",
+                "description": "Function invoked when the value overflows or underflows the min/max range"
+            },
+            "onFocusChange": {
+                "type": "((details: FocusChangeDetails) => void) | undefined",
+                "description": "Function invoked when the number input is focused"
+            },
+            "onValueCommit": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function invoked when the value is committed (when the input is blurred or the Enter key is pressed)"
+            },
+            "spinOnPress": {
+                "type": "boolean | undefined",
+                "description": "Whether to spin the value when the increment/decrement button is pressed",
+                "defaultValue": "true"
+            },
+            "locale": {
+                "type": "string | undefined",
+                "description": "The current locale. Based on the BCP 47 definition.",
+                "defaultValue": "\"en-US\""
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "number-input",
+            "data-part": "root",
+            "data-disabled": "Present when disabled",
+            "data-focus": "Present when focused",
+            "data-invalid": "Present when invalid",
+            "data-scrubbing": ""
+        },
+        "Label": {
+            "data-scope": "number-input",
+            "data-part": "label",
+            "data-disabled": "Present when disabled",
+            "data-focus": "Present when focused",
+            "data-invalid": "Present when invalid",
+            "data-required": "Present when required",
+            "data-scrubbing": ""
+        },
+        "Control": {
+            "data-scope": "number-input",
+            "data-part": "control",
+            "data-focus": "Present when focused",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-scrubbing": ""
+        },
+        "ValueText": {
+            "data-scope": "number-input",
+            "data-part": "value-text",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-focus": "Present when focused",
+            "data-scrubbing": ""
+        },
+        "Input": {
+            "data-scope": "number-input",
+            "data-part": "input",
+            "data-invalid": "Present when invalid",
+            "data-disabled": "Present when disabled",
+            "data-scrubbing": ""
+        },
+        "DecrementTrigger": {
+            "data-scope": "number-input",
+            "data-part": "decrement-trigger",
+            "data-disabled": "Present when disabled",
+            "data-scrubbing": ""
+        },
+        "IncrementTrigger": {
+            "data-scope": "number-input",
+            "data-part": "increment-trigger",
+            "data-disabled": "Present when disabled",
+            "data-scrubbing": ""
+        },
+        "Scrubber": {
+            "data-scope": "number-input",
+            "data-part": "scrubber",
+            "data-disabled": "Present when disabled",
+            "data-scrubbing": ""
+        }
+    }
+}

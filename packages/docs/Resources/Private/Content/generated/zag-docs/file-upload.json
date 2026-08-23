@@ -1,0 +1,267 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "dragging": {
+                "type": "boolean",
+                "description": "Whether the user is dragging something over the root element"
+            },
+            "focused": {
+                "type": "boolean",
+                "description": "Whether the user is focused on the dropzone element"
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the file input is disabled"
+            },
+            "readOnly": {
+                "type": "boolean",
+                "description": "Whether the file input is in read-only mode"
+            },
+            "transforming": {
+                "type": "boolean",
+                "description": "Whether files are currently being transformed via `transformFiles`"
+            },
+            "maxFilesReached": {
+                "type": "boolean",
+                "description": "Whether the maximum number of files has been reached"
+            },
+            "remainingFiles": {
+                "type": "number",
+                "description": "The number of files that can still be added"
+            },
+            "openFilePicker": {
+                "type": "VoidFunction",
+                "description": "Function to open the file dialog"
+            },
+            "deleteFile": {
+                "type": "(file: File, type?: ItemType | undefined) => void",
+                "description": "Function to delete the file from the list"
+            },
+            "acceptedFiles": {
+                "type": "File[]",
+                "description": "The accepted files that have been dropped or selected"
+            },
+            "rejectedFiles": {
+                "type": "FileRejection[]",
+                "description": "The files that have been rejected"
+            },
+            "setFiles": {
+                "type": "(files: File[]) => void",
+                "description": "Sets the accepted files"
+            },
+            "clearFiles": {
+                "type": "VoidFunction",
+                "description": "Clears the accepted files"
+            },
+            "clearRejectedFiles": {
+                "type": "VoidFunction",
+                "description": "Clears the rejected files"
+            },
+            "getFileSize": {
+                "type": "(file: File) => string",
+                "description": "Returns the formatted file size (e.g. 1.2MB)"
+            },
+            "createFileUrl": {
+                "type": "(file: File, cb: (url: string) => void) => VoidFunction",
+                "description": "Returns the preview url of a file.\nReturns a function to revoke the url."
+            },
+            "setClipboardFiles": {
+                "type": "(dt: DataTransfer | null) => boolean",
+                "description": "Sets the clipboard files\nReturns `true` if the clipboard data contains files, `false` otherwise."
+            }
+        },
+        "context": {
+            "name": {
+                "type": "string | undefined",
+                "description": "The name of the underlying file input"
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements. Useful for composition."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "The localized messages to use."
+            },
+            "accept": {
+                "type": "Record<string, string[]> | FileMimeType | FileMimeType[] | undefined",
+                "description": "The accept file types"
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the file input is disabled"
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the file input is required"
+            },
+            "allowDrop": {
+                "type": "boolean | undefined",
+                "description": "Whether to allow drag and drop in the dropzone element",
+                "defaultValue": "true"
+            },
+            "maxFileSize": {
+                "type": "number | undefined",
+                "description": "The maximum file size in bytes",
+                "defaultValue": "Infinity"
+            },
+            "minFileSize": {
+                "type": "number | undefined",
+                "description": "The minimum file size in bytes",
+                "defaultValue": "0"
+            },
+            "maxFiles": {
+                "type": "number | undefined",
+                "description": "The maximum number of files",
+                "defaultValue": "1"
+            },
+            "preventDocumentDrop": {
+                "type": "boolean | undefined",
+                "description": "Whether to prevent the drop event on the document",
+                "defaultValue": "true"
+            },
+            "validate": {
+                "type": "((file: File, details: FileValidateDetails) => FileError[] | null) | undefined",
+                "description": "Function to validate a file"
+            },
+            "defaultAcceptedFiles": {
+                "type": "File[] | undefined",
+                "description": "The default accepted files when rendered.\nUse when you don't need to control the accepted files of the input."
+            },
+            "acceptedFiles": {
+                "type": "File[] | undefined",
+                "description": "The controlled accepted files"
+            },
+            "onFileChange": {
+                "type": "((details: FileChangeDetails) => void) | undefined",
+                "description": "Function called when the value changes, whether accepted or rejected"
+            },
+            "onFileAccept": {
+                "type": "((details: FileAcceptDetails) => void) | undefined",
+                "description": "Function called when the file is accepted"
+            },
+            "onFileReject": {
+                "type": "((details: FileRejectDetails) => void) | undefined",
+                "description": "Function called when the file is rejected"
+            },
+            "capture": {
+                "type": "\"user\" | \"environment\" | undefined",
+                "description": "The default camera to use when capturing media"
+            },
+            "directory": {
+                "type": "boolean | undefined",
+                "description": "Whether to accept directories, only works in webkit browsers"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the file input is invalid"
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the file input is read-only"
+            },
+            "transformFiles": {
+                "type": "((files: File[]) => Promise<File[]>) | undefined",
+                "description": "Function to transform the accepted files to apply transformations"
+            },
+            "locale": {
+                "type": "string | undefined",
+                "description": "The current locale. Based on the BCP 47 definition.",
+                "defaultValue": "\"en-US\""
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "file-upload",
+            "data-part": "root",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-dragging": "Present when in the dragging state"
+        },
+        "Dropzone": {
+            "data-scope": "file-upload",
+            "data-part": "dropzone",
+            "data-invalid": "Present when invalid",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-dragging": "Present when in the dragging state"
+        },
+        "Trigger": {
+            "data-scope": "file-upload",
+            "data-part": "trigger",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid"
+        },
+        "ItemGroup": {
+            "data-scope": "file-upload",
+            "data-part": "item-group",
+            "data-disabled": "Present when disabled",
+            "data-type": "The type of the item"
+        },
+        "Item": {
+            "data-scope": "file-upload",
+            "data-part": "item",
+            "data-disabled": "Present when disabled",
+            "data-type": "The type of the item"
+        },
+        "ItemName": {
+            "data-scope": "file-upload",
+            "data-part": "item-name",
+            "data-disabled": "Present when disabled",
+            "data-type": "The type of the item"
+        },
+        "ItemSizeText": {
+            "data-scope": "file-upload",
+            "data-part": "item-size-text",
+            "data-disabled": "Present when disabled",
+            "data-type": "The type of the item"
+        },
+        "ItemPreview": {
+            "data-scope": "file-upload",
+            "data-part": "item-preview",
+            "data-disabled": "Present when disabled",
+            "data-type": "The type of the item"
+        },
+        "ItemPreviewImage": {
+            "data-scope": "file-upload",
+            "data-part": "item-preview-image",
+            "data-disabled": "Present when disabled",
+            "data-type": "The type of the item"
+        },
+        "ItemDeleteTrigger": {
+            "data-scope": "file-upload",
+            "data-part": "item-delete-trigger",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-type": "The type of the item"
+        },
+        "Label": {
+            "data-scope": "file-upload",
+            "data-part": "label",
+            "data-disabled": "Present when disabled",
+            "data-required": "Present when required"
+        },
+        "ClearTrigger": {
+            "data-scope": "file-upload",
+            "data-part": "clear-trigger",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only"
+        }
+    }
+}

@@ -1,0 +1,90 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "copied": {
+                "type": "boolean",
+                "description": "Whether the value has been copied to the clipboard"
+            },
+            "value": {
+                "type": "string",
+                "description": "The value to be copied to the clipboard"
+            },
+            "setValue": {
+                "type": "(value: string) => void",
+                "description": "Set the value to be copied to the clipboard"
+            },
+            "copy": {
+                "type": "VoidFunction",
+                "description": "Copy the value to the clipboard"
+            }
+        },
+        "context": {
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the clipboard. Useful for composition."
+            },
+            "value": {
+                "type": "string | undefined",
+                "description": "The controlled value of the clipboard"
+            },
+            "defaultValue": {
+                "type": "string | undefined",
+                "description": "The initial value to be copied to the clipboard when rendered.\nUse when you don't need to control the value of the clipboard."
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "The function to be called when the value changes"
+            },
+            "onStatusChange": {
+                "type": "((details: CopyStatusDetails) => void) | undefined",
+                "description": "The function to be called when the value is copied to the clipboard"
+            },
+            "timeout": {
+                "type": "number | undefined",
+                "description": "The timeout for the copy operation",
+                "defaultValue": "3000"
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "clipboard",
+            "data-part": "root",
+            "data-copied": "Present when copied state is true"
+        },
+        "Label": {
+            "data-scope": "clipboard",
+            "data-part": "label",
+            "data-copied": "Present when copied state is true"
+        },
+        "Control": {
+            "data-scope": "clipboard",
+            "data-part": "control",
+            "data-copied": "Present when copied state is true"
+        },
+        "Input": {
+            "data-scope": "clipboard",
+            "data-part": "input",
+            "data-copied": "Present when copied state is true",
+            "data-readonly": "Present when read-only"
+        },
+        "Trigger": {
+            "data-scope": "clipboard",
+            "data-part": "trigger",
+            "data-copied": "Present when copied state is true"
+        }
+    }
+}

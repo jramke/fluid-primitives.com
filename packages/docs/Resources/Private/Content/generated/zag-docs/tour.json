@@ -1,0 +1,242 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "Moves to the next step in the tour."
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "Moves to the previous step in the tour."
+            },
+            {
+                "keys": [
+                    "Esc"
+                ],
+                "description": "Closes the tour."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "open": {
+                "type": "boolean",
+                "description": "Whether the tour is open"
+            },
+            "totalSteps": {
+                "type": "number",
+                "description": "The total number of steps"
+            },
+            "stepIndex": {
+                "type": "number",
+                "description": "The index of the current step"
+            },
+            "step": {
+                "type": "StepDetails | null",
+                "description": "The current step details"
+            },
+            "hasNextStep": {
+                "type": "boolean",
+                "description": "Whether there is a next step"
+            },
+            "hasPrevStep": {
+                "type": "boolean",
+                "description": "Whether there is a previous step"
+            },
+            "firstStep": {
+                "type": "boolean",
+                "description": "Whether the current step is the first step"
+            },
+            "lastStep": {
+                "type": "boolean",
+                "description": "Whether the current step is the last step"
+            },
+            "addStep": {
+                "type": "(step: StepDetails) => void",
+                "description": "Add a new step to the tour"
+            },
+            "removeStep": {
+                "type": "(id: string) => void",
+                "description": "Remove a step from the tour"
+            },
+            "updateStep": {
+                "type": "(id: string, stepOverrides: Partial<StepDetails>) => void",
+                "description": "Update a step in the tour with partial details"
+            },
+            "setSteps": {
+                "type": "(steps: StepDetails[]) => void",
+                "description": "Set the steps of the tour"
+            },
+            "setStep": {
+                "type": "(id: string) => void",
+                "description": "Set the current step of the tour"
+            },
+            "start": {
+                "type": "(id?: string) => void",
+                "description": "Start the tour at a specific step (or the first step if not provided)"
+            },
+            "isValidStep": {
+                "type": "(id: string) => boolean",
+                "description": "Check if a step is valid"
+            },
+            "isCurrentStep": {
+                "type": "(id: string) => boolean",
+                "description": "Check if a step is visible"
+            },
+            "next": {
+                "type": "VoidFunction",
+                "description": "Move to the next step"
+            },
+            "prev": {
+                "type": "VoidFunction",
+                "description": "Move to the previous step"
+            },
+            "getProgressText": {
+                "type": "() => string",
+                "description": "Returns the progress text"
+            },
+            "getProgressPercent": {
+                "type": "() => number",
+                "description": "Returns the progress percent"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the tour. Useful for composition."
+            },
+            "steps": {
+                "type": "StepDetails[] | undefined",
+                "description": "The steps of the tour"
+            },
+            "stepId": {
+                "type": "string | null | undefined",
+                "description": "The id of the currently highlighted step"
+            },
+            "onStepChange": {
+                "type": "((details: StepChangeDetails) => void) | undefined",
+                "description": "Callback when the highlighted step changes"
+            },
+            "onStepsChange": {
+                "type": "((details: StepsChangeDetails) => void) | undefined",
+                "description": "Callback when the steps change"
+            },
+            "onStatusChange": {
+                "type": "((details: StatusChangeDetails) => void) | undefined",
+                "description": "Callback when the tour is opened or closed"
+            },
+            "closeOnInteractOutside": {
+                "type": "boolean | undefined",
+                "description": "Whether to close the tour when the user clicks outside the tour",
+                "defaultValue": "true"
+            },
+            "closeOnEscape": {
+                "type": "boolean | undefined",
+                "description": "Whether to close the tour when the user presses the escape key",
+                "defaultValue": "true"
+            },
+            "keyboardNavigation": {
+                "type": "boolean | undefined",
+                "description": "Whether to allow keyboard navigation (right/left arrow keys to navigate between steps)",
+                "defaultValue": "true"
+            },
+            "preventInteraction": {
+                "type": "boolean | undefined",
+                "description": "Prevents interaction with the rest of the page while the tour is open",
+                "defaultValue": "false"
+            },
+            "spotlightOffset": {
+                "type": "Point | undefined",
+                "description": "The offsets to apply to the spotlight",
+                "defaultValue": "\"{ x: 10, y: 10 }\""
+            },
+            "spotlightRadius": {
+                "type": "number | undefined",
+                "description": "The radius of the spotlight clip path",
+                "defaultValue": "4"
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "The translations for the tour"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            },
+            "onPointerDownOutside": {
+                "type": "((event: PointerDownOutsideEvent) => void) | undefined",
+                "description": "Function called when the pointer is pressed down outside the component"
+            },
+            "onFocusOutside": {
+                "type": "((event: FocusOutsideEvent) => void) | undefined",
+                "description": "Function called when the focus is moved outside the component"
+            },
+            "onInteractOutside": {
+                "type": "((event: InteractOutsideEvent) => void) | undefined",
+                "description": "Function called when an interaction happens outside the component"
+            }
+        }
+    },
+    "dataAttributes": {
+        "Backdrop": {
+            "data-scope": "tour",
+            "data-part": "backdrop",
+            "data-state": "\"open\" | \"closed\"",
+            "data-type": "The type of the item"
+        },
+        "Positioner": {
+            "data-scope": "tour",
+            "data-part": "positioner",
+            "data-type": "The type of the item",
+            "data-placement": "The placement of the positioner",
+            "data-side": "The side of the trigger that the positioner is positioned on"
+        },
+        "Content": {
+            "data-scope": "tour",
+            "data-part": "content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-nested": "popover",
+            "data-has-nested": "popover",
+            "data-type": "The type of the item",
+            "data-placement": "The placement of the content",
+            "data-side": "The side of the trigger that the content is positioned on",
+            "data-step": ""
+        },
+        "Title": {
+            "data-scope": "tour",
+            "data-part": "title",
+            "data-placement": "The placement of the title",
+            "data-side": "The side of the trigger that the title is positioned on"
+        },
+        "Description": {
+            "data-scope": "tour",
+            "data-part": "description",
+            "data-placement": "The placement of the description",
+            "data-side": "The side of the trigger that the description is positioned on"
+        },
+        "CloseTrigger": {
+            "data-scope": "tour",
+            "data-part": "close-trigger",
+            "data-type": "The type of the item"
+        },
+        "ActionTrigger": {
+            "data-scope": "tour",
+            "data-part": "action-trigger",
+            "data-type": "The type of the item",
+            "data-disabled": "Present when disabled"
+        }
+    }
+}

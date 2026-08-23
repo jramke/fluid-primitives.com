@@ -1,0 +1,334 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "<span>Increments the slider based on defined step</span>"
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "<span>Decrements the slider based on defined step</span>"
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "<span>Increases the value by the step amount.</span>"
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "<span>Decreases the value by the step amount.</span>"
+            },
+            {
+                "keys": [
+                    "PageUp"
+                ],
+                "description": "<span>Increases the value by the <code>largeStep</code> amount.</span>"
+            },
+            {
+                "keys": [
+                    "PageDown"
+                ],
+                "description": "<span>Decreases the value by the <code>largeStep</code> amount.</span>"
+            },
+            {
+                "keys": [
+                    "Shift + ArrowUp"
+                ],
+                "description": "<span>Increases the value by the <code>largeStep</code> amount.</span>"
+            },
+            {
+                "keys": [
+                    "Shift + ArrowDown"
+                ],
+                "description": "<span>Decreases the value by the <code>largeStep</code> amount.</span>"
+            },
+            {
+                "keys": [
+                    "Home"
+                ],
+                "description": "Sets the value to its minimum."
+            },
+            {
+                "keys": [
+                    "End"
+                ],
+                "description": "Sets the value to its maximum."
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "value": {
+                "type": "number[]",
+                "description": "The value of the slider."
+            },
+            "dragging": {
+                "type": "boolean",
+                "description": "Whether the slider is being dragged."
+            },
+            "focused": {
+                "type": "boolean",
+                "description": "Whether the slider is focused."
+            },
+            "setValue": {
+                "type": "(value: number[]) => void",
+                "description": "Function to set the value of the slider."
+            },
+            "getThumbValue": {
+                "type": "(index: number) => number",
+                "description": "Returns the value of the thumb at the given index."
+            },
+            "setThumbValue": {
+                "type": "(index: number, value: number) => void",
+                "description": "Sets the value of the thumb at the given index."
+            },
+            "getValuePercent": {
+                "type": "(value: number) => number",
+                "description": "Returns the percent of the thumb at the given index."
+            },
+            "getPercentValue": {
+                "type": "(percent: number) => number",
+                "description": "Returns the value of the thumb at the given percent."
+            },
+            "getThumbPercent": {
+                "type": "(index: number) => number",
+                "description": "Returns the percent of the thumb at the given index."
+            },
+            "setThumbPercent": {
+                "type": "(index: number, percent: number) => void",
+                "description": "Sets the percent of the thumb at the given index."
+            },
+            "getThumbMin": {
+                "type": "(index: number) => number",
+                "description": "Returns the min value of the thumb at the given index."
+            },
+            "getThumbMax": {
+                "type": "(index: number) => number",
+                "description": "Returns the max value of the thumb at the given index."
+            },
+            "increment": {
+                "type": "(index: number) => void",
+                "description": "Function to increment the value of the slider at the given index."
+            },
+            "decrement": {
+                "type": "(index: number) => void",
+                "description": "Function to decrement the value of the slider at the given index."
+            },
+            "focus": {
+                "type": "VoidFunction",
+                "description": "Function to focus the slider. This focuses the first thumb."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the slider. Useful for composition."
+            },
+            "aria-label": {
+                "type": "string[] | undefined",
+                "description": "The aria-label of each slider thumb. Useful for providing an accessible name to the slider"
+            },
+            "aria-labelledby": {
+                "type": "string[] | undefined",
+                "description": "The `id` of the elements that labels each slider thumb. Useful for providing an accessible name to the slider"
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name associated with each slider thumb (when used in a form)"
+            },
+            "form": {
+                "type": "string | undefined",
+                "description": "The associate form of the underlying input element."
+            },
+            "value": {
+                "type": "number[] | undefined",
+                "description": "The controlled value of the slider"
+            },
+            "defaultValue": {
+                "type": "number[] | undefined",
+                "description": "The initial value of the slider when rendered.\nUse when you don't need to control the value of the slider."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the slider is disabled"
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the slider is read-only"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the slider is invalid"
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function invoked when the value of the slider changes"
+            },
+            "onValueChangeEnd": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Function invoked when the slider value change is done"
+            },
+            "onFocusChange": {
+                "type": "((details: FocusChangeDetails) => void) | undefined",
+                "description": "Function invoked when the slider's focused index changes"
+            },
+            "getAriaValueText": {
+                "type": "((details: ValueTextDetails) => string) | undefined",
+                "description": "Function that returns a human readable value for the slider thumb"
+            },
+            "min": {
+                "type": "number | undefined",
+                "description": "The minimum value of the slider",
+                "defaultValue": "0"
+            },
+            "max": {
+                "type": "number | undefined",
+                "description": "The maximum value of the slider",
+                "defaultValue": "100"
+            },
+            "step": {
+                "type": "number | undefined",
+                "description": "The step value of the slider",
+                "defaultValue": "1"
+            },
+            "largeStep": {
+                "type": "number | undefined",
+                "description": "The step value of the slider when the `Shift` key is held, or the\n`PageUp`/`PageDown` keys are used.",
+                "defaultValue": "10 * step"
+            },
+            "minStepsBetweenThumbs": {
+                "type": "number | undefined",
+                "description": "The minimum permitted steps between multiple thumbs.\n\n`minStepsBetweenThumbs` * `step` should reflect the gap between the thumbs.\n\n- `step: 1` and `minStepsBetweenThumbs: 10` => gap is `10`\n- `step: 10` and `minStepsBetweenThumbs: 2` => gap is `20`",
+                "defaultValue": "0"
+            },
+            "orientation": {
+                "type": "\"vertical\" | \"horizontal\" | undefined",
+                "description": "The orientation of the slider",
+                "defaultValue": "\"horizontal\""
+            },
+            "origin": {
+                "type": "\"start\" | \"center\" | \"end\" | undefined",
+                "description": "The origin of the slider range. The track is filled from the origin\nto the thumb for single values.\n- \"start\": Useful when the value represents an absolute value\n- \"center\": Useful when the value represents an offset (relative)\n- \"end\": Useful when the value represents an offset from the end",
+                "defaultValue": "\"start\""
+            },
+            "thumbAlignment": {
+                "type": "\"contain\" | \"center\" | undefined",
+                "description": "The alignment of the slider thumb relative to the track\n- `center`: the thumb will extend beyond the bounds of the slider track.\n- `contain`: the thumb will be contained within the bounds of the track.",
+                "defaultValue": "\"contain\""
+            },
+            "thumbSize": {
+                "type": "{ width: number; height: number } | undefined",
+                "description": "The slider thumbs dimensions"
+            },
+            "thumbCollisionBehavior": {
+                "type": "\"none\" | \"push\" | \"swap\" | undefined",
+                "description": "Controls how thumbs behave when they collide during pointer interactions.\n- `none` (default): Thumbs cannot move past each other; excess movement is ignored.\n- `push`: Thumbs push each other without restoring their previous positions when dragged back.\n- `swap`: Thumbs swap places when dragged past each other.",
+                "defaultValue": "\"none\""
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Label": {
+            "data-scope": "slider",
+            "data-part": "label",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the label",
+            "data-invalid": "Present when invalid",
+            "data-dragging": "Present when in the dragging state",
+            "data-focus": "Present when focused"
+        },
+        "Root": {
+            "data-scope": "slider",
+            "data-part": "root",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the slider",
+            "data-dragging": "Present when in the dragging state",
+            "data-invalid": "Present when invalid",
+            "data-focus": "Present when focused"
+        },
+        "ValueText": {
+            "data-scope": "slider",
+            "data-part": "value-text",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the valuetext",
+            "data-invalid": "Present when invalid",
+            "data-focus": "Present when focused"
+        },
+        "Track": {
+            "data-scope": "slider",
+            "data-part": "track",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-dragging": "Present when in the dragging state",
+            "data-orientation": "The orientation of the track",
+            "data-focus": "Present when focused"
+        },
+        "Thumb": {
+            "data-scope": "slider",
+            "data-part": "thumb",
+            "data-index": "The index of the item",
+            "data-name": "",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the thumb",
+            "data-focus": "Present when focused",
+            "data-dragging": "Present when in the dragging state"
+        },
+        "Range": {
+            "data-scope": "slider",
+            "data-part": "range",
+            "data-dragging": "Present when in the dragging state",
+            "data-focus": "Present when focused",
+            "data-invalid": "Present when invalid",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the range"
+        },
+        "Control": {
+            "data-scope": "slider",
+            "data-part": "control",
+            "data-dragging": "Present when in the dragging state",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the control",
+            "data-invalid": "Present when invalid",
+            "data-focus": "Present when focused"
+        },
+        "MarkerGroup": {
+            "data-scope": "slider",
+            "data-part": "marker-group",
+            "data-orientation": "The orientation of the markergroup"
+        },
+        "Marker": {
+            "data-scope": "slider",
+            "data-part": "marker",
+            "data-orientation": "The orientation of the marker",
+            "data-value": "The value of the item",
+            "data-disabled": "Present when disabled",
+            "data-state": ""
+        },
+        "DraggingIndicator": {
+            "data-scope": "slider",
+            "data-part": "dragging-indicator",
+            "data-orientation": "The orientation of the draggingindicator",
+            "data-state": "\"open\" | \"closed\""
+        }
+    }
+}

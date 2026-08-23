@@ -1,0 +1,81 @@
+<?php
+
+declare(strict_types=1);
+
+namespace FluidPrimitives\Docs\Utility;
+
+use RuntimeException;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+final class ZagDocsMetadata
+{
+    public const GENERATED_DIRECTORY = 'EXT:docs/Resources/Private/Content/generated/zag-docs';
+    public const SOURCE_DIRECTORY = 'node_modules/@zag-js/docs/data';
+
+    public static function forPrimitive(string $primitive): array
+    {
+        $normalizedPrimitive = self::normalizePrimitiveName($primitive);
+        $generatedFile = self::generatedFileForPrimitive($normalizedPrimitive);
+
+        if (!is_file($generatedFile)) {
+            throw new RuntimeException(sprintf(
+                'Zag docs metadata for "%s" is missing. Run the %s command first to generate it in %s.',
+                $normalizedPrimitive,
+                'docs:generate-zag-docs',
+                self::generatedDirectory(),
+            ));
+        }
+
+        $data = self::readJsonFile($generatedFile);
+        if (!is_array($data) || $data === []) {
+            throw new RuntimeException(sprintf(
+                'Generated Zag docs metadata for "%s" is empty. Run the %s command first.',
+                $normalizedPrimitive,
+                'docs:generate-zag-docs',
+            ));
+        }
+
+        return $data;
+    }
+
+    private static function readJsonFile(string $file): array
+    {
+        if (!is_file($file)) {
+            throw new RuntimeException(sprintf('Zag docs file not found: %s', $file));
+        }
+
+        $contents = file_get_contents($file);
+        if ($contents === false) {
+            throw new RuntimeException(sprintf('Unable to read Zag docs file: %s', $file));
+        }
+
+        $decoded = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+
+        return is_array($decoded) ? $decoded : [];
+    }
+
+    public static function generatedDirectory(): string
+    {
+        return GeneralUtility::getFileAbsFileName(self::GENERATED_DIRECTORY);
+    }
+
+    public static function sourceDirectory(): string
+    {
+        return Environment::getProjectPath() . '/' . self::SOURCE_DIRECTORY;
+    }
+
+    private static function generatedFileForPrimitive(string $primitive): string
+    {
+        return self::generatedDirectory() . '/' . $primitive . '.json';
+    }
+
+    private static function normalizePrimitiveName(string $primitive): string
+    {
+        $normalized = trim((string)$primitive, " \n\r\t/\0\x0B");
+        $normalized = preg_replace('/(?<!^)([A-Z])/', '-$1', $normalized) ?? $normalized;
+        $normalized = str_replace(['_', ' '], '-', $normalized);
+
+        return strtolower($normalized);
+    }
+}

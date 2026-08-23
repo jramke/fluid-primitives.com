@@ -1,0 +1,114 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "empty": {
+                "type": "boolean",
+                "description": "Whether the signature pad is empty."
+            },
+            "drawing": {
+                "type": "boolean",
+                "description": "Whether the user is currently drawing."
+            },
+            "currentPath": {
+                "type": "string | null",
+                "description": "The current path being drawn."
+            },
+            "paths": {
+                "type": "string[]",
+                "description": "The paths of the signature pad."
+            },
+            "getDataUrl": {
+                "type": "(type: DataUrlType, quality?: number) => Promise<string>",
+                "description": "Returns the data URL of the signature pad."
+            },
+            "clear": {
+                "type": "VoidFunction",
+                "description": "Clears the signature pad."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the signature pad elements. Useful for composition."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "The translations of the signature pad. Useful for internationalization."
+            },
+            "onDraw": {
+                "type": "((details: DrawDetails) => void) | undefined",
+                "description": "Callback when the signature pad is drawing or the committed paths change.\n`paths` contains only committed strokes; use `currentPath` for the in-progress stroke."
+            },
+            "onDrawEnd": {
+                "type": "((details: DrawEndDetails) => void) | undefined",
+                "description": "Callback when the signature pad is done drawing."
+            },
+            "drawing": {
+                "type": "DrawingOptions | undefined",
+                "description": "The drawing options.",
+                "defaultValue": "'{ size: 2, simulatePressure: true }'"
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the signature pad is disabled."
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the signature pad is required."
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the signature pad is read-only."
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name of the signature pad. Useful for form submission."
+            },
+            "defaultPaths": {
+                "type": "string[] | undefined",
+                "description": "The default paths of the signature pad.\nUse when you don't need to control the paths of the signature pad."
+            },
+            "paths": {
+                "type": "string[] | undefined",
+                "description": "The controlled paths of the signature pad."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Label": {
+            "data-scope": "signature-pad",
+            "data-part": "label",
+            "data-disabled": "Present when disabled",
+            "data-required": "Present when required"
+        },
+        "Root": {
+            "data-scope": "signature-pad",
+            "data-part": "root",
+            "data-disabled": "Present when disabled"
+        },
+        "Control": {
+            "data-scope": "signature-pad",
+            "data-part": "control",
+            "data-disabled": "Present when disabled"
+        },
+        "Guide": {
+            "data-scope": "signature-pad",
+            "data-part": "guide",
+            "data-disabled": "Present when disabled"
+        }
+    }
+}

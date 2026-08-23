@@ -1,0 +1,161 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "When focus is on the trigger, opens the dialog."
+            },
+            {
+                "keys": [
+                    "Tab"
+                ],
+                "description": "Moves focus to the next focusable element within the content. Focus is trapped within the dialog."
+            },
+            {
+                "keys": [
+                    "Shift + Tab"
+                ],
+                "description": "Moves focus to the previous focusable element. Focus is trapped within the dialog."
+            },
+            {
+                "keys": [
+                    "Esc"
+                ],
+                "description": "Closes the dialog and moves focus to trigger or the defined final focus element"
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "open": {
+                "type": "boolean",
+                "description": "Whether the dialog is open"
+            },
+            "setOpen": {
+                "type": "(open: boolean) => void",
+                "description": "Function to open or close the dialog"
+            },
+            "triggerValue": {
+                "type": "string | null",
+                "description": "The active trigger value"
+            },
+            "setTriggerValue": {
+                "type": "(value: string | null) => void",
+                "description": "Function to set the active trigger value"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the dialog. Useful for composition."
+            },
+            "trapFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to trap focus inside the dialog when it's opened",
+                "defaultValue": "true"
+            },
+            "preventScroll": {
+                "type": "boolean | undefined",
+                "description": "Whether to prevent scrolling behind the dialog when it's opened",
+                "defaultValue": "true"
+            },
+            "modal": {
+                "type": "boolean | undefined",
+                "description": "Whether to prevent pointer interaction outside the element and hide all content below it",
+                "defaultValue": "true"
+            },
+            "initialFocusEl": {
+                "type": "(() => MaybeElement) | undefined",
+                "description": "Element to receive focus when the dialog is opened"
+            },
+            "finalFocusEl": {
+                "type": "(() => MaybeElement) | undefined",
+                "description": "Element to receive focus when the dialog is closed"
+            },
+            "restoreFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to restore focus to the element that had focus before the dialog was opened"
+            },
+            "closeOnInteractOutside": {
+                "type": "boolean | undefined",
+                "description": "Whether to close the dialog when the outside is clicked",
+                "defaultValue": "true"
+            },
+            "closeOnEscape": {
+                "type": "boolean | undefined",
+                "description": "Whether to close the dialog when the escape key is pressed",
+                "defaultValue": "true"
+            },
+            "aria-label": {
+                "type": "string | undefined",
+                "description": "Human readable label for the dialog, in event the dialog title is not rendered"
+            },
+            "role": {
+                "type": "\"dialog\" | \"alertdialog\" | undefined",
+                "description": "The dialog's role",
+                "defaultValue": "\"dialog\""
+            },
+            "open": {
+                "type": "boolean | undefined",
+                "description": "The controlled open state of the dialog"
+            },
+            "defaultOpen": {
+                "type": "boolean | undefined",
+                "description": "The initial open state of the dialog when rendered.\nUse when you don't need to control the open state of the dialog.",
+                "defaultValue": "false"
+            },
+            "onOpenChange": {
+                "type": "((details: OpenChangeDetails) => void) | undefined",
+                "description": "Function to call when the dialog's open state changes"
+            },
+            "triggerValue": {
+                "type": "string | null | undefined",
+                "description": "The controlled active trigger value"
+            },
+            "defaultTriggerValue": {
+                "type": "string | null | undefined",
+                "description": "The initial active trigger value when rendered.\nUse when you don't need to control the active trigger value."
+            },
+            "onTriggerValueChange": {
+                "type": "((details: TriggerValueChangeDetails) => void) | undefined",
+                "description": "Function to call when the active trigger changes"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Trigger": {
+            "data-scope": "dialog",
+            "data-part": "trigger",
+            "data-value": "The value of the item",
+            "data-state": "\"open\" | \"closed\"",
+            "data-current": "Present when current"
+        },
+        "Backdrop": {
+            "data-scope": "dialog",
+            "data-part": "backdrop",
+            "data-state": "\"open\" | \"closed\""
+        },
+        "Content": {
+            "data-scope": "dialog",
+            "data-part": "content",
+            "data-state": "\"open\" | \"closed\"",
+            "data-nested": "dialog",
+            "data-has-nested": "dialog"
+        }
+    }
+}

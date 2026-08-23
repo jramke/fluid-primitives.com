@@ -1,0 +1,50 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "Space"
+                ],
+                "description": "Opens/closes the nested menu."
+            },
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "Opens/closes the nested menu."
+            },
+            {
+                "keys": [
+                    "ArrowDown"
+                ],
+                "description": "Moves focus to the next item."
+            },
+            {
+                "keys": [
+                    "ArrowUp"
+                ],
+                "description": "Moves focus to the previous item."
+            },
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "Opens the nested menu."
+            },
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "Closes the nested menu."
+            },
+            {
+                "keys": [
+                    "Esc"
+                ],
+                "description": "Closes the nested menu and moves focus to the parent menu item."
+            }
+        ]
+    },
+    "api": [],
+    "dataAttributes": []
+}

@@ -1,0 +1,311 @@
+{
+    "accessibility": {
+        "keyboard": [
+            {
+                "keys": [
+                    "ArrowLeft"
+                ],
+                "description": "Moves focus to the previous tag item"
+            },
+            {
+                "keys": [
+                    "ArrowRight"
+                ],
+                "description": "Moves focus to the next tag item"
+            },
+            {
+                "keys": [
+                    "Backspace"
+                ],
+                "description": "Deletes the tag item that has visual focus or the last tag item"
+            },
+            {
+                "keys": [
+                    "Enter"
+                ],
+                "description": "<span>When a tag item has visual focus, it puts the tag in edit mode.<br />When the input has focus, it adds the value to the list of tags</span>"
+            },
+            {
+                "keys": [
+                    "Delete"
+                ],
+                "description": "Deletes the tag item that has visual focus"
+            },
+            {
+                "keys": [
+                    "Control + V"
+                ],
+                "description": "When `addOnPaste` is set. Adds the pasted value as a tags"
+            }
+        ]
+    },
+    "api": {
+        "api": {
+            "empty": {
+                "type": "boolean",
+                "description": "Whether the tags are empty"
+            },
+            "inputValue": {
+                "type": "string",
+                "description": "The value of the tags entry input."
+            },
+            "value": {
+                "type": "string[]",
+                "description": "The value of the tags as an array of strings."
+            },
+            "valueAsString": {
+                "type": "string",
+                "description": "The value of the tags as a string."
+            },
+            "count": {
+                "type": "number",
+                "description": "The number of the tags."
+            },
+            "atMax": {
+                "type": "boolean",
+                "description": "Whether the tags have reached the max limit."
+            },
+            "setValue": {
+                "type": "(value: string[]) => void",
+                "description": "Function to set the value of the tags."
+            },
+            "clearValue": {
+                "type": "(id?: string) => void",
+                "description": "Function to clear the value of the tags."
+            },
+            "addValue": {
+                "type": "(value: string) => void",
+                "description": "Function to add a tag to the tags."
+            },
+            "setValueAtIndex": {
+                "type": "(index: number, value: string) => void",
+                "description": "Function to set the value of a tag at the given index."
+            },
+            "setInputValue": {
+                "type": "(value: string) => void",
+                "description": "Function to set the value of the tags entry input."
+            },
+            "clearInputValue": {
+                "type": "VoidFunction",
+                "description": "Function to clear the value of the tags entry input."
+            },
+            "focus": {
+                "type": "VoidFunction",
+                "description": "Function to focus the tags entry input."
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of a tag"
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the tags input. Useful for composition."
+            },
+            "translations": {
+                "type": "IntlTranslations | undefined",
+                "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+            },
+            "maxLength": {
+                "type": "number | undefined",
+                "description": "The max length of the input."
+            },
+            "delimiter": {
+                "type": "string | RegExp | undefined",
+                "description": "The character that serves has:\n- event key to trigger the addition of a new tag\n- character used to split tags when pasting into the input",
+                "defaultValue": "\",\""
+            },
+            "autoFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether the input should be auto-focused"
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the tags input should be disabled"
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the tags input should be read-only"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the tags input is invalid"
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the tags input is required"
+            },
+            "editable": {
+                "type": "boolean | undefined",
+                "description": "Whether a tag can be edited after creation, by pressing `Enter` or double clicking.",
+                "defaultValue": "true"
+            },
+            "inputValue": {
+                "type": "string | undefined",
+                "description": "The controlled tag input's value"
+            },
+            "defaultInputValue": {
+                "type": "string | undefined",
+                "description": "The initial tag input value when rendered.\nUse when you don't need to control the tag input value."
+            },
+            "value": {
+                "type": "string[] | undefined",
+                "description": "The controlled tag value"
+            },
+            "defaultValue": {
+                "type": "string[] | undefined",
+                "description": "The initial tag value when rendered.\nUse when you don't need to control the tag value."
+            },
+            "onValueChange": {
+                "type": "((details: ValueChangeDetails) => void) | undefined",
+                "description": "Callback fired when the tag values is updated"
+            },
+            "onInputValueChange": {
+                "type": "((details: InputValueChangeDetails) => void) | undefined",
+                "description": "Callback fired when the input value is updated"
+            },
+            "onHighlightChange": {
+                "type": "((details: HighlightChangeDetails) => void) | undefined",
+                "description": "Callback fired when a tag is highlighted by pointer or keyboard navigation"
+            },
+            "onValueInvalid": {
+                "type": "((details: ValidityChangeDetails) => void) | undefined",
+                "description": "Callback fired when the max tag count is reached or the `validateTag` function returns `false`"
+            },
+            "validate": {
+                "type": "((details: ValidateArgs) => boolean) | undefined",
+                "description": "Returns a boolean that determines whether a tag can be added.\nUseful for preventing duplicates or invalid tag values."
+            },
+            "allowDuplicates": {
+                "type": "boolean | undefined",
+                "description": "Whether to allow duplicate tags.",
+                "defaultValue": "false"
+            },
+            "blurBehavior": {
+                "type": "\"clear\" | \"add\" | undefined",
+                "description": "The behavior of the tags input when the input is blurred\n- `\"add\"`: add the input value as a new tag\n- `\"clear\"`: clear the input value"
+            },
+            "addOnPaste": {
+                "type": "boolean | undefined",
+                "description": "Whether to add a tag when you paste values into the tag input",
+                "defaultValue": "false"
+            },
+            "max": {
+                "type": "number | undefined",
+                "description": "The max number of tags",
+                "defaultValue": "Infinity"
+            },
+            "allowOverflow": {
+                "type": "boolean | undefined",
+                "description": "Whether to allow tags to exceed max. In this case,\nwe'll attach `data-invalid` to the root"
+            },
+            "sanitizeValue": {
+                "type": "((value: string) => string) | undefined",
+                "description": "Function to sanitize the tag value before adding.\nUseful for trimming whitespace, normalizing case, or stripping special characters.",
+                "defaultValue": "(value) => value.trim()"
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name attribute for the input. Useful for form submissions"
+            },
+            "form": {
+                "type": "string | undefined",
+                "description": "The associate form of the underlying input element."
+            },
+            "placeholder": {
+                "type": "string | undefined",
+                "description": "The placeholder text for the input"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            },
+            "onPointerDownOutside": {
+                "type": "((event: PointerDownOutsideEvent) => void) | undefined",
+                "description": "Function called when the pointer is pressed down outside the component"
+            },
+            "onFocusOutside": {
+                "type": "((event: FocusOutsideEvent) => void) | undefined",
+                "description": "Function called when the focus is moved outside the component"
+            },
+            "onInteractOutside": {
+                "type": "((event: InteractOutsideEvent) => void) | undefined",
+                "description": "Function called when an interaction happens outside the component"
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-scope": "tags-input",
+            "data-part": "root",
+            "data-invalid": "Present when invalid",
+            "data-readonly": "Present when read-only",
+            "data-disabled": "Present when disabled",
+            "data-focus": "Present when focused",
+            "data-empty": "Present when the content is empty"
+        },
+        "Label": {
+            "data-scope": "tags-input",
+            "data-part": "label",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
+            "data-readonly": "Present when read-only",
+            "data-required": "Present when required"
+        },
+        "Control": {
+            "data-scope": "tags-input",
+            "data-part": "control",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
+            "data-focus": "Present when focused"
+        },
+        "Input": {
+            "data-scope": "tags-input",
+            "data-part": "input",
+            "data-invalid": "Present when invalid",
+            "data-readonly": "Present when read-only",
+            "data-empty": "Present when the content is empty"
+        },
+        "Item": {
+            "data-scope": "tags-input",
+            "data-part": "item",
+            "data-value": "The value of the item",
+            "data-disabled": "Present when disabled"
+        },
+        "ItemPreview": {
+            "data-scope": "tags-input",
+            "data-part": "item-preview",
+            "data-value": "The value of the item",
+            "data-disabled": "Present when disabled",
+            "data-highlighted": "Present when highlighted"
+        },
+        "ItemText": {
+            "data-scope": "tags-input",
+            "data-part": "item-text",
+            "data-disabled": "Present when disabled",
+            "data-highlighted": "Present when highlighted"
+        },
+        "ItemDeleteTrigger": {
+            "data-scope": "tags-input",
+            "data-part": "item-delete-trigger",
+            "data-disabled": "Present when disabled",
+            "data-highlighted": "Present when highlighted"
+        },
+        "ClearTrigger": {
+            "data-scope": "tags-input",
+            "data-part": "clear-trigger",
+            "data-readonly": "Present when read-only"
+        }
+    }
+}
