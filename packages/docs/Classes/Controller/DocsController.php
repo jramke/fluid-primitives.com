@@ -23,6 +23,12 @@ final class DocsController extends ActionController
 {
     use AjaxValidationTrait;
 
+    private const MAIN_LINKS = [
+        ['label' => 'The Pitch', 'href' => '/the-pitch'],
+        ['label' => 'Documentation', 'href' => '/docs'],
+        ['label' => 'GitHub', 'href' => '/github', 'external' => true],
+    ];
+
     public function __construct(
         private readonly NavigationBuilder $navigationBuilder,
         private readonly RenderingContextFactory $renderingContextFactory,
@@ -31,6 +37,8 @@ final class DocsController extends ActionController
 
     public function showAction(string $path = ''): ResponseInterface
     {
+        $this->view->assign('mainLinks', self::MAIN_LINKS);
+
         if ($path === '') {
             $this->view->assign('layout', 'home');
             $this->pageTitleProvider->setTitle('Fluid Primitives – The headless component library for TYPO3 Fluid');

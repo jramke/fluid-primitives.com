@@ -1,5 +1,6 @@
 <ui:prop name="nav" type="array" />
 <ui:prop name="path" type="string" />
+<ui:prop name="mainLinks" type="array" />
 
 <div class="isolate z-100 relative">
     <aside class="border-r border-dashed fixed top-0 h-screen md:w-[250px] z-2">
@@ -61,10 +62,13 @@
                 </div>
             </button> -->
         </f:comment>
-        <a href="/github" class="hidden md:block absolute right-[calc((var(--spacing)*6)+var(--scrollbar-width,0px))] top-1/2 -translate-y-1/2" target="_blank" rel="noreferrer">
-            <span class="sr-only">GitHub</span>
-            <ui:icon.github class="size-5" />
-        </a>
+        <div class="hidden md:block absolute right-[calc((var(--spacing)*8)+var(--scrollbar-width,0px))] top-1/2 -translate-y-1/2">
+            <f:for each="{mainLinks}" as="link" iteration="i">
+                <a href="{link.href}" class="text-sm" {f:if(condition: '{link.external}', then: 'target="_blank" rel="noopener noreferrer"')}>
+                    <span class="{f:if(condition: '{f:startsWith(search: link.href, subject: path)}', then: 'font-semibold', else: 'font-normal')} inline-flex border-box after:content-[attr(data-text)] after:font-black after:pointer-none after:overflow-hidden after:select-none after:invisible after:h-0 transition-all hover:font-semibold flex-col items-center ease-out" data-text="{link.label}">{link.label}</span>
+                </a>
+            </f:for>
+        </div>
         <div class="md:hidden flex px-4 w-full items-center justify-between" {ui:ref(name: 'mainnav' )}>
             <f:render section="mainlink" arguments="{class: '**:[span]:sr-only'}" />
             <primitives:dialog.root controlled="{true}" rootId="nav-drawer-{rootId}">
