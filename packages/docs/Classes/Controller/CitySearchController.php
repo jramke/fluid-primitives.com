@@ -61,6 +61,8 @@ final class CitySearchController extends ActionController
                 $query,
             )));
 
+        // sleep(2);
+
         $response = $this->jsonResponse(json_encode($results))->withStatus(200);
         throw new PropagateResponseException($response, 200);
     }
