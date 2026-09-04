@@ -1,0 +1,42 @@
+<ui:listCollection
+    items="{
+        0: {value: 'amsterdam', label: 'Amsterdam'},
+        1: {value: 'athens', label: 'Athens'},
+        2: {value: 'barcelona', label: 'Barcelona'},
+        3: {value: 'berlin', label: 'Berlin'},
+        4: {value: 'copenhagen', label: 'Copenhagen'},
+        5: {value: 'dublin', label: 'Dublin'},
+        6: {value: 'helsinki', label: 'Helsinki'},
+        7: {value: 'lisbon', label: 'Lisbon'},
+        8: {value: 'madrid', label: 'Madrid'},
+        9: {value: 'oslo', label: 'Oslo'},
+        10: {value: 'paris', label: 'Paris'},
+        11: {value: 'prague', label: 'Prague'},
+        12: {value: 'rome', label: 'Rome'},
+        13: {value: 'stockholm', label: 'Stockholm'},
+        14: {value: 'vienna', label: 'Vienna'},
+        15: {value: 'warsaw', label: 'Warsaw'}
+    }"
+    as="collection" />
+
+<ui:combobox.root collection="{collection}">
+    <ui:combobox.label>Select a city</ui:combobox.label>
+    <ui:combobox.control class="min-w-64">
+        <ui:combobox.input placeholder="Search for cities" />
+        <ui:combobox.clearTrigger />
+        <ui:combobox.trigger>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 opacity-70">
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path>
+            </svg>
+        </ui:combobox.trigger>
+    </ui:combobox.control>
+    <ui:combobox.content>
+        <f:for each="{collection.items}" as="item">
+            <ui:combobox.item item="{item}">
+                <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
+                <ui:combobox.itemIndicator />
+            </ui:combobox.item>
+        </f:for>
+    </ui:combobox.content>
+</ui:combobox.root>

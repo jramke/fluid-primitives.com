@@ -1,0 +1,43 @@
+<ui:listCollection
+    items="{
+        0: {value: 'us', label: 'United States'},
+        1: {value: 'uk', label: 'United Kingdom'},
+        2: {value: 'de', label: 'Germany'},
+        3: {value: 'fr', label: 'France'},
+        4: {value: 'nl', label: 'Netherlands'},
+        5: {value: 'se', label: 'Sweden'},
+        6: {value: 'no', label: 'Norway'},
+        7: {value: 'dk', label: 'Denmark'},
+        8: {value: 'fi', label: 'Finland'},
+        9: {value: 'it', label: 'Italy'},
+        10: {value: 'es', label: 'Spain'},
+        11: {value: 'pt', label: 'Portugal'}
+    }"
+    as="collection" />
+
+<ui:field.root name="country" required="{true}">
+    <ui:combobox.root collection="{collection}">
+        <ui:combobox.label>Country</ui:combobox.label>
+        <ui:field.control>
+            <ui:combobox.control class="min-w-64">
+                <ui:combobox.input placeholder="Search your country" />
+                <ui:combobox.clearTrigger />
+                <ui:combobox.trigger>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 opacity-70">
+                        <path d="m7 15 5 5 5-5"></path>
+                        <path d="m7 9 5-5 5 5"></path>
+                    </svg>
+                </ui:combobox.trigger>
+            </ui:combobox.control>
+        </ui:field.control>
+        <ui:combobox.content>
+            <f:for each="{collection.items}" as="item">
+                <ui:combobox.item item="{item}">
+                    <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
+                    <ui:combobox.itemIndicator />
+                </ui:combobox.item>
+            </f:for>
+        </ui:combobox.content>
+    </ui:combobox.root>
+    <ui:field.error />
+</ui:field.root>

@@ -1,0 +1,37 @@
+<ui:listCollection
+    items="{
+        0: {value: 'amsterdam', label: 'Amsterdam'},
+        1: {value: 'athens', label: 'Athens'},
+        2: {value: 'auckland', label: 'Auckland'},
+        3: {value: 'barcelona', label: 'Barcelona'},
+        4: {value: 'berlin', label: 'Berlin'},
+        5: {value: 'boston', label: 'Boston'},
+        6: {value: 'brisbane', label: 'Brisbane'},
+        7: {value: 'budapest', label: 'Budapest'},
+        8: {value: 'chicago', label: 'Chicago'},
+        9: {value: 'copenhagen', label: 'Copenhagen'}
+    }"
+    as="collection" />
+
+<ui:combobox.root collection="{collection}" filterHook="startsWith">
+    <ui:combobox.label>Starts-with city filter</ui:combobox.label>
+    <ui:combobox.control class="min-w-64">
+        <ui:combobox.input placeholder="Type 'be' or 'co'" />
+        <ui:combobox.clearTrigger />
+        <ui:combobox.trigger>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 opacity-70">
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path>
+            </svg>
+        </ui:combobox.trigger>
+    </ui:combobox.control>
+    <div class="text-muted-foreground text-xs">Uses `filterHook=&quot;startsWith&quot;` registered on `window.FluidPrimitives.hooks.combobox.filters`.</div>
+    <ui:combobox.content>
+        <f:for each="{collection.items}" as="item">
+            <ui:combobox.item item="{item}">
+                <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
+                <ui:combobox.itemIndicator />
+            </ui:combobox.item>
+        </f:for>
+    </ui:combobox.content>
+</ui:combobox.root>

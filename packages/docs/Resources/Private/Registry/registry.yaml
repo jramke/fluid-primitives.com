@@ -37,6 +37,24 @@ clipboard:
     - Indicator.html
     - Clipboard.entry.ts
 
+combobox:
+  name: Combobox
+  description: An input with a popup listbox for filtering and selecting values
+  files:
+    - Root.html
+    - Label.html
+    - Control.html
+    - Input.html
+    - Trigger.html
+    - ClearTrigger.html
+    - Content.html
+    - Item.html
+    - ItemText.html
+    - ItemIndicator.html
+    - ItemGroup.html
+    - ItemGroupLabel.html
+    - Combobox.entry.ts
+
 collapsible:
   name: Collapsible
   description: A collapsible panel controlled by a button
