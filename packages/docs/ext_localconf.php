@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use FluidPrimitives\Docs\Components\ComponentCollection;
+use FluidPrimitives\Docs\Controller\CitySearchController;
 use FluidPrimitives\Docs\Controller\DocsController;
 use FluidPrimitives\Docs\Routing\Aspect\ValidatedPathMapper;
 use TYPO3\CMS\Core\Cache\Backend\FileBackend;
@@ -18,8 +19,11 @@ ExtensionUtility::configurePlugin(
     'Docs',
     [
         DocsController::class => 'show,registration,homepage',
+        CitySearchController::class => 'search',
     ],
-    [],
+    [
+        CitySearchController::class => 'search',
+    ],
 );
 
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ValidatedPathMapper'] = ValidatedPathMapper::class;

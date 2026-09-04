@@ -47,6 +47,6 @@ discriminator and would produce duplicate IDs):
 |------|------|-------------|----------|--------|
 | `name` | string | Name of the ref | No | - |
 | `asArray` | boolean | If true, the ref will be rendered as an array instead of a string of data-attributes | Yes | false |
-| `data` | array | Additional data attributes to include in the ref. Associative array with key-value pairs. Each key is prefixed with "data-". | Yes | [] |
+| `data` | array | Additional data attributes to include in the ref. Associative array with key-value pairs. Each key is prefixed with &quot;data-&quot;. | Yes | [] |
 | `value` | string\|BackedEnum\|UnitEnum\|null\|array | Optional discriminator for multi-instance parts (e.g. accordion items, tab triggers). | Yes | - |
 | `withId` | boolean | Whether to emit the id attribute. Set to false for parts that have no unique discriminator and would produce duplicate IDs. | Yes | true |

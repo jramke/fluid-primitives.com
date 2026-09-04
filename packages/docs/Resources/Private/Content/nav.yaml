@@ -51,4 +51,5 @@
     - docs/viewhelpers/prop
     - docs/viewhelpers/ref
     - docs/viewhelpers/slotFilled
+    - docs/viewhelpers/template
     - docs/viewhelpers/useProps
