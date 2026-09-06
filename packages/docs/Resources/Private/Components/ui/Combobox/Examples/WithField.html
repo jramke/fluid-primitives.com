@@ -18,7 +18,7 @@
 <ui:field.root name="country" required="{true}">
     <ui:combobox.root collection="{collection}">
         <ui:combobox.label>Country</ui:combobox.label>
-        <ui:field.control>
+        <ui:field.control asChild="{true}">
             <ui:combobox.control class="min-w-64">
                 <ui:combobox.input placeholder="Search your country" />
                 <ui:combobox.clearTrigger />
@@ -39,5 +39,6 @@
             </f:for>
         </ui:combobox.content>
     </ui:combobox.root>
+    <ui:field.description>This description comes from the field primitive.</ui:field.description>
     <ui:field.error />
 </ui:field.root>

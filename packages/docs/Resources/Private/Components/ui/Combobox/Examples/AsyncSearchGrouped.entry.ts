@@ -30,14 +30,26 @@ const STATUS_TEXT: Record<Exclude<SearchStatus, 'results'>, string> = {
     idle: 'Start typing to search…',
 };
 
-function getSearchStatus(
-    api: AsyncListApi<CityResult, unknown>,
-    hasResults: boolean
-): SearchStatus {
-    if (hasResults) return 'results';
-    if (api.loading) return 'loading';
-    if (api.error) return 'error';
-    return api.filterText.trim() ? 'empty' : 'idle';
+// The group/item list is folded into the same value the status placeholder is driven by, rather
+// than updated separately and immediately from the raw subscribe callback - otherwise the old
+// groups would be removed the instant a new search starts (api.loading flips true) while the
+// "Searching…" placeholder stays hidden for its own showDelayMs, leaving a visible gap with
+// nothing rendered in between. Routing both through one DelayedIndicator means the old groups
+// only ever disappear at the exact moment something else is ready to take their place - fresh
+// results immediately, or the placeholder once it's actually shown.
+type SearchState =
+    | { status: 'loading' }
+    | { status: 'error' }
+    | { status: 'empty' }
+    | { status: 'idle' }
+    | { status: 'results'; items: CityResult[] };
+
+function getSearchState(api: AsyncListApi<CityResult, unknown>): SearchState {
+    const hasResults = !api.loading && !api.error && !api.empty;
+    if (hasResults) return { status: 'results', items: api.items };
+    if (api.loading) return { status: 'loading' };
+    if (api.error) return { status: 'error' };
+    return api.filterText.trim() ? { status: 'empty' } : { status: 'idle' };
 }
 
 mountControlled('combobox', 'async-search-grouped', ({ props, controlled }) => {
@@ -86,28 +98,27 @@ mountControlled('combobox', 'async-search-grouped', ({ props, controlled }) => {
         combobox.updateProps({ collection });
     }
 
-    // Shown instead of the item list, mirroring the ark-ui async-list example: loading and error
-    // take priority over stale results (async-list keeps the previous `items` around during a
-    // refetch, so without this the old list and a "Searching…" message would show at once).
-    // Driven only through the DelayedIndicator below, so the spinner and the text can never
-    // disagree - a fast search never flashes either, and a slow one shows both together.
-    function renderStatus(status: SearchStatus) {
-        const contentEl = combobox.getElement<HTMLElement>('content');
-        const statusEl = contentEl?.querySelector<HTMLElement>('[data-status]');
-        const spinnerEl = contentEl?.querySelector<HTMLElement>('[data-status-spinner]');
-        const textEl = contentEl?.querySelector<HTMLElement>('[data-status-text]');
-        if (!statusEl || !spinnerEl || !textEl) return;
+    // Renders both the group/item list and the status placeholder from one incoming state, so
+    // the two are always in sync - old groups and the old status text/spinner only ever change
+    // together, at the moment DelayedIndicator decides something new is actually ready to be shown.
+    const searchState = new DelayedIndicator<SearchState>({
+        isTransient: s => s.status === 'loading',
+        onChange: state => {
+            const contentEl = combobox.getElement<HTMLElement>('content');
+            const statusEl = contentEl?.querySelector<HTMLElement>('[data-status]');
+            const spinnerEl = contentEl?.querySelector<HTMLElement>('[data-status-spinner]');
+            const textEl = contentEl?.querySelector<HTMLElement>('[data-status-text]');
+            if (!statusEl || !spinnerEl || !textEl) return;
 
-        statusEl.toggleAttribute('hidden', status === 'results');
-        if (status === 'results') return;
+            const hasResults = state.status === 'results';
+            updateItems(hasResults ? state.items : []);
 
-        spinnerEl.toggleAttribute('hidden', status !== 'loading');
-        textEl.textContent = STATUS_TEXT[status];
-    }
+            statusEl.toggleAttribute('hidden', hasResults);
+            if (hasResults) return;
 
-    const status = new DelayedIndicator<SearchStatus>({
-        isTransient: s => s === 'loading',
-        onChange: renderStatus,
+            spinnerEl.toggleAttribute('hidden', state.status !== 'loading');
+            textEl.textContent = STATUS_TEXT[state.status];
+        },
     });
 
     const list = new AsyncList<CityResult>({
@@ -127,9 +138,7 @@ mountControlled('combobox', 'async-search-grouped', ({ props, controlled }) => {
     });
 
     list.subscribe(api => {
-        const hasResults = !api.loading && !api.error && !api.empty;
-        updateItems(hasResults ? api.items : []);
-        status.set(getSearchStatus(api, hasResults));
+        searchState.set(getSearchState(api));
     });
 
     // Debounced here rather than inside AsyncList itself - a plain wrap of setFilterText, the

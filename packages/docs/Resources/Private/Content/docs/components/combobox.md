@@ -28,12 +28,6 @@ Set an initial selected value and render its label into the input on first paint
 
 {% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.defaultValue" } %}
 
-### Multiple Selection
-
-Allow selecting multiple items. In this mode the input is cleared after each selection.
-
-{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.multiple" } %}
-
 ### Disabled Items
 
 Mark specific options as unavailable.
