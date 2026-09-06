@@ -18,6 +18,7 @@ mount('event-registration', ({ props, createHydrator }) => {
             name: z.string('Please enter your name').min(1, 'Please enter your name'),
             email: z.email('Please enter your email'),
             phone: z.string().optional(),
+            country: z.string('Please select your country').min(1, 'Please select your country'),
         }),
         mode: z.enum(['person', 'virtual'], 'Please select a mode of attendance'),
         studentId: z.string().optional(),
