@@ -26,13 +26,18 @@ later, client-side (e.g. a combobox's async search results, file-upload item pre
 recurring/array form-field rows) - clone the `<template>`'s content, find its `ui:ref`'d
 elements, and populate them directly.
 
+Also marks a `isRenderStencil` flag on the component context for the duration of rendering
+children, so a nested component (e.g. `combobox.item`) can detect on its own that it's being
+rendered as a client-filled stencil rather than a real instance, without the template author
+having to pass an explicit prop for it.
+
 ## Example
 ```html
 <ui:combobox.root>
   ...
   <ui:combobox.content>
     <ui:template name="item-template" component="combobox">
-        <ui:combobox.item renderedOnClient="{true}">
+        <ui:combobox.item>
             <span {ui:ref(name: 'title', withId: false)}></span>
         </ui:combobox.item>
     </ui:template>
@@ -45,5 +50,5 @@ elements, and populate them directly.
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | Ref name for the wrapping &lt;template&gt; element | No | - |
+| `name` | string | Ref name for the wrapping `&lt;template&gt;` element | No | - |
 | `component` | string | Base name of the enclosing component this template belongs to, e.g. &quot;combobox&quot; | No | - |

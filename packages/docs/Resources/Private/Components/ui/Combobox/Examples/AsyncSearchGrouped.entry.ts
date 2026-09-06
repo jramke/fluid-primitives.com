@@ -3,7 +3,14 @@ import type { CollectionItem } from '@zag-js/collection';
 import { ListCollection } from '@zag-js/collection';
 import type { InputValueChangeDetails } from '@zag-js/combobox';
 import { debounce } from '@zag-js/utils';
-import { AsyncList, DelayedIndicator, extbase, mountControlled, Template } from 'fluid-primitives';
+import {
+    AsyncList,
+    DelayedIndicator,
+    extbase,
+    mountControlled,
+    Template,
+    uid,
+} from 'fluid-primitives';
 import { Combobox } from 'fluid-primitives/combobox';
 
 interface CityResult extends CollectionItem {
@@ -33,39 +40,47 @@ function getSearchStatus(
     return api.filterText.trim() ? 'empty' : 'idle';
 }
 
-mountControlled('combobox', 'async-search', ({ props, controlled }) => {
+mountControlled('combobox', 'async-search-grouped', ({ props, controlled }) => {
     const searchUrl = props.searchUrl as string;
-    let insertedItems: HTMLElement[] = [];
+    let insertedGroups: HTMLElement[] = [];
     let combobox: Combobox;
 
     function updateItems(items: CityResult[]) {
         const contentEl = combobox.getElement<HTMLElement>('content');
         if (!contentEl || !combobox.hydrator) return;
 
-        insertedItems.forEach(el => el.remove());
-        insertedItems = [];
+        insertedGroups.forEach(el => el.remove());
+        insertedGroups = [];
 
+        // Grouping by country is baked into the collection itself (groupBy/groupSort), the same
+        // way the static "With Item Groups" example groups server-side via groupByKey/groupSort -
+        // group() then just reads back what the collection already grouped/sorted.
         const collection = new ListCollection<CityResult>({
             items,
             itemToValue: item => item.value,
             itemToString: item => item.title,
+            groupBy: item => item.description || 'Other',
+            groupSort: 'asc',
         });
 
-        for (const { value, title, description } of collection) {
-            const instance = new Template(combobox.hydrator, 'item-template', { value });
+        for (const [country, countryItems] of collection.group()) {
+            const group = new Template(combobox.hydrator, 'group-template');
+            // Only the value/identity discriminator Combobox's own render() needs to tell groups
+            // apart - the label text and item rendering are unaffected by its exact value.
+            group.root.dataset.id = uid();
 
-            const titleEl = instance.getElement<HTMLElement>('title');
-            if (titleEl) titleEl.textContent = title;
+            const labelEl = group.getElement<HTMLElement>('group-label');
+            if (labelEl) labelEl.textContent = country;
 
-            const descriptionEl = instance.getElement<HTMLElement>('description');
-            if (description) {
-                if (descriptionEl) descriptionEl.textContent = description;
-            } else {
-                descriptionEl?.remove();
+            for (const { value, title } of countryItems) {
+                const item = new Template(combobox.hydrator, 'item-template', { value });
+                const titleEl = item.getElement<HTMLElement>('title');
+                if (titleEl) titleEl.textContent = title;
+                group.root.appendChild(item);
             }
 
-            contentEl.appendChild(instance);
-            insertedItems.push(instance.root);
+            contentEl.appendChild(group);
+            insertedGroups.push(group.root);
         }
 
         combobox.updateProps({ collection });

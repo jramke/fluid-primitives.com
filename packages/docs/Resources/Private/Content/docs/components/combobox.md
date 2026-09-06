@@ -62,42 +62,19 @@ Use `setFilter()` in a custom mount entry when you want to override filtering im
 
 Load items from a server-side search endpoint as the user types, instead of rendering the full collection up front.
 
-Author the item's markup once inside a `ui:template` block - it makes `ui:ref` work on plain, hand-authored elements even though they're technically slot content, not a component's own template body. On the client, clone the template per search result, populate its `ui:ref`'d elements directly, and rebuild the collection. Fetching, debouncing, and race-condition handling are left to your own code, typically built on `@zag-js/async-list`.
-
-**TYPO3 cHash note:** `f:uri.action` computes its `cHash` from the arguments known at build time. If your client-side code appends a query parameter (e.g. `q`) to that URL afterward as a GET param, the request's parameter set no longer matches what was hashed, and TYPO3 rejects it with a 404. The simplest fix is to send the search query in a POST body instead - cHash only governs the cacheable GET query string, so it never comes into play:
-
-```ts
-const body = new URLSearchParams();
-body.set('tx_yourext_yourplugin[q]', filterText);
-await fetch(searchUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: body.toString(),
-});
-```
-
-with a plain typed action argument on the PHP side (`searchAction(string $q = '')`) - Extbase maps it the same way for GET or POST. If you'd rather keep GET, exclude the parameter name from cHash calculation instead: `$GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = 'q';`.
+Author the item's markup once inside a `ui:template` block - it makes `ui:ref` work on plain, hand-authored elements even though they're technically slot content, not a component's own template body. `combobox.item`, `combobox.itemText`, and `combobox.itemIndicator` all detect they're inside a `ui:template` block automatically - so we dont need to pass a `value` prop. On the client, clone the template per search result, populate its `ui:ref`'d elements directly, and rebuild the collection. Fetching, debouncing, and race-condition handling are left to your own code, typically built on `@zag-js/async-list`.
 
 `collection` can be omitted entirely for a combobox with no server-known items at all - it's optional and defaults to empty regardless of `searchUrl`.
 
-```html
-<ui:combobox.root
-    controlled="{true}"
-    searchUrl="{f:uri.action(action: 'search', controller: 'YourSearch')}">
-    <ui:combobox.control>
-        <ui:combobox.input />
-    </ui:combobox.control>
-    <ui:combobox.content>
-        <ui:template name="item-template" component="combobox">
-            <ui:combobox.item renderedOnClient="{true}">
-                <span {ui:ref(name: 'title', withId: false)}></span>
-            </ui:combobox.item>
-        </ui:template>
-    </ui:combobox.content>
-</ui:combobox.root>
-```
-
 {% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.asyncSearch", "additionalFiles": {"AsyncSearch.entry.ts": "EXT:docs/Resources/Private/Components/ui/Combobox/Examples/AsyncSearch.entry.ts"} } %}
+
+### Async Search with Groups
+
+Async results can be grouped too - author a second `ui:template` for the group wrapper (`combobox.itemGroup`/`combobox.itemGroupLabel`), clone one per group returned by your search, and append the item clones into it instead of directly into `combobox.content`.
+
+`combobox.itemGroup` needs a unique `data-id` per instance so `Combobox` can tell groups apart - the same thing `ui:id()` gives a server-rendered group, done client-side with `uid()`. Nothing about `Combobox`'s own rendering needed to change for this: it already looks up every `[data-part="item-group"]` element independently and reads its `data-id` fresh on every render, whether that element was server-rendered or just cloned.
+
+{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.asyncSearchGrouped", "additionalFiles": {"AsyncSearchGrouped.entry.ts": "EXT:docs/Resources/Private/Components/ui/Combobox/Examples/AsyncSearchGrouped.entry.ts"} } %}
 
 ### Localization
 
