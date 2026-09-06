@@ -66,6 +66,8 @@ Author the item's markup once inside a `ui:template` block - it makes `ui:ref` w
 
 `collection` can be omitted entirely for a combobox with no server-known items at all - it's optional and defaults to empty regardless of `searchUrl`.
 
+The example below sends the search query via [`extbase.post()`](/docs/utilities/extbase) rather than a GET param, sidestepping a `cHash` mismatch `f:uri.action`'s URL would otherwise hit, and drives its loading/error/empty status placeholder off a single [`DelayedIndicator`](/docs/utilities/delayed-indicator) so the spinner and status text can never disagree.
+
 {% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.asyncSearch", "additionalFiles": {"AsyncSearch.entry.ts": "EXT:docs/Resources/Private/Components/ui/Combobox/Examples/AsyncSearch.entry.ts"} } %}
 
 ### Async Search with Groups

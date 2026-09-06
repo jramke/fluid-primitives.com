@@ -91,7 +91,7 @@ mountControlled('combobox', 'async-search', ({ props, controlled }) => {
     }
 
     const status = new DelayedIndicator<SearchStatus>({
-        isPending: s => s === 'loading',
+        isTransient: s => s === 'loading',
         onChange: renderStatus,
     });
 

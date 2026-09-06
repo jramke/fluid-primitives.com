@@ -53,3 +53,8 @@
     - docs/viewhelpers/slotFilled
     - docs/viewhelpers/template
     - docs/viewhelpers/useProps
+
+- group: Utilities
+  items:
+    - docs/utilities/extbase
+    - docs/utilities/delayed-indicator
