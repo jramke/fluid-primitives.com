@@ -44,7 +44,7 @@ Grouped example:
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
 | `as` | string | Variable name to assign the result to | Yes | '' |
-| `items` | array | The items of the collection. `{value: string, label: string, disabled: boolean}` | No | - |
+| `items` | array | The items of the collection. `{value: string, label: string, disabled: boolean}`. | Yes | [] |
 | `itemToValueKey` | string | The key to use for the item value. | Yes | - |
 | `itemToStringKey` | string | The key to use for the item label. | Yes | - |
 | `isItemDisabledKey` | string | The key to use for the item disabled state. | Yes | - |

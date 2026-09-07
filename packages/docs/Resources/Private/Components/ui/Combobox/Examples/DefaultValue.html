@@ -1,0 +1,38 @@
+<ui:listCollection
+    items="{
+        0: {value: 'ng', label: 'Nigeria'},
+        1: {value: 'gh', label: 'Ghana'},
+        2: {value: 'ke', label: 'Kenya'},
+        3: {value: 'ma', label: 'Morocco'},
+        4: {value: 'za', label: 'South Africa'},
+        5: {value: 'tz', label: 'Tanzania'},
+        6: {value: 'ug', label: 'Uganda'},
+        7: {value: 'zm', label: 'Zambia'},
+        8: {value: 'zw', label: 'Zimbabwe'},
+        9: {value: 'sn', label: 'Senegal'},
+        10: {value: 'rw', label: 'Rwanda'},
+        11: {value: 'ci', label: 'Cote d\'Ivoire'}
+    }"
+    as="collection" />
+
+<ui:combobox.root collection="{collection}" defaultValue="ng">
+    <ui:combobox.label>Country</ui:combobox.label>
+    <ui:combobox.control class="min-w-64">
+        <ui:combobox.input placeholder="Search African countries" />
+        <ui:combobox.clearTrigger />
+        <ui:combobox.trigger>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 opacity-70">
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path>
+            </svg>
+        </ui:combobox.trigger>
+    </ui:combobox.control>
+    <ui:combobox.content>
+        <f:for each="{collection.items}" as="item">
+            <ui:combobox.item item="{item}">
+                <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
+                <ui:combobox.itemIndicator />
+            </ui:combobox.item>
+        </f:for>
+    </ui:combobox.content>
+</ui:combobox.root>

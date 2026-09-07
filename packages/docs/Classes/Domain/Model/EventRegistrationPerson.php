@@ -23,6 +23,10 @@ class EventRegistrationPerson extends AbstractEntity
     #[Validate(validator: 'StringLength', options: ['maximum' => 255])]
     protected string $phone = '';
 
+    #[Validate(validator: 'String')]
+    #[Validate(validator: 'NotEmpty')]
+    protected string $country = '';
+
     public function getName(): string
     {
         return $this->name;
@@ -51,5 +55,15 @@ class EventRegistrationPerson extends AbstractEntity
     public function setPhone(string $phone): void
     {
         $this->phone = $phone;
+    }
+
+    public function getCountry(): string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): void
+    {
+        $this->country = $country;
     }
 }

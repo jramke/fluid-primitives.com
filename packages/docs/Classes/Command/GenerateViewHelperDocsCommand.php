@@ -153,7 +153,7 @@ class GenerateViewHelperDocsCommand extends Command
 
             foreach ($arguments as $arg) {
                 // Escape pipe characters in description
-                $description = str_replace('|', '\\|', $arg['description'] ?? '');
+                $description = htmlspecialchars(str_replace('|', '\\|', $arg['description'] ?? ''));
                 $required = $arg['required'] ?? false ? 'No' : 'Yes';
                 $default = $arg['default'] ?? '';
                 $type = str_replace('|', '\\|', $arg['type'] ?? '');

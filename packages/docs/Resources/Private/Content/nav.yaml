@@ -20,6 +20,7 @@
     - docs/components/checkbox
     - docs/components/checkbox-group
     - docs/components/clipboard
+    - docs/components/combobox
     - docs/components/collapsible
     - docs/components/dialog
     - docs/components/field
@@ -50,4 +51,10 @@
     - docs/viewhelpers/prop
     - docs/viewhelpers/ref
     - docs/viewhelpers/slotFilled
+    - docs/viewhelpers/template
     - docs/viewhelpers/useProps
+
+- group: Utilities
+  items:
+    - docs/utilities/extbase
+    - docs/utilities/delayed-indicator
