@@ -22,8 +22,24 @@
                     </ui:dialog.header>
                     <ui:dialog.footer>
                         <ui:dialog.close asChild="{true}">
-                            <ui:button>Close nested Dialog</ui:button>
+                            <ui:button variant="secondary">Close nested Dialog</ui:button>
                         </ui:dialog.close>
+                        <ui:dialog.root rootId="nested-nested-dialog">
+                            <ui:dialog.trigger asChild="{true}">
+                                <ui:button>Open nested nested Dialog</ui:button>
+                            </ui:dialog.trigger>
+                            <ui:dialog.content>
+                                <ui:dialog.header>
+                                    <ui:dialog.title>Nested Nested Dialog Title</ui:dialog.title>
+                                    <ui:dialog.description>This is a nested nested dialog example.</ui:dialog.description>
+                                </ui:dialog.header>
+                                <ui:dialog.footer>
+                                    <ui:dialog.close asChild="{true}">
+                                        <ui:button>Close nested nested Dialog</ui:button>
+                                    </ui:dialog.close>
+                                </ui:dialog.footer>
+                            </ui:dialog.content>
+                        </ui:dialog.root>
                     </ui:dialog.footer>
                 </ui:dialog.content>
             </ui:dialog.root>
