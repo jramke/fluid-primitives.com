@@ -22,12 +22,6 @@ export const WithField: StoryObj = {
     },
 };
 
-export const Multiple: StoryObj = {
-    args: {
-        example_id: 'multiple',
-    },
-};
-
 export const DisabledItems: StoryObj = {
     args: {
         example_id: 'disabled-items',
@@ -43,11 +37,5 @@ export const WithGroups: StoryObj = {
 export const CustomFilterApi: StoryObj = {
     args: {
         example_id: 'custom-filter-api',
-    },
-};
-
-export const AsyncSearch: StoryObj = {
-    args: {
-        example_id: 'async-search',
     },
 };
