@@ -100,6 +100,8 @@ final class DocsController extends ActionController
             $status = 422;
         }
 
+        krexxlog($eventRegistration);
+
         try {
             // do something with the registration
             // $this->eventRegistrationRepository->save($eventRegistration);
