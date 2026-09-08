@@ -4,7 +4,7 @@
     2: { value: 'push', text: 'Push notifications' }
 }" />
 
-<ui:checkboxGroup.root name="notifications" defaultValue="{0: 'email', 1: 'push'}">
+<ui:checkboxGroup.root name="notifications[]" defaultValue="{0: 'email', 1: 'push'}">
     <ui:checkboxGroup.label>Notification preferences:</ui:checkboxGroup.label>
     <f:for each="{items}" as="item">
         <ui:checkbox.root value="{item.value}">

@@ -11,47 +11,8 @@
                 </primitives:button.indicator>
             </primitives:button>
         </div>
-        <ui:eventRegistration />
     </f:comment>
 
-    <ui:combobox.examples.simple />
-
-
-
-    <f:comment> 
-        Idee ist das man es so clean und viel wie möglich im fluid machen kann. Wenn man zb eine combobox mit ajax fetch nutzt muss man eh irgendwie 
-        das filter argument befüllen und dafür braucht man dann eine controlled componente. daher können wir hier das auch für template voraus setzen. 
-        TODO: check für fileupload ob das auch so über controlled normalerweise geht oder auch defaultm#ßiger ohne
-
-        Template kann gequeried werden (eigener hydrator oder global getTemplate() helper). die marker sind zum template gescoped und können mit 
-        template.fillMarker('value', 'myValue') befüllt werden. sie müssten irgendwas rendern von fluid aus das wir da under the hood ein str replace oder so machen können. 
-        aber das ist dann cleaner als ###MAKER_TITLE### oder so. für conditional stuff oder so kann man dann ja mit normalenm vanilla js das template manipulieren.
-        vielleicht auch ein template.getMarkerParent() damit man zb in dem fall unten die description node entfernen kann wenn es keine description gibt.
-        
-        vielleicht auch nicht über marker sondern einfach über {ui:ref(name: 'title')}. die sind dann scoped in dem template context und dann kann man sagen getTemplateElement('title')/template.getElement('title')
-        und dann kann man auch andere props ez anpassen weil man dann sagen kann getElement('title').spreadProps({class: 'text-red-500', children: 'new title'}) oder so.
-
-        irgendwie muss aber diese template building/population mit in den render flow der machine rein. (sie acv combobox). 
-
-        ich würde die template/marker kombination gerne unabhängig von einer machine machen, also muss man da mal schauen wie man das am besten macht.
-
-        use cases: combobox items mit ajax, file upload items, forms recurring/array fields.
-    </f:comment>
-
-    <f:variable name="comboboxId" value="{ui:id()}" />
-    <ui:combobox.root rootId="{comboboxId}" controlled="{true}">
-        <ui:combobox.input />
-        <ui:combobox.positioner>
-            <ui:combobox.content>
-                <ui:template id="{comboboxId}-items">
-                    <ui:combobox.item value="{ui:marker(name: 'value')}">
-                        <svg>...</svg>
-                        <span>{ui:marker(name: 'title')}</span>
-                        <span>{ui:marker(name: 'description')}</span>
-                    </ui:combobox.item>
-                </ui:template>
-            </ui:combobox.content>
-        </ui:combobox.positioner>
-    </ui:combobox.root>
+    <ui:eventRegistration />
 
 </main>

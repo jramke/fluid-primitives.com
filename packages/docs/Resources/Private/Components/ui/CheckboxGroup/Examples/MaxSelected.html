@@ -4,7 +4,7 @@
     2: { value: 'blue', text: 'Blue' }
 }" />
 
-<ui:checkboxGroup.root name="colors" maxSelectedValues="2" defaultValue="{0: 'red'}">
+<ui:checkboxGroup.root name="colors[]" maxSelectedValues="2" defaultValue="{0: 'red'}">
     <ui:checkboxGroup.label>Pick up to 2 colors:</ui:checkboxGroup.label>
     <f:for each="{items}" as="item">
         <ui:checkbox.root value="{item.value}">
