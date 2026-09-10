@@ -143,7 +143,7 @@ No `enctype` is needed on the form: `Form` never submits natively - it always po
 
 `FileUpload`'s own file list only ever holds files newly picked in the browser - it has no concept of an already-persisted `FileReference` from a previous request. For an edit form, render existing files as ordinary `item`s directly inside `ui:fileUpload.itemGroup`, alongside the newly-picked ones, instead of showing them in a second, separate list. Give each one `type="existing"` and pair its delete trigger with `ui:fileUploadDeleteCheckbox`, which renders TYPO3's HMAC-signed `@delete` token so Extbase removes the file reference on submit:
 
-Existing items still sit inside the same `ui:template`-driven `itemGroup` as newly-picked files (see [Accepted and Rejected Files](#accepted-and-rejected-files) above), so don't drop the item template when adding them - without it, the `itemGroup` renders the existing files fine, but selecting a *new* file has nothing to clone and populate, and throws:
+Existing items still sit inside the same `ui:template`-driven `itemGroup` as newly-picked files (see [Accepted and Rejected Files](#accepted-and-rejected-files) above), so don't drop the item template when adding them - without it, the `itemGroup` renders the existing files fine, but selecting a _new_ file has nothing to clone and populate, and throws:
 
 ```html
 <ui:form.root action="update" objectName="conference" object="{conference}">
@@ -154,7 +154,7 @@ Existing items still sit inside the same `ui:template`-driven `itemGroup` as new
                 <ui:fileUpload.trigger>Choose images</ui:fileUpload.trigger>
             </ui:fileUpload.dropzone>
 
-            <ui:template name="item-template" component="file-upload">
+            <ui:template name="itemTemplate" context="file-upload">
                 <ui:fileUpload.fileItem>
                     <primitives:fileUpload.itemPreview match="image/*" class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border">
                         <primitives:fileUpload.itemPreviewImage class="size-full object-cover" />
@@ -230,7 +230,7 @@ Clicking that delete trigger checks the sibling checkbox and hides the item imme
     </primitives:fileUpload.dropzone>
     <primitives:fileUpload.hiddenInput />
 
-    <ui:template name="item-template" component="file-upload">
+    <ui:template name="itemTemplate" context="file-upload">
         <primitives:fileUpload.item>
             <primitives:fileUpload.itemPreview match="image/*">
                 <primitives:fileUpload.itemPreviewImage />

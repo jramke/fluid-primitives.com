@@ -37,6 +37,14 @@ having to pass an explicit prop for it.
 kebab-cased for `data-part` (e.g. `itemTemplate` -> `data-part="item-template"`) while the `id`
 keeps it verbatim, for CSS/selector consistency with every other part in the DOM.
 
+`context` is only required when this `ui:template` sits inside slot content passed into
+*another* component - the common case: item/row markup a consumer authors for a primitive like
+`combobox`/`fileUpload` to clone, where the ambient component is whatever encloses that slot
+content, not the primitive itself. Omit it when `ui:template` is written directly inside a
+component's own template body instead (e.g. a custom, single-file component) - it then defaults
+to whichever component is already ambiently active there, the same way a bare `ui:ref` (no
+`context` argument) already does.
+
 ## Example
 ```html
 <ui:combobox.root>
@@ -57,4 +65,4 @@ keeps it verbatim, for CSS/selector consistency with every other part in the DOM
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
 | `name` | string | Ref name for the wrapping `&lt;template&gt;` element, camelCase (e.g. &quot;itemTemplate&quot;) like `ui:ref`&#039;s own `name` argument. | No | - |
-| `context` | string | Base name of the enclosing component this template belongs to, e.g. &quot;combobox&quot; | No | - |
+| `context` | string | Base name of the enclosing component this template belongs to, e.g. &quot;combobox&quot;. Only needed when this ui:template is slot content passed into another component - omit it when writing ui:template directly inside a component&#039;s own template body, where it defaults to whichever component is already ambiently active (the same fallback a bare `ui:ref` uses). | Yes | '' |

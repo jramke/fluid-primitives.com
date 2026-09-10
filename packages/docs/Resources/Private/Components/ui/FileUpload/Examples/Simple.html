@@ -12,7 +12,7 @@
         Accepted/rejected files only ever exist as browser File objects, so the item markup is
         authored once as a ui:template and cloned/populated client-side per file.
     </f:comment>
-    <ui:template name="item-template" component="file-upload">
+    <ui:template name="itemTemplate" context="file-upload">
         <ui:fileUpload.fileItem>
             <primitives:fileUpload.itemPreview match="image/*" class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border">
                 <primitives:fileUpload.itemPreviewImage class="size-full object-cover" />
