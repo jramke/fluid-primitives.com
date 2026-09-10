@@ -32,6 +32,7 @@
         </ui:combobox.trigger>
     </ui:combobox.control>
     <ui:combobox.content>
+        <ui:combobox.empty>No cities found.</ui:combobox.empty>
         <f:for each="{collection.items}" as="item">
             <ui:combobox.item item="{item}">
                 <ui:combobox.itemText>{item.label}</ui:combobox.itemText>

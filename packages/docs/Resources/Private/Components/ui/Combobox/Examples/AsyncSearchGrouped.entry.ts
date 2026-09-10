@@ -76,7 +76,7 @@ mountControlled('combobox', 'async-search-grouped', ({ props, controlled }) => {
         });
 
         for (const [country, countryItems] of collection.group()) {
-            const group = new Template(combobox.hydrator, 'group-template');
+            const group = new Template(combobox.hydrator, 'groupTemplate');
             // Only the value/identity discriminator Combobox's own render() needs to tell groups
             // apart - the label text and item rendering are unaffected by its exact value.
             group.root.dataset.id = uid();
@@ -85,7 +85,7 @@ mountControlled('combobox', 'async-search-grouped', ({ props, controlled }) => {
             if (labelEl) labelEl.textContent = country;
 
             for (const { value, title } of countryItems) {
-                const item = new Template(combobox.hydrator, 'item-template', { value });
+                const item = new Template(combobox.hydrator, 'itemTemplate', { value });
                 const titleEl = item.getElement<HTMLElement>('title');
                 if (titleEl) titleEl.textContent = title;
                 group.root.appendChild(item);
@@ -104,16 +104,12 @@ mountControlled('combobox', 'async-search-grouped', ({ props, controlled }) => {
     const searchState = new DelayedIndicator<SearchState>({
         isTransient: s => s.status === 'loading',
         onChange: state => {
-            const contentEl = combobox.getElement<HTMLElement>('content');
-            const statusEl = contentEl?.querySelector<HTMLElement>('[data-status]');
-            const spinnerEl = contentEl?.querySelector<HTMLElement>('[data-status-spinner]');
-            const textEl = contentEl?.querySelector<HTMLElement>('[data-status-text]');
-            if (!statusEl || !spinnerEl || !textEl) return;
+            const spinnerEl = combobox.getElement<HTMLElement>('statusSpinner');
+            const textEl = combobox.getElement<HTMLElement>('statusText');
+            if (!spinnerEl || !textEl) return;
 
             const hasResults = state.status === 'results';
             updateItems(hasResults ? state.items : []);
-
-            statusEl.toggleAttribute('hidden', hasResults);
             if (hasResults) return;
 
             spinnerEl.toggleAttribute('hidden', state.status !== 'loading');

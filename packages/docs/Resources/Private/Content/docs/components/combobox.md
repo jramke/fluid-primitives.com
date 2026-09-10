@@ -12,6 +12,8 @@
 - Supports single and multiple selection
 - Supports disabled items and item groups
 - Works with the Field component for forms and validation
+- Submits the selected item's `value` on form submit, not its label - the visible input only ever displays text, `hiddenInput` carries the real value(s)
+- Supports an `empty` state placeholder shown automatically whenever no items match
 - Supports custom client-side filtering via `setFilter()`
 - Uses locale-aware fallback filtering based on Zag's i18n utilities
 - Supports async, server-rendered search results via `ui:template`
@@ -60,7 +62,7 @@ Author the item's markup once inside a `ui:template` block - it makes `ui:ref` w
 
 `collection` can be omitted entirely for a combobox with no server-known items at all - it's optional and defaults to empty regardless of `searchUrl`.
 
-The example below sends the search query via [`extbase.post()`](/docs/utilities/extbase) rather than a GET param, sidestepping a `cHash` mismatch `f:uri.action`'s URL would otherwise hit, and drives its loading/error/empty status placeholder off a single [`DelayedIndicator`](/docs/utilities/delayed-indicator) so the spinner and status text can never disagree.
+The status placeholder itself is just `combobox.empty` - `Combobox` already shows/hides it automatically whenever there are no items rendered, whatever the reason (no query typed yet, a request in flight, a failed request, or a query with zero matches). Only its _content_ - a spinner and a status text - is something the example's own code owns and updates; the loading/error messaging is entirely up to you. Both are plain, hand-authored elements passed `{ui:ref(name: 'statusSpinner', context: 'combobox')}` - since they're slot content rather than a component's own template body, `ui:ref` needs the explicit `context` argument to know which ancestor component to attach to, the same way `ui:template`'s own `context` argument does for the item markup below. The example below sends the search query via [`extbase.post()`](/docs/utilities/extbase) rather than a GET param, sidestepping a `cHash` mismatch `f:uri.action`'s URL would otherwise hit, and drives the spinner/status text off a single [`DelayedIndicator`](/docs/utilities/delayed-indicator) so they can never disagree.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.asyncSearch", "additionalFiles": {"AsyncSearch.entry.ts": "EXT:docs/Resources/Private/Components/ui/Combobox/Examples/AsyncSearch.entry.ts"} } %}
 
@@ -113,6 +115,10 @@ Note that Zag.js uses a function for the trigger label to allow dynamic labels b
 
 ## Anatomy
 
+Unlike `Select`, Zag's combobox machine renders no native form control of its own - the visible `input` only ever holds the highlighted item's label (or, with `allowCustomValue`, arbitrary typed text), never its `value`. `hiddenInput` fills that gap: one visually hidden text input (kept out of the accessibility tree and tab order via `aria-hidden`/`tabindex="-1"`, not `type="hidden"`) per selected value, kept in sync with the current selection so the item's `value` (not its label) is what actually gets submitted. Include it once anywhere inside `combobox.root` - it renders as many hidden inputs as there are selected values (zero, one, or - with `multiple` - several).
+
+`combobox.empty` renders a placeholder for when the collection has no items to show - whether that's because nothing matches the current search text, or because an async search hasn't returned results yet. It's shown/hidden automatically alongside `content`/`list`'s own `data-empty` attribute, so no wiring is needed beyond placing it inside `combobox.content`.
+
 ```html
 <primitives:combobox.root>
     <primitives:combobox.label />
@@ -123,6 +129,7 @@ Note that Zag.js uses a function for the trigger label to allow dynamic labels b
     </primitives:combobox.control>
     <primitives:combobox.positioner>
         <primitives:combobox.content>
+            <primitives:combobox.empty />
             <primitives:combobox.item>
                 <primitives:combobox.itemText />
                 <primitives:combobox.itemIndicator />
@@ -132,5 +139,6 @@ Note that Zag.js uses a function for the trigger label to allow dynamic labels b
             </primitives:combobox.itemGroup>
         </primitives:combobox.content>
     </primitives:combobox.positioner>
+    <primitives:combobox.hiddenInput />
 </primitives:combobox.root>
 ```

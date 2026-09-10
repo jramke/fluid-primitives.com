@@ -64,7 +64,7 @@ mountControlled('combobox', 'async-search', ({ props, controlled }) => {
         });
 
         for (const { value, title, description } of collection) {
-            const instance = new Template(combobox.hydrator, 'item-template', { value });
+            const instance = new Template(combobox.hydrator, 'itemTemplate', { value });
 
             const titleEl = instance.getElement<HTMLElement>('title');
             if (titleEl) titleEl.textContent = title;
@@ -89,15 +89,12 @@ mountControlled('combobox', 'async-search', ({ props, controlled }) => {
     const searchState = new DelayedIndicator<SearchState>({
         isTransient: s => s.status === 'loading',
         onChange: state => {
-            const contentEl = combobox.getElement<HTMLElement>('content');
-            const statusEl = contentEl?.querySelector<HTMLElement>('[data-status]');
-            const spinnerEl = contentEl?.querySelector<HTMLElement>('[data-status-spinner]');
-            const textEl = contentEl?.querySelector<HTMLElement>('[data-status-text]');
-            if (!statusEl || !spinnerEl || !textEl) return;
+            const spinnerEl = combobox.getElement<HTMLElement>('statusSpinner');
+            const textEl = combobox.getElement<HTMLElement>('statusText');
+            if (!spinnerEl || !textEl) return;
 
             const hasResults = state.status === 'results';
             updateItems(hasResults ? state.items : []);
-            statusEl.toggleAttribute('hidden', hasResults);
             if (hasResults) return;
 
             spinnerEl.toggleAttribute('hidden', state.status !== 'loading');
