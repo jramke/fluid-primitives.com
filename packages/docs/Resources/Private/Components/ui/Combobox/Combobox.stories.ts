@@ -39,3 +39,9 @@ export const CustomFilterApi: StoryObj = {
         example_id: 'custom-filter-api',
     },
 };
+
+export const Multiple: StoryObj = {
+    args: {
+        example_id: 'multiple',
+    },
+};

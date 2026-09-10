@@ -1,0 +1,52 @@
+<ui:listCollection
+    items="{
+        0: {value: 'amsterdam', label: 'Amsterdam'},
+        1: {value: 'athens', label: 'Athens'},
+        2: {value: 'barcelona', label: 'Barcelona'},
+        3: {value: 'berlin', label: 'Berlin'},
+        4: {value: 'copenhagen', label: 'Copenhagen'},
+        5: {value: 'dublin', label: 'Dublin'},
+        6: {value: 'helsinki', label: 'Helsinki'},
+        7: {value: 'lisbon', label: 'Lisbon'},
+        8: {value: 'madrid', label: 'Madrid'},
+        9: {value: 'oslo', label: 'Oslo'},
+        10: {value: 'paris', label: 'Paris'},
+        11: {value: 'prague', label: 'Prague'},
+        12: {value: 'rome', label: 'Rome'},
+        13: {value: 'stockholm', label: 'Stockholm'},
+        14: {value: 'vienna', label: 'Vienna'},
+        15: {value: 'warsaw', label: 'Warsaw'}
+    }"
+    as="collection" />
+
+<ui:combobox.root collection="{collection}" multiple="{true}" name="destinations[]" rootId="multiple-example">
+    <ul {ui:ref(name: 'selectedValuesWrapper' , context: 'combobox' )} role="list" aria-label="Selected values" class="flex items-center gap-2 flex-wrap mb-1">
+        <div {ui:ref(name: 'emptyValuesText' , context: 'combobox' )} role="presentation" class="text-sm text-muted-foreground italic">Nothing selected</div>
+        <ui:template name="selectedValue" context="combobox">
+            <li class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 bg-secondary text-secondary-foreground rounded-full"></li>
+        </ui:template>
+    </ul>
+
+    <ui:combobox.label>Select destinations</ui:combobox.label>
+    <ui:combobox.control class="min-w-64">
+        <ui:combobox.input placeholder="Search for cities" />
+        <ui:combobox.clearTrigger />
+        <ui:combobox.trigger>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 opacity-70">
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path>
+            </svg>
+        </ui:combobox.trigger>
+    </ui:combobox.control>
+    <ui:combobox.content>
+        <ui:combobox.empty>No cities found.</ui:combobox.empty>
+        <f:for each="{collection.items}" as="item">
+            <ui:combobox.item item="{item}">
+                <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
+                <ui:combobox.itemIndicator />
+            </ui:combobox.item>
+        </f:for>
+    </ui:combobox.content>
+</ui:combobox.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/Combobox/Examples/Multiple.entry.ts" />
