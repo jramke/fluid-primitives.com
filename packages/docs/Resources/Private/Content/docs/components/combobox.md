@@ -48,6 +48,12 @@ Use the combobox inside `Field` to share label, name, required and invalid state
 
 {% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.withField" } %}
 
+### Multiple Selection
+
+Allow users to select multiple values from the combobox.
+
+{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.multiple" } %}
+
 ### Custom Filter API
 
 Use `setFilter()` in a custom mount entry when you want to override filtering imperatively per instance.
