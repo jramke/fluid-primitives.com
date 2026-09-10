@@ -19,7 +19,9 @@ know which component (or rootId) it belongs to.
 `ui:template` fixes this generically for any component, by reading the real, currently-active
 component context (which - unlike the plain `component`/`context`
 variables `ui:ref` reads - is threaded correctly through slot-content nesting) and temporarily
-re-exposing it as those ordinary variables.
+re-exposing it as those ordinary variables. `ui:ref` itself accepts the same `context` argument
+directly, for hand-authored elements that need this without being wrapped in a `<template>` -
+see its own docblock for when to reach for that instead.
 
 Intended for content whose real data doesn't exist yet at server-render time and is filled in
 later, client-side (e.g. a combobox's async search results, file-upload item previews,
@@ -31,12 +33,16 @@ children, so a nested component (e.g. `combobox.item`) can detect on its own tha
 rendered as a client-filled stencil rather than a real instance, without the template author
 having to pass an explicit prop for it.
 
+`name` follows the same camelCase convention as `ui:ref`'s own `name` argument - it's likewise
+kebab-cased for `data-part` (e.g. `itemTemplate` -> `data-part="item-template"`) while the `id`
+keeps it verbatim, for CSS/selector consistency with every other part in the DOM.
+
 ## Example
 ```html
 <ui:combobox.root>
   ...
   <ui:combobox.content>
-    <ui:template name="item-template" component="combobox">
+    <ui:template name="itemTemplate" context="combobox">
         <ui:combobox.item>
             <span {ui:ref(name: 'title', withId: false)}></span>
         </ui:combobox.item>
@@ -50,5 +56,5 @@ having to pass an explicit prop for it.
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | Ref name for the wrapping `&lt;template&gt;` element | No | - |
-| `component` | string | Base name of the enclosing component this template belongs to, e.g. &quot;combobox&quot; | No | - |
+| `name` | string | Ref name for the wrapping `&lt;template&gt;` element, camelCase (e.g. &quot;itemTemplate&quot;) like `ui:ref`&#039;s own `name` argument. | No | - |
+| `context` | string | Base name of the enclosing component this template belongs to, e.g. &quot;combobox&quot; | No | - |

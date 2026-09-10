@@ -39,6 +39,26 @@ discriminator and would produce duplicate IDs):
 ```html
 <div {ui:ref(name: 'item-group-label', withId: false)}>...</div>
 ```
+
+A component's slot content (the markup a consumer writes between its opening/closing tags) is
+always evaluated against the *calling* rendering context, not the component's own internal one -
+so a bare `ui:ref` written directly inside such slot content doesn't, by default, know which
+component (or rootId) it belongs to, and throws. Pass `context` to attach it explicitly to a
+named ancestor component instead (resolved the same way `ui:template`'s own `context` argument
+is - it threads correctly through slot-content nesting, unlike the ambient `component`/`context`
+variables this ViewHelper otherwise reads):
+```html
+<ui:combobox.root>
+  <ui:combobox.content>
+    <div>
+      <span {ui:ref(name: 'statusText', context: 'combobox')}>Loading…</span>
+    </div>
+  </ui:combobox.content>
+</ui:combobox.root>
+```
+Use `ui:template` instead when the content's real data doesn't exist yet at server-render time
+and needs cloning client-side per instance (e.g. async search results) - `context` here is for
+hand-authored elements that render immediately, once, and never get cloned.
  
 
 ## Arguments
@@ -50,3 +70,4 @@ discriminator and would produce duplicate IDs):
 | `data` | array | Additional data attributes to include in the ref. Associative array with key-value pairs. Each key is prefixed with &quot;data-&quot;. | Yes | [] |
 | `value` | string\|BackedEnum\|UnitEnum\|null\|array | Optional discriminator for multi-instance parts (e.g. accordion items, tab triggers). | Yes | - |
 | `withId` | boolean | Whether to emit the id attribute. Set to false for parts that have no unique discriminator and would produce duplicate IDs. | Yes | true |
+| `context` | string | Base name of an ancestor component to attach this ref to explicitly (e.g. &quot;combobox&quot;), for hand-authored elements living in another component&#039;s slot content rather than a component&#039;s own template body. When omitted, uses whichever component is already ambiently active (the normal case for a component&#039;s own template). | Yes | '' |
