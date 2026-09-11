@@ -14,5 +14,6 @@
             "command": "ddev exec vendor/bin/mago format --stdin-input",
             "languages": ["php"]
         }
-    ]
+    ],
+    "mago.enabled": false
 }
