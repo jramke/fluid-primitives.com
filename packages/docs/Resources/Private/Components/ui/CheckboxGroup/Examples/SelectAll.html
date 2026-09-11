@@ -12,7 +12,7 @@
         <ui:checkbox.label>All User Permissions</ui:checkbox.label>
     </ui:checkbox.root>
 
-    <ui:checkboxGroup.root name="permissions" defaultValue="{0: 'reports'}" controlled="{true}" rootId="select-all-group" style="margin-inline-start: 1rem;">
+    <ui:checkboxGroup.root name="permissions[]" defaultValue="{0: 'reports'}" controlled="{true}" rootId="select-all-group" style="margin-inline-start: 1rem;">
         <f:for each="{items}" as="item">
             <ui:checkbox.root value="{item.value}">
                 <ui:checkbox.control />

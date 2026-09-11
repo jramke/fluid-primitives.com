@@ -1,0 +1,37 @@
+<ui:fileUpload.root name="attachments[]" maxFiles="5" accept="image/*,.pdf">
+    <ui:fileUpload.label>Attachments</ui:fileUpload.label>
+    <ui:fileUpload.dropzone>
+        <div class="grid gap-1">
+            <div class="text-sm font-medium">Drag files here or choose from your device</div>
+            <div class="text-muted-foreground text-sm">Images and PDFs up to 5 files.</div>
+        </div>
+        <ui:fileUpload.trigger>Choose files</ui:fileUpload.trigger>
+    </ui:fileUpload.dropzone>
+
+    <f:comment>
+        Accepted/rejected files only ever exist as browser File objects, so the item markup is
+        authored once as a ui:template and cloned/populated client-side per file.
+    </f:comment>
+    <primitives:fileUpload.itemTemplate>
+        <ui:fileUpload.fileItem>
+            <ui:fileUpload.itemPreview match="image/*">
+                <ui:fileUpload.itemPreviewImage />
+            </ui:fileUpload.itemPreview>
+            <ui:fileUpload.itemPreview match=".*">
+                <ui:fileUpload.filePreviewFallback />
+            </ui:fileUpload.itemPreview>
+
+            <div class="grid min-w-0 flex-1 gap-0.5">
+                <ui:fileUpload.fileName />
+                <ui:fileUpload.fileMeta />
+                <ui:fileUpload.fileError />
+            </div>
+
+            <ui:fileUpload.fileDeleteTrigger />
+        </ui:fileUpload.fileItem>
+    </primitives:fileUpload.itemTemplate>
+
+    <ui:fileUpload.itemGroup>
+        <ui:fileUpload.emptyState>No files selected yet.</ui:fileUpload.emptyState>
+    </ui:fileUpload.itemGroup>
+</ui:fileUpload.root>

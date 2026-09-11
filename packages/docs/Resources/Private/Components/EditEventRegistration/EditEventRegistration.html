@@ -1,5 +1,5 @@
 <ui:exposeToClient />
-<ui:prop name="object" type="FluidPrimitives\Docs\Domain\Model\EventRegistration" optional="{true}" />
+<ui:prop name="object" type="FluidPrimitives\Docs\Domain\Model\EventRegistration" />
 
 <ui:form.root
     action="registration"
@@ -7,7 +7,7 @@
     object="{object}"
     controlled="{true}"
     rootId="{rootId}-form">
-    <h2 class="text-lg font-semibold">Event Registration</h2>
+    <h2 class="text-lg font-semibold">Edit Event Registration #{object.uid}</h2>
 
     <ui:form.content class="space-y-6">
 
@@ -134,7 +134,6 @@
                     </ui:combobox.control>
                 </ui:field.control>
                 <ui:combobox.content>
-                    <ui:combobox.empty>No countries found.</ui:combobox.empty>
                     <f:for each="{countries.items}" as="item">
                         <ui:combobox.item item="{item}">
                             <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
@@ -148,7 +147,10 @@
         </ui:field.root>
 
         <ui:field.root name="badgePhoto">
-            <ui:fileUpload.root accept="image/jpeg,image/png" maxFiles="1">
+            <ui:fileUpload.root
+                accept="image/jpeg,image/png"
+                maxFiles="1"
+                existingFilesCount="{f:if(condition: object.badgePhoto, then: 1, else: 0)}">
                 <ui:fileUpload.label>Badge Photo (optional)</ui:fileUpload.label>
                 <ui:fileUpload.dropzone>
                     <div class="grid gap-1">
@@ -176,6 +178,16 @@
                 </primitives:fileUpload.itemTemplate>
 
                 <ui:fileUpload.itemGroup>
+                    <f:if condition="{object.badgePhoto}">
+                        <ui:fileUpload.fileItem type="existing">
+                            <f:image image="{object.badgePhoto}" width="40" height="40" class="size-10 shrink-0 rounded-md border object-cover" />
+                            <div class="grid min-w-0 flex-1 gap-0.5">
+                                <ui:fileUpload.fileName>{object.badgePhoto.originalResource.name}</ui:fileUpload.fileName>
+                            </div>
+                            <ui:fileUploadDeleteCheckbox fileReference="{object.badgePhoto}" class="hidden" />
+                            <ui:fileUpload.fileDeleteTrigger />
+                        </ui:fileUpload.fileItem>
+                    </f:if>
                     <ui:fileUpload.emptyState>No file selected yet.</ui:fileUpload.emptyState>
                 </ui:fileUpload.itemGroup>
             </ui:fileUpload.root>
@@ -221,7 +233,7 @@
         </ui:field.root>
 
         <ui:button type="submit" attributes="{ui:ref(name: 'submit-button', asArray: '{true}')}">
-            Register
+            Save changes
         </ui:button>
     </ui:form.content>
 
@@ -229,7 +241,7 @@
         state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}"
         class="space-y-3">
         <h2 class="font-medium">Error</h2>
-        <ui:form.errorText class="block">There was an error submitting your registration. Please try again.</ui:form.errorText>
+        <ui:form.errorText class="block">There was an error saving this registration. Please try again.</ui:form.errorText>
         <ui:button type="reset" class="mt-4">
             Back to form
         </ui:button>
@@ -239,8 +251,8 @@
         state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}"
         class="space-y-3">
         <h2 class="font-medium">Success</h2>
-        <ui:form.successText class="block">Your registration was submitted successfully. Thank you!</ui:form.successText>
+        <ui:form.successText class="block">The registration was updated successfully.</ui:form.successText>
     </ui:form.indicator>
 </ui:form.root>
 
-<vite:asset entry="EXT:docs/Resources/Private/Components/EventRegistration/EventRegistration.entry.ts" />
+<vite:asset entry="EXT:docs/Resources/Private/Components/EditEventRegistration/EditEventRegistration.entry.ts" />

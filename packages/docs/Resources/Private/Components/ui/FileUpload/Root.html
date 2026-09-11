@@ -1,0 +1,8 @@
+<ui:useProps name="primitives:fileUpload.root" />
+
+<primitives:fileUpload.root spreadProps="{true}" class="{ui:cn(value: 'grid gap-3 w-full {class}')}">
+    <f:slot />
+    <primitives:fileUpload.hiddenInput />
+</primitives:fileUpload.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/FileUpload/FileUpload.entry.ts" />

@@ -1,0 +1,51 @@
+<ui:fileUpload.root name="portfolio[]" accept="image/*" maxFileSize="1500000" maxFiles="2">
+    <ui:fileUpload.label>Portfolio Images</ui:fileUpload.label>
+    <ui:fileUpload.dropzone>
+        <div class="grid gap-1">
+            <div class="text-sm font-medium">Drop up to two images</div>
+            <div class="text-muted-foreground text-sm">Large files will appear in a rejected list below.</div>
+        </div>
+        <div class="flex items-center gap-2">
+            <ui:fileUpload.trigger>Select images</ui:fileUpload.trigger>
+            <ui:fileUpload.clearTrigger />
+        </div>
+    </ui:fileUpload.dropzone>
+
+    <f:comment>
+        One item template shared by both file lists below - the same markup renders an accepted or
+        a rejected item, styled by its `data-type` attribute.
+    </f:comment>
+    <primitives:fileUpload.itemTemplate>
+        <ui:fileUpload.fileItem>
+            <ui:fileUpload.itemPreview match="image/*">
+                <ui:fileUpload.itemPreviewImage />
+            </ui:fileUpload.itemPreview>
+            <ui:fileUpload.itemPreview match=".*">
+                <ui:fileUpload.filePreviewFallback />
+            </ui:fileUpload.itemPreview>
+
+            <div class="grid min-w-0 flex-1 gap-0.5">
+                <ui:fileUpload.fileName />
+                <ui:fileUpload.fileMeta />
+                <ui:fileUpload.fileError />
+            </div>
+
+            <ui:fileUpload.fileDeleteTrigger />
+        </ui:fileUpload.fileItem>
+    </primitives:fileUpload.itemTemplate>
+
+    <div class="grid gap-4 md:grid-cols-2">
+        <div class="grid gap-2">
+            <div class="text-sm font-medium">Accepted files</div>
+            <ui:fileUpload.itemGroup>
+                <ui:fileUpload.emptyState>No files selected yet.</ui:fileUpload.emptyState>
+            </ui:fileUpload.itemGroup>
+        </div>
+        <div class="grid gap-2">
+            <div class="text-sm font-medium">Rejected files</div>
+            <ui:fileUpload.itemGroup type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}">
+                <ui:fileUpload.emptyState>No rejected files.</ui:fileUpload.emptyState>
+            </ui:fileUpload.itemGroup>
+        </div>
+    </div>
+</ui:fileUpload.root>

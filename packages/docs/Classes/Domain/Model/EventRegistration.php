@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Domain\Model;
 
+use TYPO3\CMS\Extbase\Attribute\FileUpload;
 use TYPO3\CMS\Extbase\Attribute\Validate;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class EventRegistration extends AbstractEntity
@@ -27,8 +29,30 @@ class EventRegistration extends AbstractEntity
     #[Validate(validator: 'String')]
     protected string $studentId = '';
 
+    #[FileUpload(validation: [
+        'fileSize' => ['maximum' => '5M'],
+        'mimeType' => ['allowedMimeTypes' => ['image/jpeg', 'image/png']],
+        'fileExtension' => ['allowedFileExtensions' => ['jpg', 'jpeg', 'png']],
+    ], uploadFolder: '1:/user_upload/event_registrations/badge_photos/')]
+    protected ?FileReference $badgePhoto = null;
+
+    /**
+     * KNOWN LIMITATION: this never round-trips through a read. Persistence writes it correctly as a
+     * comma-separated string (Extbase's `getPlainValue()` implodes arrays for storage), but reading
+     * it back (e.g. `$repository->findByUid()`, so an edit form can pre-check these boxes) always
+     * yields an empty array, for two compounding reasons:
+     * - Extbase's `DataMapper::thawProperties()` has no support at all for hydrating a plain
+     *   `array`-typed property from a column (`'array' => null, // Not supported, yet!`).
+     * - Renaming the backing property so it no longer collides with these `array`-typed accessors
+     *   (tried: a `string $a11yNeedsRaw` + a `Configuration/Extbase/Persistence/Classes.php` column
+     *   mapping) does make the DB value hydrate correctly, but then breaks *writing* instead: Extbase's
+     *   `PersistentObjectConverter::getTypeOfChildProperty()` requires a property literally named
+     *   `a11yNeeds` to exist on the class before it will map the submitted `a11yNeeds[]` checkbox
+     *   values onto it at all, independent of that property's declared type.
+     * Properly fixing this needs a custom `PropertyMappingConfiguration` (to point the converter at a
+     * differently-named target property) rather than a plain property rename - out of scope for now.
+     */
     #[Validate(validator: 'Collection', options: ['elementValidator' => 'String'])]
-    /** @var array<string> */
     protected array $a11yNeeds = [];
 
     #[Validate(validator: 'Text')]
@@ -86,6 +110,16 @@ class EventRegistration extends AbstractEntity
     public function setStudentId(string $studentId): void
     {
         $this->studentId = $studentId;
+    }
+
+    public function getBadgePhoto(): ?FileReference
+    {
+        return $this->badgePhoto;
+    }
+
+    public function setBadgePhoto(?FileReference $badgePhoto): void
+    {
+        $this->badgePhoto = $badgePhoto;
     }
 
     /** @return array<string> */

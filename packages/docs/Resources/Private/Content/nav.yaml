@@ -24,6 +24,7 @@
     - docs/components/collapsible
     - docs/components/dialog
     - docs/components/field
+    - docs/components/file-upload
     - docs/components/form
     - docs/components/navigation-menu
     - docs/components/number-input

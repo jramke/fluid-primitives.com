@@ -2,7 +2,7 @@ import { getHydrationData, mount } from 'fluid-primitives';
 import { Form, type FormValues } from 'fluid-primitives/form';
 import { z } from 'zod';
 
-mount('event-registration', ({ props, createHydrator }) => {
+mount('edit-event-registration', ({ props, createHydrator }) => {
     const data = getHydrationData('form', props.id + '-form');
     if (!data) return;
 
@@ -31,9 +31,7 @@ mount('event-registration', ({ props, createHydrator }) => {
 
     const form = new Form({
         ...data.props,
-        // We need to manually validate the schema because of the conditional logic for studentId.
-        // Zod's refine or discriminatedUnion would result in inconsistent validation while the user interacts with the form
-        // otherwise we could just pass the schema instead of the callback
+        // See EventRegistration.entry.ts for why this is a callback instead of just the schema.
         validation: ({ values, validateWithStandardSchema }) => {
             let errors = validateWithStandardSchema(schema);
 
@@ -51,7 +49,6 @@ mount('event-registration', ({ props, createHydrator }) => {
             return errors;
         },
         onSubmit: async ({ api, post }) => {
-            // Wait at least 800ms so we dont flash a loading state and show were working very hard
             const [response] = await Promise.all([
                 post(api.getAction()),
                 new Promise(resolve => setTimeout(resolve, 800)),
@@ -61,15 +58,12 @@ mount('event-registration', ({ props, createHydrator }) => {
 
             if (!response.ok) {
                 api.setErrorText(
-                    data.message ||
-                        'There was an error submitting your registration. Please try again.'
+                    data.message || 'There was an error saving this registration. Please try again.'
                 );
                 return false;
             }
 
-            api.setSuccessText(
-                data.message || 'Your registration was submitted successfully. Thank you.'
-            );
+            api.setSuccessText(data.message || 'The registration was updated successfully.');
 
             return true;
         },
@@ -82,19 +76,16 @@ mount('event-registration', ({ props, createHydrator }) => {
             studentIdField.getRootEl()!.hidden = !showStudentFields;
             studentIdField.setDisabled(!showStudentFields);
 
-            // Update submit button based on form state
             const submitButton = hydrator.getElement('submit-button');
             if (submitButton) {
                 if (form.api.isSubmitting) {
                     submitButton.setAttribute('aria-disabled', 'true');
-                    submitButton.textContent = 'Submitting...';
+                    submitButton.textContent = 'Saving...';
                 } else {
                     submitButton.setAttribute('aria-disabled', 'false');
-                    submitButton.textContent = 'Submit';
+                    submitButton.textContent = 'Save changes';
                 }
             }
-
-            // ...
         },
     });
 

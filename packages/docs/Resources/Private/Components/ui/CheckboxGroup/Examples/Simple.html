@@ -4,7 +4,7 @@
     2: { value: 'option3', text: 'Option 3' }
 }" />
 
-<ui:checkboxGroup.root name="options">
+<ui:checkboxGroup.root name="options[]">
     <ui:checkboxGroup.label>Select options:</ui:checkboxGroup.label>
     <f:for each="{items}" as="item">
         <ui:checkbox.root value="{item.value}">

@@ -92,6 +92,23 @@ field:
     - Error.html
     - Field.entry.ts
 
+file-upload:
+  name: FileUpload
+  description: A file picker with drag and drop support and managed file lists
+  files:
+    - Root.html
+    - Label.html
+    - Dropzone.html
+    - Trigger.html
+    - ClearTrigger.html
+    - ItemGroup.html
+    - FileItem.html
+    - FileName.html
+    - FileMeta.html
+    - FileDeleteTrigger.html
+    - EmptyState.html
+    - FileUpload.entry.ts
+
 form:
   name: Form
   description: A wrapper for forms that provides context for form controls

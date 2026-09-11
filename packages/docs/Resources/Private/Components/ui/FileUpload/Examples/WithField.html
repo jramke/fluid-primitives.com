@@ -1,0 +1,37 @@
+<ui:field.root name="resume" required="{true}">
+    <ui:fileUpload.root accept=".pdf">
+        <ui:fileUpload.label>Resume</ui:fileUpload.label>
+        <ui:fileUpload.dropzone>
+            <div class="grid gap-1">
+                <div class="text-sm font-medium">Upload your resume</div>
+                <div class="text-muted-foreground text-sm">PDF only, one file maximum.</div>
+            </div>
+            <ui:fileUpload.trigger>Choose PDF</ui:fileUpload.trigger>
+        </ui:fileUpload.dropzone>
+
+        <primitives:fileUpload.itemTemplate>
+            <ui:fileUpload.fileItem>
+                <ui:fileUpload.itemPreview match="image/*">
+                    <ui:fileUpload.itemPreviewImage />
+                </ui:fileUpload.itemPreview>
+                <ui:fileUpload.itemPreview match=".*">
+                    <ui:fileUpload.filePreviewFallback />
+                </ui:fileUpload.itemPreview>
+
+                <div class="grid min-w-0 flex-1 gap-0.5">
+                    <ui:fileUpload.fileName />
+                    <ui:fileUpload.fileMeta />
+                    <ui:fileUpload.fileError />
+                </div>
+
+                <ui:fileUpload.fileDeleteTrigger />
+            </ui:fileUpload.fileItem>
+        </primitives:fileUpload.itemTemplate>
+
+        <ui:fileUpload.itemGroup>
+            <ui:fileUpload.emptyState>No files selected yet.</ui:fileUpload.emptyState>
+        </ui:fileUpload.itemGroup>
+    </ui:fileUpload.root>
+    <ui:field.description>We use this for your application review.</ui:field.description>
+    <ui:field.error />
+</ui:field.root>

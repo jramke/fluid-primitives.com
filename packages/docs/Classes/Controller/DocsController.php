@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Controller;
 
 use FluidPrimitives\Docs\Domain\Model\EventRegistration;
+use FluidPrimitives\Docs\Domain\Repository\EventRegistrationRepository;
 use FluidPrimitives\Docs\Domain\Validator\EventRegistrationValidator;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
@@ -17,6 +18,7 @@ use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Attribute\Validate;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 
 final class DocsController extends ActionController
@@ -33,6 +35,8 @@ final class DocsController extends ActionController
         private readonly NavigationBuilder $navigationBuilder,
         private readonly RenderingContextFactory $renderingContextFactory,
         private readonly DocsPageTitleProvider $pageTitleProvider,
+        private readonly EventRegistrationRepository $eventRegistrationRepository,
+        private readonly PersistenceManagerInterface $persistenceManager,
     ) {}
 
     public function showAction(string $path = ''): ResponseInterface
@@ -53,6 +57,20 @@ final class DocsController extends ActionController
             // $test->setName('John Doe');
             // $test->setMode('virtual');
             $this->view->assign('defaultEventRegistration', $test);
+
+            // Manual test helper for the edit form: set a uid here to load an existing registration
+            // to edit, e.g. <ui:editEventRegistration object="{editEventRegistration}" /> in
+            // Playground.html. A plain query param isn't used here since it would need a cHash
+            // exclusion to not 404 on this cached page - editing the uid below is simpler for a
+            // dev-only manual test helper.
+            $editUid = 0;
+            if ($editUid > 0) {
+                $this->view->assign(
+                    'editEventRegistration',
+                    $this->eventRegistrationRepository->findByUid($editUid),
+                );
+            }
+
             $this->pageTitleProvider->setTitle('Playground – Fluid Primitives');
             return $this->htmlResponse();
         }
@@ -100,15 +118,25 @@ final class DocsController extends ActionController
             $status = 422;
         }
 
-        krexxlog($eventRegistration);
-
-        try {
-            // do something with the registration
-            // $this->eventRegistrationRepository->save($eventRegistration);
-            // throw new \RuntimeException('Simulated server error for demonstration purposes.');
-        } catch (\Exception) {
-            $payload = ['success' => false, 'message' => 'An unexpected error occurred. Please try again later.'];
-            $status = 500;
+        if ($status === 200) {
+            try {
+                // A submission carrying a signed `__identity` (see `FormContext::renderHiddenIdentityField()`)
+                // is mapped by Extbase onto the already-persisted entity it identifies, so `_isNew()`
+                // is false here for the edit form; a plain new registration has no identity and is still new.
+                if ($eventRegistration->_isNew()) {
+                    $this->eventRegistrationRepository->add($eventRegistration);
+                } else {
+                    $this->eventRegistrationRepository->update($eventRegistration);
+                }
+                // Flushed explicitly (rather than left to Extbase's own end-of-request persistAll)
+                // because this action escapes the normal response cycle via PropagateResponseException
+                // below - we want a persistence failure to surface as a 500 here, not silently
+                // after we've already told the client it succeeded.
+                $this->persistenceManager->persistAll();
+            } catch (\Exception) {
+                $payload = ['success' => false, 'message' => 'An unexpected error occurred. Please try again later.'];
+                $status = 500;
+            }
         }
 
         $json = json_encode($payload);

@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 #[AsCommand(name: 'docs:generate-viewhelper-docs', description: 'Generate documentation for Fluid ViewHelpers')]
@@ -94,6 +95,11 @@ class GenerateViewHelperDocsCommand extends Command
     /**
      * Extract arguments by instantiating the ViewHelper and reading its argument definitions.
      * This is the same approach used by the official TYPO3 Fluid documentation generator.
+     *
+     * Resolved via `GeneralUtility::makeInstance()` rather than a plain `new` - some ViewHelpers
+     * (e.g. `FileUploadDeleteCheckboxViewHelper`) declare constructor-injected dependencies (like
+     * `HashService`), which only `makeInstance()` can supply via the DI container; a bare `new`
+     * fails with a missing-argument error for any of those.
      */
     private function extractArguments(string $className): array
     {
@@ -104,7 +110,7 @@ class GenerateViewHelperDocsCommand extends Command
         }
 
         /** @var AbstractViewHelper $viewHelper */
-        $viewHelper = new $className();
+        $viewHelper = GeneralUtility::makeInstance($className);
         $viewHelper->initializeArguments();
 
         $argumentDefinitions = $viewHelper->prepareArguments();
