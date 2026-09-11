@@ -27,3 +27,15 @@ export const Directory: StoryObj = {
         example_id: 'directory',
     },
 };
+
+export const CustomLayout: StoryObj = {
+    args: {
+        example_id: 'custom-layout',
+    },
+};
+
+export const DeleteConfirmation: StoryObj = {
+    args: {
+        example_id: 'delete-confirmation',
+    },
+};

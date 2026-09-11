@@ -1,0 +1,67 @@
+<ui:fileUpload.root name="photos[]" accept="image/*" maxFiles="5" controlled="{true}" rootId="custom-layout">
+    <div class="flex items-center justify-between gap-4">
+        <ui:fileUpload.label>Event Photos</ui:fileUpload.label>
+        <div {ui:ref(name: 'filesCounter', context: 'file-upload')} class="text-muted-foreground text-xs">0 / 5 files selected</div>
+    </div>
+    <ui:fileUpload.dropzone>
+        <div class="grid gap-1">
+            <div class="text-sm font-medium">Drop photos here or choose from your device</div>
+            <div class="text-muted-foreground text-sm">Up to 5 images. File size is intentionally not shown here.</div>
+        </div>
+        <ui:fileUpload.trigger>Choose photos</ui:fileUpload.trigger>
+    </ui:fileUpload.dropzone>
+
+    <f:comment>
+        Accepted items get their own compact layout - a larger preview, a bold name and a text
+        "Remove" trigger instead of the default icon button, and deliberately no file size.
+    </f:comment>
+    <f:comment>
+        `itemModifiedDate` has no corresponding part anywhere in FileUpload - it's a plain ui:ref,
+        populated entirely from userland JS (see CustomLayout.entry.ts), to test whether a consumer
+        can show item-level data the primitive itself knows nothing about.
+    </f:comment>
+    <primitives:fileUpload.itemTemplate>
+        <primitives:fileUpload.item class="flex items-center gap-3 rounded-lg border bg-background p-2 shadow-xs">
+            <ui:fileUpload.itemPreview match="image/*" class="size-14">
+                <ui:fileUpload.itemPreviewImage />
+            </ui:fileUpload.itemPreview>
+            <ui:fileUpload.itemPreview match=".*" class="size-14">
+                <ui:fileUpload.filePreviewFallback />
+            </ui:fileUpload.itemPreview>
+
+            <div class="grid min-w-0 flex-1 gap-0.5">
+                <ui:fileUpload.fileName class="truncate text-sm font-semibold" />
+                <div {ui:ref(name: 'itemModifiedDate', context: 'file-upload')} class="text-muted-foreground text-[11px]"></div>
+            </div>
+
+            <primitives:fileUpload.itemDeleteTrigger class="button button-ghost text-muted-foreground h-8 px-2.5 text-xs">Remove</primitives:fileUpload.itemDeleteTrigger>
+        </primitives:fileUpload.item>
+    </primitives:fileUpload.itemTemplate>
+
+    <f:comment>
+        Rejected items use a completely different template - no preview at all, just the file name
+        and why it was rejected - and are listed in their own group below the accepted photos.
+    </f:comment>
+    <primitives:fileUpload.itemTemplate type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}">
+        <primitives:fileUpload.item class="border-destructive/30 bg-destructive/5 grid gap-0.5 rounded-lg border px-3 py-2">
+            <div class="flex items-center justify-between gap-3">
+                <ui:fileUpload.fileName class="truncate text-sm font-medium" />
+                <primitives:fileUpload.itemDeleteTrigger class="button button-ghost text-muted-foreground h-7 px-2 text-xs">Dismiss</primitives:fileUpload.itemDeleteTrigger>
+            </div>
+            <ui:fileUpload.fileError />
+        </primitives:fileUpload.item>
+    </primitives:fileUpload.itemTemplate>
+
+    <ui:fileUpload.itemGroup>
+        <ui:fileUpload.emptyState>No photos selected yet.</ui:fileUpload.emptyState>
+    </ui:fileUpload.itemGroup>
+
+    <div class="grid gap-2">
+        <div class="text-sm font-medium">Rejected</div>
+        <ui:fileUpload.itemGroup type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}">
+            <ui:fileUpload.emptyState>Nothing was rejected.</ui:fileUpload.emptyState>
+        </ui:fileUpload.itemGroup>
+    </div>
+</ui:fileUpload.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/FileUpload/Examples/CustomLayout.entry.ts" />

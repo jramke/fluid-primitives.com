@@ -1,0 +1,53 @@
+<ui:fileUpload.root name="documents[]" accept=".pdf,.doc,.docx" maxFiles="5" controlled="{true}" rootId="delete-confirm">
+    <ui:fileUpload.label>Documents</ui:fileUpload.label>
+    <ui:fileUpload.dropzone>
+        <div class="grid gap-1">
+            <div class="text-sm font-medium">Drop documents here or choose from your device</div>
+            <div class="text-muted-foreground text-sm">Removing a file asks for confirmation first.</div>
+        </div>
+        <ui:fileUpload.trigger>Choose files</ui:fileUpload.trigger>
+    </ui:fileUpload.dropzone>
+
+    <primitives:fileUpload.itemTemplate>
+        <ui:fileUpload.fileItem>
+            <ui:fileUpload.itemPreview match=".*">
+                <ui:fileUpload.filePreviewFallback />
+            </ui:fileUpload.itemPreview>
+
+            <div class="grid min-w-0 flex-1 gap-0.5">
+                <ui:fileUpload.fileName />
+                <ui:fileUpload.fileMeta />
+            </div>
+
+            <ui:fileUpload.fileDeleteTrigger />
+        </ui:fileUpload.fileItem>
+    </primitives:fileUpload.itemTemplate>
+
+    <ui:fileUpload.itemGroup>
+        <ui:fileUpload.emptyState>No documents selected yet.</ui:fileUpload.emptyState>
+    </ui:fileUpload.itemGroup>
+</ui:fileUpload.root>
+
+<f:comment>
+    A second, independently-controlled Dialog instance, opened programmatically from the entry file
+    below instead of its own ui:dialog.trigger - clicking an item's delete button never deletes
+    immediately, it opens this confirmation first.
+</f:comment>
+<ui:dialog.root controlled="{true}" rootId="delete-confirm" role="alertdialog">
+    <ui:dialog.content>
+        <ui:dialog.header>
+            <ui:dialog.title>Remove file?</ui:dialog.title>
+            <ui:dialog.description>
+                <span {ui:ref(name: 'pendingFileName', context: 'dialog')}>This file</span> will be removed from the upload. This can't be undone.
+            </ui:dialog.description>
+        </ui:dialog.header>
+        <ui:dialog.footer>
+            <ui:dialog.close asChild="{true}">
+                <ui:button variant="secondary">Cancel</ui:button>
+            </ui:dialog.close>
+            <button type="button" {ui:ref(name: 'confirmTrigger', context: 'dialog')} class="button button-default h-8 px-3.5 py-2.5">Remove file</button>
+        </ui:dialog.footer>
+    </ui:dialog.content>
+</ui:dialog.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/FileUpload/Examples/DeleteConfirmation.entry.ts" />

@@ -199,7 +199,9 @@ Each primitive extends `Component<Props, Api>`:
 
 ```typescript
 export class Accordion extends Component<accordion.Props, accordion.Api> {
-    static name = 'accordion'; // Required: lowercase component name
+    static componentName = 'accordion'; // Required: lowercase component name. Not `name` - every
+    // class (even a subclass that redeclares nothing) gets its own auto-assigned
+    // Function.prototype.name, which would silently shadow an inherited `static name`.
 
     initMachine(props: accordion.Props): Machine<any> {
         return new Machine(accordion.machine, { ...defaultProps, ...props });
@@ -237,7 +239,7 @@ mount('accordion', ({ props }) => {
 
 - **PascalCase**: Classes (`Accordion`, `Component`, `Machine`)
 - **camelCase**: Methods, variables, functions (`initMachine`, `spreadProps`)
-- **Static `name`**: Required on component classes (lowercase)
+- **Static `componentName`**: Required on component classes (lowercase) - deliberately not `name`, see the Component Class Pattern above
 
 ## PHP Guidelines
 

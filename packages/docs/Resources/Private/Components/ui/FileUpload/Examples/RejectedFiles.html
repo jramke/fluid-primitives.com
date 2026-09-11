@@ -15,24 +15,24 @@
         One item template shared by both file lists below - the same markup renders an accepted or
         a rejected item, styled by its `data-type` attribute.
     </f:comment>
-    <ui:template name="itemTemplate" context="file-upload">
+    <primitives:fileUpload.itemTemplate>
         <ui:fileUpload.fileItem>
-            <primitives:fileUpload.itemPreview match="image/*" class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border">
-                <primitives:fileUpload.itemPreviewImage class="size-full object-cover" />
-            </primitives:fileUpload.itemPreview>
-            <primitives:fileUpload.itemPreview match=".*" class="bg-muted text-muted-foreground flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border">
-                <div {ui:ref(name: 'previewFallback' , withId: false)} class="text-[11px] font-medium uppercase"></div>
-            </primitives:fileUpload.itemPreview>
+            <ui:fileUpload.itemPreview match="image/*">
+                <ui:fileUpload.itemPreviewImage />
+            </ui:fileUpload.itemPreview>
+            <ui:fileUpload.itemPreview match=".*">
+                <ui:fileUpload.filePreviewFallback />
+            </ui:fileUpload.itemPreview>
 
             <div class="grid min-w-0 flex-1 gap-0.5">
                 <ui:fileUpload.fileName />
                 <ui:fileUpload.fileMeta />
-                <div {ui:ref(name: 'itemErrors' , withId: false)} hidden class="text-destructive text-xs"></div>
+                <ui:fileUpload.fileError />
             </div>
 
             <ui:fileUpload.fileDeleteTrigger />
         </ui:fileUpload.fileItem>
-    </ui:template>
+    </primitives:fileUpload.itemTemplate>
 
     <div class="grid gap-4 md:grid-cols-2">
         <div class="grid gap-2">
