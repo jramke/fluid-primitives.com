@@ -17,9 +17,16 @@
     "scripts": {
         "mago:lint": "mago lint",
         "mago:lint:fix": "mago lint --fix --format-after-fix --unsafe",
+        "mago:analyze": "mago analyze",
+        "mago:analyze:fix": "mago analyze --fix --format-after-fix --unsafe",
         "rector:process": "rector process",
         "format": "mago format",
-        "lint": ["@rector:process", "@format", "@mago:lint:fix", "@mago:lint"],
+        "lint": [
+            "@rector:process",
+            "@mago:lint:fix",
+            "@mago:lint",
+            "@format"
+        ],
         "test": "composer run --working-dir=packages/fluid-primitives test:fromdocs --"
     },
     "require": {
@@ -62,7 +69,7 @@
     },
     "require-dev": {
         "andersundsehr/storybook": "^0.1.36",
-        "carthage-software/mago": "^1.24",
+        "carthage-software/mago": "^1.48",
         "ssch/typo3-rector": "^3.14",
         "typo3/testing-framework": "^9.5"
     },

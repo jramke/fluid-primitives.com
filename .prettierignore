@@ -1,5 +1,5 @@
-.ddev
-*.html
+**/*.html
+.ddev/addon-metadata/**
 composer.lock
 package-lock.json
 packages/fluid-primitives/Resources/Public/JavaScript

@@ -21,28 +21,20 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         'Public/**',
-        // '**/public/**',
         'node_modules/**',
         'config/system/settings.php',
         'packages/fluid-primitives/public',
         'packages/fluid-primitives/vendor',
     ])
-    // uncomment to reach your current PHP version
-    // ->withPhpSets()
     ->withPhpVersion(PhpVersion::PHP_82)
     ->withSets([
-        // Rector rules
         SetList::CODE_QUALITY,
         LevelSetList::UP_TO_PHP_82,
 
         Typo3SetList::CODE_QUALITY,
         Typo3SetList::GENERAL,
         Typo3LevelSetList::UP_TO_TYPO3_14,
-        // To migrate to Doctrine Dbal 4, uncomment the following line
-        //\Rector\Doctrine\Set\DoctrineSetList::DOCTRINE_DBAL_40,
     ])
-    // To have a better analysis from PHPStan, we teach it here some more things
-    ->withPHPStanConfigs([Typo3Option::PHPSTAN_FOR_RECTOR_PATH])
     ->withImportNames(true, true, false, true)
     ->withRules([
         AddVoidReturnTypeWhereNoReturnRector::class,
