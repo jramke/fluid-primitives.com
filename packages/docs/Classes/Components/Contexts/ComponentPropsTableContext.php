@@ -112,10 +112,6 @@ class ComponentPropsTableContext extends AbstractComponentContext
         $value = ucwords((string)$value);
         $value = str_replace(' ', '', $value);
 
-        if ($value === '') {
-            return '';
-        }
-
         return $value;
     }
 

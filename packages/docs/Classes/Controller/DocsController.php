@@ -65,10 +65,7 @@ final class DocsController extends ActionController
             // dev-only manual test helper.
             $editUid = 0;
             if ($editUid > 0) {
-                $this->view->assign(
-                    'editEventRegistration',
-                    $this->eventRegistrationRepository->findByUid($editUid),
-                );
+                $this->view->assign('editEventRegistration', $this->eventRegistrationRepository->findByUid($editUid));
             }
 
             $this->pageTitleProvider->setTitle('Playground – Fluid Primitives');

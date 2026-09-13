@@ -8,13 +8,11 @@ return [
         'label' => 'name',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'delete' => 'deleted',
         'hideTable' => true,
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'searchFields' => 'name,email',
     ],
     'columns' => [
         'hidden' => [
@@ -49,6 +47,7 @@ return [
                 'type' => 'input',
                 'size' => 20,
                 'eval' => 'trim',
+                'searchable' => false,
             ],
         ],
         'country' => [
@@ -57,6 +56,7 @@ return [
                 'type' => 'input',
                 'size' => 10,
                 'eval' => 'trim',
+                'searchable' => false,
             ],
         ],
     ],

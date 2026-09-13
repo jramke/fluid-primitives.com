@@ -24,7 +24,7 @@ final class ZagDocsMetadata
                 $normalizedPrimitive,
                 'docs:generate-zag-docs',
                 self::generatedDirectory(),
-            ));
+            ), 2329929121);
         }
 
         $data = self::readJsonFile($generatedFile);
@@ -33,7 +33,7 @@ final class ZagDocsMetadata
                 'Generated Zag docs metadata for "%s" is empty. Run the %s command first.',
                 $normalizedPrimitive,
                 'docs:generate-zag-docs',
-            ));
+            ), 1057914033);
         }
 
         return $data;
@@ -42,12 +42,12 @@ final class ZagDocsMetadata
     private static function readJsonFile(string $file): array
     {
         if (!is_file($file)) {
-            throw new RuntimeException(sprintf('Zag docs file not found: %s', $file));
+            throw new RuntimeException(sprintf('Zag docs file not found: %s', $file), 9102163250);
         }
 
         $contents = file_get_contents($file);
         if ($contents === false) {
-            throw new RuntimeException(sprintf('Unable to read Zag docs file: %s', $file));
+            throw new RuntimeException(sprintf('Unable to read Zag docs file: %s', $file), 1929703906);
         }
 
         $decoded = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);

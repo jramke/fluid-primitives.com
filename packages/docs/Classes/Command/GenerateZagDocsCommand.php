@@ -58,7 +58,7 @@ class GenerateZagDocsCommand extends Command
         ];
 
         $primitiveNames = [];
-        foreach ($files as $fileName => $key) {
+        foreach (array_keys($files) as $fileName) {
             $json = $this->readJsonFile($sourceDir . '/' . $fileName);
             foreach (array_keys($json) as $primitiveName) {
                 $primitiveNames[$primitiveName] = true;
@@ -92,12 +92,12 @@ class GenerateZagDocsCommand extends Command
     private function readJsonFile(string $file): array
     {
         if (!is_file($file)) {
-            throw new RuntimeException(sprintf('Missing Zag docs file: %s', $file));
+            throw new RuntimeException(sprintf('Missing Zag docs file: %s', $file), 8532790736);
         }
 
         $contents = file_get_contents($file);
         if ($contents === false) {
-            throw new RuntimeException(sprintf('Unable to read Zag docs file: %s', $file));
+            throw new RuntimeException(sprintf('Unable to read Zag docs file: %s', $file), 1116995753);
         }
 
         $decoded = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);

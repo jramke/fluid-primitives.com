@@ -8,7 +8,6 @@ return [
         'label' => 'uid',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'delete' => 'deleted',
         'languageField' => 'sys_language_uid',
         'transOrigPointerField' => 'l10n_parent',
@@ -16,7 +15,6 @@ return [
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'searchFields' => 'ticket_type,student_id',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -123,6 +121,7 @@ return [
                 'cols' => 40,
                 'rows' => 5,
                 'max' => 500,
+                'searchable' => false,
             ],
         ],
         'privacy' => [
