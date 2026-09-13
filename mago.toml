@@ -24,6 +24,7 @@ indent-heredoc = false
 
 [linter]
 integrations = ["symfony"]
+excludes = ["packages/fluid-primitives/tests/**"]
 
 [linter.rules]
 no-shorthand-ternary = { enabled = false }
@@ -36,3 +37,4 @@ excessive-parameter-list = { threshold = 5, constructor-threshold = 10 }
 
 [analyzer]
 ignore = ["invalid-type-cast"]
+excludes = ["packages/fluid-primitives/tests/**"]
