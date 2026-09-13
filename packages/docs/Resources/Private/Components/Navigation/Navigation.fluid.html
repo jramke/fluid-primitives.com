@@ -52,16 +52,16 @@
     </aside>
     
     <div class="fixed top-0 grid place-items-center w-full border-b border-dashed h-16 bg-background/80 backdrop-blur-sm pe-[var(--scrollbar-width,0px)]">
-        <f:comment>
-            <!-- <button type="button" class="w-70 cursor-pointer inline-flex items-center gap-2 rounded-lg border bg-secondary/50 p-1.5 ps-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-1">
+        <ui:navigation.commandMenu>
+            <button type="button" data-search-index-url="{f:uri.action(action: 'index', controller: 'SearchIndex')}" class="w-70 cursor-pointer inline-flex items-center gap-2 rounded-lg border bg-secondary/50 p-1.5 ps-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-1">
                 <ui:icon.search />
                 Search
                 <div class="ms-auto inline-flex gap-0.5 test-xs">
                     <kbd class="rounded-md border bg-background px-1.5 content-center">⌘</kbd>
                     <kbd class="rounded-md border bg-background px-1.5 content-center">K</kbd>
                 </div>
-            </button> -->
-        </f:comment>
+            </button>
+        </ui:navigation.commandMenu>
         <div class="hidden md:block absolute right-[calc((var(--spacing)*8)+var(--scrollbar-width,0px))] top-1/2 -translate-y-1/2">
             <f:for each="{mainLinks}" as="link" iteration="i">
                 <a href="{link.href}" class="text-sm" {f:if(condition: '{link.external}', then: 'target="_blank" rel="noopener noreferrer"')}>
