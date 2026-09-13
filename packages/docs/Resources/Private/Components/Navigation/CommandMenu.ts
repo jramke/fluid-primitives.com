@@ -57,9 +57,9 @@ export function initCommandMenu(navRootId: string): void {
     }
 
     // Renders one flat item list, grouped the same way the sidebar navigation groups pages -
-    // preserving the original nav.yaml group order regardless of whether `items` is the full,
-    // unfiltered index (browsable list) or a subset of Orama search hits (relevance order kept
-    // within each group).
+    // groupSort is given the nav.yaml group order explicitly, so groups render in that order
+    // regardless of whether `items` is the full, unfiltered index (browsable list) or a subset of
+    // Orama search hits (relevance order kept within each group).
     function updateItems(items: SearchResultItem[]) {
         const contentEl = combobox.getElement<HTMLElement>('content');
         if (!contentEl || !combobox.hydrator) return;
@@ -67,16 +67,15 @@ export function initCommandMenu(navRootId: string): void {
         insertedGroups.forEach(el => el.remove());
         insertedGroups = [];
 
-        const byGroup = new Map<string, SearchResultItem[]>();
-        for (const group of groupOrder) byGroup.set(group, []);
-        for (const item of items) {
-            if (!byGroup.has(item.group)) byGroup.set(item.group, []);
-            byGroup.get(item.group)!.push(item);
-        }
+        const collection = new ListCollection<SearchResultItem>({
+            items,
+            itemToValue: item => item.value,
+            itemToString: item => item.title,
+            groupBy: item => item.group,
+            groupSort: groupOrder,
+        });
 
-        for (const [groupName, groupItems] of byGroup) {
-            if (groupItems.length === 0) continue;
-
+        for (const [groupName, groupItems] of collection.group()) {
             const group = new Template(combobox.hydrator, 'groupTemplate');
             group.root.dataset.id = uid();
 
@@ -94,13 +93,7 @@ export function initCommandMenu(navRootId: string): void {
             insertedGroups.push(group.root);
         }
 
-        combobox.updateProps({
-            collection: new ListCollection<SearchResultItem>({
-                items,
-                itemToValue: item => item.value,
-                itemToString: item => item.title,
-            }),
-        });
+        combobox.updateProps({ collection });
 
         if (items.length === 0) {
             setStatus('No results found.');
