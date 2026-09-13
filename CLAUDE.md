@@ -1,6 +1,6 @@
-# AGENTS.md - Fluid Primitives
+# CLAUDE.md
 
-This document provides guidance for AI coding agents working in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
@@ -10,7 +10,7 @@ You can check out the docs `.md` files under `packages/docs/Resources/Private/Co
 
 **Key technologies:**
 
-- PHP 8.3 (TYPO3 extension, ViewHelpers, Contexts)
+- PHP 8.2 (TYPO3 extension, ViewHelpers, Contexts)
 - TypeScript (client-side hydration using Zag.js)
 - TYPO3 Fluid (HTML-like templating language)
 - Tailwind CSS v4 (documentation site and registry styling)
@@ -36,13 +36,6 @@ packages/
 **Important:** Always use `ddev` prefix for `composer` and `npm` commands in this project.
 
 ```bash
-# Local development (requires DDEV)
-ddev start
-ddev composer install
-ddev snapshot restore --latest
-ddev npm install
-ddev npm run dev              # Runs both primitives:dev and docs:dev
-
 # Individual commands
 ddev npm run primitives:build # Build the fluid-primitives package
 ddev npm run primitives:dev   # Watch mode for primitives
@@ -55,6 +48,7 @@ ddev npm run format:check     # Check formatting without writing
 ddev npm run types            # TypeScript type checking (tsc --noEmit)
 ddev composer run format      # Format PHP files with Mago, always run after changes are done
 ddev composer run lint        # Static analysis for PHP with Mago and Rector
+ddev composer mago:analyze    # Analyze PHP code quality with Mago
 ```
 
 ## Testing
@@ -145,31 +139,13 @@ public function itCallsStr_containsWithCorrectArguments(): void
 public function skipsPrimitivesNamespacesWhenExtractingBaseName(): void
 ```
 
-## Code Formatting
+## Code style
 
-### Prettier Configuration
-
-Uses Prettier with `prettier-plugin-organize-imports` for automatic import sorting.
-
-```json
-{
-    "printWidth": 100,
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "bracketSpacing": true,
-    "arrowParens": "avoid",
-    "semi": true
-}
-```
-
-We also use Mago for formatting PHP files.
-
-Run `ddev npm run format` and `ddev composer run format` before committing changes.
-
-### EditorConfig
-
-- **Unix line endings (LF)** for all files
-- **Spaces** for everything (size 4, YAML size 2)
+- PHP: [mago](https://mago.carthage.software) (`mago.toml`) + [rector](https://github.com/rectorphp/rector)
+  (`rector.php`) for TYPO3-version portability.
+- TS/JS: Prettier (`.prettierrc`).
+- Indentation: per `.editorconfig` (4 spaces, 2 for YAML).
+- Comments: bare minimum — only for a non-obvious constraint or mechanism, never restating what the code does.
 
 ## TypeScript Guidelines
 
@@ -261,26 +237,6 @@ Always use strict types declaration:
 declare(strict_types=1);
 ```
 
-### ViewHelper Pattern
-
-```php
-class ExampleViewHelper extends AbstractViewHelper
-{
-    protected $escapeOutput = false;
-
-    public function initializeArguments(): void
-    {
-        $this->registerArgument('name', 'string', 'Description', true);
-        $this->registerArgument('optional', 'boolean', 'Description', false, false);
-    }
-
-    public function render(): mixed
-    {
-        // Implementation
-    }
-}
-```
-
 ### Context Class Pattern
 
 ```php
@@ -298,7 +254,8 @@ class AccordionContext extends AbstractComponentContext
 ### Props Definition
 
 ```html
-<ui:prop name="variant" type="string" optional="{true}" default="primary" /> <ui:prop name="disabled" type="boolean" optional="{true}" client="{true}" />
+<ui:prop name="variant" type="string" optional="{true}" default="primary" />
+<ui:prop name="disabled" type="boolean" optional="{true}" client="{true}" />
 ```
 
 ### Ref Pattern (for hydration)
@@ -306,21 +263,8 @@ class AccordionContext extends AbstractComponentContext
 ```html
 <div
     {f:if(condition: class, then: 'class="{class}"')}
-    {ui:ref(name: 'root', data: refData)}
+    {ui:ref(name: 'root', value: myOptionalValue, data: refData)}
     {ui:attributes()}>
     <f:slot />
 </div>
 ```
-
-## Error Handling
-
-### TypeScript
-
-- Throw descriptive errors with context
-- Use null checks with optional chaining (`?.`) and nullish coalescing (`??`)
-- Check for required props in constructors
-
-### PHP
-
-- Throw `\RuntimeException` with error codes for ViewHelper validation
-- Include descriptive error messages with context
