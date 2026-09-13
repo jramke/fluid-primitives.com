@@ -2,229 +2,229 @@ accordion:
   name: Accordion
   description: A set of collapsible panels with headings
   files:
-    - Root.html
-    - Item.html
-    - ItemTrigger.html
-    - ItemContent.html
+    - Root.fluid.html
+    - Item.fluid.html
+    - ItemTrigger.fluid.html
+    - ItemContent.fluid.html
     - Accordion.entry.ts
 
 checkbox:
   name: Checkbox
   description: An easily stylable checkbox component
   files:
-    - Root.html
-    - Label.html
-    - Control.html
+    - Root.fluid.html
+    - Label.fluid.html
+    - Control.fluid.html
     - Checkbox.entry.ts
 
 checkbox-group:
   name: CheckboxGroup
   description: A group of checkboxes for selecting multiple values
   files:
-    - Root.html
-    - Label.html
+    - Root.fluid.html
+    - Label.fluid.html
     - CheckboxGroup.entry.ts
 
 clipboard:
   name: Clipboard
   description: A component to copy text to the clipboard
   files:
-    - Root.html
-    - Label.html
-    - Control.html
-    - Input.html
-    - Trigger.html
-    - Indicator.html
+    - Root.fluid.html
+    - Label.fluid.html
+    - Control.fluid.html
+    - Input.fluid.html
+    - Trigger.fluid.html
+    - Indicator.fluid.html
     - Clipboard.entry.ts
 
 combobox:
   name: Combobox
   description: An input with a popup listbox for filtering and selecting values
   files:
-    - Root.html
-    - Label.html
-    - Control.html
-    - Input.html
-    - Trigger.html
-    - ClearTrigger.html
-    - Content.html
-    - Item.html
-    - ItemText.html
-    - ItemIndicator.html
-    - ItemGroup.html
-    - ItemGroupLabel.html
-    - Empty.html
+    - Root.fluid.html
+    - Label.fluid.html
+    - Control.fluid.html
+    - Input.fluid.html
+    - Trigger.fluid.html
+    - ClearTrigger.fluid.html
+    - Content.fluid.html
+    - Item.fluid.html
+    - ItemText.fluid.html
+    - ItemIndicator.fluid.html
+    - ItemGroup.fluid.html
+    - ItemGroupLabel.fluid.html
+    - Empty.fluid.html
     - Combobox.entry.ts
 
 collapsible:
   name: Collapsible
   description: A collapsible panel controlled by a button
   files:
-    - Root.html
-    - Trigger.html
-    - TriggerText.html
-    - Content.html
+    - Root.fluid.html
+    - Trigger.fluid.html
+    - TriggerText.fluid.html
+    - Content.fluid.html
     - Collapsible.entry.ts
 
 dialog:
   name: Dialog
   description: A popup that opens on top of the entire page
   files:
-    - Root.html
-    - Trigger.html
-    - Content.html
-    - Header.html
-    - Footer.html
-    - Title.html
-    - Description.html
-    - CloseTrigger.html
-    - Close.html
+    - Root.fluid.html
+    - Trigger.fluid.html
+    - Content.fluid.html
+    - Header.fluid.html
+    - Footer.fluid.html
+    - Title.fluid.html
+    - Description.fluid.html
+    - CloseTrigger.fluid.html
+    - Close.fluid.html
     - Dialog.entry.ts
 
 field:
   name: Field
   description: A wrapper for form fields with an optional label and description
   files:
-    - Root.html
-    - Label.html
-    - Description.html
-    - Control.html
-    - Error.html
+    - Root.fluid.html
+    - Label.fluid.html
+    - Description.fluid.html
+    - Control.fluid.html
+    - Error.fluid.html
     - Field.entry.ts
 
 file-upload:
   name: FileUpload
   description: A file picker with drag and drop support and managed file lists
   files:
-    - Root.html
-    - Label.html
-    - Dropzone.html
-    - Trigger.html
-    - ClearTrigger.html
-    - ItemGroup.html
-    - FileItem.html
-    - FileName.html
-    - FileMeta.html
-    - FileDeleteTrigger.html
-    - EmptyState.html
+    - Root.fluid.html
+    - Label.fluid.html
+    - Dropzone.fluid.html
+    - Trigger.fluid.html
+    - ClearTrigger.fluid.html
+    - ItemGroup.fluid.html
+    - FileItem.fluid.html
+    - FileName.fluid.html
+    - FileMeta.fluid.html
+    - FileDeleteTrigger.fluid.html
+    - EmptyState.fluid.html
     - FileUpload.entry.ts
 
 form:
   name: Form
   description: A wrapper for forms that provides context for form controls
   files:
-    - Root.html
-    - Content.html
-    - Indicator.html
-    - ErrorText.html
-    - SuccessText.html
+    - Root.fluid.html
+    - Content.fluid.html
+    - Indicator.fluid.html
+    - ErrorText.fluid.html
+    - SuccessText.fluid.html
     - Form.entry.ts
 
 navigation-menu:
   name: NavigationMenu
   description: A collection of links and menus for website navigation
   files:
-    - Arrow.html
-    - Content.html
-    - Indicator.html
-    - Item.html
-    - Link.html
-    - List.html
-    - Root.html
-    - Trigger.html
-    - Viewport.html
-    - ViewportPositioner.html
+    - Arrow.fluid.html
+    - Content.fluid.html
+    - Indicator.fluid.html
+    - Item.fluid.html
+    - Link.fluid.html
+    - List.fluid.html
+    - Root.fluid.html
+    - Trigger.fluid.html
+    - Viewport.fluid.html
+    - ViewportPositioner.fluid.html
     - NavigationMenu.entry.ts
 
 number-input:
   name: NumberInput
   description: A numeric input with increment and decrement controls
   files:
-    - Root.html
-    - Label.html
-    - Control.html
-    - Input.html
-    - IncrementTrigger.html
-    - DecrementTrigger.html
+    - Root.fluid.html
+    - Label.fluid.html
+    - Control.fluid.html
+    - Input.fluid.html
+    - IncrementTrigger.fluid.html
+    - DecrementTrigger.fluid.html
     - NumberInput.entry.ts
 
 popover:
   name: Popover
   description: An accessible popup anchored to a button
   files:
-    - Root.html
-    - Trigger.html
-    - Content.html
-    - Title.html
-    - Description.html
-    - CloseTrigger.html
-    - Close.html
+    - Root.fluid.html
+    - Trigger.fluid.html
+    - Content.fluid.html
+    - Title.fluid.html
+    - Description.fluid.html
+    - CloseTrigger.fluid.html
+    - Close.fluid.html
     - Popover.entry.ts
 
 radio-group:
   name: RadioGroup
   description: An easily stylable radio button component
   files:
-    - Root.html
-    - Label.html
-    - Item.html
-    - ItemControl.html
-    - ItemText.html
+    - Root.fluid.html
+    - Label.fluid.html
+    - Item.fluid.html
+    - ItemControl.fluid.html
+    - ItemText.fluid.html
     - RadioGroup.entry.ts
 
 scroll-area:
   name: ScrollArea
   description: A native scroll container with custom scrollbars
   files:
-    - Root.html
-    - Viewport.html
-    - Content.html
-    - Scrollbar.html
-    - Thumb.html
+    - Root.fluid.html
+    - Viewport.fluid.html
+    - Content.fluid.html
+    - Scrollbar.fluid.html
+    - Thumb.fluid.html
     - ScrollArea.entry.ts
 
 select:
   name: Select
   description: A common form component for choosing a predefined value in a dropdown menu
   files:
-    - Root.html
-    - Label.html
-    - Control.html
-    - Trigger.html
-    - ValueText.html
-    - Content.html
-    - Item.html
-    - ItemText.html
-    - ItemIndicator.html
-    - ItemGroup.html
-    - ItemGroupLabel.html
+    - Root.fluid.html
+    - Label.fluid.html
+    - Control.fluid.html
+    - Trigger.fluid.html
+    - ValueText.fluid.html
+    - Content.fluid.html
+    - Item.fluid.html
+    - ItemText.fluid.html
+    - ItemIndicator.fluid.html
+    - ItemGroup.fluid.html
+    - ItemGroupLabel.fluid.html
     - Select.entry.ts
 
 switch:
   name: Switch
   description: A toggle component for turning a single option on or off.
   files:
-    - Control.html
-    - Indicator.html
-    - Label.html
-    - Root.html
+    - Control.fluid.html
+    - Indicator.fluid.html
+    - Label.fluid.html
+    - Root.fluid.html
     - Switch.entry.ts
 
 tabs:
   name: Tabs
   description: A component for toggling between related panels on the same page
   files:
-    - Root.html
-    - List.html
-    - Trigger.html
-    - Content.html
+    - Root.fluid.html
+    - List.fluid.html
+    - Trigger.fluid.html
+    - Content.fluid.html
     - Tabs.entry.ts
 
 tooltip:
   name: Tooltip
   description: A popup that appears when an element is hovered or focused, showing a hint for sighted users
   files:
-    - Root.html
-    - Trigger.html
-    - Content.html
+    - Root.fluid.html
+    - Trigger.fluid.html
+    - Content.fluid.html
     - Tooltip.entry.ts

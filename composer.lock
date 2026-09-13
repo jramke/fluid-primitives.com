@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4fc9ae460255e413de7f0e1f1cbb9441",
+    "content-hash": "5457f6dcfee1922d1273fbb5e0cfebe9",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -9365,6 +9365,50 @@
                 }
             ],
             "time": "2026-07-25T06:54:13+00:00"
+        },
+        {
+            "name": "praetorius/fluid-rename",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/s2b/fluid-rename.git",
+                "reference": "c973f1669388d7e735e552d2634e3981b954eb99"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/s2b/fluid-rename/zipball/c973f1669388d7e735e552d2634e3981b954eb99",
+                "reference": "c973f1669388d7e735e552d2634e3981b954eb99",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "symfony/console": "^7.2",
+                "symfony/finder": "^7.2",
+                "typo3/cms-core": "^14.0 || ^13.4 || dev-main",
+                "typo3/cms-fluid": "^14.0 || ^13.4 || dev-main"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "web-dir": ".Build/web",
+                    "extension-key": "fluid_rename"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Praetorius\\FluidRename\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Helper to rename Fluid templates in a TYPO3 extension to *.fluid.* file extension",
+            "support": {
+                "issues": "https://github.com/s2b/fluid-rename/issues",
+                "source": "https://github.com/s2b/fluid-rename/tree/1.0.0"
+            },
+            "time": "2025-11-15T13:48:55+00:00"
         },
         {
             "name": "rector/rector",

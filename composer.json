@@ -70,6 +70,7 @@
     "require-dev": {
         "andersundsehr/storybook": "^0.1.36",
         "carthage-software/mago": "^1.48",
+        "praetorius/fluid-rename": "^1.0",
         "ssch/typo3-rector": "^3.14",
         "typo3/testing-framework": "^9.5"
     },
