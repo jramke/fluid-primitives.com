@@ -219,13 +219,60 @@ mount('accordion', ({ props }) => {
 
 ## PHP Guidelines
 
-### Namespace Structure
+### Class Organization
+
+Namespaces mirror `Classes/` subfolders 1:1 (PSR-4):
 
 ```php
 namespace Jramke\FluidPrimitives\Contexts;
 namespace Jramke\FluidPrimitives\ViewHelpers;
 namespace Jramke\FluidPrimitives\Service;
 ```
+
+`Classes/` is organized by what each class *is*, not by which class it was originally split out of - when extracting a collaborator, place it in the folder matching its role, not next to the class it came from.
+
+- **`Contexts/`** - per-component state exposed to templates as `context.*` (see Context Class Pattern below).
+- **`ViewHelpers/`** - Fluid ViewHelpers, the `ui:` namespace.
+- **`Service/`** - stateless or DI'd collaborators with real behavior. `Service/Component/` holds `ComponentRenderer`'s own rendering-pipeline collaborators specifically (argument/identity resolution, context merging, hydration collection).
+- **`Factory/`** - classes with a `create()` method that build and wire up another object, typically because that object needs a runtime value (a dynamic class name, the caller's own `$this`) that can't be autowired - see Dependency Injection below.
+- **`Domain/Dto/`** - plain data carriers with no framework dependencies. Nothing here extends `AbstractDomainObject` - if it did, it'd be an Extbase persisted entity and `Domain/Model` would be the right name; since nothing does, `Dto` is accurate.
+- **`Utility/`** - pure, stateless helpers (mostly static methods, occasionally an instantiated zero-dependency class kept instantiable for testability, e.g. `ExtbaseFormFieldNamer`). Not for anything with a real service dependency in its constructor - that belongs in `Service/`.
+- **`Command/`** - CLI commands and command-specific collaborators (e.g. `ComponentFileWriter`, only ever used by `ComponentAddCommand`). Keep those adjacent rather than promoting them to `Service/` - they're not reusable outside their one command.
+- **`Registry/`** - process-lifetime singletons (`HydrationRegistry`, `PortalRegistry`) and their own collaborators.
+- **`Traits/`** - behavior shared across multiple `Contexts/` classes; see Dependency Injection below for how they declare their host-class requirements.
+
+### Dependency Injection
+
+Every class under `Classes/` is auto-registered as an autowired TYPO3 service (`Configuration/Services.yaml`, `resource: '../Classes/*'`). Default to constructor injection for any collaborator that's part of this codebase - don't manually `new` it.
+
+**When a class is already container-resolved with no extra constructor args** (a `Contexts/` class via `ComponentContextFactory::create()`'s `GeneralUtility::makeInstance($className)`, a Console `Command/` tagged `console.command`), just add the dependency as a normal typed constructor parameter - autowiring handles the rest.
+
+**When an object needs both DI'd collaborators and a per-call runtime value that can't be autowired** (a dynamic class name, the caller's own `$this`), don't mix manual `new` with constructor injection, and don't bolt the runtime value on with a setter after construction either - a setter writing to a `readonly` property can't be proven by static analysis to run only once (`mago analyze` flags it as `possibly-invalid-property-write`), even where the real call graph guarantees it. Give the class a `Factory/` counterpart instead: the factory constructor-injects the DI'd collaborators (it holds no per-call state itself, so it stays safely container-shared) and its `create(...)` method takes the runtime value as a parameter, building the target object complete in one call - so the target class keeps a single, fully-promoted `readonly` constructor and never needs a setter. See `ComponentRendererFactory`, which builds `ComponentRenderer` (whose `componentResolver` is the calling `AbstractComponentCollection`'s own `$this`, not a generic service):
+
+```php
+#[Autoconfigure(public: true)]
+final readonly class SomeFactory
+{
+    public function __construct(
+        private SomeCollaborator $collaborator,
+    ) {}
+
+    public function create(SomeRuntimeValue $value): SomeTarget
+    {
+        return new SomeTarget($value, $this->collaborator);
+    }
+}
+```
+
+`GeneralUtility::makeInstance()` is still the right tool for:
+
+- **Dynamic class-name resolution** - the target class is only known at runtime (e.g. resolving a Context subclass by name in `ComponentContextFactory`). A container can't autowire "whichever class this string names."
+- **Static methods and Fluid ViewHelpers** - Fluid instantiates ViewHelpers itself, outside TYPO3's DI graph, so there's no `$this` to inject into; the same applies to any purely-static `Utility/` class.
+
+Two `Symfony\Component\DependencyInjection\Attribute\Autoconfigure` flags matter here:
+
+- **`public: true`** - required on any class fetched via `GeneralUtility::makeInstance()`/`$container->get()` from *outside* the container's own constructor-graph wiring (an entry point: a dynamically-resolved `Contexts/` class, a `Factory/`). Not needed for a class only ever reached as another service's constructor-injected dependency.
+- **`shared: false`** - needed when an object holds per-caller state bound at construction, so a cached singleton instance can't leak one caller's binding into another's.
 
 ### Strict Types
 
