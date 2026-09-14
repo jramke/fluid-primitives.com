@@ -1,4 +1,3 @@
-import { create, insertMultiple, search, type Orama } from '@orama/orama';
 import type { CollectionItem } from '@zag-js/collection';
 import { ListCollection } from '@zag-js/collection';
 import type { InputValueChangeDetails, SelectionDetails } from '@zag-js/combobox';
@@ -7,6 +6,7 @@ import { debounce } from '@zag-js/utils';
 import { getHydrationData, Template, uid } from 'fluid-primitives';
 import { Combobox } from 'fluid-primitives/combobox';
 import { Dialog } from 'fluid-primitives/dialog';
+import { create, insertMultiple, search, type ZBSearch } from 'zbsearch';
 
 interface SearchDoc {
     title: string;
@@ -37,7 +37,7 @@ function toResultItem(doc: SearchDoc): SearchResultItem {
 
 /**
  * Boots the cmd+k command menu once per page: fetches the whole search index up front (so the
- * search itself is entirely client-side/offline afterwards), indexes it with Orama, and wires the
+ * search itself is entirely client-side/offline afterwards), indexes it with zbsearch, and wires the
  * Dialog + Combobox composition together with a `mod+K` hotkey (via `@zag-js/hotkeys`) that opens
  * it from anywhere on the page.
  */
@@ -48,7 +48,7 @@ export function initCommandMenu(navRootId: string): void {
 
     let allItems: SearchResultItem[] = [];
     let groupOrder: string[] = [];
-    let db: Orama<typeof schema> | null = null;
+    let db: ZBSearch<typeof schema> | null = null;
     let insertedGroups: HTMLElement[] = [];
 
     function setStatus(text: string) {
@@ -59,7 +59,7 @@ export function initCommandMenu(navRootId: string): void {
     // Renders one flat item list, grouped the same way the sidebar navigation groups pages -
     // groupSort is given the nav.yaml group order explicitly, so groups render in that order
     // regardless of whether `items` is the full, unfiltered index (browsable list) or a subset of
-    // Orama search hits (relevance order kept within each group).
+    // zbsearch search hits (relevance order kept within each group).
     function updateItems(items: SearchResultItem[]) {
         const contentEl = combobox.getElement<HTMLElement>('content');
         if (!contentEl || !combobox.hydrator) return;
