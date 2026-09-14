@@ -107,7 +107,7 @@ Note that Zag.js uses a function for the trigger label to allow dynamic labels b
     arguments: {
         "name": "Combobox",
         "parts": [
-            ["root", "Provides dialog state and context for the composed parts. Renders no wrapper element."],
+            ["root", "Provides shared combobox state and wraps all related parts. Renders a `<div>` element."],
             ["trigger", "Opens the dialog. Renders a `<button>` element."],
             ["backdrop", "Displays the overlay behind the dialog content. Renders a `<div>` element."],
             ["positioner", "Positions the dialog content within the viewport. Renders a `<div>` element."],

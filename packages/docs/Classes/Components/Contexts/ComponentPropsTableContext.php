@@ -8,7 +8,6 @@ use FluidPrimitives\Docs\Utility\DocsUtility;
 use FluidPrimitives\Docs\Utility\ZagDocsMetadata;
 use Jramke\FluidPrimitives\Annotations\RequiredAtRuntimeArgumentAnnotation;
 use Jramke\FluidPrimitives\Component\ComponentPrimitivesCollection;
-use Jramke\FluidPrimitives\Constants;
 use Jramke\FluidPrimitives\Contexts\AbstractComponentContext;
 use Jramke\FluidPrimitives\Utility\ComponentNameUtility;
 use Jramke\FluidPrimitives\Utility\Typed;
@@ -17,6 +16,14 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\ArgumentDefinition;
 
 class ComponentPropsTableContext extends AbstractComponentContext
 {
+    /**
+     * Internal/plumbing props that should never show up in a part's Arguments table,
+     * regardless of whether the part actually declares them - unlike Constants::GLOBAL_PROPS
+     * (which also feeds Storybook's control exclusion), this list intentionally omits
+     * `class`, `asChild` and `attributes` so they surface wherever a part actually has them.
+     */
+    private const array HIDDEN_PROPS = ['ids', 'rootId', 'controlled', 'spreadProps'];
+
     public function getPartsWithProps(): array
     {
         $primitivesCollection = GeneralUtility::makeInstance(ComponentPrimitivesCollection::class);
@@ -32,7 +39,7 @@ class ComponentPropsTableContext extends AbstractComponentContext
             $compDefinition = $primitivesCollection->getComponentDefinition($viewHelperName);
             $props = array_filter(
                 $compDefinition->getArgumentDefinitions(),
-                static fn($value) => !in_array($value, Constants::GLOBAL_PROPS, strict: true),
+                static fn($value) => !in_array($value, self::HIDDEN_PROPS, strict: true),
                 ARRAY_FILTER_USE_KEY,
             );
             return [

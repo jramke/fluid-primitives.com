@@ -21,6 +21,7 @@ This pattern comes from [Radix UI's asChild API](https://www.radix-ui.com/primit
 
 ### Limitations
 
+- **Not available on every part.** `asChild` only works on parts that render their own wrapper element - root parts that render nothing but their slot content (e.g. Dialog, Popover, Tooltip's `root`) have no element to merge attributes onto, so they don't accept it. Check a part's Arguments table in its component docs page to confirm.
 - **Single child element required.** Text nodes or multiple elements won't work.
 - **Child attributes take precedence.** If the child already has an attribute, it won't be overwritten.
 - **No context access inside asChild.** The slot content can't access the component's context. See [TYPO3/Fluid#1132](https://github.com/TYPO3/Fluid/issues/1132).
