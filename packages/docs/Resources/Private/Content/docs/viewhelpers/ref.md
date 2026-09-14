@@ -34,12 +34,6 @@ This will generate:
 <div id="..." data-scope="my-component" data-part="button" data-action="submit">Click me</div>
 ```
 
-Use `withId: false` to suppress the `id` attribute (e.g. for parts that have no unique
-discriminator and would produce duplicate IDs):
-```html
-<div {ui:ref(name: 'item-group-label', withId: false)}>...</div>
-```
-
 A component's slot content (the markup a consumer writes between its opening/closing tags) is
 always evaluated against the *calling* rendering context, not the component's own internal one -
 so a bare `ui:ref` written directly inside such slot content doesn't, by default, know which
@@ -69,5 +63,4 @@ hand-authored elements that render immediately, once, and never get cloned.
 | `asArray` | boolean | If true, the ref will be rendered as an array instead of a string of data-attributes | No | false |
 | `data` | array | Additional data attributes to include in the ref. Associative array with key-value pairs. Each key is prefixed with &quot;data-&quot;. | No | [] |
 | `value` | string\|BackedEnum\|UnitEnum\|null\|array | Optional discriminator for multi-instance parts (e.g. accordion items, tab triggers). | No | - |
-| `withId` | boolean | Whether to emit the id attribute. Set to false for parts that have no unique discriminator and would produce duplicate IDs. | No | true |
 | `context` | string | Base name of an ancestor component to attach this ref to explicitly (e.g. &quot;combobox&quot;), for hand-authored elements living in another component&#039;s slot content rather than a component&#039;s own template body. When omitted, uses whichever component is already ambiently active (the normal case for a component&#039;s own template). | No | '' |

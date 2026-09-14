@@ -52,7 +52,7 @@ to whichever component is already ambiently active there, the same way a bare `u
   <ui:combobox.content>
     <ui:template name="itemTemplate" context="combobox">
         <ui:combobox.item>
-            <span {ui:ref(name: 'title', withId: false)}></span>
+            <span {ui:ref(name: 'title')}></span>
         </ui:combobox.item>
     </ui:template>
   </ui:combobox.content>

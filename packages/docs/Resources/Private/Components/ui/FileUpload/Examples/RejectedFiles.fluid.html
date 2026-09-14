@@ -44,7 +44,7 @@
         <div class="grid gap-2">
             <div class="text-sm font-medium">Rejected files</div>
             <ui:fileUpload.itemGroup type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}">
-                <ui:fileUpload.emptyState>No rejected files.</ui:fileUpload.emptyState>
+                <ui:fileUpload.emptyState type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}">No rejected files.</ui:fileUpload.emptyState>
             </ui:fileUpload.itemGroup>
         </div>
     </div>

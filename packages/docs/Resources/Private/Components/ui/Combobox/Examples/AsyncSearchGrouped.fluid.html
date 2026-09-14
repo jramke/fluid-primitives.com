@@ -18,14 +18,14 @@
         <ui:template name="groupTemplate" context="combobox">
             <ui:combobox.itemGroup>
                 <ui:combobox.itemGroupLabel class="text-muted-foreground px-2 py-1 text-xs font-medium">
-                    <span {ui:ref(name: 'group-label' , withId: false)}></span>
+                    <span {ui:ref(name: 'group-label')}></span>
                 </ui:combobox.itemGroupLabel>
             </ui:combobox.itemGroup>
         </ui:template>
         <ui:template name="itemTemplate" context="combobox">
             <ui:combobox.item>
                 <ui:combobox.itemText>
-                    <span {ui:ref(name: 'title' , withId: false)}></span>
+                    <span {ui:ref(name: 'title')}></span>
                 </ui:combobox.itemText>
                 <ui:combobox.itemIndicator />
             </ui:combobox.item>
