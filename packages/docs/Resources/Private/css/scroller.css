@@ -1,0 +1,22 @@
+@utility scroller {
+    --scroller-thumb: --alpha(var(--color-foreground) / 50%);
+    --scroller-thumb-hover: --alpha(var(--color-foreground) / 70%);
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroller-thumb) transparent;
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--scroller-thumb);
+        border-radius: 4px;
+        &:hover {
+            background-color: var(--scroller-thumb-hover);
+        }
+    }
+}

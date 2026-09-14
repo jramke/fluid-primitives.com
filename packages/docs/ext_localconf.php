@@ -5,6 +5,7 @@ declare(strict_types=1);
 use FluidPrimitives\Docs\Components\ComponentCollection;
 use FluidPrimitives\Docs\Controller\CitySearchController;
 use FluidPrimitives\Docs\Controller\DocsController;
+use FluidPrimitives\Docs\Controller\SearchIndexController;
 use FluidPrimitives\Docs\Routing\Aspect\ValidatedPathMapper;
 use TYPO3\CMS\Core\Cache\Backend\FileBackend;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
@@ -23,6 +24,7 @@ ExtensionUtility::configurePlugin(
     [
         DocsController::class => 'show,registration,homepage',
         CitySearchController::class => 'search',
+        SearchIndexController::class => 'index',
     ],
     [
         CitySearchController::class => 'search',
