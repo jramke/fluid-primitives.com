@@ -1,7 +1,6 @@
 import { getHydrationData, mount } from 'fluid-primitives';
 import { Dialog } from 'fluid-primitives/dialog';
 import { ScrollArea } from 'fluid-primitives/scroll-area';
-import { initCommandMenu } from './CommandMenu';
 
 mount('navigation', ({ props }) => {
     const dialogProps = getHydrationData('dialog', 'nav-drawer-' + props.id)!.props;
@@ -11,8 +10,6 @@ mount('navigation', ({ props }) => {
     const sidebarScrollAreaProps = getHydrationData('scroll-area', 'sidebar-' + props.id)!.props;
     const scrollArea = new ScrollArea(sidebarScrollAreaProps);
     scrollArea.init();
-
-    initCommandMenu(props.id);
 
     // Cleanup the fixed values when the machine computed all values needed for layout styles
     setTimeout(() => {

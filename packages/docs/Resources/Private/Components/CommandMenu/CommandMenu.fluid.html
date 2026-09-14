@@ -1,0 +1,61 @@
+<ui:prop name="searchUrl" type="string" client="{true}" />
+<ui:prop name="hidden" type="bool" optional="{true}" />
+
+<primitives:dialog.root controlled="{true}" rootId="dialog-{rootId}">
+    <primitives:dialog.trigger asChild="{true}" hidden="{hidden}">
+        <button type="button" class="hidden lg:inline-flex min-w-70 cursor-pointer items-center gap-2 rounded-lg border bg-secondary/50 p-1.5 ps-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-1">
+            <ui:icon.search />
+            Search
+            <div class="ms-auto inline-flex gap-0.5 test-xs">
+                <kbd class="rounded-md border bg-background px-1.5 content-center">⌘</kbd>
+                <kbd class="rounded-md border bg-background px-1.5 content-center">K</kbd>
+            </div>
+        </button>
+    </primitives:dialog.trigger>
+    <ui:portal>
+        <primitives:dialog.backdrop class="{ui:cn(value: '
+            fixed inset-0 bg-black/50 z-[var(--layer-index,0)]
+            data-[state=closed]:opacity-0 data-[state=closed]:backdrop-blur-none
+            data-[state=open]:opacity-100 data-[state=open]:backdrop-blur-xs
+        ')}" />
+        <primitives:dialog.positioner class="fixed inset-0 flex items-start justify-center p-4 pt-[15vh] z-[var(--layer-index,0)]">
+            <primitives:dialog.content spreadProps="{true}" class="{ui:cn(value: '
+                bg-popover text-popover-foreground w-full max-w-xl rounded-t-lg
+                data-[state=closed]:opacity-0 data-[state=closed]:scale-95 data-[state=closed]:-translate-y-2
+                data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=open]:translate-y-0
+            ')}">
+                <primitives:dialog.title class="sr-only">Command Menu</primitives:dialog.title>
+                <ui:combobox.root rootId="combobox-{rootId}" controlled="{true}" class="isolate flex flex-col items-stretch gap-0">
+                    <ui:combobox.label class="sr-only">Search documentation</ui:combobox.label>
+                    <ui:combobox.control class="!border-0 !ring-0 !rounded-none !px-2 h-10 !gap-2">
+                        <ui:icon.search class="text-muted-foreground size-4 shrink-0" />
+                        <ui:combobox.input placeholder="Search documentation…" class="!px-0" />
+                        <ui:combobox.clearTrigger />
+                        <kbd class="rounded-md border bg-secondary/50 px-1.5 py-0.5 text-xs text-muted-foreground content-center">Esc</kbd>
+                    </ui:combobox.control>
+                    <ui:combobox.content class="!duration-0 !mt-0 !rounded-b-lg !rounded-t-none !border-t !pointer-events-auto scroller">
+                        <ui:combobox.empty class="justify-start">
+                            <span {ui:ref(name: 'statusText' , context: 'combobox' )}>Loading search index…</span>
+                        </ui:combobox.empty>
+                        <ui:template name="groupTemplate" context="combobox">
+                            <ui:combobox.itemGroup>
+                                <ui:combobox.itemGroupLabel>
+                                    <span {ui:ref(name: 'group-label' , withId: false)}></span>
+                                </ui:combobox.itemGroupLabel>
+                            </ui:combobox.itemGroup>
+                        </ui:template>
+                        <ui:template name="itemTemplate" context="combobox">
+                            <ui:combobox.item>
+                                <ui:combobox.itemText>
+                                    <span {ui:ref(name: 'title' , withId: false)}></span>
+                                </ui:combobox.itemText>
+                            </ui:combobox.item>
+                        </ui:template>
+                    </ui:combobox.content>
+                </ui:combobox.root>
+            </primitives:dialog.content>
+        </primitives:dialog.positioner>
+    </ui:portal>
+</primitives:dialog.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/CommandMenu/CommandMenu.entry.ts" />
