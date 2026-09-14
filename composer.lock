@@ -1611,10 +1611,10 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/fluid-primitives",
-                "reference": "5dbb93b4b54500576a18e30c7bbbe96a15555e83"
+                "reference": "affa178c39f8c4fad01d91b2e1bddab01fe8bfe3"
             },
             "require": {
-                "php": ">=8.2",
+                "php": ">=8.3",
                 "typo3/cms-core": "^14",
                 "typo3/cms-extbase": "^14",
                 "typo3/cms-fluid": "^14",

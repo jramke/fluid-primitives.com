@@ -10,7 +10,7 @@ You can check out the docs `.md` files under `packages/docs/Resources/Private/Co
 
 **Key technologies:**
 
-- PHP 8.2 (TYPO3 extension, ViewHelpers, Contexts)
+- PHP 8.3 (TYPO3 extension, ViewHelpers, Contexts)
 - TypeScript (client-side hydration using Zag.js)
 - TYPO3 Fluid (HTML-like templating language)
 - Tailwind CSS v4 (documentation site and registry styling)
@@ -295,6 +295,18 @@ class AccordionContext extends AbstractComponentContext
     }
 }
 ```
+
+### Narrowing `mixed` with `Typed::`
+
+`AbstractComponentContext::get()` and ViewHelper `$this->arguments[...]` are untyped by nature - Fluid
+template variables carry no static type. Use `Jramke\FluidPrimitives\Utility\Typed` (`int`/`intOrNull`,
+`float`/`floatOrNull`, `string`/`stringOrNull`, `bool`/`boolOrNull`, `arrayOrNull`) to narrow them at the
+call site instead of ad-hoc `is_string()`/cast checks, e.g. `Typed::stringOrNull($this->arguments['label'])`.
+
+`Typed::bool()`/`boolOrNull()` only recognize explicit boolean keywords (`'true'/'1'/'yes'/'on'` etc.), not
+PHP's general truthy coercion - using it on a `type="string"` prop (e.g. a CSS length like `"200px"`)
+silently collapses to the default instead of testing truthiness. For that, cast the narrowed string instead:
+`(bool)Typed::stringOrNull($x)`.
 
 ## Fluid Template Guidelines
 

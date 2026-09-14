@@ -5,7 +5,7 @@ Get up and running with Fluid Primitives in just a few steps. This guide covers 
 ## Prerequisites
 
 - TYPO3 13+
-- PHP 8.2+
+- PHP 8.3+
 - Basic familiarity with [Fluid Components](https://docs.typo3.org/other/typo3fluid/fluid/main/en-us/Usage/Components.html)
 - A modern JavaScript build setup like Vite, Webpack, etc. (Recommended)
 

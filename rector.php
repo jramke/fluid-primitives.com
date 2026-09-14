@@ -26,10 +26,10 @@ return RectorConfig::configure()
         'packages/fluid-primitives/public',
         'packages/fluid-primitives/vendor',
     ])
-    ->withPhpVersion(PhpVersion::PHP_82)
+    ->withPhpVersion(PhpVersion::PHP_83)
     ->withSets([
         SetList::CODE_QUALITY,
-        LevelSetList::UP_TO_PHP_82,
+        LevelSetList::UP_TO_PHP_83,
 
         Typo3SetList::CODE_QUALITY,
         Typo3SetList::GENERAL,
@@ -41,7 +41,7 @@ return RectorConfig::configure()
         // ConvertImplicitVariablesToExplicitGlobalsRector::class,
     ])
     ->withConfiguredRule(ExtEmConfRector::class, [
-        ExtEmConfRector::PHP_VERSION_CONSTRAINT => '8.2.0-8.4.99',
+        ExtEmConfRector::PHP_VERSION_CONSTRAINT => '8.3.0-8.4.99',
         ExtEmConfRector::TYPO3_VERSION_CONSTRAINT => '14.0.0-14.3.99',
         ExtEmConfRector::ADDITIONAL_VALUES_TO_BE_REMOVED => [],
     ])
