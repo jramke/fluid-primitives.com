@@ -1,5 +1,4 @@
 <?php
-
 return [
     'BE' => [
         'debug' => true,
@@ -47,6 +46,9 @@ return [
                     'defaultExtension' => 'docs',
                 ],
             ],
+        ],
+        'storybook' => [
+            'excludeArguments' => '',
         ],
         'vite_asset_collector' => [
             'defaultManifest' => '_assets/vite/.vite/manifest.json',
