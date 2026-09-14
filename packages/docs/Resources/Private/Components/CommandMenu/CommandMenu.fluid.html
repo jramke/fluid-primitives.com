@@ -25,7 +25,7 @@
                 data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=open]:translate-y-0
             ')}">
                 <primitives:dialog.title class="sr-only">Command Menu</primitives:dialog.title>
-                <ui:combobox.root rootId="combobox-{rootId}" controlled="{true}" class="isolate flex flex-col items-stretch gap-0">
+                <ui:combobox.root rootId="combobox-{rootId}" controlled="{true}" class="isolate flex flex-col items-stretch gap-0" portalled="{false}">
                     <ui:combobox.label class="sr-only">Search documentation</ui:combobox.label>
                     <ui:combobox.control class="!border-0 !ring-0 !rounded-none !px-2 h-10 !gap-2">
                         <ui:icon.search class="text-muted-foreground size-4 shrink-0" />
@@ -40,14 +40,14 @@
                         <ui:template name="groupTemplate" context="combobox">
                             <ui:combobox.itemGroup>
                                 <ui:combobox.itemGroupLabel>
-                                    <span {ui:ref(name: 'group-label')}></span>
+                                    <span {ui:ref(name: 'group-label' )}></span>
                                 </ui:combobox.itemGroupLabel>
                             </ui:combobox.itemGroup>
                         </ui:template>
                         <ui:template name="itemTemplate" context="combobox">
                             <ui:combobox.item>
                                 <ui:combobox.itemText>
-                                    <span {ui:ref(name: 'title')}></span>
+                                    <span {ui:ref(name: 'title' )}></span>
                                 </ui:combobox.itemText>
                             </ui:combobox.item>
                         </ui:template>
