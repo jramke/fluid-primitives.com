@@ -6,6 +6,8 @@ use TYPO3\CMS\Core\Cache\Backend\NullBackend;
 use TYPO3\CMS\Core\Core\Environment;
 
 if (Environment::getContext()->isProduction()) {
+    // @mago-expect lint:no-global(2)
+    // @mago-expect analysis:mixed-argument
     $GLOBALS['TYPO3_CONF_VARS'] = array_replace_recursive($GLOBALS['TYPO3_CONF_VARS'], [
         'SYS' => [
             'reverseProxySSL' => getenv('PROXY_IP') ?: '*',
@@ -28,6 +30,8 @@ if (Environment::getContext()->isProduction()) {
 }
 
 if (getenv('IS_DDEV_PROJECT') === 'true') {
+    // @mago-expect lint:no-global(2)
+    // @mago-expect analysis:mixed-argument
     $GLOBALS['TYPO3_CONF_VARS'] = array_replace_recursive($GLOBALS['TYPO3_CONF_VARS'], [
         'DB' => [
             'Connections' => [

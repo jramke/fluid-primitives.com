@@ -19,21 +19,27 @@ final class ZagDocsMetadata
         $generatedFile = self::generatedFileForPrimitive($normalizedPrimitive);
 
         if (!is_file($generatedFile)) {
-            throw new RuntimeException(sprintf(
-                'Zag docs metadata for "%s" is missing. Run the %s command first to generate it in %s.',
-                $normalizedPrimitive,
-                'docs:generate-zag-docs',
-                self::generatedDirectory(),
-            ), 2329929121);
+            throw new RuntimeException(
+                sprintf(
+                    'Zag docs metadata for "%s" is missing. Run the %s command first to generate it in %s.',
+                    $normalizedPrimitive,
+                    'docs:generate-zag-docs',
+                    self::generatedDirectory(),
+                ),
+                2329929121,
+            );
         }
 
         $data = self::readJsonFile($generatedFile);
         if (!is_array($data) || $data === []) {
-            throw new RuntimeException(sprintf(
-                'Generated Zag docs metadata for "%s" is empty. Run the %s command first.',
-                $normalizedPrimitive,
-                'docs:generate-zag-docs',
-            ), 1057914033);
+            throw new RuntimeException(
+                sprintf(
+                    'Generated Zag docs metadata for "%s" is empty. Run the %s command first.',
+                    $normalizedPrimitive,
+                    'docs:generate-zag-docs',
+                ),
+                1057914033,
+            );
         }
 
         return $data;

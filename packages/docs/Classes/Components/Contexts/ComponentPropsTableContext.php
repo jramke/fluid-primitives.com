@@ -110,9 +110,7 @@ class ComponentPropsTableContext extends AbstractComponentContext
 
         $value = preg_replace('/[^a-zA-Z0-9]+/', ' ', $partName);
         $value = ucwords((string)$value);
-        $value = str_replace(' ', '', $value);
-
-        return $value;
+        return str_replace(' ', '', $value);
     }
 
     private function buildPropsInfo(array $props): array
