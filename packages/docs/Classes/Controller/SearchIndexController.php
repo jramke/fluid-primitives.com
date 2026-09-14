@@ -8,17 +8,44 @@ use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Utility\DocsUtility;
 use Jramke\FluidPrimitives\Utility\Typed;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 final class SearchIndexController extends ActionController
 {
+    private readonly VariableFrontend $cache;
+
     public function __construct(
         private readonly NavigationBuilder $navigationBuilder,
-    ) {}
+        CacheManager $cacheManager,
+    ) {
+        $cache = $cacheManager->getCache('docs_search_index');
+        if (!$cache instanceof VariableFrontend) {
+            throw new \RuntimeException(
+                'Expected the "docs_search_index" cache to be configured as a VariableFrontend.',
+                1757928000,
+            );
+        }
+        $this->cache = $cache;
+    }
 
     public function indexAction(): ResponseInterface
+    {
+        if (!$this->cache->has('index')) {
+            $this->cache->set('index', $this->buildIndex());
+        }
+
+        /** @var string $json */
+        $json = $this->cache->get('index');
+
+        $response = $this->jsonResponse($json)->withStatus(200);
+        throw new PropagateResponseException($response, 200);
+    }
+
+    private function buildIndex(): string
     {
         $baseDir = GeneralUtility::getFileAbsFileName('EXT:docs/Resources/Private/Content/');
         $navigation = $this->navigationBuilder->buildNavigation($baseDir, $baseDir . 'nav.yaml');
@@ -57,11 +84,7 @@ final class SearchIndexController extends ActionController
             }
         }
 
-        $response = $this->jsonResponse(json_encode(
-            $index,
-            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR,
-        ))->withStatus(200);
-        throw new PropagateResponseException($response, 200);
+        return json_encode($index, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
     }
 
     private function stripFrontmatter(string $content): string
