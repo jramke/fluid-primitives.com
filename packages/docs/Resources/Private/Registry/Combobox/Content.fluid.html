@@ -1,9 +1,11 @@
 <ui:useProps name="primitives:combobox.content" />
 
-<primitives:combobox.positioner>
-    <primitives:combobox.content spreadProps="{true}">
-        <primitives:combobox.list>
-            <f:slot />
-        </primitives:combobox.list>
-    </primitives:combobox.content>
-</primitives:combobox.positioner>
+<ui:portal>
+    <primitives:combobox.positioner>
+        <primitives:combobox.content spreadProps="{true}">
+            <primitives:combobox.list>
+                <f:slot />
+            </primitives:combobox.list>
+        </primitives:combobox.content>
+    </primitives:combobox.positioner>
+</ui:portal>
