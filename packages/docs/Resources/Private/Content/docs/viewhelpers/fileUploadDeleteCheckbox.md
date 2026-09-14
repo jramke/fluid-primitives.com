@@ -42,7 +42,7 @@ used as a fallback (core's version always requires `property` explicitly).
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `fileReference` | TYPO3\CMS\Extbase\Domain\Model\FileReference | The existing file reference to allow deleting. | No | - |
-| `property` | string | The model property (or dot-path) the file reference belongs to. Inherited from a surrounding `ui:field.root` when omitted. | Yes | - |
-| `id` | string | The id attribute of the checkbox. | Yes | - |
-| `class` | string | The class attribute of the checkbox. | Yes | - |
+| `fileReference` | TYPO3\CMS\Extbase\Domain\Model\FileReference | The existing file reference to allow deleting. | Yes | - |
+| `property` | string | The model property (or dot-path) the file reference belongs to. Inherited from a surrounding `ui:field.root` when omitted. | No | - |
+| `id` | string | The id attribute of the checkbox. | No | - |
+| `class` | string | The class attribute of the checkbox. | No | - |

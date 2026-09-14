@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Phiki;
 
+use Jramke\FluidPrimitives\Utility\Typed;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
@@ -36,8 +37,12 @@ class PhikiCommonMarkExtension implements ConfigurableExtensionInterface
     {
         $config = $environment->getConfiguration();
 
-        $theme = $config->get('phiki/theme');
-        $withGutter = $config->get('phiki/with_gutter');
+        // Narrowed immediately below via the instanceof/is_array/is_string check - the config schema
+        // itself declares this value as Expect::mixed().
+        // @mago-expect analysis:mixed-assignment
+        $rawTheme = $config->get('phiki/theme');
+        $theme = $rawTheme instanceof Theme || is_array($rawTheme) || is_string($rawTheme) ? $rawTheme : $this->theme;
+        $withGutter = Typed::bool($config->get('phiki/with_gutter'));
 
         $environment->addRenderer(FencedCode::class, new CodeBlockRenderer($theme, $this->phiki, $withGutter), 10);
     }

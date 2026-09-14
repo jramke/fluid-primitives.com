@@ -31,7 +31,7 @@ class CodeBlockRenderer implements NodeRendererInterface
             throw new InvalidArgumentException('Block must be instance of ' . FencedCode::class, 5820404978);
         }
 
-        $code = rtrim($node->getLiteral(), "\n");
+        $code = rtrim($node->getLiteral(), characters: "\n");
         $grammar = $this->detectGrammar($node);
         $meta = new Meta(markdownInfo: $node->getInfoWords()[1] ?? null);
 
@@ -47,10 +47,11 @@ class CodeBlockRenderer implements NodeRendererInterface
 
     protected function detectGrammar(FencedCode $node): Grammar|string
     {
-        if (!isset($node->getInfoWords()[0]) || $node->getInfoWords()[0] === '') {
+        if (!array_key_exists(0, $node->getInfoWords()) || $node->getInfoWords()[0] === '') {
             return Grammar::Txt;
         }
 
+        $matches = [];
         preg_match('/[a-zA-Z]+/', $node->getInfoWords()[0], $matches);
 
         if (!$this->phiki->environment->grammars->has($matches[0])) {

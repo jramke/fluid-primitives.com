@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Registry;
 
+use Jramke\FluidPrimitives\Utility\Typed;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
@@ -11,18 +12,26 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class ComponentRegistry
 {
+    /** @var array<string, ComponentRegistryDefinition> */
     private array $components = [];
     private readonly VariableFrontend $cache;
 
     public function __construct(CacheManager $cacheManager)
     {
-        $this->cache = $cacheManager->getCache('fluid_primitives_registry');
+        $cache = $cacheManager->getCache('fluid_primitives_registry');
+        if (!$cache instanceof VariableFrontend) {
+            throw new \RuntimeException(
+                'Expected the "fluid_primitives_registry" cache to be configured as a VariableFrontend.',
+                1758849302,
+            );
+        }
+        $this->cache = $cache;
         $this->load();
     }
 
     public function has(string $component): bool
     {
-        return isset($this->components[$component]);
+        return array_key_exists($component, $this->components);
     }
 
     public function get(string $component): ComponentRegistryDefinition
@@ -34,6 +43,9 @@ final class ComponentRegistry
         return $this->components[$component];
     }
 
+    /**
+     * @return list<ComponentRegistryDefinition>
+     */
     public function list(): array
     {
         return array_values($this->components);
@@ -42,7 +54,9 @@ final class ComponentRegistry
     private function load(): void
     {
         if ($this->cache->has('components')) {
-            $this->components = $this->cache->get('components');
+            /** @var array<string, ComponentRegistryDefinition> $components */
+            $components = $this->cache->get('components');
+            $this->components = $components;
             return;
         }
 
@@ -52,6 +66,9 @@ final class ComponentRegistry
             return;
         }
 
+        // Narrowed immediately below via is_array() - registry.yaml is hand-maintained, so its
+        // shape is deliberately not trusted any further than "some array of some shape".
+        // @mago-expect analysis:mixed-assignment
         $data = Yaml::parseFile($registryFile);
         if (!is_array($data)) {
             return;
@@ -59,17 +76,23 @@ final class ComponentRegistry
 
         $baseDir = dirname($registryFile) . '/';
 
+        // Narrowed immediately below via is_array() - registry.yaml is hand-maintained, so its
+        // shape is deliberately not trusted any further than "some array of some shape".
+        // @mago-expect analysis:mixed-assignment
         foreach ($data as $key => $config) {
-            if (!is_array($config) || !is_array($config['files']) || $config['files'] === []) {
+            $key = (string)$key;
+            if (!is_array($config) || !is_array($config['files'] ?? null) || $config['files'] === []) {
                 continue;
             }
 
-            $componentDir = $baseDir . ($config['name'] ?? '') . '/';
-            if ($componentDir === '' || $componentDir === '0' || !is_dir($componentDir)) {
+            $componentDir = $baseDir . Typed::string($config['name'] ?? null) . '/';
+            if (!is_dir($componentDir)) {
                 continue;
             }
 
             $files = [];
+            // Narrowed immediately below via is_string() - same reasoning as above.
+            // @mago-expect analysis:mixed-assignment
             foreach ($config['files'] as $file) {
                 if (!is_string($file)) {
                     continue;
@@ -90,7 +113,7 @@ final class ComponentRegistry
 
             $this->components[$key] = new ComponentRegistryDefinition(
                 key: $key,
-                name: $config['name'],
+                name: Typed::string($config['name'] ?? null),
                 basePath: $componentDir,
                 files: $files,
                 meta: $config,

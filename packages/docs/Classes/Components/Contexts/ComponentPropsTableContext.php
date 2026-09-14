@@ -10,18 +10,22 @@ use Jramke\FluidPrimitives\Annotations\RequiredAtRuntimeArgumentAnnotation;
 use Jramke\FluidPrimitives\Component\ComponentPrimitivesCollection;
 use Jramke\FluidPrimitives\Constants;
 use Jramke\FluidPrimitives\Contexts\AbstractComponentContext;
-use Jramke\FluidPrimitives\Utility\ComponentUtility;
+use Jramke\FluidPrimitives\Utility\ComponentNameUtility;
+use Jramke\FluidPrimitives\Utility\Typed;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ArgumentDefinition;
 
 class ComponentPropsTableContext extends AbstractComponentContext
 {
-    public function getPartsWithProps()
+    public function getPartsWithProps(): array
     {
         $primitivesCollection = GeneralUtility::makeInstance(ComponentPrimitivesCollection::class);
-        $componentName = lcfirst((string)($this->get('name') ?? ''));
-        $parts = $this->get('parts');
+        $componentName = lcfirst(Typed::string($this->get('name')));
 
-        return array_map(function ($value) use ($primitivesCollection, $componentName) {
+        /** @var list<array{0: string, 1?: string}> $parts */
+        $parts = Typed::arrayOrNull($this->get('parts')) ?? [];
+
+        return array_map(function (array $value) use ($primitivesCollection, $componentName) {
             $part = $value[0];
             $text = $value[1] ?? '';
             $viewHelperName = $part === '' ? $componentName : "{$componentName}.{$part}";
@@ -35,7 +39,7 @@ class ComponentPropsTableContext extends AbstractComponentContext
                 'name' => $compDefinition->getName(),
                 'props' => $this->buildPropsInfo($props),
                 'description' => DocsUtility::simpleMarkdownToHtml($text),
-                'dataAttributes' => $this->getZagDataAttributesForPart((string)$part),
+                'dataAttributes' => $this->getZagDataAttributesForPart($part),
             ];
         }, $parts);
     }
@@ -46,16 +50,15 @@ class ComponentPropsTableContext extends AbstractComponentContext
             return [];
         }
 
-        $name = (string)($this->get('name') ?? '');
+        $name = Typed::string($this->get('name'));
         if ($name === '') {
             return [];
         }
 
-        return (
-            ZagDocsMetadata::forPrimitive(ComponentUtility::camelCaseToLowerCaseDashed(
-                $name,
-            ))['accessibility']['keyboard'] ?? []
-        );
+        $metadata = ZagDocsMetadata::forPrimitive(ComponentNameUtility::camelCaseToLowerCaseDashed($name));
+        $accessibility = Typed::arrayOrNull($metadata['accessibility'] ?? null) ?? [];
+
+        return Typed::arrayOrNull($accessibility['keyboard'] ?? null) ?? [];
     }
 
     public function getZagApi(): array
@@ -64,12 +67,14 @@ class ComponentPropsTableContext extends AbstractComponentContext
             return [];
         }
 
-        $name = (string)($this->get('name') ?? '');
+        $name = Typed::string($this->get('name'));
         if ($name === '') {
             return [];
         }
 
-        return ZagDocsMetadata::forPrimitive(ComponentUtility::camelCaseToLowerCaseDashed($name))['api'] ?? [];
+        $metadata = ZagDocsMetadata::forPrimitive(ComponentNameUtility::camelCaseToLowerCaseDashed($name));
+
+        return Typed::arrayOrNull($metadata['api'] ?? null) ?? [];
     }
 
     private function getZagDataAttributesForPart(string $partName): array
@@ -78,13 +83,13 @@ class ComponentPropsTableContext extends AbstractComponentContext
             return [];
         }
 
-        $name = (string)($this->get('name') ?? '');
+        $name = Typed::string($this->get('name'));
         if ($name === '') {
             return [];
         }
 
-        $primitive = ZagDocsMetadata::forPrimitive(ComponentUtility::camelCaseToLowerCaseDashed($name));
-        $attributes = $primitive['dataAttributes'] ?? [];
+        $primitive = ZagDocsMetadata::forPrimitive(ComponentNameUtility::camelCaseToLowerCaseDashed($name));
+        $attributes = Typed::arrayOrNull($primitive['dataAttributes'] ?? null) ?? [];
         if ($attributes === []) {
             return [];
         }
@@ -94,6 +99,9 @@ class ComponentPropsTableContext extends AbstractComponentContext
             return [];
         }
 
+        // Narrowed immediately below via is_array() - attributes values come from decoded JSON
+        // metadata, so their shape isn't statically known any further than "array of mixed".
+        // @mago-expect analysis:mixed-assignment
         $data = $attributes[$normalizedPartName] ?? [];
         if (!is_array($data)) {
             return [];
@@ -108,11 +116,14 @@ class ComponentPropsTableContext extends AbstractComponentContext
             return '';
         }
 
-        $value = preg_replace('/[^a-zA-Z0-9]+/', ' ', $partName);
+        $value = preg_replace('/[^a-zA-Z0-9]+/', replacement: ' ', subject: $partName);
         $value = ucwords((string)$value);
-        return str_replace(' ', '', $value);
+        return str_replace(' ', replace: '', subject: $value);
     }
 
+    /**
+     * @param array<string, ArgumentDefinition> $props
+     */
     private function buildPropsInfo(array $props): array
     {
         $propsInfo = [];
@@ -138,6 +149,6 @@ class ComponentPropsTableContext extends AbstractComponentContext
 
     public function getNameLowerCaseDashed(): string
     {
-        return ComponentUtility::camelCaseToLowerCaseDashed($this->get('name') ?? '');
+        return ComponentNameUtility::camelCaseToLowerCaseDashed(Typed::string($this->get('name')));
     }
 }

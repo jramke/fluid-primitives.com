@@ -11,6 +11,7 @@ use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Utility\DocsUtility;
 use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
+use Jramke\FluidPrimitives\Utility\Typed;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Core\Environment;
@@ -19,13 +20,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Attribute\Validate;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 
 final class DocsController extends ActionController
 {
     use AjaxValidationTrait;
 
-    private const MAIN_LINKS = [
+    private const array MAIN_LINKS = [
         ['label' => 'The Pitch', 'href' => '/the-pitch'],
         ['label' => 'Documentation', 'href' => '/docs'],
         ['label' => 'GitHub', 'href' => '/github', 'external' => true],
@@ -33,7 +33,6 @@ final class DocsController extends ActionController
 
     public function __construct(
         private readonly NavigationBuilder $navigationBuilder,
-        private readonly RenderingContextFactory $renderingContextFactory,
         private readonly DocsPageTitleProvider $pageTitleProvider,
         private readonly EventRegistrationRepository $eventRegistrationRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
@@ -64,7 +63,10 @@ final class DocsController extends ActionController
             // exclusion to not 404 on this cached page - editing the uid below is simpler for a
             // dev-only manual test helper.
             $editUid = 0;
+            // @mago-expect analysis:redundant-comparison
+            // @mago-expect analysis:impossible-condition
             if ($editUid > 0) {
+                // @mago-expect analysis:no-value
                 $this->view->assign('editEventRegistration', $this->eventRegistrationRepository->findByUid($editUid));
             }
 
@@ -73,13 +75,13 @@ final class DocsController extends ActionController
         }
 
         $baseDir = GeneralUtility::getFileAbsFileName('EXT:docs/Resources/Private/Content/');
-        $filePath = $baseDir . rtrim($path, '/') . '.md';
+        $filePath = $baseDir . rtrim($path, characters: '/') . '.md';
 
         if (!is_file($filePath)) {
-            $redirects = Yaml::parseFile($baseDir . 'redirects.yaml') ?? [];
-            $target = $redirects[rtrim($path, '/')] ?? null;
-            if ($target) {
-                return $this->redirectToUri($target, 302);
+            $redirects = Typed::arrayOrNull(Yaml::parseFile($baseDir . 'redirects.yaml')) ?? [];
+            $target = Typed::stringOrNull($redirects[rtrim($path, characters: '/')] ?? null);
+            if ($target !== null) {
+                return $this->redirectToUri($target, statusCode: 302);
             }
 
             $this->view->assign('layout', '404');
@@ -98,7 +100,9 @@ final class DocsController extends ActionController
             'path' => '/' . $path,
         ]);
 
-        $this->pageTitleProvider->setTitle(($meta['title'] ?? 'Documentation') . ' – Fluid Primitives');
+        $this->pageTitleProvider->setTitle(
+            Typed::string($meta['title'] ?? null, 'Documentation') . ' – Fluid Primitives',
+        );
 
         return $this->htmlResponse();
     }
@@ -120,11 +124,9 @@ final class DocsController extends ActionController
                 // A submission carrying a signed `__identity` (see `FormContext::renderHiddenIdentityField()`)
                 // is mapped by Extbase onto the already-persisted entity it identifies, so `_isNew()`
                 // is false here for the edit form; a plain new registration has no identity and is still new.
-                if ($eventRegistration->_isNew()) {
-                    $this->eventRegistrationRepository->add($eventRegistration);
-                } else {
-                    $this->eventRegistrationRepository->update($eventRegistration);
-                }
+                $eventRegistration->_isNew()
+                    ? $this->eventRegistrationRepository->add($eventRegistration)
+                    : $this->eventRegistrationRepository->update($eventRegistration);
                 // Flushed explicitly (rather than left to Extbase's own end-of-request persistAll)
                 // because this action escapes the normal response cycle via PropagateResponseException
                 // below - we want a persistence failure to surface as a 500 here, not silently
@@ -136,7 +138,7 @@ final class DocsController extends ActionController
             }
         }
 
-        $json = json_encode($payload);
+        $json = json_encode($payload) ?: null;
         $response = $this->jsonResponse($json)->withStatus($status);
         throw new PropagateResponseException($response, $status); // or return $response; if standalone plugin
     }
@@ -157,7 +159,7 @@ final class DocsController extends ActionController
             $status = 500;
         }
 
-        $json = json_encode($payload);
+        $json = json_encode($payload) ?: null;
         $response = $this->jsonResponse($json)->withStatus($status);
         throw new PropagateResponseException($response, $status);
     }
@@ -169,17 +171,21 @@ final class DocsController extends ActionController
         return parent::errorAction();
     }
 
+    /**
+     * @return array{0: array<array-key, mixed>, 1: string}
+     */
     private function parseMarkdownFile(string $filePath): array
     {
-        $content = file_get_contents($filePath);
+        $content = file_get_contents($filePath) ?: '';
+
+        $meta = [];
+        $markdown = $content;
+        $matches = [];
+        $h1Match = [];
 
         if (preg_match('/^---\n(.*?)\n---\n/s', $content, $matches)) {
-            $yaml = $matches[1];
-            $meta = Yaml::parse($yaml) ?? [];
+            $meta = Typed::arrayOrNull(Yaml::parse($matches[1])) ?? [];
             $markdown = substr($content, strlen($matches[0]));
-        } else {
-            $meta = [];
-            $markdown = $content;
         }
 
         if (($meta['title'] ?? '') === '' && preg_match('/^#\s+(.+)$/m', $markdown, $h1Match)) {

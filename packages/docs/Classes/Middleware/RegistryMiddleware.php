@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Middleware;
 
 use FluidPrimitives\Docs\Registry\ComponentRegistry;
+use FluidPrimitives\Docs\Registry\ComponentRegistryDefinition;
 use FluidPrimitives\Docs\Services\UmamiService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,7 +36,7 @@ final readonly class RegistryMiddleware implements MiddlewareInterface
             return $this->listComponents($this->componentRegistry);
         }
 
-        $parts = explode('/', trim($path, '/'));
+        $parts = explode('/', trim($path, characters: '/'));
 
         $component = $parts[2] ?? null;
         if (!$component || !$this->componentRegistry->has($component)) {
@@ -59,7 +60,7 @@ final readonly class RegistryMiddleware implements MiddlewareInterface
 
     private function listComponents(ComponentRegistry $registry): ResponseInterface
     {
-        $list = array_map(static fn($c) => [
+        $list = array_map(static fn(ComponentRegistryDefinition $c) => [
             'key' => $c->key,
             'name' => $c->name,
             'description' => $c->meta['description'] ?? '',
@@ -89,13 +90,13 @@ final readonly class RegistryMiddleware implements MiddlewareInterface
     {
         $c = $registry->get($component);
 
-        if (!in_array($file, $c->files, true)) {
+        if (!in_array($file, $c->files, strict: true)) {
             return new Response('Not Found', 404);
         }
 
         $path = $c->basePath . $file;
 
-        $resource = fopen($path, 'rb');
+        $resource = fopen($path, mode: 'rb');
         if ($resource === false) {
             return new Response('File not readable', 500);
         }

@@ -52,6 +52,7 @@ class EventRegistration extends AbstractEntity
      * Properly fixing this needs a custom `PropertyMappingConfiguration` (to point the converter at a
      * differently-named target property) rather than a plain property rename - out of scope for now.
      */
+    /** @var array<string> */
     #[Validate(validator: 'Collection', options: ['elementValidator' => 'String'])]
     protected array $a11yNeeds = [];
 

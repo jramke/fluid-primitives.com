@@ -10,8 +10,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class ZagDocsMetadata
 {
-    public const GENERATED_DIRECTORY = 'EXT:docs/Resources/Private/Content/generated/zag-docs';
-    public const SOURCE_DIRECTORY = 'node_modules/@zag-js/docs/data';
+    public const string GENERATED_DIRECTORY = 'EXT:docs/Resources/Private/Content/generated/zag-docs';
+    public const string SOURCE_DIRECTORY = 'node_modules/@zag-js/docs/data';
 
     public static function forPrimitive(string $primitive): array
     {
@@ -31,7 +31,7 @@ final class ZagDocsMetadata
         }
 
         $data = self::readJsonFile($generatedFile);
-        if (!is_array($data) || $data === []) {
+        if ($data === []) {
             throw new RuntimeException(
                 sprintf(
                     'Generated Zag docs metadata for "%s" is empty. Run the %s command first.',
@@ -56,7 +56,9 @@ final class ZagDocsMetadata
             throw new RuntimeException(sprintf('Unable to read Zag docs file: %s', $file), 1929703906);
         }
 
-        $decoded = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+        // Narrowed immediately below via is_array() - JSON has no static shape here.
+        // @mago-expect analysis:mixed-assignment
+        $decoded = json_decode($contents, associative: true, depth: 512, flags: JSON_THROW_ON_ERROR);
 
         return is_array($decoded) ? $decoded : [];
     }
@@ -78,9 +80,9 @@ final class ZagDocsMetadata
 
     private static function normalizePrimitiveName(string $primitive): string
     {
-        $normalized = trim((string)$primitive, " \n\r\t/\0\x0B");
-        $normalized = preg_replace('/(?<!^)([A-Z])/', '-$1', $normalized) ?? $normalized;
-        $normalized = str_replace(['_', ' '], '-', $normalized);
+        $normalized = trim($primitive, characters: " \n\r\t/\0\x0B");
+        $normalized = preg_replace('/(?<!^)([A-Z])/', replacement: '-$1', subject: $normalized) ?? $normalized;
+        $normalized = str_replace(['_', ' '], replace: '-', subject: $normalized);
 
         return strtolower($normalized);
     }

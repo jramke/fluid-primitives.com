@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Routing\Aspect;
 
-use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -18,6 +16,7 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
     private const string CACHE_IDENTIFIER = 'docs_validated_paths';
     private const int CACHE_LIFETIME = 0; // Unlimited
 
+    /** @var array<string, true> */
     private array $validPaths = [];
     private static ?FrontendInterface $cache = null;
 
@@ -83,12 +82,13 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
 
     private function isValidPath(string $path): bool
     {
-        return isset($this->validPaths[$path]);
+        return array_key_exists($path, $this->validPaths);
     }
 
     private function loadValidPaths(): void
     {
         if (self::$cache instanceof FrontendInterface) {
+            /** @var array<string, true>|null $cached */
             $cached = self::$cache->get(self::CACHE_IDENTIFIER);
             if (is_array($cached) && $cached !== []) {
                 $this->validPaths = $cached;
@@ -96,98 +96,11 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
             }
         }
 
-        $this->validPaths = $this->extractValidPaths();
+        $this->validPaths = (new ValidPathsCollector())->collect();
 
         if (self::$cache instanceof FrontendInterface) {
             self::$cache->set(self::CACHE_IDENTIFIER, $this->validPaths, [], self::CACHE_LIFETIME);
         }
-    }
-
-    private function extractValidPaths(): array
-    {
-        $paths = [];
-
-        $paths[''] = true;
-
-        $paths['the-pitch'] = true;
-
-        if (Environment::getContext()->isDevelopment()) {
-            $paths['playground'] = true;
-        }
-
-        $navPaths = $this->extractPathsFromNav();
-        foreach ($navPaths as $path) {
-            $paths[$path] = true;
-        }
-
-        $redirectSources = $this->extractRedirectSources();
-        foreach ($redirectSources as $source) {
-            if (str_starts_with((string)$source, 'http://') || str_starts_with((string)$source, 'https://')) {
-                continue;
-            }
-
-            $paths[$source] = true;
-        }
-
-        return $paths;
-    }
-
-    private function extractPathsFromNav(): array
-    {
-        $navFile = GeneralUtility::getFileAbsFileName('EXT:docs/Resources/Private/Content/nav.yaml');
-
-        if (!file_exists($navFile)) {
-            return [];
-        }
-
-        try {
-            $navData = Yaml::parseFile($navFile);
-        } catch (\Exception) {
-            return [];
-        }
-
-        if (!is_array($navData)) {
-            return [];
-        }
-
-        $paths = [];
-
-        foreach ($navData as $group) {
-            if (!isset($group['items']) || !is_array($group['items'])) {
-                continue;
-            }
-
-            foreach ($group['items'] as $item) {
-                if (!is_string($item) || $item === '') {
-                    continue;
-                }
-
-                $paths[] = $item;
-            }
-        }
-
-        return $paths;
-    }
-
-    private function extractRedirectSources(): array
-    {
-        $redirectsFile = GeneralUtility::getFileAbsFileName('EXT:docs/Resources/Private/Content/redirects.yaml');
-
-        if (!file_exists($redirectsFile)) {
-            return [];
-        }
-
-        try {
-            $redirects = Yaml::parseFile($redirectsFile);
-        } catch (\Exception) {
-            return [];
-        }
-
-        if (!is_array($redirects)) {
-            return [];
-        }
-
-        return array_keys($redirects);
     }
 
     private function initializeCache(): void

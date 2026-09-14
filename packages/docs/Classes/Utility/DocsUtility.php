@@ -23,6 +23,10 @@ use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 use TYPO3Fluid\Fluid\Core\Component\ComponentDefinitionProviderInterface;
 use TYPO3Fluid\Fluid\Core\Component\ComponentTemplateResolverInterface;
 
+// DocsUtility groups small, independent static formatting/markdown helpers shared across the docs
+// site's Fluid context classes - splitting them into per-concern classes would just move the same
+// call sites around without reducing complexity.
+// @mago-expect lint:too-many-methods
 class DocsUtility
 {
     private static ?MarkdownConverter $converter = null;
@@ -37,9 +41,13 @@ class DocsUtility
             return $value ? 'true' : 'false';
         }
         if (is_array($value)) {
-            return $value === []
-                ? '[]'
-                : json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            return (
+                (
+                    $value === []
+                        ? '[]'
+                        : json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
+                ) ?: '[]'
+            );
         }
         if (is_string($value)) {
             return "'{$value}'";
@@ -52,10 +60,13 @@ class DocsUtility
 
     public static function getCasesStringFromType(string $type): string
     {
-        if (!enum_exists($type)) {
+        if (!enum_exists($type) || !is_subclass_of($type, \UnitEnum::class, allow_string: true)) {
             return '';
         }
         $cases = [];
+        // is_subclass_of() above guarantees $type is a concrete enum, not the UnitEnum interface
+        // itself - it never returns true for a type matching itself.
+        // @mago-expect analysis:possibly-static-access-on-interface
         foreach ($type::cases() as $case) {
             $cases[] = $case->name;
         }
@@ -65,7 +76,7 @@ class DocsUtility
 
     public static function displayType(string $type): string
     {
-        return str_replace('Jramke\\FluidPrimitives\\', '', $type);
+        return str_replace('Jramke\\FluidPrimitives\\', replace: '', subject: $type);
     }
 
     public static function simpleMarkdownToHtml(string $markdown): string
@@ -120,12 +131,12 @@ class DocsUtility
             $toc = $renderer->renderNodes([$toc]);
             $toc = str_replace(
                 '<ul class="table-of-contents">',
-                '<ul class="table-of-contents"><li><a href="#">(Top)</a></li>',
-                $toc,
+                replace: '<ul class="table-of-contents"><li><a href="#">(Top)</a></li>',
+                subject: $toc,
             );
         }
 
-        return [(string)$content, (string)$toc];
+        return [$content, (string)$toc];
     }
 
     public static function getMarkdownConverter(): MarkdownConverter
@@ -175,7 +186,9 @@ class DocsUtility
             '/\{%\s*component:\s*"([^"]+)"(?:,\s*arguments:\s*(\{.*?\}))?\s*%\}/s',
             static function ($matches) use ($request) {
                 $fullViewHelperName = $matches[1];
-                $arguments = isset($matches[2]) ? json_decode($matches[2], true) ?? [] : [];
+
+                /** @var array<string, mixed> $arguments */
+                $arguments = array_key_exists(2, $matches) ? json_decode($matches[2], associative: true) ?? [] : [];
 
                 try {
                     $renderingContext = GeneralUtility::makeInstance(RenderingContextFactory::class)->create(
@@ -203,6 +216,10 @@ class DocsUtility
 
                     $componentRenderer = $viewHelperResolverDelegate->getComponentRenderer();
 
+                    // A guard-clause rewrite here would trade this single branch for two (one to pick
+                    // the arguments, one to pick the wrapping), pushing the class over the cyclomatic
+                    // complexity threshold for no real clarity gain.
+                    // @mago-expect lint:no-else-clause
                     if ($isCodeExample) {
                         $html = $componentRenderer->renderComponent(
                             $viewHelperName,
@@ -228,7 +245,7 @@ class DocsUtility
                 }
             },
             $markdown,
-        );
+        ) ?? $markdown;
     }
 
     private static function wrapCodeBlocks(string $html): string
@@ -237,7 +254,7 @@ class DocsUtility
         $pattern = '/(<pre\b(?![^>]*\bclass\s*=\s*["\'][^"\']*\bnot-code-block\b[^"\']*["\']).*?<\/pre>)/is';
         $replacement = '<div class="code-block"><div>$1</div></div>';
 
-        return preg_replace($pattern, $replacement, $html);
+        return preg_replace($pattern, $replacement, $html) ?? $html;
     }
 
     private static function wrapTables(string $html): string
@@ -246,7 +263,7 @@ class DocsUtility
         $pattern = '/(<table\b(?![^>]*\bclass\s*=\s*["\'][^"\']*\bnot-prose\b[^"\']*["\']).*?<\/table>)/is';
         $replacement = '<div class="table-wrapper">$1</div>';
 
-        return preg_replace($pattern, $replacement, $html);
+        return preg_replace($pattern, $replacement, $html) ?? $html;
     }
 
     private static function cleanHtmlForMarkdown(string $html): string
@@ -264,11 +281,11 @@ class DocsUtility
         );
 
         // Remove HTML comments
-        $html = preg_replace('/<!--[\s\S]*?-->/', '', (string)$html);
+        $html = preg_replace('/<!--[\s\S]*?-->/', replacement: '', subject: (string)$html);
         // Collapse whitespace between tags
-        $html = preg_replace('/>\s+</', '><', (string)$html);
+        $html = preg_replace('/>\s+</', replacement: '><', subject: (string)$html);
         // Collapse excessive whitespace inside tags/attributes
-        $html = preg_replace('/\s{2,}/', ' ', (string)$html);
+        $html = preg_replace('/\s{2,}/', replacement: ' ', subject: (string)$html);
         // Trim leading/trailing whitespace
         $html = trim((string)$html);
 

@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
 use TYPO3\CMS\Core\Http\RequestFactory;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 
 #[Autoconfigure(public: true)]
 class UmamiService
@@ -39,8 +40,11 @@ class UmamiService
             $referrer = $request->getHeaderLine('Referer');
             $userAgent = $request->getHeaderLine('User-Agent');
 
+            // Narrowed immediately below via instanceof SiteLanguage - PSR-7 attributes are
+            // untyped by nature, and 'language' isn't guaranteed to be set on every request.
+            // @mago-expect analysis:mixed-assignment
             $language = $request->getAttribute('language');
-            $locale = (string)$language->getLocale() ?? 'en-US';
+            $locale = $language instanceof SiteLanguage ? (string)$language->getLocale() : 'en-US';
 
             $screen = '0x0';
 

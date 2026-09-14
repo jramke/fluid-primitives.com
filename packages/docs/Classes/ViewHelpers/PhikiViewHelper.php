@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\ViewHelpers;
 
 use FluidPrimitives\Docs\Phiki\RemoveLangClassTransformer;
+use Jramke\FluidPrimitives\Utility\Typed;
 use Phiki\Grammar\Grammar;
 use Phiki\Phiki;
 use Phiki\Theme\Theme;
@@ -22,7 +23,7 @@ class PhikiViewHelper extends AbstractViewHelper
 
     public function render(): string
     {
-        $grammar = Grammar::tryFrom($this->arguments['grammar']) ?? Grammar::Txt;
+        $grammar = Grammar::tryFrom(Typed::string($this->arguments['grammar'])) ?? Grammar::Txt;
 
         return (new Phiki())
             ->codeToHtml(trim((string)$this->renderChildren()), $grammar, Theme::GithubLight)

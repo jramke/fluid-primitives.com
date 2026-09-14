@@ -31,7 +31,7 @@ final class EventRegistrationController extends ActionController
         // Simply moving this into the validator and calling addErrorForProperty would result in the same behavior.
         if ($eventRegistration->getTicketType() === 'vip') {
             $payload = ['eventRegistration.ticketType' => ['VIP tickets are sold out.']];
-            $response = $this->jsonResponse(json_encode($payload))->withStatus(422);
+            $response = $this->jsonResponse(json_encode($payload) ?: null)->withStatus(422);
             throw new PropagateResponseException($response, 422);
         }
 
@@ -42,10 +42,12 @@ final class EventRegistrationController extends ActionController
 
         // Send confirmation email, etc.
 
-        $response = $this->jsonResponse(json_encode([
-            'success' => true,
-            'message' => 'Your registration was submitted successfully. Thank you.',
-        ]))->withStatus(200);
+        $response = $this->jsonResponse(
+            json_encode([
+                'success' => true,
+                'message' => 'Your registration was submitted successfully. Thank you.',
+            ]) ?: null,
+        )->withStatus(200);
         throw new PropagateResponseException($response, 200);
     }
 

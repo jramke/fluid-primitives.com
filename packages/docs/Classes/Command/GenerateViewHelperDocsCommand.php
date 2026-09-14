@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Command;
 
 use FluidPrimitives\Docs\Utility\DocsUtility;
+use Jramke\FluidPrimitives\Utility\Typed;
 use ReflectionClass;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -14,6 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ArgumentDefinition;
 
 #[AsCommand(name: 'docs:generate-viewhelper-docs', description: 'Generate documentation for Fluid ViewHelpers')]
 class GenerateViewHelperDocsCommand extends Command
@@ -38,19 +40,24 @@ class GenerateViewHelperDocsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sourceDir = $input->getArgument('source');
-        $targetDir = $input->getArgument('target');
+        $sourceDir = Typed::string($input->getArgument('source'));
+        $targetDir = Typed::string($input->getArgument('target'));
 
         if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0o777, true);
+            mkdir($targetDir, permissions: 0o777, recursive: true);
         }
 
         $finder = new Finder();
         $finder->files()->in($sourceDir)->name('*ViewHelper.php');
 
         foreach ($finder as $file) {
-            $className = $this->getClassNameFromFile($file->getRealPath());
-            if (!$className) {
+            $realPath = $file->getRealPath();
+            if ($realPath === false) {
+                continue;
+            }
+
+            $className = $this->getClassNameFromFile($realPath);
+            if ($className === null || !class_exists($className)) {
                 continue;
             }
 
@@ -64,7 +71,7 @@ class GenerateViewHelperDocsCommand extends Command
             $docComment = $reflection->getDocComment() ?: '';
 
             $shortName = $reflection->getShortName();
-            $baseName = preg_replace('/ViewHelper$/', '', $shortName);
+            $baseName = preg_replace('/ViewHelper$/', replacement: '', subject: $shortName);
             $fileName = lcfirst((string)$baseName) . '.md';
             $targetFile = $targetDir . '/' . $fileName;
 
@@ -81,11 +88,15 @@ class GenerateViewHelperDocsCommand extends Command
 
     private function getClassNameFromFile(string $filePath): ?string
     {
-        $contents = file_get_contents($filePath);
-        $contentsWithoutComments = preg_replace('#//.*|/\*[\s\S]*?\*/#', '', $contents);
+        $contents = file_get_contents($filePath) ?: '';
+        $contentsWithoutComments =
+            preg_replace('#//.*|/\*[\s\S]*?\*/#', replacement: '', subject: $contents) ?? $contents;
+
+        $ns = [];
+        $cls = [];
         if (
-            preg_match('/namespace\s+([^;]+);/', (string)$contentsWithoutComments, $ns) &&
-            preg_match('/class\s+([^\s]+)/', (string)$contentsWithoutComments, $cls)
+            preg_match('/namespace\s+([^;]+);/', $contentsWithoutComments, $ns) &&
+            preg_match('/class\s+([^\s]+)/', $contentsWithoutComments, $cls)
         ) {
             return $ns[1] . '\\' . $cls[1];
         }
@@ -100,6 +111,8 @@ class GenerateViewHelperDocsCommand extends Command
      * (e.g. `FileUploadDeleteCheckboxViewHelper`) declare constructor-injected dependencies (like
      * `HashService`), which only `makeInstance()` can supply via the DI container; a bare `new`
      * fails with a missing-argument error for any of those.
+     *
+     * @return list<array{name: string, type: string, description: string, required: bool, default: string}>
      */
     private function extractArguments(string $className): array
     {
@@ -109,11 +122,12 @@ class GenerateViewHelperDocsCommand extends Command
             return $args;
         }
 
-        /** @var AbstractViewHelper $viewHelper */
         $viewHelper = GeneralUtility::makeInstance($className);
         $viewHelper->initializeArguments();
 
+        /* @var $argumentDefinitions ArgumentDefinition[] */
         $argumentDefinitions = $viewHelper->prepareArguments();
+        krexxlog($argumentDefinitions);
 
         foreach ($argumentDefinitions as $definition) {
             $args[] = [
@@ -128,10 +142,13 @@ class GenerateViewHelperDocsCommand extends Command
         return $args;
     }
 
+    /**
+     * @param list<array{name: string, type: string, description: string, required: bool, default: string}> $arguments
+     */
     private function generateMarkdown(ReflectionClass $reflection, string $docComment, array $arguments): string
     {
         $shortName = $reflection->getShortName();
-        $baseName = preg_replace('/ViewHelper$/', '', $shortName);
+        $baseName = preg_replace('/ViewHelper$/', replacement: '', subject: $shortName);
         $name = lcfirst((string)$baseName);
 
         $content = $this->extractRawDocComment($docComment);
@@ -151,20 +168,21 @@ class GenerateViewHelperDocsCommand extends Command
 
         if ($arguments === []) {
             $markdown .= "\n_None_\n";
-        } else {
-            // TODO: align with structure from component api table
-            // Table header
-            $markdown .= "\n| Name | Type | Description | Required | Default |\n";
-            $markdown .= "|------|------|-------------|----------|--------|\n";
+            return $markdown;
+        }
 
-            foreach ($arguments as $arg) {
-                // Escape pipe characters in description
-                $description = htmlspecialchars(str_replace('|', '\\|', $arg['description'] ?? ''));
-                $required = $arg['required'] ?? false ? 'No' : 'Yes';
-                $default = $arg['default'] ?? '';
-                $type = str_replace('|', '\\|', $arg['type'] ?? '');
-                $markdown .= "| `{$arg['name']}` | {$type} | {$description} | {$required} | {$default} |\n";
-            }
+        // TODO: align with structure from component api table
+        // Table header
+        $markdown .= "\n| Name | Type | Description | Required | Default |\n";
+        $markdown .= "|------|------|-------------|----------|--------|\n";
+
+        foreach ($arguments as $arg) {
+            // Escape pipe characters in description
+            $description = htmlspecialchars(str_replace('|', replace: '\\|', subject: $arg['description']));
+            $required = $arg['required'] ? 'Yes' : 'No';
+            $default = $arg['default'];
+            $type = str_replace('|', replace: '\\|', subject: $arg['type']);
+            $markdown .= "| `{$arg['name']}` | {$type} | {$description} | {$required} | {$default} |\n";
         }
 
         return $markdown;
@@ -173,15 +191,15 @@ class GenerateViewHelperDocsCommand extends Command
     private function extractRawDocComment(string $docComment): string
     {
         // Remove /** at the start and */ at the end
-        $docComment = preg_replace('#^/\*\*#', '', $docComment);
-        $docComment = preg_replace('#\*/$#', '', (string)$docComment);
+        $docComment = preg_replace('#^/\*\*#', replacement: '', subject: $docComment);
+        $docComment = preg_replace('#\*/$#', replacement: '', subject: (string)$docComment);
 
         $lines = explode("\n", (string)$docComment);
         $cleanLines = [];
 
         foreach ($lines as $line) {
             // Remove leading * and one optional space after it
-            $line = preg_replace('/^\s*\*\s?/', '', $line);
+            $line = preg_replace('/^\s*\*\s?/', replacement: '', subject: $line) ?? $line;
             $cleanLines[] = $line;
         }
 

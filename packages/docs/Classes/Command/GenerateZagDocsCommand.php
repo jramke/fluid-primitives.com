@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Command;
 
 use FluidPrimitives\Docs\Utility\ZagDocsMetadata;
+use Jramke\FluidPrimitives\Utility\Typed;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -37,8 +38,8 @@ class GenerateZagDocsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sourceDir = $input->getArgument('source');
-        $targetDir = GeneralUtility::getFileAbsFileName((string)$input->getArgument('target'));
+        $sourceDir = Typed::string($input->getArgument('source'));
+        $targetDir = GeneralUtility::getFileAbsFileName(Typed::string($input->getArgument('target')));
 
         if (!is_dir($sourceDir)) {
             $output->writeln(sprintf('<error>Source folder not found: %s</error>', $sourceDir));
@@ -46,7 +47,7 @@ class GenerateZagDocsCommand extends Command
             return Command::FAILURE;
         }
 
-        if (!is_dir($targetDir) && !mkdir($targetDir, 0o777, true) && !is_dir($targetDir)) {
+        if (!is_dir($targetDir) && !mkdir($targetDir, permissions: 0o777, recursive: true) && !is_dir($targetDir)) {
             $output->writeln(sprintf('<error>Unable to create target folder: %s</error>', $targetDir));
             return Command::FAILURE;
         }
@@ -66,6 +67,7 @@ class GenerateZagDocsCommand extends Command
         }
 
         foreach (array_keys($primitiveNames) as $primitiveName) {
+            $primitiveName = (string)$primitiveName;
             $metadata = [
                 'accessibility' => $this->readPrimitiveEntry($sourceDir . '/accessibility.json', $primitiveName),
                 'api' => $this->readPrimitiveEntry($sourceDir . '/api.json', $primitiveName),
@@ -75,7 +77,7 @@ class GenerateZagDocsCommand extends Command
             $targetFile = rtrim($targetDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $primitiveName . '.json';
             file_put_contents(
                 $targetFile,
-                json_encode($metadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL,
+                (json_encode($metadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) ?: '{}') . PHP_EOL,
             );
             $output->writeln(sprintf('Generated: %s', $targetFile));
         }
@@ -100,7 +102,9 @@ class GenerateZagDocsCommand extends Command
             throw new RuntimeException(sprintf('Unable to read Zag docs file: %s', $file), 1116995753);
         }
 
-        $decoded = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+        // Narrowed immediately below via is_array() - JSON has no static shape here.
+        // @mago-expect analysis:mixed-assignment
+        $decoded = json_decode($contents, associative: true, depth: 512, flags: JSON_THROW_ON_ERROR);
 
         return is_array($decoded) ? $decoded : [];
     }

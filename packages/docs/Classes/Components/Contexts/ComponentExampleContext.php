@@ -6,6 +6,7 @@ namespace FluidPrimitives\Docs\Components\Contexts;
 
 use FluidPrimitives\Docs\Phiki\RemoveLangClassTransformer;
 use Jramke\FluidPrimitives\Contexts\AbstractComponentContext;
+use Jramke\FluidPrimitives\Utility\Typed;
 use Phiki\Grammar\Grammar;
 use Phiki\Phiki;
 use Phiki\Theme\Theme;
@@ -18,7 +19,7 @@ class ComponentExampleContext extends AbstractComponentContext
     {
         $componentRenderer = $this->getComponentResolver()->getComponentRenderer();
         return $componentRenderer->renderComponent(
-            $this->get('componentName'),
+            Typed::string($this->get('componentName')),
             ['class' => 'not-prose'],
             [],
             $this->getRenderingContext(),
@@ -27,10 +28,11 @@ class ComponentExampleContext extends AbstractComponentContext
 
     public function getTabs(): array
     {
+        $componentName = Typed::string($this->get('componentName'), 'Example');
         $mainTemplateString = $this->getMainComponentTemplateString();
         $tabs = [
             [
-                'label' => explode('.', $this->get('componentName') ?? 'Example')[0] . '.html',
+                'label' => explode('.', $componentName)[0] . '.html',
                 'templateHighlighted' => $this->highlightTemplateString($mainTemplateString, 'html'),
                 'templateRaw' => $mainTemplateString,
             ],
@@ -40,16 +42,20 @@ class ComponentExampleContext extends AbstractComponentContext
             $entryFileTemplateString = $this->getEntryFileTemplateString();
             if ($entryFileTemplateString !== '' && $entryFileTemplateString !== '0') {
                 $tabs[] = [
-                    'label' => explode('.', $this->get('componentName') ?? 'Example')[0] . '.ts',
+                    'label' => explode('.', $componentName)[0] . '.ts',
                     'templateHighlighted' => $this->highlightTemplateString($entryFileTemplateString, 'ts'),
                     'templateRaw' => $entryFileTemplateString,
                 ];
             }
         }
 
-        foreach ($this->get('additionalFiles') ?? [] as $label => $path) {
+        // Narrowed immediately below via Typed::string() - additionalFiles values are Fluid context
+        // data, so their element type isn't statically known any further than "array of mixed".
+        // @mago-expect analysis:mixed-assignment
+        foreach (Typed::arrayOrNull($this->get('additionalFiles')) ?? [] as $label => $path) {
+            $path = Typed::string($path);
             $templateString = $this->getTemplateStringByPath($path);
-            $language = pathinfo((string)$path, PATHINFO_EXTENSION);
+            $language = pathinfo($path, PATHINFO_EXTENSION);
             $tabs[] = [
                 'label' => $label,
                 'templateHighlighted' => $this->highlightTemplateString($templateString, $language),
@@ -62,13 +68,13 @@ class ComponentExampleContext extends AbstractComponentContext
 
     private function getMainComponentTemplateString(): string
     {
-        $templateName = $this->getComponentResolver()->resolveTemplateName($this->get('componentName'));
+        $templateName = $this->getComponentResolver()->resolveTemplateName(Typed::string($this->get('componentName')));
         return $this->getComponentResolver()->getTemplatePaths()->getTemplateSource('Default', $templateName);
     }
 
     private function getEntryFileTemplateString(): string
     {
-        $componentBaseName = explode('.', $this->get('componentName') ?? '')[0];
+        $componentBaseName = explode('.', Typed::string($this->get('componentName')))[0];
         foreach ($this->getComponentResolver()->getTemplatePaths()->getTemplateRootPaths() as $rootPath) {
             $entryFilePath = $rootPath . $componentBaseName . '/' . $componentBaseName . '.entry.ts';
             $templateString = $this->getTemplateStringByPath($entryFilePath);

@@ -16,6 +16,7 @@ class NavigationBuilder
             throw new \Exception('navFile not found', 1757843323);
         }
 
+        /** @var list<array{group?: string, items: list<string>}> $navConfig */
         $navConfig = Yaml::parseFile($navFile);
         $navigation = [];
 
@@ -26,7 +27,7 @@ class NavigationBuilder
             ];
 
             foreach ($section['items'] as $slug) {
-                if (!isset($allDocs[$slug])) {
+                if (!array_key_exists($slug, $allDocs)) {
                     continue;
                 }
 
@@ -46,12 +47,13 @@ class NavigationBuilder
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($baseDir));
 
         foreach ($iterator as $file) {
+            /** @var \SplFileInfo $file */
             if ($file->getExtension() !== 'md') {
                 continue;
             }
 
-            $relPath = str_replace($baseDir, '', $file->getPathname());
-            $slug = str_replace('.md', '', $relPath);
+            $relPath = str_replace(search: $baseDir, replace: '', subject: $file->getPathname());
+            $slug = str_replace(search: '.md', replace: '', subject: $relPath);
             $title = $this->extractTitle($file->getPathname());
 
             $docs[$slug] = [
@@ -65,23 +67,12 @@ class NavigationBuilder
 
     private function extractTitle(string $filePath): string
     {
-        $lines = file($filePath);
+        $lines = file($filePath) ?: [];
         foreach ($lines as $line) {
             if (str_starts_with(trim($line), '# ')) {
-                return trim(ltrim($line, '# '));
+                return trim(ltrim($line, characters: '# '));
             }
         }
-        return basename($filePath, '.md');
-    }
-
-    private function parseFrontmatter(string $content): array
-    {
-        if (preg_match('/^---(.*?)---/s', $content, $matches)) {
-            $meta = Yaml::parse($matches[1]);
-            $body = preg_replace('/^---(.*?)---/s', '', $content, 1);
-            return [$meta, trim((string)$body)];
-        }
-
-        return [[], $content];
+        return basename($filePath, suffix: '.md');
     }
 }

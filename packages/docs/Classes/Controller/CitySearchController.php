@@ -11,7 +11,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 final class CitySearchController extends ActionController
 {
     /** @var list<array{value: string, title: string, description: string}> */
-    private const CITIES = [
+    private const array CITIES = [
         ['value' => 'amsterdam', 'title' => 'Amsterdam', 'description' => 'Netherlands'],
         ['value' => 'athens', 'title' => 'Athens', 'description' => 'Greece'],
         ['value' => 'auckland', 'title' => 'Auckland', 'description' => 'New Zealand'],
@@ -61,12 +61,12 @@ final class CitySearchController extends ActionController
                 $query,
             )));
 
-        $shouldSleep = (bool)random_int(0, 1);
+        $shouldSleep = (bool)random_int(0, max: 1);
         if ($shouldSleep) {
-            sleep(random_int(1, 2));
+            sleep(random_int(1, max: 2));
         }
 
-        $response = $this->jsonResponse(json_encode($results))->withStatus(200);
+        $response = $this->jsonResponse(json_encode($results) ?: null)->withStatus(200);
         throw new PropagateResponseException($response, 200);
     }
 }
