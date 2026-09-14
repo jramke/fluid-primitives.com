@@ -16,7 +16,7 @@
     <ui:select.content>
         <f:for each="{collection.group}" as="group" key="type">
             <ui:select.itemGroup>
-                <ui:select.itemGroupLabel>{type}</ui:select.itemGroupLabel>
+                <ui:select.itemGroupLabel value="{type}">{type}</ui:select.itemGroupLabel>
                 <f:for each="{group}" as="item">
                     <ui:select.item item="{item}">
                         <ui:select.itemText>{item.label}</ui:select.itemText>

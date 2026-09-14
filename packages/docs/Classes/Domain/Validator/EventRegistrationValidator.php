@@ -15,15 +15,15 @@ final class EventRegistrationValidator extends AbstractValidator
             // addError will result in a full form error in the frontend
             $this->addError(
                 'The ' .
-                    self::class .
-                    ' can only handle classes of type ' .
-                    EventRegistration::class .
-                    '. ' .
-                    // The validator framework contract guarantees an object here, just not necessarily
-                    // one of our expected type - that's exactly the mismatch being reported.
-                    // @mago-expect analysis:mixed-operand
-                    $value::class .
-                    ' given instead.',
+                self::class .
+                ' can only handle classes of type ' .
+                EventRegistration::class .
+                '. ' .
+                // The validator framework contract guarantees an object here, just not necessarily
+                // one of our expected type - that's exactly the mismatch being reported.
+                // @mago-expect analysis:mixed-operand
+                $value::class .
+                ' given instead.',
                 1782582413,
             );
 
