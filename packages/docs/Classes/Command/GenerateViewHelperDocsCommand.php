@@ -125,9 +125,8 @@ class GenerateViewHelperDocsCommand extends Command
         $viewHelper = GeneralUtility::makeInstance($className);
         $viewHelper->initializeArguments();
 
-        /* @var $argumentDefinitions ArgumentDefinition[] */
+        /** @var ArgumentDefinition[] $argumentDefinitions */
         $argumentDefinitions = $viewHelper->prepareArguments();
-        krexxlog($argumentDefinitions);
 
         foreach ($argumentDefinitions as $definition) {
             $args[] = [
