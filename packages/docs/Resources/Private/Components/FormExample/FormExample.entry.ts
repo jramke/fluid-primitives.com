@@ -1,7 +1,7 @@
-import { getHydrationData, mount } from 'fluid-primitives';
+import { getHydrationData, mountAll } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
-mount('form-example', () => {
+mountAll('form-example', () => {
     const data = getHydrationData('form', 'example-form');
     if (!data) return;
 

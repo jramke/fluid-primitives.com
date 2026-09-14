@@ -92,15 +92,12 @@ The `AjaxValidationTrait` provides `throwJsonValidationErrorResponse()`, which i
 The form requires a client-side entry file. Use `controlled="{true}"` on the root and fetch its hydration data by ID:
 
 ```typescript
-import { getHydrationData, mount } from 'fluid-primitives';
+import { mount } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
-mount('my-form', () => {
-    const data = getHydrationData('form', 'registration-form');
-    if (!data) return;
-
+mount('form', 'registration-form', ({ props }) => {
     const form = new Form({
-        ...data.props,
+        ...props,
         onSubmit: async ({ api, post }) => {
             const response = await post(api.getAction());
             return response.ok;

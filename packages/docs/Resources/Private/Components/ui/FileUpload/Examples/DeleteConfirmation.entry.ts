@@ -1,4 +1,4 @@
-import { mountControlled } from 'fluid-primitives';
+import { mount } from 'fluid-primitives';
 import { Dialog } from 'fluid-primitives/dialog';
 import { FileUpload, fileValue } from 'fluid-primitives/file-upload';
 
@@ -8,11 +8,11 @@ function findFileByValue(files: File[], value: string): File | undefined {
     return files.find(file => fileValue(file) === value);
 }
 
-mountControlled('file-upload', 'delete-confirm', ({ props }) => {
+mount('file-upload', 'delete-confirm', ({ props }) => {
     const fileUpload = new FileUpload(props);
     fileUpload.init();
 
-    const dialog = mountControlled('dialog', props.id, ({ props }) => {
+    const dialog = mount('dialog', props.id, ({ props }) => {
         const instance = new Dialog(props);
         instance.init();
         return instance;

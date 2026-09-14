@@ -32,13 +32,13 @@ The data attributes and id let the client find and connect elements to the state
 
 ## Initializing Components
 
-On the client, use `mount` to initialize components:
+On the client, use `mountAll` to initialize components:
 
 ```typescript
-import { mount } from 'fluid-primitives';
+import { mountAll } from 'fluid-primitives';
 import { Accordion } from 'fluid-primitives/accordion';
 
-mount('accordion', ({ props }) => {
+mountAll('accordion', ({ props }) => {
     const accordion = new Accordion(props);
     accordion.init();
     return accordion;
@@ -70,12 +70,12 @@ Or with Vite Asset Collector:
 ## Connecting Parts in JavaScript
 
 When building custom components without using a state machine, use `ComponentHydrator` to find elements.
-The `mount` callback provides a `createHydrator` function to create an instance that is automatically scoped to the current component instance:
+The `mountAll` callback provides a `createHydrator` function to create an instance that is automatically scoped to the current component instance:
 
 ```typescript
-import { mount } from 'fluid-primitives';
+import { mountAll } from 'fluid-primitives';
 
-mount('my-component', ({ props, createHydrator }) => {
+mountAll('my-component', ({ props, createHydrator }) => {
     const hydrator = createHydrator();
 
     const triggers = hydrator.getElements('trigger');
@@ -91,7 +91,7 @@ mount('my-component', ({ props, createHydrator }) => {
 
 The built-in `Component` base class includes the `getElement` and `getElements` methods so you can skip creating a hydrator manually.
 
-If you need to use `ComponentHydrator` outside of a `mount` callback, create an instance with the component name and root ID and optionally the `ids` mapping:
+If you need to use `ComponentHydrator` outside of a `mountAll` callback, create an instance with the component name and root ID and optionally the `ids` mapping:
 
 ```typescript
 import { ComponentHydrator } from 'fluid-primitives';
@@ -100,29 +100,31 @@ const hydrator = new ComponentHydrator('my-component', 'root-id-123');
 
 ## Controlled Components
 
-By default, `mount` automatically initializes every component on the page. For components you want to control programmatically, set `controlled="{true}"`:
+By default, `mountAll` automatically initializes every component on the page. For components you want to control programmatically, set `controlled="{true}"`:
 
 ```html
 <ui:collapsible.root controlled="{true}" rootId="my-collapsible"> ... </ui:collapsible.root>
 ```
 
-This prevents automatic initialization. You then initialize manually:
+This prevents automatic initialization. You then initialize manually with `mount`, which targets one specific `rootId` regardless of its `controlled` flag:
 
 ```typescript
-import { getHydrationData } from 'fluid-primitives';
+import { mount } from 'fluid-primitives';
 import { Collapsible } from 'fluid-primitives/collapsible';
 
-// Get props without auto-initialization
-const props = getHydrationData('collapsible', 'my-collapsible');
-
-const collapsible = new Collapsible({
-    ...props,
-    onOpenChange: ({ open }) => {
-        console.log('Collapsible is now', open ? 'open' : 'closed');
-    },
+const collapsible = mount('collapsible', 'my-collapsible', ({ props }) => {
+    const instance = new Collapsible({
+        ...props,
+        onOpenChange: ({ open }) => {
+            console.log('Collapsible is now', open ? 'open' : 'closed');
+        },
+    });
+    instance.init();
+    return instance;
 });
-collapsible.init();
 ```
+
+Unlike `mountAll`, `mount` doesn't track mounted state - calling it twice for the same `rootId` runs the callback twice, and instances created this way aren't picked up by `destroyComponentsWithin`.
 
 This is useful when:
 
@@ -153,7 +155,7 @@ window.FluidPrimitives = {
         collapsible: { ... },
     },
     uncontrolledInstances: {
-        // Initialized instances from mount()
+        // Initialized instances from mountAll()
     },
 };
 ```

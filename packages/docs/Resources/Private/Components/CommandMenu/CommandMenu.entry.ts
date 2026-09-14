@@ -3,7 +3,7 @@ import { ListCollection } from '@zag-js/collection';
 import type { InputValueChangeDetails, SelectionDetails } from '@zag-js/combobox';
 import { createHotkeyStore } from '@zag-js/hotkeys';
 import { debounce } from '@zag-js/utils';
-import { mount, mountControlled, Template, uid } from 'fluid-primitives';
+import { mount, mountAll, Template, uid } from 'fluid-primitives';
 import { Combobox } from 'fluid-primitives/combobox';
 import { Dialog } from 'fluid-primitives/dialog';
 import { create, insertMultiple, search, type ZBSearch } from 'zbsearch';
@@ -76,7 +76,7 @@ class CommandMenu {
     }
 
     initCombobox() {
-        const combobox = mountControlled('combobox', `combobox-${this.rootId}`, ({ props }) => {
+        const combobox = mount('combobox', `combobox-${this.rootId}`, ({ props }) => {
             const combobox = new Combobox({
                 ...props,
                 controlled: true,
@@ -104,7 +104,7 @@ class CommandMenu {
     }
 
     initDialog() {
-        const dialog = mountControlled('dialog', `dialog-${this.rootId}`, ({ props }) => {
+        const dialog = mount('dialog', `dialog-${this.rootId}`, ({ props }) => {
             const dialog = new Dialog({
                 ...props,
                 onOpenChange: details => {
@@ -192,6 +192,6 @@ class CommandMenu {
     debouncedSearch = debounce(this.runSearch.bind(this), INPUT_DEBOUNCE_MS);
 }
 
-mount('command-menu', ({ props }) => {
+mountAll('command-menu', ({ props }) => {
     new CommandMenu(props.id, props.searchUrl as string);
 });

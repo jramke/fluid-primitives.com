@@ -1,8 +1,8 @@
-import { getHydrationData, mount } from 'fluid-primitives';
+import { getHydrationData, mountAll } from 'fluid-primitives';
 import { Dialog } from 'fluid-primitives/dialog';
 import { ScrollArea } from 'fluid-primitives/scroll-area';
 
-mount('navigation', ({ props }) => {
+mountAll('navigation', ({ props }) => {
     const dialogProps = getHydrationData('dialog', 'nav-drawer-' + props.id)!.props;
     const dialog = new Dialog(dialogProps);
     dialog.init();

@@ -1,7 +1,7 @@
-import { mount } from 'fluid-primitives';
+import { mountAll } from 'fluid-primitives';
 import { Collapsible } from 'fluid-primitives/collapsible';
 
-mount('collapsible', ({ props }) => {
+mountAll('collapsible', ({ props }) => {
     const collapsible = new Collapsible(props);
     collapsible.init();
     return collapsible;

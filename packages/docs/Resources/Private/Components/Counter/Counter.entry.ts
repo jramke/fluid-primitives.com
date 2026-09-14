@@ -1,6 +1,6 @@
 import { createMachine, type EventObject, type Service } from '@zag-js/core';
 import type { NormalizeProps, PropTypes } from '@zag-js/types';
-import { Component, Machine, mount, normalizeProps } from 'fluid-primitives';
+import { Component, Machine, mountAll, normalizeProps } from 'fluid-primitives';
 
 interface Props {}
 
@@ -154,7 +154,7 @@ class Counter extends Component<Props, Api> {
 }
 
 (() => {
-    mount('counter', ({ props }) => {
+    mountAll('counter', ({ props }) => {
         const counter = new Counter(props);
         counter.init();
         return counter;
