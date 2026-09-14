@@ -1,7 +1,7 @@
-import { mount } from 'fluid-primitives';
+import { mountAll } from 'fluid-primitives';
 import { CheckboxGroup } from 'fluid-primitives/checkbox-group';
 
-mount('checkbox-group', ({ props }) => {
+mountAll('checkbox-group', ({ props }) => {
     const checkboxGroup = new CheckboxGroup(props);
     checkboxGroup.init();
     return checkboxGroup;

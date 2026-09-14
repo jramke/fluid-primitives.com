@@ -1,4 +1,4 @@
-import { mountControlled } from 'fluid-primitives';
+import { mount } from 'fluid-primitives';
 import { FileUpload, fileValue } from 'fluid-primitives/file-upload';
 
 function findFileByValue(files: File[], value: string): File | undefined {
@@ -43,7 +43,7 @@ class FileUploadWithCounter extends FileUpload {
     }
 }
 
-mountControlled('file-upload', 'custom-layout', ({ props }) => {
+mount('file-upload', 'custom-layout', ({ props }) => {
     const fileUpload = new FileUploadWithCounter(props);
     fileUpload.init();
     return fileUpload;

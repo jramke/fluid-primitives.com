@@ -1,7 +1,7 @@
-import { mount } from 'fluid-primitives';
+import { mountAll } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
-mount('form', ({ props }) => {
+mountAll('form', ({ props }) => {
     const form = new Form(props);
     form.init();
     return form;

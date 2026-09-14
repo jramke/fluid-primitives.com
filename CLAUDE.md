@@ -201,10 +201,10 @@ export class Accordion extends Component<accordion.Props, accordion.Api> {
 Each component has an auto-mount entry file (`*.entry.ts`):
 
 ```typescript
-import { mount } from '../../Client';
+import { mountAll } from '../../Client';
 import { Accordion } from './Accordion';
 
-mount('accordion', ({ props }) => {
+mountAll('accordion', ({ props }) => {
     const accordion = new Accordion(props);
     accordion.init();
     return accordion;

@@ -1,7 +1,7 @@
-import { mount } from 'fluid-primitives';
+import { mountAll } from 'fluid-primitives';
 import { Clipboard } from 'fluid-primitives/clipboard';
 
-mount('clipboard', ({ props }) => {
+mountAll('clipboard', ({ props }) => {
     const clipboard = new Clipboard(props);
     clipboard.init();
     return clipboard;

@@ -1,7 +1,7 @@
-import { mount } from 'fluid-primitives';
+import { mountAll } from 'fluid-primitives';
 import { NavigationMenu } from 'fluid-primitives/navigation-menu';
 
-mount('navigation-menu', ({ props }) => {
+mountAll('navigation-menu', ({ props }) => {
     const navigationMenu = new NavigationMenu(props);
     navigationMenu.init();
     return navigationMenu;

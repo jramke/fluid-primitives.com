@@ -1,7 +1,7 @@
-import { getHydrationData, mount } from 'fluid-primitives';
+import { getHydrationData, mountAll } from 'fluid-primitives';
 import { Tabs } from 'fluid-primitives/tabs';
 
-mount('component-example', ({ props, createHydrator }) => {
+mountAll('component-example', ({ props, createHydrator }) => {
     const hydrator = createHydrator();
     const tabActions = hydrator.getElements<HTMLDivElement>('tab-actions');
 

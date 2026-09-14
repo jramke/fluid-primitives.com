@@ -1,7 +1,7 @@
-import { mount } from 'fluid-primitives';
+import { mountAll } from 'fluid-primitives';
 import { Accordion } from 'fluid-primitives/accordion';
 
-mount('accordion', ({ props }) => {
+mountAll('accordion', ({ props }) => {
     const accordion = new Accordion(props);
     accordion.init();
     return accordion;

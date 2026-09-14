@@ -1,8 +1,8 @@
-import { getHydrationData, mount } from 'fluid-primitives';
+import { getHydrationData, mountAll } from 'fluid-primitives';
 import { Form, type FormValues } from 'fluid-primitives/form';
 import { z } from 'zod';
 
-mount('edit-event-registration', ({ props, createHydrator }) => {
+mountAll('edit-event-registration', ({ props, createHydrator }) => {
     const data = getHydrationData('form', props.id + '-form');
     if (!data) return;
 

@@ -3,7 +3,7 @@ import type { CollectionItem } from '@zag-js/collection';
 import { ListCollection } from '@zag-js/collection';
 import type { InputValueChangeDetails } from '@zag-js/combobox';
 import { debounce } from '@zag-js/utils';
-import { AsyncList, DelayedIndicator, extbase, mountControlled, Template } from 'fluid-primitives';
+import { AsyncList, DelayedIndicator, extbase, mount, Template } from 'fluid-primitives';
 import { Combobox } from 'fluid-primitives/combobox';
 
 interface CityResult extends CollectionItem {
@@ -45,7 +45,7 @@ function getSearchState(api: AsyncListApi<CityResult, unknown>): SearchState {
     return api.filterText.trim() ? { status: 'empty' } : { status: 'idle' };
 }
 
-mountControlled('combobox', 'async-search', ({ props, controlled }) => {
+mount('combobox', 'async-search', ({ props, controlled }) => {
     const searchUrl = props.searchUrl as string;
     let insertedItems: HTMLElement[] = [];
     let combobox: Combobox;

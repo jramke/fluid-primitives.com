@@ -1,7 +1,7 @@
-import { mountControlled, Template } from 'fluid-primitives';
+import { mount, Template } from 'fluid-primitives';
 import { Combobox } from 'fluid-primitives/combobox';
 
-mountControlled('combobox', 'multiple-example', ({ props, controlled }) => {
+mount('combobox', 'multiple-example', ({ props, controlled }) => {
     let combobox: Combobox;
 
     function updateSelectedValues(values: string[]) {

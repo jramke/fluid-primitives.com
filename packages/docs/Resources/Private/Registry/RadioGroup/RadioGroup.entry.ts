@@ -1,7 +1,7 @@
-import { mount } from 'fluid-primitives';
+import { mountAll } from 'fluid-primitives';
 import { RadioGroup } from 'fluid-primitives/radio-group';
 
-mount('radio-group', ({ props }) => {
+mountAll('radio-group', ({ props }) => {
     const radioGroup = new RadioGroup(props);
     radioGroup.init();
     return radioGroup;

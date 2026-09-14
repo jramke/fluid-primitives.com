@@ -1,7 +1,7 @@
-import { mount } from 'fluid-primitives';
+import { mountAll } from 'fluid-primitives';
 import { Tabs } from 'fluid-primitives/tabs';
 
-mount('tabs', ({ props }) => {
+mountAll('tabs', ({ props }) => {
     const tabs = new Tabs(props);
     tabs.init();
     return tabs;
