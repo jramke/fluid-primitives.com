@@ -40,9 +40,9 @@ Use `ui:form` with `action` pointing to your Extbase action and `objectName` mat
 >
     <ui:field.root name="email" required="{true}">
         <ui:field.label>Email</ui:field.label>
-        <ui:field.control asChild="{true}">
-            <ui:input type="email" autocomplete="email" />
-        </ui:field.control>
+        <ui:input.root type="email">
+            <ui:input.input autocomplete="email" />
+        </ui:input.root>
         <ui:field.description>Used for your confirmation email.</ui:field.description>
         <ui:field.error />
     </ui:field.root>
@@ -124,14 +124,30 @@ The Form API exposes a `FormValues` object via `api.getValues()` and inside `val
 
 ### Anatomy
 
+A Field-aware primitive like `ui:input` (or `ui:select`, `ui:numberInput`, ...) nests directly inside `ui:field.root` - no `field.control` needed, it inherits `name`/`disabled`/`required`/`invalid`/`aria-describedby` automatically:
+
 ```html
 <ui:field.root name="email" required="{true}">
     <ui:field.label>Email address</ui:field.label>
-    <ui:field.control asChild="{true}">
-        <!-- native input or primitive goes here -->
-        <ui:input type="email" />
-    </ui:field.control>
+    <ui:input.root type="email">
+        <ui:input.input />
+    </ui:input.root>
     <ui:field.description>We'll send your confirmation here.</ui:field.description>
+    <ui:field.error />
+</ui:field.root>
+```
+
+For a genuinely native/custom element with no dedicated primitive, use `field.control` with `asChild="{true}"` instead - it spreads the field's ARIA attributes onto the child element directly:
+
+```html
+<ui:field.root name="rating" required="{true}">
+    <ui:field.label>Rating</ui:field.label>
+    <ui:field.control asChild="{true}">
+        <select>
+            <option value="1">1 star</option>
+            <option value="5">5 stars</option>
+        </select>
+    </ui:field.control>
     <ui:field.error />
 </ui:field.root>
 ```

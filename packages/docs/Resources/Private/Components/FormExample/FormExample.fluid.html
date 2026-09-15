@@ -5,9 +5,9 @@
     <ui:form.content class="space-y-4">
         <ui:field.root name="homepage" required="{true}">
             <ui:field.label>Homepage</ui:field.label>
-            <ui:field.control asChild="{true}">
-                <ui:input type="url" pattern="https?://.*" placeholder="https://example.com" />
-            </ui:field.control>
+            <ui:input.root type="url">
+                <ui:input.input pattern="https?://.*" placeholder="https://example.com" />
+            </ui:input.root>
             <ui:field.description>Use `https://down.example.com` to preview the generic error state.</ui:field.description>
             <ui:field.error />
         </ui:field.root>

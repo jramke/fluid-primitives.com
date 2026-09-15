@@ -39,9 +39,9 @@
 
         <ui:field.root name="studentId" required="{true}" hidden="{true}" disabled="{true}">
             <ui:field.label>Student ID</ui:field.label>
-            <ui:field.control asChild="{true}">
-                <ui:input />
-            </ui:field.control>
+            <ui:input.root>
+                <ui:input.input />
+            </ui:input.root>
             <ui:field.error />
         </ui:field.root>
 
@@ -76,27 +76,27 @@
 
         <ui:field.root name="person.name" required="{true}">
             <ui:field.label>Name</ui:field.label>
-            <ui:field.control asChild="{true}">
-                <ui:input autocomplete="name" />
-            </ui:field.control>
+            <ui:input.root>
+                <ui:input.input autocomplete="name" />
+            </ui:input.root>
             <ui:field.description>Your full name as it will appear on the ticket.</ui:field.description>
             <ui:field.error />
         </ui:field.root>
 
         <ui:field.root name="person.email" required="{true}">
             <ui:field.label>Email</ui:field.label>
-            <ui:field.control asChild="{true}">
-                <ui:input type="email" autocomplete="email" />
-            </ui:field.control>
+            <ui:input.root type="email">
+                <ui:input.input autocomplete="email" />
+            </ui:input.root>
             <ui:field.description>Your email address will be used for registration confirmation and updates.</ui:field.description>
             <ui:field.error />
         </ui:field.root>
 
         <ui:field.root name="person.phone">
             <ui:field.label>Phone</ui:field.label>
-            <ui:field.control asChild="{true}">
-                <ui:input type="tel" autocomplete="tel" />
-            </ui:field.control>
+            <ui:input.root type="tel">
+                <ui:input.input autocomplete="tel" />
+            </ui:input.root>
             <ui:field.description>Only used if we need to contact you about your registration.</ui:field.description>
             <ui:field.error />
         </ui:field.root>
