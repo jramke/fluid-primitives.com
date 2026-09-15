@@ -1,7 +1,7 @@
 <ui:fileUpload.root name="photos[]" accept="image/*" maxFiles="5" controlled="{true}" rootId="custom-layout">
     <div class="flex items-center justify-between gap-4">
         <ui:fileUpload.label>Event Photos</ui:fileUpload.label>
-        <div {ui:ref(name: 'filesCounter', context: 'file-upload')} class="text-muted-foreground text-xs">0 / 5 files selected</div>
+        <div {ui:ref(name: 'filesCounter', context: 'fileUpload')} class="text-muted-foreground text-xs">0 / 5 files selected</div>
     </div>
     <ui:fileUpload.dropzone>
         <div class="grid gap-1">
@@ -31,7 +31,7 @@
 
             <div class="grid min-w-0 flex-1 gap-0.5">
                 <ui:fileUpload.fileName class="truncate text-sm font-semibold" />
-                <div {ui:ref(name: 'itemModifiedDate', context: 'file-upload')} class="text-muted-foreground text-[11px]"></div>
+                <div {ui:ref(name: 'itemModifiedDate', context: 'fileUpload')} class="text-muted-foreground text-[11px]"></div>
             </div>
 
             <primitives:fileUpload.itemDeleteTrigger class="button button-ghost text-muted-foreground h-8 px-2.5 text-xs">Remove</primitives:fileUpload.itemDeleteTrigger>

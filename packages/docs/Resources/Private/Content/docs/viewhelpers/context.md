@@ -20,5 +20,5 @@ You cannot access the context of the current component using this ViewHelper. Us
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | The name of the component of which we want the context | Yes | - |
+| `name` | string | The camelCase base name of the component of which we want the context (e.g. &quot;fileUpload&quot;) | Yes | - |
 | `as` | string | Variable name to assign the result to | No | '' |

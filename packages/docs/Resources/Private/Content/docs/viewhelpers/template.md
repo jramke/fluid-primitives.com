@@ -65,4 +65,4 @@ to whichever component is already ambiently active there, the same way a bare `u
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
 | `name` | string | Ref name for the wrapping `&lt;template&gt;` element, camelCase (e.g. &quot;itemTemplate&quot;) like `ui:ref`&#039;s own `name` argument. | Yes | - |
-| `context` | string | Base name of the enclosing component this template belongs to, e.g. &quot;combobox&quot;. Only needed when this ui:template is slot content passed into another component - omit it when writing ui:template directly inside a component&#039;s own template body, where it defaults to whichever component is already ambiently active (the same fallback a bare `ui:ref` uses). | No | '' |
+| `context` | string | camelCase base name of the enclosing component this template belongs to, e.g. &quot;fileUpload&quot;. Only needed when this ui:template is slot content passed into another component - omit it when writing ui:template directly inside a component&#039;s own template body, where it defaults to whichever component is already ambiently active (the same fallback a bare `ui:ref` uses). | No | '' |
