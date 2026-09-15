@@ -16,13 +16,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\ArgumentDefinition;
 
 class ComponentPropsTableContext extends AbstractComponentContext
 {
-    /**
-     * Internal/plumbing props that should never show up in a part's Arguments table,
-     * regardless of whether the part actually declares them - unlike Constants::GLOBAL_PROPS
-     * (which also feeds Storybook's control exclusion), this list intentionally omits
-     * `class`, `asChild` and `attributes` so they surface wherever a part actually has them.
-     */
-    private const array HIDDEN_PROPS = ['ids', 'rootId', 'controlled', 'spreadProps'];
+    private const array HIDDEN_PROPS = ['spreadProps'];
 
     public function getPartsWithProps(): array
     {
