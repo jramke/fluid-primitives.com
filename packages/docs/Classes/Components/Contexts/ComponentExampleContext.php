@@ -15,15 +15,26 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ComponentExampleContext extends AbstractComponentContext
 {
+    private ?string $html = null;
+
+    // Memoized: `{context.html}` in the Fluid template resolves through `offsetExists()` before
+    // `offsetGet()` (see AbstractComponentContext), so this getter runs twice per template access.
+    // renderComponent() has hydration side effects (ComponentHydrationCollector registers the
+    // rendered component for client-side mounting) - rendering the example component twice would
+    // register it twice, causing double client-side hydration of the same DOM.
     public function getHtml(): string
     {
-        $componentRenderer = $this->getComponentResolver()->getComponentRenderer();
-        return $componentRenderer->renderComponent(
-            Typed::string($this->get('componentName')),
-            ['class' => 'not-prose'],
-            [],
-            $this->getRenderingContext(),
-        );
+        if ($this->html === null) {
+            $componentRenderer = $this->getComponentResolver()->getComponentRenderer();
+            $this->html = $componentRenderer->renderComponent(
+                Typed::string($this->get('componentName')),
+                ['class' => 'not-prose'],
+                [],
+                $this->getRenderingContext(),
+            );
+        }
+
+        return $this->html;
     }
 
     public function getTabs(): array
