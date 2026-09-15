@@ -3,7 +3,7 @@ import { ListCollection } from '@zag-js/collection';
 import type { InputValueChangeDetails, SelectionDetails } from '@zag-js/combobox';
 import { createHotkeyStore } from '@zag-js/hotkeys';
 import { debounce } from '@zag-js/utils';
-import { mount, mountAll, Template, uid } from 'fluid-primitives';
+import { mount, mountAll, Template } from 'fluid-primitives';
 import { Combobox } from 'fluid-primitives/combobox';
 import { Dialog } from 'fluid-primitives/dialog';
 import { create, insertMultiple, search, type ZBSearch } from 'zbsearch';
@@ -147,8 +147,12 @@ class CommandMenu {
         });
 
         for (const [groupName, groupItems] of collection.group()) {
-            const group = new Template(this.combobox.hydrator, 'groupTemplate');
-            group.root.dataset.id = uid();
+            // The group's own key doubles as its restamp value - stable and unique per group
+            // (unlike a random uid()), and what Combobox's own render() needs to correctly link
+            // each group's content/label pair via id/aria-labelledby (spreadPropsByValue('itemGroup', ...)).
+            const group = new Template(this.combobox.hydrator, 'groupTemplate', {
+                value: groupName,
+            });
 
             const labelEl = group.getElement<HTMLElement>('group-label');
             if (labelEl) labelEl.textContent = groupName;

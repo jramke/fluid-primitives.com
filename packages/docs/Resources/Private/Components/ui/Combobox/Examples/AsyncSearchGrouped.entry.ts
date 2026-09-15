@@ -3,7 +3,7 @@ import type { CollectionItem } from '@zag-js/collection';
 import { ListCollection } from '@zag-js/collection';
 import type { InputValueChangeDetails } from '@zag-js/combobox';
 import { debounce } from '@zag-js/utils';
-import { AsyncList, DelayedIndicator, extbase, mount, Template, uid } from 'fluid-primitives';
+import { AsyncList, DelayedIndicator, extbase, mount, Template } from 'fluid-primitives';
 import { Combobox } from 'fluid-primitives/combobox';
 
 interface CityResult extends CollectionItem {
@@ -69,10 +69,10 @@ mount('combobox', 'async-search-grouped', ({ props, controlled }) => {
         });
 
         for (const [country, countryItems] of collection.group()) {
-            const group = new Template(combobox.hydrator, 'groupTemplate');
-            // Only the value/identity discriminator Combobox's own render() needs to tell groups
-            // apart - the label text and item rendering are unaffected by its exact value.
-            group.root.dataset.id = uid();
+            // The group's own key doubles as its restamp value - stable and unique per group
+            // (unlike a random uid()), and what Combobox's own render() needs to correctly link
+            // each group's content/label pair via id/aria-labelledby (spreadPropsByValue('itemGroup', ...)).
+            const group = new Template(combobox.hydrator, 'groupTemplate', { value: country });
 
             const labelEl = group.getElement<HTMLElement>('group-label');
             if (labelEl) labelEl.textContent = country;
