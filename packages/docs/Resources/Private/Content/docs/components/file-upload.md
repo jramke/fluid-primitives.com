@@ -48,7 +48,9 @@ Declare multiple `itemPreview` parts inside the item template, each with a `matc
 `FileUpload` translates three labels: `dropzone` (the dropzone's `aria-label`), `itemPreview` (an accepted item's preview `alt` text), and `deleteFile` (an item's delete button `aria-label`). The last two are functions in zag-js (`(file: File) => string`), since they interpolate the file's name - but Fluid has no callbacks to hand over, and the `File` only exists in the browser anyway. So they're translated as plain strings containing a literal `%fileName%` placeholder, which the primitive substitutes with the real file name client-side:
 
 ```html
-<ui:fileUpload.root translations="{itemPreview: 'Vorschau von %fileName%', deleteFile: 'Datei %fileName% entfernen'}"></ui:fileUpload.root>
+<ui:fileUpload.root
+    translations="{itemPreview: 'Vorschau von %fileName%', deleteFile: 'Datei %fileName% entfernen'}"
+></ui:fileUpload.root>
 ```
 
 Use `%fileName%`, not `{fileName}` - Fluid's own inline array/object syntax already treats a bare `{...}` inside a string as a nested variable expression, so a curly-brace placeholder would silently get stripped from an override written this way. Omit `itemPreview`/`deleteFile` to keep the built-in translation, or set an entry to `{false}` to omit that `aria-label`/`alt` entirely. Per-locale overrides can also live in your own `locallang.xlf` and be read with `f:translate` instead.
@@ -169,7 +171,11 @@ Existing items still sit inside the same `itemTemplate`-driven `itemGroup` as ne
 ```html
 <ui:form.root action="update" objectName="conference" object="{conference}">
     <ui:field.root name="impressions[]">
-        <ui:fileUpload.root accept="image/jpeg,image/png" maxFiles="10" existingFilesCount="{conference.impressions -> f:count()}">
+        <ui:fileUpload.root
+            accept="image/jpeg,image/png"
+            maxFiles="10"
+            existingFilesCount="{conference.impressions -> f:count()}"
+        >
             <ui:fileUpload.label>Impressions</ui:fileUpload.label>
             <ui:fileUpload.dropzone>
                 <ui:fileUpload.trigger>Choose images</ui:fileUpload.trigger>
@@ -177,10 +183,16 @@ Existing items still sit inside the same `itemTemplate`-driven `itemGroup` as ne
 
             <primitives:fileUpload.itemTemplate>
                 <ui:fileUpload.fileItem>
-                    <primitives:fileUpload.itemPreview match="image/*" class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border">
+                    <primitives:fileUpload.itemPreview
+                        match="image/*"
+                        class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border"
+                    >
                         <primitives:fileUpload.itemPreviewImage class="size-full object-cover" />
                     </primitives:fileUpload.itemPreview>
-                    <primitives:fileUpload.itemPreview match=".*" class="bg-muted text-muted-foreground flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border">
+                    <primitives:fileUpload.itemPreview
+                        match=".*"
+                        class="bg-muted text-muted-foreground flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border"
+                    >
                         <ui:fileUpload.filePreviewFallback />
                     </primitives:fileUpload.itemPreview>
                     <div class="grid min-w-0 flex-1 gap-0.5">
@@ -195,11 +207,21 @@ Existing items still sit inside the same `itemTemplate`-driven `itemGroup` as ne
             <ui:fileUpload.itemGroup>
                 <f:for each="{conference.impressions}" as="fileReference">
                     <ui:fileUpload.fileItem type="existing">
-                        <f:image image="{fileReference}" width="40" height="40" class="size-10 shrink-0 rounded-md border object-cover" />
+                        <f:image
+                            image="{fileReference}"
+                            width="40"
+                            height="40"
+                            class="size-10 shrink-0 rounded-md border object-cover"
+                        />
                         <div class="grid min-w-0 flex-1 gap-0.5">
-                            <ui:fileUpload.fileName>{fileReference.originalResource.name}</ui:fileUpload.fileName>
+                            <ui:fileUpload.fileName
+                                >{fileReference.originalResource.name}</ui:fileUpload.fileName
+                            >
                         </div>
-                        <ui:fileUploadDeleteCheckbox fileReference="{fileReference}" class="hidden" />
+                        <ui:fileUploadDeleteCheckbox
+                            fileReference="{fileReference}"
+                            class="hidden"
+                        />
                         <ui:fileUpload.fileDeleteTrigger />
                     </ui:fileUpload.fileItem>
                 </f:for>
@@ -270,7 +292,9 @@ Clicking that delete trigger checks the sibling checkbox and hides the item imme
     </primitives:fileUpload.itemTemplate>
 
     <f:comment>Optional - falls back to the itemTemplate above when omitted.</f:comment>
-    <primitives:fileUpload.itemTemplate type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}">
+    <primitives:fileUpload.itemTemplate
+        type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}"
+    >
         <primitives:fileUpload.item>
             <primitives:fileUpload.itemName />
             <primitives:fileUpload.itemError />

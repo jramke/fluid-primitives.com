@@ -65,7 +65,9 @@ Pass classes directly to component parts:
 ```html
 <ui:accordion.root>
     <ui:accordion.item class="border-b border-gray-200">
-        <ui:accordion.trigger class="flex w-full justify-between py-4 font-medium hover:underline"> Section Title </ui:accordion.trigger>
+        <ui:accordion.trigger class="flex w-full justify-between py-4 font-medium hover:underline">
+            Section Title
+        </ui:accordion.trigger>
         <ui:accordion.content class="pb-4 text-gray-600"> Content goes here. </ui:accordion.content>
     </ui:accordion.item>
 </ui:accordion.root>
@@ -77,7 +79,11 @@ Use Tailwind's data attribute variants:
 
 ```html
 <ui:accordion.item class="border-b data-[state=open]:bg-gray-50">
-    <ui:accordion.trigger class="py-4 data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed"> ... </ui:accordion.trigger>
+    <ui:accordion.trigger
+        class="py-4 data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed"
+    >
+        ...
+    </ui:accordion.trigger>
 </ui:accordion.item>
 ```
 

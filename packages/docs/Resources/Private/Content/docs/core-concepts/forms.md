@@ -31,7 +31,13 @@ typo3 ui:add form && typo3 ui:add field
 Use `ui:form` with `action` pointing to your Extbase action and `objectName` matching the argument name in your controller:
 
 ```html
-<ui:form.root action="registration" objectName="eventRegistration" object="{eventRegistration}" controlled="{true}" rootId="registration-form">
+<ui:form.root
+    action="registration"
+    objectName="eventRegistration"
+    object="{eventRegistration}"
+    controlled="{true}"
+    rootId="registration-form"
+>
     <ui:field.root name="email" required="{true}">
         <ui:field.label>Email</ui:field.label>
         <ui:field.control asChild="{true}">
@@ -258,7 +264,9 @@ For form-level messaging, use `api.setErrorText()` and `api.setSuccessText()`. T
     </ui:form.indicator>
 
     <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}">
-        <ui:form.successText>Your registration was submitted successfully. Thank you!</ui:form.successText>
+        <ui:form.successText
+            >Your registration was submitted successfully. Thank you!</ui:form.successText
+        >
     </ui:form.indicator>
 </ui:form.root>
 ```

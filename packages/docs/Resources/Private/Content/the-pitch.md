@@ -41,7 +41,20 @@ TYPO3 Fluid finally has first-class component support. So we can build actual co
 Traditional components tend to accumulate props until they become a mess:
 
 ```html
-<ui:card rootClass="some-class" image="path/to/image" imageAlt="Alt text" title="Hello World" titleLevel="3" text="Lorem ipsum" cta="1" ctaVariant="secondary" ctaText="Learn more" ctaLink="/some-page" secondaryCta="1" secondaryCtaText="More" />
+<ui:card
+    rootClass="some-class"
+    image="path/to/image"
+    imageAlt="Alt text"
+    title="Hello World"
+    titleLevel="3"
+    text="Lorem ipsum"
+    cta="1"
+    ctaVariant="secondary"
+    ctaText="Learn more"
+    ctaLink="/some-page"
+    secondaryCta="1"
+    secondaryCtaText="More"
+/>
 ```
 
 Need two buttons? More props. Different layout? More conditionals. Soon the template is full of `f:if` branches and nobody wants to touch it.

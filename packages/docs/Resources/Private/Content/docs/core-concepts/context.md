@@ -107,7 +107,9 @@ class AccordionContext extends AbstractComponentContext
 <span>Total items: {context.itemCount}</span>
 
 <!-- Method with arguments - use ui:call -->
-<f:variable name="itemState">{context -> ui:call(method: 'getItemState', arguments: {0: itemProps})}</f:variable>
+<f:variable name="itemState"
+    >{context -> ui:call(method: 'getItemState', arguments: {0: itemProps})}</f:variable
+>
 ```
 
 ### Available Methods in Context Classes

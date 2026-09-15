@@ -56,7 +56,9 @@ The service that generates a real `__trustedProperties` token (`MvcPropertyMappi
 The lower-level piece `post()` is built on, for reading the prefix without sending a request:
 
 ```typescript
-extbase.getArgumentPrefix('https://example.com/?tx_docs_docs[action]=search&tx_docs_docs[controller]=CitySearch');
+extbase.getArgumentPrefix(
+    'https://example.com/?tx_docs_docs[action]=search&tx_docs_docs[controller]=CitySearch'
+);
 // -> 'tx_docs_docs'
 ```
 

@@ -107,7 +107,9 @@ Creating wrapper components reduces repetitive markup. Here's an `Alert` that co
 <!-- Or use primitives directly for custom layouts -->
 <ui:alert.root variant="error">
     <ui:alert.icon />
-    <ui:alert.content> <strong>Error:</strong> Custom layout with multiple paragraphs... </ui:alert.content>
+    <ui:alert.content>
+        <strong>Error:</strong> Custom layout with multiple paragraphs...
+    </ui:alert.content>
 </ui:alert.root>
 ```
 

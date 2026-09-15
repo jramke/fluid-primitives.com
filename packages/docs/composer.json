@@ -3,8 +3,12 @@
     "type": "typo3-cms-extension",
     "description": "",
     "homepage": "https://joostramke.com",
-    "license": ["GPL-2.0-or-later"],
-    "keywords": ["TYPO3 CMS"],
+    "license": [
+        "GPL-2.0-or-later"
+    ],
+    "keywords": [
+        "TYPO3 CMS"
+    ],
     "require": {
         "typo3/cms-core": "^14"
     },

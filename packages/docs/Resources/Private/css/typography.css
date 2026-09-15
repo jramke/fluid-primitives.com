@@ -165,11 +165,9 @@
 
         @supports (animation-timeline: scroll()) {
             mask:
-                linear-gradient(to right, var(--smooth-gradient-stops-white-transparent)) 0 50% / 0
-                    100% no-repeat,
+                linear-gradient(to right, var(--smooth-gradient-stops-white-transparent)) 0 50% / 0 100% no-repeat,
                 linear-gradient(white, white) 50% 50% / 100% 100% no-repeat,
-                linear-gradient(to right, var(--smooth-gradient-stops-transparent-white)) 100% 50% /
-                    50px 100% no-repeat;
+                linear-gradient(to right, var(--smooth-gradient-stops-transparent-white)) 100% 50% / 50px 100% no-repeat;
             mask-composite: exclude;
             animation:
                 scroll-mask-left both linear,

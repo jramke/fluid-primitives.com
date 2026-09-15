@@ -1,5 +1,6 @@
 {
     "printWidth": 100,
+    "tabWidth": 4,
     "singleQuote": true,
     "trailingComma": "es5",
     "bracketSpacing": true,
@@ -25,7 +26,8 @@
             "files": ["*.yaml", "*.yml"],
             "options": {
                 "parser": "yaml",
-                "printWidth": 99999
+                "printWidth": 99999,
+                "tabWidth": 2
             }
         }
     ]

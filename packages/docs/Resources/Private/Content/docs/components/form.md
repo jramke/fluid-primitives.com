@@ -56,7 +56,9 @@ Client-side validation is configured in your entry file with the `validation` op
         </primitives:field.root>
     </primitives:form.content>
 
-    <primitives:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}">
+    <primitives:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}"
+    >
         <primitives:form.errorText />
     </primitives:form.indicator>
 </primitives:form.root>

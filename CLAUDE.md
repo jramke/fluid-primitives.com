@@ -229,7 +229,7 @@ namespace Jramke\FluidPrimitives\ViewHelpers;
 namespace Jramke\FluidPrimitives\Service;
 ```
 
-`Classes/` is organized by what each class *is*, not by which class it was originally split out of - when extracting a collaborator, place it in the folder matching its role, not next to the class it came from.
+`Classes/` is organized by what each class _is_, not by which class it was originally split out of - when extracting a collaborator, place it in the folder matching its role, not next to the class it came from.
 
 - **`Contexts/`** - per-component state exposed to templates as `context.*` (see Context Class Pattern below).
 - **`ViewHelpers/`** - Fluid ViewHelpers, the `ui:` namespace.
@@ -271,7 +271,7 @@ final readonly class SomeFactory
 
 Two `Symfony\Component\DependencyInjection\Attribute\Autoconfigure` flags matter here:
 
-- **`public: true`** - required on any class fetched via `GeneralUtility::makeInstance()`/`$container->get()` from *outside* the container's own constructor-graph wiring (an entry point: a dynamically-resolved `Contexts/` class, a `Factory/`). Not needed for a class only ever reached as another service's constructor-injected dependency.
+- **`public: true`** - required on any class fetched via `GeneralUtility::makeInstance()`/`$container->get()` from _outside_ the container's own constructor-graph wiring (an entry point: a dynamically-resolved `Contexts/` class, a `Factory/`). Not needed for a class only ever reached as another service's constructor-injected dependency.
 - **`shared: false`** - needed when an object holds per-caller state bound at construction, so a cached singleton instance can't leak one caller's binding into another's.
 
 ### Strict Types
