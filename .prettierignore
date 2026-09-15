@@ -9,3 +9,4 @@ packages/docs/Resources/Private/Content/generated
 public
 var
 vendor
+.claude/worktrees
