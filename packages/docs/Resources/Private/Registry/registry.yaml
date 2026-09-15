@@ -120,6 +120,17 @@ form:
     - SuccessText.fluid.html
     - Form.entry.ts
 
+textarea:
+  name: Textarea
+  description: A multi-line text input that works with Field, with optional word count, live-region announcements, and submit-on-Enter
+  files:
+    - Root.fluid.html
+    - Label.fluid.html
+    - Textarea.fluid.html
+    - WordCount.fluid.html
+    - LiveRegion.fluid.html
+    - Textarea.entry.ts
+
 navigation-menu:
   name: NavigationMenu
   description: A collection of links and menus for website navigation

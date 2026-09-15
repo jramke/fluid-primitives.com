@@ -1,0 +1,16 @@
+<ui:prop name="example_id" type="string" default="simple" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:textarea.examples.simple />
+    </f:case>
+    <f:case value="word-count">
+        <ui:textarea.examples.wordCount />
+    </f:case>
+    <f:case value="with-field">
+        <ui:textarea.examples.withField />
+    </f:case>
+    <f:case value="submit-on-enter">
+        <ui:textarea.examples.submitOnEnter />
+    </f:case>
+</f:switch>
