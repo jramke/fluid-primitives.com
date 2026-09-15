@@ -1,23 +1,32 @@
+import type { InputValueChangeDetails } from '@zag-js/combobox';
 import { createFilter } from '@zag-js/i18n-utils';
-import type { ComboboxFilterHookDetails } from 'fluid-primitives';
 import { mount } from 'fluid-primitives';
 import { Combobox } from 'fluid-primitives/combobox';
 
-const startsWithFilter = createFilter({ sensitivity: 'base' });
+const filter = createFilter({ sensitivity: 'base' });
 
 mount('combobox', 'custom-filter-api', ({ props }) => {
-    const combobox = new Combobox(props);
-    combobox.setFilter(({ inputValue, collection }: ComboboxFilterHookDetails) => {
-        const query = inputValue.trim();
+    let combobox: Combobox;
 
-        if (!query) {
-            return collection;
-        }
+    combobox = new Combobox({
+        ...props,
+        onInputValueChange: (details: InputValueChangeDetails) => {
+            const source = combobox.getSourceCollection();
 
-        return collection.filter((itemString: string) =>
-            startsWithFilter.startsWith(itemString, query)
-        );
+            if (details.reason !== 'input-change') {
+                combobox.updateProps({ collection: source });
+                return;
+            }
+
+            const query = details.inputValue.trim();
+            combobox.updateProps({
+                collection: query
+                    ? source.filter(itemString => filter.startsWith(itemString, query))
+                    : source,
+            });
+        },
     });
+
     combobox.init();
     return combobox;
 });

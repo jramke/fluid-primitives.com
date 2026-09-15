@@ -1,7 +1,11 @@
-import { mount, Template } from 'fluid-primitives';
+import type { InputValueChangeDetails } from '@zag-js/combobox';
+import { createFilter } from '@zag-js/i18n-utils';
+import { getGlobal, mount, Template } from 'fluid-primitives';
 import { Combobox } from 'fluid-primitives/combobox';
 
-mount('combobox', 'multiple-example', ({ props, controlled }) => {
+const filter = createFilter({ sensitivity: 'base', locale: getGlobal('locale') });
+
+mount('combobox', 'multiple-example', ({ props }) => {
     let combobox: Combobox;
 
     function updateSelectedValues(values: string[]) {
@@ -39,9 +43,23 @@ mount('combobox', 'multiple-example', ({ props, controlled }) => {
 
     combobox = new Combobox({
         ...props,
-        controlled,
         onValueChange: details => {
             updateSelectedValues(details.value);
+        },
+        onInputValueChange: (details: InputValueChangeDetails) => {
+            const source = combobox.getSourceCollection();
+
+            if (details.reason !== 'input-change') {
+                combobox.updateProps({ collection: source });
+                return;
+            }
+
+            const query = details.inputValue.trim();
+            combobox.updateProps({
+                collection: query
+                    ? source.filter(itemString => filter.contains(itemString, query))
+                    : source,
+            });
         },
     });
 

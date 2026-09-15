@@ -79,7 +79,6 @@ class CommandMenu {
         const combobox = mount('combobox', `combobox-${this.rootId}`, ({ props }) => {
             const combobox = new Combobox({
                 ...props,
-                controlled: true,
                 open: true,
                 positioning: {
                     gutter: 0,

@@ -45,7 +45,7 @@ function getSearchState(api: AsyncListApi<CityResult, unknown>): SearchState {
     return api.filterText.trim() ? { status: 'empty' } : { status: 'idle' };
 }
 
-mount('combobox', 'async-search-grouped', ({ props, controlled }) => {
+mount('combobox', 'async-search-grouped', ({ props }) => {
     const searchUrl = props.searchUrl as string;
     let insertedGroups: HTMLElement[] = [];
     let combobox: Combobox;
@@ -139,7 +139,6 @@ mount('combobox', 'async-search-grouped', ({ props, controlled }) => {
 
     combobox = new Combobox({
         ...props,
-        controlled,
         onInputValueChange: (details: InputValueChangeDetails) => {
             if (details.reason === 'input-change') setFilterTextDebounced(details.inputValue);
         },

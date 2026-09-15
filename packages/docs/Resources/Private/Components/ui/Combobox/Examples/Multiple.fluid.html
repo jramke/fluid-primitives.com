@@ -19,7 +19,7 @@
     }"
     as="collection" />
 
-<ui:combobox.root collection="{collection}" multiple="{true}" name="destinations[]" rootId="multiple-example">
+<ui:combobox.root collection="{collection}" multiple="{true}" name="destinations[]" controlled="{true}" rootId="multiple-example">
     <ul {ui:ref(name: 'selectedValuesWrapper' , context: 'combobox' )} role="list" aria-label="Selected values" class="flex items-center gap-2 flex-wrap mb-1">
         <div {ui:ref(name: 'emptyValuesText' , context: 'combobox' )} role="presentation" class="text-sm text-muted-foreground italic">Nothing selected</div>
         <ui:template name="selectedValue" context="combobox">

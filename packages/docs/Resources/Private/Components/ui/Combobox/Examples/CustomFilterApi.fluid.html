@@ -14,7 +14,7 @@
     as="collection" />
 
 <ui:combobox.root collection="{collection}" controlled="{true}" rootId="custom-filter-api">
-    <ui:combobox.label>Instance `setFilter()`</ui:combobox.label>
+    <ui:combobox.label>Starts-with filter</ui:combobox.label>
     <ui:combobox.control class="min-w-64">
         <ui:combobox.input placeholder="Type something" />
         <ui:combobox.clearTrigger />
@@ -25,7 +25,7 @@
             </svg>
         </ui:combobox.trigger>
     </ui:combobox.control>
-    <div class="text-muted-foreground text-xs">Uses a custom mount entry that calls `combobox.setFilter(...)`.</div>
+    <div class="text-muted-foreground text-xs">Uses a custom mount entry with its own `onInputValueChange` filter (starts-with instead of contains).</div>
     <ui:combobox.content>
         <ui:combobox.empty>No cities found.</ui:combobox.empty>
         <f:for each="{collection.items}" as="item">

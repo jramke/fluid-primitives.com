@@ -14,8 +14,8 @@
 - Works with the Field component for forms and validation
 - Submits the selected item's `value` on form submit, not its label - the visible input only ever displays text, `hiddenInput` carries the real value(s)
 - Supports an `empty` state placeholder shown automatically whenever no items match
-- Supports custom client-side filtering via `setFilter()`
-- Uses locale-aware fallback filtering based on Zag's i18n utilities
+- Filtering is plain `onInputValueChange` userland code, not a special API - swap the match logic per instance the same way you'd swap it in any Zag/Ark UI consumer
+- Ships with locale-aware substring filtering via Zag's i18n utilities, wired up in the default mount entry
 - Supports async, server-rendered search results via `ui:template`
 
 ## Installation
@@ -54,9 +54,9 @@ Allow users to select multiple values from the combobox.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.multiple" } %}
 
-### Custom Filter API
+### Custom Filter Logic
 
-Use `setFilter()` in a custom mount entry when you want to override filtering imperatively per instance.
+Override the match logic per instance by passing your own `onInputValueChange` to a custom mount entry - swap `contains` for `startsWith`, or filter however you like.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.customFilterApi" } %}
 
@@ -98,8 +98,6 @@ Note that Zag.js uses a function for the trigger label to allow dynamic labels b
 <ui:combobox.root translations="{comboboxTranslations}"> ... </ui:combobox.root>
 ```
 
-<!-- TODO -->
-<!--
 ## API Reference
 
 {%
@@ -108,16 +106,24 @@ Note that Zag.js uses a function for the trigger label to allow dynamic labels b
         "name": "Combobox",
         "parts": [
             ["root", "Provides shared combobox state and wraps all related parts. Renders a `<div>` element."],
-            ["trigger", "Opens the dialog. Renders a `<button>` element."],
-            ["backdrop", "Displays the overlay behind the dialog content. Renders a `<div>` element."],
-            ["positioner", "Positions the dialog content within the viewport. Renders a `<div>` element."],
-            ["content", "Contains the dialog surface and interactive content. Renders a `<div>` element."],
-            ["title", "Provides the accessible title for the dialog. Renders a `<div>` element."],
-            ["description", "Provides supporting descriptive text for the dialog. Renders a `<div>` element."],
-            ["closeTrigger", "Closes the dialog when activated. Renders a `<button>` element."]
+            ["label", "Labels the combobox. Renders a `<label>` element."],
+            ["control", "Groups the input and its trigger/clear buttons. Renders a `<div>` element."],
+            ["input", "The text input used to search and select from the collection. Renders an `<input>` element."],
+            ["clearTrigger", "Clears the current input value and selection. Renders a `<button>` element."],
+            ["trigger", "Opens and closes the combobox listbox. Renders a `<button>` element."],
+            ["positioner", "Positions the floating combobox content. Renders a `<div>` element."],
+            ["content", "Contains the listbox of selectable options. Renders a `<div>` element."],
+            ["list", "Optional wrapper around the options inside `content`, e.g. for styling a scroll container. Renders a `<div>` element."],
+            ["empty", "Displays a placeholder for when no items match the current search. Renders a `<div>` element."],
+            ["item", "Represents a selectable option. Renders a `<div>` element."],
+            ["itemText", "Displays the text content of an option. Renders a `<div>` element."],
+            ["itemIndicator", "Displays the selected-state indicator for an option. Renders a `<div>` element."],
+            ["itemGroup", "Groups related options together. Renders a `<div>` element."],
+            ["itemGroupLabel", "Labels a group of related options. Renders a `<div>` element."],
+            ["hiddenInput", "Provides the real, submittable value(s) for the selected item(s), since the visible input only ever holds label text. Renders one `<input>` element per selected value."]
         ]
     }
-%} -->
+%}
 
 ## Anatomy
 
