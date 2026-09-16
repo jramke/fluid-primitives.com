@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Services;
 
+use FluidPrimitives\Docs\Utility\DocFileMetadataExtractor;
 use Symfony\Component\Yaml\Yaml;
 
 class NavigationBuilder
 {
+    private const string LLMS_TXT_GROUP = 'Overview';
+
     public function buildNavigation(string $baseDir, string $navFile): array
     {
         $allDocs = $this->scanDocs($baseDir);
@@ -35,6 +38,13 @@ class NavigationBuilder
                 unset($allDocs[$slug]);
             }
 
+            // llms.txt isn't a scanned content file, just a synthetic sidebar link into the
+            // middleware-served /llms.txt - added here rather than nav.yaml so it doesn't have to
+            // pretend to be a real doc for scanDocs()/ValidPathsCollector's sake.
+            if ($group['title'] === self::LLMS_TXT_GROUP) {
+                $group['items'][] = ['slug' => '/llms.txt', 'title' => 'llms.txt'];
+            }
+
             $navigation[] = $group;
         }
 
@@ -54,7 +64,7 @@ class NavigationBuilder
 
             $relPath = str_replace(search: $baseDir, replace: '', subject: $file->getPathname());
             $slug = str_replace(search: '.md', replace: '', subject: $relPath);
-            $title = $this->extractTitle($file->getPathname());
+            $title = DocFileMetadataExtractor::extractTitle($file->getPathname());
 
             $docs[$slug] = [
                 'slug' => '/' . $slug,
@@ -63,16 +73,5 @@ class NavigationBuilder
         }
 
         return $docs;
-    }
-
-    private function extractTitle(string $filePath): string
-    {
-        $lines = file($filePath) ?: [];
-        foreach ($lines as $line) {
-            if (str_starts_with(trim($line), '# ')) {
-                return trim(ltrim($line, characters: '# '));
-            }
-        }
-        return basename($filePath, suffix: '.md');
     }
 }

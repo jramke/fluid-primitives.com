@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Utility;
 
 use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
+use FluidPrimitives\Docs\Services\ComponentShortcodeResolver;
+use FluidPrimitives\Docs\Services\MarkdownLinkRewriter;
+use FluidPrimitives\Docs\Services\MarkdownWhitespaceNormalizer;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
@@ -18,15 +21,10 @@ use League\CommonMark\Node\Query;
 use League\CommonMark\Renderer\HtmlRenderer;
 use Phiki\Theme\Theme;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
-use TYPO3Fluid\Fluid\Core\Component\ComponentDefinitionProviderInterface;
-use TYPO3Fluid\Fluid\Core\Component\ComponentTemplateResolverInterface;
 
 // DocsUtility groups small, independent static formatting/markdown helpers shared across the docs
 // site's Fluid context classes - splitting them into per-concern classes would just move the same
 // call sites around without reducing complexity.
-// @mago-expect lint:too-many-methods
 class DocsUtility
 {
     private static ?MarkdownConverter $converter = null;
@@ -103,11 +101,24 @@ class DocsUtility
     }
 
     /**
+     * Resolves `{% component: ... %}` shortcodes the same way markdownToHtml() does, but leaves the
+     * result as plain Markdown instead of converting it to HTML - used for the `.md` request path
+     * (DocsMarkdownModeMiddleware), where each shortcode's Fluid template emits its own Markdown-native
+     * branch (fenced code blocks, tables, plain links) instead of interactive HTML.
+     */
+    public static function renderMarkdownForLlm(string $markdown, ServerRequestInterface $request): string
+    {
+        $resolved = ComponentShortcodeResolver::resolve($markdown, $request);
+        $normalized = MarkdownWhitespaceNormalizer::normalize($resolved);
+        return MarkdownLinkRewriter::rewriteInternalLinks($normalized);
+    }
+
+    /**
      * @return array{string, string} First item is the content html, second item is the toc html
      */
     public static function markdownToHtml(string $markdown, ServerRequestInterface $request): array
     {
-        $processedMarkdown = DocsUtility::processFluidTemplatesInMarkdown($markdown, $request);
+        $processedMarkdown = ComponentShortcodeResolver::resolve($markdown, $request);
         $converter = DocsUtility::getMarkdownConverter();
         $converted = $converter->convert($processedMarkdown);
 
@@ -180,74 +191,6 @@ class DocsUtility
         return self::$converter;
     }
 
-    public static function processFluidTemplatesInMarkdown(string $markdown, ServerRequestInterface $request): string
-    {
-        return preg_replace_callback(
-            '/\{%\s*component:\s*"([^"]+)"(?:,\s*arguments:\s*(\{.*?\}))?\s*%\}/s',
-            static function ($matches) use ($request) {
-                $fullViewHelperName = $matches[1];
-
-                /** @var array<string, mixed> $arguments */
-                $arguments = array_key_exists(2, $matches) ? json_decode($matches[2], associative: true) ?? [] : [];
-
-                try {
-                    $renderingContext = GeneralUtility::makeInstance(RenderingContextFactory::class)->create(
-                        request: $request,
-                    );
-
-                    [$namespace, $viewHelperName] = explode(':', $fullViewHelperName);
-                    $viewHelperResolverDelegate = $renderingContext->getViewHelperResolver()->getResponsibleDelegate(
-                        $namespace,
-                        $viewHelperName,
-                    );
-
-                    if (
-                        !$viewHelperResolverDelegate instanceof ComponentDefinitionProviderInterface ||
-                        !$viewHelperResolverDelegate instanceof ComponentTemplateResolverInterface
-                    ) {
-                        return (
-                            '<div class="fluid-template-error">Error: Unknown component "' .
-                            htmlspecialchars($viewHelperName) .
-                            '"</div>'
-                        );
-                    }
-
-                    $isCodeExample = $fullViewHelperName === 'ui:componentExample';
-
-                    $componentRenderer = $viewHelperResolverDelegate->getComponentRenderer();
-
-                    // A guard-clause rewrite here would trade this single branch for two (one to pick
-                    // the arguments, one to pick the wrapping), pushing the class over the cyclomatic
-                    // complexity threshold for no real clarity gain.
-                    // @mago-expect lint:no-else-clause
-                    if ($isCodeExample) {
-                        $html = $componentRenderer->renderComponent(
-                            $viewHelperName,
-                            [
-                                ...$arguments,
-                            ],
-                            [],
-                            $renderingContext,
-                        );
-                    } else {
-                        $html = $componentRenderer->renderComponent(
-                            $viewHelperName,
-                            [...$arguments, 'class' => 'not-prose'],
-                            [],
-                            $renderingContext,
-                        );
-                        $html = '<div class="prose-component">' . $html . '</div>';
-                    }
-
-                    return self::cleanHtmlForMarkdown($html);
-                } catch (\Exception $e) {
-                    return '<div class="fluid-template-error">Error: ' . htmlspecialchars($e->getMessage()) . '</div>';
-                }
-            },
-            $markdown,
-        ) ?? $markdown;
-    }
-
     private static function wrapCodeBlocks(string $html): string
     {
         // Match <pre> tags that do NOT have class="not-code-block"
@@ -264,32 +207,5 @@ class DocsUtility
         $replacement = '<div class="table-wrapper">$1</div>';
 
         return preg_replace($pattern, $replacement, $html) ?? $html;
-    }
-
-    private static function cleanHtmlForMarkdown(string $html): string
-    {
-        // Extract <pre> blocks so we don't accidentally clean them up
-        $preBlocks = [];
-        $html = preg_replace_callback(
-            '/<pre\b[^>]*>[\s\S]*?<\/pre>/i',
-            static function ($matches) use (&$preBlocks) {
-                $key = '###PRE_BLOCK_' . count($preBlocks) . '###';
-                $preBlocks[$key] = $matches[0];
-                return $key;
-            },
-            $html,
-        );
-
-        // Remove HTML comments
-        $html = preg_replace('/<!--[\s\S]*?-->/', replacement: '', subject: (string)$html);
-        // Collapse whitespace between tags
-        $html = preg_replace('/>\s+</', replacement: '><', subject: (string)$html);
-        // Collapse excessive whitespace inside tags/attributes
-        $html = preg_replace('/\s{2,}/', replacement: ' ', subject: (string)$html);
-        // Trim leading/trailing whitespace
-        $html = trim((string)$html);
-
-        // Restore <pre> blocks
-        return strtr($html, $preBlocks);
     }
 }

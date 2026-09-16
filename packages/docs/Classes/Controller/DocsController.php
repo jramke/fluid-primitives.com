@@ -8,7 +8,9 @@ use FluidPrimitives\Docs\Domain\Model\EventRegistration;
 use FluidPrimitives\Docs\Domain\Repository\EventRegistrationRepository;
 use FluidPrimitives\Docs\Domain\Validator\EventRegistrationValidator;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
+use FluidPrimitives\Docs\Services\DocsMarkdownModeResponder;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
+use FluidPrimitives\Docs\Services\ViewAsMarkdownLinkInjector;
 use FluidPrimitives\Docs\Utility\DocsUtility;
 use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
 use Jramke\FluidPrimitives\Utility\Typed;
@@ -36,6 +38,7 @@ final class DocsController extends ActionController
         private readonly DocsPageTitleProvider $pageTitleProvider,
         private readonly EventRegistrationRepository $eventRegistrationRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
+        private readonly DocsMarkdownModeResponder $markdownModeResponder,
     ) {}
 
     public function showAction(string $path = ''): ResponseInterface
@@ -81,8 +84,16 @@ final class DocsController extends ActionController
             $redirects = Typed::arrayOrNull(Yaml::parseFile($baseDir . 'redirects.yaml')) ?? [];
             $target = Typed::stringOrNull($redirects[rtrim($path, characters: '/')] ?? null);
             if ($target !== null) {
-                return $this->redirectToUri($target, statusCode: 302);
+                return $this->redirectToUri(
+                    $this->markdownModeResponder->redirectTarget($target, $this->request),
+                    statusCode: 302,
+                );
             }
+
+            // PropagateResponseException, not a plain return - this Extbase action is embedded in the
+            // page's normal PAGEVIEW/layout rendering, which would otherwise wrap the response body in
+            // the full HTML page shell (see registrationAction() below).
+            $this->markdownModeResponder->respondNotFoundIfActive($this->request);
 
             $this->view->assign('layout', '404');
             $this->pageTitleProvider->setTitle('Not Found – Fluid Primitives');
@@ -90,7 +101,11 @@ final class DocsController extends ActionController
         }
 
         [$meta, $markdown] = $this->parseMarkdownFile($filePath);
+
+        $this->markdownModeResponder->respondWithContentIfActive($markdown, $this->request);
+
         [$content, $toc] = DocsUtility::MarkdownToHtml($markdown, $this->request);
+        $content = ViewAsMarkdownLinkInjector::inject($content, '/' . $path);
 
         $this->view->assignMultiple([
             'content' => $content,

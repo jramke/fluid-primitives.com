@@ -36,13 +36,20 @@
     </f:case>
 </f:switch>
 
-<div class="{ui:cn(value: 'flex items-center gap-2 {additionalClass}')}">
-    <f:for each="{items}" as="item" iteration="i">
-        <a href="{item.link}" target="_blank" rel="noreferrer" class="group not-prose outline-none inline-flex items-center justify-center border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-full">
-            <span>{item.label}</span>
-            <span class="sr-only">for {name} {type}</span>
-            <span class="inline-block group-hover:translate-x-[1px] group-hover:-translate-y-[1px] transition-[translate,opacity] relative size-3 opacity-90 group-hover:opacity-100">{item.icon -> f:format.raw()}</span>
-        </a>
-    </f:for>
-    </a>
-</div>
+<f:if condition="{context.isMarkdownMode}">
+    <f:then>
+        **Reference:** <f:for each="{items}" as="item" iteration="i">[{item.label}]({item.link})<f:if condition="!{i.isLast}"> · </f:if>
+        </f:for>
+    </f:then>
+    <f:else>
+        <div class="{ui:cn(value: 'flex items-center gap-2 {additionalClass}')}">
+            <f:for each="{items}" as="item" iteration="i">
+                <a href="{item.link}" target="_blank" rel="noreferrer" class="group not-prose outline-none inline-flex items-center justify-center border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-full">
+                    <span>{item.label}</span>
+                    <span class="sr-only">for {name} {type}</span>
+                    <span class="inline-block group-hover:translate-x-[1px] group-hover:-translate-y-[1px] transition-[translate,opacity] relative size-3 opacity-90 group-hover:opacity-100">{item.icon -> f:format.raw()}</span>
+                </a>
+            </f:for>
+        </div>
+    </f:else>
+</f:if>

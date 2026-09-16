@@ -8,7 +8,6 @@ use Jramke\FluidPrimitives\Utility\Typed;
 use Symfony\Component\Process\Process;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Runs the full benchmark matrix (components x variants x instance-counts, plus the
@@ -20,6 +19,7 @@ final readonly class BenchmarkOrchestrator
 {
     public function __construct(
         private BenchmarkRunner $runner,
+        private CacheManager $cacheManager,
     ) {}
 
     /**
@@ -72,7 +72,7 @@ final readonly class BenchmarkOrchestrator
         $primed = false;
 
         if (in_array('cold', $cacheStates, strict: true)) {
-            GeneralUtility::makeInstance(CacheManager::class)->getCache('fluid_template')->flush();
+            $this->cacheManager->getCache('fluid_template')->flush();
             RegistrySnapshot::reset();
             $cold = $this->runner->renderOnce($component, $variant, 1, $request);
             $results[] = new CacheStateResult($component, $variant, 'cold', $cold->elapsedMs);

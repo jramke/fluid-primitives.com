@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+
 /**
  * Bootstrap for unit tests.
  *
@@ -10,6 +12,6 @@ declare(strict_types=1);
  * - Running from monorepo root: autoloader already loaded, skip
  */
 
-if (!class_exists(\TYPO3\TestingFramework\Core\Unit\UnitTestCase::class)) {
+if (!class_exists(UnitTestCase::class)) {
     require dirname(__DIR__) . '/vendor/autoload.php';
 }

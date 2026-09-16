@@ -32,6 +32,7 @@ final class VanillaComponentCollection extends AbstractComponentCollection
      * Flat `{Name}/{Part}.fluid.html` layout (matching this package's `primitives`/`bench`
      * collections) instead of the core default's `{Name}/{Part}/{Part}.fluid.html`.
      */
+    #[\Override]
     public function resolveTemplateName(string $viewHelperName): string
     {
         $fragments = array_map(ucfirst(...), explode('.', $viewHelperName));

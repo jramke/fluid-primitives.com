@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Components\Contexts;
 
 use FluidPrimitives\Docs\Phiki\RemoveLangClassTransformer;
+use FluidPrimitives\Docs\Traits\IsMarkdownModeAwareTrait;
 use Jramke\FluidPrimitives\Contexts\AbstractComponentContext;
 use Jramke\FluidPrimitives\Utility\Typed;
 use Phiki\Grammar\Grammar;
@@ -15,6 +16,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ComponentExampleContext extends AbstractComponentContext
 {
+    use IsMarkdownModeAwareTrait;
+
     private ?string $html = null;
 
     // Memoized: `{context.html}` in the Fluid template resolves through `offsetExists()` before
@@ -44,6 +47,7 @@ class ComponentExampleContext extends AbstractComponentContext
         $tabs = [
             [
                 'label' => explode('.', $componentName)[0] . '.html',
+                'language' => 'html',
                 'templateHighlighted' => $this->highlightTemplateString($mainTemplateString, 'html'),
                 'templateRaw' => $mainTemplateString,
             ],
@@ -54,6 +58,7 @@ class ComponentExampleContext extends AbstractComponentContext
             if ($entryFileTemplateString !== '' && $entryFileTemplateString !== '0') {
                 $tabs[] = [
                     'label' => explode('.', $componentName)[0] . '.ts',
+                    'language' => 'ts',
                     'templateHighlighted' => $this->highlightTemplateString($entryFileTemplateString, 'ts'),
                     'templateRaw' => $entryFileTemplateString,
                 ];
@@ -69,6 +74,7 @@ class ComponentExampleContext extends AbstractComponentContext
             $language = pathinfo($path, PATHINFO_EXTENSION);
             $tabs[] = [
                 'label' => $label,
+                'language' => $language,
                 'templateHighlighted' => $this->highlightTemplateString($templateString, $language),
                 'templateRaw' => $templateString,
             ];

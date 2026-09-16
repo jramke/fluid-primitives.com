@@ -2,124 +2,167 @@
 <ui:prop name="parts" type="array" />
 <ui:prop name="skipZag" type="boolean" optional="{true}" default="{false}" />
 
-<div class="component-props-table">
-    <div class="content-grid">
-        <p>
-            The following tables cover the available props of the Fluid Primitives.
-            <f:if condition="!{skipZag}">
-                For a full list of available client side props and methods, see the <a href="https://zagjs.com/components/react/{context.nameLowerCaseDashed}#methods-and-properties" target="_blank" rel="noopener noreferrer">Zag.js Machine API</a>.
-            </f:if>
-        </p>
+<f:if condition="{context.isMarkdownMode}">
+    <f:then>
+        <f:for each="{context.partsWithProps}" as="part">
+            ### {part.name}
 
-        <f:for each="{context.partsWithProps}" as="part" iteration="i">
-            <h3>{part.name}</h3>
-            <div class="mt-2">{part.description -> f:format.raw()}</div>
-            <f:if condition="{part.props}">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Required</th>
-                            <th>Default</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <f:for each="{part.props}" as="prop">
-                            <tr>
-                                <td><code>{prop.name}</code></td>
-                                <td>
-                                    <span class="mb-2 inline-block">
-                                        <code>{prop.type}</code>
-                                        <f:if condition="{prop.cases}">
-                                            <ui:popover.root positioning="{placement: 'top'}">
-                                                <ui:popover.trigger class="m-0 inline-block ms-1 align-middle">
-                                                    <ui:icon.info class="opacity-70" />
-                                                </ui:popover.trigger>
-                                                <ui:popover.content class="max-w-xs w-auto text-xs font-mono font-medium !px-2 !py-1">
-                                                    {prop.cases}
-                                                </ui:popover.content>
-                                            </ui:popover.root>
-                                        </f:if>
-                                    </span>
-                                    <br />
-                                    {prop.description}
-                                </td>
-                                <td>{prop.required}</td>
-                                <td>
-                                    <pre class="not-code-block text-xs">{prop.default}</pre>
-                                </td>
-                            </tr>
-                        </f:for>
-                    </tbody>
-                </table>
-            </f:if>
+            {part.descriptionMarkdown -> f:format.raw()}
+
+            | Name | Type | Required | Default | Description |
+            | --- | --- | --- | --- | --- |
+            <f:for each="{part.props}" as="prop">| `{prop.name}` | `{prop.type -> docs:escapeMarkdownTableCell()}` | {prop.required} | `{prop.default -> docs:escapeMarkdownTableCell()}` | {prop.description -> docs:escapeMarkdownTableCell()} |
+            </f:for>
             <f:if condition="{part.dataAttributes}">
-                <h4 class="[.table-wrapper_+_&]:mt-3">Rendered data attributes</h4>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Attribute</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <f:for each="{part.dataAttributes}" as="description" key="attribute">
-                            <tr>
-                                <td><code>{attribute}</code></td>
-                                <td>{description}</td>
-                            </tr>
-                        </f:for>
-                    </tbody>
-                </table>
+
+                #### Rendered data attributes
+
+                | Attribute | Description |
+                | --- | --- |
+                <f:for each="{part.dataAttributes}" as="description" key="attribute">| `{attribute}` | {description -> docs:escapeMarkdownTableCell()} |
+                </f:for>
             </f:if>
         </f:for>
-
         <f:if condition="{context.zagApi}">
-            <h3>Machine JavaScript API</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <f:for each="{context.zagApi.api}" as="entry" key="name">
-                        <tr>
-                            <td><code>{name}</code></td>
-                            <td><code>{entry.type}</code></td>
-                            <td>{entry.description -> f:format.raw()}</td>
-                        </tr>
-                    </f:for>
-                </tbody>
-            </table>
-        </f:if>
 
+            ### Machine JavaScript API
+
+            | Name | Type | Description |
+            | --- | --- | --- |
+            <f:for each="{context.zagApi.api}" as="entry" key="name">| `{name}` | `{entry.type -> docs:escapeMarkdownTableCell()}` | {entry.description -> docs:escapeMarkdownTableCell()} |
+            </f:for>
+        </f:if>
         <f:if condition="{context.zagAccessibility}">
-            <h3>Accessibility</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Key</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <f:for each="{context.zagAccessibility}" as="item">
-                        <tr>
-                            <td>
-                                <f:for each="{item.keys}" as="key">
-                                    <code>{key -> f:format.raw()}</code>
-                                </f:for>
-                            </td>
-                            <td>{item.description -> f:format.raw()}</td>
-                        </tr>
-                    </f:for>
-                </tbody>
-            </table>
-        </f:if>
-    </div>
 
-</div>
+            ### Accessibility
+
+            | Key | Description |
+            | --- | --- |
+            <f:for each="{context.zagAccessibility}" as="item">| <f:for each="{item.keys}" as="key">`{key -> docs:escapeMarkdownTableCell()}` </f:for> | {item.description -> docs:escapeMarkdownTableCell()} |
+            </f:for>
+        </f:if>
+    </f:then>
+    <f:else>
+        <div class="component-props-table">
+            <div class="content-grid">
+                <p>
+                    The following tables cover the available props of the Fluid Primitives.
+                    <f:if condition="!{skipZag}">
+                        For a full list of available client side props and methods, see the <a href="https://zagjs.com/components/react/{context.nameLowerCaseDashed}#methods-and-properties" target="_blank" rel="noopener noreferrer">Zag.js Machine API</a>.
+                    </f:if>
+                </p>
+
+                <f:for each="{context.partsWithProps}" as="part" iteration="i">
+                    <h3>{part.name}</h3>
+                    <div class="mt-2">{part.description -> f:format.raw()}</div>
+                    <f:if condition="{part.props}">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Required</th>
+                                    <th>Default</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <f:for each="{part.props}" as="prop">
+                                    <tr>
+                                        <td><code>{prop.name}</code></td>
+                                        <td>
+                                            <span class="mb-2 inline-block">
+                                                <code>{prop.type}</code>
+                                                <f:if condition="{prop.cases}">
+                                                    <ui:popover.root positioning="{placement: 'top'}">
+                                                        <ui:popover.trigger class="m-0 inline-block ms-1 align-middle">
+                                                            <ui:icon.info class="opacity-70" />
+                                                        </ui:popover.trigger>
+                                                        <ui:popover.content class="max-w-xs w-auto text-xs font-mono font-medium !px-2 !py-1">
+                                                            {prop.cases}
+                                                        </ui:popover.content>
+                                                    </ui:popover.root>
+                                                </f:if>
+                                            </span>
+                                            <br />
+                                            {prop.description}
+                                        </td>
+                                        <td>{prop.required}</td>
+                                        <td>
+                                            <pre class="not-code-block text-xs">{prop.default}</pre>
+                                        </td>
+                                    </tr>
+                                </f:for>
+                            </tbody>
+                        </table>
+                    </f:if>
+                    <f:if condition="{part.dataAttributes}">
+                        <h4 class="[.table-wrapper_+_&]:mt-3">Rendered data attributes</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Attribute</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <f:for each="{part.dataAttributes}" as="description" key="attribute">
+                                    <tr>
+                                        <td><code>{attribute}</code></td>
+                                        <td>{description}</td>
+                                    </tr>
+                                </f:for>
+                            </tbody>
+                        </table>
+                    </f:if>
+                </f:for>
+
+                <f:if condition="{context.zagApi}">
+                    <h3>Machine JavaScript API</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <f:for each="{context.zagApi.api}" as="entry" key="name">
+                                <tr>
+                                    <td><code>{name}</code></td>
+                                    <td><code>{entry.type}</code></td>
+                                    <td>{entry.description -> f:format.raw()}</td>
+                                </tr>
+                            </f:for>
+                        </tbody>
+                    </table>
+                </f:if>
+
+                <f:if condition="{context.zagAccessibility}">
+                    <h3>Accessibility</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <f:for each="{context.zagAccessibility}" as="item">
+                                <tr>
+                                    <td>
+                                        <f:for each="{item.keys}" as="key">
+                                            <code>{key -> f:format.raw()}</code>
+                                        </f:for>
+                                    </td>
+                                    <td>{item.description -> f:format.raw()}</td>
+                                </tr>
+                            </f:for>
+                        </tbody>
+                    </table>
+                </f:if>
+            </div>
+
+        </div>
+    </f:else>
+</f:if>

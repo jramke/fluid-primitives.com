@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Components\Contexts;
 
+use FluidPrimitives\Docs\Traits\IsMarkdownModeAwareTrait;
 use FluidPrimitives\Docs\Utility\DocsUtility;
 use FluidPrimitives\Docs\Utility\ZagDocsMetadata;
 use Jramke\FluidPrimitives\Annotations\RequiredAtRuntimeArgumentAnnotation;
@@ -16,6 +17,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\ArgumentDefinition;
 
 class ComponentPropsTableContext extends AbstractComponentContext
 {
+    use IsMarkdownModeAwareTrait;
+
     private const array HIDDEN_PROPS = ['spreadProps'];
 
     public function getPartsWithProps(): array
@@ -40,6 +43,7 @@ class ComponentPropsTableContext extends AbstractComponentContext
                 'name' => $compDefinition->getName(),
                 'props' => $this->buildPropsInfo($props),
                 'description' => DocsUtility::simpleMarkdownToHtml($text),
+                'descriptionMarkdown' => $text,
                 'dataAttributes' => $this->getZagDataAttributesForPart($part),
             ];
         }, $parts);
