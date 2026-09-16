@@ -8,7 +8,7 @@ function findFileByValue(files: File[], value: string): File | undefined {
     return files.find(file => fileValue(file) === value);
 }
 
-mount('file-upload', 'delete-confirm', ({ props }) => {
+mount('fileUpload', 'delete-confirm', ({ props }) => {
     const fileUpload = new FileUpload(props);
     fileUpload.init();
 

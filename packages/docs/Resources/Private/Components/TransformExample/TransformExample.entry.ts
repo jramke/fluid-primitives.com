@@ -1,7 +1,7 @@
 import { mount, mountAll } from 'fluid-primitives';
 import { Input } from 'fluid-primitives/input';
 
-mountAll('transform-example', () => {
+mountAll('transformExample', () => {
     mount('input', 'transform-example-input', ({ props }) => {
         const input = new Input({
             ...props,

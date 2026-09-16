@@ -195,6 +195,6 @@ class CommandMenu {
     debouncedSearch = debounce(this.runSearch.bind(this), INPUT_DEBOUNCE_MS);
 }
 
-mountAll('command-menu', ({ props }) => {
+mountAll('commandMenu', ({ props }) => {
     new CommandMenu(props.id, props.searchUrl as string);
 });

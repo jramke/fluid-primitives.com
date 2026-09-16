@@ -1,7 +1,7 @@
 import { mount, mountAll } from 'fluid-primitives';
 import { Textarea } from 'fluid-primitives/textarea';
 
-mountAll('textarea-transform-example', () => {
+mountAll('textareaTransformExample', () => {
     mount('textarea', 'transform-example-textarea', ({ props }) => {
         const textarea = new Textarea({
             ...props,

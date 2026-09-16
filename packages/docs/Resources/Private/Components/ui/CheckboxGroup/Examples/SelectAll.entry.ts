@@ -4,9 +4,9 @@ import { CheckboxGroup } from 'fluid-primitives/checkbox-group';
 
 (() => {
     const selectAllCheckboxData = getHydrationData('checkbox', 'select-all');
-    const selectAllGroupData = getHydrationData('checkbox-group', 'select-all-group');
+    const selectAllGroupData = getHydrationData('checkboxGroup', 'select-all-group');
 
-    const { items } = getHydrationData('checkbox-group', 'select-all-items')?.props as {
+    const { items } = getHydrationData('checkboxGroup', 'select-all-items')?.props as {
         items?: { value: string; text: string }[];
     };
     const allValues = items?.map(item => item.value) ?? [];

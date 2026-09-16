@@ -7,7 +7,7 @@ mountAll('navigation', ({ props }) => {
     const dialog = new Dialog(dialogProps);
     dialog.init();
 
-    const sidebarScrollAreaProps = getHydrationData('scroll-area', 'sidebar-' + props.id)!.props;
+    const sidebarScrollAreaProps = getHydrationData('scrollArea', 'sidebar-' + props.id)!.props;
     const scrollArea = new ScrollArea(sidebarScrollAreaProps);
     scrollArea.init();
 
