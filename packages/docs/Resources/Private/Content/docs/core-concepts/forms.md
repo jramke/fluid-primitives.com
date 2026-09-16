@@ -39,9 +39,9 @@ Use `ui:form` with `action` pointing to your Extbase action and `objectName` mat
     rootId="registration-form"
 >
     <ui:field.root name="email" required="{true}">
-        <ui:field.label>Email</ui:field.label>
-        <ui:input.root type="email">
-            <ui:input.input autocomplete="email" />
+        <ui:input.root type="email" autocomplete="email">
+            <ui:input.label>Email</ui:input.label>
+            <ui:input.input />
         </ui:input.root>
         <ui:field.description>Used for your confirmation email.</ui:field.description>
         <ui:field.error />
@@ -124,12 +124,12 @@ The Form API exposes a `FormValues` object via `api.getValues()` and inside `val
 
 ### Anatomy
 
-A Field-aware primitive like `ui:input` (or `ui:select`, `ui:numberInput`, ...) nests directly inside `ui:field.root` - no `field.control` needed, it inherits `name`/`disabled`/`required`/`invalid`/`aria-describedby` automatically:
+A Field-aware primitive like `ui:input` (or `ui:select`, `ui:numberInput`, ...) nests directly inside `ui:field.root` - no `field.control` needed, it inherits `name`/`disabled`/`required`/`invalid`/`aria-describedby` automatically. Use the primitive's own `label` part (nested inside its `root`) rather than `field.label` - it targets the right control automatically, the same way `ui:numberInput.label` does:
 
 ```html
 <ui:field.root name="email" required="{true}">
-    <ui:field.label>Email address</ui:field.label>
     <ui:input.root type="email">
+        <ui:input.label>Email address</ui:input.label>
         <ui:input.input />
     </ui:input.root>
     <ui:field.description>We'll send your confirmation here.</ui:field.description>

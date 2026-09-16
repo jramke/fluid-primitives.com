@@ -21,7 +21,7 @@
 
 ### With Field
 
-Nest `ui:input.root` directly inside `ui:field.root` - it inherits `name`, `disabled`, `required`, `invalid` and `aria-describedby` automatically, the same way `ui:select`/`ui:numberInput` do.
+Nest `ui:input.root` directly inside `ui:field.root` - it inherits `name`, `disabled`, `required`, `invalid` and `aria-describedby` automatically, the same way `ui:select`/`ui:numberInput` do. Use the primitive's own `label` part (nested inside `root`) rather than `field.label` - it targets the right control automatically.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Input.examples.withField" } %}
 
@@ -33,21 +33,9 @@ Pass `maxLength` and add the `wordCount`/`liveRegion` parts wherever you want th
 
 ### With a Transform Callback
 
-`transform` runs on every native `input` event, before the value is committed - return the value that should actually be written back to the input. Because a real function can't cross the PHP → client JSON boundary, this can only be set by constructing `Input` yourself in a custom entry file, rather than as a Fluid prop:
+`transform` runs on every native `input` event, before the value is committed - return the value that should actually be written back to the input, with cursor position preserved across the rewrite. Because a real function can't cross the PHP → client JSON boundary, this can only be set by constructing `Input` yourself in a custom entry file, rather than as a Fluid prop. Type lowercase below - it's uppercased as you type:
 
-```typescript
-import { mount } from 'fluid-primitives';
-import { Input } from 'fluid-primitives/input';
-
-mount('input', 'coupon-code', ({ props }) => {
-    const input = new Input({
-        ...props,
-        transform: value => value.toUpperCase(),
-    });
-
-    input.init();
-});
-```
+{% component: "ui:componentExample", arguments: { "componentName": "TransformExample", "additionalFiles": {"TransformExample.ts": "EXT:docs/Resources/Private/Components/TransformExample/TransformExample.entry.ts"} } %}
 
 ## API Reference
 
@@ -55,6 +43,7 @@ mount('input', 'coupon-code', ({ props }) => {
     component: "ui:ComponentPropsTable",
     arguments: {
         "name": "Input",
+        "skipZag": true,
         "parts": [
             ["root", "Provides shared input state and wraps all related parts. Renders a `<div>` element."],
             ["label", "Labels the input. Renders a `<label>` element."],
