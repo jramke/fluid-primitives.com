@@ -35,6 +35,7 @@
     - docs/components/select
     - docs/components/switch
     - docs/components/tabs
+    - docs/components/textarea
     - docs/components/tooltip
 
 - group: ViewHelpers
