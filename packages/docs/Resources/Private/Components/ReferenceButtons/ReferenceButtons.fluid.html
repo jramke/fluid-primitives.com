@@ -42,7 +42,7 @@
         </f:for>
     </f:then>
     <f:else>
-        <div class="{ui:cn(value: 'flex items-center gap-2 {additionalClass}')}">
+        <div class="{ui:cn(value: 'flex items-center gap-2 flex-wrap **:data-view-as-markdown-link:order-1 **:data-view-as-markdown-link:ms-auto {additionalClass}')}" data-reference-buttons>
             <f:for each="{items}" as="item" iteration="i">
                 <a href="{item.link}" target="_blank" rel="noreferrer" class="group not-prose outline-none inline-flex items-center justify-center border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-full">
                     <span>{item.label}</span>

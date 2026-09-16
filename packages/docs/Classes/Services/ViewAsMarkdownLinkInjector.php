@@ -14,29 +14,23 @@ class ViewAsMarkdownLinkInjector
 {
     public static function inject(string $html, string $path): string
     {
+        $svg = <<<SVG
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14.846 12.9233H1.154a1.153 1.153 0 0 1-.44136-.0878 1.152 1.152 0 0 1-.37416-.25 1.153 1.153 0 0 1-.25002-.3741 1.154 1.154 0 0 1-.08779-.4414V4.22999A1.15335 1.15335 0 0 1 1.154 3.07666h13.692c.1515 0 .3014.02983.4414.08779a1.1535 1.1535 0 0 1 .7119 1.06554v7.53871c.0001.1515-.0296.3015-.0876.4415-.0579.14-.1428.2673-.2499.3744a1.153 1.153 0 0 1-.3743.2502c-.14.058-.29.0885-.4415.0885m-11-2.308V7.61533l1.53867 1.92333 1.538-1.92333v2.99997h1.53867V5.38533H6.92267l-1.538 1.92333L3.846 5.38533H2.30734v5.23137zm10.308-2.61531h-1.5387V5.38466h-1.538v2.61533H9.53867L11.846 10.6927z" fill="currentColor"></path></svg>
+        SVG;
+
         $link =
             '<a href="' .
             htmlspecialchars($path) .
-            '.md" class="view-as-markdown text-sm font-normal text-muted-foreground hover:text-foreground no-underline inline-flex items-center gap-1.5 shrink-0">' .
-            '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide size-4">' .
-            '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>' .
-            '<path d="M14 2v4a2 2 0 0 0 2 2h4"></path>' .
-            '</svg>' .
+            '.md"' .
+            'data-view-as-markdown-link class="text-sm font-normal text-muted-foreground hover:text-foreground no-underline inline-flex items-center gap-1.5 shrink-0 mt-2 mb-2">' .
+            $svg .
             'View as Markdown' .
             '</a>';
 
-        // Inside the heading rather than beside it, so it stays a direct `.prose > h1` child and keeps
-        // Tailwind Typography's heading spacing instead of falling under sibling-margin rules meant for
-        // separate prose elements.
-        return (
-            preg_replace(
-                '/<h1>(.*?)<\/h1>/s',
-                '<h1 class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1"><span>$1</span>' .
-                $link .
-                '</h1>',
-                $html,
-                limit: 1,
-            ) ?? $html
-        );
+        if (str_contains($html, 'data-reference-buttons>')) {
+            return str_replace('data-reference-buttons>', 'data-reference-buttons>' . $link, $html);
+        }
+
+        return str_replace('</h1>', '</h1>' . $link, $html);
     }
 }
