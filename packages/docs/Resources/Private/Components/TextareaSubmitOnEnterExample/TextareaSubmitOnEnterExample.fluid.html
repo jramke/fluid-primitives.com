@@ -1,0 +1,10 @@
+<ui:exposeToClient />
+
+<form {ui:ref(name: 'form' )} class="w-full max-w-74">
+    <ui:textarea.root submitOn="{f:constant(name: 'Jramke\FluidPrimitives\Enum\TextareaSubmitOn::ModEnter')}" placeholder="Press Cmd/Ctrl+Enter to submit...">
+        <ui:textarea.label>Message</ui:textarea.label>
+        <ui:textarea.textarea rows="3" />
+    </ui:textarea.root>
+</form>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/TextareaSubmitOnEnterExample/TextareaSubmitOnEnterExample.entry.ts" />

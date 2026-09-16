@@ -37,7 +37,7 @@ Pass `maxLength` and add the `wordCount`/`liveRegion` parts wherever you want th
 
 Pass `submitOn="{f:constant(name: 'Jramke\FluidPrimitives\Enum\TextareaSubmitOn::ModEnter')}"` to submit the nearest `<form>` on Cmd/Ctrl+Enter instead of inserting a newline - plain Enter still inserts a newline. Use `TextareaSubmitOn::Enter` for the opposite: plain Enter submits, Shift+Enter inserts a newline. Wrap the textarea in `ui:form.root` (or any native `<form>`) for the submit to actually go anywhere - `submitOn` just calls `closest('form')?.requestSubmit()`.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Textarea.examples.submitOnEnter" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TextareaSubmitOnEnterExample", "additionalFiles": {"TextareaSubmitOnEnterExample.ts": "EXT:docs/Resources/Private/Components/TextareaSubmitOnEnterExample/TextareaSubmitOnEnterExample.entry.ts"} } %}
 
 ### With a Transform Callback
 

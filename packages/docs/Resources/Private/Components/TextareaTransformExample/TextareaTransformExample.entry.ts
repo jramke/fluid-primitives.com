@@ -1,15 +1,14 @@
-import { getHydrationData, mountAll } from 'fluid-primitives';
+import { mount, mountAll } from 'fluid-primitives';
 import { Textarea } from 'fluid-primitives/textarea';
 
 mountAll('textarea-transform-example', () => {
-    const data = getHydrationData('textarea', 'textarea-transform-example');
-    if (!data) return;
+    mount('textarea', 'transform-example-textarea', ({ props }) => {
+        const textarea = new Textarea({
+            ...props,
+            transform: value => value.toUpperCase(),
+        });
 
-    const textarea = new Textarea({
-        ...data.props,
-        transform: value => value.toUpperCase(),
+        textarea.init();
+        return textarea;
     });
-
-    textarea.init();
-    return textarea;
 });
