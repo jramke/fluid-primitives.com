@@ -1,0 +1,37 @@
+{
+    "name": "fluid-primitives/benchmarks",
+    "type": "typo3-cms-extension",
+    "description": "Rendering and hydration benchmarks for Fluid Primitives.",
+    "license": [
+        "GPL-2.0-or-later"
+    ],
+    "keywords": [
+        "TYPO3 CMS"
+    ],
+    "require": {
+        "typo3/cms-core": "^14",
+        "jramke/fluid-primitives": "*"
+    },
+    "require-dev": {
+        "typo3/testing-framework": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "FluidPrimitives\\Benchmarks\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FluidPrimitives\\Benchmarks\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "php vendor/bin/phpunit -c phpunit.xml --testdox --colors=always --display-notices",
+        "test:fromdocs": "php ../../vendor/bin/phpunit -c phpunit.xml --testdox --colors=always --display-notices"
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "benchmarks"
+        }
+    }
+}

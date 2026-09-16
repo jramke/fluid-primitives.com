@@ -1,0 +1,8 @@
+<f:argument name="id" type="string" optional="{true}" />
+<f:argument name="items" type="array" />
+
+<select id="{id}">
+    <f:for each="{items}" as="item">
+        <option value="{item.value}">{item.label}</option>
+    </f:for>
+</select>

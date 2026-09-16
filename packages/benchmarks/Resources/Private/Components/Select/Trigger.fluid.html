@@ -1,0 +1,12 @@
+<ui:useProps name="primitives:select.trigger" />
+<ui:prop name="placeholder" type="string" optional="{true}" default="Select an option" />
+
+<primitives:select.trigger spreadProps="{true}">
+    <primitives:select.valueText placeholder="{placeholder}" />
+    <primitives:select.indicator>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4">
+            <path d="m7 15 5 5 5-5"></path>
+            <path d="m7 9 5-5 5 5"></path>
+        </svg>
+    </primitives:select.indicator>
+</primitives:select.trigger>

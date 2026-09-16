@@ -27,10 +27,14 @@
             "@mago:lint",
             "@format"
         ],
-        "test": "composer run --working-dir=packages/fluid-primitives test:fromdocs --"
+        "test": [
+            "composer run --working-dir=packages/fluid-primitives test:fromdocs --",
+            "composer run --working-dir=packages/benchmarks test:fromdocs --"
+        ]
     },
     "require": {
         "brainworxx/includekrexx": "^6",
+        "fluid-primitives/benchmarks": "@dev",
         "fluid-primitives/docs": "@dev",
         "helhum/typo3-console": "^8.3",
         "jramke/fluid-primitives": "*",
@@ -58,6 +62,10 @@
         "typo3/cms-tstemplate": "^14.3"
     },
     "repositories": {
+        "benchmarks": {
+            "type": "path",
+            "url": "./packages/benchmarks"
+        },
         "docs": {
             "type": "path",
             "url": "./packages/docs"
@@ -76,7 +84,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Jramke\\FluidPrimitives\\Tests\\": "packages/fluid-primitives/tests"
+            "Jramke\\FluidPrimitives\\Tests\\": "packages/fluid-primitives/tests",
+            "FluidPrimitives\\Benchmarks\\Tests\\": "packages/benchmarks/tests"
         }
     }
 }

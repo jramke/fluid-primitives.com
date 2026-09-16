@@ -1,0 +1,24 @@
+<f:for each="{indices}" as="i">
+    <primitives:accordion.root>
+        <primitives:accordion.item value="item-{i}-1">
+            <primitives:accordion.itemHeader>
+                <primitives:accordion.itemTrigger>Item 1</primitives:accordion.itemTrigger>
+            </primitives:accordion.itemHeader>
+            <primitives:accordion.itemContent>Content for item 1</primitives:accordion.itemContent>
+        </primitives:accordion.item>
+        <primitives:accordion.item value="item-{i}-2">
+            <primitives:accordion.itemHeader>
+                <primitives:accordion.itemTrigger>Item 2</primitives:accordion.itemTrigger>
+            </primitives:accordion.itemHeader>
+            <primitives:accordion.itemContent>Content for item 2</primitives:accordion.itemContent>
+        </primitives:accordion.item>
+        <primitives:accordion.item value="item-{i}-3">
+            <primitives:accordion.itemHeader>
+                <primitives:accordion.itemTrigger>Item 3</primitives:accordion.itemTrigger>
+            </primitives:accordion.itemHeader>
+            <primitives:accordion.itemContent>Content for item 3</primitives:accordion.itemContent>
+        </primitives:accordion.item>
+    </primitives:accordion.root>
+</f:for>
+
+<vite:asset entry="EXT:benchmarks/Resources/Private/Components/Accordion/Accordion.entry.ts" />

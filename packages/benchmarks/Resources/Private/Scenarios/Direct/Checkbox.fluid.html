@@ -1,0 +1,15 @@
+<f:for each="{indices}" as="i">
+    <primitives:checkbox.root>
+        <primitives:checkbox.control>
+            <primitives:checkbox.indicator>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4">
+                    <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+            </primitives:checkbox.indicator>
+        </primitives:checkbox.control>
+        <primitives:checkbox.label>Option {i}</primitives:checkbox.label>
+        <primitives:checkbox.hiddenInput />
+    </primitives:checkbox.root>
+</f:for>
+
+<vite:asset entry="EXT:benchmarks/Resources/Private/Components/Checkbox/Checkbox.entry.ts" />

@@ -1,0 +1,35 @@
+<ui:listCollection items="{items}" as="collection" />
+
+<primitives:select.root collection="{collection}">
+    <primitives:select.label>Select an item</primitives:select.label>
+    <primitives:select.control>
+        <primitives:select.trigger>
+            <primitives:select.valueText placeholder="Choose an item" />
+            <primitives:select.indicator>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4">
+                    <path d="m7 15 5 5 5-5"></path>
+                    <path d="m7 9 5-5 5 5"></path>
+                </svg>
+            </primitives:select.indicator>
+        </primitives:select.trigger>
+    </primitives:select.control>
+    <ui:portal>
+        <primitives:select.positioner>
+            <primitives:select.content>
+                <f:for each="{collection.items}" as="item">
+                    <primitives:select.item item="{item}">
+                        <primitives:select.itemText>{item.label}</primitives:select.itemText>
+                        <primitives:select.itemIndicator>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4">
+                                <path d="M20 6 9 17l-5-5"></path>
+                            </svg>
+                        </primitives:select.itemIndicator>
+                    </primitives:select.item>
+                </f:for>
+            </primitives:select.content>
+        </primitives:select.positioner>
+    </ui:portal>
+    <primitives:select.hiddenSelect />
+</primitives:select.root>
+
+<vite:asset entry="EXT:benchmarks/Resources/Private/Components/Select/Select.entry.ts" />

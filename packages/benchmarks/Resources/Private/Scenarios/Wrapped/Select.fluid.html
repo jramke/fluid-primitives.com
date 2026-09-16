@@ -1,0 +1,16 @@
+<ui:listCollection items="{items}" as="collection" />
+
+<bench:select.root collection="{collection}">
+    <bench:select.label>Select an item</bench:select.label>
+    <bench:select.control>
+        <bench:select.trigger placeholder="Choose an item" />
+    </bench:select.control>
+    <bench:select.content>
+        <f:for each="{collection.items}" as="item">
+            <bench:select.item item="{item}">
+                <bench:select.itemText>{item.label}</bench:select.itemText>
+                <bench:select.itemIndicator />
+            </bench:select.item>
+        </f:for>
+    </bench:select.content>
+</bench:select.root>

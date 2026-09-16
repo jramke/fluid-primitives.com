@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5457f6dcfee1922d1273fbb5e0cfebe9",
+    "content-hash": "19f940e538c9d60c6db90decd1daa480",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1024,12 +1024,62 @@
             "time": "2026-06-11T17:54:14+00:00"
         },
         {
+            "name": "fluid-primitives/benchmarks",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/benchmarks",
+                "reference": "0a5235d09ec1d0da108e69bcf96147b3e054c989"
+            },
+            "require": {
+                "jramke/fluid-primitives": "*",
+                "typo3/cms-core": "^14"
+            },
+            "require-dev": {
+                "typo3/testing-framework": "^9.5"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "extension-key": "benchmarks"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FluidPrimitives\\Benchmarks\\": "Classes/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "FluidPrimitives\\Benchmarks\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "php vendor/bin/phpunit -c phpunit.xml --testdox --colors=always --display-notices"
+                ],
+                "test:fromdocs": [
+                    "php ../../vendor/bin/phpunit -c phpunit.xml --testdox --colors=always --display-notices"
+                ]
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Rendering and hydration benchmarks for Fluid Primitives.",
+            "keywords": [
+                "TYPO3 CMS"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "fluid-primitives/docs",
             "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/docs",
-                "reference": "03b76664fbd254012de45a9a2f44eb198dae8682"
+                "reference": "27bfd6d52ee64d946b46a2cc1706c0ec3f4d3b3c"
             },
             "require": {
                 "typo3/cms-core": "^14"
@@ -10831,6 +10881,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "fluid-primitives/benchmarks": 20,
         "fluid-primitives/docs": 20
     },
     "prefer-stable": false,

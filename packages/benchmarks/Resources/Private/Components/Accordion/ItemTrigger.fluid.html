@@ -1,0 +1,8 @@
+<ui:useProps name="primitives:accordion.itemTrigger" />
+<ui:prop name="level" type="integer" optional="{true}" default="3" />
+
+<primitives:accordion.itemHeader level="{level}">
+    <primitives:accordion.itemTrigger spreadProps="{true}">
+        <f:slot />
+    </primitives:accordion.itemTrigger>
+</primitives:accordion.itemHeader>
