@@ -23,7 +23,7 @@
 
 ### With Field
 
-Nest `ui:textarea.root` directly inside `ui:field.root` - it inherits `name`, `disabled`, `required`, `invalid` and `aria-describedby` automatically, the same way `ui:input`/`ui:select` do.
+Nest `ui:textarea.root` directly inside `ui:field.root` - it inherits `name`, `disabled`, `required`, `invalid` and `aria-describedby` automatically, the same way `ui:input`/`ui:select` do. Use the primitive's own `label` part (nested inside `root`) rather than `field.label` - it targets the right control automatically.
 
 {% component: "ui:componentExample", arguments: { "componentName": "Textarea.examples.withField" } %}
 
@@ -41,21 +41,9 @@ Pass `submitOn="{f:constant(name: 'Jramke\FluidPrimitives\Enum\TextareaSubmitOn:
 
 ### With a Transform Callback
 
-`transform` runs on every native `input` event, before the value is committed - return the value that should actually be written back to the textarea. Because a real function can't cross the PHP → client JSON boundary, this can only be set by constructing `Textarea` yourself in a custom entry file, rather than as a Fluid prop:
+`transform` runs on every native `input` event, before the value is committed - return the value that should actually be written back to the textarea, with cursor position preserved across the rewrite. Because a real function can't cross the PHP → client JSON boundary, this can only be set by constructing `Textarea` yourself in a custom entry file, rather than as a Fluid prop. Type lowercase below - it's uppercased as you type:
 
-```typescript
-import { mount } from 'fluid-primitives';
-import { Textarea } from 'fluid-primitives/textarea';
-
-mount('textarea', 'comment', ({ props }) => {
-    const textarea = new Textarea({
-        ...props,
-        transform: value => value.replace(/\s+/g, ' '),
-    });
-
-    textarea.init();
-});
-```
+{% component: "ui:componentExample", arguments: { "componentName": "TextareaTransformExample", "additionalFiles": {"TextareaTransformExample.ts": "EXT:docs/Resources/Private/Components/TextareaTransformExample/TextareaTransformExample.entry.ts"} } %}
 
 ## API Reference
 
@@ -63,6 +51,7 @@ mount('textarea', 'comment', ({ props }) => {
     component: "ui:ComponentPropsTable",
     arguments: {
         "name": "Textarea",
+        "skipZag": true,
         "parts": [
             ["root", "Provides shared textarea state and wraps all related parts. Renders a `<div>` element."],
             ["label", "Labels the textarea. Renders a `<label>` element."],
