@@ -1,6 +1,6 @@
 @utility field {
     :where(&) {
-        @apply flex flex-col items-start gap-1.5;
+        @apply flex flex-col items-start gap-1.5 w-full;
     }
 }
 

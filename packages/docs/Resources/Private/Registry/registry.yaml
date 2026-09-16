@@ -120,6 +120,17 @@ form:
     - SuccessText.fluid.html
     - Form.entry.ts
 
+input:
+  name: Input
+  description: A text input that works with Field, with optional word count and live-region announcements
+  files:
+    - Root.fluid.html
+    - Label.fluid.html
+    - Input.fluid.html
+    - WordCount.fluid.html
+    - LiveRegion.fluid.html
+    - Input.entry.ts
+
 navigation-menu:
   name: NavigationMenu
   description: A collection of links and menus for website navigation
