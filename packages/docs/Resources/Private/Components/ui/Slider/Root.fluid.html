@@ -1,0 +1,14 @@
+<ui:useProps name="primitives:slider.root" />
+
+<primitives:slider.root
+    spreadProps="{true}"
+    class="{ui:cn(value: '
+        flex flex-col gap-1.5 w-full max-w-xs
+        data-[orientation=vertical]:h-48 data-[orientation=vertical]:w-auto
+        data-[disabled]:opacity-50
+        {class}
+    ')}">
+    <f:slot />
+</primitives:slider.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/Slider/Slider.entry.ts" />

@@ -14,7 +14,7 @@ The Form component replaces TYPO3's `f:form` ViewHelper with an AJAX-first alter
 - Optional client-side validation with Standard Schema-compatible validators or callbacks
 - Form state (`ready`, `submitting`, `invalid`, `success`, `error`) exposed as `data-state` for CSS
 - Field-level error display, label association, and ARIA wiring via the Field component
-- Works with all Field-aware primitives: Select, Checkbox, RadioGroup, NumberInput, and plain HTML inputs
+- Works with all Field-aware primitives: Select, Checkbox, RadioGroup, NumberInput, Slider, and plain HTML inputs
 
 ## Installation
 

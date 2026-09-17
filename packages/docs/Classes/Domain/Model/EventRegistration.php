@@ -19,6 +19,9 @@ class EventRegistration extends AbstractEntity
     #[Validate(validator: 'NumberRange', options: ['minimum' => 1, 'maximum' => 10])]
     protected int $ticketCount = 1;
 
+    #[Validate(validator: 'NumberRange', options: ['minimum' => 0, 'maximum' => 500])]
+    protected int $donationAmount = 0;
+
     protected EventRegistrationPerson $person;
 
     #[Validate(validator: 'String')]
@@ -81,6 +84,16 @@ class EventRegistration extends AbstractEntity
     public function setTicketCount(int $ticketCount): void
     {
         $this->ticketCount = $ticketCount;
+    }
+
+    public function getDonationAmount(): int
+    {
+        return $this->donationAmount;
+    }
+
+    public function setDonationAmount(int $donationAmount): void
+    {
+        $this->donationAmount = $donationAmount;
     }
 
     public function getPerson(): EventRegistrationPerson

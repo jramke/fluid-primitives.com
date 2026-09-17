@@ -1,0 +1,30 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:slider.examples.simple />
+    </f:case>
+    <f:case value="range">
+        <ui:slider.examples.range />
+    </f:case>
+    <f:case value="with-marks">
+        <ui:slider.examples.withMarks />
+    </f:case>
+    <f:case value="disabled">
+        <ui:slider.examples.disabled />
+    </f:case>
+    <f:case value="with-number-input">
+        <ui:slider.examples.withNumberInput />
+    </f:case>
+    <f:case value="with-field">
+        <ui:slider.examples.withField />
+    </f:case>
+    <f:case value="with-dragging-indicator">
+        <ui:slider.examples.withDraggingIndicator />
+    </f:case>
+    <f:case value="with-decimal-values">
+        <ui:slider.examples.withDecimalValues />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

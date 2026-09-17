@@ -131,10 +131,18 @@ return [
                 'renderType' => 'checkboxToggle',
             ],
         ],
+        'donation_amount' => [
+            'label' => 'Donation amount',
+            'config' => [
+                'type' => 'input',
+                'size' => 10,
+                'eval' => 'trim',
+            ],
+        ],
     ],
     'types' => [
         '0' => [
-            'showitem' => 'ticket_type, ticket_count, person, mode, student_id, badge_photo, a11y_needs, comment, privacy',
+            'showitem' => 'ticket_type, ticket_count, person, mode, student_id, badge_photo, a11y_needs, comment, privacy, donation_amount',
         ],
     ],
 ];

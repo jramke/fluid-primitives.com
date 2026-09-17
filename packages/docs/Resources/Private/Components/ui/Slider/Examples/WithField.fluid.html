@@ -1,0 +1,24 @@
+<ui:field.root name="donationAmount" class="max-w-xs">
+    <ui:slider.root defaultValue="25" min="0" max="200" step="5">
+        <div class="flex items-center justify-between">
+            <ui:slider.label>Donation amount</ui:slider.label>
+            <span class="text-sm text-muted-foreground">
+                $
+                <ui:slider.valueText />
+            </span>
+        </div>
+        <ui:slider.control>
+            <ui:slider.track>
+                <ui:slider.range />
+            </ui:slider.track>
+            <ui:slider.thumb />
+        </ui:slider.control>
+        <ui:slider.markerGroup>
+            <ui:slider.marker value="10">$10</ui:slider.marker>
+            <ui:slider.marker value="25">$25</ui:slider.marker>
+            <ui:slider.marker value="50">$50</ui:slider.marker>
+            <ui:slider.marker value="100">$100</ui:slider.marker>
+        </ui:slider.markerGroup>
+    </ui:slider.root>
+    <ui:field.description>Choose an amount to support this event - every contribution helps.</ui:field.description>
+</ui:field.root>

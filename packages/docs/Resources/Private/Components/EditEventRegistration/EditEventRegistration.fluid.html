@@ -59,6 +59,29 @@
             <ui:field.error />
         </ui:field.root>
 
+        <ui:field.root name="donationAmount">
+            <ui:slider.root min="0" max="200" step="5">
+                <div class="flex items-center justify-between">
+                    <ui:slider.label>Optional Donation</ui:slider.label>
+                    <span class="text-sm text-muted-foreground">$<ui:slider.valueText /></span>
+                </div>
+                <ui:slider.control>
+                    <ui:slider.track>
+                        <ui:slider.range />
+                    </ui:slider.track>
+                    <ui:slider.thumb index="0" />
+                </ui:slider.control>
+                <ui:slider.markerGroup>
+                    <ui:slider.marker value="0">$0</ui:slider.marker>
+                    <ui:slider.marker value="25">$25</ui:slider.marker>
+                    <ui:slider.marker value="50">$50</ui:slider.marker>
+                    <ui:slider.marker value="100">$100</ui:slider.marker>
+                </ui:slider.markerGroup>
+            </ui:slider.root>
+            <ui:field.description>Help cover event costs with an optional donation.</ui:field.description>
+            <ui:field.error />
+        </ui:field.root>
+
         <ui:field.root name="mode" required="{true}">
             <ui:radioGroup.root>
                 <ui:radioGroup.label>Attendance Mode</ui:radioGroup.label>

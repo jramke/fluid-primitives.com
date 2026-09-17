@@ -14,6 +14,11 @@ mountAll('eventRegistration', ({ props, createHydrator }) => {
             .number('Please enter a valid number of tickets')
             .min(1, 'You must register at least 1 ticket')
             .max(10, 'You can only register up to 10 tickets'),
+        donationAmount: z.coerce
+            .number()
+            .min(0, 'The donation amount cannot be negative')
+            .max(500, 'The donation amount cannot exceed $500')
+            .optional(),
         person: z.object({
             name: z.string('Please enter your name').min(1, 'Please enter your name'),
             email: z.email('Please enter your email'),
