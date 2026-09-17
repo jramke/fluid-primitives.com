@@ -31,9 +31,9 @@
                         <ui:icon.search class="text-muted-foreground size-4 shrink-0" />
                         <ui:combobox.input placeholder="Search documentation…" class="!px-0" />
                         <ui:combobox.clearTrigger />
-                        <kbd class="rounded-md border bg-secondary/50 px-1.5 py-0.5 text-xs text-muted-foreground content-center">Esc</kbd>
+                        <kbd class="rounded-md border bg-secondary/50 px-1.5 py-0.5 text-[10px] text-muted-foreground content-center">Esc</kbd>
                     </ui:combobox.control>
-                    <ui:combobox.content class="!duration-0 !mt-0 !rounded-b-lg !rounded-t-none !border-t !pointer-events-auto scroller">
+                    <ui:combobox.content class="!duration-0 !mt-0 !rounded-b-lg !rounded-t-none !border-t !pointer-events-auto pe-0! scroller">
                         <ui:combobox.empty class="justify-start">
                             <span {ui:ref(name: 'statusText' , context: 'combobox' )}>Loading search index…</span>
                         </ui:combobox.empty>
@@ -46,8 +46,14 @@
                         </ui:template>
                         <ui:template name="itemTemplate" context="combobox">
                             <ui:combobox.item>
-                                <ui:combobox.itemText>
+                                <ui:combobox.itemText class="flex items-center justify-between w-full not-data-highlighted:[&_kbd]:hidden">
                                     <span {ui:ref(name: 'title' )}></span>
+                                    <kbd class="rounded-sm border bg-secondary/50 inline-flex p-0.5 text-xs text-muted-foreground *:size-2.5!">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-corner-down-left" aria-hidden="true">
+                                            <path d="M20 4v7a4 4 0 0 1-4 4H4"></path>
+                                            <path d="m9 10-5 5 5 5"></path>
+                                        </svg>
+                                    </kbd>
                                 </ui:combobox.itemText>
                             </ui:combobox.item>
                         </ui:template>
