@@ -48,7 +48,7 @@ Limit the number of selectable options. Once the limit is reached, remaining unc
 
 Implement a "Select All" checkbox that toggles all options.
 
-{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroup.examples.selectAll" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroup.examples.selectAll", "additionalFiles": {"SelectAll.entry.ts": "EXT:docs/Resources/Private/Components/ui/CheckboxGroup/Examples/SelectAll.entry.ts"} } %}
 
 ## API Reference
 
