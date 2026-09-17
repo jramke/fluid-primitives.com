@@ -22,15 +22,19 @@ class ViewAsMarkdownLinkInjector
             '<a href="' .
             htmlspecialchars($path) .
             '.md"' .
-            'data-view-as-markdown-link class="text-sm font-normal text-muted-foreground hover:text-foreground no-underline inline-flex items-center gap-1.5 shrink-0 mt-2 mb-2">' .
+            'data-view-as-markdown-link class="text-sm font-normal text-muted-foreground hover:text-foreground no-underline inline-flex items-center gap-1.5 shrink-0 my-0">' .
             $svg .
             'View as Markdown' .
             '</a>';
 
-        if (str_contains($html, 'data-reference-buttons>')) {
-            return str_replace('data-reference-buttons>', 'data-reference-buttons>' . $link, $html);
-        }
-
-        return str_replace('</h1>', '</h1>' . $link, $html);
+        return (
+            preg_replace(
+                '~(<h1\b[^>]*>.*?</h1>)~is',
+                '<div data-h1-wrapper class="flex flex-wrap items-center gap-4 justify-between [&_h1]:shrink-0">$1' .
+                $link .
+                '</div>',
+                $html,
+            ) ?? $html
+        );
     }
 }

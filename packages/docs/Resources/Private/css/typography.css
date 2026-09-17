@@ -28,7 +28,7 @@
         text-wrap: balance;
     }
 
-    h1 + p:where(:not(.not-prose, .not-prose *)):has(> strong:only-child) {
+    :is(h1, [data-h1-wrapper]) + p:where(:not(.not-prose, .not-prose *)):has(> strong:only-child) {
         font-size: var(--text-xl);
         line-height: calc(28 / 18);
         margin-top: 0.25rem;
