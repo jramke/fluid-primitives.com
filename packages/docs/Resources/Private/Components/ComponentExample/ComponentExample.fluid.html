@@ -22,7 +22,7 @@
             <div>
                 <div class="component-example-preview z-1">{context.html -> f:format.raw()}</div>
                 <div class="component-example-code isolate">
-                    <ui:collapsible.root collapsedHeight="120px">
+                    <ui:collapsible.root collapsedHeight="120px" controlled="{true}" rootId="{rootId}-collapsible">
                         <ui:tabs.root defaultValue="example-0" controlled="{true}" rootId="{rootId}-tabs">
                             <div class="px-1 text-sm flex justify-between gap-2">
                                 <ui:tabs.list class="!w-auto !block min-w-0 !h-12">
