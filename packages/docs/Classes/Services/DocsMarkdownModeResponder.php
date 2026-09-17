@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Services;
 
 use FluidPrimitives\Docs\Utility\DocsUtility;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
@@ -12,10 +13,22 @@ use TYPO3\CMS\Core\Http\Response;
 
 /**
  * Handles the `.md` request path's responses for DocsController - detecting markdown mode (stamped by
- * DocsMarkdownModeMiddleware) and, when active, short-circuiting via PropagateResponseException before
- * the controller reaches its normal HTML view rendering (an Extbase return here would otherwise get
- * wrapped in the page's full HTML layout - see DocsController::registrationAction() for the same
- * pattern). Kept as a single collaborator, rather than inline `if` branches in the controller, so the
+ * DocsMarkdownModeMiddleware).
+ *
+ * The 200 case (respondWithContentIfActive()) returns its Response instead of throwing: `pageMarkdown`
+ * (see page.typoscript) renders `lib.docsPlugin` directly rather than through PAGEVIEW, so this response
+ * body becomes DocsController's entire Extbase return value with nothing left to wrap it in an HTML
+ * layout, and it can flow through TYPO3's normal request lifecycle - and page cache - instead of
+ * bypassing it. Its Content-Type/Cache-Control headers are irrelevant either way and deliberately left
+ * off: ExtbasePluginContentObject (core) only keeps the response *body* from a plugin dispatch that
+ * doesn't throw, discarding any headers/status set on it - those have to be (and are) declared in
+ * `pageMarkdown.config.additionalHeaders` instead.
+ *
+ * The 404 case (respondNotFoundIfActive()) still throws PropagateResponseException - an Extbase return
+ * here would otherwise get wrapped in the page's full HTML layout the same way (see
+ * DocsController::registrationAction() for the same pattern elsewhere), and a 404 isn't worth caching.
+ *
+ * Kept as a single collaborator, rather than inline `if` branches in the controller, so the
  * markdown-mode decision points don't count against DocsController's own complexity budget.
  */
 final readonly class DocsMarkdownModeResponder
@@ -43,20 +56,14 @@ final readonly class DocsMarkdownModeResponder
         ]), 404);
     }
 
-    /**
-     * @throws PropagateResponseException when markdown mode is active
-     */
-    public function respondWithContentIfActive(string $markdown, ServerRequestInterface $request): void
+    public function respondWithContentIfActive(string $markdown, ServerRequestInterface $request): ?ResponseInterface
     {
         if (!$this->isActive($request)) {
-            return;
+            return null;
         }
 
         $body = DocsUtility::renderMarkdownForLlm($markdown, $request);
-        throw new PropagateResponseException(new Response($this->streamFactory->createStream($body), 200, [
-            'Content-Type' => 'text/markdown; charset=utf-8',
-            'Cache-Control' => 'public, max-age=3600',
-        ]), 200);
+        return new Response($this->streamFactory->createStream($body));
     }
 
     /**

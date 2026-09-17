@@ -53,3 +53,23 @@ page {
         }
     }
 }
+
+# The `.md` response - see DocsMarkdownModeMiddleware::MARKDOWN_TYPE_NUM and
+# DocsMarkdownModeResponder::respondWithContentIfActive(). Renders `lib.docsPlugin` directly rather than
+# through PAGEVIEW, so DocsController's markdown response body becomes the entire output with no HTML
+# layout wrapped around it - same idiom EXT:seo uses for its XML sitemap typeNum. Its own typeNum also
+# gives it its own page-cache identity, separate from the plain HTML page at the same path.
+pageMarkdown = PAGE
+pageMarkdown {
+    typeNum = 9576
+
+    10 < lib.docsPlugin
+
+    config {
+        disableAllHeaderCode = 1
+        cache_period = 3600
+        additionalHeaders {
+            10.header = Content-Type: text/markdown; charset=utf-8
+        }
+    }
+}

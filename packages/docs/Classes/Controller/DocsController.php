@@ -102,7 +102,10 @@ final class DocsController extends ActionController
 
         [$meta, $markdown] = $this->parseMarkdownFile($filePath);
 
-        $this->markdownModeResponder->respondWithContentIfActive($markdown, $this->request);
+        $markdownResponse = $this->markdownModeResponder->respondWithContentIfActive($markdown, $this->request);
+        if ($markdownResponse instanceof ResponseInterface) {
+            return $markdownResponse;
+        }
 
         [$content, $toc] = DocsUtility::MarkdownToHtml($markdown, $this->request);
         $content = ViewAsMarkdownLinkInjector::inject($content, '/' . $path);
