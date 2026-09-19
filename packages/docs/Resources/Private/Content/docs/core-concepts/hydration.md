@@ -30,6 +30,38 @@ This outputs:
 
 The data attributes and id let the client find and connect elements to the state machine.
 
+### Repeated Parts Need a `value`
+
+Without a `value:` argument, `ui:ref` generates the _same_ id every time that part name renders
+within one component instance. That's correct for a true singleton part (root, trigger, content,
+...), but if the same value-less part is placed more than once in one instance - most commonly a
+purely decorative element with no data-driven identity of its own, like a separator between item
+groups - every occurrence gets an identical, duplicate id:
+
+```html
+<!-- Bug: both separators below render id="menu:[rootId]:separator" -->
+<div {ui:ref(name: 'separator')}></div>
+```
+
+Browsers don't warn about duplicate ids - it just makes `id`-based lookups (including this
+library's own `getElement`/`getElementById`) silently resolve to whichever element happens to
+match first. Give each occurrence its own value from [`ui:id`](../viewhelpers/id):
+
+```html
+<f:variable name="separatorId">{ui:id(prefix: 'separator')}</f:variable>
+<div {ui:ref(name: 'separator', value: separatorId)}></div>
+```
+
+This applies whether you're building a first-party primitive or your own component with
+`ui:ref` - ask yourself whether a part can legitimately appear more than once per instance, and if
+so, whether it already has a natural per-item value (an item's own value, a tab's key) or needs
+one generated this way.
+
+If it slips through anyway, `warnAboutDuplicateIds()` scans the DOM for duplicate
+fluid-primitives-managed ids and logs them to the console - it runs automatically whenever TYPO3's
+own Application Context is `Development`, nothing to configure, and is a no-op otherwise so it
+costs nothing in production.
+
 ## Initializing Components
 
 On the client, use `mountAll` to initialize components:

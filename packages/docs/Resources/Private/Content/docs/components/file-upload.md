@@ -164,7 +164,7 @@ No `enctype` is needed on the form: `Form` never submits natively - it always po
 
 ### Editing: Mixing Already-Uploaded Files With New Ones
 
-`FileUpload`'s own file list only ever holds files newly picked in the browser - it has no concept of an already-persisted `FileReference` from a previous request. For an edit form, render existing files as ordinary `item`s directly inside `ui:fileUpload.itemGroup`, alongside the newly-picked ones, instead of showing them in a second, separate list. Give each one `type="existing"` and pair its delete trigger with `ui:fileUploadDeleteCheckbox`, which renders TYPO3's HMAC-signed `@delete` token so Extbase removes the file reference on submit:
+`FileUpload`'s own file list only ever holds files newly picked in the browser - it has no concept of an already-persisted `FileReference` from a previous request. For an edit form, render existing files as ordinary `item`s directly inside `ui:fileUpload.itemGroup`, alongside the newly-picked ones, instead of showing them in a second, separate list. Give each one `type="existing"` and pair its delete trigger with `ui:fileUploadDeleteCheckbox`, which renders TYPO3's HMAC-signed `@delete` token so Extbase removes the file reference on submit. Newly-picked files get their `id`s from the client (it re-stamps every part with the picked file's own value on mount), but a directly-authored `existing` item never goes through that - pass its own `value`, e.g. the file reference's `uid`, so more than one existing item doesn't collide on the same `id`:
 
 Existing items still sit inside the same `itemTemplate`-driven `itemGroup` as newly-picked files (see [Accepted and Rejected Files](#accepted-and-rejected-files) above), so don't drop the item template when adding them - without it, the `itemGroup` renders the existing files fine, but selecting a _new_ file has nothing to clone and populate, and throws:
 
@@ -206,7 +206,7 @@ Existing items still sit inside the same `itemTemplate`-driven `itemGroup` as ne
 
             <ui:fileUpload.itemGroup>
                 <f:for each="{conference.impressions}" as="fileReference">
-                    <ui:fileUpload.fileItem type="existing">
+                    <ui:fileUpload.fileItem type="existing" value="{fileReference.uid}">
                         <f:image
                             image="{fileReference}"
                             width="40"

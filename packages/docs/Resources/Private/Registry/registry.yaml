@@ -142,6 +142,23 @@ textarea:
     - LiveRegion.fluid.html
     - Textarea.entry.ts
 
+menu:
+  name: Menu
+  description: An accessible dropdown and context menu for actions and options
+  files:
+    - Root.fluid.html
+    - Trigger.fluid.html
+    - ContextTrigger.fluid.html
+    - Content.fluid.html
+    - Item.fluid.html
+    - CheckboxItem.fluid.html
+    - RadioItem.fluid.html
+    - TriggerItem.fluid.html
+    - ItemGroup.fluid.html
+    - ItemGroupLabel.fluid.html
+    - Separator.fluid.html
+    - Menu.entry.ts
+
 navigation-menu:
   name: NavigationMenu
   description: A collection of links and menus for website navigation

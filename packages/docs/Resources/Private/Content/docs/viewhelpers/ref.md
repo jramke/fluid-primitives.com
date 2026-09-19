@@ -25,6 +25,21 @@ For multi-instance parts (e.g. accordion items, tab panels) pass a `value:` disc
 <div {ui:ref(name: 'item', value: value)}">...</div>
 ```
 
+Without a `value:`, the generated `id` is the same every time that part name renders within one
+component instance - correct for a true singleton part (root, trigger, content, ...), but if you
+place the *same* value-less part more than once in one instance (e.g. a purely decorative
+separator between item groups, which has no data-driven value of its own), every occurrence
+gets an identical, duplicate `id`. Browsers don't warn about this - it just makes `id`-based
+lookups (including this library's own `getElement`/`getElementById`) silently resolve to
+whichever element happens to match first. Give each occurrence its own `value` from {@see
+IdViewHelper} instead:
+```html
+<f:variable name="separatorId">{ui:id(prefix: 'separator')}</f:variable>
+<div {ui:ref(name: 'separator', value: separatorId)}">...</div>
+```
+`warnAboutDuplicateIds()` (client-side, opt in via `window.FluidPrimitives.globals.debug`) flags
+this in the browser console during development if it slips through.
+
 You can also pass additional data attributes:
 ```html
 <div {ui:ref(name: 'button', data: { action: 'submit' })}">Click me</div>
@@ -62,5 +77,5 @@ hand-authored elements that render immediately, once, and never get cloned.
 | `name` | string | Name of the ref | Yes | - |
 | `asArray` | boolean | If true, the ref will be rendered as an array instead of a string of data-attributes | No | false |
 | `data` | array | Additional data attributes to include in the ref. Associative array with key-value pairs. Each key is prefixed with &quot;data-&quot;. | No | [] |
-| `value` | string\|BackedEnum\|UnitEnum\|null\|array | Optional discriminator for multi-instance parts (e.g. accordion items, tab triggers). | No | - |
+| `value` | string\|int\|float\|BackedEnum\|UnitEnum\|null\|array | Optional discriminator for multi-instance parts (e.g. accordion items, tab triggers, slider thumbs). | No | - |
 | `context` | string | camelCase base name of an ancestor component to attach this ref to explicitly (e.g. &quot;fileUpload&quot;), for hand-authored elements living in another component&#039;s slot content rather than a component&#039;s own template body. When omitted, uses whichever component is already ambiently active (the normal case for a component&#039;s own template). | No | '' |

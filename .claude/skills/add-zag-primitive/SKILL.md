@@ -9,7 +9,7 @@ Ports one Zag.js machine into this repo's three layers: the headless `fluid-prim
 primitive (PHP context + Fluid templates + TS `Component` class), the styled `/ui` wrapper in
 `packages/docs`, and its docs page. Read `CLAUDE.md` first (Context Class Pattern, Props
 Definition, Ref Pattern, Dependency Injection) - this skill only covers what's specific to
-*porting a Zag machine*, not the general PHP/TS/Fluid conventions already documented there.
+_porting a Zag machine_, not the general PHP/TS/Fluid conventions already documented there.
 
 Every input needed - machine source, prop/api types, CSS variables, data-attributes, keyboard behavior - is already installed
 locally in `node_modules`. Read it from disk instead.
@@ -32,17 +32,17 @@ Check `node_modules/@zag-js/<component>` exists.
   consumed by the root package via `file:packages/fluid-primitives`, so root install resolves and
   hoists its deps into the top-level `node_modules`.
 - The published package ships only `dist/` (no raw `src/`), but the `dist/*.mjs` files are
-  **un-minified, readable ESM** - they *are* the source for this purpose. Read:
-  - `dist/<component>.connect.mjs` - the `connect()` implementation. This is ground truth for
-    exactly which attributes/data-attributes/aria-* each part returns. Cross-reference every
-    server-rendered attribute against this file (see Step 4's rule).
-  - `dist/<component>.types.d.ts` - `Props` interface (with doc comments, used for `ui:prop`
-    descriptions) and `Api` interface (the client-side return shape).
-  - `dist/<component>.anatomy.mjs` - the definitive list of anatomy parts
-    (`data-scope`/`data-part` pairs). One Fluid template file per part.
-  - `dist/<component>.props.mjs` - default prop values.
-  - `dist/<component>.machine.mjs` - states/events/context, useful background, rarely needed for
-    template work.
+  **un-minified, readable ESM** - they _are_ the source for this purpose. Read:
+    - `dist/<component>.connect.mjs` - the `connect()` implementation. This is ground truth for
+      exactly which attributes/data-attributes/aria-* each part returns. Cross-reference every
+      server-rendered attribute against this file (see Step 4's rule).
+    - `dist/<component>.types.d.ts` - `Props` interface (with doc comments, used for `ui:prop`
+      descriptions) and `Api` interface (the client-side return shape).
+    - `dist/<component>.anatomy.mjs` - the definitive list of anatomy parts
+      (`data-scope`/`data-part` pairs). One Fluid template file per part.
+    - `dist/<component>.props.mjs` - default prop values.
+    - `dist/<component>.machine.mjs` - states/events/context, useful background, rarely needed for
+      template work.
 
 ## Step 2 - Get structured docs data locally
 
@@ -126,7 +126,7 @@ keep the ones that prevent an incorrect first paint:
 - **Leave to the client**: anything needing a live DOM measurement, a generated id that
   cross-references another element (`aria-controls`, `aria-labelledby`, `aria-describedby` - the
   machine wires these itself via `dom.get<Part>Id(scope)`, don't hand-roll id generation in PHP),
-  or event handlers. The TS `render()` method (Step 6) applies the *full* prop set from
+  or event handlers. The TS `render()` method (Step 6) applies the _full_ prop set from
   `api.get<Part>Props()` on hydration regardless - server attributes exist only to avoid an
   incorrect pre-hydration paint, not to duplicate the whole client API.
 - When genuinely unsure whether a given attribute is safe to precompute from props alone, leave it

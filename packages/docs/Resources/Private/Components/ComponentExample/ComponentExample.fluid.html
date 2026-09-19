@@ -43,7 +43,7 @@
                                 </ui:tabs.list>
                                 <f:for each="{tabs}" as="tab" iteration="i">
                                     <f:variable name="value">example-{i.index}</f:variable>
-                                    <div class="flex gap-1 z-1 pt-1" {ui:ref(name: 'tab-actions' , data: { value: value } )} {f:if(condition: '{value} !== example-0' , then: 'hidden' )}>
+                                    <div class="flex gap-1 z-1 pt-1" {ui:ref(name: 'tab-actions' , value: value )} {f:if(condition: '{value} !== example-0' , then: 'hidden' )}>
                                         <ui:collapsible.trigger asChild="{true}">
                                             <ui:button variant="ghost" class="not-sm:size-8 not-sm:p-0">
                                                 <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Closed')}" class="not-sm:sr-only">Show Code</ui:collapsible.indicator>

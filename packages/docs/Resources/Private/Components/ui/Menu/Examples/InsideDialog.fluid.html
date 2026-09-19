@@ -1,0 +1,27 @@
+<ui:dialog.root>
+    <ui:dialog.trigger asChild="{true}">
+        <ui:button>Open Dialog</ui:button>
+    </ui:dialog.trigger>
+    <ui:dialog.content>
+        <ui:dialog.header>
+            <ui:dialog.title>Project Settings</ui:dialog.title>
+            <ui:dialog.description>
+                The menu below sets <code>portalled="{false}"</code> on <code>ui:menu.content</code> so it
+                stays inside this dialog's DOM subtree instead of portalling to the document body.
+            </ui:dialog.description>
+        </ui:dialog.header>
+        <ui:menu.root>
+            <ui:menu.trigger class="self-start">Options</ui:menu.trigger>
+            <ui:menu.content portalled="{false}">
+                <ui:menu.item value="rename">Rename</ui:menu.item>
+                <ui:menu.item value="duplicate">Duplicate</ui:menu.item>
+                <ui:menu.item value="archive">Archive</ui:menu.item>
+            </ui:menu.content>
+        </ui:menu.root>
+        <ui:dialog.footer>
+            <ui:dialog.close asChild="{true}">
+                <ui:button variant="secondary">Close</ui:button>
+            </ui:dialog.close>
+        </ui:dialog.footer>
+    </ui:dialog.content>
+</ui:dialog.root>
