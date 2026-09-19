@@ -137,6 +137,7 @@ class DocsUtility
 
         $content = self::wrapCodeBlocks($content->getContent());
         $content = self::wrapTables($content);
+        $content = self::makePermalinksAccessible($content);
 
         if ($toc instanceof Node) {
             $toc = $renderer->renderNodes([$toc]);
@@ -161,6 +162,7 @@ class DocsUtility
                     'title' => '',
                     'symbol' => '',
                     'insert' => 'after',
+                    'aria_hidden' => false,
                 ],
                 'external_link' => [
                     'internal_hosts' => $_SERVER['HTTP_HOST'],
@@ -205,6 +207,14 @@ class DocsUtility
         // Match <table> tags that do NOT have class="not-prose"
         $pattern = '/(<table\b(?![^>]*\bclass\s*=\s*["\'][^"\']*\bnot-prose\b[^"\']*["\']).*?<\/table>)/is';
         $replacement = '<div class="table-wrapper">$1</div>';
+
+        return preg_replace($pattern, $replacement, $html) ?? $html;
+    }
+
+    private static function makePermalinksAccessible(string $html): string
+    {
+        $pattern = '/<h([2-6]) id="([^"]+)">(.+?)<a href="#\2" class="heading-permalink" title=""><\/a><\/h\1>/i';
+        $replacement = '<div class="permalink-wrapper"><h$1 id="$2">$3</h$1><a href="#$2" class="heading-permalink" title=""><span class="sr-only">Permalink to heading "$3"</span></a></div>';
 
         return preg_replace($pattern, $replacement, $html) ?? $html;
     }

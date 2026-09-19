@@ -47,6 +47,9 @@
         margin-top: calc(var(--spacing) * 16);
         text-wrap: balance;
     }
+    .permalink-wrapper:has(h2) {
+        margin-top: calc(var(--spacing) * 16);
+    }
 
     h3:where(:not(.not-prose, .not-prose *)) {
         font-size: var(--text-base);
@@ -56,8 +59,12 @@
         margin-top: calc(var(--spacing) * 14);
         text-wrap: balance;
     }
+    .permalink-wrapper:has(h3) {
+        margin-top: calc(var(--spacing) * 14);
+    }
 
-    h2 + h3:where(:not(.not-prose, .not-prose *)) {
+    h2 + h3:where(:not(.not-prose, .not-prose *)),
+    .permalink-wrapper:has(h2) + .permalink-wrapper:has(h3) {
         margin-top: calc(var(--spacing) * 6);
     }
 
@@ -68,6 +75,9 @@
         font-weight: var(--font-weight-semibold);
         margin-top: calc(var(--spacing) * 10);
         text-wrap: balance;
+    }
+    .permalink-wrapper:has(h4) {
+        margin-top: calc(var(--spacing) * 10);
     }
 
     :is(h2, h3, h4):where(:not(.not-prose, .not-prose *)) {
