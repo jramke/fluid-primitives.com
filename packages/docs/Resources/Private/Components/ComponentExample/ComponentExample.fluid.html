@@ -41,30 +41,32 @@
                                         </ui:scrollArea.scrollbar>
                                     </ui:scrollArea.root>
                                 </ui:tabs.list>
-                                <f:for each="{tabs}" as="tab" iteration="i">
-                                    <f:variable name="value">example-{i.index}</f:variable>
-                                    <div class="flex gap-1 z-1 pt-1" {ui:ref(name: 'tab-actions' , value: value )} {f:if(condition: '{value} !== example-0' , then: 'hidden' )}>
-                                        <ui:collapsible.trigger asChild="{true}">
-                                            <ui:button variant="ghost" class="not-sm:size-8 not-sm:p-0">
-                                                <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Closed')}" class="not-sm:sr-only">Show Code</ui:collapsible.indicator>
-                                                <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Open')}" class="not-sm:sr-only">Hide Code</ui:collapsible.indicator>
-                                                <ui:icon.listToggle class="sm:hidden" />
-                                            </ui:button>
-                                        </ui:collapsible.trigger>
-                                        <ui:clipboard.root value="{tab.templateRaw -> f:format.raw()}">
-                                            <ui:clipboard.trigger asChild="{true}">
-                                                <ui:button variant="ghost" size="icon">
-                                                    <ui:clipboard.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ClipboardIndicatorState::Idle')}">
-                                                        <ui:icon.copy />
-                                                    </ui:clipboard.indicator>
-                                                    <ui:clipboard.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ClipboardIndicatorState::Copied')}">
-                                                        <ui:icon.check />
-                                                    </ui:clipboard.indicator>
-                                                </ui:button>
-                                            </ui:clipboard.trigger>
-                                        </ui:clipboard.root>
-                                    </div>
-                                </f:for>
+                                <div class="flex gap-1 z-1 pt-1">
+                                    <ui:collapsible.trigger asChild="{true}">
+                                        <ui:button variant="ghost" class="not-sm:size-8 not-sm:p-0">
+                                            <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Closed')}" class="not-sm:sr-only">Show Code</ui:collapsible.indicator>
+                                            <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Open')}" class="not-sm:sr-only">Hide Code</ui:collapsible.indicator>
+                                            <ui:icon.listToggle class="sm:hidden" />
+                                        </ui:button>
+                                    </ui:collapsible.trigger>
+                                    <f:for each="{tabs}" as="tab" iteration="i">
+                                        <f:variable name="value">example-{i.index}</f:variable>
+                                        <div {ui:ref(name: 'tab-actions' , value: value )} {f:if(condition: '{value} !== example-0' , then: 'hidden' )}>
+                                            <ui:clipboard.root value="{tab.templateRaw -> f:format.raw()}">
+                                                <ui:clipboard.trigger asChild="{true}">
+                                                    <ui:button variant="ghost" size="icon">
+                                                        <ui:clipboard.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ClipboardIndicatorState::Idle')}">
+                                                            <ui:icon.copy />
+                                                        </ui:clipboard.indicator>
+                                                        <ui:clipboard.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ClipboardIndicatorState::Copied')}">
+                                                            <ui:icon.check />
+                                                        </ui:clipboard.indicator>
+                                                    </ui:button>
+                                                </ui:clipboard.trigger>
+                                            </ui:clipboard.root>
+                                        </div>
+                                    </f:for>
+                                </div>
                             </div>
                             <ui:collapsible.content class="{ui:cn(value: '
                                 relative
