@@ -79,14 +79,6 @@ mountAll('eventRegistration', ({ props, createHydrator }) => {
             return true;
         },
         render: form => {
-            // Conditionally hide and show the studentId field based on the ticket type.
-            // Note we also disable it, so it's omitted by FormData and therefore not validated or passed to the server.
-            const showStudentFields = needsStudentId(form.api.getValues());
-
-            const studentIdField = form.api.getField('studentId')!;
-            studentIdField.getRootEl()!.hidden = !showStudentFields;
-            studentIdField.setDisabled(!showStudentFields);
-
             // Update submit button based on form state
             const submitButton = hydrator.getElement('submit-button');
             if (submitButton) {
@@ -98,10 +90,24 @@ mountAll('eventRegistration', ({ props, createHydrator }) => {
                     submitButton.textContent = 'Submit';
                 }
             }
-
-            // ...
         },
     });
 
     form.init();
+
+    // Conditionally hide and show the studentId field based on the ticket type, via `listenTo`
+    // on studentId itself (see the template) rather than recomputing this on every form state
+    // change. Also disables it while hidden, so it's omitted by FormData and therefore not
+    // validated or passed to the server.
+    const studentIdField = form.api.getField('studentId')!;
+
+    const applyStudentIdVisibility = (show: boolean) => {
+        studentIdField.getRootEl()!.hidden = !show;
+        studentIdField.setDisabled(!show);
+    };
+
+    applyStudentIdVisibility(needsStudentId(form.api.getValues()));
+    studentIdField.addDependencyChangeListener(({ dependencies }) => {
+        applyStudentIdVisibility(dependencies.ticketType === 'student');
+    });
 });

@@ -37,7 +37,7 @@
             <ui:field.error />
         </ui:field.root>
 
-        <ui:field.root name="studentId" required="{true}" hidden="{true}" disabled="{true}">
+        <ui:field.root name="studentId" required="{true}" hidden="{true}" disabled="{true}" listenTo="{0: 'ticketType'}">
             <ui:input.root>
                 <ui:input.label>Student ID</ui:input.label>
                 <ui:input.input />

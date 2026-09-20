@@ -92,6 +92,18 @@ field:
     - Error.fluid.html
     - Field.entry.ts
 
+field-array:
+  name: FieldArray
+  description: A repeatable group of fields, e.g. for adding and removing rows
+  files:
+    - Root.fluid.html
+    - ItemGroup.fluid.html
+    - Item.fluid.html
+    - EmptyState.fluid.html
+    - AddTrigger.fluid.html
+    - RemoveTrigger.fluid.html
+    - FieldArray.entry.ts
+
 file-upload:
   name: FileUpload
   description: A file picker with drag and drop support and managed file lists

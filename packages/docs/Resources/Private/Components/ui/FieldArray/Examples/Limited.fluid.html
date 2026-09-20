@@ -1,0 +1,58 @@
+<f:variable name="people" value="{0: {firstName: 'Ada', lastName: 'Lovelace'}}" />
+
+<ui:fieldArray.root name="people" itemCount="{people -> f:count()}" minItems="1" maxItems="3" class="w-full max-w-md">
+    <primitives:fieldArray.itemTemplate>
+        <ui:fieldArray.item>
+            <div class="grid grid-cols-2 gap-3">
+                <ui:field.root name="firstName" required="{true}">
+                    <ui:input.root>
+                        <ui:input.label>First name</ui:input.label>
+                        <ui:input.input />
+                    </ui:input.root>
+                    <ui:field.error />
+                </ui:field.root>
+                <ui:field.root name="lastName" required="{true}">
+                    <ui:input.root>
+                        <ui:input.label>Last name</ui:input.label>
+                        <ui:input.input />
+                    </ui:input.root>
+                    <ui:field.error />
+                </ui:field.root>
+            </div>
+            <ui:fieldArray.removeTrigger asChild="{true}">
+                <ui:button variant="ghost">Remove</ui:button>
+            </ui:fieldArray.removeTrigger>
+        </ui:fieldArray.item>
+    </primitives:fieldArray.itemTemplate>
+
+    <ui:fieldArray.itemGroup>
+        <f:for each="{people}" as="person" iteration="it">
+            <ui:fieldArray.item index="{it.index}">
+                <div class="grid grid-cols-2 gap-3">
+                    <ui:field.root name="firstName" defaultValue="{person.firstName}" required="{true}">
+                        <ui:input.root>
+                            <ui:input.label>First name</ui:input.label>
+                            <ui:input.input />
+                        </ui:input.root>
+                        <ui:field.error />
+                    </ui:field.root>
+                    <ui:field.root name="lastName" defaultValue="{person.lastName}" required="{true}">
+                        <ui:input.root>
+                            <ui:input.label>Last name</ui:input.label>
+                            <ui:input.input />
+                        </ui:input.root>
+                        <ui:field.error />
+                    </ui:field.root>
+                </div>
+                <ui:fieldArray.removeTrigger asChild="{true}">
+                    <ui:button variant="ghost">Remove</ui:button>
+                </ui:fieldArray.removeTrigger>
+            </ui:fieldArray.item>
+        </f:for>
+        <ui:fieldArray.emptyState>No people added yet.</ui:fieldArray.emptyState>
+    </ui:fieldArray.itemGroup>
+
+    <ui:fieldArray.addTrigger asChild="{true}">
+        <ui:button variant="secondary">Add person</ui:button>
+    </ui:fieldArray.addTrigger>
+</ui:fieldArray.root>
