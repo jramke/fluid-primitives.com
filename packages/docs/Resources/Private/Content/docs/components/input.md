@@ -2,7 +2,7 @@
 
 **A text input component that works with Field, with optional word count and live-region announcements.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "Input" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Input", "skipZag": true } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "Input.examples.simple", "withEntryFile": true } %}
 

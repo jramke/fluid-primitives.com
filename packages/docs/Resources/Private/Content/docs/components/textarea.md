@@ -2,7 +2,7 @@
 
 **A multi-line text input that works with Field, with optional word count, live-region announcements, and submit-on-Enter.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "Textarea" } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Textarea", "skipZag": true } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "Textarea.examples.simple", "withEntryFile": true } %}
 
