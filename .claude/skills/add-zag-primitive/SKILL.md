@@ -204,9 +204,15 @@ Run, from repo root, after all files are written:
 ```bash
 ddev composer format
 ddev composer run lint
+ddev typo3 ui:generate-hydration-types
 ddev npm run types
 ddev npm run format:check
 ddev composer test:functional
 ```
+
+`ui:generate-hydration-types` (a TYPO3 console command, like `ui:add`/`ui:list`) writes
+`<Component>.hydration.ts` next to `<Component>.ts` and adds its re-export there if missing -
+commit the generated file. Run it again with `--check` in CI to catch drift between `ui:prop`
+declarations and the committed generated type.
 
 Fix anything these surface before considering the primitive done.
