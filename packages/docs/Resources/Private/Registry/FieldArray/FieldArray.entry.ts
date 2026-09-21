@@ -9,7 +9,6 @@ import { Input } from 'fluid-primitives/input';
 // itemTemplate contains without FieldArray needing to know about Field/Input itself.
 function mountRowComponents() {
     mountAll('field', ({ props }) => {
-        // @ts-expect-error
         const field = new Field(props);
         field.init();
         return field;
@@ -22,7 +21,6 @@ function mountRowComponents() {
 }
 
 mountAll('fieldArray', ({ props }) => {
-    // @ts-expect-error
     const fieldArray = new FieldArray({ ...props, onItemAdded: mountRowComponents });
     fieldArray.init();
     return fieldArray;

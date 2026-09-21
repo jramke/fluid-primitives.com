@@ -84,7 +84,61 @@ Props needed for client-side behavior use `client="{true}"`:
 <ui:prop name="open" type="boolean" optional="{true}" client="{true}" />
 ```
 
-These are serialized and passed to JavaScript during hydration.
+These are serialized and passed to JavaScript during hydration. See [Client Prop Conversion](#content-client-prop-conversion) below if the client needs a different shape than what's serialized.
+
+## Client Prop Conversion
+
+A `client="{true}"` prop's serialized shape isn't always what its component's machine expects. PHP has no `File` objects or class instances to serialize, so some props go over the wire as plain JSON and need converting back on the client before the component is constructed.
+
+Built-in primitives already do this for you: `Select`/`Combobox`'s `collection` is serialized as plain JSON and converted into a real `ListCollection`; `FileUpload`'s `translations` are serialized as `%fileName%`-placeholder strings and converted into the callback functions zag-js expects.
+
+If you're authoring your own component the same way (see [Initializing Components](/docs/core-concepts/hydration#content-initializing-components)), register a converter at module scope with `registerClientPropConverters`, and reflect the converted shape in `HydrationPropsOverrides` so `props` stays typed correctly. Registering more than one converter for a component is one call, keyed by prop name:
+
+```typescript
+import { registerClientPropConverters } from 'fluid-primitives';
+
+registerClientPropConverters('myComponent', {
+    options: wireValue => new Map(Object.entries(wireValue as Record<string, unknown>)),
+});
+
+declare module 'fluid-primitives/client' {
+    interface HydrationPropsOverrides {
+        myComponent: { options: Map<string, unknown> };
+    }
+}
+```
+
+`mountAll`/`mount` apply every registered converter to a hydration instance's props before constructing it, so `new MyComponent(props)` sees the converted shape directly - no cast needed between the wire shape and the machine shape.
+
+### Generating `HydrationPropsRegistry`
+
+The `props` type `mountAll`/`mount` infer for a component name (`HydrationPropsRegistry`) is generated from its `ui:prop` declarations, not hand-written. Built-in primitives get this automatically through their own npm/tsdown build; for your own components, run the same console command against your own collection:
+
+```bash
+typo3 ui:generate-hydration-types --collection='Your\Namespace\YourComponentCollection' --output=path/to/generated
+```
+
+`--collection` points it at your `ComponentCollectionInterface`; `--output` is only needed because a third-party extension has no npm/tsdown pipeline of its own to re-export the generated file from. Re-run it (with `--check` in CI) whenever a `ui:prop` changes.
+
+Codegen only ever produces the _wire_-shape `HydrationPropsRegistry` entry - it has no way to know a registered converter changes that shape before construction. The converter itself and `HydrationPropsOverrides` (above) stay hand-written next to your component either way. End to end, for a `tags` client prop that should become a `Set<string>` on the client:
+
+```html
+<ui:prop name="tags" type="array" optional="{true}" client="{true}" />
+```
+
+```typescript
+import { registerClientPropConverters } from 'fluid-primitives';
+
+registerClientPropConverters('myComponent', {
+    tags: wireValue => new Set(wireValue as string[]),
+});
+
+declare module 'fluid-primitives/client' {
+    interface HydrationPropsOverrides {
+        myComponent: { tags: Set<string> };
+    }
+}
+```
 
 ## Inheriting Props
 

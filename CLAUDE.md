@@ -49,6 +49,10 @@ ddev npm run types            # TypeScript type checking (tsc --noEmit)
 ddev composer run format      # Format PHP files with Mago, always run after changes are done
 ddev composer run lint        # Static analysis for PHP with Mago and Rector
 ddev composer mago:analyze    # Analyze PHP code quality with Mago
+
+# Hydration types (typesafe mountAll/mount `props`) - a TYPO3 console command, like ui:add/ui:list
+ddev typo3 ui:generate-hydration-types          # Regenerate every primitive's <Name>.hydration.ts
+ddev typo3 ui:generate-hydration-types --check  # CI: fail if generated output is out of date
 ```
 
 ## Testing
