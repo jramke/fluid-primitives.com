@@ -7,11 +7,7 @@ const filter = createFilter({ sensitivity: 'base', locale: getGlobal('locale') }
 
 mountAll('combobox', ({ props }) => {
     const combobox = new Combobox({
-        // `collection` is the raw wire shape (ListCollectionData) here - Combobox's own
-        // transformProps() turns it into a real ListCollection before the machine sees it, but the
-        // constructor's own Props type (unchanged by the generated hydration type) still expects
-        // the already-transformed shape statically.
-        ...(props as unknown as ConstructorParameters<typeof Combobox>[0]),
+        ...props,
         onInputValueChange: (details: InputValueChangeDetails) => {
             const source = combobox.getSourceCollection();
 

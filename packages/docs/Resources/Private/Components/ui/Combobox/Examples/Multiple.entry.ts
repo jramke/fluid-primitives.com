@@ -42,11 +42,7 @@ mount('combobox', 'multiple-example', ({ props }) => {
     }
 
     combobox = new Combobox({
-        // `collection` is the raw wire shape (ListCollectionData) here - Combobox's own
-        // transformProps() turns it into a real ListCollection before the machine sees it, but the
-        // constructor's own Props type (unchanged by the generated hydration type) still expects
-        // the already-transformed shape statically.
-        ...(props as unknown as ConstructorParameters<typeof Combobox>[0]),
+        ...props,
         onValueChange: details => {
             updateSelectedValues(details.value);
         },
