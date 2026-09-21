@@ -78,7 +78,11 @@ class CommandMenu {
     initCombobox() {
         const combobox = mount('combobox', `combobox-${this.rootId}`, ({ props }) => {
             const combobox = new Combobox({
-                ...props,
+                // `collection` is the raw wire shape (ListCollectionData) here - Combobox's own
+                // transformProps() turns it into a real ListCollection before the machine sees it,
+                // but the constructor's own Props type (unchanged by the generated hydration type)
+                // still expects the already-transformed shape statically.
+                ...(props as unknown as ConstructorParameters<typeof Combobox>[0]),
                 open: true,
                 positioning: {
                     gutter: 0,
