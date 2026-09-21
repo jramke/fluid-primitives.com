@@ -77,7 +77,7 @@ mountAll('accordion', ({ props }) => {
 });
 ```
 
-This runs for every accordion on the page, extracting props from the hydration data and initializing each instance.
+This runs for every accordion on the page, extracting props from the hydration data and initializing each instance. If a prop's serialized shape needs converting before the component sees it, see [Client Prop Conversion](/docs/core-concepts/arguments#content-client-prop-conversion).
 
 ### Loading Scripts Per-Component
 

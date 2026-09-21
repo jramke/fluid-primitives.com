@@ -84,7 +84,31 @@ Props needed for client-side behavior use `client="{true}"`:
 <ui:prop name="open" type="boolean" optional="{true}" client="{true}" />
 ```
 
-These are serialized and passed to JavaScript during hydration.
+These are serialized and passed to JavaScript during hydration. See [Client Prop Conversion](#content-client-prop-conversion) below if the client needs a different shape than what's serialized.
+
+## Client Prop Conversion
+
+A `client="{true}"` prop's serialized shape isn't always what its component's machine expects. PHP has no `File` objects or class instances to serialize, so some props go over the wire as plain JSON and need converting back on the client before the component is constructed.
+
+Built-in primitives already do this for you: `Select`/`Combobox`'s `collection` is serialized as plain JSON and converted into a real `ListCollection`; `FileUpload`'s `translations` are serialized as `%fileName%`-placeholder strings and converted into the callback functions zag-js expects.
+
+If you're authoring your own component the same way (see [Initializing Components](/docs/core-concepts/hydration#content-initializing-components)), register a converter at module scope with `registerClientPropConverter`, and reflect the converted shape in `HydrationPropsOverrides` so `props` stays typed correctly:
+
+```typescript
+import { registerClientPropConverter } from 'fluid-primitives';
+
+registerClientPropConverter('myComponent', 'options', wireValue => {
+    return new Map(Object.entries(wireValue as Record<string, unknown>));
+});
+
+declare module 'fluid-primitives/client' {
+    interface HydrationPropsOverrides {
+        myComponent: { options: Map<string, unknown> };
+    }
+}
+```
+
+`mountAll`/`mount` apply every registered converter to a hydration instance's props before constructing it, so `new MyComponent(props)` sees the converted shape directly - no cast needed between the wire shape and the machine shape.
 
 ## Inheriting Props
 
