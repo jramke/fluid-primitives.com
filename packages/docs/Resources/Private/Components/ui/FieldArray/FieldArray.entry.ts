@@ -24,11 +24,16 @@ function mountRowComponents() {
 mountAll('fieldArray', ({ props }) => {
     const serverTranslations = props.translations as
         { rowAdded?: string; rowRemoved?: string } | undefined;
+    const maxItems = props.maxItems as number | undefined;
 
     // @ts-expect-error
     const fieldArray = new FieldArray({
         ...props,
-        onItemAdded: mountRowComponents,
+        onItemAdded: () => {
+            mountRowComponents();
+            updateStatusText();
+        },
+        onItemRemoved: updateStatusText,
         translations: {
             ...serverTranslations,
             // A custom announcement built from the row's own fields, falling back to the
@@ -43,6 +48,18 @@ mountAll('fieldArray', ({ props }) => {
             },
         },
     });
+
+    // Only the "Limiting Row Count" example authors a `status` ref inside its own row markup -
+    // `getElement` returns null for every other example, so this is a no-op there. Kept here
+    // rather than duplicated per-example since every example already shares this one entry file.
+    function updateStatusText() {
+        const statusEl = fieldArray.getElement<HTMLElement>('status');
+        if (!statusEl || maxItems === undefined) return;
+
+        const count = fieldArray.api.getRows().length;
+        statusEl.textContent = `${count} of ${maxItems} added (${maxItems - count} remaining)`;
+    }
+
     fieldArray.init();
 
     return fieldArray;

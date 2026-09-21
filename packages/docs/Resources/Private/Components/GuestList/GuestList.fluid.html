@@ -1,0 +1,70 @@
+<ui:exposeToClient />
+
+<ui:form.root actionUri="#" controlled="{true}" rootId="{rootId}-form" class="w-full max-w-md">
+    <ui:form.content class="space-y-6">
+        <ui:fieldArray.root name="guests" itemCount="1">
+            <primitives:fieldArray.itemTemplate>
+                <ui:fieldArray.item>
+                    <div class="grid grid-cols-2 gap-3">
+                        <ui:field.root name="name" required="{true}">
+                            <ui:input.root>
+                                <ui:input.label>Name</ui:input.label>
+                                <ui:input.input />
+                            </ui:input.root>
+                            <ui:field.error />
+                        </ui:field.root>
+                        <ui:field.root name="email" required="{true}">
+                            <ui:input.root type="email">
+                                <ui:input.label>Email</ui:input.label>
+                                <ui:input.input />
+                            </ui:input.root>
+                            <ui:field.error />
+                        </ui:field.root>
+                    </div>
+                    <ui:fieldArray.removeTrigger asChild="{true}">
+                        <ui:button variant="ghost">Remove</ui:button>
+                    </ui:fieldArray.removeTrigger>
+                </ui:fieldArray.item>
+            </primitives:fieldArray.itemTemplate>
+
+            <ui:fieldArray.itemGroup>
+                <ui:fieldArray.item index="0">
+                    <div class="grid grid-cols-2 gap-3">
+                        <ui:field.root name="name" required="{true}">
+                            <ui:input.root>
+                                <ui:input.label>Name</ui:input.label>
+                                <ui:input.input />
+                            </ui:input.root>
+                            <ui:field.error />
+                        </ui:field.root>
+                        <ui:field.root name="email" required="{true}">
+                            <ui:input.root type="email">
+                                <ui:input.label>Email</ui:input.label>
+                                <ui:input.input />
+                            </ui:input.root>
+                            <ui:field.error />
+                        </ui:field.root>
+                    </div>
+                    <ui:fieldArray.removeTrigger asChild="{true}">
+                        <ui:button variant="ghost">Remove</ui:button>
+                    </ui:fieldArray.removeTrigger>
+                </ui:fieldArray.item>
+            </ui:fieldArray.itemGroup>
+
+            <ui:fieldArray.addTrigger asChild="{true}">
+                <ui:button variant="secondary">Add guest</ui:button>
+            </ui:fieldArray.addTrigger>
+        </ui:fieldArray.root>
+
+        <ui:button type="submit">Send invitations</ui:button>
+    </ui:form.content>
+
+    <ui:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}"
+        class="space-y-3">
+        <ui:form.successText class="block">Invitations sent!</ui:form.successText>
+        <ui:button type="reset">Reset</ui:button>
+    </ui:form.indicator>
+</ui:form.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/GuestList/GuestList.entry.ts" />

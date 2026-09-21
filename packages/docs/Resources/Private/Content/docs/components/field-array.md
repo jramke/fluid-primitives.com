@@ -65,9 +65,15 @@ A `FieldArray` with no rows yet - `emptyState` shows until the first row is adde
 
 ### Limiting Row Count
 
-`minItems="1"` disables `removeTrigger` once a single row remains; `maxItems="3"` disables `addTrigger` once three rows exist.
+`minItems="1"` disables `removeTrigger` once a single row remains; `maxItems="3"` disables `addTrigger` once three rows exist. The status text below the rows ("2 of 3 added") isn't a `FieldArray` feature by itself - it's a plain element the row markup authors itself (`{ui:ref(name: 'status', context: 'fieldArray')}`), kept in sync from `onItemAdded`/`onItemRemoved` the same way this example already mounts each row's own `Field`/`Input`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldArray.examples.limited" } %}
+
+### Full Form With Client-Side Validation
+
+A complete `Form` wrapping a `FieldArray` of guests, each with a `name`/`email` pair - required fields and the email format are validated live as you type or blur, using a [Zod schema](/docs/core-concepts/forms#client-side-validation) passed straight to `validation`. `z.array(z.object({...}))` covers however many guest rows currently exist (added or removed) without `FieldArray` needing to know about validation at all - each issue's own path (e.g. `['guests', 0, 'email']`) is matched back to the exact row's own field automatically. Submission is blocked until every row is valid.
+
+{% component: "ui:componentExample", arguments: { "componentName": "GuestList", "additionalFiles": {"GuestList.entry.ts": "EXT:docs/Resources/Private/Components/GuestList/GuestList.entry.ts"} } %}
 
 ## API Reference
 

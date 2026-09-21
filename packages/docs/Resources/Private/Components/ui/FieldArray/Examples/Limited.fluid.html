@@ -1,6 +1,8 @@
 <f:variable name="people" value="{0: {firstName: 'Ada', lastName: 'Lovelace'}}" />
+<f:variable name="peopleCount" value="{people -> f:count()}" />
+<f:variable name="maxPeople" value="3" />
 
-<ui:fieldArray.root name="people" itemCount="{people -> f:count()}" minItems="1" maxItems="3" class="w-full max-w-md">
+<ui:fieldArray.root name="people" itemCount="{peopleCount}" minItems="1" maxItems="{maxPeople}" class="w-full max-w-md">
     <primitives:fieldArray.itemTemplate>
         <ui:fieldArray.item>
             <div class="grid grid-cols-2 gap-3">
@@ -51,6 +53,8 @@
         </f:for>
         <ui:fieldArray.emptyState>No people added yet.</ui:fieldArray.emptyState>
     </ui:fieldArray.itemGroup>
+
+    <div {ui:ref(name: 'status', context: 'fieldArray')} class="text-sm text-muted-foreground">{peopleCount} of {maxPeople} added ({maxPeople - peopleCount} remaining)</div>
 
     <ui:fieldArray.addTrigger asChild="{true}">
         <ui:button variant="secondary">Add person</ui:button>
