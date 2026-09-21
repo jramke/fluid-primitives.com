@@ -130,32 +130,40 @@ That's enough for the page to render and hydrate correctly - the object serializ
 
 ### 2. Declaring the TypeScript Shape
 
-Two interfaces answer "what does this object look like as JSON" - one for a class you own, one for a class you don't:
+Two interfaces answer "what does this object look like as JSON" - one for a class you own, one for a class you don't. Both point at a real, plain PHP class instead of hand-typing TypeScript as a string - [spatie/typescript-transformer](https://github.com/spatie/typescript-transformer) (a real dependency of this library) reflects it into the actual type, so there's nothing to keep in sync by hand:
 
-**`ClientTypeAwareInterface`** - implement it directly on your own class, alongside `JsonSerializable`:
+**`ClientTypeAwareInterface`** - implement it directly on your own class, alongside `JsonSerializable`. `getTsShapeClass()` points at a small, plain, never-instantiated, `#[TypeScript]`-attributed class describing the shape:
 
 ```php
+#[TypeScript]
+final class RatingData
+{
+    public int $value;
+    public int $max;
+}
+
 final class Rating implements JsonSerializable, ClientTypeAwareInterface
 {
     // ...constructor and jsonSerialize() as above...
 
-    public function getTsType(): string
+    public function getTsShapeClass(): string
     {
-        return '{ value: number; max: number }';
-    }
-
-    public function getTsImport(): ?string
-    {
-        return null; // an inline literal - nothing to import
+        return RatingData::class;
     }
 }
 ```
 
-`ListCollection` (`Classes/Domain/Dto/ListCollection.php`) is the real example: `Select` and `Combobox` both accept a `collection` prop, so instead of each generating its own duplicated inline literal, `ListCollection::getTsType()` points at one shared `ListCollectionData` type exported from `fluid-primitives/client`.
+`ListCollection`/`ListCollectionData` (`Classes/Domain/Dto/ListCollection.php`/`ListCollectionData.php`) is the real example: `Select` and `Combobox` both accept a `collection` prop, so instead of each generating its own duplicated inline literal, both reference the one `ListCollectionData` class `ui:generate-hydration-types` transforms.
 
-**`ClientPropConverterInterface`** - for a class you don't own (a vendor model, an Extbase model). Implement it as its own class; it's an ordinary autowired service, auto-discovered by tag, nothing else to register:
+**`ClientPropConverterInterface`** - for a class you don't own (a vendor model, an Extbase model). Implement it as its own class; it's an ordinary autowired service, auto-discovered by tag, nothing else to register. Same shape-class pattern:
 
 ```php
+#[TypeScript]
+final class FileReferenceData
+{
+    public string $url;
+}
+
 final class FileReferenceConverter implements ClientPropConverterInterface
 {
     public function supports(mixed $value, ArgumentDefinition $definition): bool
@@ -168,14 +176,9 @@ final class FileReferenceConverter implements ClientPropConverterInterface
         return ['url' => $value->getPublicUrl()]; // however you turn it into JSON-safe data
     }
 
-    public function getTsType(): string
+    public function getTsShapeClass(): string
     {
-        return '{ url: string }';
-    }
-
-    public function getTsImport(): ?string
-    {
-        return null;
+        return FileReferenceData::class;
     }
 }
 ```
@@ -190,12 +193,14 @@ Both interfaces are consulted at render time too, not just at codegen: an object
 typo3 ui:generate-hydration-types --collection='Your\Namespace\YourComponentCollection' --output=path/to/generated
 ```
 
-This walks every root component your `ComponentCollectionInterface` knows about, reads its `client="{true}"` props (plus any `#[ExposeToClient]` context methods), and writes one `<Name>.hydration.ts` per component:
+This walks every root component your `ComponentCollectionInterface` knows about, reads its `client="{true}"` props (plus any `#[ExposeToClient]` context methods), and writes one `<Name>.hydration.ts` per component, plus one shared file every `#[TypeScript]`-attributed shape class transforms into:
 
 ```typescript
 // AUTO-GENERATED - do not edit by hand.
+import type { RatingData } from './types.generated';
+
 export type RatingHydrationProps = { id: string; ids: Record<string, string> } & {
-    value: { value: number; max: number };
+    value: RatingData;
 };
 
 declare module 'fluid-primitives/client' {
@@ -205,7 +210,7 @@ declare module 'fluid-primitives/client' {
 }
 ```
 
-That `declare module` block is what makes `mountAll('rating', ({ props }) => ...)` infer `props.value` as `{ value: number; max: number }`, no generic argument or cast needed anywhere. Built-in primitives get this from their own npm build automatically; `--collection`/`--output` point the same command at your own components (`--output` is only needed because your extension has no npm/tsdown pipeline of its own to re-export the generated file from the way this library does). Re-run it - with `--check` in CI, which exits non-zero on drift instead of writing - whenever a `client="{true}"` prop changes.
+That `declare module` block is what makes `mountAll('rating', ({ props }) => ...)` infer `props.value` as `RatingData`, no generic argument or cast needed anywhere. A shape class referenced from more than one component (like `ListCollectionData` above) is written once and imported by both, not duplicated. Built-in primitives get this from their own npm build automatically; `--collection`/`--output` point the same command at your own components (`--output` is only needed because your extension has no npm/tsdown pipeline of its own to re-export the generated file from the way this library does). Re-run it - with `--check` in CI, which exits non-zero on drift instead of writing - whenever a `client="{true}"` prop changes.
 
 ### 4. Converting JSON Back to a JS Value
 
