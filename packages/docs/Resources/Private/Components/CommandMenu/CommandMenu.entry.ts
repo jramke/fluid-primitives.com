@@ -7,6 +7,7 @@ import { mount, mountAll, Template } from 'fluid-primitives';
 import { Combobox } from 'fluid-primitives/combobox';
 import { Dialog } from 'fluid-primitives/dialog';
 import { create, insertMultiple, search, type ZBSearch } from 'zbsearch';
+export type { CommandMenuHydrationProps } from './CommandMenu.hydration';
 
 interface SearchDoc {
     title: string;
@@ -196,5 +197,5 @@ class CommandMenu {
 }
 
 mountAll('commandMenu', ({ props }) => {
-    new CommandMenu(props.id, props.searchUrl as string);
+    new CommandMenu(props.id, props.searchUrl);
 });

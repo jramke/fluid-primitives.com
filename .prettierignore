@@ -5,6 +5,7 @@ package-lock.json
 packages/fluid-primitives/Resources/Public/JavaScript
 packages/docs/Resources/Private/Content/docs/viewhelpers
 packages/fluid-primitives/Resources/Private/Primitives/**/*.hydration.ts
+packages/docs/Resources/Private/Components/**/*.hydration.ts
 packages/fluid-primitives/dist
 packages/docs/Resources/Private/Content/generated
 public
