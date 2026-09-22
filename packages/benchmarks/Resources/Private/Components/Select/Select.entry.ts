@@ -4,6 +4,7 @@ import { withTiming } from '../../Shared/benchTiming';
 
 withTiming('select', () => {
     mountAll('select', ({ props }) => {
+        // @ts-expect-error
         const select = new Select(props);
         select.init();
         return select;
