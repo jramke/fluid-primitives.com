@@ -53,7 +53,7 @@ Declare multiple `itemPreview` parts inside the item template, each with a `matc
 ></ui:fileUpload.root>
 ```
 
-Use `%fileName%`, not `{fileName}` - Fluid's own inline array/object syntax already treats a bare `{...}` inside a string as a nested variable expression, so a curly-brace placeholder would silently get stripped from an override written this way. Omit `itemPreview`/`deleteFile` to keep the built-in translation, or set an entry to `{false}` to omit that `aria-label`/`alt` entirely. Per-locale overrides can also live in your own `locallang.xlf` and be read with `f:translate` instead.
+Use `%fileName%`, not `{fileName}` - Fluid's own inline array/object syntax already treats a bare `{...}` inside a string as a nested variable expression, so a curly-brace placeholder would silently get stripped from an override written this way. Omit `itemPreview`/`deleteFile` to keep the built-in translation. Per-locale overrides can also live in your own `locallang.xlf` and be read with `f:translate` instead.
 
 ### Directory Upload
 

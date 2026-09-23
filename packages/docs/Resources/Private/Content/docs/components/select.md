@@ -53,7 +53,7 @@ Use with the Field component for form validation.
 
 ### Localization
 
-Default clear trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop. Set `clearTriggerLabel` to `{false}` or an empty string to omit the `aria-label`.
+Default clear trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop.
 
 ```html
 <ui:select.root

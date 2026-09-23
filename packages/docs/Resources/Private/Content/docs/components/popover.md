@@ -40,7 +40,7 @@ Make the popover modal to trap focus and block interaction with the rest of the 
 
 ### Localization
 
-Default close trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop. Set `closeTriggerLabel` to `{false}` or an empty string to omit the `aria-label`.
+Default close trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop.
 
 ```html
 <ui:popover.root

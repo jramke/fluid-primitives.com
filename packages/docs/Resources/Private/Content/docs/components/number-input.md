@@ -48,7 +48,7 @@ Enable changing the value with the mouse wheel when the input is focused.
 
 ### Localization
 
-Default increment and decrement labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop. Set a translation entry to `{false}` or an empty string to omit the corresponding aria-label.
+Default increment and decrement labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop.
 
 ```html
 <f:variable
