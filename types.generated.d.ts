@@ -105,8 +105,8 @@ ids: {
 value: string,
 timeout?: number,
 translations: {
-triggerLabelIdle: string | false,
-triggerLabelCopied: string | false,
+triggerLabelIdle: string,
+triggerLabelCopied: string,
 },
 };
 export type CollapsibleHydrationProps = {
@@ -150,8 +150,8 @@ composite?: boolean,
 autoFocus?: boolean,
 positioning?: unknown,
 translations: {
-triggerLabel: string | false,
-clearTriggerLabel: string | false,
+triggerLabel: string,
+clearTriggerLabel: string,
 },
 searchUrl?: string,
 };
@@ -257,9 +257,9 @@ preventDocumentDrop?: boolean,
 capture?: FileUploadCapture,
 directory?: boolean,
 translations: {
-dropzone: string | false,
-itemPreview: string | false,
-deleteFile: string | false,
+dropzone: string,
+itemPreview: string,
+deleteFile: string,
 },
 };
 export type FormExampleHydrationProps = {
@@ -374,8 +374,8 @@ formatOptions?: unknown,
 inputMode?: NumberInputMode,
 pattern?: string,
 translations: {
-incrementLabel: string | false,
-decrementLabel: string | false,
+incrementLabel: string,
+decrementLabel: string,
 },
 locale?: string,
 };
@@ -400,7 +400,7 @@ closeOnEscape?: boolean,
 positioning?: unknown,
 defaultOpen?: boolean,
 translations: {
-closeTriggerLabel: string | false,
+closeTriggerLabel: string,
 },
 };
 export type RadioGroupHydrationProps = {
@@ -451,7 +451,7 @@ defaultOpen?: boolean,
 composite?: boolean,
 deselectable?: boolean,
 translations: {
-clearTriggerLabel: string | false,
+clearTriggerLabel: string,
 },
 };
 export type SkipNavLinkHydrationProps = {
