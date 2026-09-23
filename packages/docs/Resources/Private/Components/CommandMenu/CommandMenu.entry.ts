@@ -196,5 +196,5 @@ class CommandMenu {
 }
 
 mountAll('commandMenu', ({ props }) => {
-    new CommandMenu(props.id, props.searchUrl as string);
+    new CommandMenu(props.id, props.searchUrl);
 });
