@@ -20,6 +20,12 @@ npm install fluid-primitives
 
 {% component: "ui:alert", arguments: {"title": "Version Match", "text": "Keep the Composer and npm package versions in sync to avoid compatibility issues.", "variant": "warning"} %}
 
+Using TypeScript? Add the optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package to generate typed client props for `mountAll`/`mount` - see [Generating TypeScript Types](/docs/core-concepts/arguments#content-generating-typescript-types).
+
+```bash
+composer require --dev jramke/fluid-types
+```
+
 ### Canary Builds
 
 Need a fix before the next release? Use the canary builds:

@@ -1,3 +1,6 @@
 [submodule "packages/fluid-primitives"]
 	path = packages/fluid-primitives
 	url = ../fluid-primitives.git
+[submodule "packages/fluid-types"]
+	path = packages/fluid-types
+	url = https://github.com/jramke/fluid-types.git

@@ -10,7 +10,7 @@
             "typo3/cms-composer-installers": true
         },
         "platform": {
-            "php": "8.3"
+            "php": "8.3.31"
         },
         "sort-packages": true
     },
@@ -73,11 +73,16 @@
         "fluid-primitives": {
             "type": "path",
             "url": "./packages/fluid-primitives"
+        },
+        "fluid-types": {
+            "type": "path",
+            "url": "./packages/fluid-types"
         }
     },
     "require-dev": {
         "andersundsehr/storybook": "^0.1.36",
         "carthage-software/mago": "^1.48",
+        "jramke/fluid-types": "@dev",
         "praetorius/fluid-rename": "^1.0",
         "ssch/typo3-rector": "^3.14",
         "typo3/testing-framework": "^9.5"

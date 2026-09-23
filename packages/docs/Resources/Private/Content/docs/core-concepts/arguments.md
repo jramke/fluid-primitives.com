@@ -86,6 +86,34 @@ Props needed for client-side behavior use `client="{true}"`:
 
 These are serialized and passed to JavaScript during hydration.
 
+### Generating TypeScript Types
+
+Install the optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package to generate real TypeScript types for every component's client props:
+
+```bash
+composer require --dev jramke/fluid-types
+```
+
+Then run:
+
+```bash
+vendor/bin/typo3 typescript:generate
+```
+
+With no options, this auto-discovers every registered component collection plus any of your own `#[TypeScript]`-tagged classes, and writes one `types.generated.d.ts` file (`--output` to change the path, `--check` to fail instead of writing, useful in CI). Once generated, `mountAll`'s `props` is typed from the component name automatically - no explicit generic needed:
+
+```typescript
+mountAll('collapsible', ({ props }) => {
+    // props is typed as CollapsibleHydrationProps
+});
+```
+
+See [Hydration](/docs/core-concepts/hydration) for `mountAll`/`mount` itself.
+
+An object-typed client prop must implement PHP's `JsonSerializable` - this mirrors what hydration already enforces at render time, just surfaced earlier as a generation error. A documented `@return array{...}` shape on `jsonSerialize()` is preferred over reflecting the class's public properties, since it's the actual wire contract.
+
+A bare `type="array"` can't tell a JS array from a JS object, so it resolves to `unknown`. Declare a one-dimensional list as `type="string[]"` instead for a precise generated type - the command warns when it finds a prop it could tighten this way.
+
 ## Inheriting Props
 
 Use `ui:useProps` to inherit prop definitions from another component:

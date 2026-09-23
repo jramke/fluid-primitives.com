@@ -10,3 +10,4 @@ node_modules
 packages/*/node_modules
 .phpunit.cache
 .env
+/types.generated.d.ts
