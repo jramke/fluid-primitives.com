@@ -13,17 +13,17 @@
             {class}
         ')}">
             <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
-                <primitives:datePicker.view view="{view}">
-                    <primitives:datePicker.viewControl view="{view}">
-                        <primitives:datePicker.prevTrigger view="{view}" />
-                        <primitives:datePicker.viewTrigger view="{view}" />
-                        <primitives:datePicker.nextTrigger view="{view}" />
-                    </primitives:datePicker.viewControl>
-                    <primitives:datePicker.table view="{view}">
-                        <primitives:datePicker.tableHeader view="{view}" showSkeleton="{showSkeleton}" />
-                        <primitives:datePicker.tableBody view="{view}" showSkeleton="{showSkeleton}" />
-                    </primitives:datePicker.table>
-                </primitives:datePicker.view>
+                <ui:datePicker.view view="{view}">
+                    <ui:datePicker.viewControl view="{view}">
+                        <ui:datePicker.prevTrigger view="{view}" />
+                        <ui:datePicker.viewTrigger view="{view}" />
+                        <ui:datePicker.nextTrigger view="{view}" />
+                    </ui:datePicker.viewControl>
+                    <ui:datePicker.table view="{view}">
+                        <ui:datePicker.tableHeader view="{view}" showSkeleton="{showSkeleton}" />
+                        <ui:datePicker.tableBody view="{view}" showSkeleton="{showSkeleton}" />
+                    </ui:datePicker.table>
+                </ui:datePicker.view>
             </f:for>
             <f:slot />
         </primitives:datePicker.content>
