@@ -1,51 +1,4 @@
-declare module 'fluid-primitives' {
-    interface HydrationPropsRegistry {
-        accordion: AccordionHydrationProps;
-        alert: AlertHydrationProps;
-        button: ButtonHydrationProps;
-        checkbox: CheckboxHydrationProps;
-        checkboxGroup: CheckboxGroupHydrationProps;
-        clipboard: ClipboardHydrationProps;
-        collapsible: CollapsibleHydrationProps;
-        combobox: ComboboxHydrationProps;
-        dialog: DialogHydrationProps;
-        field: FieldHydrationProps;
-        fieldArray: FieldArrayHydrationProps;
-        fileUpload: FileUploadHydrationProps;
-        form: FormHydrationProps;
-        input: InputHydrationProps;
-        menu: MenuHydrationProps;
-        navigationMenu: NavigationMenuHydrationProps;
-        numberInput: NumberInputHydrationProps;
-        popover: PopoverHydrationProps;
-        radioGroup: RadioGroupHydrationProps;
-        scrollArea: ScrollAreaHydrationProps;
-        select: SelectHydrationProps;
-        slider: SliderHydrationProps;
-        switch: SwitchHydrationProps;
-        tabs: TabsHydrationProps;
-        textarea: TextareaHydrationProps;
-        tooltip: TooltipHydrationProps;
-        commandMenu: CommandMenuHydrationProps;
-        componentExample: ComponentExampleHydrationProps;
-        componentPropsTable: ComponentPropsTableHydrationProps;
-        counter: CounterHydrationProps;
-        editEventRegistration: EditEventRegistrationHydrationProps;
-        eventRegistration: EventRegistrationHydrationProps;
-        formExample: FormExampleHydrationProps;
-        guestList: GuestListHydrationProps;
-        homeSectionTitle: HomeSectionTitleHydrationProps;
-        installationSection: InstallationSectionHydrationProps;
-        navigation: NavigationHydrationProps;
-        passwordConfirmation: PasswordConfirmationHydrationProps;
-        referenceButtons: ReferenceButtonsHydrationProps;
-        skipNavLink: SkipNavLinkHydrationProps;
-        textareaSubmitOnEnterExample: TextareaSubmitOnEnterExampleHydrationProps;
-        textareaTransformExample: TextareaTransformExampleHydrationProps;
-        transformExample: TransformExampleHydrationProps;
-    }
-}
-
+import { Orientation, ListCollection, ComboboxInputBehavior, ComboboxSelectionBehavior, DialogRole, FileUploadCapture, NumberInputMode, SliderOrigin, SliderThumbAlignment, SliderThumbCollisionBehavior, TabsActivationMode } from '../index.d';
 export type AccordionHydrationProps = {
 id: string,
 ids: {
@@ -56,18 +9,6 @@ collapsible?: boolean,
 defaultValue?: string[],
 disabled?: boolean,
 orientation?: Orientation,
-};
-export type AlertHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
-export type ButtonHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
 };
 export type CheckboxGroupHydrationProps = {
 id: string,
@@ -155,33 +96,6 @@ clearTriggerLabel: string,
 },
 searchUrl?: string,
 };
-export type ComboboxInputBehavior = 'autohighlight' | 'autocomplete' | 'none';
-export type ComboboxSelectionBehavior = 'clear' | 'replace' | 'preserve';
-export type CommandMenuHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-searchUrl: string,
-};
-export type ComponentExampleHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
-export type ComponentPropsTableHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
-export type CounterHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
 export type DialogHydrationProps = {
 id: string,
 ids: {
@@ -195,19 +109,6 @@ closeOnInteractOutside?: boolean,
 closeOnEscape?: boolean,
 role?: DialogRole,
 defaultOpen?: boolean,
-};
-export type DialogRole = 'dialog' | 'alertdialog';
-export type EditEventRegistrationHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
-export type EventRegistrationHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
 };
 export type FieldArrayHydrationProps = {
 id: string,
@@ -236,7 +137,6 @@ readOnly?: boolean,
 defaultValue?: unknown,
 listenTo?: string[],
 };
-export type FileUploadCapture = 'user' | 'environment';
 export type FileUploadHydrationProps = {
 id: string,
 ids: {
@@ -262,30 +162,12 @@ itemPreview: string,
 deleteFile: string,
 },
 };
-export type FormExampleHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
 export type FormHydrationProps = {
 id: string,
 ids: {
 [key: string]: string,
 },
 objectName?: string,
-};
-export type GuestListHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
-export type HomeSectionTitleHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
 };
 export type InputHydrationProps = {
 id: string,
@@ -295,23 +177,6 @@ ids: {
 translations: {
 wordCount: string | false,
 },
-};
-export type InstallationSectionHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
-export type ListCollection = {
-items: Record<string | number, Record<string | number, any> | object>,
-size: number,
-first: string | null,
-last: string | null,
-itemToValueKey: string | null,
-itemToStringKey: string | null,
-isItemDisabledKey: string | null,
-groupByKey: string | null,
-groupSort: string[] | string | null,
 };
 export type MenuHydrationProps = {
 id: string,
@@ -328,12 +193,6 @@ defaultHighlightedValue?: string,
 defaultTriggerValue?: string,
 ariaLabel?: string,
 parentId?: string,
-};
-export type NavigationHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
 };
 export type NavigationMenuHydrationProps = {
 id: string,
@@ -379,20 +238,13 @@ decrementLabel: string,
 },
 locale?: string,
 };
-export type NumberInputMode = 'text' | 'tel' | 'numeric' | 'decimal';
-export type Orientation = 'horizontal' | 'vertical';
-export type PasswordConfirmationHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
 export type PopoverHydrationProps = {
 id: string,
 ids: {
 [key: string]: string,
 },
 modal?: boolean,
+portalled?: boolean,
 autoFocus?: boolean,
 restoreFocus?: boolean,
 closeOnInteractOutside?: boolean,
@@ -416,12 +268,6 @@ readOnly?: boolean,
 required?: boolean,
 orientation?: Orientation,
 invalid?: boolean,
-};
-export type ReferenceButtonsHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
 };
 export type ScrollAreaHydrationProps = {
 id: string,
@@ -454,12 +300,6 @@ translations: {
 clearTriggerLabel: string,
 },
 };
-export type SkipNavLinkHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
 export type SliderHydrationProps = {
 id: string,
 ids: {
@@ -482,9 +322,6 @@ thumbAlignment?: SliderThumbAlignment,
 thumbSize?: unknown,
 thumbCollisionBehavior?: SliderThumbCollisionBehavior,
 };
-export type SliderOrigin = 'start' | 'center' | 'end';
-export type SliderThumbAlignment = 'contain' | 'center';
-export type SliderThumbCollisionBehavior = 'none' | 'push' | 'swap';
 export type SwitchHydrationProps = {
 id: string,
 ids: {
@@ -499,7 +336,6 @@ form?: string,
 readOnly?: boolean,
 value?: string,
 };
-export type TabsActivationMode = 'automatic' | 'manual';
 export type TabsHydrationProps = {
 id: string,
 ids: {
@@ -521,18 +357,6 @@ translations: {
 wordCount: string | false,
 },
 };
-export type TextareaSubmitOnEnterExampleHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
-export type TextareaTransformExampleHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
 export type TooltipHydrationProps = {
 id: string,
 ids: {
@@ -548,10 +372,4 @@ closeOnScroll?: boolean,
 closeOnClick?: boolean,
 interactive?: boolean,
 positioning?: unknown,
-};
-export type TransformExampleHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
 };

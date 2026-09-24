@@ -3,10 +3,10 @@ import { Checkbox } from 'fluid-primitives/checkbox';
 import { CheckboxGroup } from 'fluid-primitives/checkbox-group';
 
 (() => {
-    const selectAllCheckboxData = getHydrationData('checkbox', 'select-all');
-    const selectAllGroupData = getHydrationData('checkboxGroup', 'select-all-group');
+    const selectAllCheckboxData = getHydrationData('ui:checkbox', 'select-all');
+    const selectAllGroupData = getHydrationData('ui:checkboxGroup', 'select-all-group');
 
-    const { items } = getHydrationData('checkboxGroup', 'select-all-items')?.props as {
+    const { items } = getHydrationData('ui:checkboxGroup', 'select-all-items')?.props as {
         items?: { value: string; text: string }[];
     };
     const allValues = items?.map(item => item.value) ?? [];

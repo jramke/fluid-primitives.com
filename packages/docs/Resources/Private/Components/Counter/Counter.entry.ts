@@ -154,7 +154,7 @@ class Counter extends Component<Props, Api> {
 }
 
 (() => {
-    mountAll('counter', ({ props }) => {
+    mountAll('ui:counter', ({ props }) => {
         const counter = new Counter(props);
         counter.init();
         return counter;

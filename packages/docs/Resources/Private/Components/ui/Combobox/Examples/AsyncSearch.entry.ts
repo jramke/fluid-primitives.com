@@ -45,7 +45,7 @@ function getSearchState(api: AsyncListApi<CityResult, unknown>): SearchState {
     return api.filterText.trim() ? { status: 'empty' } : { status: 'idle' };
 }
 
-mount('combobox', 'async-search', ({ props }) => {
+mount('ui:combobox', 'async-search', ({ props }) => {
     const searchUrl = props.searchUrl as string;
     let insertedItems: HTMLElement[] = [];
     let combobox: Combobox;

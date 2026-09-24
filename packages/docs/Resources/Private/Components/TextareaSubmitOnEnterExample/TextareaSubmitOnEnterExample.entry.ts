@@ -1,6 +1,6 @@
 import { mountAll } from 'fluid-primitives';
 
-mountAll('textareaSubmitOnEnterExample', ({ createHydrator }) => {
+mountAll('ui:textareaSubmitOnEnterExample', ({ createHydrator }) => {
     const hydrator = createHydrator();
     const form = hydrator.getElement<HTMLFormElement>('form');
     if (!form) return;

@@ -10,4 +10,4 @@ public
 var
 vendor
 .claude/worktrees
-types.generated.d.ts
+types.generated

@@ -2,12 +2,12 @@ import { getHydrationData, mountAll } from 'fluid-primitives';
 import { Dialog } from 'fluid-primitives/dialog';
 import { ScrollArea } from 'fluid-primitives/scroll-area';
 
-mountAll('navigation', ({ props }) => {
-    const dialogProps = getHydrationData('dialog', 'nav-drawer-' + props.id)!.props;
+mountAll('ui:navigation', ({ props }) => {
+    const dialogProps = getHydrationData('primitives:dialog', 'nav-drawer-' + props.id)!.props;
     const dialog = new Dialog(dialogProps);
     dialog.init();
 
-    const sidebarScrollAreaProps = getHydrationData('scrollArea', 'sidebar-' + props.id)!.props;
+    const sidebarScrollAreaProps = getHydrationData('ui:scrollArea', 'sidebar-' + props.id)!.props;
     const scrollArea = new ScrollArea(sidebarScrollAreaProps);
     scrollArea.init();
 

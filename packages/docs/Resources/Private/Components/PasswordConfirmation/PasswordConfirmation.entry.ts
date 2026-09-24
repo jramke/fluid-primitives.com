@@ -8,8 +8,8 @@ import { Form } from 'fluid-primitives/form';
 // passwordConfirm's mismatch error can surface regardless of whether password also satisfies its
 // own length requirement yet. listenTo on the passwordConfirm field (see the template) does all
 // the cross-field re-triggering here - this callback only needs to describe what "valid" means.
-mountAll('passwordConfirmation', ({ props }) => {
-    const data = getHydrationData('form', props.id + '-form');
+mountAll('ui:passwordConfirmation', ({ props }) => {
+    const data = getHydrationData('ui:form', props.id + '-form');
     if (!data) return;
 
     const form = new Form({
