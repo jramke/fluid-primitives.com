@@ -43,7 +43,7 @@ class FileUploadWithCounter extends FileUpload {
     }
 }
 
-mount('fileUpload', 'custom-layout', ({ props }) => {
+mount('ui:fileUpload', 'custom-layout', ({ props }) => {
     const fileUpload = new FileUploadWithCounter(props);
     fileUpload.init();
     return fileUpload;

@@ -76,7 +76,7 @@ class CommandMenu {
     }
 
     initCombobox() {
-        const combobox = mount('combobox', `combobox-${this.rootId}`, ({ props }) => {
+        const combobox = mount('ui:combobox', `combobox-${this.rootId}`, ({ props }) => {
             const combobox = new Combobox({
                 ...props,
                 open: true,
@@ -103,7 +103,7 @@ class CommandMenu {
     }
 
     initDialog() {
-        const dialog = mount('dialog', `dialog-${this.rootId}`, ({ props }) => {
+        const dialog = mount('primitives:dialog', `dialog-${this.rootId}`, ({ props }) => {
             const dialog = new Dialog({
                 ...props,
                 onOpenChange: details => {
@@ -195,6 +195,6 @@ class CommandMenu {
     debouncedSearch = debounce(this.runSearch.bind(this), INPUT_DEBOUNCE_MS);
 }
 
-mountAll('commandMenu', ({ props }) => {
+mountAll('ui:commandMenu', ({ props }) => {
     new CommandMenu(props.id, props.searchUrl);
 });

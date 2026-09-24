@@ -3,8 +3,8 @@ import { NumberInput } from 'fluid-primitives/number-input';
 import { Slider } from 'fluid-primitives/slider';
 
 (() => {
-    const sliderData = getHydrationData('slider', 'synced-slider');
-    const numberInputData = getHydrationData('numberInput', 'synced-number-input');
+    const sliderData = getHydrationData('ui:slider', 'synced-slider');
+    const numberInputData = getHydrationData('ui:numberInput', 'synced-number-input');
 
     if (!sliderData || !numberInputData) {
         console.error('Missing hydration data for slider + number input sync example');

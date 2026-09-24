@@ -8,11 +8,11 @@ function findFileByValue(files: File[], value: string): File | undefined {
     return files.find(file => fileValue(file) === value);
 }
 
-mount('fileUpload', 'delete-confirm', ({ props }) => {
+mount('ui:fileUpload', 'delete-confirm', ({ props }) => {
     const fileUpload = new FileUpload(props);
     fileUpload.init();
 
-    const dialog = mount('dialog', props.id, ({ props }) => {
+    const dialog = mount('ui:dialog', props.id, ({ props }) => {
         const instance = new Dialog(props);
         instance.init();
         return instance;

@@ -5,7 +5,7 @@ import { Combobox } from 'fluid-primitives/combobox';
 
 const filter = createFilter({ sensitivity: 'base', locale: getGlobal('locale') });
 
-mount('combobox', 'multiple-example', ({ props }) => {
+mount('ui:combobox', 'multiple-example', ({ props }) => {
     let combobox: Combobox;
 
     function updateSelectedValues(values: string[]) {

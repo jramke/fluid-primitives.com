@@ -101,7 +101,7 @@ The form requires a client-side entry file. Use `controlled="{true}"` on the roo
 import { mount } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
-mount('form', 'registration-form', ({ props }) => {
+mount('ui:form', 'registration-form', ({ props }) => {
     const form = new Form({
         ...props,
         onSubmit: async ({ api, post }) => {

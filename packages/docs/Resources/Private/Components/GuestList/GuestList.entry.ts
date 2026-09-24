@@ -16,8 +16,8 @@ const guestListSchema = z.object({
     ),
 });
 
-mountAll('guestList', ({ props }) => {
-    const data = getHydrationData('form', props.id + '-form');
+mountAll('ui:guestList', ({ props }) => {
+    const data = getHydrationData('ui:form', props.id + '-form');
     if (!data) return;
 
     const form = new Form({

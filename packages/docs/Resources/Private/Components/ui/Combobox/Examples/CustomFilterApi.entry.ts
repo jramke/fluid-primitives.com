@@ -5,7 +5,7 @@ import { Combobox } from 'fluid-primitives/combobox';
 
 const filter = createFilter({ sensitivity: 'base' });
 
-mount('combobox', 'custom-filter-api', ({ props }) => {
+mount('ui:combobox', 'custom-filter-api', ({ props }) => {
     let combobox: Combobox;
 
     combobox = new Combobox({

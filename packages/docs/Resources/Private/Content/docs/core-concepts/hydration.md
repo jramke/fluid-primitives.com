@@ -64,13 +64,15 @@ costs nothing in production.
 
 ## Initializing Components
 
-On the client, use `mountAll` to initialize components:
+On the client, use `mountAll` to initialize components. The first argument is always
+`"namespace:name"` - the Fluid namespace identifier your component collection is registered under
+(see [Getting Started](../getting-started)), followed by the component's own name:
 
 ```typescript
 import { mountAll } from 'fluid-primitives';
 import { Accordion } from 'fluid-primitives/accordion';
 
-mountAll('accordion', ({ props }) => {
+mountAll('primitives:accordion', ({ props }) => {
     const accordion = new Accordion(props);
     accordion.init();
     return accordion;
@@ -78,6 +80,11 @@ mountAll('accordion', ({ props }) => {
 ```
 
 This runs for every accordion on the page, extracting props from the hydration data and initializing each instance.
+
+The namespace is required, not cosmetic: two different component collections can register a
+same-named root component (e.g. your own styled wrapper around `primitives:accordion` that doesn't
+forward every prop) - the hydration registry keeps them separate by namespace, and `mountAll`/`mount`
+throw if you omit it, rather than guessing which one you mean.
 
 ### Loading Scripts Per-Component
 
@@ -107,7 +114,7 @@ The `mountAll` callback provides a `createHydrator` function to create an instan
 ```typescript
 import { mountAll } from 'fluid-primitives';
 
-mountAll('my-component', ({ props, createHydrator }) => {
+mountAll('ui:my-component', ({ props, createHydrator }) => {
     const hydrator = createHydrator();
 
     const triggers = hydrator.getElements('trigger');
@@ -130,6 +137,10 @@ import { ComponentHydrator } from 'fluid-primitives';
 const hydrator = new ComponentHydrator('my-component', 'root-id-123');
 ```
 
+Unlike `mountAll`/`mount`, `ComponentHydrator` itself takes the bare component name, not a
+namespaced one - it only drives DOM-facing identity (`data-scope`, generated ids), which stays the
+same regardless of which namespace's collection rendered the component.
+
 ## Controlled Components
 
 By default, `mountAll` automatically initializes every component on the page. For components you want to control programmatically, set `controlled="{true}"`:
@@ -144,7 +155,7 @@ This prevents automatic initialization. You then initialize manually with `mount
 import { mount } from 'fluid-primitives';
 import { Collapsible } from 'fluid-primitives/collapsible';
 
-const collapsible = mount('collapsible', 'my-collapsible', ({ props }) => {
+const collapsible = mount('ui:collapsible', 'my-collapsible', ({ props }) => {
     const instance = new Collapsible({
         ...props,
         onOpenChange: ({ open }) => {
@@ -156,7 +167,7 @@ const collapsible = mount('collapsible', 'my-collapsible', ({ props }) => {
 });
 ```
 
-Unlike `mountAll`, `mount` doesn't track mounted state - calling it twice for the same `rootId` runs the callback twice, and instances created this way aren't picked up by `destroyComponentsWithin`.
+Unlike `mountAll`, `mount` doesn't skip a `rootId` it's already seen - calling it twice re-runs the callback and constructs a new instance both times. The resulting instance is still tracked the same way a `mountAll`-created one is, though, so `getComponentInstance` and `destroyComponentsWithin` can find it.
 
 This is useful when:
 
@@ -167,27 +178,33 @@ This is useful when:
 
 ## The Hydration Registry
 
-Under the hood, a global `window.FluidPrimitives` object stores hydration data:
+Under the hood, a global `window.FluidPrimitives` object stores hydration data, nested by Fluid
+namespace first, then by component name, then by `rootId` - matching the `"namespace:name"` form
+`mountAll`/`mount` themselves take:
 
 ```javascript
 window.FluidPrimitives = {
     hydrationData: {
-        accordion: {
-            'root-id-1': {
-                controlled: false,
-                props: {
-                    id: 'root-id-1',
-                    ids: [],
-                    multiple: true,
-                    defaultValue: ['item1']
+        primitives: {
+            accordion: {
+                'root-id-1': {
+                    controlled: false,
+                    props: {
+                        id: 'root-id-1',
+                        ids: [],
+                        multiple: true,
+                        defaultValue: ['item1']
+                    },
                 },
+                'root-id-2': { ... },
             },
-            'root-id-2': { ... },
         },
-        collapsible: { ... },
+        ui: {
+            collapsible: { ... },
+        },
     },
-    uncontrolledInstances: {
-        // Initialized instances from mountAll()
+    componentInstances: {
+        // Instances from mountAll()/mount(), nested the same way
     },
 };
 ```

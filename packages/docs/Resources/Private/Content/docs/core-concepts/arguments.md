@@ -103,7 +103,7 @@ vendor/bin/typo3 typescript:generate
 With no options, this auto-discovers every registered component collection plus any of your own `#[TypeScript]`-tagged classes, and writes one `types.generated.d.ts` file (`--output` to change the path, `--check` to fail instead of writing, useful in CI). Once generated, `mountAll`'s `props` is typed from the component name automatically - no explicit generic needed:
 
 ```typescript
-mountAll('collapsible', ({ props }) => {
+mountAll('ui:collapsible', ({ props }) => {
     // props is typed as CollapsibleHydrationProps
 });
 ```

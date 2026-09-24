@@ -8,19 +8,19 @@ import { Input } from 'fluid-primitives/input';
 // are skipped), so re-running these two on every `itemadded` picks up whatever a row's own
 // itemTemplate contains without FieldArray needing to know about Field/Input itself.
 function mountRowComponents() {
-    mountAll('field', ({ props }) => {
+    mountAll('ui:field', ({ props }) => {
         const field = new Field(props);
         field.init();
         return field;
     });
-    mountAll('input', ({ props }) => {
+    mountAll('ui:input', ({ props }) => {
         const input = new Input(props);
         input.init();
         return input;
     });
 }
 
-mountAll('fieldArray', ({ props }) => {
+mountAll('ui:fieldArray', ({ props }) => {
     const fieldArray = new FieldArray({ ...props, onItemAdded: mountRowComponents });
     fieldArray.init();
     return fieldArray;

@@ -3,6 +3,6 @@
     "include": [
         "packages/docs/Resources/Private",
         "packages/benchmarks/Resources/Private",
-        "types.generated.d.ts"
+        "types.generated/**/*.d.ts"
     ]
 }
