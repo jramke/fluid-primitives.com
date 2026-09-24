@@ -1,0 +1,16 @@
+<ui:useProps name="primitives:datePicker.tableBody" />
+<ui:prop name="showSkeleton" type="boolean" optional="{true}" default="{false}" description="Renders a static 6x7 grid of placeholder cells until the client-side calendar grid hydrates. Only meaningful for `inline` date pickers, whose grid is visible before hydration runs." />
+
+<primitives:datePicker.tableBody spreadProps="{true}" class="{ui:cn(value: '{class}')}">
+    <f:if condition="{showSkeleton}">
+        <f:for each="{0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}" as="week">
+            <tr>
+                <f:for each="{0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6}" as="day">
+                    <td class="p-0.5">
+                        <span class="bg-muted block size-7 animate-pulse rounded-md"></span>
+                    </td>
+                </f:for>
+            </tr>
+        </f:for>
+    </f:if>
+</primitives:datePicker.tableBody>

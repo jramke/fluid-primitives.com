@@ -1,0 +1,24 @@
+<ui:prop name="example_id" type="string" default="simple" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:datePicker.examples.simple />
+    </f:case>
+    <f:case value="with-field">
+        <ui:datePicker.examples.withField />
+    </f:case>
+    <f:case value="range">
+        <ui:datePicker.examples.range />
+    </f:case>
+    <f:case value="multiple">
+        <ui:datePicker.examples.multiple />
+    </f:case>
+    <f:case value="min-max">
+        <ui:datePicker.examples.minMax />
+    </f:case>
+    <f:case value="inline">
+        <ui:datePicker.examples.inline />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

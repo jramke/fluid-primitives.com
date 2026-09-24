@@ -1,4 +1,4 @@
-import { Orientation, ListCollection, ComboboxInputBehavior, ComboboxSelectionBehavior, DialogRole, FileUploadCapture, NumberInputMode, SliderOrigin, SliderThumbAlignment, SliderThumbCollisionBehavior, TabsActivationMode } from '../index.d';
+import { Orientation, ListCollection, ComboboxInputBehavior, ComboboxSelectionBehavior, DatePickerSelectionMode, DatePickerView, Direction, DialogRole, FileUploadCapture, NumberInputMode, SliderOrigin, SliderThumbAlignment, SliderThumbCollisionBehavior, TabsActivationMode } from '../index.d';
 export type AccordionHydrationProps = {
 id: string,
 ids: {
@@ -95,6 +95,41 @@ triggerLabel: string,
 clearTriggerLabel: string,
 },
 searchUrl?: string,
+};
+export type DatePickerHydrationProps = {
+id: string,
+ids: {
+[key: string]: string,
+},
+locale?: string,
+timeZone?: string,
+name?: string,
+disabled?: boolean,
+readOnly?: boolean,
+required?: boolean,
+invalid?: boolean,
+outsideDaySelectable?: boolean,
+min?: string,
+max?: string,
+closeOnSelect?: boolean,
+openOnClick?: boolean,
+defaultValue?: unknown,
+defaultFocusedValue?: string,
+numOfMonths?: number,
+startOfWeek?: number,
+fixedWeeks?: boolean,
+showWeekNumbers?: boolean,
+selectionMode?: DatePickerSelectionMode,
+maxSelectedDates?: number,
+placeholder?: string,
+defaultView?: DatePickerView,
+minView?: DatePickerView,
+maxView?: DatePickerView,
+positioning?: unknown,
+defaultOpen?: boolean,
+inline?: boolean,
+dir?: Direction,
+translations: unknown,
 };
 export type DialogHydrationProps = {
 id: string,

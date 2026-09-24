@@ -22,6 +22,7 @@
     - docs/components/clipboard
     - docs/components/combobox
     - docs/components/collapsible
+    - docs/components/date-picker
     - docs/components/dialog
     - docs/components/field
     - docs/components/field-array

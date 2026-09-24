@@ -1,0 +1,35 @@
+<ui:useProps name="primitives:datePicker.table" />
+
+<f:comment>
+    The day/month/year cells themselves are built entirely client-side (no Fluid template exists
+    for `tableCell`/`tableCellTrigger` - see the DatePicker docs page's "Client-rendered grid"
+    note), so their styling lives here as descendant selectors on this shared `<table>` wrapper
+    instead of on a `class="{ui:cn(...)}"` prop the cells themselves could carry.
+</f:comment>
+<primitives:datePicker.table spreadProps="{true}" class="{ui:cn(value: '
+    w-full border-collapse
+    [&_th]:text-muted-foreground [&_th]:pb-1 [&_th]:text-xs [&_th]:font-normal
+    [&_td]:p-0 [&_td]:text-center
+    [&_[data-part=day-table-cell-trigger]]:flex [&_[data-part=day-table-cell-trigger]]:size-8
+    [&_[data-part=day-table-cell-trigger]]:items-center [&_[data-part=day-table-cell-trigger]]:justify-center
+    [&_[data-part=day-table-cell-trigger]]:rounded-md [&_[data-part=day-table-cell-trigger]]:text-sm
+    [&_[data-part=day-table-cell-trigger]]:transition-colors [&_[data-part=day-table-cell-trigger]]:cursor-pointer
+    [&_[data-part=day-table-cell-trigger]:hover]:bg-accent
+    [&_[data-part=day-table-cell-trigger][data-today]]:font-semibold
+    [&_[data-part=day-table-cell-trigger][data-selected]]:bg-primary [&_[data-part=day-table-cell-trigger][data-selected]]:text-primary-foreground
+    [&_[data-part=day-table-cell-trigger][data-in-range]]:bg-accent
+    [&_[data-part=day-table-cell-trigger][data-focus]]:outline [&_[data-part=day-table-cell-trigger][data-focus]]:outline-2 [&_[data-part=day-table-cell-trigger][data-focus]]:outline-ring
+    [&_[data-part=day-table-cell-trigger][data-outside-range]]:text-muted-foreground/50
+    [&_[data-part=day-table-cell-trigger][data-unavailable]]:pointer-events-none [&_[data-part=day-table-cell-trigger][data-unavailable]]:opacity-30 [&_[data-part=day-table-cell-trigger][data-unavailable]]:line-through
+    [&_[data-part=month-table-cell-trigger]]:flex [&_[data-part=month-table-cell-trigger]]:h-9 [&_[data-part=month-table-cell-trigger]]:items-center [&_[data-part=month-table-cell-trigger]]:justify-center
+    [&_[data-part=month-table-cell-trigger]]:rounded-md [&_[data-part=month-table-cell-trigger]]:text-sm [&_[data-part=month-table-cell-trigger]]:transition-colors [&_[data-part=month-table-cell-trigger]]:cursor-pointer
+    [&_[data-part=month-table-cell-trigger]:hover]:bg-accent
+    [&_[data-part=month-table-cell-trigger][data-selected]]:bg-primary [&_[data-part=month-table-cell-trigger][data-selected]]:text-primary-foreground
+    [&_[data-part=year-table-cell-trigger]]:flex [&_[data-part=year-table-cell-trigger]]:h-9 [&_[data-part=year-table-cell-trigger]]:items-center [&_[data-part=year-table-cell-trigger]]:justify-center
+    [&_[data-part=year-table-cell-trigger]]:rounded-md [&_[data-part=year-table-cell-trigger]]:text-sm [&_[data-part=year-table-cell-trigger]]:transition-colors [&_[data-part=year-table-cell-trigger]]:cursor-pointer
+    [&_[data-part=year-table-cell-trigger]:hover]:bg-accent
+    [&_[data-part=year-table-cell-trigger][data-selected]]:bg-primary [&_[data-part=year-table-cell-trigger][data-selected]]:text-primary-foreground
+    {class}
+')}">
+    <f:slot />
+</primitives:datePicker.table>

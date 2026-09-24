@@ -1,0 +1,31 @@
+<ui:useProps name="primitives:datePicker.content" />
+<ui:prop name="showSkeleton" type="boolean" optional="{true}" default="{false}" description="Renders a placeholder grid until the client-side calendar hydrates. Only meaningful for `inline` date pickers - a popover's content is hidden until opened, by which point hydration has already run." />
+
+<ui:portal disabled="{context.inline}">
+    <primitives:datePicker.positioner>
+        <primitives:datePicker.content spreadProps="{true}" class="{ui:cn(value: '
+            bg-popover text-popover-foreground z-50 rounded-md border p-3 shadow-md outline-none
+            transition-all ease-out duration-150 transition-discrete origin-(--transform-origin)
+            starting:data-[state=open]:opacity-0 starting:data-[state=open]:scale-97 starting:data-[state=open]:-translate-y-0.5
+            data-[state=closed]:opacity-0 data-[state=closed]:scale-97 data-[state=closed]:-translate-y-0.5
+            data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=open]:translate-0
+            data-[inline]:static data-[inline]:border-0 data-[inline]:p-0 data-[inline]:shadow-none
+            {class}
+        ')}">
+            <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
+                <primitives:datePicker.view view="{view}">
+                    <primitives:datePicker.viewControl view="{view}">
+                        <primitives:datePicker.prevTrigger view="{view}" />
+                        <primitives:datePicker.viewTrigger view="{view}" />
+                        <primitives:datePicker.nextTrigger view="{view}" />
+                    </primitives:datePicker.viewControl>
+                    <primitives:datePicker.table view="{view}">
+                        <primitives:datePicker.tableHeader view="{view}" showSkeleton="{showSkeleton}" />
+                        <primitives:datePicker.tableBody view="{view}" showSkeleton="{showSkeleton}" />
+                    </primitives:datePicker.table>
+                </primitives:datePicker.view>
+            </f:for>
+            <f:slot />
+        </primitives:datePicker.content>
+    </primitives:datePicker.positioner>
+</ui:portal>
