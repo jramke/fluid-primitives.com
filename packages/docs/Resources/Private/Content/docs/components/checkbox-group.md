@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "CheckboxGroup", "skipZag": true } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroup.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -24,31 +24,31 @@
 
 Pre-select multiple options using an array of values.
 
-{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroup.examples.defaultChecked" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.defaultChecked" } %}
 
 ### Disabled Items
 
 Disable specific checkbox options.
 
-{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroup.examples.disabledItems" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.disabledItems" } %}
 
 ### Disabled Group
 
 Disable the entire checkbox group.
 
-{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroup.examples.disabledGroup" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.disabledGroup" } %}
 
 ### Maximum Selections
 
 Limit the number of selectable options. Once the limit is reached, remaining unchecked options are automatically disabled.
 
-{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroup.examples.maxSelected" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.maxSelected" } %}
 
 ### Select All
 
 Implement a "Select All" checkbox that toggles all options.
 
-{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroup.examples.selectAll", "additionalFiles": {"SelectAll.entry.ts": "EXT:docs/Resources/Private/Components/ui/CheckboxGroup/Examples/SelectAll.entry.ts"} } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.selectAll", "additionalFiles": {"SelectAll.entry.ts": "EXT:docs/Resources/Private/Components/ui/CheckboxGroupExamples/SelectAll.entry.ts"} } %}
 
 ## API Reference
 

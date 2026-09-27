@@ -29,6 +29,7 @@ class ComponentExampleContext extends AbstractComponentContext
     {
         if ($this->html === null) {
             $componentRenderer = $this->getComponentResolver()->getComponentRenderer();
+
             $this->html = $componentRenderer->renderComponent(
                 Typed::string($this->get('componentName')),
                 ['class' => 'not-prose'],

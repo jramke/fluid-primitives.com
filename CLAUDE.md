@@ -15,6 +15,26 @@ You can check out the docs `.md` files under `packages/docs/Resources/Private/Co
 - TYPO3 Fluid (HTML-like templating language)
 - Tailwind CSS v4 (documentation site and registry styling)
 
+## Design Principles
+
+**Prefer a structural/naming fix over an internal flag.** Before adding another parameter, flag,
+or special-case branch to make an edge case work, ask whether a small change to naming, folder
+structure, or public API shape removes the need for it entirely - even at a small DX cost - as
+long as the new shape keeps a similar level of DX while meaningfully simplifying long-term
+maintenance. Default to the structural fix when it isn't clearly worse; if genuinely undecidable,
+ask rather than defaulting to the flag. This applies now, pre-v1 (breaking changes are cheap), and
+still applies post-v1 - a breaking structural fix can still be the right call later if it holds DX
+steady while cutting maintenance cost; being past v1 doesn't by itself make accumulating internal
+flags the correct default.
+
+Example: a folder-shape-detected independent root example (`CheckboxGroup/Examples/SelectAll.fluid.html`)
+shared a hydration/context bucket with the real `CheckboxGroup` component, because base-name
+derivation only looks at the first dotted segment. The fix wasn't a new parameter on
+`getComponentBaseNameFromViewHelperName()` to special-case it - it was not letting a component's
+own folder also be the parent of an unrelated nested example in the first place (move examples out
+of the component's own folder, e.g. `ui:checkboxGroupExamples.selectAll` or
+`ui:examples.checkboxGroup.selectAll`, not `ui:checkboxGroup.examples.selectAll`).
+
 ## Project Structure
 
 ```txt

@@ -52,8 +52,8 @@ For complex logic, create a PHP context class. This keeps templates clean and lo
 ### Setup
 
 1. Create a class extending `AbstractComponentContext`
-2. Name it `{ComponentName}Context` (e.g., `AccordionContext`)
-3. Register the namespace in your `ComponentCollection`
+2. Name and namespace it after the component's own template folder (see below)
+3. Register the base namespace in your `ComponentCollection`
 
 ```php
 public function getContextNamespaces(): array
@@ -63,6 +63,23 @@ public function getContextNamespaces(): array
     ];
 }
 ```
+
+**Naming**: the class name and its namespace mirror the component's own template path - the class
+name is the component's own name, and everything above it in the path becomes a matching
+sub-namespace under the registered base namespace. For a plain, non-nested root component this is
+just `{ComponentName}Context` in the base namespace, e.g. `Accordion/Root.html` →
+`AccordionContext`. For a component nested under a tier or example folder, the folder path carries
+over one-to-one:
+
+| Template                               | Context class                                     |
+| -------------------------------------- | ------------------------------------------------- |
+| `Accordion/Root.html`                  | `Contexts\AccordionContext`                       |
+| `molecules/CheckboxGroup/Root.html`    | `Contexts\Molecules\CheckboxGroupContext`         |
+| `CheckboxGroupExamples/SelectAll.html` | `Contexts\CheckboxGroupExamples\SelectAllContext` |
+
+This is also what keeps two unrelated components from ever colliding on the same class just
+because they share a last name segment - `Icon/Menu.html`'s context is
+`Contexts\Icon\MenuContext`, never the real, unrelated `Contexts\MenuContext`.
 
 ### Example
 
