@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Switch" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Switch.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -24,19 +24,19 @@
 
 Set the switch to be checked by default.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Switch.examples.defaultChecked" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.defaultChecked" } %}
 
 ### Disabled
 
 Prevent interaction with the switch.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Switch.examples.disabled" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.disabled" } %}
 
 ### With Form Field
 
 Use the switch with the Field component for descriptions and validation.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Switch.examples.withField" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.withField" } %}
 
 ## API Reference
 

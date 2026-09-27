@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "RadioGroup" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "RadioGroup.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "RadioGroupExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -23,19 +23,19 @@
 
 Disable specific radio options.
 
-{% component: "ui:componentExample", arguments: { "componentName": "RadioGroup.examples.disabledItems" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "RadioGroupExamples.disabledItems" } %}
 
 ### Disabled Group
 
 Disable the entire radio group.
 
-{% component: "ui:componentExample", arguments: { "componentName": "RadioGroup.examples.disabledGroup" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "RadioGroupExamples.disabledGroup" } %}
 
 ### No Default Value
 
 Start with no option selected by default.
 
-{% component: "ui:componentExample", arguments: { "componentName": "RadioGroup.examples.noDefault" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "RadioGroupExamples.noDefault" } %}
 
 ## API Reference
 

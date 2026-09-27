@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Combobox" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -28,37 +28,37 @@
 
 Set an initial selected value and render its label into the input on first paint.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.defaultValue" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.defaultValue" } %}
 
 ### Disabled Items
 
 Mark specific options as unavailable.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.disabledItems" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.disabledItems" } %}
 
 ### With Item Groups
 
 Organize items into labeled groups.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.withGroups" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.withGroups" } %}
 
 ### With Form Field
 
 Use the combobox inside `Field` to share label, name, required and invalid state.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.withField" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.withField" } %}
 
 ### Multiple Selection
 
 Allow users to select multiple values from the combobox.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.multiple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.multiple" } %}
 
 ### Custom Filter Logic
 
 Override the match logic per instance by passing your own `onInputValueChange` to a custom mount entry - swap `contains` for `startsWith`, or filter however you like.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.customFilterApi" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.customFilterApi" } %}
 
 ### Async Search
 
@@ -70,7 +70,7 @@ Author the item's markup once inside a `ui:template` block - it makes `ui:ref` w
 
 The status placeholder itself is just `combobox.empty` - `Combobox` already shows/hides it automatically whenever there are no items rendered, whatever the reason (no query typed yet, a request in flight, a failed request, or a query with zero matches). Only its _content_ - a spinner and a status text - is something the example's own code owns and updates; the loading/error messaging is entirely up to you. Both are plain, hand-authored elements passed `{ui:ref(name: 'statusSpinner', context: 'combobox')}` - since they're slot content rather than a component's own template body, `ui:ref` needs the explicit `context` argument to know which ancestor component to attach to, the same way `ui:template`'s own `context` argument does for the item markup below. The example below sends the search query via [`extbase.post()`](/docs/utilities/extbase) rather than a GET param, sidestepping a `cHash` mismatch `f:uri.action`'s URL would otherwise hit, and drives the spinner/status text off a single [`DelayedIndicator`](/docs/utilities/delayed-indicator) so they can never disagree.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.asyncSearch", "additionalFiles": {"AsyncSearch.entry.ts": "EXT:docs/Resources/Private/Components/ui/Combobox/Examples/AsyncSearch.entry.ts"} } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.asyncSearch", "additionalFiles": {"AsyncSearch.entry.ts": "EXT:docs/Resources/Private/Components/ui/ComboboxExamples/AsyncSearch.entry.ts"} } %}
 
 ### Async Search with Groups
 
@@ -78,7 +78,7 @@ Async results can be grouped too - author a second `ui:template` for the group w
 
 `combobox.itemGroup` needs a unique `data-id` per instance so `Combobox` can tell groups apart - the same thing `ui:id()` gives a server-rendered group, done client-side with `uid()`. Nothing about `Combobox`'s own rendering needed to change for this: it already looks up every `[data-part="item-group"]` element independently and reads its `data-id` fresh on every render, whether that element was server-rendered or just cloned.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Combobox.examples.asyncSearchGrouped", "additionalFiles": {"AsyncSearchGrouped.entry.ts": "EXT:docs/Resources/Private/Components/ui/Combobox/Examples/AsyncSearchGrouped.entry.ts"} } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.asyncSearchGrouped", "additionalFiles": {"AsyncSearchGrouped.entry.ts": "EXT:docs/Resources/Private/Components/ui/ComboboxExamples/AsyncSearchGrouped.entry.ts"} } %}
 
 ### Localization
 

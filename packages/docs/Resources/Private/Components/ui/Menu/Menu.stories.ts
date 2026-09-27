@@ -1,7 +1,7 @@
 import { type Meta, type StoryObj, fetchComponent } from '@andersundsehr/storybook-typo3';
 
 export default {
-    component: await fetchComponent('ui:menu.examples.all'),
+    component: await fetchComponent('ui:menuExamples.all'),
 } satisfies Meta;
 
 export const Simple: StoryObj = {

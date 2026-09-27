@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Popover" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -24,19 +24,19 @@
 
 Show a close button inside the popover.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.withCloseButton" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.withCloseButton" } %}
 
 ### Custom Positioning
 
 Control where the popover appears relative to the trigger.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.customPositioning" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.customPositioning" } %}
 
 ### Modal Mode
 
 Make the popover modal to trap focus and block interaction with the rest of the page.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.modal" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.modal" } %}
 
 ### Localization
 

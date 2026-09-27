@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Checkbox" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Checkbox.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -23,19 +23,19 @@
 
 Set the checkbox to be checked by default.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Checkbox.examples.defaultChecked" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxExamples.defaultChecked" } %}
 
 ### Indeterminate State
 
 Use the indeterminate state for "select all" checkboxes or partial selections.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Checkbox.examples.indeterminate" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxExamples.indeterminate" } %}
 
 ### Disabled
 
 Prevent interaction with the checkbox.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Checkbox.examples.disabled" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CheckboxExamples.disabled" } %}
 
 ## API Reference
 

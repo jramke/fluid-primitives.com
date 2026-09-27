@@ -1,4 +1,4 @@
-import { Orientation, ListCollection, ComboboxInputBehavior, ComboboxSelectionBehavior, DialogRole, FileUploadCapture, NumberInputMode, SliderOrigin, SliderThumbAlignment, SliderThumbCollisionBehavior, TabsActivationMode } from '../index.d';
+import { Orientation, ListCollection, ComboboxInputBehavior, ComboboxSelectionBehavior, DialogRole, FileUploadCapture, NumberInputMode, SliderOrigin, SliderThumbAlignment, SliderThumbCollisionBehavior, TabsActivationMode, TextareaSubmitOn } from '../index.d';
 export type AccordionHydrationProps = {
 id: string,
 ids: {
@@ -353,9 +353,18 @@ id: string,
 ids: {
 [key: string]: string,
 },
+name?: string,
+disabled?: boolean,
+invalid?: boolean,
+required?: boolean,
+readOnly?: boolean,
+defaultValue?: string,
+maxLength?: number,
+submitOn?: TextareaSubmitOn,
 translations: {
 wordCount: string | false,
 },
+announceDebounce?: number,
 };
 export type TooltipHydrationProps = {
 id: string,

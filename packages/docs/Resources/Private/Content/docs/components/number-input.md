@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "NumberInput" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "NumberInput.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -26,25 +26,25 @@
 
 Pass the `min` prop or `max` prop to set an upper and lower limit for the input. By default, the input will restrict the value to stay within the specified range.
 
-{% component: "ui:componentExample", arguments: { "componentName": "NumberInput.examples.minMax" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.minMax" } %}
 
 ### With Format Options
 
 You can format the input value to be rounded to specific decimal points or to be displayed as a currency by passing an object in shape of [Intl.NumberFormatOptions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat). Note that this is a client-only API so the initial value rendered on the server will not be formatted.
 
-{% component: "ui:componentExample", arguments: { "componentName": "NumberInput.examples.formatOptions" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.formatOptions" } %}
 
 ### With Scrubber
 
 The scrubber allows users to change the value by clicking and dragging horizontally.
 
-{% component: "ui:componentExample", arguments: { "componentName": "NumberInput.examples.withScrubber" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.withScrubber" } %}
 
 ### Mouse Wheel Support
 
 Enable changing the value with the mouse wheel when the input is focused.
 
-{% component: "ui:componentExample", arguments: { "componentName": "NumberInput.examples.mouseWheel" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.mouseWheel" } %}
 
 ### Localization
 

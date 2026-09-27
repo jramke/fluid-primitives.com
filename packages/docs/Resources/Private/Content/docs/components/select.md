@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Select" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Select.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -25,31 +25,31 @@
 
 Set an initial selected value.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Select.examples.defaultValue" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.defaultValue" } %}
 
 ### Multiple Selection
 
 Allow selecting multiple items.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Select.examples.multiple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.multiple" } %}
 
 ### Disabled Items
 
 Disable specific items in the list.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Select.examples.disabledItems" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.disabledItems" } %}
 
 ### With Item Groups
 
 Organize items into logical groups.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Select.examples.withGroups" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.withGroups" } %}
 
 ### With Form Field
 
 Use with the Field component for form validation.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Select.examples.withField" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.withField" } %}
 
 ### Localization
 

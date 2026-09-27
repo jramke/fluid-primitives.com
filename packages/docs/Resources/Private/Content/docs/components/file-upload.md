@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "FileUpload" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -29,19 +29,19 @@
 
 Use file upload inside `Field` for form semantics and validation messaging.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.withField" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.withField" } %}
 
 ### Accepted and Rejected Files
 
 Accepted and rejected files only ever exist as browser `File` objects, so they can never be part of the server-rendered markup. The `item` part is instead authored once inside an `itemTemplate` part inside `ui:fileUpload.root`, and the primitive clones/populates it for every accepted or rejected file - the same [`ui:template`](/docs/core-concepts/hydration) pattern the Combobox uses for asynchronously loaded results, just wrapped in a part so neither the stencil's internal name nor its `context` argument are something you need to type yourself. Rejected items use the `itemError` part to show why they were rejected, and can use an entirely different template (via `itemTemplate`'s `type` prop, see [Custom Item Layout](#custom-item-layout) below) when a rejected file shouldn't look like an accepted one at all.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.rejectedFiles" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.rejectedFiles" } %}
 
 ### Preview Variants
 
 Declare multiple `itemPreview` parts inside the item template, each with a `match` MIME type pattern (e.g. `image/*`). The primitive shows the first matching variant for a given file and hides the rest, which makes an image preview plus a generic fallback icon possible without a custom render callback.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.simple" } %}
 
 ### Translations
 
@@ -59,7 +59,7 @@ Use `%fileName%`, not `{fileName}` - Fluid's own inline array/object syntax alre
 
 Enable directory selection in browsers that support `webkitdirectory`.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.directory" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.directory" } %}
 
 ### Custom Item Layout
 
@@ -71,7 +71,7 @@ The counter is plain userland JS: a `ui:ref` written directly in the root's slot
 
 Item-level data with no corresponding part works the same way, but each rendered item first has to be found again. `itemModifiedDate` is a plain `ui:ref` inside the item template - `context="fileUpload"` is required here too (and not optional the way it might look from the counter above): ambient `ui:ref` resolution only reliably works for a primitive's own template body, or for hand-authored content with no other part rendered as a sibling first - `itemModifiedDate` sits right next to `itemPreview`/`fileName`, so it needs the explicit argument. The subclass's `render()` override then re-finds every rendered `item` via `getElements('item')`, reads each one's own `itemModifiedDate` child with `getElement('itemModifiedDate', itemEl)` - passing that specific item as the scope is what lets one `getElement()` call resolve correctly per file, the same way it already does for any other item-level part - matches its `data-value` back to a `File` via the exported `fileValue()` helper (the exact identity `FileUpload` itself stamps onto that attribute), and fills in the date. The same pattern works for any other per-item data a template needs.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.customLayout", "additionalFiles": { "CustomLayout.entry.ts": "EXT:docs/Resources/Private/Components/ui/FileUpload/Examples/CustomLayout.entry.ts" } } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.customLayout", "additionalFiles": { "CustomLayout.entry.ts": "EXT:docs/Resources/Private/Components/ui/FileUploadExamples/CustomLayout.entry.ts" } } %}
 
 ### Confirm File Deletion
 
@@ -79,7 +79,7 @@ Item-level data with no corresponding part works the same way, but each rendered
 
 Delegation is needed here because FileUpload re-clones its item markup on every accepted/rejected-files change, so there's no stable per-item element to attach a listener to directly.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.deleteConfirmation", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.deleteConfirmation", "withEntryFile": true } %}
 
 ## Using with Extbase
 

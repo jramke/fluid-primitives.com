@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "FieldArray", "skipZag": true } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldArray.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -61,13 +61,13 @@ Each `fieldArray.item`'s `index` prop (omitted inside `itemTemplate`, where no r
 
 A `FieldArray` with no rows yet - `emptyState` shows until the first row is added.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldArray.examples.empty" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.empty" } %}
 
 ### Limiting Row Count
 
 `minItems="1"` disables `removeTrigger` once a single row remains; `maxItems="3"` disables `addTrigger` once three rows exist. The status text below the rows ("2 of 3 added") isn't a `FieldArray` feature by itself - it's a plain element the row markup authors itself (`{ui:ref(name: 'status', context: 'fieldArray')}`), kept in sync from `onItemAdded`/`onItemRemoved` the same way this example already mounts each row's own `Field`/`Input`.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldArray.examples.limited" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.limited" } %}
 
 ### Full Form With Client-Side Validation
 

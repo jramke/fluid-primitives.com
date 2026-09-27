@@ -1,0 +1,16 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:tabsExamples.simple />
+    </f:case>
+    <f:case value="vertical">
+        <ui:tabsExamples.vertical />
+    </f:case>
+    <f:case value="manual-activation">
+        <ui:tabsExamples.manualActivation />
+    </f:case>
+    <f:case value="disabled-tabs">
+        <ui:tabsExamples.disabledTabs />
+    </f:case>
+</f:switch>

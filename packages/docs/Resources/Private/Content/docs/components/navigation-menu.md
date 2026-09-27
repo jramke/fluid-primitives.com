@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "NavigationMenu" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "NavigationMenu.examples.withViewport", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "NavigationMenuExamples.withViewport", "withEntryFile": true } %}
 
 ## Features
 
@@ -24,19 +24,19 @@
 
 Render navigation items with inline dropdown content.
 
-{% component: "ui:componentExample", arguments: { "componentName": "NavigationMenu.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "NavigationMenuExamples.simple" } %}
 
 ### Links Only
 
 Use the navigation menu as a simple list of links, including a current page link.
 
-{% component: "ui:componentExample", arguments: { "componentName": "NavigationMenu.examples.withLinks" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "NavigationMenuExamples.withLinks" } %}
 
 ### With Viewport
 
 Use `withViewport="{true}"` to render dropdown content inside a shared viewport. This pattern works well for richer header navigation with animated transitions and an indicator.
 
-{% component: "ui:componentExample", arguments: { "componentName": "NavigationMenu.examples.withViewport" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "NavigationMenuExamples.withViewport" } %}
 
 ## API Reference
 

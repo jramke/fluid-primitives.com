@@ -1,0 +1,15 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:collapsibleExamples.simple />
+    </f:case>
+    <f:case value="default-open">
+        <ui:collapsibleExamples.defaultOpen />
+    </f:case>
+    <f:case value="disabled">
+        <ui:collapsibleExamples.disabled />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

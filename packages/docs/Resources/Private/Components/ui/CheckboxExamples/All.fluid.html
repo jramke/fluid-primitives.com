@@ -1,0 +1,16 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:checkboxExamples.simple />
+    </f:case>
+    <f:case value="default-checked">
+        <ui:checkboxExamples.defaultChecked />
+    </f:case>
+    <f:case value="disabled">
+        <ui:checkboxExamples.disabled />
+    </f:case>
+    <f:case value="indeterminate">
+        <ui:checkboxExamples.indeterminate />
+    </f:case>
+</f:switch>

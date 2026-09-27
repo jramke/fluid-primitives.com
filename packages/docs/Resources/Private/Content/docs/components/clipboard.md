@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Clipboard" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Clipboard.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ClipboardExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -22,13 +22,13 @@
 
 Display only a copy button without the input field.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Clipboard.examples.copyButtonOnly" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ClipboardExamples.copyButtonOnly" } %}
 
 ### Custom Timeout
 
 Set a custom duration for how long the "copied" state is shown.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Clipboard.examples.customTimeout" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ClipboardExamples.customTimeout" } %}
 
 ### Localization
 

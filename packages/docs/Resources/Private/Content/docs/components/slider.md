@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Slider" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Slider.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -26,19 +26,19 @@
 
 Use two thumbs to let users pick a range of values.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Slider.examples.range" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.range" } %}
 
 ### With marks
 
 Render `slider.marker` elements to show ticks - with a label - along the track.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Slider.examples.withMarks" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withMarks" } %}
 
 ### Disabled
 
 Prevent the slider from being interacted with.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Slider.examples.disabled" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.disabled" } %}
 
 ### With a number input
 
@@ -50,7 +50,7 @@ components' own `onValueChange` call into one shared `setValue()` function inste
 each other directly, so there's a single guard - skip if it's already the current value - rather
 than a `syncing` flag guessing which call is the "real" one.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Slider.examples.withNumberInput", "additionalFiles": {"WithNumberInput.entry.ts": "EXT:docs/Resources/Private/Components/ui/Slider/Examples/WithNumberInput.entry.ts"} } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withNumberInput", "additionalFiles": {"WithNumberInput.entry.ts": "EXT:docs/Resources/Private/Components/ui/SliderExamples/WithNumberInput.entry.ts"} } %}
 
 ### With a Field
 
@@ -58,21 +58,21 @@ Wrap the slider in [`ui:field.root`](/docs/components/field) to get label associ
 `name`/`disabled`/`invalid` state propagated to the thumb automatically - a donation amount picker,
 with marks for common preset amounts.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Slider.examples.withField" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withField" } %}
 
 ### With a dragging indicator
 
 Nest `slider.draggingIndicator` inside a `slider.thumb` to show its current value in a small
 tooltip while it's being dragged - it's hidden the rest of the time.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Slider.examples.withDraggingIndicator" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withDraggingIndicator" } %}
 
 ### With decimal values
 
 Set `step` to a fraction (e.g. `0.01`) to get fine-grained, decimal precision instead of whole
 numbers - useful whenever the value represents something more precise than an integer count.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Slider.examples.withDecimalValues" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withDecimalValues" } %}
 
 ## API Reference
 

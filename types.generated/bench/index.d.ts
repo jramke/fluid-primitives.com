@@ -58,3 +58,27 @@ translations: {
 clearTriggerLabel: string,
 },
 };
+export type VanillaAccordionHydrationProps = {
+id: string,
+ids: {
+[key: string]: string,
+},
+};
+export type VanillaCheckboxHydrationProps = {
+id: string,
+ids: {
+[key: string]: string,
+},
+};
+export type VanillaInputHydrationProps = {
+id: string,
+ids: {
+[key: string]: string,
+},
+};
+export type VanillaSelectHydrationProps = {
+id: string,
+ids: {
+[key: string]: string,
+},
+};

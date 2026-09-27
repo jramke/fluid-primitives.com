@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Field", "skipZag": true } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Field.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -25,31 +25,31 @@
 
 Mark a field as required.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Field.examples.required" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.required" } %}
 
 ### With Description
 
 Add helpful description text below the input.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Field.examples.withDescription" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.withDescription" } %}
 
 ### Invalid State
 
 Indicate that the field has an error and display an error message.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Field.examples.invalid" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.invalid" } %}
 
 ### Disabled Field
 
 Disable the entire field.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Field.examples.disabled" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.disabled" } %}
 
 ### With Checkbox
 
 Use with the Checkbox component.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Field.examples.withCheckbox" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.withCheckbox" } %}
 
 ### Linked Fields
 

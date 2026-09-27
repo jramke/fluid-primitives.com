@@ -1,0 +1,27 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:comboboxExamples.simple />
+    </f:case>
+    <f:case value="default-value">
+        <ui:comboboxExamples.defaultValue />
+    </f:case>
+    <f:case value="with-field">
+        <ui:comboboxExamples.withField />
+    </f:case>
+    <f:case value="disabled-items">
+        <ui:comboboxExamples.disabledItems />
+    </f:case>
+    <f:case value="with-groups">
+        <ui:comboboxExamples.withGroups />
+    </f:case>
+    <f:case value="custom-filter-api">
+        <ui:comboboxExamples.customFilterApi />
+    </f:case>
+    <f:case value="multiple">
+        <ui:comboboxExamples.multiple />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

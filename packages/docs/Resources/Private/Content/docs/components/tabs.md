@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Tabs" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tabs.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TabsExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -24,19 +24,19 @@
 
 Display tabs in a vertical layout.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tabs.examples.vertical" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TabsExamples.vertical" } %}
 
 ### Disabled Tabs
 
 Disable specific tabs to prevent interaction.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tabs.examples.disabledTabs" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TabsExamples.disabledTabs" } %}
 
 ### Manual Activation
 
 Require pressing Enter or Space to activate tabs instead of activating on focus.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tabs.examples.manualActivation" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TabsExamples.manualActivation" } %}
 
 ## API Reference
 

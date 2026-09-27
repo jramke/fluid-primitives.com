@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Collapsible" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Collapsible.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CollapsibleExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -22,13 +22,13 @@
 
 Set the collapsible to be open by default.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Collapsible.examples.defaultOpen" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CollapsibleExamples.defaultOpen" } %}
 
 ### Disabled
 
 Prevent the collapsible from being toggled.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Collapsible.examples.disabled" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "CollapsibleExamples.disabled" } %}
 
 ## API Reference
 

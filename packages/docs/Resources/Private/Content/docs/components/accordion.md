@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Accordion" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "AccordionExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -22,13 +22,13 @@
 
 Allow multiple accordion items to be expanded at once by setting `multiple` to true.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.multiple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "AccordionExamples.multiple" } %}
 
 ### Disabled Items
 
 Disable specific accordion items to prevent interaction.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.disabled" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "AccordionExamples.disabled" } %}
 
 ## API Reference
 

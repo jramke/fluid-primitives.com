@@ -1,0 +1,30 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:dialogExamples.simple />
+    </f:case>
+    <f:case value="alert">
+        <ui:dialogExamples.alert />
+    </f:case>
+    <f:case value="prevent-close-escape">
+        <ui:dialogExamples.preventCloseEscape />
+    </f:case>
+    <f:case value="prevent-close-outside">
+        <ui:dialogExamples.preventCloseOutside />
+    </f:case>
+    <f:case value="nested">
+        <ui:dialogExamples.nested />
+    </f:case>
+    <f:case value="with-popover">
+        <ui:dialogExamples.withPopover />
+    </f:case>
+    <f:case value="inside-scroll">
+        <ui:dialogExamples.insideScroll />
+    </f:case>
+    <f:case value="outside-scroll">
+        <ui:dialogExamples.outsideScroll />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

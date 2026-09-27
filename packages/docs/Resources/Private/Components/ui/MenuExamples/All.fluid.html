@@ -1,0 +1,15 @@
+<ui:prop name="example_id" type="string" default="simple" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple"><ui:menuExamples.simple /></f:case>
+    <f:case value="grouping"><ui:menuExamples.grouping /></f:case>
+    <f:case value="with-links"><ui:menuExamples.withLinks /></f:case>
+    <f:case value="with-checkboxes"><ui:menuExamples.withCheckboxes /></f:case>
+    <f:case value="with-radios"><ui:menuExamples.withRadios /></f:case>
+    <f:case value="nested"><ui:menuExamples.nested /></f:case>
+    <f:case value="context-menu"><ui:menuExamples.contextMenu /></f:case>
+    <f:case value="multiple-triggers"><ui:menuExamples.multipleTriggers /></f:case>
+    <f:case value="inside-dialog"><ui:menuExamples.insideDialog /></f:case>
+</f:switch>
+
+<ui:portalContainer />

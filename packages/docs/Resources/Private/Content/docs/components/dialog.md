@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Dialog" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -27,44 +27,44 @@ For critical confirmations or destructive actions, use `role="alertdialog"`. Ale
 - **Automatic focus:** The close/cancel button receives focus when opened, prioritizing the safest action
 - **Requires explicit dismissal:** Cannot be closed by clicking outside, only via button clicks or Escape key
 
-{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.alert" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.alert" } %}
 
 ### Nested Dialogs
 
 Open a dialog from within another dialog.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.nested" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.nested" } %}
 
 ### Popover Inside Dialog
 
 Render a popover inside dialog content when you need anchored secondary actions without breaking dialog focus management.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.withPopover" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.withPopover" } %}
 
 ### Scrollable Outside
 
 The dialog positioner can scroll when the content exceeds the viewport height, so the entire dialog can scroll together.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.outsideScroll" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.outsideScroll" } %}
 
 ### Scrollable Inside
 
 With some additions, the dialog content can scroll when it exceeds the viewport height, while keeping the header and footer visible.
 Set a `max-height` on the content and use `overflow-y: auto` to enable scrolling inside the dialog's content area.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.insideScroll" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.insideScroll" } %}
 
 ### Prevent Close on Outside Click
 
 Keep the dialog open when clicking outside.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.preventCloseOutside" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.preventCloseOutside" } %}
 
 ### Prevent Close on Escape
 
 Disable closing the dialog with the Escape key.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Dialog.examples.preventCloseEscape" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.preventCloseEscape" } %}
 
 ## API Reference
 

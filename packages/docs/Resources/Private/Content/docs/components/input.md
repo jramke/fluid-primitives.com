@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Input", "skipZag": true } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Input.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "InputExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -23,13 +23,13 @@
 
 Nest `ui:input.root` directly inside `ui:field.root` - it inherits `name`, `disabled`, `required`, `invalid` and `aria-describedby` automatically, the same way `ui:select`/`ui:numberInput` do. Use the primitive's own `label` part (nested inside `root`) rather than `field.label` - it targets the right control automatically.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Input.examples.withField" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "InputExamples.withField" } %}
 
 ### With Word Count
 
 Pass `maxLength` and add the `wordCount`/`liveRegion` parts wherever you want them - they don't need to be direct siblings of `input`.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Input.examples.wordCount" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "InputExamples.wordCount" } %}
 
 ### With a Transform Callback
 

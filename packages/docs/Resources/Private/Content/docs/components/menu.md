@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Menu" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Menu.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -26,7 +26,7 @@
 
 Organize items into logical groups with their own labels.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Menu.examples.grouping" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.grouping" } %}
 
 ### With Links
 
@@ -34,19 +34,19 @@ Pass `asChild="{true}"` on `menu.item` to render the item's attributes and behav
 single child element, like a plain `<a href>`, so it behaves like real navigation, including
 keyboard activation.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Menu.examples.withLinks" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.withLinks" } %}
 
 ### With Checkboxes
 
 Use `menu.checkboxItem` for items that toggle independently of each other.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Menu.examples.withCheckboxes" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.withCheckboxes" } %}
 
 ### With Radios
 
 Use `menu.radioItem` with a shared `name` for mutually exclusive options.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Menu.examples.withRadios" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.withRadios" } %}
 
 ### Nested Menu
 
@@ -55,19 +55,19 @@ A submenu is just another `menu.root`, linked to its parent by two explicit ids:
 `menu.triggerItem` inside the _parent's_ own content with a `childId` matching the submenu's `rootId`.
 The submenu itself doesn't need to live anywhere near the parent's markup - it's linked entirely by id.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Menu.examples.nested" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.nested" } %}
 
 ### Context Menu
 
 Use `menu.contextTrigger` to open the menu on right-click instead of (or in addition to) a regular trigger.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Menu.examples.contextMenu" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.contextMenu" } %}
 
 ### Multiple Triggers
 
 Give several `menu.trigger` elements different `value`s to share a single menu instance between them.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Menu.examples.multipleTriggers" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.multipleTriggers" } %}
 
 ### Inside a Dialog
 
@@ -75,7 +75,7 @@ By default `menu.content` portals to the end of the document body, same as Selec
 `portalled="{false}"` when nesting a menu inside another portalled/focus-trapped element, like a
 dialog, so it stays within that element's DOM subtree instead.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Menu.examples.insideDialog" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.insideDialog" } %}
 
 ## API Reference
 
