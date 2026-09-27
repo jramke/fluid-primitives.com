@@ -2,11 +2,8 @@ import { mount, mountAll } from 'fluid-primitives';
 import { Checkbox } from 'fluid-primitives/checkbox';
 import { CheckboxGroup } from 'fluid-primitives/checkbox-group';
 
-(() => {
-    let allValues: string[] = [];
-    mountAll('ui:checkboxGroupExamples.selectAll', ({ props }) => {
-        allValues = props.items.map(item => item.value);
-    });
+mountAll('ui:checkboxGroupExamples.selectAll', ({ props }) => {
+    const allValues = props.items.map(item => item.value);
 
     let group: CheckboxGroup | undefined;
     let selectAllCheckbox: Checkbox | undefined;
@@ -49,4 +46,4 @@ import { CheckboxGroup } from 'fluid-primitives/checkbox-group';
         instance.init();
         return instance;
     });
-})();
+});
