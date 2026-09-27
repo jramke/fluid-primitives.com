@@ -269,12 +269,6 @@ required?: boolean,
 orientation?: Orientation,
 invalid?: boolean,
 };
-export type ScrollAreaHydrationProps = {
-id: string,
-ids: {
-[key: string]: string,
-},
-};
 export type SelectHydrationProps = {
 id: string,
 ids: {
