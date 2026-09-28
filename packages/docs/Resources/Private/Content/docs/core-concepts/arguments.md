@@ -28,7 +28,7 @@ Some props use PHP backed enums. Until Fluid supports automatic enum conversion,
 
 ## Automatic Props
 
-Most components receive these props automatically. Availability depends on what a part actually renders - e.g. `class` and `asChild` only make sense on a part that renders its own wrapper element, so a part's own Arguments table (in its component docs page) is the source of truth for which of these it actually accepts.
+Most components receive these props automatically. Availability depends on what a part actually renders - e.g. `class` only makes sense on a part that renders its own wrapper element, so a part's own Arguments table (in its component docs page) is the source of truth for which of these it actually accepts. `asChild` is the one exception - it's opt-in per part rather than inferred (see below).
 
 ### `class`
 
@@ -62,7 +62,7 @@ See [Controlled Components](/docs/core-concepts/hydration#content-controlled-com
 
 ### `asChild`
 
-Merge attributes into child element instead of rendering the default wrapper. See [Composition](/docs/core-concepts/composition). Not available on root parts that render no wrapper element of their own (e.g. Dialog, Popover, Tooltip's `root`) - there's nothing to merge the attributes onto.
+Merge attributes into child element instead of rendering the default wrapper. See [Composition](/docs/core-concepts/composition). Opt-in per part via `{ui:asChild()}`, not automatic - every Fluid Primitives part that renders its own wrapper element already opts in. Not available on root parts that render no wrapper element of their own (e.g. Dialog, Popover, Tooltip's `root`) - there's nothing to merge the attributes onto.
 
 ### `ids`
 

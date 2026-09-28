@@ -43,6 +43,7 @@
 
 - group: ViewHelpers
   items:
+    - docs/viewhelpers/asChild
     - docs/viewhelpers/attributes
     - docs/viewhelpers/call
     - docs/viewhelpers/cn

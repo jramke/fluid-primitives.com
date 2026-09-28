@@ -37,8 +37,8 @@ IdViewHelper} instead:
 <f:variable name="separatorId">{ui:id(prefix: 'separator')}</f:variable>
 <div {ui:ref(name: 'separator', value: separatorId)}">...</div>
 ```
-`warnAboutDuplicateIds()` (client-side, opt in via `window.FluidPrimitives.globals.debug`) flags
-this in the browser console during development if it slips through.
+`warnAboutDuplicateIds()` (client-side, on automatically in TYPO3's development Application
+Context) flags this in the browser console during development if it slips through.
 
 You can also pass additional data attributes:
 ```html

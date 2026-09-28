@@ -103,7 +103,12 @@ per CLAUDE.md's Context Class Pattern. Narrow `$this->get(...)` with `Jramke\Flu
 One `packages/fluid-primitives/Resources/Private/Primitives/<Component>/<Part>.fluid.html` per
 part from `<component>.anatomy.mjs` (`Root.fluid.html`, `Trigger.fluid.html`, etc.). Follow
 CLAUDE.md's Props Definition and Ref Pattern exactly (`<ui:prop>`, `{ui:ref(...)}`,
-`{ui:attributes()}`). Mark a prop `client="{true}"` when the TS machine needs it at hydration
+`{ui:attributes()}`). Add `{ui:asChild()}` too, inline right after `{ui:attributes()}`, on any part
+that renders its own wrapper tag - `asChild` is opt-in per part (see
+[composition.md](../../../packages/docs/Resources/Private/Content/docs/core-concepts/composition.md)),
+and every primitive part that has a real element of its own supports it. Skip it only on parts that
+render nothing but `<f:slot />` (no element to merge attributes onto - e.g. `Root.fluid.html` for a
+portal-rendered overlay like Dialog/Popover/Tooltip). Mark a prop `client="{true}"` when the TS machine needs it at hydration
 time; mark it `context="{true}"` when a context method needs it as a call argument (see
 `Accordion/Item.fluid.html`'s `value`/`disabled` -> `getItemState`). Use
 `{context -> ui:call(method: '...', arguments: {0: ...})}` for context methods that take
