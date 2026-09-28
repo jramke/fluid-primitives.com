@@ -1,8 +1,8 @@
-<ui:useProps name="primitives:select.content" />
+<ui:useProps name="primitives:select.content" as="contentProps" />
 
 <ui:portal>
     <primitives:select.positioner>
-        <primitives:select.content spreadProps="{true}" class="{ui:cn(value: '
+        <primitives:select.content spreadProps="{contentProps}" class="{ui:cn(value: '
             outline-none bg-popover text-popover-foreground relative z-50
             max-h-(--available-height) min-w-[8rem] w-(--reference-width)
             origin-(--transform-origin) overflow-x-hidden overflow-y-auto

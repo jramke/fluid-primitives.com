@@ -92,7 +92,9 @@ Include the initialization script in your component's root template:
 
 ```html
 <!-- Accordion/Root.html -->
-<primitives:accordion.root spreadProps="{true}">
+<ui:useProps name="primitives:accordion.root" as="rootProps" />
+
+<primitives:accordion.root spreadProps="{rootProps}">
     <f:slot />
 </primitives:accordion.root>
 

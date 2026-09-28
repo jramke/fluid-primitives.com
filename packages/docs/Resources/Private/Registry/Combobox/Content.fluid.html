@@ -1,8 +1,8 @@
-<ui:useProps name="primitives:combobox.content" />
+<ui:useProps name="primitives:combobox.content" as="contentProps" />
 
 <ui:portal>
     <primitives:combobox.positioner>
-        <primitives:combobox.content spreadProps="{true}">
+        <primitives:combobox.content spreadProps="{contentProps}">
             <primitives:combobox.list>
                 <f:slot />
             </primitives:combobox.list>

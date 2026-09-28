@@ -1,6 +1,6 @@
-<ui:useProps name="primitives:radioGroup.itemText" />
+<ui:useProps name="primitives:radioGroup.itemText" as="itemTextProps" />
 
-<primitives:radioGroup.itemText spreadProps="{true}" class="{ui:cn(value: '
+<primitives:radioGroup.itemText spreadProps="{itemTextProps}" class="{ui:cn(value: '
     flex items-center gap-2 text-sm leading-none font-medium select-none
     data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50
     {class}

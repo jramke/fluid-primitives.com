@@ -1,7 +1,7 @@
-<ui:useProps name="primitives:slider.control" />
+<ui:useProps name="primitives:slider.control" as="controlProps" />
 
 <primitives:slider.control
-    spreadProps="{true}"
+    spreadProps="{controlProps}"
     class="{ui:cn(value: '
         relative flex items-center
         data-[orientation=horizontal]:h-5 data-[orientation=horizontal]:w-full

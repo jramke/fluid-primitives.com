@@ -1,7 +1,7 @@
-<ui:useProps name="primitives:slider.track" />
+<ui:useProps name="primitives:slider.track" as="trackProps" />
 
 <primitives:slider.track
-    spreadProps="{true}"
+    spreadProps="{trackProps}"
     class="{ui:cn(value: '
         relative grow rounded-full bg-secondary
         data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full

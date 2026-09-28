@@ -1,7 +1,7 @@
-<ui:useProps name="primitives:navigationMenu.indicator" />
+<ui:useProps name="primitives:navigationMenu.indicator" as="indicatorProps" />
 
 <primitives:navigationMenu.indicator
-    spreadProps="{true}"
+    spreadProps="{indicatorProps}"
     class="{ui:cn(value: '
         pointer-events-none absolute z-[2] flex justify-center
         h-(--indicator-size)

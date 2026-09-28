@@ -58,9 +58,9 @@ Create wrapper components that use primitives internally. Here's a typical patte
 **`ui/Tooltip/Root.html`:**
 
 ```html
-<ui:useProps name="primitives:tooltip.root" />
+<ui:useProps name="primitives:tooltip.root" as="rootProps" />
 
-<primitives:tooltip.root spreadProps="{true}">
+<primitives:tooltip.root spreadProps="{rootProps}">
     <f:slot />
 </primitives:tooltip.root>
 
@@ -70,9 +70,9 @@ Create wrapper components that use primitives internally. Here's a typical patte
 **`ui/Tooltip/Trigger.html`:**
 
 ```html
-<ui:useProps name="primitives:tooltip.trigger" />
+<ui:useProps name="primitives:tooltip.trigger" as="triggerProps" />
 
-<primitives:tooltip.trigger class="{class}" spreadProps="{true}">
+<primitives:tooltip.trigger class="{class}" spreadProps="{triggerProps}">
     <f:slot />
 </primitives:tooltip.trigger>
 ```
@@ -80,10 +80,10 @@ Create wrapper components that use primitives internally. Here's a typical patte
 **`ui/Tooltip/Content.html`:**
 
 ```html
-<ui:useProps name="primitives:tooltip.content" />
+<ui:useProps name="primitives:tooltip.content" as="contentProps" />
 
 <primitives:tooltip.positioner>
-    <primitives:tooltip.content class="tooltip-content {class}" spreadProps="{true}">
+    <primitives:tooltip.content class="tooltip-content {class}" spreadProps="{contentProps}">
         <f:slot />
         <primitives:tooltip.arrow class="tooltip-arrow" />
     </primitives:tooltip.content>
@@ -105,17 +105,19 @@ Now you can use your styled, simplified API:
 
 Imports prop definitions from another component. This ensures your wrapper accepts the same props as the primitive without redeclaring them.
 
-### `spreadProps="{true}"`
-
-Passes all inherited props from `ui:useProps` down to the primitive. Without this, you'd need to manually pass each prop.
+Add `as="someName"` when your wrapper genuinely renders the primitive (the common case above) - it binds the imported, forwardable prop names under that name for the paired `spreadProps="{someName}"` call to use. Omit `as` if you only want to reuse the primitive's prop shape without rendering it at all - see [Inheriting Props](/docs/core-concepts/arguments#content-inheriting-props).
 
 ```html
 <!-- Import all props -->
-<ui:useProps name="primitives:accordion.root" />
+<ui:useProps name="primitives:accordion.root" as="rootProps" />
 
 <!-- Import specific props -->
-<ui:useProps name="primitives:accordion.root" props="{0: 'multiple', 1: 'defaultValue'}" />
+<ui:useProps name="primitives:accordion.root" as="rootProps" props="{0: 'multiple', 1: 'defaultValue'}" />
 ```
+
+### `spreadProps="{rootProps}"`
+
+Passes the props bound by `ui:useProps`'s `as=` down to the primitive. Without this, you'd need to manually pass each prop.
 
 ### JavaScript Entry Files
 

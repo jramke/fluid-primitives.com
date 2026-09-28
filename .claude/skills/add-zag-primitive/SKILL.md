@@ -172,11 +172,14 @@ test the state derivation logic actually written in the context class.
 Under `packages/docs/Resources/Private/Components/ui/<Component>/`, mirror the `Collapsible`
 folder exactly:
 
-- One `<Part>.fluid.html` per anatomy part: `<ui:useProps name="primitives:<component>.<part>" />`
-  then `<primitives:<component>.<part> spreadProps="{true}" class="{ui:cn(value: '... {class}')}">`.
-  Apply Tailwind styling here (not in the headless primitive), driven by the `data-state`/
-  `data-disabled`/etc. attributes from `data-attr.json` (e.g. `data-[state=open]:...`) and any CSS
-  vars from `css-vars.json`.
+- One `<Part>.fluid.html` per anatomy part: `<ui:useProps name="primitives:<component>.<part>" as="<part>Props" />`
+  then `<primitives:<component>.<part> spreadProps="{<part>Props}" class="{ui:cn(value: '... {class}')}">`
+  (see `Collapsible/Root.fluid.html`) - `as=` is required here since this genuinely delegates
+  rendering to the primitive; only omit it (bare `<ui:useProps name="..." />`, no paired
+  `spreadProps`) for the rare wrapper that reuses a primitive's prop shape without rendering it at
+  all (see `Dialog/Header.fluid.html`/`Footer.fluid.html`). Apply Tailwind styling here (not in the
+  headless primitive), driven by the `data-state`/`data-disabled`/etc. attributes from
+  `data-attr.json` (e.g. `data-[state=open]:...`) and any CSS vars from `css-vars.json`.
 - `<Component>.entry.ts`: `mountAll('<component>', ({ props }) => { const x = new <Component>(props); x.init(); return x; })`,
   importing `<Component>` from `fluid-primitives/<component>`.
 - `Examples/<Case>.fluid.html` for each notable variant (simple usage, plus one per interesting

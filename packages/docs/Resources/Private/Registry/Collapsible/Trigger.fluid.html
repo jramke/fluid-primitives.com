@@ -1,5 +1,5 @@
-<ui:useProps name="primitives:collapsible.trigger" />
+<ui:useProps name="primitives:collapsible.trigger" as="triggerProps" />
 
-<primitives:collapsible.trigger spreadProps="{true}" class="{ui:cn(value: '{class}')}">
+<primitives:collapsible.trigger spreadProps="{triggerProps}" class="{ui:cn(value: '{class}')}">
     <f:slot />
 </primitives:collapsible.trigger>

@@ -1,5 +1,5 @@
-<ui:useProps name="primitives:form.content" />
+<ui:useProps name="primitives:form.content" as="contentProps" />
 
-<primitives:form.content spreadProps="{true}" class="{class}">
+<primitives:form.content spreadProps="{contentProps}" class="{class}">
     <f:slot />
 </primitives:form.content>

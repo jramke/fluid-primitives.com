@@ -1,7 +1,7 @@
-<ui:useProps name="primitives:fieldArray.emptyState" />
+<ui:useProps name="primitives:fieldArray.emptyState" as="emptyStateProps" />
 
 <primitives:fieldArray.emptyState
-    spreadProps="{true}"
+    spreadProps="{emptyStateProps}"
     class="{ui:cn(value: 'text-sm text-muted-foreground {class}')}">
     <f:slot />
 </primitives:fieldArray.emptyState>

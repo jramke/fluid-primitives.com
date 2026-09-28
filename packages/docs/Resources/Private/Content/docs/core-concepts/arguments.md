@@ -116,14 +116,22 @@ A bare `type="array"` can't tell a JS array from a JS object, so it resolves to 
 
 ## Inheriting Props
 
-Use `ui:useProps` to inherit prop definitions from another component:
+Use `ui:useProps` to inherit prop definitions from another component - this is how you build wrapper components without redefining every prop:
 
 ```html
 <!-- Inherit all props from the primitive -->
-<ui:useProps name="primitives:accordion.root" />
+<ui:useProps name="primitives:accordion.root" as="rootProps" />
 
 <!-- Inherit specific props only -->
-<ui:useProps name="primitives:accordion.root" props="{0: 'multiple', 1: 'collapsible'}" />
+<ui:useProps name="primitives:accordion.root" as="rootProps" props="{0: 'multiple', 1: 'collapsible'}" />
 ```
 
-This is how you build wrapper components without redefining every prop.
+`as="someName"` binds the imported, forwardable prop names under that name, for a paired `spreadProps="{someName}"` on the component you're actually rendering:
+
+```html
+<primitives:accordion.root spreadProps="{rootProps}">
+    <f:slot />
+</primitives:accordion.root>
+```
+
+`as` is required whenever you genuinely render the referenced component this way - its presence is what tells Fluid Primitives your wrapper actually delegates, as opposed to just reusing another component's prop shape. Omit it if you don't render the referenced component at all (e.g. a wrapper that only wants the same prop *declarations* for its own, independently-rendered markup) - `ui:useProps` still imports the prop definitions either way, it just won't forward anything anywhere.

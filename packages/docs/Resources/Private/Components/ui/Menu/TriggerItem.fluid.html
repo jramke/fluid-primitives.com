@@ -1,6 +1,6 @@
-<ui:useProps name="primitives:menu.triggerItem" />
+<ui:useProps name="primitives:menu.triggerItem" as="triggerItemProps" />
 
-<primitives:menu.triggerItem spreadProps="{true}" class="{ui:cn(value: '
+<primitives:menu.triggerItem spreadProps="{triggerItemProps}" class="{ui:cn(value: '
     data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground
     [&_svg:not([class*=text-])]:text-muted-foreground
     relative flex w-full items-center justify-between gap-2 rounded-sm py-1.5 px-2 text-sm

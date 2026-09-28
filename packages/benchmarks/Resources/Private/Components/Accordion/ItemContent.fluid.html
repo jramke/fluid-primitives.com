@@ -1,5 +1,5 @@
-<ui:useProps name="primitives:accordion.itemContent" />
+<ui:useProps name="primitives:accordion.itemContent" as="itemContentProps" />
 
-<primitives:accordion.itemContent spreadProps="{true}">
+<primitives:accordion.itemContent spreadProps="{itemContentProps}">
     <f:slot />
 </primitives:accordion.itemContent>

@@ -1,8 +1,8 @@
-<ui:useProps name="primitives:select.content" />
+<ui:useProps name="primitives:select.content" as="contentProps" />
 
 <ui:portal>
     <primitives:select.positioner>
-        <primitives:select.content spreadProps="{true}">
+        <primitives:select.content spreadProps="{contentProps}">
             <f:slot />
         </primitives:select.content>
     </primitives:select.positioner>
