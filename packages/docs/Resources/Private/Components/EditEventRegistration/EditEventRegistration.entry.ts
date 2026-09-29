@@ -73,7 +73,7 @@ mountAll('ui:editEventRegistration', ({ props, createHydrator }) => {
             return true;
         },
         render: form => {
-            const submitButton = hydrator.getElement('submit-button');
+            const submitButton = hydrator.query('submit-button');
             if (submitButton) {
                 if (form.api.isSubmitting) {
                     submitButton.setAttribute('aria-disabled', 'true');

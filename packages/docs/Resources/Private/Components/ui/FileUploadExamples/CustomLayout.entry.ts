@@ -13,7 +13,7 @@ class FileUploadWithCounter extends FileUpload {
     }
 
     private updateFilesCounter() {
-        const counterEl = this.getElement<HTMLElement>('filesCounter');
+        const counterEl = this.query<HTMLElement>('filesCounter');
         if (!counterEl) return;
 
         counterEl.textContent = `${this.api.acceptedFiles.length} / ${this.machine.prop('maxFiles')} files selected`;
@@ -24,14 +24,14 @@ class FileUploadWithCounter extends FileUpload {
      * the item template (see CustomLayout.html), populated entirely here. render() already reruns
      * on every accepted/rejected-files change (see Component.init()), which is also exactly when
      * new item clones need this filled in, so no separate wiring is needed beyond this loop.
-     * getElement(part, itemEl) - scoped to one specific item - finds it despite there being one
+     * query(part, itemEl) - scoped to one specific item - finds it despite there being one
      * per rendered file: Template's clone-time restamping (see ComponentHydrator.restampValue())
      * gives every ref'd element with an id a unique one per file, the same way itemName/
      * itemSizeText/itemPreview already get theirs, so no special handling is needed here either.
      */
     private updateItemModifiedDates() {
-        this.getElements<HTMLElement>('item').forEach(itemEl => {
-            const dateEl = this.getElement<HTMLElement>('itemModifiedDate', itemEl);
+        this.queryAll<HTMLElement>('item').forEach(itemEl => {
+            const dateEl = this.query<HTMLElement>('itemModifiedDate', itemEl);
             const value = itemEl.dataset.value;
             if (!dateEl || !value) return;
 

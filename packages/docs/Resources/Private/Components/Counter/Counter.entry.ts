@@ -136,19 +136,19 @@ class Counter extends Component<Props, Api> {
     }
 
     render() {
-        const valueEl = this.getElement('value');
+        const valueEl = this.query('value');
         if (valueEl) this.spreadProps(valueEl, this.api.getValueProps());
 
-        const incEl = this.getElement('inc');
+        const incEl = this.query('inc');
         if (incEl) this.spreadProps(incEl, this.api.getIncProps());
 
-        const decEl = this.getElement('dec');
+        const decEl = this.query('dec');
         if (decEl) this.spreadProps(decEl, this.api.getDecProps());
 
-        const startEl = this.getElement('start');
+        const startEl = this.query('start');
         if (startEl) this.spreadProps(startEl, this.api.getStartProps());
 
-        const stopEl = this.getElement('stop');
+        const stopEl = this.query('stop');
         if (stopEl) this.spreadProps(stopEl, this.api.getStopProps());
     }
 }

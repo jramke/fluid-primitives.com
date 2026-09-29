@@ -66,10 +66,10 @@ mount('ui:combobox', 'async-search', ({ props }) => {
         for (const { value, title, description } of collection) {
             const instance = new Template(combobox.hydrator, 'itemTemplate', { value });
 
-            const titleEl = instance.getElement<HTMLElement>('title');
+            const titleEl = instance.query<HTMLElement>('title');
             if (titleEl) titleEl.textContent = title;
 
-            const descriptionEl = instance.getElement<HTMLElement>('description');
+            const descriptionEl = instance.query<HTMLElement>('description');
             if (description) {
                 if (descriptionEl) descriptionEl.textContent = description;
             } else {
@@ -89,8 +89,8 @@ mount('ui:combobox', 'async-search', ({ props }) => {
     const searchState = new DelayedIndicator<SearchState>({
         isTransient: s => s.status === 'loading',
         onChange: state => {
-            const spinnerEl = combobox.getElement<HTMLElement>('statusSpinner');
-            const textEl = combobox.getElement<HTMLElement>('statusText');
+            const spinnerEl = combobox.query<HTMLElement>('statusSpinner');
+            const textEl = combobox.query<HTMLElement>('statusText');
             if (!spinnerEl || !textEl) return;
 
             const hasResults = state.status === 'results';

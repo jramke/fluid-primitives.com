@@ -20,8 +20,8 @@ mount('ui:fileUpload', 'delete-confirm', ({ props }) => {
 
     let pending: PendingDeletion | null = null;
 
-    const pendingFileNameEl = dialog?.getElement<HTMLElement>('pendingFileName');
-    const confirmTriggerEl = dialog?.getElement<HTMLButtonElement>('confirmTrigger');
+    const pendingFileNameEl = dialog?.query<HTMLElement>('pendingFileName');
+    const confirmTriggerEl = dialog?.query<HTMLButtonElement>('confirmTrigger');
 
     // FileUpload re-clones its item markup from `itemTemplate` on every accepted/rejected-files
     // change, so there's no stable per-item element a plain addEventListener could ever attach to
@@ -29,7 +29,7 @@ mount('ui:fileUpload', 'delete-confirm', ({ props }) => {
     // intercept a click before FileUpload's own bubbling-phase click handler - wired directly onto
     // each item's delete trigger via getItemDeleteTriggerProps() - runs and deletes immediately.
     // stopImmediatePropagation() is what actually stops that handler from firing.
-    fileUpload.getElements<HTMLElement>('itemGroup').forEach(itemGroupEl => {
+    fileUpload.queryAll<HTMLElement>('itemGroup').forEach(itemGroupEl => {
         itemGroupEl.addEventListener(
             'click',
             event => {

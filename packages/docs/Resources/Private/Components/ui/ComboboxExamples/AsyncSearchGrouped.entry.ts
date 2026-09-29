@@ -74,12 +74,12 @@ mount('ui:combobox', 'async-search-grouped', ({ props }) => {
             // each group's content/label pair via id/aria-labelledby (spreadPropsByValue('itemGroup', ...)).
             const group = new Template(combobox.hydrator, 'groupTemplate', { value: country });
 
-            const labelEl = group.getElement<HTMLElement>('group-label');
+            const labelEl = group.query<HTMLElement>('group-label');
             if (labelEl) labelEl.textContent = country;
 
             for (const { value, title } of countryItems) {
                 const item = new Template(combobox.hydrator, 'itemTemplate', { value });
-                const titleEl = item.getElement<HTMLElement>('title');
+                const titleEl = item.query<HTMLElement>('title');
                 if (titleEl) titleEl.textContent = title;
                 group.root.appendChild(item);
             }
@@ -97,8 +97,8 @@ mount('ui:combobox', 'async-search-grouped', ({ props }) => {
     const searchState = new DelayedIndicator<SearchState>({
         isTransient: s => s.status === 'loading',
         onChange: state => {
-            const spinnerEl = combobox.getElement<HTMLElement>('statusSpinner');
-            const textEl = combobox.getElement<HTMLElement>('statusText');
+            const spinnerEl = combobox.query<HTMLElement>('statusSpinner');
+            const textEl = combobox.query<HTMLElement>('statusText');
             if (!spinnerEl || !textEl) return;
 
             const hasResults = state.status === 'results';

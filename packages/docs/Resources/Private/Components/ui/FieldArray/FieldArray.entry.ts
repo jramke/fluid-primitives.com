@@ -48,10 +48,10 @@ mountAll('ui:fieldArray', ({ props }) => {
     });
 
     // Only the "Limiting Row Count" example authors a `status` ref inside its own row markup -
-    // `getElement` returns null for every other example, so this is a no-op there. Kept here
+    // `query` returns null for every other example, so this is a no-op there. Kept here
     // rather than duplicated per-example since every example already shares this one entry file.
     function updateStatusText() {
-        const statusEl = fieldArray.getElement<HTMLElement>('status');
+        const statusEl = fieldArray.query<HTMLElement>('status');
         if (!statusEl || maxItems === undefined) return;
 
         const count = fieldArray.api.getRows().length;

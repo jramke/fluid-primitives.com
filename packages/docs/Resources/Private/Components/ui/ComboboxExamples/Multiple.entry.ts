@@ -9,8 +9,8 @@ mount('ui:combobox', 'multiple-example', ({ props }) => {
     let combobox: Combobox;
 
     function updateSelectedValues(values: string[]) {
-        const wrapper = combobox.getElement('selectedValuesWrapper');
-        const emptyValuesText = combobox.getElement('emptyValuesText');
+        const wrapper = combobox.query('selectedValuesWrapper');
+        const emptyValuesText = combobox.query('emptyValuesText');
 
         if (!wrapper) return;
 

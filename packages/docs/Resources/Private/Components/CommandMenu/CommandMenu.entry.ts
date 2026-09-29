@@ -109,7 +109,7 @@ class CommandMenu {
                 onOpenChange: details => {
                     if (details.open) {
                         requestAnimationFrame(() => {
-                            this.combobox.getElement<HTMLInputElement>('input')?.focus();
+                            this.combobox.query<HTMLInputElement>('input')?.focus();
                         });
                     } else {
                         this.combobox.api.setInputValue('');
@@ -127,7 +127,7 @@ class CommandMenu {
     }
 
     setStatus(text: string) {
-        const el = this.combobox.getElement<HTMLElement>('statusText');
+        const el = this.combobox.query<HTMLElement>('statusText');
         if (el) el.textContent = text;
     }
 
@@ -153,12 +153,12 @@ class CommandMenu {
                 value: groupName,
             });
 
-            const labelEl = group.getElement<HTMLElement>('group-label');
+            const labelEl = group.query<HTMLElement>('group-label');
             if (labelEl) labelEl.textContent = groupName;
 
             for (const { value, title } of groupItems) {
                 const item = new Template(this.combobox.hydrator, 'itemTemplate', { value });
-                const titleEl = item.getElement<HTMLElement>('title');
+                const titleEl = item.query<HTMLElement>('title');
                 if (titleEl) titleEl.textContent = title;
                 group.root.appendChild(item);
             }
