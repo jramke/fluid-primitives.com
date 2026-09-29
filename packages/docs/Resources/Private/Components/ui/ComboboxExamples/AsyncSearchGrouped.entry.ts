@@ -25,7 +25,7 @@ const STATUS_TEXT: Record<Exclude<SearchStatus, 'results'>, string> = {
 
 // The group/item list is folded into the same value the status placeholder is driven by, rather
 // than updated separately and immediately from the raw subscribe callback - otherwise the old
-// groups would be removed the instant a new search starts (api.loading flips true) while the
+// groups would be removed the instant a new search starts (api.isLoading flips true) while the
 // "Searching…" placeholder stays hidden for its own showDelayMs, leaving a visible gap with
 // nothing rendered in between. Routing both through one DelayedIndicator means the old groups
 // only ever disappear at the exact moment something else is ready to take their place - fresh
@@ -37,12 +37,12 @@ type SearchState =
     | { status: 'idle' }
     | { status: 'results'; items: CityResult[] };
 
-function getSearchState(api: AsyncListApi<CityResult, unknown>): SearchState {
-    const hasResults = !api.loading && !api.error && !api.empty;
+function getSearchState(api: AsyncListApi<CityResult>): SearchState {
+    const hasResults = !api.isLoading && !api.error && !api.isEmpty;
     if (hasResults) return { status: 'results', items: api.items };
-    if (api.loading) return { status: 'loading' };
+    if (api.isLoading) return { status: 'loading' };
     if (api.error) return { status: 'error' };
-    return api.filterText.trim() ? { status: 'empty' } : { status: 'idle' };
+    return api.filter.trim() ? { status: 'empty' } : { status: 'idle' };
 }
 
 mount('ui:combobox', 'async-search-grouped', ({ props }) => {
@@ -111,14 +111,14 @@ mount('ui:combobox', 'async-search-grouped', ({ props }) => {
     });
 
     const list = new AsyncList<CityResult>({
-        load: async ({ signal, filterText }) => {
-            if (!filterText.trim()) return { items: [] as CityResult[] };
+        load: async ({ signal, filter }) => {
+            if (!filter.trim()) return { items: [] as CityResult[] };
 
-            // post() namespaces { q: filterText } under searchUrl's own tx_docs_docs[...]
+            // post() namespaces { q: filter } under searchUrl's own tx_docs_docs[...]
             // prefix automatically and sends it as a POST body, sidestepping the cHash mismatch
             // a GET query param appended after the fact would otherwise cause (f:uri.action's
             // cHash is computed from the arguments known at build time).
-            const response = await extbase.post(searchUrl, { q: filterText }, { signal });
+            const response = await extbase.post(searchUrl, { q: filter }, { signal });
             if (!response.ok) {
                 throw new Error(`City search failed with status ${response.status}`);
             }
@@ -130,17 +130,17 @@ mount('ui:combobox', 'async-search-grouped', ({ props }) => {
         searchState.set(getSearchState(api));
     });
 
-    // Debounced here rather than inside AsyncList itself - a plain wrap of setFilterText, the
+    // Debounced here rather than inside AsyncList itself - a plain wrap of setFilter, the
     // same way you'd debounce any other callback.
-    const setFilterTextDebounced = debounce(
-        (filterText: string) => list.setFilterText(filterText),
+    const setFilterDebounced = debounce(
+        (filter: string) => list.setFilter(filter),
         SEARCH_DEBOUNCE_MS
     );
 
     combobox = new Combobox({
         ...props,
         onInputValueChange: (details: InputValueChangeDetails) => {
-            if (details.reason === 'input-change') setFilterTextDebounced(details.inputValue);
+            if (details.reason === 'input-change') setFilterDebounced(details.inputValue);
         },
     });
 
