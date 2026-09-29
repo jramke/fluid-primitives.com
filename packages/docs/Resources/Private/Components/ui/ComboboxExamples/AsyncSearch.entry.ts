@@ -51,8 +51,8 @@ mount('ui:combobox', 'async-search', ({ props }) => {
     let combobox: Combobox;
 
     function updateItems(items: CityResult[]) {
-        const contentEl = combobox.getElement<HTMLElement>('content');
-        if (!contentEl || !combobox.hydrator) return;
+        const listEl = combobox.query<HTMLElement>('list');
+        if (!listEl || !combobox.hydrator) return;
 
         insertedItems.forEach(el => el.remove());
         insertedItems = [];
@@ -76,7 +76,7 @@ mount('ui:combobox', 'async-search', ({ props }) => {
                 descriptionEl?.remove();
             }
 
-            contentEl.appendChild(instance);
+            listEl.appendChild(instance);
             insertedItems.push(instance.root);
         }
 

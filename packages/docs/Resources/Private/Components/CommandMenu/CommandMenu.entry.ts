@@ -132,8 +132,8 @@ class CommandMenu {
     }
 
     updateItems(items: SearchResultItem[]) {
-        const contentEl = this.combobox.getElement<HTMLElement>('content');
-        if (!contentEl || !this.combobox.hydrator) return;
+        const listEl = this.combobox.query<HTMLElement>('list');
+        if (!listEl || !this.combobox.hydrator) return;
 
         this.insertedGroups.forEach(el => el.remove());
         this.insertedGroups = [];
@@ -163,7 +163,7 @@ class CommandMenu {
                 group.root.appendChild(item);
             }
 
-            contentEl.appendChild(group);
+            listEl.appendChild(group);
             this.insertedGroups.push(group.root);
         }
 
