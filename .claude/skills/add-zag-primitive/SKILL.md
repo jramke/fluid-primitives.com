@@ -144,7 +144,8 @@ keep the ones that prevent an incorrect first paint:
 `Collapsible.ts`: `import * as <component> from '@zag-js/<component>'`, extend
 `Component<<component>.Props, <component>.Api>`, `static componentName = '<component>'`
 (camelCase if the package name is multi-word, e.g. `toggleGroup`), `initMachine`, `initApi`,
-`render()` spreading `api.get<Part>Props()` onto every ref'd element. Use `query`/`queryAll`
+`render()` spreading `api.get<Part>Props()` onto every ref'd element (the base class runs the hooks
+from `init()`, not the constructor, so a field assigned in `initMachine` is safe). Use `query`/`queryAll`
 for single/repeated parts and `spreadPropsByValue` for state-variant siblings (see `Collapsible.ts`'s
 indicator handling).
 

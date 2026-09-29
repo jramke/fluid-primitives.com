@@ -216,6 +216,12 @@ export class Accordion extends Component<accordion.Props, accordion.Api> {
 }
 ```
 
+`new Accordion(props)` only stores the props. `init()` runs `transformProps()` once - its result is
+`userProps` - then builds the hydrator, machine and api from it (`initHydrator()`, `initMachine()`,
+`initApi()`), renders and starts the machine. So `machine`/`api` don't exist before `init()`, and a
+field assigned inside `initMachine()` is safe: no overridable hook runs from the base constructor,
+before the subclass' field initializers.
+
 ### Entry File Pattern
 
 Each component has an auto-mount entry file (`*.entry.ts`):

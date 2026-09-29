@@ -71,7 +71,7 @@ mountAll('primitives:accordion', ({ props }) => {
 });
 ```
 
-This runs for every accordion on the page, extracting props from the hydration data and initializing each instance.
+This runs for every accordion on the page, extracting props from the hydration data and initializing each instance. Creating a component only stores its props - `init()` builds the state machine, renders and starts it, so `instance.machine` and `instance.api` are available once `init()` has run.
 
 The namespace is required, not cosmetic: two different component collections can register a
 same-named root component (e.g. your own styled wrapper around `primitives:accordion` that doesn't
