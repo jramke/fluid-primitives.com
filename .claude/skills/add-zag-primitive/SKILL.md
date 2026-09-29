@@ -52,10 +52,10 @@ zagjs.com docs page, keyed by component slug, across four JSON files:
 - `api.json` - `{ api: {...}, context: {...} }`: the public `Api` members and every `Props`
   field, each with `type` and `description`. Use `.context` to write accurate `ui:prop`
   descriptions.
-- `data-attr.json` - per anatomy part: the `data-state` value union, and conditional attributes
-  (`data-disabled`, `data-invalid`, etc.) with when they're present. (Still generated from zag v1's docs -
-  its `data-scope`/`data-part` entries correspond to v2's single `data-<component>-<part>` attribute.)
-  This is the fastest cross-check for Step 4's attribute rule.
+- `data-attr.json` - per anatomy part: the part attribute itself (`data-<component>-<part>`, with
+  the scope id as its value), the `data-state` value union, and conditional attributes
+  (`data-disabled`, `data-invalid`, etc.) with when they're present. This is the fastest cross-check
+  for Step 4's attribute rule.
 - `css-vars.json` - CSS custom properties the machine sets inline per part (e.g. Collapsible's
   `Content` part exposes `--height`/`--width`/`--collapsed-height`/`--collapsed-width`). Use these
   in the `/ui` wrapper's Tailwind classes/animations (Step 8).
