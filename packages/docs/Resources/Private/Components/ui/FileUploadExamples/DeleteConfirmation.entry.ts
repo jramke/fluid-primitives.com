@@ -34,11 +34,11 @@ mount('ui:fileUpload', 'delete-confirm', ({ props }) => {
             'click',
             event => {
                 const triggerEl = (event.target as HTMLElement).closest(
-                    '[data-part="item-delete-trigger"]'
+                    '[data-file-upload-item-delete-trigger]'
                 );
                 if (!triggerEl) return;
 
-                const itemEl = triggerEl.closest<HTMLElement>('[data-part="item"]');
+                const itemEl = triggerEl.closest<HTMLElement>('[data-file-upload-item]');
                 const value = itemEl?.dataset.value;
                 if (!value) return;
 
