@@ -1,4 +1,4 @@
-import { ListCollection, Orientation } from '../index.d';
+import { ListCollection, Orientation, PopupType } from '../index.d';
 export type AccordionHydrationProps = {
     id: string;
     ids: {
@@ -52,7 +52,7 @@ export type SelectHydrationProps = {
     loopFocus?: boolean;
     multiple?: boolean;
     defaultOpen?: boolean;
-    composite?: boolean;
+    popupType?: PopupType;
     deselectable?: boolean;
     translations: {
         clearTriggerLabel: string;

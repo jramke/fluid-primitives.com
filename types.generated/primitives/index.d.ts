@@ -6,6 +6,7 @@ import {
     ListCollection,
     NumberInputMode,
     Orientation,
+    PopupType,
     SliderOrigin,
     SliderThumbAlignment,
     SliderThumbCollisionBehavior,
@@ -100,7 +101,7 @@ export type ComboboxHydrationProps = {
     alwaysSubmitOnEnter?: boolean;
     inputBehavior?: ComboboxInputBehavior;
     selectionBehavior?: ComboboxSelectionBehavior;
-    composite?: boolean;
+    popupType?: PopupType;
     autoFocus?: boolean;
     positioning?: unknown;
     translations: {
@@ -301,7 +302,7 @@ export type SelectHydrationProps = {
     loopFocus?: boolean;
     multiple?: boolean;
     defaultOpen?: boolean;
-    composite?: boolean;
+    popupType?: PopupType;
     deselectable?: boolean;
     translations: {
         clearTriggerLabel: string;

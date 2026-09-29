@@ -130,6 +130,7 @@ export type ListCollection = {
 };
 export type NumberInputMode = 'text' | 'tel' | 'numeric' | 'decimal';
 export type Orientation = 'horizontal' | 'vertical';
+export type PopupType = 'listbox' | 'dialog';
 export type SliderOrigin = 'start' | 'center' | 'end';
 export type SliderThumbAlignment = 'contain' | 'center';
 export type SliderThumbCollisionBehavior = 'none' | 'push' | 'swap';
