@@ -51,7 +51,7 @@ When using `asChild`, ensure your element remains accessible. A `<div>` replacin
 
 ## Sharing IDs Between Components
 
-When multiple components need to interact (like a collapsible trigger that also has a tooltip), share IDs to maintain proper accessibility bindings.
+When multiple components share one element (like a collapsible trigger that also has a tooltip), both write an `id` onto it - share that ID so they agree and the accessibility bindings stay intact.
 
 ```html
 <f:variable name="sharedTriggerId" value="{ui:id()}" />

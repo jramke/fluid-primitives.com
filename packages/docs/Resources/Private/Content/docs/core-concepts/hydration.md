@@ -25,42 +25,34 @@ Use `ui:ref` to connect DOM elements to their client-side counterparts:
 This outputs:
 
 ```html
-<button data-scope="tooltip" data-part="trigger" id="tooltip:[rootId]:trigger">Hover me</button>
+<button data-tooltip-trigger="[rootId]">Hover me</button>
 ```
 
-The data attributes and id let the client find and connect elements to the state machine.
+It is the same single-attribute convention Zag.js uses for its own parts (`data-<component>-<part>="<rootId>"`). The client finds the element by it - `query('trigger')` - and CSS can target it with `[data-tooltip-trigger]`. No `id` is generated: Zag adds the ids it needs for ARIA links itself when the component hydrates.
 
-### Repeated Parts Need a `value`
+### Repeated Parts
 
-Without a `value:` argument, `ui:ref` generates the _same_ id every time that part name renders
-within one component instance. That's correct for a true singleton part (root, trigger, content,
-...), but if the same value-less part is placed more than once in one instance - most commonly a
-purely decorative element with no data-driven identity of its own, like a separator between item
-groups - every occurrence gets an identical, duplicate id:
+A part can appear more than once in one component instance - a dialog with a close button in the header _and_ one in the footer, say. That just works: every occurrence gets the same attribute, and `queryAll('closeTrigger')` returns all of them.
+
+For parts that repeat _per item_ (accordion items, tab triggers), pass a `value` - it additionally renders `data-value`, which is how the client tells the items apart:
 
 ```html
-<!-- Bug: both separators below render id="menu:[rootId]:separator" -->
-<div {ui:ref(name: 'separator')}></div>
+<div {ui:ref(name: 'item', value: item.value)}>...</div>
+<!-- <div data-accordion-item="[rootId]" data-value="a">...</div> -->
 ```
 
-Browsers don't warn about duplicate ids - it just makes `id`-based lookups (including this
-library's own `getElement`/`getElementById`) silently resolve to whichever element happens to
-match first. Give each occurrence its own value from [`ui:id`](../viewhelpers/id):
+### Ids
+
+Ids are only needed where an ARIA link points at an element, and Zag sets those when the component hydrates. When a part needs a specific id, declare it in the `ids` prop on the component's **root** - for the primitives and for your own components alike - and never as an `id` attribute on the element that carries `ui:ref`:
 
 ```html
-<f:variable name="separatorId">{ui:id(prefix: 'separator')}</f:variable>
-<div {ui:ref(name: 'separator', value: separatorId)}></div>
+<primitives:dialog.root ids="{content: 'my-dialog-content'}"> ... </primitives:dialog.root>
+
+<!-- your own component: every root component takes `ids` -->
+<ui:my-widget ids="{content: 'my-widget-content'}" />
 ```
 
-This applies whether you're building a first-party primitive or your own component with
-`ui:ref` - ask yourself whether a part can legitimately appear more than once per instance, and if
-so, whether it already has a natural per-item value (an item's own value, a tab's key) or needs
-one generated this way.
-
-If it slips through anyway, `warnAboutDuplicateIds()` scans the DOM for duplicate
-fluid-primitives-managed ids and logs them to the console - it runs automatically whenever TYPO3's
-own Application Context is `Development`, nothing to configure, and is a no-op otherwise so it
-costs nothing in production.
+The keys are part names. `ui:ref` renders that id on the server, and the same map is handed to the client, so the server-rendered id, the client lookup and Zag's own machine all agree. An `id` written directly on the element is unknown to the client and gets replaced when Zag hydrates the part. A part rendered with a `value` never gets an id from `ids`.
 
 ## Initializing Components
 
@@ -119,8 +111,8 @@ import { mountAll } from 'fluid-primitives';
 mountAll('ui:my-component', ({ props, createHydrator }) => {
     const hydrator = createHydrator();
 
-    const triggers = hydrator.getElements('trigger');
-    const content = hydrator.getElement('content');
+    const triggers = hydrator.queryAll('trigger');
+    const content = hydrator.query('content');
 
     triggers.forEach(trigger => {
         trigger.addEventListener('click', () => {
@@ -130,9 +122,11 @@ mountAll('ui:my-component', ({ props, createHydrator }) => {
 });
 ```
 
-The built-in `Component` base class includes the `getElement` and `getElements` methods so you can skip creating a hydrator manually.
+`query()` returns the first matching element (or `null`), `queryAll()` every match. Both search the whole document by default, so content that was portaled elsewhere is found too - pass an element as the second argument to narrow the search to it.
 
-If you need to use `ComponentHydrator` outside of a `mountAll` callback, create an instance with the component name and root ID and optionally the `ids` mapping:
+The built-in `Component` base class includes the same `query` and `queryAll` methods so you can skip creating a hydrator manually. Elements you create on the client can be marked like `ui:ref` does with `hydrator.stamp(el, 'part', value?)`.
+
+If you need to use `ComponentHydrator` outside of a `mountAll` callback, create an instance with the component name and root ID:
 
 ```typescript
 import { ComponentHydrator } from 'fluid-primitives';
@@ -140,7 +134,7 @@ const hydrator = new ComponentHydrator('my-component', 'root-id-123');
 ```
 
 Unlike `mountAll`/`mount`, `ComponentHydrator` itself takes the bare component name, not a
-namespaced one - it only drives DOM-facing identity (`data-scope`, generated ids), which stays the
+namespaced one - it only drives DOM-facing identity (the part attribute names), which stays the
 same regardless of which namespace's collection rendered the component.
 
 ## Controlled Components

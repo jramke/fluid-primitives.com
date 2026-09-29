@@ -430,7 +430,7 @@ The `render` callback on the `Form` constructor runs every time the form state c
 
 ```typescript
 render: form => {
-    const submitButton = hydrator.getElement('submit-button');
+    const submitButton = hydrator.query('submit-button');
     if (submitButton) {
         submitButton.setAttribute('aria-disabled', form.api.isSubmitting ? 'true' : 'false');
         submitButton.textContent = form.api.isSubmitting ? 'Submitting...' : 'Register';
