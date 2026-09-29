@@ -41,6 +41,10 @@
             "progressPercent": {
                 "type": "number",
                 "description": "The progress percentage of the timer."
+            },
+            "getActionTriggerState": {
+                "type": "(props: ActionTriggerProps) => ActionTriggerState",
+                "description": "Returns the state of an action trigger"
             }
         },
         "context": {
@@ -93,18 +97,15 @@
     },
     "dataAttributes": {
         "Item": {
-            "data-scope": "timer",
-            "data-part": "item",
+            "data-timer-item": "<uid>",
             "data-type": "The type of the item"
         },
         "ItemLabel": {
-            "data-scope": "timer",
-            "data-part": "item-label",
+            "data-timer-item-label": "<uid>",
             "data-type": "The type of the item"
         },
         "ItemValue": {
-            "data-scope": "timer",
-            "data-part": "item-value",
+            "data-timer-item-value": "<uid>",
             "data-type": "The type of the item"
         }
     }

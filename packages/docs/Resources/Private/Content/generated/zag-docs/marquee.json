@@ -37,6 +37,10 @@
             "restart": {
                 "type": "VoidFunction",
                 "description": "Restart the marquee animation from the beginning."
+            },
+            "getContentState": {
+                "type": "(props: ContentProps) => ContentState",
+                "description": "Returns the state of a content instance"
             }
         },
         "context": {
@@ -126,21 +130,18 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "marquee",
-            "data-part": "root",
+            "data-marquee-root": "<uid>",
             "data-state": "\"paused\" | \"idle\"",
             "data-orientation": "The orientation of the marquee",
             "data-paused": "Present when paused"
         },
         "Viewport": {
-            "data-scope": "marquee",
-            "data-part": "",
+            "data-marquee-viewport": "<uid>",
             "data-orientation": "The orientation of the viewport",
             "data-side": "The side of the trigger that the viewport is positioned on"
         },
         "Content": {
-            "data-scope": "marquee",
-            "data-part": "",
+            "data-marquee-content": "<uid>",
             "data-index": "The index of the item",
             "data-orientation": "The orientation of the content",
             "data-side": "The side of the trigger that the content is positioned on",
@@ -148,8 +149,7 @@
             "data-clone": ""
         },
         "Edge": {
-            "data-scope": "marquee",
-            "data-part": "",
+            "data-marquee-edge": "<uid>",
             "data-side": "The side of the trigger that the edge is positioned on",
             "data-orientation": "The orientation of the edge"
         }

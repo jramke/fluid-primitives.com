@@ -60,6 +60,10 @@
             "getItemState": {
                 "type": "(props: ItemProps) => ItemState",
                 "description": "Returns the state details of a radio input"
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the radio group"
             }
         },
         "context": {
@@ -124,29 +128,58 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "radio-group",
-            "data-part": "root",
+            "data-radio-group-root": "<uid>",
             "data-orientation": "The orientation of the radio-group",
             "data-disabled": "Present when disabled",
             "data-invalid": "Present when invalid",
             "data-required": "Present when required"
         },
         "Label": {
-            "data-scope": "radio-group",
-            "data-part": "label",
+            "data-radio-group-label": "<uid>",
             "data-orientation": "The orientation of the label",
             "data-disabled": "Present when disabled",
             "data-invalid": "Present when invalid",
             "data-required": "Present when required"
         },
+        "Item": {
+            "data-radio-group-item": "<uid>",
+            "data-focus": "Present when focused",
+            "data-focus-visible": "Present when focused with keyboard",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-hover": "Present when hovered",
+            "data-invalid": "Present when invalid",
+            "data-orientation": "The orientation of the item",
+            "data-ssr": "Present when not rendered in the browser. Useful for ssr styling"
+        },
+        "ItemText": {
+            "data-radio-group-item-text": "<uid>",
+            "data-focus": "Present when focused",
+            "data-focus-visible": "Present when focused with keyboard",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-hover": "Present when hovered",
+            "data-invalid": "Present when invalid",
+            "data-orientation": "The orientation of the item",
+            "data-ssr": "Present when not rendered in the browser. Useful for ssr styling"
+        },
         "ItemControl": {
-            "data-scope": "radio-group",
-            "data-part": "item-control",
-            "data-active": "Present when active or pressed"
+            "data-radio-group-item-control": "<uid>",
+            "data-active": "Present when active or pressed",
+            "data-focus": "Present when focused",
+            "data-focus-visible": "Present when focused with keyboard",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-hover": "Present when hovered",
+            "data-invalid": "Present when invalid",
+            "data-orientation": "The orientation of the item",
+            "data-ssr": "Present when not rendered in the browser. Useful for ssr styling"
         },
         "Indicator": {
-            "data-scope": "radio-group",
-            "data-part": "indicator",
+            "data-radio-group-indicator": "<uid>",
             "data-disabled": "Present when disabled",
             "data-orientation": "The orientation of the indicator"
         }

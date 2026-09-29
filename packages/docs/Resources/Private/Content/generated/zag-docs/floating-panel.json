@@ -53,6 +53,26 @@
             "draggable": {
                 "type": "boolean",
                 "description": "Whether the panel is draggable"
+            },
+            "getResizeTriggerState": {
+                "type": "(props: ResizeTriggerProps) => ResizeTriggerState",
+                "description": "Returns the state of a specific resize trigger"
+            },
+            "getTriggerState": {
+                "type": "() => TriggerState",
+                "description": "Returns the state of the trigger"
+            },
+            "getContentState": {
+                "type": "() => ContentState",
+                "description": "Returns the state of the content"
+            },
+            "getControlState": {
+                "type": "() => ControlState",
+                "description": "Returns the state of the control"
+            },
+            "getStageTriggerState": {
+                "type": "(props: StageTriggerProps) => StageTriggerState",
+                "description": "Returns the state of a specific stage trigger"
             }
         },
         "context": {
@@ -134,7 +154,7 @@
                 "description": "The boundary of the panel. Useful for recalculating the boundary rect when\nthe it is resized."
             },
             "initialFocusEl": {
-                "type": "(() => HTMLElement | null) | undefined",
+                "type": "(() => HTMLElement | null) | null | undefined",
                 "description": "Element to receive focus when the panel is opened.\nBy default, the first focusable element in the content is focused."
             },
             "finalFocusEl": {
@@ -200,14 +220,12 @@
     },
     "dataAttributes": {
         "Trigger": {
-            "data-scope": "floating-panel",
-            "data-part": "trigger",
+            "data-floating-panel-trigger": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-dragging": "Present when in the dragging state"
         },
         "Content": {
-            "data-scope": "floating-panel",
-            "data-part": "content",
+            "data-floating-panel-content": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-dragging": "Present when in the dragging state",
             "data-topmost": "Present when topmost",
@@ -217,24 +235,20 @@
             "data-staged": "Present when not in default stage"
         },
         "StageTrigger": {
-            "data-scope": "floating-panel",
-            "data-part": "stage-trigger",
+            "data-floating-panel-stage-trigger": "<uid>",
             "data-stage": "The stage of the stagetrigger"
         },
         "ResizeTrigger": {
-            "data-scope": "floating-panel",
-            "data-part": "resize-trigger",
+            "data-floating-panel-resize-trigger": "<uid>",
             "data-disabled": "Present when disabled",
-            "data-axis": "The axis to resize"
+            "data-placement": "The placement of the resizetrigger"
         },
         "DragTrigger": {
-            "data-scope": "floating-panel",
-            "data-part": "drag-trigger",
+            "data-floating-panel-drag-trigger": "<uid>",
             "data-disabled": "Present when disabled"
         },
         "Control": {
-            "data-scope": "floating-panel",
-            "data-part": "control",
+            "data-floating-panel-control": "<uid>",
             "data-disabled": "Present when disabled",
             "data-stage": "The stage of the control",
             "data-minimized": "Present when minimized",
@@ -242,8 +256,7 @@
             "data-staged": "Present when not in default stage"
         },
         "Header": {
-            "data-scope": "floating-panel",
-            "data-part": "header",
+            "data-floating-panel-header": "<uid>",
             "data-dragging": "Present when in the dragging state",
             "data-topmost": "Present when topmost",
             "data-behind": "Present when not topmost",
@@ -252,8 +265,7 @@
             "data-staged": "Present when not in default stage"
         },
         "Body": {
-            "data-scope": "floating-panel",
-            "data-part": "body",
+            "data-floating-panel-body": "<uid>",
             "data-dragging": "Present when in the dragging state",
             "data-minimized": "Present when minimized",
             "data-maximized": "Present when maximized",

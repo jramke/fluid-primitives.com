@@ -2,13 +2,13 @@
     "accessibility": [],
     "api": {
         "api": {
+            "status": {
+                "type": "LoadStatus",
+                "description": "The current image loading status."
+            },
             "loaded": {
                 "type": "boolean",
                 "description": "Whether the image is loaded."
-            },
-            "setSrc": {
-                "type": "(src: string) => void",
-                "description": "Function to set new src."
             },
             "setLoaded": {
                 "type": "VoidFunction",
@@ -45,13 +45,11 @@
     },
     "dataAttributes": {
         "Image": {
-            "data-scope": "avatar",
-            "data-part": "image",
+            "data-avatar-image": "<uid>",
             "data-state": "\"visible\" | \"hidden\""
         },
         "Fallback": {
-            "data-scope": "avatar",
-            "data-part": "fallback",
+            "data-avatar-fallback": "<uid>",
             "data-state": "\"hidden\" | \"visible\""
         }
     }

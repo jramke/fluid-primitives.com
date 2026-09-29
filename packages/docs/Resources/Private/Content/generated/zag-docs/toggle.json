@@ -24,6 +24,10 @@
                 "type": "(pressed: boolean) => void",
                 "description": "Sets the pressed state of the toggle."
             },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the toggle"
+            },
             "getRootProps": {
                 "type": "() => T[\"element\"]",
                 "description": "Props for the root `button` element."
@@ -54,18 +58,14 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "toggle",
-            "data-part": "root",
-            "data-state": "\"on\" | \"off\"",
+            "data-toggle-root": "<uid>",
             "data-pressed": "Present when pressed",
             "data-disabled": "Present when disabled"
         },
         "Indicator": {
-            "data-scope": "toggle",
-            "data-part": "indicator",
+            "data-toggle-indicator": "<uid>",
             "data-disabled": "Present when disabled",
-            "data-pressed": "Present when pressed",
-            "data-state": "\"on\" | \"off\""
+            "data-pressed": "Present when pressed"
         }
     }
 }

@@ -70,6 +70,18 @@
             "focus": {
                 "type": "VoidFunction",
                 "description": "Function to focus the pin-input. This will focus the first input."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root."
+            },
+            "getLabelState": {
+                "type": "() => LabelState",
+                "description": "Returns the state of the label."
+            },
+            "getInputState": {
+                "type": "(props: InputProps) => InputState",
+                "description": "Returns the state of a given input."
             }
         },
         "context": {
@@ -168,8 +180,8 @@
                 "description": "Specifies the localized strings that identifies the accessibility elements and their states"
             },
             "count": {
-                "type": "number | undefined",
-                "description": "The number of inputs to render to improve SSR aria attributes.\nThis will be required in next major version."
+                "type": "number",
+                "description": "The number of pin input fields."
             },
             "dir": {
                 "type": "\"ltr\" | \"rtl\" | undefined",
@@ -188,16 +200,14 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "pin-input",
-            "data-part": "root",
+            "data-pin-input-root": "<uid>",
             "data-invalid": "Present when invalid",
             "data-disabled": "Present when disabled",
             "data-complete": "Present when the pin-input value is complete",
             "data-readonly": "Present when read-only"
         },
         "Label": {
-            "data-scope": "pin-input",
-            "data-part": "label",
+            "data-pin-input-label": "<uid>",
             "data-invalid": "Present when invalid",
             "data-disabled": "Present when disabled",
             "data-complete": "Present when the label value is complete",
@@ -205,8 +215,7 @@
             "data-readonly": "Present when read-only"
         },
         "Input": {
-            "data-scope": "pin-input",
-            "data-part": "input",
+            "data-pin-input-input": "<uid>",
             "data-disabled": "Present when disabled",
             "data-complete": "Present when the input value is complete",
             "data-filled": "",

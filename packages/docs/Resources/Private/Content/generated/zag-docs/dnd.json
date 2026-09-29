@@ -1,0 +1,190 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "isDragging": {
+                "type": "boolean",
+                "description": "Whether a drag is in progress."
+            },
+            "isKeyboardDragging": {
+                "type": "boolean",
+                "description": "Whether a keyboard drag session is active."
+            },
+            "dragSource": {
+                "type": "string | null",
+                "description": "The value of the item being dragged (the one the user grabbed)."
+            },
+            "dragValues": {
+                "type": "string[]",
+                "description": "All values being dragged. Includes selected items when multi-item drag is active."
+            },
+            "dropTarget": {
+                "type": "string | null",
+                "description": "The value of the current drop target."
+            },
+            "dropPlacement": {
+                "type": "DropPlacement | null",
+                "description": "The current drop placement relative to the target."
+            },
+            "getItemState": {
+                "type": "(value: string) => ItemState",
+                "description": "Get the drag/drop state for a specific item."
+            },
+            "cancelDrag": {
+                "type": "() => void",
+                "description": "Programmatically cancel the current drag."
+            },
+            "pointerPosition": {
+                "type": "Point | null",
+                "description": "The current pointer position during drag. Null when not dragging."
+            },
+            "instructions": {
+                "type": "string",
+                "description": "Keyboard instructions text for screen readers.\nAutomatically set as `aria-description` on draggable and drag handle elements."
+            },
+            "getDragPreviewState": {
+                "type": "() => DragPreviewState",
+                "description": "Returns the state of the drag preview"
+            }
+        },
+        "context": {
+            "dropPlacements": {
+                "type": "DropPlacement[] | undefined",
+                "description": "The supported drop placements.",
+                "defaultValue": "[\"before\", \"after\"]"
+            },
+            "collisionStrategy": {
+                "type": "CollisionStrategy | undefined",
+                "description": "The collision detection strategy.",
+                "defaultValue": "closestEdge"
+            },
+            "orientation": {
+                "type": "\"vertical\" | \"horizontal\" | undefined",
+                "description": "The orientation of the list.",
+                "defaultValue": "\"vertical\""
+            },
+            "edgeThreshold": {
+                "type": "number | undefined",
+                "description": "Pixel threshold from edges for before/after detection when \"drop on\" is valid.",
+                "defaultValue": "5"
+            },
+            "stickyDelay": {
+                "type": "number | undefined",
+                "description": "Milliseconds to keep a drop target active after the pointer leaves\n(prevents flicker on gaps between items).",
+                "defaultValue": "150"
+            },
+            "dragOverDelay": {
+                "type": "number | undefined",
+                "description": "Debounce delay in milliseconds for live region announcements and onDragOver callbacks\nduring pointer drag. Prevents overwhelming screen readers and excessive callback invocations.",
+                "defaultValue": "500"
+            },
+            "scrollThreshold": {
+                "type": "number | undefined",
+                "description": "Pixel margin from the scrollable container edges that triggers auto-scrolling.\nSet to 0 to disable auto-scroll.",
+                "defaultValue": "20"
+            },
+            "scrollMaxSpeed": {
+                "type": "number | undefined",
+                "description": "Maximum auto-scroll speed in pixels per animation frame.",
+                "defaultValue": "4"
+            },
+            "columnCount": {
+                "type": "number | undefined",
+                "description": "Number of columns in a grid layout. When set, enables grid-mode collision\ndetection and 4-directional keyboard navigation."
+            },
+            "selectedValues": {
+                "type": "string[] | undefined",
+                "description": "The values of items currently selected. When the user drags one of the\nselected items, all selected items are included in the drag operation."
+            },
+            "activationConstraint": {
+                "type": "{ distance?: number | undefined; delay?: number | undefined } | undefined",
+                "description": "Activation constraint for pointer drag. Prevents accidental drags."
+            },
+            "canDrag": {
+                "type": "((value: string) => boolean) | undefined",
+                "description": "Whether the given item value can be dragged."
+            },
+            "canDrop": {
+                "type": "((source: string, target: string, placement: DropPlacement) => boolean) | undefined",
+                "description": "Whether a drop is allowed at the given target and placement.\nUse this to prevent dropping on self, descendants, etc."
+            },
+            "getValueText": {
+                "type": "((value: string) => string) | undefined",
+                "description": "Resolve a human-readable label for a value. Used for live region announcements.\nIf not provided, falls back to the element's textContent."
+            },
+            "onDragStart": {
+                "type": "((details: DragStartDetails) => void) | undefined",
+                "description": "Called when a drag starts."
+            },
+            "onDragOver": {
+                "type": "((details: DragOverDetails) => void) | undefined",
+                "description": "Called when the drag moves over a new target."
+            },
+            "onDrop": {
+                "type": "((details: DropDetails) => void) | undefined",
+                "description": "Called when the item is dropped on a valid target."
+            },
+            "onDragEnd": {
+                "type": "((details: DragEndDetails) => void) | undefined",
+                "description": "Called when the drag ends (either by dropping or cancelling)."
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the dnd. Useful for composition."
+            },
+            "translations": {
+                "type": "Partial<IntlTranslations> | undefined",
+                "description": "Translations for live region announcements."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-dnd-root": "<uid>",
+            "data-dragging": "Present when in the dragging state",
+            "data-orientation": "The orientation of the dnd"
+        },
+        "Draggable": {
+            "data-dnd-draggable": "<uid>",
+            "data-value": "The value of the item",
+            "data-dragging": "Present when in the dragging state",
+            "data-selected-dragging": "",
+            "data-disabled": "Present when disabled"
+        },
+        "DragHandle": {
+            "data-dnd-drag-handle": "<uid>",
+            "data-value": "The value of the item",
+            "data-disabled": "Present when disabled"
+        },
+        "DropTarget": {
+            "data-dnd-drop-target": "<uid>",
+            "data-value": "The value of the item",
+            "data-disabled": "Present when disabled",
+            "data-drop-target": "",
+            "data-drop-placement": ""
+        },
+        "DropIndicator": {
+            "data-dnd-drop-indicator": "<uid>",
+            "data-value": "The value of the item",
+            "data-placement": "The placement of the dropindicator",
+            "data-active": "Present when active or pressed"
+        },
+        "DragPreview": {
+            "data-dnd-drag-preview": "<uid>",
+            "data-dragging": "Present when in the dragging state"
+        }
+    }
+}

@@ -102,6 +102,22 @@
             "getProgressPercent": {
                 "type": "() => number",
                 "description": "Returns the progress percent"
+            },
+            "getBackdropState": {
+                "type": "() => BackdropState",
+                "description": "Returns the state of the backdrop"
+            },
+            "getSpotlightState": {
+                "type": "() => SpotlightState",
+                "description": "Returns the state of the spotlight"
+            },
+            "getPositionerState": {
+                "type": "() => PositionerState",
+                "description": "Returns the state of the positioner"
+            },
+            "getContentState": {
+                "type": "() => ContentState",
+                "description": "Returns the state of the content"
             }
         },
         "context": {
@@ -192,49 +208,42 @@
     },
     "dataAttributes": {
         "Backdrop": {
-            "data-scope": "tour",
-            "data-part": "backdrop",
+            "data-tour-backdrop": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-type": "The type of the item"
         },
         "Positioner": {
-            "data-scope": "tour",
-            "data-part": "positioner",
+            "data-tour-positioner": "<uid>",
             "data-type": "The type of the item",
             "data-placement": "The placement of the positioner",
             "data-side": "The side of the trigger that the positioner is positioned on"
         },
         "Content": {
-            "data-scope": "tour",
-            "data-part": "content",
+            "data-tour-content": "<uid>",
             "data-state": "\"open\" | \"closed\"",
-            "data-nested": "popover",
-            "data-has-nested": "popover",
             "data-type": "The type of the item",
             "data-placement": "The placement of the content",
             "data-side": "The side of the trigger that the content is positioned on",
-            "data-step": ""
+            "data-step": "",
+            "data-nested": "popover",
+            "data-has-nested": "popover"
         },
         "Title": {
-            "data-scope": "tour",
-            "data-part": "title",
+            "data-tour-title": "<uid>",
             "data-placement": "The placement of the title",
             "data-side": "The side of the trigger that the title is positioned on"
         },
         "Description": {
-            "data-scope": "tour",
-            "data-part": "description",
+            "data-tour-description": "<uid>",
             "data-placement": "The placement of the description",
             "data-side": "The side of the trigger that the description is positioned on"
         },
         "CloseTrigger": {
-            "data-scope": "tour",
-            "data-part": "close-trigger",
+            "data-tour-close-trigger": "<uid>",
             "data-type": "The type of the item"
         },
         "ActionTrigger": {
-            "data-scope": "tour",
-            "data-part": "action-trigger",
+            "data-tour-action-trigger": "<uid>",
             "data-type": "The type of the item",
             "data-disabled": "Present when disabled"
         }

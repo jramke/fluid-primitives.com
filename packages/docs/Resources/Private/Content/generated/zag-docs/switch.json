@@ -31,6 +31,10 @@
             "toggleChecked": {
                 "type": "VoidFunction",
                 "description": "Toggles the checked state of the switch."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the switch"
             }
         },
         "context": {
@@ -100,6 +104,7 @@
     },
     "dataAttributes": {
         "Root": {
+            "data-switch-root": "<uid>",
             "data-active": "Present when active or pressed",
             "data-focus": "Present when focused",
             "data-focus-visible": "Present when focused with keyboard",
@@ -111,6 +116,7 @@
             "data-required": "Present when required"
         },
         "Label": {
+            "data-switch-label": "<uid>",
             "data-active": "Present when active or pressed",
             "data-focus": "Present when focused",
             "data-focus-visible": "Present when focused with keyboard",
@@ -122,6 +128,7 @@
             "data-required": "Present when required"
         },
         "Thumb": {
+            "data-switch-thumb": "<uid>",
             "data-active": "Present when active or pressed",
             "data-focus": "Present when focused",
             "data-focus-visible": "Present when focused with keyboard",
@@ -133,6 +140,7 @@
             "data-required": "Present when required"
         },
         "Control": {
+            "data-switch-control": "<uid>",
             "data-active": "Present when active or pressed",
             "data-focus": "Present when focused",
             "data-focus-visible": "Present when focused with keyboard",

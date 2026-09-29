@@ -25,6 +25,10 @@
             "clear": {
                 "type": "VoidFunction",
                 "description": "Clears the signature pad."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root"
             }
         },
         "context": {
@@ -90,24 +94,20 @@
     },
     "dataAttributes": {
         "Label": {
-            "data-scope": "signature-pad",
-            "data-part": "label",
+            "data-signature-pad-label": "<uid>",
             "data-disabled": "Present when disabled",
             "data-required": "Present when required"
         },
         "Root": {
-            "data-scope": "signature-pad",
-            "data-part": "root",
+            "data-signature-pad-root": "<uid>",
             "data-disabled": "Present when disabled"
         },
         "Control": {
-            "data-scope": "signature-pad",
-            "data-part": "control",
+            "data-signature-pad-control": "<uid>",
             "data-disabled": "Present when disabled"
         },
         "Guide": {
-            "data-scope": "signature-pad",
-            "data-part": "guide",
+            "data-signature-pad-guide": "<uid>",
             "data-disabled": "Present when disabled"
         }
     }

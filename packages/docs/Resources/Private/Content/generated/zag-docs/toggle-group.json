@@ -70,6 +70,10 @@
             "getItemState": {
                 "type": "(props: ItemProps) => ItemState",
                 "description": "Returns the state of the toggle item."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the toggle group"
             }
         },
         "context": {
@@ -134,19 +138,16 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "toggle-group",
-            "data-part": "root",
+            "data-toggle-group-root": "<uid>",
             "data-disabled": "Present when disabled",
-            "data-orientation": "The orientation of the toggle-group",
-            "data-focus": "Present when focused"
+            "data-multiple": "",
+            "data-orientation": "The orientation of the toggle-group"
         },
         "Item": {
-            "data-scope": "toggle-group",
-            "data-part": "item",
-            "data-focus": "Present when focused",
+            "data-toggle-group-item": "<uid>",
+            "data-pressed": "Present when pressed",
             "data-disabled": "Present when disabled",
-            "data-orientation": "The orientation of the item",
-            "data-state": "\"on\" | \"off\""
+            "data-orientation": "The orientation of the item"
         }
     }
 }

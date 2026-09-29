@@ -120,24 +120,20 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "steps",
-            "data-part": "root",
+            "data-steps-root": "<uid>",
             "data-orientation": "The orientation of the steps"
         },
         "List": {
-            "data-scope": "steps",
-            "data-part": "list",
+            "data-steps-list": "<uid>",
             "data-orientation": "The orientation of the list"
         },
         "Item": {
-            "data-scope": "steps",
-            "data-part": "item",
+            "data-steps-item": "<uid>",
             "data-orientation": "The orientation of the item",
             "data-skippable": ""
         },
         "Trigger": {
-            "data-scope": "steps",
-            "data-part": "trigger",
+            "data-steps-trigger": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-orientation": "The orientation of the trigger",
             "data-complete": "Present when the trigger value is complete",
@@ -145,29 +141,25 @@
             "data-incomplete": ""
         },
         "Content": {
-            "data-scope": "steps",
-            "data-part": "content",
+            "data-steps-content": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-orientation": "The orientation of the content"
         },
         "Indicator": {
-            "data-scope": "steps",
-            "data-part": "indicator",
+            "data-steps-indicator": "<uid>",
             "data-complete": "Present when the indicator value is complete",
             "data-current": "Present when current",
             "data-incomplete": ""
         },
         "Separator": {
-            "data-scope": "steps",
-            "data-part": "separator",
+            "data-steps-separator": "<uid>",
             "data-orientation": "The orientation of the separator",
             "data-complete": "Present when the separator value is complete",
             "data-current": "Present when current",
             "data-incomplete": ""
         },
         "Progress": {
-            "data-scope": "steps",
-            "data-part": "progress",
+            "data-steps-progress": "<uid>",
             "data-complete": "Present when the progress value is complete"
         }
     }
