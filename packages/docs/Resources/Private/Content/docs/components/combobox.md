@@ -74,9 +74,9 @@ The status placeholder itself is just `combobox.empty` - `Combobox` already show
 
 ### Async Search with Groups
 
-Async results can be grouped too - author a second `ui:template` for the group wrapper (`combobox.itemGroup`/`combobox.itemGroupLabel`), clone one per group returned by your search, and append the item clones into it instead of directly into `combobox.content`.
+Async results can be grouped too - author a second `ui:template` for the group wrapper (`combobox.itemGroup`/`combobox.itemGroupLabel`), clone one per group returned by your search, and append the item clones into it instead of directly into `combobox.list`.
 
-`combobox.itemGroup` needs a unique `data-id` per instance so `Combobox` can tell groups apart - the same thing `ui:id()` gives a server-rendered group, done client-side with `uid()`. Nothing about `Combobox`'s own rendering needed to change for this: it already looks up every `[data-part="item-group"]` element independently and reads its `data-id` fresh on every render, whether that element was server-rendered or just cloned.
+`combobox.itemGroup` needs a unique `data-id` per instance so `Combobox` can tell groups apart - the same thing `ui:id()` gives a server-rendered group, done client-side with `uid()`. Nothing about `Combobox`'s own rendering needed to change for this: it already looks up every `itemGroup` part independently and reads its `data-id` fresh on every render, whether that element was server-rendered or just cloned.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.asyncSearchGrouped", "additionalFiles": {"AsyncSearchGrouped.entry.ts": "EXT:docs/Resources/Private/Components/ui/ComboboxExamples/AsyncSearchGrouped.entry.ts"} } %}
 
@@ -110,8 +110,8 @@ Default combobox trigger labels are shipped via XLF and follow the current Site 
             ["clearTrigger", "Clears the current input value and selection. Renders a `<button>` element."],
             ["trigger", "Opens and closes the combobox listbox. Renders a `<button>` element."],
             ["positioner", "Positions the floating combobox content. Renders a `<div>` element."],
-            ["content", "Contains the listbox of selectable options. Renders a `<div>` element."],
-            ["list", "Optional wrapper around the options inside `content`, e.g. for styling a scroll container. Renders a `<div>` element."],
+            ["content", "The popup surface, positioned by `positioner`. Wraps the `list`. Renders a `<div>` element."],
+            ["list", "The listbox inside `content` that holds the options - it scrolls and carries `role=\"listbox\"`. Renders a `<div>` element."],
             ["empty", "Displays a placeholder for when no items match the current search. Renders a `<div>` element."],
             ["item", "Represents a selectable option. Renders a `<div>` element."],
             ["itemText", "Displays the text content of an option. Renders a `<div>` element."],
@@ -127,7 +127,9 @@ Default combobox trigger labels are shipped via XLF and follow the current Site 
 
 Unlike `Select`, Zag's combobox machine renders no native form control of its own - the visible `input` only ever holds the highlighted item's label (or, with `allowCustomValue`, arbitrary typed text), never its `value`. `hiddenInput` fills that gap: one visually hidden text input (kept out of the accessibility tree and tab order via `aria-hidden`/`tabindex="-1"`, not `type="hidden"`) per selected value, kept in sync with the current selection so the item's `value` (not its label) is what actually gets submitted. Include it once anywhere inside `combobox.root` - it renders as many hidden inputs as there are selected values (zero, one, or - with `multiple` - several).
 
-`combobox.empty` renders a placeholder for when the collection has no items to show - whether that's because nothing matches the current search text, or because an async search hasn't returned results yet. It's shown/hidden automatically alongside `content`/`list`'s own `data-empty` attribute, so no wiring is needed beyond placing it inside `combobox.content`.
+Zag puts the listbox semantics and scrolling on `list`, so the options belong inside `list` rather than directly inside `content`. The styled `ui:combobox.content` renders the `list` for you.
+
+`combobox.empty` renders a placeholder for when the collection has no items to show - whether that's because nothing matches the current search text, or because an async search hasn't returned results yet. It's shown/hidden automatically alongside `content`/`list`'s own `data-empty` attribute, so no wiring is needed beyond placing it inside `combobox.list`.
 
 ```html
 <primitives:combobox.root>
@@ -139,14 +141,16 @@ Unlike `Select`, Zag's combobox machine renders no native form control of its ow
     </primitives:combobox.control>
     <primitives:combobox.positioner>
         <primitives:combobox.content>
-            <primitives:combobox.empty />
-            <primitives:combobox.item>
-                <primitives:combobox.itemText />
-                <primitives:combobox.itemIndicator />
-            </primitives:combobox.item>
-            <primitives:combobox.itemGroup>
-                <primitives:combobox.itemGroupLabel />
-            </primitives:combobox.itemGroup>
+            <primitives:combobox.list>
+                <primitives:combobox.empty />
+                <primitives:combobox.item>
+                    <primitives:combobox.itemText />
+                    <primitives:combobox.itemIndicator />
+                </primitives:combobox.item>
+                <primitives:combobox.itemGroup>
+                    <primitives:combobox.itemGroupLabel />
+                </primitives:combobox.itemGroup>
+            </primitives:combobox.list>
         </primitives:combobox.content>
     </primitives:combobox.positioner>
     <primitives:combobox.hiddenInput />

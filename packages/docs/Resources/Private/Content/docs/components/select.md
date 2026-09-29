@@ -81,7 +81,8 @@ Default clear trigger labels are shipped via XLF and follow the current Site Lan
             ["indicator", "Displays a decorative indicator for the trigger. Renders a `<span>` element."],
             ["clearTrigger", "Clears the current selection. Renders a `<button>` element."],
             ["positioner", "Positions the floating select content. Renders a `<div>` element."],
-            ["content", "Contains the selectable options. Renders a `<div>` element."],
+            ["content", "The popup surface, positioned by `positioner`. Wraps the `list`. Renders a `<div>` element."],
+            ["list", "The listbox inside `content` that holds the options - it takes focus, scrolls and tracks the active option. Renders a `<div>` element."],
             ["itemGroup", "Groups related options together. Renders a `<div>` element."],
             ["itemGroupLabel", "Labels a group of related options. Renders a `<div>` element."],
             ["item", "Represents a selectable option. Renders a `<div>` element."],
@@ -93,6 +94,8 @@ Default clear trigger labels are shipped via XLF and follow the current Site Lan
 %}
 
 ## Anatomy
+
+Zag puts the listbox semantics, focus, scrolling and the active option on `list`, so the options belong inside `list` rather than directly inside `content`. The styled `ui:select.content` renders the `list` for you.
 
 ```html
 <primitives:select.root>
@@ -106,13 +109,15 @@ Default clear trigger labels are shipped via XLF and follow the current Site Lan
     </primitives:select.control>
     <primitives:select.positioner>
         <primitives:select.content>
-            <primitives:select.item>
-                <primitives:select.itemText />
-                <primitives:select.itemIndicator />
-            </primitives:select.item>
-            <primitives:select.itemGroup>
-                <primitives:select.itemGroupLabel />
-            </primitives:select.itemGroup>
+            <primitives:select.list>
+                <primitives:select.item>
+                    <primitives:select.itemText />
+                    <primitives:select.itemIndicator />
+                </primitives:select.item>
+                <primitives:select.itemGroup>
+                    <primitives:select.itemGroupLabel />
+                </primitives:select.itemGroup>
+            </primitives:select.list>
         </primitives:select.content>
     </primitives:select.positioner>
     <primitives:select.hiddenSelect />
