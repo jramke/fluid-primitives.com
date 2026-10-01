@@ -51,7 +51,7 @@ mountAll('ui:fieldArray', ({ props }) => {
     // `query` returns null for every other example, so this is a no-op there. Kept here
     // rather than duplicated per-example since every example already shares this one entry file.
     function updateStatusText() {
-        const statusEl = fieldArray.query<HTMLElement>('status');
+        const statusEl = fieldArray.hydrator.query<HTMLElement>('status');
         if (!statusEl || maxItems === undefined) return;
 
         const count = fieldArray.api.getRows().length;

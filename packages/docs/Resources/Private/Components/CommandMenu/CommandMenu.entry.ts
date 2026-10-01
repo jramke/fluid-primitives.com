@@ -109,7 +109,7 @@ class CommandMenu {
                 onOpenChange: details => {
                     if (details.open) {
                         requestAnimationFrame(() => {
-                            this.combobox.query<HTMLInputElement>('input')?.focus();
+                            this.combobox.hydrator.query<HTMLInputElement>('input')?.focus();
                         });
                     } else {
                         this.combobox.api.setInputValue('');
@@ -127,13 +127,13 @@ class CommandMenu {
     }
 
     setStatus(text: string) {
-        const el = this.combobox.query<HTMLElement>('statusText');
+        const el = this.combobox.hydrator.query<HTMLElement>('statusText');
         if (el) el.textContent = text;
     }
 
     updateItems(items: SearchResultItem[]) {
-        const listEl = this.combobox.query<HTMLElement>('list');
-        if (!listEl || !this.combobox.hydrator) return;
+        const listEl = this.combobox.hydrator.query<HTMLElement>('list');
+        if (!listEl) return;
 
         this.insertedGroups.forEach(el => el.remove());
         this.insertedGroups = [];

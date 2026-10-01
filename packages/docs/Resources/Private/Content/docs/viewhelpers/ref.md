@@ -8,7 +8,7 @@
 Marks a part of a component for JavaScript interaction or styling.
 
 It renders a single `data-<component>-<part>="<rootId>"` attribute - the convention Zag.js uses for
-its own parts - so the client finds the element with `query('<part>')` and CSS can target it with
+its own parts - so the client finds the element with `hydrator.query('<part>')` and CSS can target it with
 `[data-<component>-<part>]`. No `id` is generated: Zag adds the ids it needs for ARIA links itself
 when the component hydrates.
 
@@ -28,7 +28,7 @@ additionally renders `data-value`:
 ```
 
 A part without a `value:` may legitimately appear more than once within one component instance
-(e.g. two close buttons of a dialog) - read them with `queryAll()` on the client.
+(e.g. two close buttons of a dialog) - read them with `hydrator.queryAll()` on the client.
 
 Ids are only rendered where you declare them: pass `ids` on the component's root
 (`ids="{content: 'my-content'}"`, the same override Zag uses - for the primitives and your own

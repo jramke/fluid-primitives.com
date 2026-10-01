@@ -9,8 +9,8 @@ mount('ui:combobox', 'multiple-example', ({ props }) => {
     let combobox: Combobox;
 
     function updateSelectedValues(values: string[]) {
-        const wrapper = combobox.query('selectedValuesWrapper');
-        const emptyValuesText = combobox.query('emptyValuesText');
+        const wrapper = combobox.hydrator.query('selectedValuesWrapper');
+        const emptyValuesText = combobox.hydrator.query('emptyValuesText');
 
         if (!wrapper) return;
 
@@ -34,7 +34,7 @@ mount('ui:combobox', 'multiple-example', ({ props }) => {
 
         for (const value of values) {
             if (existingValues.includes(value)) continue;
-            const instance = new Template(combobox.hydrator!, 'selectedValue');
+            const instance = new Template(combobox.hydrator, 'selectedValue');
             instance.root.textContent = value;
             instance.root.setAttribute('data-value', value);
             wrapper.appendChild(instance.root);

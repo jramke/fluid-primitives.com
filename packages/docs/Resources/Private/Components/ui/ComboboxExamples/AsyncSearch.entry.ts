@@ -51,8 +51,8 @@ mount('ui:combobox', 'async-search', ({ props }) => {
     let combobox: Combobox;
 
     function updateItems(items: CityResult[]) {
-        const listEl = combobox.query<HTMLElement>('list');
-        if (!listEl || !combobox.hydrator) return;
+        const listEl = combobox.hydrator.query<HTMLElement>('list');
+        if (!listEl) return;
 
         insertedItems.forEach(el => el.remove());
         insertedItems = [];
@@ -89,8 +89,8 @@ mount('ui:combobox', 'async-search', ({ props }) => {
     const searchState = new DelayedIndicator<SearchState>({
         isTransient: s => s.status === 'loading',
         onChange: state => {
-            const spinnerEl = combobox.query<HTMLElement>('statusSpinner');
-            const textEl = combobox.query<HTMLElement>('statusText');
+            const spinnerEl = combobox.hydrator.query<HTMLElement>('statusSpinner');
+            const textEl = combobox.hydrator.query<HTMLElement>('statusText');
             if (!spinnerEl || !textEl) return;
 
             const hasResults = state.status === 'results';

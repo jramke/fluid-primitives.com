@@ -28,11 +28,11 @@ This outputs:
 <button data-tooltip-trigger="[rootId]">Hover me</button>
 ```
 
-It is the same single-attribute convention Zag.js uses for its own parts (`data-<component>-<part>="<rootId>"`). The client finds the element by it - `query('trigger')` - and CSS can target it with `[data-tooltip-trigger]`. No `id` is generated: Zag adds the ids it needs for ARIA links itself when the component hydrates.
+It is the same single-attribute convention Zag.js uses for its own parts (`data-<component>-<part>="<rootId>"`). The client finds the element by it - `hydrator.query('trigger')` - and CSS can target it with `[data-tooltip-trigger]`. No `id` is generated: Zag adds the ids it needs for ARIA links itself when the component hydrates.
 
 ### Repeated Parts
 
-A part can appear more than once in one component instance - a dialog with a close button in the header _and_ one in the footer, say. That just works: every occurrence gets the same attribute, and `queryAll('closeTrigger')` returns all of them.
+A part can appear more than once in one component instance - a dialog with a close button in the header _and_ one in the footer, say. That just works: every occurrence gets the same attribute, and `hydrator.queryAll('closeTrigger')` returns all of them.
 
 For parts that repeat _per item_ (accordion items, tab triggers), pass a `value` - it additionally renders `data-value`, which is how the client tells the items apart:
 
@@ -71,7 +71,7 @@ mountAll('primitives:accordion', ({ props }) => {
 });
 ```
 
-This runs for every accordion on the page, extracting props from the hydration data and initializing each instance. Creating a component only stores its props - `init()` builds the state machine, renders and starts it, so `instance.machine` and `instance.api` are available once `init()` has run.
+This runs for every accordion on the page, extracting props from the hydration data and initializing each instance. Creating a component only stores its props - `init()` builds the state machine, renders and starts it, so `instance.machine`, `instance.api` and `instance.hydrator` are available once `init()` has run. Reading one earlier throws an error telling you to call `init()` first.
 
 The namespace is required, not cosmetic: two different component collections can register a
 same-named root component (e.g. your own styled wrapper around `primitives:accordion` that doesn't
@@ -124,7 +124,7 @@ mountAll('ui:my-component', ({ props, createHydrator }) => {
 
 `query()` returns the first matching element (or `null`), `queryAll()` every match. Both search the whole document by default, so content that was portaled elsewhere is found too - pass an element as the second argument to narrow the search to it.
 
-The built-in `Component` base class includes the same `query` and `queryAll` methods so you can skip creating a hydrator manually. Elements you create on the client can be marked like `ui:ref` does with `hydrator.stamp(el, 'part', value?)`.
+Every `Component` instance exposes its own hydrator as `instance.hydrator`, so you can skip creating one manually: `combobox.hydrator.query('list')`. Elements you create on the client can be marked like `ui:ref` does with `hydrator.stamp(el, 'part', value?)`.
 
 If you need to use `ComponentHydrator` outside of a `mountAll` callback, create an instance with the component name and root ID:
 

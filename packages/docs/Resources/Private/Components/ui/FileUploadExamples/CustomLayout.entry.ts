@@ -13,7 +13,7 @@ class FileUploadWithCounter extends FileUpload {
     }
 
     private updateFilesCounter() {
-        const counterEl = this.query<HTMLElement>('filesCounter');
+        const counterEl = this.hydrator.query<HTMLElement>('filesCounter');
         if (!counterEl) return;
 
         counterEl.textContent = `${this.api.acceptedFiles.length} / ${this.machine.prop('maxFiles')} files selected`;
@@ -30,8 +30,8 @@ class FileUploadWithCounter extends FileUpload {
      * itemSizeText/itemPreview already get theirs, so no special handling is needed here either.
      */
     private updateItemModifiedDates() {
-        this.queryAll<HTMLElement>('item').forEach(itemEl => {
-            const dateEl = this.query<HTMLElement>('itemModifiedDate', itemEl);
+        this.hydrator.queryAll<HTMLElement>('item').forEach(itemEl => {
+            const dateEl = this.hydrator.query<HTMLElement>('itemModifiedDate', itemEl);
             const value = itemEl.dataset.value;
             if (!dateEl || !value) return;
 
