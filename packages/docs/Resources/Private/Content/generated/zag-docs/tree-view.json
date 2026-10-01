@@ -168,6 +168,10 @@
             "cancelRenaming": {
                 "type": "() => void",
                 "description": "Function to cancel renaming without changes"
+            },
+            "getNodeState": {
+                "type": "(props: NodeProps) => NodeState",
+                "description": "Returns the state of a node including whether it's selected, expanded,\nfocused, disabled, checked, loading, renaming, and its depth/path info."
             }
         },
         "context": {
@@ -294,102 +298,77 @@
         }
     },
     "dataAttributes": {
-        "Item": {
-            "data-scope": "tree-view",
-            "data-part": "item",
+        "Tree": {
+            "data-tree-view-tree": "<uid>",
+            "data-branch": ""
+        },
+        "NodeGroup": {
+            "data-tree-view-node-group": "<uid>",
+            "data-depth": "The depth of the item",
+            "data-value": "The value of the item",
+            "data-path": "The path of the item",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
+            "data-loading": "Present when loading"
+        },
+        "Node": {
+            "data-tree-view-node": "<uid>",
             "data-path": "The path of the item",
             "data-value": "The value of the item",
             "data-focus": "Present when focused",
             "data-selected": "Present when selected",
+            "data-state": "\"open\" | \"closed\"",
             "data-disabled": "Present when disabled",
             "data-renaming": "",
             "data-checked": "Present when checked",
             "data-indeterminate": "",
-            "data-depth": "The depth of the item"
-        },
-        "ItemText": {
-            "data-scope": "tree-view",
-            "data-part": "item-text",
-            "data-disabled": "Present when disabled",
-            "data-selected": "Present when selected",
-            "data-focus": "Present when focused"
-        },
-        "ItemIndicator": {
-            "data-scope": "tree-view",
-            "data-part": "item-indicator",
-            "data-disabled": "Present when disabled",
-            "data-selected": "Present when selected",
-            "data-focus": "Present when focused"
-        },
-        "Branch": {
-            "data-scope": "tree-view",
-            "data-part": "branch",
             "data-depth": "The depth of the item",
-            "data-branch": "",
-            "data-value": "The value of the item",
-            "data-path": "The path of the item",
-            "data-selected": "Present when selected",
-            "data-state": "\"open\" | \"closed\"",
+            "data-loading": "Present when loading",
+            "data-branch": ""
+        },
+        "NodeExpandTrigger": {
+            "data-tree-view-node-expand-trigger": "<uid>",
             "data-disabled": "Present when disabled",
+            "data-state": "\"open\" | \"closed\"",
+            "data-value": "The value of the item",
             "data-loading": "Present when loading"
         },
-        "BranchIndicator": {
-            "data-scope": "tree-view",
-            "data-part": "branch-indicator",
+        "NodeText": {
+            "data-tree-view-node-text": "<uid>",
+            "data-disabled": "Present when disabled",
+            "data-selected": "Present when selected",
+            "data-focus": "Present when focused",
             "data-state": "\"open\" | \"closed\"",
+            "data-loading": "Present when loading"
+        },
+        "NodeIndicator": {
+            "data-tree-view-node-indicator": "<uid>",
+            "data-type": "The type of the item",
+            "data-state": "\"expanded\" | \"open\" | \"closed\"",
             "data-disabled": "Present when disabled",
             "data-selected": "Present when selected",
             "data-focus": "Present when focused",
             "data-loading": "Present when loading"
         },
-        "BranchTrigger": {
-            "data-scope": "tree-view",
-            "data-part": "branch-trigger",
-            "data-disabled": "Present when disabled",
-            "data-state": "\"open\" | \"closed\"",
-            "data-value": "The value of the item",
-            "data-loading": "Present when loading"
-        },
-        "BranchControl": {
-            "data-scope": "tree-view",
-            "data-part": "branch-control",
-            "data-path": "The path of the item",
-            "data-state": "\"open\" | \"closed\"",
-            "data-disabled": "Present when disabled",
-            "data-selected": "Present when selected",
-            "data-focus": "Present when focused",
-            "data-renaming": "",
-            "data-checked": "Present when checked",
-            "data-indeterminate": "",
-            "data-value": "The value of the item",
-            "data-depth": "The depth of the item",
-            "data-loading": "Present when loading"
-        },
-        "BranchText": {
-            "data-scope": "tree-view",
-            "data-part": "branch-text",
-            "data-disabled": "Present when disabled",
-            "data-state": "\"open\" | \"closed\"",
-            "data-loading": "Present when loading"
-        },
-        "BranchContent": {
-            "data-scope": "tree-view",
-            "data-part": "branch-content",
+        "NodeGroupContent": {
+            "data-tree-view-node-group-content": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-depth": "The depth of the item",
             "data-path": "The path of the item",
             "data-value": "The value of the item"
         },
-        "BranchIndentGuide": {
-            "data-scope": "tree-view",
-            "data-part": "branch-indent-guide",
+        "IndentGuide": {
+            "data-tree-view-indent-guide": "<uid>",
             "data-depth": "The depth of the item"
         },
         "NodeCheckbox": {
-            "data-scope": "tree-view",
-            "data-part": "node-checkbox",
+            "data-tree-view-node-checkbox": "<uid>",
             "data-state": "\"checked\" | \"unchecked\" | \"indeterminate\"",
             "data-disabled": "Present when disabled"
+        },
+        "NodeCell": {
+            "data-tree-view-node-cell": "<uid>",
+            "data-value": "The value of the item"
         }
     }
 }

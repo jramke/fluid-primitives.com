@@ -52,6 +52,22 @@
             "submit": {
                 "type": "VoidFunction",
                 "description": "Function to exit edit mode, and submit any changes"
+            },
+            "getAreaState": {
+                "type": "() => AreaState",
+                "description": "Returns the state of the area"
+            },
+            "getLabelState": {
+                "type": "() => LabelState",
+                "description": "Returns the state of the label"
+            },
+            "getInputState": {
+                "type": "() => InputState",
+                "description": "Returns the state of the input"
+            },
+            "getPreviewState": {
+                "type": "() => PreviewState",
+                "description": "Returns the state of the preview"
             }
         },
         "context": {
@@ -179,30 +195,26 @@
     },
     "dataAttributes": {
         "Area": {
-            "data-scope": "editable",
-            "data-part": "area",
+            "data-editable-area": "<uid>",
             "data-focus": "Present when focused",
             "data-disabled": "Present when disabled",
             "data-placeholder-shown": "Present when placeholder is shown"
         },
         "Label": {
-            "data-scope": "editable",
-            "data-part": "label",
+            "data-editable-label": "<uid>",
             "data-focus": "Present when focused",
             "data-invalid": "Present when invalid",
             "data-required": "Present when required"
         },
         "Input": {
-            "data-scope": "editable",
-            "data-part": "input",
+            "data-editable-input": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-invalid": "Present when invalid",
             "data-autoresize": ""
         },
         "Preview": {
-            "data-scope": "editable",
-            "data-part": "preview",
+            "data-editable-preview": "<uid>",
             "data-placeholder-shown": "Present when placeholder is shown",
             "data-readonly": "Present when read-only",
             "data-disabled": "Present when disabled",

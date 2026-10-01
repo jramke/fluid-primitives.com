@@ -138,22 +138,19 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "splitter",
-            "data-part": "root",
+            "data-splitter-root": "<uid>",
             "data-orientation": "The orientation of the splitter",
             "data-dragging": "Present when in the dragging state"
         },
         "Panel": {
-            "data-scope": "splitter",
-            "data-part": "panel",
+            "data-splitter-panel": "<uid>",
             "data-orientation": "The orientation of the panel",
             "data-dragging": "Present when in the dragging state",
             "data-id": "",
             "data-index": "The index of the item"
         },
         "ResizeTrigger": {
-            "data-scope": "splitter",
-            "data-part": "resize-trigger",
+            "data-splitter-resize-trigger": "<uid>",
             "data-id": "",
             "data-orientation": "The orientation of the resizetrigger",
             "data-focus": "Present when focused",

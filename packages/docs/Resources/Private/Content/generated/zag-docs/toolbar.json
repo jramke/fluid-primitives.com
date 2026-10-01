@@ -1,0 +1,92 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the toolbar is disabled."
+            },
+            "focusedValue": {
+                "type": "string | null",
+                "description": "The value of the item that is currently focused, if any."
+            },
+            "orientation": {
+                "type": "Orientation",
+                "description": "The orientation of the toolbar."
+            },
+            "getItemId": {
+                "type": "(value: string) => string",
+                "description": "Returns the resolved DOM id for the given item value. Useful for aligning\na composed machine's own id (e.g. `select`'s `ids.trigger`) with a toolbar\nitem, so the two machines agree on one DOM node."
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state details of the given item."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements in the toolbar. Useful for composition."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the toolbar is disabled. This cascades into every item's\neffective `disabled` state, but never affects `getLinkProps`."
+            },
+            "orientation": {
+                "type": "Orientation | undefined",
+                "description": "The orientation of the toolbar.",
+                "defaultValue": "\"horizontal\""
+            },
+            "loopFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to loop focus inside the toolbar when navigating with the keyboard.",
+                "defaultValue": "true"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-toolbar-root": "<uid>",
+            "data-orientation": "The orientation of the toolbar",
+            "data-disabled": "Present when disabled"
+        },
+        "Group": {
+            "data-toolbar-group": "<uid>",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the group"
+        },
+        "Separator": {
+            "data-toolbar-separator": "<uid>",
+            "data-orientation": "The orientation of the separator"
+        },
+        "Item": {
+            "data-toolbar-item": "<uid>",
+            "data-disabled": "Present when disabled",
+            "data-focusable-when-disabled": "",
+            "data-orientation": "The orientation of the item"
+        },
+        "Link": {
+            "data-toolbar-link": "<uid>",
+            "data-orientation": "The orientation of the link"
+        },
+        "Input": {
+            "data-toolbar-input": "<uid>",
+            "data-disabled": "Present when disabled",
+            "data-focusable-when-disabled": "",
+            "data-orientation": "The orientation of the input"
+        }
+    }
+}

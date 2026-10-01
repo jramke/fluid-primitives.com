@@ -66,7 +66,13 @@ Merge attributes into child element instead of rendering the default wrapper. Se
 
 ### `ids`
 
-Override default IDs for component parts. Useful when composing multiple components together. See [Composition](/docs/core-concepts/composition).
+Declare the IDs of a component's parts. This is the only place to give a `ui:ref` element an `id` - pass it on the component's root, for the primitives and for your own components alike, and don't write an `id` attribute on the ref'd element yourself:
+
+```html
+<ui:collapsible.root ids="{content: 'my-content'}"> ... </ui:collapsible.root>
+```
+
+The keys are part names. The id is rendered on the server and handed to the client, so the server-rendered markup, the client lookup and Zag's machine all use the same one. Useful when composing multiple components together. See [Composition](/docs/core-concepts/composition) and [Hydration](/docs/core-concepts/hydration#content-ids).
 
 ### `controlled`
 
@@ -123,7 +129,11 @@ Use `ui:useProps` to inherit prop definitions from another component - this is h
 <ui:useProps name="primitives:accordion.root" as="rootProps" />
 
 <!-- Inherit specific props only -->
-<ui:useProps name="primitives:accordion.root" as="rootProps" props="{0: 'multiple', 1: 'collapsible'}" />
+<ui:useProps
+    name="primitives:accordion.root"
+    as="rootProps"
+    props="{0: 'multiple', 1: 'collapsible'}"
+/>
 ```
 
 `as="someName"` binds the imported, forwardable prop names under that name, for a paired `spreadProps="{someName}"` on the component you're actually rendering:
@@ -134,4 +144,4 @@ Use `ui:useProps` to inherit prop definitions from another component - this is h
 </primitives:accordion.root>
 ```
 
-`as` is required whenever you genuinely render the referenced component this way - its presence is what tells Fluid Primitives your wrapper actually delegates, as opposed to just reusing another component's prop shape. Omit it if you don't render the referenced component at all (e.g. a wrapper that only wants the same prop *declarations* for its own, independently-rendered markup) - `ui:useProps` still imports the prop definitions either way, it just won't forward anything anywhere.
+`as` is required whenever you genuinely render the referenced component this way - its presence is what tells Fluid Primitives your wrapper actually delegates, as opposed to just reusing another component's prop shape. Omit it if you don't render the referenced component at all (e.g. a wrapper that only wants the same prop _declarations_ for its own, independently-rendered markup) - `ui:useProps` still imports the prop definitions either way, it just won't forward anything anywhere.

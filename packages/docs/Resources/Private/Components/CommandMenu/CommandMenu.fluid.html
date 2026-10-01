@@ -33,7 +33,7 @@
                         <ui:combobox.clearTrigger />
                         <kbd class="rounded-md border bg-secondary/50 px-1.5 py-0.5 text-[10px] text-muted-foreground content-center">Esc</kbd>
                     </ui:combobox.control>
-                    <ui:combobox.content class="!duration-0 !mt-0 !rounded-b-lg !rounded-t-none !border-t !pointer-events-auto pe-0! scroller">
+                    <ui:combobox.content class="!duration-0 !mt-0 !rounded-b-lg !rounded-t-none !border-t !pointer-events-auto *:data-combobox-list:pe-0! *:data-combobox-list:scroller">
                         <ui:combobox.empty class="justify-start">
                             <span {ui:ref(name: 'statusText' , context: 'combobox' )}>Loading search index…</span>
                         </ui:combobox.empty>

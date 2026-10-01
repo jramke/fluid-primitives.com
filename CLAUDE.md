@@ -209,12 +209,18 @@ export class Accordion extends Component<accordion.Props, accordion.Api> {
 
     render() {
         // Hydrate DOM elements with state machine props
-        const rootEl = this.getElement('root');
+        const rootEl = this.query('root');
         if (rootEl) this.spreadProps(rootEl, this.api.getRootProps());
         // ... hydrate other elements
     }
 }
 ```
+
+`new Accordion(props)` only stores the props. `init()` runs `transformProps()` once - its result is
+`userProps` - then builds the hydrator, machine and api from it (`initHydrator()`, `initMachine()`,
+`initApi()`), renders and starts the machine. So `machine`/`api` don't exist before `init()`, and a
+field assigned inside `initMachine()` is safe: no overridable hook runs from the base constructor,
+before the subclass' field initializers.
 
 ### Entry File Pattern
 

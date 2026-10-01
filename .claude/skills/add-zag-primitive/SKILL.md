@@ -39,7 +39,7 @@ Check `node_modules/@zag-js/<component>` exists.
     - `dist/<component>.types.d.ts` - `Props` interface (with doc comments, used for `ui:prop`
       descriptions) and `Api` interface (the client-side return shape).
     - `dist/<component>.anatomy.mjs` - the definitive list of anatomy parts
-      (`data-scope`/`data-part` pairs). One Fluid template file per part.
+      (each part renders one `data-<component>-<part>` attribute). One Fluid template file per part.
     - `dist/<component>.props.mjs` - default prop values.
     - `dist/<component>.machine.mjs` - states/events/context, useful background, rarely needed for
       template work.
@@ -52,9 +52,10 @@ zagjs.com docs page, keyed by component slug, across four JSON files:
 - `api.json` - `{ api: {...}, context: {...} }`: the public `Api` members and every `Props`
   field, each with `type` and `description`. Use `.context` to write accurate `ui:prop`
   descriptions.
-- `data-attr.json` - per anatomy part: exact `data-scope`, `data-part`, `data-state` value union,
-  and conditional attributes (`data-disabled`, `data-invalid`, etc.) with when they're present.
-  This is the fastest cross-check for Step 4's attribute rule.
+- `data-attr.json` - per anatomy part: the part attribute itself (`data-<component>-<part>`, with
+  the scope id as its value), the `data-state` value union, and conditional attributes
+  (`data-disabled`, `data-invalid`, etc.) with when they're present. This is the fastest cross-check
+  for Step 4's attribute rule.
 - `css-vars.json` - CSS custom properties the machine sets inline per part (e.g. Collapsible's
   `Content` part exposes `--height`/`--width`/`--collapsed-height`/`--collapsed-width`). Use these
   in the `/ui` wrapper's Tailwind classes/animations (Step 8).
@@ -123,8 +124,8 @@ Within that rule, decide what to server-render per part like this - don't overco
 keep the ones that prevent an incorrect first paint:
 
 - **Render server-side**: anything derivable from props alone at render time, where getting it
-  wrong causes a visible flash before hydration - `role`, `type="button"`, `data-scope`/`data-part`
-  (via `ui:ref`), `data-state`, `data-disabled`, `data-orientation`, and boolean `aria-*` states
+  wrong causes a visible flash before hydration - `role`, `type="button"`, the
+  `data-<component>-<part>` marker (via `ui:ref`), `data-state`, `data-disabled`, `data-orientation`, and boolean `aria-*` states
   that follow directly from a default/controlled prop (`aria-expanded`, `aria-checked`,
   `aria-selected`, `aria-disabled`). Render `hidden` wherever its absence would flash unstyled
   content before hydration (see `Collapsible/Content.fluid.html`, `Collapsible/Indicator.fluid.html`).
@@ -143,7 +144,8 @@ keep the ones that prevent an incorrect first paint:
 `Collapsible.ts`: `import * as <component> from '@zag-js/<component>'`, extend
 `Component<<component>.Props, <component>.Api>`, `static componentName = '<component>'`
 (camelCase if the package name is multi-word, e.g. `toggleGroup`), `initMachine`, `initApi`,
-`render()` spreading `api.get<Part>Props()` onto every ref'd element. Use `getElement`/`getElements`
+`render()` spreading `api.get<Part>Props()` onto every ref'd element (the base class runs the hooks
+from `init()`, not the constructor, so a field assigned in `initMachine` is safe). Use `query`/`queryAll`
 for single/repeated parts and `spreadPropsByValue` for state-variant siblings (see `Collapsible.ts`'s
 indicator handling).
 
@@ -162,8 +164,8 @@ wrapper (Step 8).
 
 `packages/fluid-primitives/tests/Functional/Components/<Component>RenderingTest.php`, following
 `CollapsibleRenderingTest.php`'s shape: render minimal `<primitives:...>` markup via
-`renderTemplate()` and assert on the concrete server-rendered output from Step 5 - `data-scope`/
-`data-part`, the role/type, the aria-* and `hidden` attributes that differ across states (default
+`renderTemplate()` and assert on the concrete server-rendered output from Step 5 - the
+`data-<component>-<part>` marker, the role/type, the aria-* and `hidden` attributes that differ across states (default
 vs. explicit prop). Per CLAUDE.md's Test Quality Guidelines, don't test trivial getter passthrough -
 test the state derivation logic actually written in the context class.
 

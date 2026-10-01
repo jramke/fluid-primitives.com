@@ -35,10 +35,6 @@
     },
     "api": {
         "api": {
-            "portalled": {
-                "type": "boolean",
-                "description": "Whether the popover is portalled."
-            },
             "open": {
                 "type": "boolean",
                 "description": "Whether the popover is open"
@@ -58,6 +54,18 @@
             "reposition": {
                 "type": "(options?: Partial<PositioningOptions>) => void",
                 "description": "Function to reposition the popover"
+            },
+            "getTriggerState": {
+                "type": "(props?: TriggerProps) => TriggerState",
+                "description": "Returns the state of a specific trigger, including whether it's the currently active one"
+            },
+            "getPositionerState": {
+                "type": "() => PositionerState",
+                "description": "Returns the state of the positioner"
+            },
+            "getContentState": {
+                "type": "() => ContentState",
+                "description": "Returns the state of the content"
             }
         },
         "context": {
@@ -74,18 +82,13 @@
                 "description": "Whether the popover should be modal. When set to `true`:\n- interaction with outside elements will be disabled\n- only popover content will be visible to screen readers\n- scrolling is blocked\n- focus is trapped within the popover",
                 "defaultValue": "false"
             },
-            "portalled": {
-                "type": "boolean | undefined",
-                "description": "Whether the popover is portalled. This will proxy the tabbing behavior regardless of the DOM position\nof the popover content.",
-                "defaultValue": "true"
-            },
             "autoFocus": {
                 "type": "boolean | undefined",
                 "description": "Whether to automatically set focus on the first focusable\ncontent within the popover when opened.",
                 "defaultValue": "true"
             },
             "initialFocusEl": {
-                "type": "(() => HTMLElement | null) | undefined",
+                "type": "(() => HTMLElement | null) | null | undefined",
                 "description": "The element to focus on when the popover is opened."
             },
             "finalFocusEl": {
@@ -152,8 +155,7 @@
     },
     "dataAttributes": {
         "Trigger": {
-            "data-scope": "popover",
-            "data-part": "trigger",
+            "data-popover-trigger": "<uid>",
             "data-placement": "The placement of the trigger",
             "data-side": "The side of the trigger that the trigger is positioned on",
             "data-value": "The value of the item",
@@ -161,19 +163,22 @@
             "data-state": "\"open\" | \"closed\""
         },
         "Indicator": {
-            "data-scope": "popover",
-            "data-part": "indicator",
+            "data-popover-indicator": "<uid>",
             "data-state": "\"open\" | \"closed\""
         },
+        "Positioner": {
+            "data-popover-positioner": "<uid>",
+            "data-nested": "Present when the positioner is nested within another {{widget}}",
+            "data-has-nested": "Present when the positioner has nested {{widget}}s"
+        },
         "Content": {
-            "data-scope": "popover",
-            "data-part": "content",
+            "data-popover-content": "<uid>",
             "data-state": "\"open\" | \"closed\"",
-            "data-nested": "popover",
-            "data-has-nested": "popover",
             "data-expanded": "Present when expanded",
             "data-placement": "The placement of the content",
-            "data-side": "The side of the trigger that the content is positioned on"
+            "data-side": "The side of the trigger that the content is positioned on",
+            "data-nested": "popover",
+            "data-has-nested": "popover"
         }
     }
 }

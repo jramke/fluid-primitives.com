@@ -3,30 +3,34 @@
     "api": {
         "api": {
             "items": {
-                "type": "T[]",
+                "type": "Item[]",
                 "description": "The items in the list."
             },
-            "filterText": {
-                "type": "string",
-                "description": "The filter text."
+            "filter": {
+                "type": "Filter",
+                "description": "The current filter state."
             },
             "cursor": {
-                "type": "C | undefined",
-                "description": "The cursor."
-            },
-            "sortDescriptor": {
-                "type": "SortDescriptor<T> | undefined",
-                "description": "The sort descriptor."
-            },
-            "loading": {
-                "type": "boolean",
-                "description": "Whether the list is loading."
+                "type": "Cursor | undefined",
+                "description": "The cursor for pagination."
             },
             "sorting": {
-                "type": "boolean",
-                "description": "Whether the list is sorting."
+                "type": "Sorting | undefined",
+                "description": "The current sorting state."
             },
-            "empty": {
+            "isLoading": {
+                "type": "boolean",
+                "description": "Whether the list is loading (includes both fetching and sorting)."
+            },
+            "isLoadingMore": {
+                "type": "boolean",
+                "description": "Whether the list is loading more items via pagination."
+            },
+            "isSorting": {
+                "type": "boolean",
+                "description": "Whether a client-side sort is in progress."
+            },
+            "isEmpty": {
                 "type": "boolean",
                 "description": "Whether the list is empty."
             },
@@ -35,7 +39,7 @@
                 "description": "Whether there are more items to load."
             },
             "error": {
-                "type": "any | undefined",
+                "type": "Error | undefined",
                 "description": "The error instance returned by the last fetch."
             },
             "abort": {
@@ -50,39 +54,44 @@
                 "type": "VoidFunction",
                 "description": "Function to load more items"
             },
-            "sort": {
-                "type": "(sortDescriptor: SortDescriptor<T>) => void",
-                "description": "Function to sort the list"
+            "setSorting": {
+                "type": "(sorting: Updater<Sorting | undefined>) => void",
+                "description": "Function to update the sorting state and trigger a sort.\nAccepts a value or an updater function."
             },
-            "setFilterText": {
-                "type": "(filterText: string) => void",
-                "description": "Function to set the filter text"
+            "setFilter": {
+                "type": "(filter: Updater<Filter>) => void",
+                "description": "Function to update the filter state and trigger a reload.\nAccepts a value or an updater function."
             },
             "clearFilter": {
                 "type": "VoidFunction",
-                "description": "Function to clear the filter text"
+                "description": "Function to reset the filter to `initialFilter`.\nNo-op if `initialFilter` was not provided."
             }
         },
         "context": {
             "load": {
-                "type": "(args: LoadDetails<T, C>) => Promise<LoadResult<T, C>>",
+                "type": "(args: LoadDetails<Item, Filter, Sorting, Cursor>) => Promise<LoadResult<Item, Cursor>>",
                 "description": "The function to call when the list is loaded"
             },
             "sort": {
-                "type": "((args: SortDetails<T>) => Promise<{ items: T[] }> | { items: T[] } | undefined) | undefined",
-                "description": "The function to call when the list is sorted"
+                "type": "| ((args: SortDetails<Item, Filter, Sorting>) => Promise<{ items: Item[] }> | { items: Item[] } | undefined)\n    | undefined",
+                "description": "The function to call when the list is sorted client-side.\nWhen provided, sorting is performed locally instead of triggering a new load."
             },
             "initialItems": {
-                "type": "T[] | undefined",
+                "type": "Item[] | undefined",
                 "description": "The initial items to display"
             },
-            "initialSortDescriptor": {
-                "type": "SortDescriptor<T> | undefined",
-                "description": "The initial sort descriptor to use"
+            "initialSorting": {
+                "type": "Sorting | undefined",
+                "description": "The initial sorting state"
             },
-            "initialFilterText": {
-                "type": "string | undefined",
-                "description": "The initial filter text to use"
+            "initialFilter": {
+                "type": "Filter | undefined",
+                "description": "The initial filter state"
+            },
+            "keepPreviousItems": {
+                "type": "boolean | undefined",
+                "description": "Whether to keep the previous items visible while new data is loading.\nPrevents content flash when filter or sort changes.",
+                "defaultValue": "false"
             },
             "dependencies": {
                 "type": "LoadDependency[] | undefined",
@@ -93,7 +102,7 @@
                 "description": "Whether to automatically reload the list when the dependencies change"
             },
             "onSuccess": {
-                "type": "((details: { items: T[] }) => void | undefined) | undefined",
+                "type": "((details: { items: Item[] }) => void | undefined) | undefined",
                 "description": "The function to call when the list is loaded successfully"
             },
             "onError": {
