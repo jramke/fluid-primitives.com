@@ -183,11 +183,13 @@ When a Field-aware primitive is placed inside a `ui:field.root`, the field's sta
             <ui:select.trigger placeholder="Pick a country" />
         </ui:select.control>
         <ui:select.content>
-            <f:for each="{countries.items}" as="item">
-                <ui:select.item item="{item}">
-                    <ui:select.itemText>{item.label}</ui:select.itemText>
-                </ui:select.item>
-            </f:for>
+            <ui:select.list>
+                <f:for each="{countries.items}" as="item">
+                    <ui:select.item item="{item}">
+                        <ui:select.itemText>{item.label}</ui:select.itemText>
+                    </ui:select.item>
+                </f:for>
+            </ui:select.list>
         </ui:select.content>
     </ui:select.root>
     <ui:field.error />

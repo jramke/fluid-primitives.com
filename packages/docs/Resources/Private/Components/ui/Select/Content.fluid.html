@@ -4,7 +4,7 @@
     <primitives:select.positioner>
         <primitives:select.content spreadProps="{contentProps}" class="{ui:cn(value: '
             outline-none bg-popover text-popover-foreground relative z-50
-            min-w-[8rem] w-(--reference-width)
+            flex flex-col max-h-(--available-height) min-w-[8rem] w-(--reference-width)
             origin-(--transform-origin) overflow-hidden
             rounded-md border shadow-md
             transition-all ease-out duration-150 transition-discrete
@@ -16,9 +16,7 @@
             starting:data-[state=open]:data-[placement*=top]:translate-y-1 data-[state=closed]:data-[placement*=top]:translate-y-1
             {class}
         ')}">
-            <primitives:select.list class="max-h-(--available-height) overflow-x-hidden overflow-y-auto scroll-my-1 p-1 outline-none">
-                <f:slot />
-            </primitives:select.list>
+            <f:slot />
         </primitives:select.content>
     </primitives:select.positioner>
 </ui:portal>

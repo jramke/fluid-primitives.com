@@ -40,12 +40,14 @@
     </ui:combobox.control>
     <ui:combobox.content>
         <ui:combobox.empty>No cities found.</ui:combobox.empty>
-        <f:for each="{collection.items}" as="item">
-            <ui:combobox.item item="{item}">
-                <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
-                <ui:combobox.itemIndicator />
-            </ui:combobox.item>
-        </f:for>
+        <ui:combobox.list>
+            <f:for each="{collection.items}" as="item">
+                <ui:combobox.item item="{item}">
+                    <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
+                    <ui:combobox.itemIndicator />
+                </ui:combobox.item>
+            </f:for>
+        </ui:combobox.list>
     </ui:combobox.content>
 </ui:combobox.root>
 

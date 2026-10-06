@@ -26,12 +26,14 @@
                     <ui:select.trigger placeholder="Select a ticket type" />
                 </ui:select.control>
                 <ui:select.content>
-                    <f:for each="{ticketTypes.items}" as="item">
-                        <ui:select.item item="{item}">
-                            <ui:select.itemText>{item.label}</ui:select.itemText>
-                            <ui:select.itemIndicator />
-                        </ui:select.item>
-                    </f:for>
+                    <ui:select.list>
+                        <f:for each="{ticketTypes.items}" as="item">
+                            <ui:select.item item="{item}">
+                                <ui:select.itemText>{item.label}</ui:select.itemText>
+                                <ui:select.itemIndicator />
+                            </ui:select.item>
+                        </f:for>
+                    </ui:select.list>
                 </ui:select.content>
             </ui:select.root>
             <ui:field.error />
@@ -156,12 +158,14 @@
                 </ui:combobox.control>
                 <ui:combobox.content>
                     <ui:combobox.empty>No countries found.</ui:combobox.empty>
-                    <f:for each="{countries.items}" as="item">
-                        <ui:combobox.item item="{item}">
-                            <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
-                            <ui:combobox.itemIndicator />
-                        </ui:combobox.item>
-                    </f:for>
+                    <ui:combobox.list>
+                        <f:for each="{countries.items}" as="item">
+                            <ui:combobox.item item="{item}">
+                                <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
+                                <ui:combobox.itemIndicator />
+                            </ui:combobox.item>
+                        </f:for>
+                    </ui:combobox.list>
                 </ui:combobox.content>
             </ui:combobox.root>
             <ui:field.description>Used for your badge and invoice details.</ui:field.description>

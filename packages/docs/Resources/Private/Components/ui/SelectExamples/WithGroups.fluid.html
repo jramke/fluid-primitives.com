@@ -14,16 +14,18 @@
         <ui:select.trigger placeholder="Choose produce" />
     </ui:select.control>
     <ui:select.content>
-        <f:for each="{collection.group}" as="group" key="type">
-            <ui:select.itemGroup value="{type}">
-                <ui:select.itemGroupLabel>{type}</ui:select.itemGroupLabel>
-                <f:for each="{group}" as="item">
-                    <ui:select.item item="{item}">
-                        <ui:select.itemText>{item.label}</ui:select.itemText>
-                        <ui:select.itemIndicator />
-                    </ui:select.item>
-                </f:for>
-            </ui:select.itemGroup>
-        </f:for>
+        <ui:select.list>
+            <f:for each="{collection.group}" as="group" key="type">
+                <ui:select.itemGroup value="{type}">
+                    <ui:select.itemGroupLabel>{type}</ui:select.itemGroupLabel>
+                    <f:for each="{group}" as="item">
+                        <ui:select.item item="{item}">
+                            <ui:select.itemText>{item.label}</ui:select.itemText>
+                            <ui:select.itemIndicator />
+                        </ui:select.item>
+                    </f:for>
+                </ui:select.itemGroup>
+            </f:for>
+        </ui:select.list>
     </ui:select.content>
 </ui:select.root>

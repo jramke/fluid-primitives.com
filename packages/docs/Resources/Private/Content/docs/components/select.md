@@ -81,7 +81,7 @@ Default clear trigger labels are shipped via XLF and follow the current Site Lan
             ["indicator", "Displays a decorative indicator for the trigger. Renders a `<span>` element."],
             ["clearTrigger", "Clears the current selection. Renders a `<button>` element."],
             ["positioner", "Positions the floating select content. Renders a `<div>` element."],
-            ["content", "The popup surface, positioned by `positioner`. Wraps the `list`. Renders a `<div>` element."],
+            ["content", "The popup surface, positioned by `positioner`. Holds the `list` and, with `popupType` `dialog`, other widgets next to it. Renders a `<div>` element."],
             ["list", "The listbox inside `content` that holds the options - it takes focus, scrolls and tracks the active option. Renders a `<div>` element."],
             ["itemGroup", "Groups related options together. Renders a `<div>` element."],
             ["itemGroupLabel", "Labels a group of related options. Renders a `<div>` element."],
@@ -95,7 +95,15 @@ Default clear trigger labels are shipped via XLF and follow the current Site Lan
 
 ## Anatomy
 
-Zag puts the listbox semantics, focus, scrolling and the active option on `list`, so the options belong inside `list` rather than directly inside `content`. The styled `ui:select.content` renders the `list` for you.
+Zag puts the listbox semantics, focus, scrolling and the active option on `list`, so the options belong inside `list` rather than directly inside `content`, which is a plain wrapper around it (a dialog, with the `dialog` popup type). The styled `ui:select.content` is the `positioner` and `content` in one part, and `ui:select.list` is the `list` - you place it inside the content yourself:
+
+```html
+<ui:select.content>
+    <ui:select.list>
+        <ui:select.item>...</ui:select.item>
+    </ui:select.list>
+</ui:select.content>
+```
 
 ```html
 <primitives:select.root>

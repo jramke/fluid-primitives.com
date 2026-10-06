@@ -15,15 +15,17 @@
             </svg>
             <span {ui:ref(name: 'statusText' , context: 'combobox' )}>Start typing to search…</span>
         </ui:combobox.empty>
-        <ui:template name="itemTemplate" context="combobox">
-            <ui:combobox.item>
-                <ui:combobox.itemText>
-                    <span {ui:ref(name: 'title' )}></span>
-                    <span class="text-muted-foreground text-xs ms-1" {ui:ref(name: 'description' )}></span>
-                </ui:combobox.itemText>
-                <ui:combobox.itemIndicator />
-            </ui:combobox.item>
-        </ui:template>
+        <ui:combobox.list>
+            <ui:template name="itemTemplate" context="combobox">
+                <ui:combobox.item>
+                    <ui:combobox.itemText>
+                        <span {ui:ref(name: 'title' )}></span>
+                        <span class="text-muted-foreground text-xs ms-1" {ui:ref(name: 'description' )}></span>
+                    </ui:combobox.itemText>
+                    <ui:combobox.itemIndicator />
+                </ui:combobox.item>
+            </ui:template>
+        </ui:combobox.list>
     </ui:combobox.content>
 </ui:combobox.root>
 

@@ -110,7 +110,7 @@ Default combobox trigger labels are shipped via XLF and follow the current Site 
             ["clearTrigger", "Clears the current input value and selection. Renders a `<button>` element."],
             ["trigger", "Opens and closes the combobox listbox. Renders a `<button>` element."],
             ["positioner", "Positions the floating combobox content. Renders a `<div>` element."],
-            ["content", "The popup surface, positioned by `positioner`. Wraps the `list`. Renders a `<div>` element."],
+            ["content", "The popup surface, positioned by `positioner`. Holds the `list` and `empty` and, with `popupType` `dialog`, the `input` too. Renders a `<div>` element."],
             ["list", "The listbox inside `content` that holds the options - it scrolls and carries `role=\"listbox\"`. Renders a `<div>` element."],
             ["empty", "Displays a placeholder for when no items match the current search. Renders a `<div>` element."],
             ["item", "Represents a selectable option. Renders a `<div>` element."],
@@ -127,9 +127,9 @@ Default combobox trigger labels are shipped via XLF and follow the current Site 
 
 Unlike `Select`, Zag's combobox machine renders no native form control of its own - the visible `input` only ever holds the highlighted item's label (or, with `allowCustomValue`, arbitrary typed text), never its `value`. `hiddenInput` fills that gap: one visually hidden text input (kept out of the accessibility tree and tab order via `aria-hidden`/`tabindex="-1"`, not `type="hidden"`) per selected value, kept in sync with the current selection so the item's `value` (not its label) is what actually gets submitted. Include it once anywhere inside `combobox.root` - it renders as many hidden inputs as there are selected values (zero, one, or - with `multiple` - several).
 
-Zag puts the listbox semantics and scrolling on `list`, so the options belong inside `list` rather than directly inside `content`. The styled `ui:combobox.content` renders the `list` for you.
+Zag puts the listbox semantics and scrolling on `list`, so the options belong inside `list` rather than directly inside `content`, which is a plain wrapper around it (a dialog, with the `dialog` popup type). The styled `ui:combobox.content` is the `positioner` and `content` in one part, and `ui:combobox.list` is the `list` - you place it inside the content yourself.
 
-`combobox.empty` renders a placeholder for when the collection has no items to show - whether that's because nothing matches the current search text, or because an async search hasn't returned results yet. It's shown/hidden automatically alongside `content`/`list`'s own `data-empty` attribute, so no wiring is needed beyond placing it inside `combobox.list`.
+`combobox.empty` renders a placeholder for when the collection has no items to show - whether that's because nothing matches the current search text, or because an async search hasn't returned results yet. It's shown/hidden automatically alongside `content`/`list`'s own `data-empty` attribute, so no wiring is needed beyond placing it next to `combobox.list` inside `content` - it isn't an option, so it doesn't belong inside the listbox.
 
 ```html
 <primitives:combobox.root>
@@ -141,8 +141,8 @@ Zag puts the listbox semantics and scrolling on `list`, so the options belong in
     </primitives:combobox.control>
     <primitives:combobox.positioner>
         <primitives:combobox.content>
+            <primitives:combobox.empty />
             <primitives:combobox.list>
-                <primitives:combobox.empty />
                 <primitives:combobox.item>
                     <primitives:combobox.itemText />
                     <primitives:combobox.itemIndicator />
