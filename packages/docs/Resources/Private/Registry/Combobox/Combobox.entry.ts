@@ -6,9 +6,7 @@ import { Combobox } from 'fluid-primitives/combobox';
 const filter = createFilter({ sensitivity: 'base', locale: getGlobal('locale') });
 
 mountAll('ui:combobox', ({ props }) => {
-    let combobox: Combobox;
-
-    combobox = new Combobox({
+    const combobox = new Combobox({
         ...props,
         onInputValueChange: (details: InputValueChangeDetails) => {
             const source = combobox.getSourceCollection();
