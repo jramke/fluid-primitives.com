@@ -120,6 +120,10 @@ file-upload:
     - FileMeta.fluid.html
     - FileDeleteTrigger.fluid.html
     - EmptyState.fluid.html
+    - FileError.fluid.html
+    - FilePreviewFallback.fluid.html
+    - ItemPreview.fluid.html
+    - ItemPreviewImage.fluid.html
     - FileUpload.entry.ts
 
 form:
@@ -252,6 +256,22 @@ select:
     - ItemGroup.fluid.html
     - ItemGroupLabel.fluid.html
     - Select.entry.ts
+
+slider:
+  name: Slider
+  description: An input for selecting a value, or a range of values, from a given range
+  files:
+    - Root.fluid.html
+    - Label.fluid.html
+    - ValueText.fluid.html
+    - Control.fluid.html
+    - Track.fluid.html
+    - Range.fluid.html
+    - Thumb.fluid.html
+    - DraggingIndicator.fluid.html
+    - MarkerGroup.fluid.html
+    - Marker.fluid.html
+    - Slider.entry.ts
 
 switch:
   name: Switch
