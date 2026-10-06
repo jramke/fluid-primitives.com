@@ -1,0 +1,44 @@
+<ui:listCollection
+    items="{
+        0: {value: 'apple', label: 'Apple', category: 'fruit'},
+        1: {value: 'banana', label: 'Banana', category: 'fruit'},
+        2: {value: 'cherry', label: 'Cherry', category: 'fruit'},
+        3: {value: 'carrot', label: 'Carrot', category: 'vegetable'},
+        4: {value: 'broccoli', label: 'Broccoli', category: 'vegetable'},
+        5: {value: 'spinach', label: 'Spinach', category: 'vegetable'}
+    }"
+    as="collection" />
+
+<ui:select.root
+    collection="{collection}"
+    popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog')}"
+    controlled="{true}"
+    rootId="select-with-tabs">
+    <ui:select.label>Select produce</ui:select.label>
+    <ui:select.control class="min-w-48">
+        <ui:select.trigger placeholder="Choose produce" />
+    </ui:select.control>
+    <ui:select.content>
+        <ui:tabs.root defaultValue="all" controlled="{true}" rootId="select-with-tabs-tabs">
+            <ui:tabs.list class="mx-3 mt-1 border-b">
+                <ui:tabs.trigger value="all">All</ui:tabs.trigger>
+                <ui:tabs.trigger value="fruit">Fruits</ui:tabs.trigger>
+                <ui:tabs.trigger value="vegetable">Vegetables</ui:tabs.trigger>
+            </ui:tabs.list>
+            <ui:tabs.content value="all">
+                <ui:select.list>
+                    <f:for each="{collection.items}" as="item">
+                        <ui:select.item item="{item}">
+                            <ui:select.itemText>{item.label}</ui:select.itemText>
+                            <ui:select.itemIndicator />
+                        </ui:select.item>
+                    </f:for>
+                </ui:select.list>
+            </ui:tabs.content>
+            <ui:tabs.content value="fruit" />
+            <ui:tabs.content value="vegetable" />
+        </ui:tabs.root>
+    </ui:select.content>
+</ui:select.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/SelectExamples/WithTabs.entry.ts" />

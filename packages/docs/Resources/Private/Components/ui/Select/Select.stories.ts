@@ -34,3 +34,9 @@ export const DisabledItems: StoryObj = {
         example_id: 'disabled-items',
     },
 };
+
+export const WithTabs: StoryObj = {
+    args: {
+        example_id: 'with-tabs',
+    },
+};

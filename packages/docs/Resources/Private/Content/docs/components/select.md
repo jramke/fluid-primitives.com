@@ -12,6 +12,7 @@
 - Typeahead to allow focusing items by typing text
 - Keyboard navigation support including arrow keys, home/end
 - Supports disabled items and groups
+- Can host other widgets, like tabs, next to the list when the popup is a `dialog`
 - Works with Field component for form integration
 - Supports custom positioning
 
@@ -50,6 +51,12 @@ Organize items into logical groups.
 Use with the Field component for form validation.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.withField" } %}
+
+### With Tabs
+
+By default `content` is a passthrough wrapper around the `list`, and the list carries the listbox role. Set `popupType` to `PopupType::Dialog` (an enum, so `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog')}"`) when the popup also holds other interactive widgets: `content` is then announced as a dialog, and `list` stays the listbox. Place those widgets next to the list inside `content`. Here a few tabs narrow the items down - the select keeps a single list, so the example moves it into the active tab's panel and swaps the machine's collection (hiding the other items) whenever the active tab changes.
+
+{% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.withTabs", "additionalFiles": {"WithTabs.entry.ts": "EXT:docs/Resources/Private/Components/ui/SelectExamples/WithTabs.entry.ts"} } %}
 
 ### Localization
 
