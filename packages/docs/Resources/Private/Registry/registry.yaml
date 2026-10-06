@@ -63,7 +63,7 @@ collapsible:
   files:
     - Root.fluid.html
     - Trigger.fluid.html
-    - TriggerText.fluid.html
+    - Indicator.fluid.html
     - Content.fluid.html
     - Collapsible.entry.ts
 
@@ -78,7 +78,6 @@ dialog:
     - Footer.fluid.html
     - Title.fluid.html
     - Description.fluid.html
-    - CloseTrigger.fluid.html
     - Close.fluid.html
     - Dialog.entry.ts
 
@@ -202,6 +201,7 @@ number-input:
     - Input.fluid.html
     - IncrementTrigger.fluid.html
     - DecrementTrigger.fluid.html
+    - Scrubber.fluid.html
     - NumberInput.entry.ts
 
 popover:
@@ -213,7 +213,6 @@ popover:
     - Content.fluid.html
     - Title.fluid.html
     - Description.fluid.html
-    - CloseTrigger.fluid.html
     - Close.fluid.html
     - Popover.entry.ts
 
