@@ -20,10 +20,10 @@
     </ui:select.control>
     <ui:select.content>
         <ui:tabs.root defaultValue="all" controlled="{true}" rootId="select-with-tabs-tabs">
-            <ui:tabs.list class="mx-3 mt-1 border-b">
-                <ui:tabs.trigger value="all">All</ui:tabs.trigger>
-                <ui:tabs.trigger value="fruit">Fruits</ui:tabs.trigger>
-                <ui:tabs.trigger value="vegetable">Vegetables</ui:tabs.trigger>
+            <ui:tabs.list class="px-3 flex">
+                <ui:tabs.trigger class="text-sm" value="all">All</ui:tabs.trigger>
+                <ui:tabs.trigger class="text-sm" value="fruit">Fruits</ui:tabs.trigger>
+                <ui:tabs.trigger class="text-sm" value="vegetable">Vegetables</ui:tabs.trigger>
             </ui:tabs.list>
             <ui:tabs.content value="all">
                 <ui:select.list>
