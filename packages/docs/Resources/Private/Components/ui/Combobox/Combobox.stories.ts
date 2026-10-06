@@ -45,3 +45,9 @@ export const Multiple: StoryObj = {
         example_id: 'multiple',
     },
 };
+
+export const InputInContent: StoryObj = {
+    args: {
+        example_id: 'input-in-content',
+    },
+};

@@ -17,6 +17,7 @@
 - Filtering is plain `onInputValueChange` userland code, not a special API - swap the match logic per instance the same way you'd swap it in any Zag/Ark UI consumer
 - Ships with locale-aware substring filtering via Zag's i18n utilities, wired up in the default mount entry
 - Supports async, server-rendered search results via `ui:template`
+- Can move the input into the popup, behind a focusable trigger, with the `dialog` popup type
 
 ## Installation
 
@@ -80,6 +81,14 @@ Async results can be grouped too - author a second `ui:template` for the group w
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.asyncSearchGrouped", "additionalFiles": {"AsyncSearchGrouped.entry.ts": "EXT:docs/Resources/Private/Components/ui/ComboboxExamples/AsyncSearchGrouped.entry.ts"} } %}
 
+### Input in Content
+
+By default the input is the combobox's focus target and the popup is a passive listbox. Set `popupType` to `PopupType::Dialog` (`popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog')}"`) to turn it into a popover-style picker instead: the input moves into the `content`, above the `list`, and a trigger opens the popup. The `content` is then announced as a dialog, a click on the label focuses the trigger, and the trigger becomes focusable - it is the only way in, so Zag makes it so by default (the trigger's own `focusable` prop overrides that either way).
+
+Since the input is no longer in the control, the trigger has to show the current selection itself - here a plain button with a hand-authored `valueText` ref that the example's entry file keeps in sync with `api.valueAsString`.
+
+{% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.inputInContent", "additionalFiles": {"InputInContent.entry.ts": "EXT:docs/Resources/Private/Components/ui/ComboboxExamples/InputInContent.entry.ts"} } %}
+
 ### Localization
 
 Default combobox trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop.
@@ -108,7 +117,7 @@ Default combobox trigger labels are shipped via XLF and follow the current Site 
             ["control", "Groups the input and its trigger/clear buttons. Renders a `<div>` element."],
             ["input", "The text input used to search and select from the collection. Renders an `<input>` element."],
             ["clearTrigger", "Clears the current input value and selection. Renders a `<button>` element."],
-            ["trigger", "Opens and closes the combobox listbox. Renders a `<button>` element."],
+            ["trigger", "Opens and closes the combobox listbox. Not focusable unless `focusable` is set, or `popupType` is `dialog`. Renders a `<button>` element."],
             ["positioner", "Positions the floating combobox content. Renders a `<div>` element."],
             ["content", "The popup surface, positioned by `positioner`. Holds the `list` and `empty` and, with `popupType` `dialog`, the `input` too. Renders a `<div>` element."],
             ["list", "The listbox inside `content` that holds the options - it scrolls and carries `role=\"listbox\"`. Renders a `<div>` element."],
