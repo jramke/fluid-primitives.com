@@ -7,6 +7,9 @@
 
 Call a method on an object with optional arguments.
 
+Only needed for methods that take arguments or aren't getters: Fluid already resolves
+`{object.something}` to `getSomething()`, `isSomething()` or `hasSomething()`.
+
 Used internally and exposed for convenience.
 
 ## Examples

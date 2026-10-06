@@ -49,11 +49,13 @@ to whichever component is already ambiently active there, the same way a bare `u
 <ui:combobox.root>
   ...
   <ui:combobox.content>
-    <ui:template name="itemTemplate" context="combobox">
-        <ui:combobox.item>
-            <span {ui:ref(name: 'title')}></span>
-        </ui:combobox.item>
-    </ui:template>
+    <ui:combobox.list>
+      <ui:template name="itemTemplate" context="combobox">
+          <ui:combobox.item>
+              <span {ui:ref(name: 'title')}></span>
+          </ui:combobox.item>
+      </ui:template>
+    </ui:combobox.list>
   </ui:combobox.content>
 </ui:combobox.root>
 ```
