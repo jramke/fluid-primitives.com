@@ -369,7 +369,7 @@ export type TabsHydrationProps = {
     defaultValue?: string;
     orientation?: Orientation;
     activationMode?: TabsActivationMode;
-    composite?: boolean;
+    virtualFocus?: boolean;
     deselectable?: boolean;
 };
 export type TextareaHydrationProps = {
