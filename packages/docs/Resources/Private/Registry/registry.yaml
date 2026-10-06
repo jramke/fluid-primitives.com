@@ -48,6 +48,7 @@ combobox:
     - Trigger.fluid.html
     - ClearTrigger.fluid.html
     - Content.fluid.html
+    - List.fluid.html
     - Item.fluid.html
     - ItemText.fluid.html
     - ItemIndicator.fluid.html
@@ -244,6 +245,7 @@ select:
     - Trigger.fluid.html
     - ValueText.fluid.html
     - Content.fluid.html
+    - List.fluid.html
     - Item.fluid.html
     - ItemText.fluid.html
     - ItemIndicator.fluid.html
