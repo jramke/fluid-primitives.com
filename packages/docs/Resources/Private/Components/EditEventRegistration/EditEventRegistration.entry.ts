@@ -99,7 +99,7 @@ mountAll('ui:editEventRegistration', ({ props, createHydrator }) => {
     };
 
     applyStudentIdVisibility(needsStudentId(form.api.getValues()));
-    studentIdField.addDependencyChangeListener(({ dependencies }) => {
-        applyStudentIdVisibility(dependencies.ticketType === 'student');
+    studentIdField.addDependencyChangeListener(({ values }) => {
+        applyStudentIdVisibility(needsStudentId(values));
     });
 });
