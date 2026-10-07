@@ -83,13 +83,14 @@ dialog:
 
 field:
   name: Field
-  description: A wrapper for form fields with an optional label and description
+  description: A wrapper for form fields with an optional label, helper text, error texts and state indicators
   files:
     - Root.fluid.html
     - Label.fluid.html
-    - Description.fluid.html
+    - HelperText.fluid.html
     - Control.fluid.html
-    - Error.fluid.html
+    - ErrorText.fluid.html
+    - Indicator.fluid.html
     - Field.entry.ts
 
 field-array:

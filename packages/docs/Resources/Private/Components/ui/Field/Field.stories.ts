@@ -9,9 +9,9 @@ export const Simple: StoryObj = {
         example_id: 'simple',
     },
 };
-export const WithDescription: StoryObj = {
+export const WithHelperText: StoryObj = {
     args: {
-        example_id: 'with-description',
+        example_id: 'with-helper-text',
     },
 };
 export const WithCheckbox: StoryObj = {

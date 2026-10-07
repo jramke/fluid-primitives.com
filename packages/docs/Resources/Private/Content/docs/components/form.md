@@ -52,7 +52,7 @@ Client-side validation is configured in your entry file with the `validation` op
             <primitives:field.control asChild="{true}">
                 <!-- Your form input here -->
             </primitives:field.control>
-            <primitives:field.error />
+            <primitives:field.errorText />
         </primitives:field.root>
     </primitives:form.content>
 

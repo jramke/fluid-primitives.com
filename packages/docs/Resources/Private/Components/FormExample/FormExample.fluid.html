@@ -8,8 +8,8 @@
             <ui:input.root type="url">
                 <ui:input.input pattern="https?://.*" placeholder="https://example.com" />
             </ui:input.root>
-            <ui:field.description>Use `https://down.example.com` to preview the generic error state.</ui:field.description>
-            <ui:field.error />
+            <ui:field.helperText>Use `https://down.example.com` to preview the generic error state.</ui:field.helperText>
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:button type="submit" attributes="{ui:ref(name: 'submit-button', asArray: '{true}')}">Submit</ui:button>

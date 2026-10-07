@@ -43,8 +43,8 @@ Use `ui:form` with `action` pointing to your Extbase action and `objectName` mat
             <ui:input.label>Email</ui:input.label>
             <ui:input.input />
         </ui:input.root>
-        <ui:field.description>Used for your confirmation email.</ui:field.description>
-        <ui:field.error />
+        <ui:field.helperText>Used for your confirmation email.</ui:field.helperText>
+        <ui:field.errorText />
     </ui:field.root>
 
     <ui:button type="submit">Register</ui:button>
@@ -146,8 +146,8 @@ A Field-aware primitive like `ui:input` (or `ui:select`, `ui:numberInput`, ...) 
         <ui:input.label>Email address</ui:input.label>
         <ui:input.input />
     </ui:input.root>
-    <ui:field.description>We'll send your confirmation here.</ui:field.description>
-    <ui:field.error />
+    <ui:field.helperText>We'll send your confirmation here.</ui:field.helperText>
+    <ui:field.errorText />
 </ui:field.root>
 ```
 
@@ -162,7 +162,7 @@ For a genuinely native/custom element with no dedicated primitive, use `field.co
             <option value="5">5 stars</option>
         </select>
     </ui:field.control>
-    <ui:field.error />
+    <ui:field.errorText />
 </ui:field.root>
 ```
 
@@ -206,7 +206,7 @@ When a Field-aware primitive is placed inside a `ui:field.root`, the field's sta
             </ui:select.list>
         </ui:select.content>
     </ui:select.root>
-    <ui:field.error />
+    <ui:field.errorText />
 </ui:field.root>
 ```
 
@@ -256,7 +256,7 @@ The 422 JSON response has the shape:
 }
 ```
 
-The Form component maps each key to the corresponding field by name and displays the error in `ui:field.error`.
+The Form component maps each key to the corresponding field by name and displays the error in `ui:field.errorText`.
 
 ### Manual 422 Response
 

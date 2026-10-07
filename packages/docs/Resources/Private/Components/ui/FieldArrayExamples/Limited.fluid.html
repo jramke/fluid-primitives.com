@@ -11,14 +11,14 @@
                         <ui:input.label>First name</ui:input.label>
                         <ui:input.input />
                     </ui:input.root>
-                    <ui:field.error />
+                    <ui:field.errorText />
                 </ui:field.root>
                 <ui:field.root name="lastName" required="{true}">
                     <ui:input.root>
                         <ui:input.label>Last name</ui:input.label>
                         <ui:input.input />
                     </ui:input.root>
-                    <ui:field.error />
+                    <ui:field.errorText />
                 </ui:field.root>
             </div>
             <ui:fieldArray.removeTrigger asChild="{true}">
@@ -36,14 +36,14 @@
                             <ui:input.label>First name</ui:input.label>
                             <ui:input.input />
                         </ui:input.root>
-                        <ui:field.error />
+                        <ui:field.errorText />
                     </ui:field.root>
                     <ui:field.root name="lastName" defaultValue="{person.lastName}" required="{true}">
                         <ui:input.root>
                             <ui:input.label>Last name</ui:input.label>
                             <ui:input.input />
                         </ui:input.root>
-                        <ui:field.error />
+                        <ui:field.errorText />
                     </ui:field.root>
                 </div>
                 <ui:fieldArray.removeTrigger asChild="{true}">

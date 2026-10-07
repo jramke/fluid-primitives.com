@@ -12,7 +12,7 @@
             @apply after:content-['*'] after:opacity-65;
         }
 
-        @variant data-[invalid=true] {
+        @variant data-[invalid] {
             @apply text-destructive;
         }
     }

@@ -27,11 +27,11 @@ Mark a field as required.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.required" } %}
 
-### With Description
+### With Helper Text
 
-Add helpful description text below the input.
+Add helpful text below the input.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.withDescription" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.withHelperText" } %}
 
 ### Invalid State
 
@@ -77,7 +77,7 @@ The classic case is a password confirmation field - `passwordConfirm` listens to
         <ui:input.label>Password</ui:input.label>
         <ui:input.input />
     </ui:input.root>
-    <ui:field.error />
+    <ui:field.errorText />
 </ui:field.root>
 
 <ui:field.root name="passwordConfirm" listenTo="{0: 'password'}">
@@ -85,7 +85,7 @@ The classic case is a password confirmation field - `passwordConfirm` listens to
         <ui:input.label>Confirm password</ui:input.label>
         <ui:input.input />
     </ui:input.root>
-    <ui:field.error />
+    <ui:field.errorText />
 </ui:field.root>
 ```
 
@@ -138,7 +138,7 @@ validation: ({ values }) => {
     <primitives:field.control asChild="{true}">
         <!-- Your form input here -->
     </primitives:field.control>
-    <primitives:field.description />
-    <primitives:field.error />
+    <primitives:field.helperText />
+    <primitives:field.errorText />
 </primitives:field.root>
 ```
