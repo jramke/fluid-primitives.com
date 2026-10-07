@@ -50,7 +50,7 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = 'tx_doc
 
 ## Errors
 
-`get()` and `post()` return the native `Response` and, like `fetch`, only reject on a network failure or an aborted `signal`. A non-2xx response resolves normally, so check `response.ok` yourself. A 422 from [`AjaxValidationTrait`](/docs/core-concepts/forms) carries its field messages as the JSON body.
+`get()` and `post()` return the native `Response` and, like `fetch`, only reject on a network failure or an aborted `signal`. A non-2xx response resolves normally, so check `response.ok` yourself. A 422 from [`JsonValidationErrorsTrait`](/docs/core-concepts/forms) carries its field messages as the JSON body.
 
 ## Posting domain models
 

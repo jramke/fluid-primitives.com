@@ -7,7 +7,7 @@ namespace FluidPrimitives\Docs\Controller;
 use FluidPrimitives\Docs\Domain\Model\EventRegistration;
 use FluidPrimitives\Docs\Domain\Repository\EventRegistrationRepository;
 use FluidPrimitives\Docs\Domain\Validator\EventRegistrationValidator;
-use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
+use Jramke\FluidPrimitives\Traits\JsonValidationErrorsTrait;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Extbase\Attribute\Validate;
@@ -16,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 final class EventRegistrationController extends ActionController
 {
-    use AjaxValidationTrait;
+    use JsonValidationErrorsTrait;
 
     public function __construct(
         private readonly EventRegistrationRepository $eventRegistrationRepository,
@@ -49,12 +49,5 @@ final class EventRegistrationController extends ActionController
             ]) ?: null,
         )->withStatus(200);
         throw new PropagateResponseException($response, 200);
-    }
-
-    #[\Override]
-    protected function errorAction(): ResponseInterface
-    {
-        $this->throwJsonValidationErrorResponse();
-        return parent::errorAction();
     }
 }
