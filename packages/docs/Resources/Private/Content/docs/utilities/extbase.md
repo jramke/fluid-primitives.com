@@ -19,7 +19,7 @@ await extbase.post(url, { demand: { city: 'Berlin' }, ids: [1, 2] });
 
 `null`/`undefined` values in `data` are skipped, and a `File`/`Blob` is sent as-is. `init` is spread first, so it can extend the request (e.g. `{ signal }`, to make it abortable) without overriding the method/body `post()` sets.
 
-For a URL that doesn't carry an `[action]`/`[controller]` pair in its query string, `data` is sent unprefixed - `post()` works as a plain "POST as FormData" helper for non-Extbase endpoints too.
+For a URL that doesn't carry an `[action]` or `[controller]` key in its query string, `data` is sent unprefixed - `post()` works as a plain "POST as FormData" helper for non-Extbase endpoints too. If such a URL still expects the namespace, nest `data` under it yourself: `{ tx_docs_docs: { q } }`.
 
 On the PHP side, a plain typed action argument receives the value the same way regardless of whether it arrives via GET or POST:
 
@@ -29,17 +29,6 @@ public function searchAction(string $q = ''): ResponseInterface
     // ...
 }
 ```
-
-### Sending JSON instead
-
-The body type follows the `Content-Type` header you pass, the same way TYPO3 core's `AjaxRequest` does it. Set a JSON one and `post()` sends `JSON.stringify(data)`, nested under the URL's Extbase prefix if it has one and unprefixed otherwise:
-
-```typescript
-await extbase.post(url, { q: filterText }, { headers: { 'Content-Type': 'application/json' } });
-// -> {"tx_docs_docs":{"q":"..."}}
-```
-
-TYPO3 core doesn't decode JSON request bodies, so Extbase only sees such a payload if your project adds a middleware that fills the parsed body from it. Without one, use it for endpoints that read the raw body themselves (an eID, a middleware, an API route).
 
 ### Why a POST body
 
@@ -51,7 +40,7 @@ A frontend action URL built with `f:uri.action`/`f:uri.link` carries a `cHash` c
 const response = await extbase.get(searchUrl, { q: filterText }, { signal });
 ```
 
-Appends `data` as query parameters under the URL's Extbase argument namespace, using the same flattening as `post()`. The URL's existing query is kept untouched, `cHash` included - so a parameter added this way fails the `cHash` check (see [Why a POST body](#why-a-post-body)) unless TYPO3 is told to ignore it, either by excluding it in your `settings.php`:
+Appends `data` as query parameters under the URL's Extbase argument namespace, using the same flattening as `post()`. The URL can be relative, as `f:uri.action` returns it, or absolute. Its existing query is kept untouched, `cHash` included - so a parameter added this way fails the `cHash` check (see [Why a POST body](#why-a-post-body)) unless TYPO3 is told to ignore it, either by excluding it in your `settings.php`:
 
 ```php
 $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = 'tx_docs_docs[q]';
@@ -61,24 +50,7 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = 'tx_doc
 
 ## Errors
 
-A non-2xx response rejects with an `ExtbaseHttpError` instead of resolving, so a forgotten `response.ok` check can't turn a failed request into a bogus success. The error carries the native `response` with its body still unread, plus a `status` shortcut:
-
-```typescript
-import { extbase, ExtbaseHttpError } from 'fluid-primitives';
-
-try {
-    await extbase.post(url, { email });
-} catch (error) {
-    if (error instanceof ExtbaseHttpError && error.status === 422) {
-        const errors = await error.response.json();
-        // ...
-    } else {
-        throw error;
-    }
-}
-```
-
-Anything `fetch` itself rejects with - a network failure, or the `AbortError` from an aborted `signal` - passes through unchanged.
+`get()` and `post()` return the native `Response` and, like `fetch`, only reject on a network failure or an aborted `signal`. A non-2xx response resolves normally, so check `response.ok` yourself. A 422 from [`AjaxValidationTrait`](/docs/core-concepts/forms) carries its field messages as the JSON body.
 
 ## Posting domain models
 
@@ -115,4 +87,4 @@ extbase.getArgumentPrefix(
 // -> 'tx_docs_docs'
 ```
 
-Returns `null` for a URL with no `[action]`/`[controller]` pair in its query string.
+Returns `null` for a URL with no `[action]` or `[controller]` key in its query string.
