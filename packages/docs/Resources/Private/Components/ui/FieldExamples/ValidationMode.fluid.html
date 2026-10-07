@@ -1,0 +1,32 @@
+<ui:form.root actionUri="#" class="w-full max-w-74">
+    <ui:form.content class="space-y-6">
+        <ui:field.root name="onSubmit" required="{true}" validationMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ValidationMode::OnSubmit')}">
+            <ui:input.root type="text">
+                <ui:input.label>On submit</ui:input.label>
+                <ui:input.input minlength="3" />
+            </ui:input.root>
+            <ui:field.helperText>Errors show after the first submit.</ui:field.helperText>
+            <ui:field.errorText />
+        </ui:field.root>
+
+        <ui:field.root name="onBlur" required="{true}" validationMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ValidationMode::OnBlur')}">
+            <ui:input.root type="text">
+                <ui:input.label>On blur (default)</ui:input.label>
+                <ui:input.input minlength="3" />
+            </ui:input.root>
+            <ui:field.helperText>Errors show when you leave an edited field.</ui:field.helperText>
+            <ui:field.errorText />
+        </ui:field.root>
+
+        <ui:field.root name="onChange" required="{true}" validationMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ValidationMode::OnChange')}">
+            <ui:input.root type="text">
+                <ui:input.label>On change</ui:input.label>
+                <ui:input.input minlength="3" />
+            </ui:input.root>
+            <ui:field.helperText>Errors show while you type.</ui:field.helperText>
+            <ui:field.errorText />
+        </ui:field.root>
+
+        <ui:button type="submit">Submit</ui:button>
+    </ui:form.content>
+</ui:form.root>

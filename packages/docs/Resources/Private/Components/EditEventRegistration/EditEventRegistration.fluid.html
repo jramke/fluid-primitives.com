@@ -5,7 +5,7 @@
     action="registration"
     objectName="eventRegistration"
     object="{object}"
-    controlled="{true}"
+    autoMount="{false}"
     rootId="{rootId}-form">
     <h2 class="text-lg font-semibold">Edit Event Registration #{object.uid}</h2>
 
@@ -36,7 +36,7 @@
                     </ui:select.list>
                 </ui:select.content>
             </ui:select.root>
-            <ui:field.error />
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="studentId" required="{true}" hidden="{true}" disabled="{true}" listenTo="{0: 'ticketType'}">
@@ -44,7 +44,7 @@
                 <ui:input.label>Student ID</ui:input.label>
                 <ui:input.input />
             </ui:input.root>
-            <ui:field.error />
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="ticketCount" required="{true}">
@@ -58,7 +58,7 @@
                     <ui:numberInput.incrementTrigger />
                 </ui:numberInput.control>
             </ui:numberInput.root>
-            <ui:field.error />
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="donationAmount">
@@ -80,8 +80,8 @@
                     <ui:slider.marker value="100">$100</ui:slider.marker>
                 </ui:slider.markerGroup>
             </ui:slider.root>
-            <ui:field.description>Help cover event costs with an optional donation.</ui:field.description>
-            <ui:field.error />
+            <ui:field.helperText>Help cover event costs with an optional donation.</ui:field.helperText>
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="mode" required="{true}">
@@ -96,7 +96,7 @@
                     <ui:radioGroup.itemText>Virtual</ui:radioGroup.itemText>
                 </ui:radioGroup.item>
             </ui:radioGroup.root>
-            <ui:field.error />
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="person.name" required="{true}">
@@ -104,8 +104,8 @@
                 <ui:input.label>Name</ui:input.label>
                 <ui:input.input />
             </ui:input.root>
-            <ui:field.description>Your full name as it will appear on the ticket.</ui:field.description>
-            <ui:field.error />
+            <ui:field.helperText>Your full name as it will appear on the ticket.</ui:field.helperText>
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="person.email" required="{true}">
@@ -113,8 +113,8 @@
                 <ui:input.label>Email</ui:input.label>
                 <ui:input.input />
             </ui:input.root>
-            <ui:field.description>Your email address will be used for registration confirmation and updates.</ui:field.description>
-            <ui:field.error />
+            <ui:field.helperText>Your email address will be used for registration confirmation and updates.</ui:field.helperText>
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="person.phone">
@@ -122,8 +122,8 @@
                 <ui:input.label>Phone</ui:input.label>
                 <ui:input.input />
             </ui:input.root>
-            <ui:field.description>Only used if we need to contact you about your registration.</ui:field.description>
-            <ui:field.error />
+            <ui:field.helperText>Only used if we need to contact you about your registration.</ui:field.helperText>
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:listCollection
@@ -169,8 +169,8 @@
                     </ui:combobox.list>
                 </ui:combobox.content>
             </ui:combobox.root>
-            <ui:field.description>Used for your badge and invoice details.</ui:field.description>
-            <ui:field.error />
+            <ui:field.helperText>Used for your badge and invoice details.</ui:field.helperText>
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="badgePhoto">
@@ -218,8 +218,8 @@
                     <ui:fileUpload.emptyState>No file selected yet.</ui:fileUpload.emptyState>
                 </ui:fileUpload.itemGroup>
             </ui:fileUpload.root>
-            <ui:field.description>Shown on your badge if provided. You can skip this.</ui:field.description>
-            <ui:field.error />
+            <ui:field.helperText>Shown on your badge if provided. You can skip this.</ui:field.helperText>
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="a11yNeeds[]">
@@ -238,7 +238,7 @@
                     </ui:checkbox.label>
                 </ui:checkbox.root>
             </ui:checkboxGroup.root>
-            <ui:field.error />
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="comment">
@@ -246,7 +246,7 @@
                 <ui:textarea.label>Additional Comments</ui:textarea.label>
                 <ui:textarea.textarea />
             </ui:textarea.root>
-            <ui:field.error />
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="privacy" required="{true}">
@@ -256,7 +256,7 @@
                     I consent to the processing of my data in accordance with the privacy policy.
                 </ui:checkbox.label>
             </ui:checkbox.root>
-            <ui:field.error />
+            <ui:field.errorText />
         </ui:field.root>
 
         <ui:button type="submit" attributes="{ui:ref(name: 'submit-button', asArray: '{true}')}">

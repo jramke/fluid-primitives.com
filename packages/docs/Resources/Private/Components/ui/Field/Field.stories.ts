@@ -9,9 +9,9 @@ export const Simple: StoryObj = {
         example_id: 'simple',
     },
 };
-export const WithDescription: StoryObj = {
+export const WithHelperText: StoryObj = {
     args: {
-        example_id: 'with-description',
+        example_id: 'with-helper-text',
     },
 };
 export const WithCheckbox: StoryObj = {
@@ -32,5 +32,25 @@ export const Invalid: StoryObj = {
 export const Disabled: StoryObj = {
     args: {
         example_id: 'disabled',
+    },
+};
+export const NativeValidation: StoryObj = {
+    args: {
+        example_id: 'native-validation',
+    },
+};
+export const Indicators: StoryObj = {
+    args: {
+        example_id: 'indicators',
+    },
+};
+export const ValidationMode: StoryObj = {
+    args: {
+        example_id: 'validation-mode',
+    },
+};
+export const AsyncValidation: StoryObj = {
+    args: {
+        example_id: 'async-validation',
     },
 };

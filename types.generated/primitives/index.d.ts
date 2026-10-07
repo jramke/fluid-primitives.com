@@ -12,6 +12,7 @@ import {
     SliderThumbCollisionBehavior,
     TabsActivationMode,
     TextareaSubmitOn,
+    ValidationMode,
 } from '../index.d';
 export type AccordionHydrationProps = {
     id: string;
@@ -149,7 +150,16 @@ export type FieldHydrationProps = {
     required?: boolean;
     readOnly?: boolean;
     defaultValue?: unknown;
+    validationMode?: ValidationMode;
     listenTo?: string[];
+};
+export type FieldsetHydrationProps = {
+    id: string;
+    ids: {
+        [key: string]: string;
+    };
+    disabled?: boolean;
+    invalid?: boolean;
 };
 export type FileUploadHydrationProps = {
     id: string;

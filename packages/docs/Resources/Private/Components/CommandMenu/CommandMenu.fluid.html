@@ -1,7 +1,7 @@
 <ui:prop name="searchUrl" type="string" client="{true}" />
 <ui:prop name="hidden" type="bool" optional="{true}" />
 
-<primitives:dialog.root controlled="{true}" rootId="dialog-{rootId}">
+<primitives:dialog.root autoMount="{false}" rootId="dialog-{rootId}">
     <primitives:dialog.trigger asChild="{true}" hidden="{hidden}">
         <button type="button" class="hidden lg:inline-flex min-w-70 cursor-pointer items-center gap-2 rounded-lg border bg-secondary/50 p-1.5 ps-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-1">
             <ui:icon.search />
@@ -25,7 +25,7 @@
                 data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=open]:translate-y-0
             ')}">
                 <primitives:dialog.title class="sr-only">Command Menu</primitives:dialog.title>
-                <ui:combobox.root rootId="combobox-{rootId}" controlled="{true}" class="isolate flex flex-col items-stretch gap-0" portalled="{false}">
+                <ui:combobox.root rootId="combobox-{rootId}" autoMount="{false}" class="isolate flex flex-col items-stretch gap-0" portalled="{false}">
                     <ui:combobox.label class="sr-only">Search documentation</ui:combobox.label>
                     <ui:combobox.control class="!border-0 !ring-0 !rounded-none !px-2 h-10 !gap-2">
                         <ui:icon.search class="text-muted-foreground size-4 shrink-0" />

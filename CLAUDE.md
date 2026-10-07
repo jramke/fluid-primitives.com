@@ -59,6 +59,7 @@ packages/
 # Individual commands
 ddev npm run primitives:build # Build the fluid-primitives package
 ddev npm run primitives:dev   # Watch mode for primitives
+ddev npm run primitives:test  # Client unit tests (vitest + jsdom)
 ddev npm run docs:build       # Build documentation site
 ddev npm run docs:dev         # Dev server for docs (port 5173)
 
@@ -73,7 +74,7 @@ ddev composer mago:analyze    # Analyze PHP code quality with Mago
 
 ## Testing
 
-Tests are located in `packages/fluid-primitives/tests/` and use PHPUnit with the TYPO3 testing framework.
+Tests are located in `packages/fluid-primitives/tests/`. PHP code uses PHPUnit with the TYPO3 testing framework, client TypeScript uses vitest with jsdom (`tests/Client/`, run with `ddev npm run primitives:test`).
 
 ### Test Structure
 
@@ -83,6 +84,7 @@ packages/fluid-primitives/tests/
 ├── Functional/                # Full TYPO3 tests with database (SQLite)
 │   ├── ViewHelpers/           # ViewHelper rendering tests
 │   └── Components/            # Component rendering tests (all primitives go here)
+├── Client/                    # vitest + jsdom tests for pure client logic (machine utilities, Form helpers)
 ├── Bootstrap.php              # Test bootstrap (autoloader + TYPO3 testing framework)
 
 ├── TestCase.php               # Base class for unit tests
@@ -93,6 +95,7 @@ packages/fluid-primitives/tests/
 
 - **Functional/Components/** - All component tests (Accordion, Checkbox, Dialog, etc.). These test the full integration: context logic → Fluid template → HTML output. This ensures the context is correct AND the template uses it correctly.
 - **Unit/** - Core infrastructure only (ComponentUtility, HydrationRegistry, TagAttributes, AbstractComponentContext). These are utilities/base classes not tied to specific components.
+- **Client/** - TypeScript logic that can run without a browser: pure helpers, machine guards/computed values, DOM helpers that jsdom can model. Mirror the source path (`Client/Form/form.path.test.ts` for `Primitives/Form/src/form.path.ts`). Behaviour that needs real focus, layout or hydration order is verified in the docs site instead.
 
 ### Running Tests
 
@@ -105,6 +108,9 @@ ddev composer test:functional   # Run functional tests
 # From package directory (used by GitHub Actions)
 cd packages/fluid-primitives
 ddev composer test              # Run all tests
+
+# Client TypeScript tests
+ddev npm run primitives:test    # Run vitest once
 ```
 
 ### Test Quality Guidelines

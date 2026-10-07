@@ -137,15 +137,15 @@ Unlike `mountAll`/`mount`, `ComponentHydrator` itself takes the bare component n
 namespaced one - it only drives DOM-facing identity (the part attribute names), which stays the
 same regardless of which namespace's collection rendered the component.
 
-## Controlled Components
+## Manual Mounting
 
-By default, `mountAll` automatically initializes every component on the page. For components you want to control programmatically, set `controlled="{true}"`:
+By default, `mountAll` automatically initializes every component on the page. For components you want to mount yourself, e.g. to pass callbacks, set `autoMount="{false}"`:
 
 ```html
-<ui:collapsible.root controlled="{true}" rootId="my-collapsible"> ... </ui:collapsible.root>
+<ui:collapsible.root autoMount="{false}" rootId="my-collapsible"> ... </ui:collapsible.root>
 ```
 
-This prevents automatic initialization. You then initialize manually with `mount`, which targets one specific `rootId` regardless of its `controlled` flag:
+This prevents automatic initialization. You then initialize manually with `mount`, which targets one specific `rootId` regardless of its `autoMount` flag:
 
 ```typescript
 import { mount } from 'fluid-primitives';
@@ -184,7 +184,7 @@ window.FluidPrimitives = {
         primitives: {
             accordion: {
                 'root-id-1': {
-                    controlled: false,
+                    autoMount: true,
                     props: {
                         id: 'root-id-1',
                         ids: [],

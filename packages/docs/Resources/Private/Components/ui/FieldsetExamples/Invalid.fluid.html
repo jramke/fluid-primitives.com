@@ -1,0 +1,13 @@
+<ui:fieldset.root class="max-w-74" invalid="{true}">
+    <ui:fieldset.legend>Notifications</ui:fieldset.legend>
+    <ui:fieldset.helperText>Choose how we reach you.</ui:fieldset.helperText>
+    <ui:checkbox.root name="channels[]" value="email">
+        <ui:checkbox.control />
+        <ui:checkbox.label>Email</ui:checkbox.label>
+    </ui:checkbox.root>
+    <ui:checkbox.root name="channels[]" value="sms">
+        <ui:checkbox.control />
+        <ui:checkbox.label>Text message</ui:checkbox.label>
+    </ui:checkbox.root>
+    <ui:fieldset.errorText>Choose at least one way to reach you.</ui:fieldset.errorText>
+</ui:fieldset.root>

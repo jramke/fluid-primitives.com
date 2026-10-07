@@ -14,6 +14,7 @@ import {
     DialogHydrationProps as DialogHydrationPropsImport,
     FieldArrayHydrationProps as FieldArrayHydrationPropsImport,
     FieldHydrationProps as FieldHydrationPropsImport,
+    FieldsetHydrationProps as FieldsetHydrationPropsImport,
     FileUploadHydrationProps as FileUploadHydrationPropsImport,
     FormHydrationProps as FormHydrationPropsImport,
     InputHydrationProps as InputHydrationPropsImport,
@@ -41,6 +42,7 @@ import {
     DialogHydrationProps,
     FieldArrayHydrationProps,
     FieldHydrationProps,
+    FieldsetHydrationProps,
     FileUploadHydrationProps,
     FormHydrationProps,
     InputHydrationProps,
@@ -68,6 +70,7 @@ declare module 'fluid-primitives' {
         'ui:dialog': DialogHydrationProps;
         'ui:field': FieldHydrationProps;
         'ui:fieldArray': FieldArrayHydrationProps;
+        'ui:fieldset': FieldsetHydrationProps;
         'ui:fileUpload': FileUploadHydrationProps;
         'ui:form': FormHydrationProps;
         'ui:input': InputHydrationProps;
@@ -92,6 +95,7 @@ declare module 'fluid-primitives' {
         'primitives:dialog': DialogHydrationPropsImport;
         'primitives:field': FieldHydrationPropsImport;
         'primitives:fieldArray': FieldArrayHydrationPropsImport;
+        'primitives:fieldset': FieldsetHydrationPropsImport;
         'primitives:fileUpload': FileUploadHydrationPropsImport;
         'primitives:form': FormHydrationPropsImport;
         'primitives:input': InputHydrationPropsImport;
@@ -136,3 +140,4 @@ export type SliderThumbAlignment = 'contain' | 'center';
 export type SliderThumbCollisionBehavior = 'none' | 'push' | 'swap';
 export type TabsActivationMode = 'automatic' | 'manual';
 export type TextareaSubmitOn = 'enter' | 'mod+enter';
+export type ValidationMode = 'onSubmit' | 'onBlur' | 'onChange';

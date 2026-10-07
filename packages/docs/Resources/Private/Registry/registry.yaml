@@ -83,13 +83,14 @@ dialog:
 
 field:
   name: Field
-  description: A wrapper for form fields with an optional label and description
+  description: A wrapper for form fields with an optional label, helper text, error texts and state indicators
   files:
     - Root.fluid.html
     - Label.fluid.html
-    - Description.fluid.html
+    - HelperText.fluid.html
     - Control.fluid.html
-    - Error.fluid.html
+    - ErrorText.fluid.html
+    - Indicator.fluid.html
     - Field.entry.ts
 
 field-array:
@@ -103,6 +104,16 @@ field-array:
     - AddTrigger.fluid.html
     - RemoveTrigger.fluid.html
     - FieldArray.entry.ts
+
+fieldset:
+  name: Fieldset
+  description: A group of related fields with a legend, helper text and error text that disables everything inside it at once
+  files:
+    - Root.fluid.html
+    - Legend.fluid.html
+    - HelperText.fluid.html
+    - ErrorText.fluid.html
+    - Fieldset.entry.ts
 
 file-upload:
   name: FileUpload

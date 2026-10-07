@@ -11,7 +11,7 @@
 - Optional client-side validation with Standard Schema-compatible validators or custom callbacks
 - AJAX form submission with automatic error handling
 - Seamless Extbase controller integration
-- Real-time field validation on blur and input
+- Field validation that follows the validation mode, from native constraints, your schema or callback, and async checks of single fields
 - Form state management (submitting, dirty, invalid, success, error)
 - Built-in primitives for editable content, state indicators, and status text
 - Works with all Field-aware components and basic HTML inputs
@@ -23,7 +23,7 @@ See the complete [Form Guide](/docs/core-concepts/forms) for a complete form int
 
 {% component: "ui:installationSection", arguments: { "name": "Form" } %}
 
-Client-side validation is configured in your entry file with the `validation` option, not in the Fluid template. Pass either a Standard Schema-compatible validator such as Zod or a synchronous callback that reads the `values` object. `values` uses your field names as dot paths such as `person.name`, keeps leaf values as `string | File`, exposes arrays through `getAll()`, and can be converted to a nested object with `toObject()` or partially read with `pick()`. Validation and server errors stay flat and field-keyed, so nested fields still return errors under keys such as `person.name`. For submit results, return `true`, `false`, or field errors from `onSubmit`, and use `api.setErrorText()` or `api.setSuccessText()` for form-level messages. Use `post(url)` to submit the current form as `FormData`.
+Client-side validation is configured in your entry file with the `validation` option, not in the Fluid template. Pass either a Standard Schema-compatible validator such as Zod or a synchronous callback that reads the `values` object. `values` uses your field names as dot paths such as `person.name`, keeps leaf values as `string | File`, exposes arrays through `getAll()`, and can be converted to a nested object with `toObject()` or partially read with `pick()`. Validation and server errors stay flat and field-keyed, so nested fields still return errors under keys such as `person.name`. For submit results, return `true`, `false`, or field errors from `onSubmit`, and use `api.setErrorText()` or `api.setSuccessText()` for form-level messages. Use `post(url)` to submit the current form as `FormData`. Fields read their value `inputDebounceMs` after the last change (100 by default, never less than 50), so typing does not validate on every keystroke.
 
 ## API Reference
 
@@ -52,7 +52,7 @@ Client-side validation is configured in your entry file with the `validation` op
             <primitives:field.control asChild="{true}">
                 <!-- Your form input here -->
             </primitives:field.control>
-            <primitives:field.error />
+            <primitives:field.errorText />
         </primitives:field.root>
     </primitives:form.content>
 

@@ -1,4 +1,4 @@
-<ui:fileUpload.root name="photos[]" accept="image/*" maxFiles="5" controlled="{true}" rootId="custom-layout">
+<ui:fileUpload.root name="photos[]" accept="image/*" maxFiles="5" autoMount="{false}" rootId="custom-layout">
     <div class="flex items-center justify-between gap-4">
         <ui:fileUpload.label>Event Photos</ui:fileUpload.label>
         <div {ui:ref(name: 'filesCounter', context: 'fileUpload')} class="text-muted-foreground text-xs">0 / 5 files selected</div>
