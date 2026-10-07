@@ -12,7 +12,7 @@
 - Supports single and multiple selection
 - Supports disabled items and item groups
 - Works with the Field component for forms and validation
-- Submits the selected item's `value` on form submit, not its label - the visible input only ever displays text, `hiddenInput` carries the real value(s)
+- Submits the selected item's `value` on form submit, not its label - the visible input only ever displays text, `hiddenInput` carries the real value(s), or an empty one while nothing is selected
 - Supports an `empty` state placeholder shown automatically whenever no items match
 - Filtering is plain `onInputValueChange` userland code, not a special API - swap the match logic per instance the same way you'd swap it in any Zag/Ark UI consumer
 - Ships with locale-aware substring filtering via Zag's i18n utilities, wired up in the default mount entry
@@ -127,14 +127,14 @@ Default combobox trigger labels are shipped via XLF and follow the current Site 
             ["itemIndicator", "Displays the selected-state indicator for an option. Renders a `<div>` element."],
             ["itemGroup", "Groups related options together. Renders a `<div>` element."],
             ["itemGroupLabel", "Labels a group of related options. Renders a `<div>` element."],
-            ["hiddenInput", "Provides the real, submittable value(s) for the selected item(s), since the visible input only ever holds label text. Renders one `<input>` element per selected value."]
+            ["hiddenInput", "Provides the real, submittable value(s) for the selected item(s), since the visible input only ever holds label text. Renders one `<input>` element per selected value, or one empty `<input>` while nothing is selected."]
         ]
     }
 %}
 
 ## Anatomy
 
-Unlike `Select`, Zag's combobox machine renders no native form control of its own - the visible `input` only ever holds the highlighted item's label (or, with `allowCustomValue`, arbitrary typed text), never its `value`. `hiddenInput` fills that gap: one visually hidden text input (kept out of the accessibility tree and tab order via `aria-hidden`/`tabindex="-1"`, not `type="hidden"`) per selected value, kept in sync with the current selection so the item's `value` (not its label) is what actually gets submitted. Include it once anywhere inside `combobox.root` - it renders as many hidden inputs as there are selected values (zero, one, or - with `multiple` - several).
+Unlike `Select`, Zag's combobox machine renders no native form control of its own - the visible `input` only ever holds the highlighted item's label (or, with `allowCustomValue`, arbitrary typed text), never its `value`. `hiddenInput` fills that gap: one visually hidden text input (kept out of the accessibility tree and tab order via `aria-hidden`/`tabindex="-1"`, not `type="hidden"`) per selected value, kept in sync with the current selection so the item's `value` (not its label) is what actually gets submitted. Include it once anywhere inside `combobox.root` - it renders as many hidden inputs as there are selected values (one, or - with `multiple` - several), and a single empty one while nothing is selected, like a native input would submit its name with an empty value. That empty input is also what a [Field](/docs/components/field) moves the focus through when the combobox is the first invalid field of a submitted form: it hands the focus on to the visible input.
 
 Zag puts the listbox semantics and scrolling on `list`, so the options belong inside `list` rather than directly inside `content`, which is a plain wrapper around it (a dialog, with the `dialog` popup type). The styled `ui:combobox.content` is the `positioner` and `content` in one part, and `ui:combobox.list` is the `list` - you place it inside the content yourself.
 
