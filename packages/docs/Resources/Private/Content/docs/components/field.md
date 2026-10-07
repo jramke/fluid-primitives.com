@@ -88,7 +88,7 @@ An `indicator` shows its content while the field is in one state, and stays hidd
 
 A field can run its own check, for example to ask the server whether a username is still free. Pass a `validate` function that returns a message (or a list of messages) to mark the field invalid, and `null` to accept the value. It may return a promise.
 
-A function cannot travel through the server-rendered markup, so pass it from TypeScript: render the field with `controlled="{true}"`, and mount it yourself. While the promise is pending the field is `validating` (use the `validating` indicator), a result for a value the user has changed meanwhile is dropped, and a submit waits for it.
+A function cannot travel through the server-rendered markup, so pass it from TypeScript: render the field with `autoMount="{false}"`, and mount it yourself. While the promise is pending the field is `validating` (use the `validating` indicator), a result for a value the user has changed meanwhile is dropped, and a submit waits for it.
 
 `validate` receives the `value` and a snapshot of the native `validity`. It runs at the same points that make an error visible (see the validation mode), not on every keystroke, so it is a good place for a request.
 

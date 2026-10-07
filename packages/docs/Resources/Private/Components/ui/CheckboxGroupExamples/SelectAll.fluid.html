@@ -1,12 +1,12 @@
 <ui:exposeToClient />
 
 <div class="space-y-3">
-    <ui:checkbox.root value="all" controlled="{true}" rootId="select-all" defaultChecked="indeterminate">
+    <ui:checkbox.root value="all" autoMount="{false}" rootId="select-all" defaultChecked="indeterminate">
         <ui:checkbox.control />
         <ui:checkbox.label>All User Permissions</ui:checkbox.label>
     </ui:checkbox.root>
 
-    <ui:checkboxGroup.root name="permissions[]" defaultValue="{0: 'reports'}" controlled="{true}" rootId="select-all-group" class="ms-4" aria-label="User Permissions">
+    <ui:checkboxGroup.root name="permissions[]" defaultValue="{0: 'reports'}" autoMount="{false}" rootId="select-all-group" class="ms-4" aria-label="User Permissions">
         <f:for each="{context.items}" as="item">
             <ui:checkbox.root value="{item.value}">
                 <ui:checkbox.control />

@@ -1,12 +1,12 @@
 <ui:exposeToClient />
 
 <div class="max-w-74 space-y-4">
-    <ui:switch.root controlled="{true}" rootId="edit-mode">
+    <ui:switch.root autoMount="{false}" rootId="edit-mode">
         <ui:switch.label>Edit mode</ui:switch.label>
         <ui:switch.control />
     </ui:switch.root>
 
-    <ui:fieldset.root disabled="{true}" controlled="{true}" rootId="edit-fieldset">
+    <ui:fieldset.root disabled="{true}" autoMount="{false}" rootId="edit-fieldset">
         <ui:fieldset.legend>Profile</ui:fieldset.legend>
         <ui:field.root name="displayName">
             <ui:input.root type="text" defaultValue="Ada Lovelace">

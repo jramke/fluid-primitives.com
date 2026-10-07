@@ -35,7 +35,7 @@ Use `ui:form` with `action` pointing to your Extbase action and `objectName` mat
     action="registration"
     objectName="eventRegistration"
     object="{eventRegistration}"
-    controlled="{true}"
+    autoMount="{false}"
     rootId="registration-form"
 >
     <ui:field.root name="email" required="{true}">
@@ -109,7 +109,7 @@ final class EventRegistrationController extends ActionController
 
 ### Entry File (TypeScript)
 
-The form requires a client-side entry file. Use `controlled="{true}"` on the root and fetch its hydration data by ID:
+The form requires a client-side entry file. Use `autoMount="{false}"` on the root and fetch its hydration data by ID:
 
 ```typescript
 import { mount } from 'fluid-primitives';

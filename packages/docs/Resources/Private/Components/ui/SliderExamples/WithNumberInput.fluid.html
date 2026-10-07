@@ -1,7 +1,7 @@
 <f:variable name="defaultValue" value="50" />
 
 <div class="flex flex-col items-center gap-4">
-    <ui:slider.root rootId="synced-slider" controlled="{true}" defaultValue="{defaultValue}" class="max-w-55">
+    <ui:slider.root rootId="synced-slider" autoMount="{false}" defaultValue="{defaultValue}" class="max-w-55">
         <ui:slider.label>Discount</ui:slider.label>
         <ui:slider.control>
             <ui:slider.track>
@@ -11,7 +11,7 @@
         </ui:slider.control>
     </ui:slider.root>
 
-    <ui:numberInput.root rootId="synced-number-input" controlled="{true}" defaultValue="{defaultValue}" min="0" max="100" class="shrink-0">
+    <ui:numberInput.root rootId="synced-number-input" autoMount="{false}" defaultValue="{defaultValue}" min="0" max="100" class="shrink-0">
         <ui:numberInput.control>
             <ui:numberInput.decrementTrigger />
             <ui:numberInput.input />

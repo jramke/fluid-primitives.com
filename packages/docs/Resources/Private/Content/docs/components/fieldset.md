@@ -33,7 +33,7 @@ Set `disabled` on the root. The fieldset carries it to everything inside, whatev
 
 ### Toggling Disabled at Runtime
 
-Fields watch the `disabled` attribute of the fieldset they are in, so changing it afterwards reaches them too. Mount the fieldset yourself (`controlled="{true}"`) to get hold of the instance, and update its props:
+Fields watch the `disabled` attribute of the fieldset they are in, so changing it afterwards reaches them too. Mount the fieldset yourself (`autoMount="{false}"`) to get hold of the instance, and update its props:
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldsetExamples.toggleDisabled", "additionalFiles": {"ToggleDisabled.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldsetExamples/ToggleDisabled.entry.ts"} } %}
 

@@ -43,8 +43,8 @@ Prevent the slider from being interacted with.
 ### With a number input
 
 Pair the slider with a `number-input` for precise entry, keeping both in sync by updating one
-whenever the other changes. Both are mounted as independent, hydration-controlled instances
-(`controlled="{true}"` + a fixed `rootId`) so a custom entry file can wire them together, the same
+whenever the other changes. Both are mounted as independent instances
+(`autoMount="{false}"` + a fixed `rootId`) so a custom entry file can wire them together, the same
 pattern [Combobox's custom filter example](/docs/components/combobox#custom-filter-api) uses. Both
 components' own `onValueChange` call into one shared `setValue()` function instead of writing to
 each other directly, so there's a single guard - skip if it's already the current value - rather

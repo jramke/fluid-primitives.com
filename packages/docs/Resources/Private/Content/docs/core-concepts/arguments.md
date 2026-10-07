@@ -58,7 +58,7 @@ Usually auto-generated, but you can provide one:
 <ui:accordion.root rootId="faq-accordion"></ui:accordion.root>
 ```
 
-See [Controlled Components](/docs/core-concepts/hydration#content-controlled-components).
+See [Manual Mounting](/docs/core-concepts/hydration#content-manual-mounting).
 
 ### `asChild`
 
@@ -74,9 +74,9 @@ Declare the IDs of a component's parts. This is the only place to give a `ui:ref
 
 The keys are part names. The id is rendered on the server and handed to the client, so the server-rendered markup, the client lookup and Zag's machine all use the same one. Useful when composing multiple components together. See [Composition](/docs/core-concepts/composition) and [Hydration](/docs/core-concepts/hydration#content-ids).
 
-### `controlled`
+### `autoMount`
 
-Mark a component as externally controlled, preventing automatic client-side initialization. See [Hydration](/docs/core-concepts/hydration#content-controlled-components).
+Set to `{false}` to keep the client from initializing the component on its own, so you mount it yourself with `mount`. `true` by default. See [Hydration](/docs/core-concepts/hydration#content-manual-mounting).
 
 ### `attributes`
 

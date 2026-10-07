@@ -1,4 +1,4 @@
-<ui:fileUpload.root name="documents[]" accept=".pdf,.doc,.docx" maxFiles="5" controlled="{true}" rootId="delete-confirm">
+<ui:fileUpload.root name="documents[]" accept=".pdf,.doc,.docx" maxFiles="5" autoMount="{false}" rootId="delete-confirm">
     <ui:fileUpload.label>Documents</ui:fileUpload.label>
     <ui:fileUpload.dropzone>
         <div class="grid gap-1">
@@ -33,7 +33,7 @@
     below instead of its own ui:dialog.trigger - clicking an item's delete button never deletes
     immediately, it opens this confirmation first.
 </f:comment>
-<ui:dialog.root controlled="{true}" rootId="delete-confirm" role="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DialogRole::AlertDialog')}">
+<ui:dialog.root autoMount="{false}" rootId="delete-confirm" role="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DialogRole::AlertDialog')}">
     <ui:dialog.content>
         <ui:dialog.header>
             <ui:dialog.title>Remove file?</ui:dialog.title>
