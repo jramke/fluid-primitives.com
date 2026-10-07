@@ -153,6 +153,14 @@ export type FieldHydrationProps = {
     validationMode?: ValidationMode;
     listenTo?: string[];
 };
+export type FieldsetHydrationProps = {
+    id: string;
+    ids: {
+        [key: string]: string;
+    };
+    disabled?: boolean;
+    invalid?: boolean;
+};
 export type FileUploadHydrationProps = {
     id: string;
     ids: {
