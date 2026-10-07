@@ -134,7 +134,7 @@ The Form API exposes a `FormValues` object via `api.getValues()` and inside `val
 
 ## The Field Component
 
-`ui:field.root` wraps any input and wires up labels, errors, descriptions, and ARIA attributes. The `name` prop is required and must match the property name on your model.
+`ui:field.root` wraps any input and wires up labels, helper text, errors, and ARIA attributes. The `name` prop is required and must match the property name on your model.
 
 ### Anatomy
 
@@ -170,8 +170,9 @@ For a genuinely native/custom element with no dedicated primitive, use `field.co
 
 - `field.label` — renders a `<label>` with `for` pointing to the control
 - `field.control` — when `asChild="{true}"`, spreads the field's ARIA attributes onto the child element
-- `field.description` — optional helper text, wired to `aria-describedby`
-- `field.error` — renders the error message, wired to `aria-describedby` and only shown when the field is in an error state
+- `field.helperText` — optional helper text, wired to `aria-describedby`
+- `field.errorText` — renders the error message, wired to `aria-describedby` and only shown when the field is in an error state. Give it a `match` to show your own text for one failed constraint, e.g. `valueMissing` or `typeMismatch`
+- `field.indicator` — shows its content while the field is `required`, `invalid`, `valid` or `validating`, depending on its `type`
 
 ### Field Props
 
@@ -183,10 +184,12 @@ For a genuinely native/custom element with no dedicated primitive, use `field.co
 - `readOnly` (`boolean`) — sets the field and controls to read-only
 - `invalid` (`boolean`) — forces the field into an invalid state (e.g. pre-populated server error)
 - `defaultValue` (`mixed`) — pre-populates the field value
+- `validationMode` (`onBlur` | `onSubmit` | `onChange`) — when the field validates and shows its errors, `onBlur` by default
+- `listenTo` (`string[]`) — names of sibling fields whose changes validate this field again
 
 ### Inherited Field Props on Primitives
 
-When a Field-aware primitive is placed inside a `ui:field.root`, the field's state automatically propagates into the primitive. You do not need to repeat `disabled`, `required`, etc. on the primitive itself.
+When a Field-aware primitive is placed inside a `ui:field.root`, the field's state automatically propagates into the primitive. You do not need to repeat `disabled`, `required`, etc. on the primitive itself. A field inside a `ui:fieldset.root` (or a plain `<fieldset disabled>`) is disabled as long as the fieldset is.
 
 ```html
 <!-- disabled on field.root propagates to the Select automatically -->
@@ -328,9 +331,11 @@ When you use `post()`, 422 JSON validation responses do not come back as a norma
 
 To enhance the UX of your forms you should also use (slimmed down) client-side validation in addition to (more complex) server-side validation.
 
-Client-side validation runs on blur for dirty fields and before submission. Once a field already has an error, we validate it on change too so the user gets immediate feedback while fixing it.
+Every field validates itself. What it checks comes from three places that end up in the same list of errors: the native constraints of its control (`required`, `type="email"`, `pattern`, `min`/`max`, `minlength`/`maxlength`, ...), the `validation` of the `Form` described below, and a `validate` function of the field itself (see [Async Validation](/docs/components/field#async-validation)). The server's own errors, from a 422 response or returned by `onSubmit`, are shown the same way.
 
-Each field also tracks local interaction metadata. `field.meta.isTouched` becomes `true` after the first change or blur, `field.meta.isDirty` stays `true` once the value was changed, `field.meta.isPristine` is the inverse of `isDirty`, `field.meta.isBlurred` becomes `true` after the first blur, and `field.meta.isDefaultValue` reflects whether the current value matches the initial value. The same state is mirrored to `field.root` as `data-touched`, `data-dirty`, `data-pristine`, `data-blurred`, and `data-default-value` attributes for styling.
+By default (`validationMode="onBlur"`) a field validates when the user leaves it after editing it, so tabbing through an untouched form stays quiet. Once a field already has an error, we validate it on change too so the user gets immediate feedback while fixing it. A submit validates every field at once, shows all errors and moves the focus to the first invalid field. A disabled field is exempt, like in a native form. See [Validation Mode](/docs/components/field#validation-mode) for the other modes.
+
+Each field also tracks the state of the interaction: `touched` becomes `true` after the user left the field for the first time, `dirty` is `true` while the value differs from the one the field started with (and goes back to `false` when the user reverts the edit), `filled` tells whether the field has a value, and `focused` whether the focus is inside the field. Together with `valid`, `invalid` and `validating` they are available on `form.api.getField(name)` and mirrored to every part of the field as `data-touched`, `data-dirty`, `data-filled`, `data-focus`, `data-valid` and `data-invalid` attributes for styling.
 
 Install your validator separately. For Zod:
 
@@ -394,7 +399,7 @@ const form = new Form({
 });
 ```
 
-Validation callbacks must be synchronous. Use `onSubmit` for async checks.
+The `validation` callback must be synchronous. For an async check of a single field give that field its own `validate` function (see [Async Validation](/docs/components/field#async-validation)), and use `onSubmit` for checks that need the whole form.
 
 ## Async Validation During Submission
 
