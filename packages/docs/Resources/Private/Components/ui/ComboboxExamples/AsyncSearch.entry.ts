@@ -111,6 +111,9 @@ mount('ui:combobox', 'async-search', ({ props }) => {
             // a GET query param appended after the fact would otherwise cause (f:uri.action's
             // cHash is computed from the arguments known at build time).
             const response = await extbase.post(searchUrl, { q: filter }, { signal });
+            if (!response.ok) {
+                throw new Error(`City search failed with status ${response.status}`);
+            }
             return { items: (await response.json()) as CityResult[] };
         },
     });
