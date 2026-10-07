@@ -63,14 +63,13 @@ declare(strict_types=1);
 namespace Vendor\MyExtension\Controller;
 
 use Vendor\MyExtension\Domain\Model\EventRegistration;
-use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
+use Jramke\FluidPrimitives\Traits\JsonValidationErrorsTrait;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 final class EventRegistrationController extends ActionController
 {
-    use AjaxValidationTrait;
+    use JsonValidationErrorsTrait;
 
     public function registrationAction(EventRegistration $eventRegistration): ResponseInterface
     {
@@ -79,19 +78,34 @@ final class EventRegistrationController extends ActionController
 
         return $this->jsonResponse(json_encode(['success' => true]))->withStatus(200);
     }
+}
+```
 
+The `JsonValidationErrorsTrait` replaces your controller's `errorAction()`. Instead of Extbase's redirect back to the referring request, failed validation is answered with a 422 JSON response of field-keyed error messages. The Form component reads this response and assigns the errors to individual fields.
+
+{% component: "ui:alert", arguments: {"title": "Why is the response thrown?", "text": "An action inside a content-element plugin is rendered into the page, so a returned JSON body would arrive wrapped in your page layout. The trait throws a `PropagateResponseException` instead, the same way TYPO3 stops rendering for `throwStatus()`. Do the same for any JSON response the client has to read. If the action wrote to the database, call `persistAll()` first: Extbase only flushes persistence after a normal return.", "variant": "info"} %}
+
+The trait applies to the whole controller. To keep Extbase's own error handling for some actions, alias the trait's method and dispatch by hand:
+
+```php
+final class EventRegistrationController extends ActionController
+{
+    use JsonValidationErrorsTrait {
+        errorAction as protected jsonErrorAction;
+    }
+
+    #[\Override]
     protected function errorAction(): ResponseInterface
     {
-        // Converts Extbase validation errors to a 422 JSON response
-        $this->throwJsonValidationErrorResponse();
+        if ($this->actionMethodName === 'registrationAction') {
+            return $this->jsonErrorAction();
+        }
+
+        // Custom handling for the other actions
         return parent::errorAction();
     }
 }
 ```
-
-The `AjaxValidationTrait` provides `throwJsonValidationErrorResponse()`, which intercepts Extbase's normal `errorAction` redirect and instead returns a 422 JSON response with field-keyed error messages. The Form component reads this response and assigns errors to individual fields.
-
-{% component: "ui:alert", arguments: {"title": "Pro Tip", "text": "If your controller action is not registered as a standalone Plugin you can use `throw new PropagateResponseException` to return a plain json response.", "variant": "info"} %}
 
 ### Entry File (TypeScript)
 
@@ -204,7 +218,7 @@ Server-side errors are stored by its field and value. So like in the example, wh
 
 ### Extbase Model Validation
 
-Use PHP 8 attributes on your model to declare validation rules. Extbase runs these before your action is called. If validation fails, `errorAction` is triggered — which the `AjaxValidationTrait` converts to a 422 JSON response.
+Use PHP 8 attributes on your model to declare validation rules. Extbase runs these before your action is called. If validation fails, `errorAction` is triggered — which the `JsonValidationErrorsTrait` converts to a 422 JSON response.
 
 ```php
 <?php
@@ -246,14 +260,16 @@ The Form component maps each key to the corresponding field by name and displays
 
 ### Manual 422 Response
 
-For business-rule validation that doesn't belong in the model, return a 422 directly from your action:
+For business-rule validation that doesn't belong in the model, send a 422 directly from your action. Throw it like the trait does, since a returned response would arrive wrapped in your page layout:
 
 ```php
+use TYPO3\CMS\Core\Http\PropagateResponseException;
+
 public function registrationAction(EventRegistration $eventRegistration): ResponseInterface
 {
     if ($eventRegistration->getTicketType() === 'vip') {
         $payload = ['eventRegistration.ticketType' => ['VIP tickets are sold out.']];
-        return $this->jsonResponse(json_encode($payload))->withStatus(422);
+        throw new PropagateResponseException($this->jsonResponse(json_encode($payload))->withStatus(422));
     }
 
     // continue with save...
