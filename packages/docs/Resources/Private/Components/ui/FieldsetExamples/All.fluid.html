@@ -1,0 +1,16 @@
+<ui:prop name="example_id" type="string" default="simple" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:fieldsetExamples.simple />
+    </f:case>
+    <f:case value="disabled">
+        <ui:fieldsetExamples.disabled />
+    </f:case>
+    <f:case value="invalid">
+        <ui:fieldsetExamples.invalid />
+    </f:case>
+    <f:case value="toggle-disabled">
+        <ui:fieldsetExamples.toggleDisabled />
+    </f:case>
+</f:switch>

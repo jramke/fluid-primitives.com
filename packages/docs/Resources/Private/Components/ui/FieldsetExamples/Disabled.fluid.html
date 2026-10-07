@@ -1,0 +1,22 @@
+<ui:fieldset.root class="max-w-74" disabled="{true}">
+    <ui:fieldset.legend>Account</ui:fieldset.legend>
+    <ui:fieldset.helperText>Everything inside is disabled, whatever its own props say.</ui:fieldset.helperText>
+    <ui:field.root name="email">
+        <ui:input.root type="email" defaultValue="ada@example.com">
+            <ui:input.label>Email</ui:input.label>
+            <ui:input.input />
+        </ui:input.root>
+    </ui:field.root>
+    <ui:field.root name="newsletter">
+        <ui:checkbox.root defaultChecked="{true}">
+            <ui:checkbox.control />
+            <ui:checkbox.label>Send me the newsletter</ui:checkbox.label>
+        </ui:checkbox.root>
+    </ui:field.root>
+    <ui:field.root name="notifications">
+        <ui:switch.root>
+            <ui:switch.label>Notifications</ui:switch.label>
+            <ui:switch.control />
+        </ui:switch.root>
+    </ui:field.root>
+</ui:fieldset.root>
