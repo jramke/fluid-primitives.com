@@ -12,10 +12,7 @@ mountAll('ui:fieldsetExamples.toggleDisabled', () => {
     mount('ui:switch', 'edit-mode', ({ props }) => {
         const instance = new Switch({
             ...props,
-            onCheckedChange: ({ checked }) => {
-                instance.updateProps({ checked });
-                fieldset?.updateProps({ disabled: !checked });
-            },
+            onCheckedChange: ({ checked }) => fieldset?.updateProps({ disabled: !checked }),
         });
         instance.init();
         return instance;
