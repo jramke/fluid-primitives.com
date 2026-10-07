@@ -136,3 +136,4 @@ export type SliderThumbAlignment = 'contain' | 'center';
 export type SliderThumbCollisionBehavior = 'none' | 'push' | 'swap';
 export type TabsActivationMode = 'automatic' | 'manual';
 export type TextareaSubmitOn = 'enter' | 'mod+enter';
+export type ValidationMode = 'onSubmit' | 'onBlur' | 'onChange';

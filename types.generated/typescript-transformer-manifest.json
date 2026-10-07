@@ -1,6 +1,6 @@
 {
-    "index.d.ts": "3fbac548b5e56af897c143c550a219fa",
+    "index.d.ts": "353e643d643623f6ccc8372cb2afae12",
     "bench\/index.d.ts": "852a42250900207fa112a4b77d296fd7",
-    "primitives\/index.d.ts": "33e7af859477a88649b92d0a1b839498",
-    "ui\/index.d.ts": "771e4a033d1017c6e2d8e55c88dcf284"
+    "primitives\/index.d.ts": "52778efe1342627c6d29f28c944edab3",
+    "ui\/index.d.ts": "cc9c2687d3ec87e10374039ad889b058"
 }
