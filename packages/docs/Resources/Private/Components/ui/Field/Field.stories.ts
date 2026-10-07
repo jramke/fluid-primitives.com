@@ -34,3 +34,23 @@ export const Disabled: StoryObj = {
         example_id: 'disabled',
     },
 };
+export const NativeValidation: StoryObj = {
+    args: {
+        example_id: 'native-validation',
+    },
+};
+export const Indicators: StoryObj = {
+    args: {
+        example_id: 'indicators',
+    },
+};
+export const ValidationMode: StoryObj = {
+    args: {
+        example_id: 'validation-mode',
+    },
+};
+export const AsyncValidation: StoryObj = {
+    args: {
+        example_id: 'async-validation',
+    },
+};

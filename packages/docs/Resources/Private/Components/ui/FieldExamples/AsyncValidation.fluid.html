@@ -1,0 +1,16 @@
+<ui:exposeToClient />
+
+<ui:field.root class="max-w-74" name="username" required="{true}" controlled="{true}" rootId="username-availability">
+    <ui:input.root type="text" autocomplete="username">
+        <ui:input.label>Username</ui:input.label>
+        <ui:input.input minlength="3" />
+    </ui:input.root>
+    <div class="flex items-center gap-3 text-sm">
+        <ui:field.indicator type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FieldIndicatorType::Validating')}">Checking...</ui:field.indicator>
+        <ui:field.indicator type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FieldIndicatorType::Valid')}">Available</ui:field.indicator>
+    </div>
+    <ui:field.helperText>Try "admin" or "ada".</ui:field.helperText>
+    <ui:field.errorText />
+</ui:field.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/FieldExamples/AsyncValidation.entry.ts" />

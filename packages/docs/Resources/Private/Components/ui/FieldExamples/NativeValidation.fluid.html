@@ -1,0 +1,24 @@
+<ui:form.root actionUri="#" class="w-full max-w-74">
+    <ui:form.content class="space-y-6">
+        <ui:field.root name="email" required="{true}">
+            <ui:input.root type="email" autocomplete="email">
+                <ui:input.label>Email</ui:input.label>
+                <ui:input.input />
+            </ui:input.root>
+            <ui:field.errorText match="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ValidityMatch::ValueMissing')}">Please enter your email address.</ui:field.errorText>
+            <ui:field.errorText match="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ValidityMatch::TypeMismatch')}">That doesn't look like an email address.</ui:field.errorText>
+        </ui:field.root>
+
+        <ui:field.root name="zip">
+            <ui:input.root type="text" inputmode="numeric" autocomplete="postal-code">
+                <ui:input.label>ZIP code</ui:input.label>
+                <ui:input.input pattern="[0-9]+" minlength="5" maxlength="5" />
+            </ui:input.root>
+            <ui:field.helperText>Five digits.</ui:field.helperText>
+            <ui:field.errorText match="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ValidityMatch::PatternMismatch')}">A ZIP code only has digits.</ui:field.errorText>
+            <ui:field.errorText match="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ValidityMatch::TooShort')}">A ZIP code has five digits.</ui:field.errorText>
+        </ui:field.root>
+
+        <ui:button type="submit">Submit</ui:button>
+    </ui:form.content>
+</ui:form.root>
