@@ -74,6 +74,8 @@ The `form` renders `novalidate`, so the browser never shows its own bubble. Inst
 
 In every mode, an error that is already showing is validated again on every change, so the message goes away as soon as the user has fixed the value, instead of waiting for the next blur. A submit validates all fields, shows every error and moves the focus to the first invalid one.
 
+Error texts and indicators are never shown or hidden while a mouse button or a finger is down. A field blurs on the press that leaves it, and an error text appearing at that moment would move the button the user is about to release on, so the click would be lost. They wait for the release instead (keyboard users get them right away).
+
 {% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.validationMode" } %}
 
 ### Indicators
@@ -101,14 +103,22 @@ A field can react to a _different_ field's value changing via the `listenTo` pro
 `FieldHandle` (what both `form.api.getField(name)` and a `Field` instance's own `.api` return) exposes `addDependencyChangeListener(callback)` for the first half - it registers `callback` and returns a function that removes it again, the same "call it to start listening, get a cleanup function back" shape as `addEventListener`/`Machine.subscribe`, rather than a config-style `onX` prop you'd set once:
 
 ```typescript
+const needsStudentId = (values: FormValues) => values.get('ticketType') === 'student';
 const studentIdField = form.api.getField('studentId')!;
 
-studentIdField.addDependencyChangeListener(({ dependencies }) => {
-    const show = dependencies.ticketType === 'student';
+const applyStudentIdVisibility = (show: boolean) => {
     studentIdField.getRootEl()!.hidden = !show;
     studentIdField.setDisabled(!show);
+};
+
+// the same rule decides the starting state and every later change
+applyStudentIdVisibility(needsStudentId(form.api.getValues()));
+studentIdField.addDependencyChangeListener(({ values }) => {
+    applyStudentIdVisibility(needsStudentId(values));
 });
 ```
+
+The callback receives `dependencies` (the current value of each listened-to field, keyed by name) and `values`, the current `FormValues` of the whole form, which is what a rule shared with your `validation` callback usually wants.
 
 See the [Complete Example: Event Registration](/docs/core-concepts/forms#complete-example-event-registration) in the Forms guide for this exact pattern used to show/hide a `studentId` field based on `ticketType`, in place of recomputing it inside the form's own `render` callback on every field change.
 
