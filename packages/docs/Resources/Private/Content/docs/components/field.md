@@ -160,17 +160,17 @@ validation: ({ values }) => {
 
 Every part of a field renders the state of the field as data attributes, so a label, an indicator or an error text can be styled without any JavaScript. The server renders the ones that follow from the props (`data-disabled`, `data-invalid`, `data-required`, `data-readonly`), the others are set once the field is hydrated.
 
-| Attribute       | Present when                                                                                              |
-| --------------- | --------------------------------------------------------------------------------------------------------- |
+| Attribute       | Present when                                                                                               |
+| --------------- | ---------------------------------------------------------------------------------------------------------- |
 | `data-disabled` | The field is disabled, or it is inside a disabled fieldset                                                 |
 | `data-readonly` | The field is read-only                                                                                     |
-| `data-required` | The field is required                                                                                     |
-| `data-invalid`  | The field is invalid: a native constraint failed, `validate`, the form or the server reported an error    |
-| `data-valid`    | The field has been validated and passed                                                                   |
-| `data-touched`  | The user has left the field at least once                                                                 |
+| `data-required` | The field is required                                                                                      |
+| `data-invalid`  | The field is invalid: a native constraint failed, `validate`, the form or the server reported an error     |
+| `data-valid`    | The field has been validated and passed                                                                    |
+| `data-touched`  | The user has left the field at least once                                                                  |
 | `data-dirty`    | The value differs from the value the field started with. It goes away again when the user reverts the edit |
-| `data-filled`   | The field has a value                                                                                     |
-| `data-focus`    | Focus is inside the field                                                                                 |
+| `data-filled`   | The field has a value                                                                                      |
+| `data-focus`    | Focus is inside the field                                                                                  |
 
 The same flags are available from TypeScript on `field.api` (and on the `FieldHandle` of `form.api.getField(name)`): `touched`, `dirty`, `filled`, `focused`, `valid`, `invalid`, `validating`, `disabled`, `required`, `readOnly` and the `errors` list, together with `validate()`, `clearErrors()` and `reset()`. A `fluid-primitives:field:valuechange` event bubbles from the root of the field whenever its value settled on a new one, 100 ms after the last keystroke by default.
 
