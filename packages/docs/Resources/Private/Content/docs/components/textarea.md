@@ -13,7 +13,7 @@
 - Optional `submitOn` prop to submit the nearest form on Enter or Cmd/Ctrl+Enter instead of inserting a newline
 - Optional `transform` callback to sanitize/reformat the value as the user types, with cursor position preserved
 - Optional `wordCount` part rendering a translatable "42 / 250 characters" style counter, driven by `maxLength`
-- Word count updates are announced to screen readers by default through the page's shared [live region](/docs/utilities/live-region), debounced so it doesn't spam assistive tech on every keystroke - pass `announce="{false}"` to turn it off
+- Word count updates are announced to screen readers by default through the page's shared live region, debounced so it doesn't spam assistive tech on every keystroke - pass `announce="{false}"` to turn it off
 
 ## Installation
 
