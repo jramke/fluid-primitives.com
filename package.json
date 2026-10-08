@@ -3,6 +3,8 @@
     "scripts": {
         "docs:build": "vite build",
         "docs:dev": "vite --host --port 5173 --strictPort",
+        "docs:generate": "node packages/docs/scripts/generate-api-docs.mjs",
+        "docs:generate:check": "node packages/docs/scripts/generate-api-docs.mjs --check",
         "primitives:build": "cd packages/fluid-primitives && tsdown",
         "primitives:dev": "cd packages/fluid-primitives && tsdown --watch",
         "primitives:test": "cd packages/fluid-primitives && vitest run",
