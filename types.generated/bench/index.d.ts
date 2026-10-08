@@ -1,4 +1,4 @@
-import { ListCollection, Orientation, PopupType } from '../index.d';
+import { InputMode, ListCollection, Orientation, PopupType } from '../index.d';
 export type AccordionHydrationProps = {
     id: string;
     ids: {
@@ -37,7 +37,7 @@ export type InputHydrationProps = {
     defaultValue?: string;
     maxLength?: number;
     pattern?: string;
-    inputMode?: string;
+    inputMode?: InputMode;
     translations: {
         wordCount: string | false;
     };

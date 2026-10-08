@@ -3,6 +3,7 @@ import {
     ComboboxSelectionBehavior,
     DialogRole,
     FileUploadCapture,
+    InputMode,
     ListCollection,
     NumberInputMode,
     Orientation,
@@ -206,7 +207,7 @@ export type InputHydrationProps = {
     defaultValue?: string;
     maxLength?: number;
     pattern?: string;
-    inputMode?: string;
+    inputMode?: InputMode;
     translations: {
         wordCount: string | false;
     };

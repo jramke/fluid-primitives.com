@@ -121,6 +121,8 @@ export type ComboboxInputBehavior = 'autohighlight' | 'autocomplete' | 'none';
 export type ComboboxSelectionBehavior = 'clear' | 'replace' | 'preserve';
 export type DialogRole = 'dialog' | 'alertdialog';
 export type FileUploadCapture = 'user' | 'environment';
+export type InputMode =
+    'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
 export type ListCollection = {
     items: Record<string | number, Record<string | number, any> | object>;
     size: number;
