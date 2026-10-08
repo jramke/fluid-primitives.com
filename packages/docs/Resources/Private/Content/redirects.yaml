@@ -4,3 +4,6 @@
 'docs/components': '/docs/components/accordion'
 'docs/viewhelpers': '/docs/viewhelpers/attributes'
 'docs/viewhelpers/uid': '/docs/viewhelpers/id'
+'docs/utilities': '/docs/client-utilities/extbase'
+'docs/utilities/extbase': '/docs/client-utilities/extbase'
+'docs/utilities/delayed-indicator': '/docs/client-utilities/delayed-indicator'

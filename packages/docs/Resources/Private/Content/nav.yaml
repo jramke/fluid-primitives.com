@@ -61,7 +61,7 @@
     - docs/viewhelpers/template
     - docs/viewhelpers/useProps
 
-- group: Utilities
+- group: Client Utilities
   items:
-    - docs/utilities/extbase
-    - docs/utilities/delayed-indicator
+    - docs/client-utilities/extbase
+    - docs/client-utilities/delayed-indicator
