@@ -206,3 +206,23 @@ window.FluidPrimitives = {
 ```
 
 You rarely need to access this directly, but it's there for debugging or advanced use cases.
+
+## mountAll
+
+{% component: "ui:apiReference", arguments: { "symbol": "mountAll" } %}
+
+## mount
+
+{% component: "ui:apiReference", arguments: { "symbol": "mount" } %}
+
+## getComponentInstance
+
+{% component: "ui:apiReference", arguments: { "symbol": "getComponentInstance" } %}
+
+## destroyComponentsWithin
+
+{% component: "ui:apiReference", arguments: { "symbol": "destroyComponentsWithin" } %}
+
+## ComponentHydrator
+
+{% component: "ui:apiReference", arguments: { "symbol": "ComponentHydrator" } %}
