@@ -16,6 +16,49 @@
 - Typeahead to allow focusing items by typing text
 - Full keyboard navigation support, including arrow keys, home/end, and submenu navigation
 
+## Anatomy
+
+```html
+<primitives:menu.root>
+    <primitives:menu.trigger>
+        <primitives:menu.indicator />
+    </primitives:menu.trigger>
+    <primitives:menu.contextTrigger />
+    <primitives:menu.positioner>
+        <primitives:menu.arrow />
+        <primitives:menu.content>
+            <primitives:menu.item>
+                <primitives:menu.itemText />
+            </primitives:menu.item>
+            <primitives:menu.checkboxItem>
+                <primitives:menu.itemIndicator />
+                <primitives:menu.itemText />
+            </primitives:menu.checkboxItem>
+            <primitives:menu.radioItem>
+                <primitives:menu.itemIndicator />
+                <primitives:menu.itemText />
+            </primitives:menu.radioItem>
+            <primitives:menu.separator />
+            <primitives:menu.itemGroup>
+                <primitives:menu.itemGroupLabel />
+            </primitives:menu.itemGroup>
+
+            <f:comment><!-- Opens the submenu below, matched by rootId/childId --></f:comment>
+            <primitives:menu.triggerItem childId="submenu" />
+        </primitives:menu.content>
+    </primitives:menu.positioner>
+</primitives:menu.root>
+
+<f:comment><!-- A submenu: linked to its parent by id, not by nesting --></f:comment>
+<primitives:menu.root rootId="submenu" parentId="parent-rootId">
+    <primitives:menu.positioner>
+        <primitives:menu.content>
+            <primitives:menu.item />
+        </primitives:menu.content>
+    </primitives:menu.positioner>
+</primitives:menu.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Menu" } %}
@@ -98,46 +141,3 @@ dialog, so it stays within that element's DOM subtree instead.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:menu.root>
-    <primitives:menu.trigger>
-        <primitives:menu.indicator />
-    </primitives:menu.trigger>
-    <primitives:menu.contextTrigger />
-    <primitives:menu.positioner>
-        <primitives:menu.arrow />
-        <primitives:menu.content>
-            <primitives:menu.item>
-                <primitives:menu.itemText />
-            </primitives:menu.item>
-            <primitives:menu.checkboxItem>
-                <primitives:menu.itemIndicator />
-                <primitives:menu.itemText />
-            </primitives:menu.checkboxItem>
-            <primitives:menu.radioItem>
-                <primitives:menu.itemIndicator />
-                <primitives:menu.itemText />
-            </primitives:menu.radioItem>
-            <primitives:menu.separator />
-            <primitives:menu.itemGroup>
-                <primitives:menu.itemGroupLabel />
-            </primitives:menu.itemGroup>
-
-            <f:comment><!-- Opens the submenu below, matched by rootId/childId --></f:comment>
-            <primitives:menu.triggerItem childId="submenu" />
-        </primitives:menu.content>
-    </primitives:menu.positioner>
-</primitives:menu.root>
-
-<f:comment><!-- A submenu: linked to its parent by id, not by nesting --></f:comment>
-<primitives:menu.root rootId="submenu" parentId="parent-rootId">
-    <primitives:menu.positioner>
-        <primitives:menu.content>
-            <primitives:menu.item />
-        </primitives:menu.content>
-    </primitives:menu.positioner>
-</primitives:menu.root>
-```

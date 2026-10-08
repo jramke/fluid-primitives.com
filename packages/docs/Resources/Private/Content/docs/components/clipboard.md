@@ -12,6 +12,20 @@
 - Visual feedback when copying is successful
 - Supports custom timeout for the copied state
 
+## Anatomy
+
+```html
+<primitives:clipboard.root>
+    <primitives:clipboard.label />
+    <primitives:clipboard.control>
+        <primitives:clipboard.input />
+        <primitives:clipboard.trigger>
+            <primitives:clipboard.indicator />
+        </primitives:clipboard.trigger>
+    </primitives:clipboard.control>
+</primitives:clipboard.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Clipboard" } %}
@@ -64,17 +78,3 @@ Note that Zag.js uses a function for the trigger label to allow dynamic labels b
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:clipboard.root>
-    <primitives:clipboard.label />
-    <primitives:clipboard.control>
-        <primitives:clipboard.input />
-        <primitives:clipboard.trigger>
-            <primitives:clipboard.indicator />
-        </primitives:clipboard.trigger>
-    </primitives:clipboard.control>
-</primitives:clipboard.root>
-```

@@ -14,6 +14,21 @@
 - Syncs with native form elements for proper form submission
 - Works with Field component for form integration
 
+## Anatomy
+
+```html
+<primitives:checkboxGroup.root>
+    <primitives:checkboxGroup.label />
+    <primitives:checkbox.root>
+        <primitives:checkbox.control>
+            <primitives:checkbox.indicator />
+        </primitives:checkbox.control>
+        <primitives:checkbox.label />
+        <primitives:checkbox.hiddenInput />
+    </primitives:checkbox.root>
+</primitives:checkboxGroup.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "CheckboxGroup" } %}
@@ -62,18 +77,3 @@ Implement a "Select All" checkbox that toggles all options.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:checkboxGroup.root>
-    <primitives:checkboxGroup.label />
-    <primitives:checkbox.root>
-        <primitives:checkbox.control>
-            <primitives:checkbox.indicator />
-        </primitives:checkbox.control>
-        <primitives:checkbox.label />
-        <primitives:checkbox.hiddenInput />
-    </primitives:checkbox.root>
-</primitives:checkboxGroup.root>
-```

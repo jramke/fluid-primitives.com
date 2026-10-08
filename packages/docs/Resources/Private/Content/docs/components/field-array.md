@@ -15,6 +15,29 @@
 - Optional `minItems`/`maxItems` bounds - `addTrigger`/`removeTrigger` disable themselves once a bound is reached, and `append()`/`remove()` are no-ops past it
 - `emptyState`/`addTrigger`/`removeTrigger` already reflect the correct hidden/disabled state in the server-rendered HTML, from `itemCount`, not only once JavaScript hydrates
 
+## Anatomy
+
+```html
+<primitives:fieldArray.root itemCount="{items -> f:count()}">
+    <primitives:fieldArray.itemTemplate>
+        <primitives:fieldArray.item>
+            <!-- Your row's fields here -->
+            <primitives:fieldArray.removeTrigger />
+        </primitives:fieldArray.item>
+    </primitives:fieldArray.itemTemplate>
+    <primitives:fieldArray.itemGroup>
+        <f:for each="{items}" as="item">
+            <primitives:fieldArray.item index="{...}">
+                <!-- Your row's fields here -->
+                <primitives:fieldArray.removeTrigger />
+            </primitives:fieldArray.item>
+        </f:for>
+        <primitives:fieldArray.emptyState />
+    </primitives:fieldArray.itemGroup>
+    <primitives:fieldArray.addTrigger />
+</primitives:fieldArray.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "FieldArray" } %}
@@ -92,26 +115,3 @@ A complete `Form` wrapping a `FieldArray` of guests, each with a `name`/`email` 
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:fieldArray.root itemCount="{items -> f:count()}">
-    <primitives:fieldArray.itemTemplate>
-        <primitives:fieldArray.item>
-            <!-- Your row's fields here -->
-            <primitives:fieldArray.removeTrigger />
-        </primitives:fieldArray.item>
-    </primitives:fieldArray.itemTemplate>
-    <primitives:fieldArray.itemGroup>
-        <f:for each="{items}" as="item">
-            <primitives:fieldArray.item index="{...}">
-                <!-- Your row's fields here -->
-                <primitives:fieldArray.removeTrigger />
-            </primitives:fieldArray.item>
-        </f:for>
-        <primitives:fieldArray.emptyState />
-    </primitives:fieldArray.itemGroup>
-    <primitives:fieldArray.addTrigger />
-</primitives:fieldArray.root>
-```

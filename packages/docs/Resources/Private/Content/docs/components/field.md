@@ -18,6 +18,20 @@
 - Disabled by a surrounding [Fieldset](/docs/components/fieldset) or `<fieldset disabled>`
 - Works with all form-related primitives (Checkbox, Select, RadioGroup, etc.) and native inputs
 
+## Anatomy
+
+```html
+<primitives:field.root>
+    <primitives:field.label />
+    <primitives:field.control asChild="{true}">
+        <!-- Your form input here -->
+    </primitives:field.control>
+    <primitives:field.indicator type="required" />
+    <primitives:field.helperText />
+    <primitives:field.errorText />
+</primitives:field.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Field" } %}
@@ -188,17 +202,3 @@ The same flags are available from TypeScript on `field.api` (and on the `FieldHa
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:field.root>
-    <primitives:field.label />
-    <primitives:field.control asChild="{true}">
-        <!-- Your form input here -->
-    </primitives:field.control>
-    <primitives:field.indicator type="required" />
-    <primitives:field.helperText />
-    <primitives:field.errorText />
-</primitives:field.root>
-```

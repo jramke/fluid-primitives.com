@@ -13,6 +13,17 @@
 - Helper text and error text are linked to the fieldset with `aria-describedby`, the error text is only shown while the fieldset is `invalid`
 - A fieldset inside a disabled fieldset is disabled as well
 
+## Anatomy
+
+```html
+<primitives:fieldset.root>
+    <primitives:fieldset.legend />
+    <primitives:fieldset.helperText />
+    <!-- fields, checkboxes, ... -->
+    <primitives:fieldset.errorText />
+</primitives:fieldset.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Fieldset" } %}
@@ -51,14 +62,3 @@ Fields watch the `disabled` attribute of the fieldset they are in, so changing i
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:fieldset.root>
-    <primitives:fieldset.legend />
-    <primitives:fieldset.helperText />
-    <!-- fields, checkboxes, ... -->
-    <primitives:fieldset.errorText />
-</primitives:fieldset.root>
-```

@@ -12,6 +12,21 @@
 - Supports single or multiple expanded panels
 - Supports horizontal and vertical orientations
 
+## Anatomy
+
+```html
+<primitives:accordion.root>
+    <primitives:accordion.item>
+        <primitives:accordion.itemHeader>
+            <primitives:accordion.itemTrigger>
+                <primitives:accordion.itemIndicator />
+            </primitives:accordion.itemTrigger>
+        </primitives:accordion.itemHeader>
+        <primitives:accordion.itemContent />
+    </primitives:accordion.item>
+</primitives:accordion.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Accordion" } %}
@@ -46,18 +61,3 @@ Disable specific accordion items to prevent interaction.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:accordion.root>
-    <primitives:accordion.item>
-        <primitives:accordion.itemHeader>
-            <primitives:accordion.itemTrigger>
-                <primitives:accordion.itemIndicator />
-            </primitives:accordion.itemTrigger>
-        </primitives:accordion.itemHeader>
-        <primitives:accordion.itemContent />
-    </primitives:accordion.item>
-</primitives:accordion.root>
-```

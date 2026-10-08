@@ -12,6 +12,18 @@
 - Supports animation via CSS transitions or animations
 - Supports custom open and collapsed heights/widths
 
+## Anatomy
+
+```html
+<primitives:collapsible.root>
+    <primitives:collapsible.trigger>
+        <primitives:collapsible.indicator state="closed" />
+        <primitives:collapsible.indicator state="open" />
+    </primitives:collapsible.trigger>
+    <primitives:collapsible.content />
+</primitives:collapsible.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Collapsible" } %}
@@ -44,15 +56,3 @@ Prevent the collapsible from being toggled.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:collapsible.root>
-    <primitives:collapsible.trigger>
-        <primitives:collapsible.indicator state="closed" />
-        <primitives:collapsible.indicator state="open" />
-    </primitives:collapsible.trigger>
-    <primitives:collapsible.content />
-</primitives:collapsible.root>
-```

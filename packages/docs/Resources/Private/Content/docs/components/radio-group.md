@@ -13,6 +13,19 @@
 - Syncs with native form elements for proper form submission
 - Works with Field component for form integration
 
+## Anatomy
+
+```html
+<primitives:radioGroup.root>
+    <primitives:radioGroup.item>
+        <primitives:radioGroup.itemControl />
+        <primitives:radioGroup.itemText />
+        <primitives:radioGroup.itemHiddenInput />
+    </primitives:radioGroup.item>
+    <primitives:radioGroup.indicator />
+</primitives:radioGroup.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "RadioGroup" } %}
@@ -54,16 +67,3 @@ Start with no option selected by default.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:radioGroup.root>
-    <primitives:radioGroup.item>
-        <primitives:radioGroup.itemControl />
-        <primitives:radioGroup.itemText />
-        <primitives:radioGroup.itemHiddenInput />
-    </primitives:radioGroup.item>
-    <primitives:radioGroup.indicator />
-</primitives:radioGroup.root>
-```

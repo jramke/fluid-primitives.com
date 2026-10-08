@@ -14,6 +14,18 @@
 - Supports disabled, invalid, required, and read-only states
 - Full keyboard support
 
+## Anatomy
+
+```html
+<primitives:switch.root>
+    <primitives:switch.control>
+        <primitives:switch.thumb />
+    </primitives:switch.control>
+    <primitives:switch.label />
+    <primitives:switch.hiddenInput />
+</primitives:switch.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Switch" } %}
@@ -54,15 +66,3 @@ Use the switch with the Field component for descriptions and validation.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:switch.root>
-    <primitives:switch.control>
-        <primitives:switch.thumb />
-    </primitives:switch.control>
-    <primitives:switch.label />
-    <primitives:switch.hiddenInput />
-</primitives:switch.root>
-```

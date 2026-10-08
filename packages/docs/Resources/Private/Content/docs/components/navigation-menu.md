@@ -14,6 +14,51 @@
 - Animated indicator and shared viewport support
 - Supports horizontal and vertical orientation
 
+## Anatomy
+
+```html
+<primitives:navigationMenu.root>
+    <primitives:navigationMenu.list>
+        <primitives:navigationMenu.item>
+            <primitives:navigationMenu.trigger />
+            <primitives:navigationMenu.content>
+                <primitives:navigationMenu.link />
+            </primitives:navigationMenu.content>
+        </primitives:navigationMenu.item>
+
+        <primitives:navigationMenu.item>
+            <primitives:navigationMenu.link />
+        </primitives:navigationMenu.item>
+    </primitives:navigationMenu.list>
+</primitives:navigationMenu.root>
+```
+
+When using the shared viewport pattern, add the optional viewport-related parts:
+
+```html
+<primitives:navigationMenu.root>
+    <primitives:navigationMenu.list>
+        <primitives:navigationMenu.item>
+            <primitives:navigationMenu.trigger />
+            <primitives:navigationMenu.triggerProxy />
+            <primitives:navigationMenu.viewportProxy />
+        </primitives:navigationMenu.item>
+    </primitives:navigationMenu.list>
+
+    <primitives:navigationMenu.indicator>
+        <primitives:navigationMenu.arrow />
+    </primitives:navigationMenu.indicator>
+
+    <primitives:navigationMenu.viewportPositioner>
+        <primitives:navigationMenu.viewport>
+            <primitives:navigationMenu.content>
+                <primitives:navigationMenu.link />
+            </primitives:navigationMenu.content>
+        </primitives:navigationMenu.viewport>
+    </primitives:navigationMenu.viewportPositioner>
+</primitives:navigationMenu.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "NavigationMenu" } %}
@@ -62,48 +107,3 @@ Use `withViewport="{true}"` to render dropdown content inside a shared viewport.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:navigationMenu.root>
-    <primitives:navigationMenu.list>
-        <primitives:navigationMenu.item>
-            <primitives:navigationMenu.trigger />
-            <primitives:navigationMenu.content>
-                <primitives:navigationMenu.link />
-            </primitives:navigationMenu.content>
-        </primitives:navigationMenu.item>
-
-        <primitives:navigationMenu.item>
-            <primitives:navigationMenu.link />
-        </primitives:navigationMenu.item>
-    </primitives:navigationMenu.list>
-</primitives:navigationMenu.root>
-```
-
-When using the shared viewport pattern, add the optional viewport-related parts:
-
-```html
-<primitives:navigationMenu.root>
-    <primitives:navigationMenu.list>
-        <primitives:navigationMenu.item>
-            <primitives:navigationMenu.trigger />
-            <primitives:navigationMenu.triggerProxy />
-            <primitives:navigationMenu.viewportProxy />
-        </primitives:navigationMenu.item>
-    </primitives:navigationMenu.list>
-
-    <primitives:navigationMenu.indicator>
-        <primitives:navigationMenu.arrow />
-    </primitives:navigationMenu.indicator>
-
-    <primitives:navigationMenu.viewportPositioner>
-        <primitives:navigationMenu.viewport>
-            <primitives:navigationMenu.content>
-                <primitives:navigationMenu.link />
-            </primitives:navigationMenu.content>
-        </primitives:navigationMenu.viewport>
-    </primitives:navigationMenu.viewportPositioner>
-</primitives:navigationMenu.root>
-```

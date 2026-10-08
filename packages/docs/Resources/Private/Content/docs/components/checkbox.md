@@ -13,6 +13,18 @@
 - Works with Field component for form integration
 - Full keyboard support
 
+## Anatomy
+
+```html
+<primitives:checkbox.root>
+    <primitives:checkbox.control>
+        <primitives:checkbox.indicator />
+    </primitives:checkbox.control>
+    <primitives:checkbox.label />
+    <primitives:checkbox.hiddenInput />
+</primitives:checkbox.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Checkbox" } %}
@@ -52,15 +64,3 @@ Prevent interaction with the checkbox.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:checkbox.root>
-    <primitives:checkbox.control>
-        <primitives:checkbox.indicator />
-    </primitives:checkbox.control>
-    <primitives:checkbox.label />
-    <primitives:checkbox.hiddenInput />
-</primitives:checkbox.root>
-```

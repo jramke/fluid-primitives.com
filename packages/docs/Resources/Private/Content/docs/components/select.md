@@ -16,6 +16,45 @@
 - Works with Field component for form integration
 - Supports custom positioning
 
+## Anatomy
+
+Zag puts the listbox semantics, focus, scrolling and the active option on `list`, so the options belong inside `list` rather than directly inside `content`, which is a plain wrapper around it (a dialog, with the `dialog` popup type). The styled `ui:select.content` is the `positioner` and `content` in one part, and `ui:select.list` is the `list` - you place it inside the content yourself:
+
+```html
+<ui:select.content>
+    <ui:select.list>
+        <ui:select.item>...</ui:select.item>
+    </ui:select.list>
+</ui:select.content>
+```
+
+```html
+<primitives:select.root>
+    <primitives:select.label />
+    <primitives:select.control>
+        <primitives:select.trigger>
+            <primitives:select.valueText />
+            <primitives:select.indicator />
+        </primitives:select.trigger>
+        <primitives:select.clearTrigger />
+    </primitives:select.control>
+    <primitives:select.positioner>
+        <primitives:select.content>
+            <primitives:select.list>
+                <primitives:select.item>
+                    <primitives:select.itemText />
+                    <primitives:select.itemIndicator />
+                </primitives:select.item>
+                <primitives:select.itemGroup>
+                    <primitives:select.itemGroupLabel />
+                </primitives:select.itemGroup>
+            </primitives:select.list>
+        </primitives:select.content>
+    </primitives:select.positioner>
+    <primitives:select.hiddenSelect />
+</primitives:select.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Select" } %}
@@ -99,42 +138,3 @@ Default clear trigger labels are shipped via XLF and follow the current Site Lan
         ]
     }
 %}
-
-## Anatomy
-
-Zag puts the listbox semantics, focus, scrolling and the active option on `list`, so the options belong inside `list` rather than directly inside `content`, which is a plain wrapper around it (a dialog, with the `dialog` popup type). The styled `ui:select.content` is the `positioner` and `content` in one part, and `ui:select.list` is the `list` - you place it inside the content yourself:
-
-```html
-<ui:select.content>
-    <ui:select.list>
-        <ui:select.item>...</ui:select.item>
-    </ui:select.list>
-</ui:select.content>
-```
-
-```html
-<primitives:select.root>
-    <primitives:select.label />
-    <primitives:select.control>
-        <primitives:select.trigger>
-            <primitives:select.valueText />
-            <primitives:select.indicator />
-        </primitives:select.trigger>
-        <primitives:select.clearTrigger />
-    </primitives:select.control>
-    <primitives:select.positioner>
-        <primitives:select.content>
-            <primitives:select.list>
-                <primitives:select.item>
-                    <primitives:select.itemText />
-                    <primitives:select.itemIndicator />
-                </primitives:select.item>
-                <primitives:select.itemGroup>
-                    <primitives:select.itemGroupLabel />
-                </primitives:select.itemGroup>
-            </primitives:select.list>
-        </primitives:select.content>
-    </primitives:select.positioner>
-    <primitives:select.hiddenSelect />
-</primitives:select.root>
-```

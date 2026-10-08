@@ -16,6 +16,26 @@
 - Accepts `defaultValue` as a single number for one thumb, or a list of numbers for a range
 - Works with the Field component for form integration
 
+## Anatomy
+
+```html
+<primitives:slider.root>
+    <primitives:slider.label />
+    <primitives:slider.valueText />
+    <primitives:slider.control>
+        <primitives:slider.track>
+            <primitives:slider.range />
+        </primitives:slider.track>
+        <primitives:slider.thumb index="0">
+            <primitives:slider.hiddenInput />
+        </primitives:slider.thumb>
+        <primitives:slider.markerGroup>
+            <primitives:slider.marker value="25" />
+        </primitives:slider.markerGroup>
+    </primitives:slider.control>
+</primitives:slider.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Slider" } %}
@@ -95,23 +115,3 @@ numbers - useful whenever the value represents something more precise than an in
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:slider.root>
-    <primitives:slider.label />
-    <primitives:slider.valueText />
-    <primitives:slider.control>
-        <primitives:slider.track>
-            <primitives:slider.range />
-        </primitives:slider.track>
-        <primitives:slider.thumb index="0">
-            <primitives:slider.hiddenInput />
-        </primitives:slider.thumb>
-        <primitives:slider.markerGroup>
-            <primitives:slider.marker value="25" />
-        </primitives:slider.markerGroup>
-    </primitives:slider.control>
-</primitives:slider.root>
-```

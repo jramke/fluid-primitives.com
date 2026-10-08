@@ -14,6 +14,18 @@
 - Content is lazy mounted by default
 - Supports disabled tabs
 
+## Anatomy
+
+```html
+<primitives:tabs.root>
+    <primitives:tabs.list>
+        <primitives:tabs.trigger />
+        <primitives:tabs.indicator />
+    </primitives:tabs.list>
+    <primitives:tabs.content />
+</primitives:tabs.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Tabs" } %}
@@ -53,15 +65,3 @@ Require pressing Enter or Space to activate tabs instead of activating on focus.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:tabs.root>
-    <primitives:tabs.list>
-        <primitives:tabs.trigger />
-        <primitives:tabs.indicator />
-    </primitives:tabs.list>
-    <primitives:tabs.content />
-</primitives:tabs.root>
-```

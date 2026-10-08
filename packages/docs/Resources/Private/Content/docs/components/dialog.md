@@ -14,6 +14,21 @@
 - Pressing `Escape` closes the dialog
 - Supports controlled and uncontrolled open state
 
+## Anatomy
+
+```html
+<primitives:dialog.root>
+    <primitives:dialog.trigger />
+    <primitives:dialog.backdrop />
+    <primitives:dialog.positioner>
+        <primitives:dialog.content>
+            <primitives:dialog.title />
+            <primitives:dialog.description />
+        </primitives:dialog.content>
+    </primitives:dialog.positioner>
+</primitives:dialog.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Dialog" } %}
@@ -84,18 +99,3 @@ Disable closing the dialog with the Escape key.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:dialog.root>
-    <primitives:dialog.trigger />
-    <primitives:dialog.backdrop />
-    <primitives:dialog.positioner>
-        <primitives:dialog.content>
-            <primitives:dialog.title />
-            <primitives:dialog.description />
-        </primitives:dialog.content>
-    </primitives:dialog.positioner>
-</primitives:dialog.root>
-```

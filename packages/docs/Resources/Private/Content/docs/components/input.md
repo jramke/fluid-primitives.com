@@ -13,6 +13,16 @@
 - Optional `wordCount` part rendering a translatable "42 / 250 characters" style counter, driven by `maxLength`
 - Word count updates are announced to screen readers by default through the page's shared live region, debounced so it doesn't spam assistive tech on every keystroke - pass `announce="{false}"` to turn it off
 
+## Anatomy
+
+```html
+<primitives:input.root>
+    <primitives:input.label />
+    <primitives:input.input />
+    <primitives:input.wordCount />
+</primitives:input.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Input" } %}
@@ -51,13 +61,3 @@ Pass `maxLength` and add the `wordCount` part wherever you want it - it doesn't 
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:input.root>
-    <primitives:input.label />
-    <primitives:input.input />
-    <primitives:input.wordCount />
-</primitives:input.root>
-```

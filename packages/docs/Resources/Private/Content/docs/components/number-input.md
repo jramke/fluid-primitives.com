@@ -16,6 +16,21 @@
 - Support for scrubbing interaction
 - Automatically sets the locale based on Site Language
 
+## Anatomy
+
+```html
+<primitives:numberInput.root>
+    <primitives:numberInput.label />
+    <primitives:numberInput.control>
+        <primitives:numberInput.decrementTrigger />
+        <primitives:numberInput.input />
+        <primitives:numberInput.incrementTrigger />
+    </primitives:numberInput.control>
+    <primitives:numberInput.scrubber />
+    <primitives:numberInput.valueText />
+</primitives:numberInput.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "NumberInput" } %}
@@ -80,18 +95,3 @@ Default increment and decrement labels are shipped via XLF and follow the curren
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:numberInput.root>
-    <primitives:numberInput.label />
-    <primitives:numberInput.control>
-        <primitives:numberInput.decrementTrigger />
-        <primitives:numberInput.input />
-        <primitives:numberInput.incrementTrigger />
-    </primitives:numberInput.control>
-    <primitives:numberInput.scrubber />
-    <primitives:numberInput.valueText />
-</primitives:numberInput.root>
-```

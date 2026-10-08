@@ -19,6 +19,49 @@
 - Exports `fileValue()`, the identity `FileUpload` stamps onto every rendered item's `data-value`, so userland code can resolve a clicked/found item back to the real `File` it represents
 - Replaces TYPO3's `f:form.upload` and integrates with Extbase's `#[FileUpload]` attribute out of the box
 
+## Anatomy
+
+```html
+<primitives:fileUpload.root>
+    <primitives:fileUpload.label />
+    <primitives:fileUpload.dropzone>
+        <primitives:fileUpload.trigger />
+    </primitives:fileUpload.dropzone>
+    <primitives:fileUpload.hiddenInput />
+
+    <primitives:fileUpload.itemTemplate>
+        <primitives:fileUpload.item>
+            <primitives:fileUpload.itemPreview match="image/*">
+                <primitives:fileUpload.itemPreviewImage />
+            </primitives:fileUpload.itemPreview>
+            <primitives:fileUpload.itemPreview match=".*">
+                <primitives:fileUpload.itemPreviewFallback />
+            </primitives:fileUpload.itemPreview>
+            <primitives:fileUpload.itemName />
+            <primitives:fileUpload.itemSizeText />
+            <primitives:fileUpload.itemError />
+            <primitives:fileUpload.itemDeleteTrigger />
+        </primitives:fileUpload.item>
+    </primitives:fileUpload.itemTemplate>
+
+    <f:comment>Optional - falls back to the itemTemplate above when omitted.</f:comment>
+    <primitives:fileUpload.itemTemplate
+        type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}"
+    >
+        <primitives:fileUpload.item>
+            <primitives:fileUpload.itemName />
+            <primitives:fileUpload.itemError />
+            <primitives:fileUpload.itemDeleteTrigger />
+        </primitives:fileUpload.item>
+    </primitives:fileUpload.itemTemplate>
+
+    <primitives:fileUpload.itemGroup>
+        <primitives:fileUpload.emptyState />
+    </primitives:fileUpload.itemGroup>
+    <primitives:fileUpload.clearTrigger />
+</primitives:fileUpload.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "FileUpload" } %}
@@ -265,46 +308,3 @@ Clicking that delete trigger checks the sibling checkbox and hides the item imme
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:fileUpload.root>
-    <primitives:fileUpload.label />
-    <primitives:fileUpload.dropzone>
-        <primitives:fileUpload.trigger />
-    </primitives:fileUpload.dropzone>
-    <primitives:fileUpload.hiddenInput />
-
-    <primitives:fileUpload.itemTemplate>
-        <primitives:fileUpload.item>
-            <primitives:fileUpload.itemPreview match="image/*">
-                <primitives:fileUpload.itemPreviewImage />
-            </primitives:fileUpload.itemPreview>
-            <primitives:fileUpload.itemPreview match=".*">
-                <primitives:fileUpload.itemPreviewFallback />
-            </primitives:fileUpload.itemPreview>
-            <primitives:fileUpload.itemName />
-            <primitives:fileUpload.itemSizeText />
-            <primitives:fileUpload.itemError />
-            <primitives:fileUpload.itemDeleteTrigger />
-        </primitives:fileUpload.item>
-    </primitives:fileUpload.itemTemplate>
-
-    <f:comment>Optional - falls back to the itemTemplate above when omitted.</f:comment>
-    <primitives:fileUpload.itemTemplate
-        type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}"
-    >
-        <primitives:fileUpload.item>
-            <primitives:fileUpload.itemName />
-            <primitives:fileUpload.itemError />
-            <primitives:fileUpload.itemDeleteTrigger />
-        </primitives:fileUpload.item>
-    </primitives:fileUpload.itemTemplate>
-
-    <primitives:fileUpload.itemGroup>
-        <primitives:fileUpload.emptyState />
-    </primitives:fileUpload.itemGroup>
-    <primitives:fileUpload.clearTrigger />
-</primitives:fileUpload.root>
-```

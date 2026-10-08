@@ -14,6 +14,19 @@
 - Supports custom positioning with placement options
 - Automatically adjusts position to stay in viewport
 
+## Anatomy
+
+```html
+<primitives:tooltip.root>
+    <primitives:tooltip.trigger />
+    <primitives:tooltip.positioner>
+        <primitives:tooltip.content>
+            <primitives:tooltip.arrow />
+        </primitives:tooltip.content>
+    </primitives:tooltip.positioner>
+</primitives:tooltip.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Tooltip" } %}
@@ -65,16 +78,3 @@ Common pattern for icon-only buttons that need accessible labels.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:tooltip.root>
-    <primitives:tooltip.trigger />
-    <primitives:tooltip.positioner>
-        <primitives:tooltip.content>
-            <primitives:tooltip.arrow />
-        </primitives:tooltip.content>
-    </primitives:tooltip.positioner>
-</primitives:tooltip.root>
-```

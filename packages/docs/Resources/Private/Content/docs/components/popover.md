@@ -14,6 +14,22 @@
 - Pressing `Escape` closes the popover
 - Automatically adjusts position to stay in viewport
 
+## Anatomy
+
+```html
+<primitives:popover.root>
+    <primitives:popover.trigger />
+    <primitives:popover.positioner>
+        <primitives:popover.content>
+            <primitives:popover.arrow />
+            <primitives:popover.closeTrigger />
+            <primitives:popover.title />
+            <primitives:popover.description />
+        </primitives:popover.content>
+    </primitives:popover.positioner>
+</primitives:popover.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Popover" } %}
@@ -71,19 +87,3 @@ Default close trigger labels are shipped via XLF and follow the current Site Lan
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:popover.root>
-    <primitives:popover.trigger />
-    <primitives:popover.positioner>
-        <primitives:popover.content>
-            <primitives:popover.arrow />
-            <primitives:popover.closeTrigger />
-            <primitives:popover.title />
-            <primitives:popover.description />
-        </primitives:popover.content>
-    </primitives:popover.positioner>
-</primitives:popover.root>
-```

@@ -19,6 +19,40 @@
 - Supports async, server-rendered search results via `ui:template`
 - Can move the input into the popup, behind a focusable trigger, with the `dialog` popup type
 
+## Anatomy
+
+Unlike `Select`, Zag's combobox machine renders no native form control of its own - the visible `input` only ever holds the highlighted item's label (or, with `allowCustomValue`, arbitrary typed text), never its `value`. `hiddenInput` fills that gap: one visually hidden text input (kept out of the accessibility tree and tab order via `aria-hidden`/`tabindex="-1"`, not `type="hidden"`) per selected value, kept in sync with the current selection so the item's `value` (not its label) is what actually gets submitted. Include it once anywhere inside `combobox.root` - it renders as many hidden inputs as there are selected values (one, or - with `multiple` - several), and a single empty one while nothing is selected, like a native input would submit its name with an empty value. That empty input is also what a [Field](/docs/components/field) moves the focus through when the combobox is the first invalid field of a submitted form: it hands the focus on to the visible input.
+
+Zag puts the listbox semantics and scrolling on `list`, so the options belong inside `list` rather than directly inside `content`, which is a plain wrapper around it (a dialog, with the `dialog` popup type). The styled `ui:combobox.content` is the `positioner` and `content` in one part, and `ui:combobox.list` is the `list` - you place it inside the content yourself.
+
+`combobox.empty` renders a placeholder for when the collection has no items to show - whether that's because nothing matches the current search text, or because an async search hasn't returned results yet. It's shown/hidden automatically alongside `content`/`list`'s own `data-empty` attribute, so no wiring is needed beyond placing it next to `combobox.list` inside `content` - it isn't an option, so it doesn't belong inside the listbox.
+
+```html
+<primitives:combobox.root>
+    <primitives:combobox.label />
+    <primitives:combobox.control>
+        <primitives:combobox.input />
+        <primitives:combobox.clearTrigger />
+        <primitives:combobox.trigger />
+    </primitives:combobox.control>
+    <primitives:combobox.positioner>
+        <primitives:combobox.content>
+            <primitives:combobox.empty />
+            <primitives:combobox.list>
+                <primitives:combobox.item>
+                    <primitives:combobox.itemText />
+                    <primitives:combobox.itemIndicator />
+                </primitives:combobox.item>
+                <primitives:combobox.itemGroup>
+                    <primitives:combobox.itemGroupLabel />
+                </primitives:combobox.itemGroup>
+            </primitives:combobox.list>
+        </primitives:combobox.content>
+    </primitives:combobox.positioner>
+    <primitives:combobox.hiddenInput />
+</primitives:combobox.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "Combobox" } %}
@@ -131,37 +165,3 @@ Default combobox trigger labels are shipped via XLF and follow the current Site 
         ]
     }
 %}
-
-## Anatomy
-
-Unlike `Select`, Zag's combobox machine renders no native form control of its own - the visible `input` only ever holds the highlighted item's label (or, with `allowCustomValue`, arbitrary typed text), never its `value`. `hiddenInput` fills that gap: one visually hidden text input (kept out of the accessibility tree and tab order via `aria-hidden`/`tabindex="-1"`, not `type="hidden"`) per selected value, kept in sync with the current selection so the item's `value` (not its label) is what actually gets submitted. Include it once anywhere inside `combobox.root` - it renders as many hidden inputs as there are selected values (one, or - with `multiple` - several), and a single empty one while nothing is selected, like a native input would submit its name with an empty value. That empty input is also what a [Field](/docs/components/field) moves the focus through when the combobox is the first invalid field of a submitted form: it hands the focus on to the visible input.
-
-Zag puts the listbox semantics and scrolling on `list`, so the options belong inside `list` rather than directly inside `content`, which is a plain wrapper around it (a dialog, with the `dialog` popup type). The styled `ui:combobox.content` is the `positioner` and `content` in one part, and `ui:combobox.list` is the `list` - you place it inside the content yourself.
-
-`combobox.empty` renders a placeholder for when the collection has no items to show - whether that's because nothing matches the current search text, or because an async search hasn't returned results yet. It's shown/hidden automatically alongside `content`/`list`'s own `data-empty` attribute, so no wiring is needed beyond placing it next to `combobox.list` inside `content` - it isn't an option, so it doesn't belong inside the listbox.
-
-```html
-<primitives:combobox.root>
-    <primitives:combobox.label />
-    <primitives:combobox.control>
-        <primitives:combobox.input />
-        <primitives:combobox.clearTrigger />
-        <primitives:combobox.trigger />
-    </primitives:combobox.control>
-    <primitives:combobox.positioner>
-        <primitives:combobox.content>
-            <primitives:combobox.empty />
-            <primitives:combobox.list>
-                <primitives:combobox.item>
-                    <primitives:combobox.itemText />
-                    <primitives:combobox.itemIndicator />
-                </primitives:combobox.item>
-                <primitives:combobox.itemGroup>
-                    <primitives:combobox.itemGroupLabel />
-                </primitives:combobox.itemGroup>
-            </primitives:combobox.list>
-        </primitives:combobox.content>
-    </primitives:combobox.positioner>
-    <primitives:combobox.hiddenInput />
-</primitives:combobox.root>
-```

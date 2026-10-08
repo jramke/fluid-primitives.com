@@ -14,6 +14,19 @@
 - Supports visibility modes: always, scroll, or hover
 - Scrollbar thumb reflects the actual scroll position
 
+## Anatomy
+
+```html
+<primitives:scrollArea.root>
+    <primitives:scrollArea.viewport>
+        <primitives:scrollArea.content />
+    </primitives:scrollArea.viewport>
+    <primitives:scrollArea.scrollbar>
+        <primitives:scrollArea.thumb />
+    </primitives:scrollArea.scrollbar>
+</primitives:scrollArea.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "ScrollArea" } %}
@@ -47,16 +60,3 @@ Support scrolling in both vertical and horizontal directions.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:scrollArea.root>
-    <primitives:scrollArea.viewport>
-        <primitives:scrollArea.content />
-    </primitives:scrollArea.viewport>
-    <primitives:scrollArea.scrollbar>
-        <primitives:scrollArea.thumb />
-    </primitives:scrollArea.scrollbar>
-</primitives:scrollArea.root>
-```
