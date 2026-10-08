@@ -192,8 +192,9 @@ The API docs of the client utilities (`Client/src/lib`) and of the self-made mac
 - Show it on a page with `{% component: "ui:apiReference", arguments: { "symbol": "ExportName" } %}`. The page author
   writes the heading. A self-made machine needs nothing on its page, `ui:componentPropsTable` picks up
   `generated/machines/<name>.json` before `generated/zag-docs/<name>.json`.
-- A heading in a component template that should appear in the table of contents is written `<h3 data-toc>` (or `h2`),
-  `ComponentHeadingsExtension` turns it into a real heading with an id and a permalink.
+- A plain `<h2>` or `<h3>` in a component template appears in the table of contents: `ComponentHeadingsExtension` turns it
+  into a real heading with an id and a permalink. Give a heading an attribute (a class) to keep it out.
+
 
 ## TypeScript Guidelines
 

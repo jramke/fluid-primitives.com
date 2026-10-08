@@ -12,16 +12,17 @@ use League\CommonMark\Extension\ExtensionInterface;
 use League\CommonMark\Node\Inline\Text;
 
 /**
- * Makes the `<h2 data-toc>` / `<h3 data-toc>` headings of a component's HTML real headings, so they get an id, a
- * permalink and an entry in the table of contents like the Markdown ones.
+ * Makes the plain `<h2>` and `<h3>` of a component's HTML real headings, so they get an id, a permalink and an entry
+ * in the table of contents like the Markdown ones. A heading with attributes (a class, an id) stays HTML: that is
+ * how a template says a heading is part of its design and not of the page outline.
  *
- * A component resolves to one HTML block, which CommonMark leaves alone. Each marked heading splits that block in
- * two and takes its place between the halves: the nodes render in order, so the heading ends up where the template
- * wrote it, inside whatever wrapper the component opened.
+ * A component resolves to one HTML block, which CommonMark leaves alone. Each such heading splits that block in two
+ * and takes its place between the halves: the nodes render in order, so the heading ends up where the template wrote
+ * it, inside whatever wrapper the component opened.
  */
 final class ComponentHeadingsExtension implements ExtensionInterface
 {
-    private const string HEADING_PATTERN = '/<h([23]) data-toc>(.*?)<\/h\1>/s';
+    private const string HEADING_PATTERN = '/<h([23])>(.*?)<\/h\1>/s';
 
     public function register(EnvironmentBuilderInterface $environment): void
     {
@@ -33,7 +34,7 @@ final class ComponentHeadingsExtension implements ExtensionInterface
     {
         $blocks = [];
         foreach ($event->getDocument()->iterator() as $node) {
-            if ($node instanceof HtmlBlock && str_contains($node->getLiteral(), ' data-toc>')) {
+            if ($node instanceof HtmlBlock && preg_match(self::HEADING_PATTERN, $node->getLiteral()) === 1) {
                 $blocks[] = $node;
             }
         }
