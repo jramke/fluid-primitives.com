@@ -4,9 +4,7 @@
 
 <ui:alert.root class="{class}" variant="{variant}">
     <ui:alert.icon />
-    <ui:alert.title>
-        <h3>{title}</h3>
-    </ui:alert.title>
+    <ui:alert.title>{title}</ui:alert.title>
     <f:if condition="{text}">
         <ui:alert.content>
             {text -> docs:markdown()}
