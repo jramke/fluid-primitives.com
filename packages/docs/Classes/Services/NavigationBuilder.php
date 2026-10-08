@@ -9,8 +9,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class NavigationBuilder
 {
-    private const string LLMS_TXT_GROUP = 'Overview';
-
     public function buildNavigation(string $baseDir, string $navFile): array
     {
         $allDocs = $this->scanDocs($baseDir);
@@ -36,13 +34,6 @@ class NavigationBuilder
 
                 $group['items'][] = $allDocs[$slug];
                 unset($allDocs[$slug]);
-            }
-
-            // llms.txt isn't a scanned content file, just a synthetic sidebar link into the
-            // middleware-served /llms.txt - added here rather than nav.yaml so it doesn't have to
-            // pretend to be a real doc for scanDocs()/ValidPathsCollector's sake.
-            if ($group['title'] === self::LLMS_TXT_GROUP) {
-                $group['items'][] = ['slug' => '/llms.txt', 'title' => 'llms.txt'];
             }
 
             $navigation[] = $group;
