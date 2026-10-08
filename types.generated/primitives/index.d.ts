@@ -1,6 +1,8 @@
 import {
     ComboboxInputBehavior,
     ComboboxSelectionBehavior,
+    DatePickerSelectionMode,
+    DatePickerView,
     DialogRole,
     FileUploadCapture,
     InputMode,
@@ -111,6 +113,45 @@ export type ComboboxHydrationProps = {
         clearTriggerLabel: string;
     };
     searchUrl?: string;
+};
+export type DatePickerHydrationProps = {
+    id: string;
+    ids: {
+        [key: string]: string;
+    };
+    locale?: string;
+    timeZone?: string;
+    name?: string;
+    disabled?: boolean;
+    readOnly?: boolean;
+    required?: boolean;
+    invalid?: boolean;
+    outsideDaySelectable?: boolean;
+    min?: string;
+    max?: string;
+    closeOnSelect?: boolean;
+    openOnClick?: boolean;
+    defaultFocusedValue?: string;
+    startOfWeek?: number;
+    fixedWeeks?: boolean;
+    showWeekNumbers?: boolean;
+    selectionMode?: DatePickerSelectionMode;
+    maxSelectedDates?: number;
+    placeholder?: string;
+    defaultView?: DatePickerView;
+    minView?: DatePickerView;
+    maxView?: DatePickerView;
+    positioning?: unknown;
+    defaultOpen?: boolean;
+    inline?: boolean;
+    translations: {
+        clearTrigger: string;
+        monthSelect: string;
+        yearSelect: string;
+        content: string;
+        weekColumnHeader: string;
+    };
+    defaultValue?: string[];
 };
 export type DialogHydrationProps = {
     id: string;
