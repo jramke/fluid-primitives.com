@@ -63,7 +63,7 @@
                 </f:if>
 
                 <f:for each="{context.partsWithProps}" as="part" iteration="i">
-                    <h3>{part.name}</h3>
+                    <h3 data-toc>{part.name}</h3>
                     <div class="mt-2">{part.description -> f:format.raw()}</div>
                     <f:if condition="{part.props}">
                         <table>
@@ -127,7 +127,7 @@
                 </f:for>
 
                 <f:if condition="{context.machineOptions}">
-                    <h3>Machine options</h3>
+                    <h3 data-toc>Machine options</h3>
                     <table>
                         <thead>
                             <tr>
@@ -157,7 +157,7 @@
                 </f:if>
 
                 <f:if condition="{context.machineApi}">
-                    <h3>Machine JavaScript API</h3>
+                    <h3 data-toc>Machine JavaScript API</h3>
                     <table>
                         <thead>
                             <tr>
@@ -179,7 +179,7 @@
                 </f:if>
 
                 <f:if condition="{context.accessibility}">
-                    <h3>Accessibility</h3>
+                    <h3 data-toc>Accessibility</h3>
                     <table>
                         <thead>
                             <tr>

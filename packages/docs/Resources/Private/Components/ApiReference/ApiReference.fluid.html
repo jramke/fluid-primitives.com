@@ -40,7 +40,7 @@
                 <f:for each="{context.blocks}" as="block">
                     <f:switch expression="{block.type}">
                         <f:case value="heading">
-                            <f:if condition="{block.level} == 3"><f:then><h3>{block.text}</h3></f:then><f:else><h4>{block.text}</h4></f:else></f:if>
+                            <f:if condition="{block.level} == 3"><f:then><h3 data-toc>{block.text}</h3></f:then><f:else><h4>{block.text}</h4></f:else></f:if>
                         </f:case>
                         <f:case value="text">
                             {block.html -> f:format.raw()}

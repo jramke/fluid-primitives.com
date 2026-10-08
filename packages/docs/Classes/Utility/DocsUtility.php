@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Utility;
 
+use FluidPrimitives\Docs\CommonMark\ComponentHeadingsExtension;
 use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
 use FluidPrimitives\Docs\Services\ComponentShortcodeResolver;
 use FluidPrimitives\Docs\Services\MarkdownLinkRewriter;
@@ -182,6 +183,7 @@ class DocsUtility
             $environment
                 ->addExtension(new CommonMarkCoreExtension())
                 ->addExtension(new PhikiCommonMarkExtension(Theme::GithubLight))
+                ->addExtension(new ComponentHeadingsExtension())
                 ->addExtension(new HeadingPermalinkExtension())
                 ->addExtension(new TableOfContentsExtension())
                 ->addExtension(new ExternalLinkExtension())
