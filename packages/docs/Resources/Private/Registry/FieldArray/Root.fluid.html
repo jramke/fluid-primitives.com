@@ -1,5 +1,5 @@
-<ui:useProps name="primitives:fieldArray.root" />
+<ui:useProps name="primitives:fieldArray.root" as="rootProps" />
 
-<primitives:fieldArray.root spreadProps="{true}" class="{ui:cn(value: 'space-y-4 {class}')}">
+<primitives:fieldArray.root spreadProps="{rootProps}" class="{ui:cn(value: 'space-y-4 {class}')}">
     <f:slot />
 </primitives:fieldArray.root>

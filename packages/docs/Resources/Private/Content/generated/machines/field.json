@@ -1,0 +1,275 @@
+{
+    "api": {
+        "api": {
+            "ids": {
+                "type": "ResolvedElementIds",
+                "description": "The resolved element ids, for composition with other components."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the field is disabled (including inherited fieldset disabled state)."
+            },
+            "invalid": {
+                "type": "boolean",
+                "description": "Whether the field is invalid."
+            },
+            "valid": {
+                "type": "boolean | null",
+                "description": "Committed validity: `null` until validation has run."
+            },
+            "required": {
+                "type": "boolean",
+                "description": "Whether the field is required."
+            },
+            "readOnly": {
+                "type": "boolean",
+                "description": "Whether the field is read-only."
+            },
+            "focused": {
+                "type": "boolean",
+                "description": "Whether the control is focused."
+            },
+            "touched": {
+                "type": "boolean",
+                "description": "Whether the control has been blurred at least once."
+            },
+            "dirty": {
+                "type": "boolean",
+                "description": "Whether the value differs from the initial value."
+            },
+            "filled": {
+                "type": "boolean",
+                "description": "Whether the control has a non-empty value."
+            },
+            "validating": {
+                "type": "boolean",
+                "description": "Whether an async validation is in flight."
+            },
+            "errors": {
+                "type": "string[]",
+                "description": "The committed error messages."
+            },
+            "validity": {
+                "type": "ValiditySnapshot | null",
+                "description": "The committed validity snapshot, `null` until validation has run."
+            },
+            "ariaDescribedby": {
+                "type": "string | undefined",
+                "description": "The composed `aria-describedby`, for wiring custom controls."
+            },
+            "validate": {
+                "type": "VoidFunction",
+                "description": "Runs validation now, surfacing `valueMissing` even on a pristine field."
+            },
+            "clearErrors": {
+                "type": "VoidFunction",
+                "description": "Clears committed errors and returns validity to the pristine (unvalidated) state."
+            },
+            "reset": {
+                "type": "VoidFunction",
+                "description": "Resets interaction state and validity to pristine."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root."
+            },
+            "getLabelState": {
+                "type": "() => LabelState",
+                "description": "Returns the state of the label."
+            },
+            "getControlState": {
+                "type": "() => ControlState",
+                "description": "Returns the state of the control (input, textarea, select, or a custom host)."
+            },
+            "getHelperTextState": {
+                "type": "() => HelperTextState",
+                "description": "Returns the state of the helper text."
+            },
+            "getErrorTextState": {
+                "type": "(props?: ErrorTextProps) => ErrorTextState",
+                "description": "Returns the state of the error text."
+            },
+            "getIndicatorState": {
+                "type": "(props: IndicatorProps) => IndicatorState",
+                "description": "Returns the state of the indicator."
+            },
+            "name": {
+                "type": "string",
+                "description": "The name of the field."
+            },
+            "getValue": {
+                "type": "() => FieldValue",
+                "description": "The current value of the field."
+            },
+            "getErrorText": {
+                "type": "() => string | null",
+                "description": "The first error message of the field, `null` if there is none."
+            },
+            "getRootEl": {
+                "type": "() => HTMLElement | null",
+                "description": "The root element of the field."
+            },
+            "getFormMachine": {
+                "type": "() => FormMachine | undefined",
+                "description": "The machine of the form the field sits in, `undefined` outside of a form."
+            },
+            "setDisabled": {
+                "type": "(disabled: boolean) => void",
+                "description": "Disables or enables the field."
+            },
+            "setRequired": {
+                "type": "(required: boolean) => void",
+                "description": "Marks the field as required or optional."
+            },
+            "setReadOnly": {
+                "type": "(readOnly: boolean) => void",
+                "description": "Makes the field read-only or editable."
+            },
+            "addDependencyChangeListener": {
+                "type": "(callback: (detail: FieldDependencyChangeDetail) => void) => () => void",
+                "description": "Calls `callback` whenever the value of a field named in the `listenTo` prop of this field changes. Returns a function that removes the listener again. For a field without `listenTo` it never fires, but the returned function is still safe to call."
+            }
+        },
+        "context": {
+            "name": {
+                "type": "string",
+                "description": "The name of the field. It keys the field in its form and is what the field's value is read by."
+            },
+            "defaultValue": {
+                "type": "unknown | undefined",
+                "description": "The initial value, used while the DOM holds no control for this name yet."
+            },
+            "listenTo": {
+                "type": "string[] | undefined",
+                "description": "Names of sibling fields in the same form whose value changes this field reacts to."
+            },
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements. Useful for composition."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the field is disabled. Also inherited from a surrounding native `<fieldset disabled>`.",
+                "defaultValue": "false"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the field is invalid, regardless of computed validity. Use for app-level errors (e.g. server errors) the machine cannot compute itself."
+            },
+            "dirty": {
+                "type": "boolean | undefined",
+                "description": "Whether the field's value has been changed from its initial value. Useful when the field state is controlled by an external library."
+            },
+            "touched": {
+                "type": "boolean | undefined",
+                "description": "Whether the field has been touched. Useful when the field state is controlled by an external library."
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the field is read-only.",
+                "defaultValue": "false"
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the field is required.",
+                "defaultValue": "false"
+            },
+            "validate": {
+                "type": "((details: ValidateDetails) => ValidateResult | Promise<ValidateResult>) | undefined",
+                "description": "Custom validation, run against the value and the native validity snapshot. May return a promise; a newer validation run supersedes an in-flight one."
+            },
+            "validationMode": {
+                "type": "ValidationMode | undefined",
+                "description": "When validation results become visible.",
+                "defaultValue": "\"onBlur\""
+            },
+            "onValidityChange": {
+                "type": "((details: ValidityChangeDetails) => void) | undefined",
+                "description": "Called when the committed validity changes."
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-disabled": "Present when the field is disabled, or it is inside a disabled fieldset.",
+            "data-invalid": "Present when the field is invalid: a native constraint failed, or `validate`, the form or the server reported an error.",
+            "data-valid": "Present when the field has been validated and passed.",
+            "data-required": "Present when the field is required.",
+            "data-readonly": "Present when the field is read-only.",
+            "data-touched": "Present once the user has left the field at least once.",
+            "data-dirty": "Present when the value differs from the one the field started with. It goes away again when the user reverts the edit.",
+            "data-filled": "Present when the field has a value.",
+            "data-focus": "Present when focus is inside the field.",
+            "data-name": "The name of the field."
+        },
+        "Label": {
+            "data-disabled": "Present when the field is disabled, or it is inside a disabled fieldset.",
+            "data-invalid": "Present when the field is invalid: a native constraint failed, or `validate`, the form or the server reported an error.",
+            "data-valid": "Present when the field has been validated and passed.",
+            "data-required": "Present when the field is required.",
+            "data-readonly": "Present when the field is read-only.",
+            "data-touched": "Present once the user has left the field at least once.",
+            "data-dirty": "Present when the value differs from the one the field started with. It goes away again when the user reverts the edit.",
+            "data-filled": "Present when the field has a value.",
+            "data-focus": "Present when focus is inside the field."
+        },
+        "Control": {
+            "data-disabled": "Present when the field is disabled, or it is inside a disabled fieldset.",
+            "data-invalid": "Present when the field is invalid: a native constraint failed, or `validate`, the form or the server reported an error.",
+            "data-valid": "Present when the field has been validated and passed.",
+            "data-required": "Present when the field is required.",
+            "data-readonly": "Present when the field is read-only.",
+            "data-touched": "Present once the user has left the field at least once.",
+            "data-dirty": "Present when the value differs from the one the field started with. It goes away again when the user reverts the edit.",
+            "data-filled": "Present when the field has a value.",
+            "data-focus": "Present when focus is inside the field."
+        },
+        "HelperText": {
+            "data-disabled": "Present when the field is disabled, or it is inside a disabled fieldset.",
+            "data-invalid": "Present when the field is invalid: a native constraint failed, or `validate`, the form or the server reported an error.",
+            "data-valid": "Present when the field has been validated and passed.",
+            "data-required": "Present when the field is required.",
+            "data-readonly": "Present when the field is read-only.",
+            "data-touched": "Present once the user has left the field at least once.",
+            "data-dirty": "Present when the value differs from the one the field started with. It goes away again when the user reverts the edit.",
+            "data-filled": "Present when the field has a value.",
+            "data-focus": "Present when focus is inside the field."
+        },
+        "ErrorText": {
+            "data-disabled": "Present when the field is disabled, or it is inside a disabled fieldset.",
+            "data-invalid": "Present when the field is invalid: a native constraint failed, or `validate`, the form or the server reported an error.",
+            "data-valid": "Present when the field has been validated and passed.",
+            "data-required": "Present when the field is required.",
+            "data-readonly": "Present when the field is read-only.",
+            "data-touched": "Present once the user has left the field at least once.",
+            "data-dirty": "Present when the value differs from the one the field started with. It goes away again when the user reverts the edit.",
+            "data-filled": "Present when the field has a value.",
+            "data-focus": "Present when focus is inside the field."
+        },
+        "Indicator": {
+            "data-disabled": "Present when the field is disabled, or it is inside a disabled fieldset.",
+            "data-invalid": "Present when the field is invalid: a native constraint failed, or `validate`, the form or the server reported an error.",
+            "data-valid": "Present when the field has been validated and passed.",
+            "data-required": "Present when the field is required.",
+            "data-readonly": "Present when the field is read-only.",
+            "data-touched": "Present once the user has left the field at least once.",
+            "data-dirty": "Present when the value differs from the one the field started with. It goes away again when the user reverts the edit.",
+            "data-filled": "Present when the field has a value.",
+            "data-focus": "Present when focus is inside the field.",
+            "data-type": "The state the indicator reflects. One of: \"required\", \"invalid\", \"valid\", \"validating\"."
+        }
+    }
+}

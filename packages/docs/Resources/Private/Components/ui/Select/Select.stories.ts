@@ -1,7 +1,7 @@
 import { type Meta, type StoryObj, fetchComponent } from '@andersundsehr/storybook-typo3';
 
 export default {
-    component: await fetchComponent('ui:select.examples.all'),
+    component: await fetchComponent('ui:selectExamples.all'),
 } satisfies Meta;
 
 export const Simple: StoryObj = {
@@ -32,5 +32,11 @@ export const Multiple: StoryObj = {
 export const DisabledItems: StoryObj = {
     args: {
         example_id: 'disabled-items',
+    },
+};
+
+export const WithTabs: StoryObj = {
+    args: {
+        example_id: 'with-tabs',
     },
 };

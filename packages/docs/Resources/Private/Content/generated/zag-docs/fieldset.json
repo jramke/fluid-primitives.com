@@ -1,0 +1,86 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": {
+            "ids": {
+                "type": "ResolvedElementIds",
+                "description": "The resolved element ids, for composition with other components."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the fieldset is disabled (including inherited ancestor fieldset state)."
+            },
+            "invalid": {
+                "type": "boolean",
+                "description": "Whether the fieldset is invalid."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root."
+            },
+            "getLegendState": {
+                "type": "() => LegendState",
+                "description": "Returns the state of the legend."
+            },
+            "getHelperTextState": {
+                "type": "() => HelperTextState",
+                "description": "Returns the state of the helper text."
+            },
+            "getErrorTextState": {
+                "type": "() => ErrorTextState",
+                "description": "Returns the state of the error text."
+            }
+        },
+        "context": {
+            "ids": {
+                "type": "ElementIds | undefined",
+                "description": "The ids of the elements. Useful for composition."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the fieldset is disabled. Native `<fieldset disabled>` semantics\ncarry the disabled state to all descendant form controls.",
+                "defaultValue": "false"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the fieldset is invalid. Not inherited by descendant fields.",
+                "defaultValue": "false"
+            },
+            "dir": {
+                "type": "\"ltr\" | \"rtl\" | undefined",
+                "description": "The document's text/writing direction.",
+                "defaultValue": "\"ltr\""
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-fieldset-root": "<uid>",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid"
+        },
+        "Legend": {
+            "data-fieldset-legend": "<uid>",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid"
+        },
+        "HelperText": {
+            "data-fieldset-helper-text": "<uid>",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid"
+        },
+        "ErrorText": {
+            "data-fieldset-error-text": "<uid>",
+            "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid"
+        }
+    }
+}

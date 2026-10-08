@@ -1,7 +1,7 @@
 import { type Meta, type StoryObj, fetchComponent } from '@andersundsehr/storybook-typo3';
 
 export default {
-    component: await fetchComponent('ui:collapsible.examples.all'),
+    component: await fetchComponent('ui:collapsibleExamples.all'),
 } satisfies Meta;
 
 export const Simple: StoryObj = {

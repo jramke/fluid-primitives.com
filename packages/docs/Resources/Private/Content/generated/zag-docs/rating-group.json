@@ -54,6 +54,10 @@
             "getItemState": {
                 "type": "(props: ItemProps) => ItemState",
                 "description": "Returns the state of a rating item"
+            },
+            "getControlState": {
+                "type": "() => ControlState",
+                "description": "Returns the state of the control"
             }
         },
         "context": {
@@ -131,20 +135,17 @@
     },
     "dataAttributes": {
         "Label": {
-            "data-scope": "rating-group",
-            "data-part": "label",
+            "data-rating-group-label": "<uid>",
             "data-disabled": "Present when disabled",
             "data-required": "Present when required"
         },
         "Control": {
-            "data-scope": "rating-group",
-            "data-part": "control",
+            "data-rating-group-control": "<uid>",
             "data-readonly": "Present when read-only",
             "data-disabled": "Present when disabled"
         },
         "Item": {
-            "data-scope": "rating-group",
-            "data-part": "item",
+            "data-rating-group-item": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-checked": "Present when checked",

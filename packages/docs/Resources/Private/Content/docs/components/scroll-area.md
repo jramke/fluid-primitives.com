@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "ScrollArea" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "ScrollArea.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ScrollAreaExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -13,6 +13,19 @@
 - Customizable scrollbar appearance
 - Supports visibility modes: always, scroll, or hover
 - Scrollbar thumb reflects the actual scroll position
+
+## Anatomy
+
+```html
+<primitives:scrollArea.root>
+    <primitives:scrollArea.viewport>
+        <primitives:scrollArea.content />
+    </primitives:scrollArea.viewport>
+    <primitives:scrollArea.scrollbar>
+        <primitives:scrollArea.thumb />
+    </primitives:scrollArea.scrollbar>
+</primitives:scrollArea.root>
+```
 
 ## Installation
 
@@ -24,13 +37,13 @@
 
 Enable horizontal scrolling for wide content.
 
-{% component: "ui:componentExample", arguments: { "componentName": "ScrollArea.examples.horizontal" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ScrollAreaExamples.horizontal" } %}
 
 ### Both Directions
 
 Support scrolling in both vertical and horizontal directions.
 
-{% component: "ui:componentExample", arguments: { "componentName": "ScrollArea.examples.bothDirections" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ScrollAreaExamples.bothDirections" } %}
 
 ## API Reference
 
@@ -47,16 +60,3 @@ Support scrolling in both vertical and horizontal directions.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:scrollArea.root>
-    <primitives:scrollArea.viewport>
-        <primitives:scrollArea.content />
-    </primitives:scrollArea.viewport>
-    <primitives:scrollArea.scrollbar>
-        <primitives:scrollArea.thumb />
-    </primitives:scrollArea.scrollbar>
-</primitives:scrollArea.root>
-```

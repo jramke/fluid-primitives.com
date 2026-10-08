@@ -2,7 +2,7 @@
 
 **A powerful form component with client-side validation, AJAX submission, and seamless Extbase integration.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "Form", "skipZag": true } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Form" } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "FormExample", "additionalFiles": {"FormExample.ts": "EXT:docs/Resources/Private/Components/FormExample/FormExample.entry.ts"} } %}
 
@@ -11,36 +11,13 @@
 - Optional client-side validation with Standard Schema-compatible validators or custom callbacks
 - AJAX form submission with automatic error handling
 - Seamless Extbase controller integration
-- Real-time field validation on blur and input
+- Field validation that follows the validation mode, from native constraints, your schema or callback, and async checks of single fields
 - Form state management (submitting, dirty, invalid, success, error)
 - Built-in primitives for editable content, state indicators, and status text
 - Works with all Field-aware components and basic HTML inputs
 - Automatic field name prefixing for Extbase
 
 See the complete [Form Guide](/docs/core-concepts/forms) for a complete form integration.
-
-## Installation
-
-{% component: "ui:installationSection", arguments: { "name": "Form" } %}
-
-Client-side validation is configured in your entry file with the `validation` option, not in the Fluid template. Pass either a Standard Schema-compatible validator such as Zod or a synchronous callback that reads the `values` object. `values` uses your field names as dot paths such as `person.name`, keeps leaf values as `string | File`, exposes arrays through `getAll()`, and can be converted to a nested object with `toObject()` or partially read with `pick()`. Validation and server errors stay flat and field-keyed, so nested fields still return errors under keys such as `person.name`. For submit results, return `true`, `false`, or field errors from `onSubmit`, and use `api.setErrorText()` or `api.setSuccessText()` for form-level messages. Use `post(url)` to submit the current form as `FormData`.
-
-## API Reference
-
-{%
-    component: "ui:ComponentPropsTable",
-    arguments: {
-        "name": "Form",
-        "skipZag": true,
-        "parts": [
-            ["root", "Submits and manages the form state. Renders a `<form>` element."],
-            ["content", "Wraps the editable form UI. It stays visible in `ready`, `invalid`, and `submitting`, and hides in `error` and `success`. Renders a `<div>` element."],
-            ["indicator", "Displays content for an exact form state such as `error`, `success`, or `submitting`. Renders a `<div>` element."],
-            ["errorText", "Displays the current form-level error text set through the Form API, or its slotted fallback text. Renders a `<span>` element."],
-            ["successText", "Displays the current form-level success text set through the Form API, or its slotted fallback text. Renders a `<span>` element."]
-        ]
-    }
-%}
 
 ## Anatomy
 
@@ -52,7 +29,7 @@ Client-side validation is configured in your entry file with the `validation` op
             <primitives:field.control asChild="{true}">
                 <!-- Your form input here -->
             </primitives:field.control>
-            <primitives:field.error />
+            <primitives:field.errorText />
         </primitives:field.root>
     </primitives:form.content>
 
@@ -63,3 +40,25 @@ Client-side validation is configured in your entry file with the `validation` op
     </primitives:form.indicator>
 </primitives:form.root>
 ```
+
+## Installation
+
+{% component: "ui:installationSection", arguments: { "name": "Form" } %}
+
+Client-side validation is configured in your entry file with the `validation` option, not in the Fluid template. Pass either a Standard Schema-compatible validator such as Zod or a synchronous callback that reads the `values` object. `values` uses your field names as dot paths such as `person.name`, keeps leaf values as `string | File`, exposes arrays through `getAll()`, and can be converted to a nested object with `toObject()` or partially read with `pick()`. Validation and server errors stay flat and field-keyed, so nested fields still return errors under keys such as `person.name`. For submit results, return `true`, `false`, or field errors from `onSubmit`, and use `api.setErrorText()` or `api.setSuccessText()` for form-level messages. Use `post(url)` to submit the current form as `FormData`. Fields read their value `inputDebounceMs` after the last change (100 by default, never less than 50), so typing does not validate on every keystroke.
+
+## API Reference
+
+{%
+    component: "ui:ComponentPropsTable",
+    arguments: {
+        "name": "Form",
+        "parts": [
+            ["root", "Submits and manages the form state. Renders a `<form>` element."],
+            ["content", "Wraps the editable form UI. It stays visible in `ready`, `invalid`, and `submitting`, and hides in `error` and `success`. Renders a `<div>` element."],
+            ["indicator", "Displays content for an exact form state such as `error`, `success`, or `submitting`. Renders a `<div>` element."],
+            ["errorText", "Displays the current form-level error text set through the Form API, or its slotted fallback text. Renders a `<span>` element."],
+            ["successText", "Displays the current form-level success text set through the Form API, or its slotted fallback text. Renders a `<span>` element."]
+        ]
+    }
+%}

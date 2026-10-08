@@ -5,7 +5,7 @@
 <div class="isolate z-100 relative">
     <aside class="border-r border-dashed fixed top-0 h-screen md:w-[250px] z-2">
         <f:render section="mainlink" arguments="{class: 'pt-4 hidden md:flex'}" />
-        <ui:scrollArea.root class="persistent-sidebar mt-4 pb-4 h-[calc(100vh-var(--spacing)*16)] hidden md:block" controlled="{true}" rootId="sidebar-{rootId}">
+        <ui:scrollArea.root class="persistent-sidebar mt-4 pb-4 h-[calc(100vh-var(--spacing)*16)] hidden md:block" autoMount="{false}" rootId="sidebar-{rootId}">
             <ui:scrollArea.viewport class="">
                 <ui:scrollArea.content>
                     <f:render section="navitems" arguments="{nav: nav, path: path}" />
@@ -18,7 +18,7 @@
         <script>
             (function () {
                 const root = document.querySelector('.persistent-sidebar');
-                const sidebar = root.querySelector('[data-scope="scroll-area"][data-part="viewport"]');
+                const sidebar = root.querySelector('[data-scroll-area-viewport]');
                 if (!sidebar) return;
 
                 const saved = sessionStorage.getItem("sidebar-scroll-top");
@@ -27,7 +27,7 @@
                         sidebar.scrollTop = Number(saved);
                     });
 
-                    const thumb = root.querySelector('[data-scope="scroll-area"][data-part="thumb"]');
+                    const thumb = root.querySelector('[data-scroll-area-thumb]');
 
                     const thumbHeight = sessionStorage.getItem("sidebar-thumb-height");
                     if (thumbHeight) {
@@ -41,7 +41,7 @@
                         thumb?.classList.add('!transform-[var(--sidebar-stored-transform)]');
                     }
 
-                    const els = root.querySelectorAll('[data-scope="scroll-area"]');
+                    const els = root.querySelectorAll('[data-scroll-area-root],[data-scroll-area-viewport],[data-scroll-area-content],[data-scroll-area-scrollbar],[data-scroll-area-thumb]');
                     els.forEach(el => {
                         el.setAttribute('data-overflow-y', '');
                         el.setAttribute("data-hover", '');
@@ -62,7 +62,7 @@
         </div>
         <div class="md:hidden flex px-4 w-full items-center justify-between" {ui:ref(name: 'mainnav' )}>
             <f:render section="mainlink" arguments="{class: '**:[span]:sr-only'}" />
-            <primitives:dialog.root controlled="{true}" rootId="nav-drawer-{rootId}">
+            <primitives:dialog.root autoMount="{false}" rootId="nav-drawer-{rootId}">
                 <primitives:dialog.trigger asChild="{true}">
                     <ui:button variant="ghost" class="!px-2 !py-2">
                         <ui:icon.menu />

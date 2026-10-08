@@ -28,6 +28,10 @@
                 "type": "VoidFunction | undefined",
                 "description": "Function called when the animation ends in the closed state"
             },
+            "onEnterComplete": {
+                "type": "VoidFunction | undefined",
+                "description": "Function called when the animation ends in the open state"
+            },
             "immediate": {
                 "type": "boolean | undefined",
                 "description": "Whether to synchronize the present change immediately or defer it to the next frame"

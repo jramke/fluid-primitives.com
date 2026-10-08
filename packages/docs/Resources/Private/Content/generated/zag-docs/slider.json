@@ -124,6 +124,18 @@
             "focus": {
                 "type": "VoidFunction",
                 "description": "Function to focus the slider. This focuses the first thumb."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the slider"
+            },
+            "getThumbState": {
+                "type": "(props: ThumbProps) => ThumbState",
+                "description": "Returns the state of a specific thumb"
+            },
+            "getMarkerState": {
+                "type": "(props: MarkerProps) => MarkerState",
+                "description": "Returns the state of a specific marker"
             }
         },
         "context": {
@@ -214,8 +226,8 @@
                 "defaultValue": "\"horizontal\""
             },
             "origin": {
-                "type": "\"start\" | \"center\" | \"end\" | undefined",
-                "description": "The origin of the slider range. The track is filled from the origin\nto the thumb for single values.\n- \"start\": Useful when the value represents an absolute value\n- \"center\": Useful when the value represents an offset (relative)\n- \"end\": Useful when the value represents an offset from the end",
+                "type": "SliderOrigin | undefined",
+                "description": "The origin of the slider range. The track is filled from the origin to the thumb.\n- `\"start\"` / `\"end\"`: fill from `min` / `max`\n- `\"center\"`: fill from the midpoint of `min`/`max`\n- a `number`: fill from that value instead, for when the neutral point isn't the midpoint",
                 "defaultValue": "\"start\""
             },
             "thumbAlignment": {
@@ -249,8 +261,7 @@
     },
     "dataAttributes": {
         "Label": {
-            "data-scope": "slider",
-            "data-part": "label",
+            "data-slider-label": "<uid>",
             "data-disabled": "Present when disabled",
             "data-orientation": "The orientation of the label",
             "data-invalid": "Present when invalid",
@@ -258,8 +269,7 @@
             "data-focus": "Present when focused"
         },
         "Root": {
-            "data-scope": "slider",
-            "data-part": "root",
+            "data-slider-root": "<uid>",
             "data-disabled": "Present when disabled",
             "data-orientation": "The orientation of the slider",
             "data-dragging": "Present when in the dragging state",
@@ -267,16 +277,14 @@
             "data-focus": "Present when focused"
         },
         "ValueText": {
-            "data-scope": "slider",
-            "data-part": "value-text",
+            "data-slider-value-text": "<uid>",
             "data-disabled": "Present when disabled",
             "data-orientation": "The orientation of the valuetext",
             "data-invalid": "Present when invalid",
             "data-focus": "Present when focused"
         },
         "Track": {
-            "data-scope": "slider",
-            "data-part": "track",
+            "data-slider-track": "<uid>",
             "data-disabled": "Present when disabled",
             "data-invalid": "Present when invalid",
             "data-dragging": "Present when in the dragging state",
@@ -284,8 +292,7 @@
             "data-focus": "Present when focused"
         },
         "Thumb": {
-            "data-scope": "slider",
-            "data-part": "thumb",
+            "data-slider-thumb": "<uid>",
             "data-index": "The index of the item",
             "data-name": "",
             "data-disabled": "Present when disabled",
@@ -294,8 +301,7 @@
             "data-dragging": "Present when in the dragging state"
         },
         "Range": {
-            "data-scope": "slider",
-            "data-part": "range",
+            "data-slider-range": "<uid>",
             "data-dragging": "Present when in the dragging state",
             "data-focus": "Present when focused",
             "data-invalid": "Present when invalid",
@@ -303,8 +309,7 @@
             "data-orientation": "The orientation of the range"
         },
         "Control": {
-            "data-scope": "slider",
-            "data-part": "control",
+            "data-slider-control": "<uid>",
             "data-dragging": "Present when in the dragging state",
             "data-disabled": "Present when disabled",
             "data-orientation": "The orientation of the control",
@@ -312,21 +317,18 @@
             "data-focus": "Present when focused"
         },
         "MarkerGroup": {
-            "data-scope": "slider",
-            "data-part": "marker-group",
+            "data-slider-marker-group": "<uid>",
             "data-orientation": "The orientation of the markergroup"
         },
         "Marker": {
-            "data-scope": "slider",
-            "data-part": "marker",
+            "data-slider-marker": "<uid>",
             "data-orientation": "The orientation of the marker",
             "data-value": "The value of the item",
             "data-disabled": "Present when disabled",
-            "data-state": ""
+            "data-state": "\"under-value\" | \"over-value\" | \"at-value\""
         },
         "DraggingIndicator": {
-            "data-scope": "slider",
-            "data-part": "dragging-indicator",
+            "data-slider-dragging-indicator": "<uid>",
             "data-orientation": "The orientation of the draggingindicator",
             "data-state": "\"open\" | \"closed\""
         }

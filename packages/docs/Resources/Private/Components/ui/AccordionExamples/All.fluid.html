@@ -1,0 +1,13 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:accordionExamples.simple />
+    </f:case>
+    <f:case value="disabled">
+        <ui:accordionExamples.disabled />
+    </f:case>
+    <f:case value="multiple">
+        <ui:accordionExamples.multiple />
+    </f:case>
+</f:switch>

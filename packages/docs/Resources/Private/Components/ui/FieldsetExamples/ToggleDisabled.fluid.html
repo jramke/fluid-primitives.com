@@ -1,0 +1,26 @@
+<ui:exposeToClient />
+
+<div class="max-w-74 space-y-4">
+    <ui:switch.root autoMount="{false}" rootId="edit-mode">
+        <ui:switch.label>Edit mode</ui:switch.label>
+        <ui:switch.control />
+    </ui:switch.root>
+
+    <ui:fieldset.root disabled="{true}" autoMount="{false}" rootId="edit-fieldset">
+        <ui:fieldset.legend>Profile</ui:fieldset.legend>
+        <ui:field.root name="displayName">
+            <ui:input.root type="text" defaultValue="Ada Lovelace">
+                <ui:input.label>Display name</ui:input.label>
+                <ui:input.input />
+            </ui:input.root>
+        </ui:field.root>
+        <ui:field.root name="public">
+            <ui:checkbox.root>
+                <ui:checkbox.control />
+                <ui:checkbox.label>Show my profile publicly</ui:checkbox.label>
+            </ui:checkbox.root>
+        </ui:field.root>
+    </ui:fieldset.root>
+</div>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/FieldsetExamples/ToggleDisabled.entry.ts" />

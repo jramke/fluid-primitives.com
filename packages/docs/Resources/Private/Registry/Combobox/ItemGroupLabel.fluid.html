@@ -1,5 +1,5 @@
-<ui:useProps name="primitives:combobox.itemGroupLabel" />
+<ui:useProps name="primitives:combobox.itemGroupLabel" as="itemGroupLabelProps" />
 
-<primitives:combobox.itemGroupLabel spreadProps="{true}">
+<primitives:combobox.itemGroupLabel spreadProps="{itemGroupLabelProps}" class="{ui:cn(value: 'text-muted-foreground px-2 py-1 text-xs font-medium {class}')}">
     <f:slot />
 </primitives:combobox.itemGroupLabel>

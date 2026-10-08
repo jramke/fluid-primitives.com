@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Command;
 
-use FluidPrimitives\Docs\Utility\ZagDocsMetadata;
+use FluidPrimitives\Docs\Utility\GeneratedDocsMetadata;
 use Jramke\FluidPrimitives\Utility\Typed;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -26,13 +26,13 @@ class GenerateZagDocsCommand extends Command
                 'source',
                 InputArgument::OPTIONAL,
                 'Source folder containing @zag-js/docs data files',
-                Environment::getProjectPath() . '/' . ZagDocsMetadata::SOURCE_DIRECTORY,
+                Environment::getProjectPath() . '/' . GeneratedDocsMetadata::SOURCE_DIRECTORY,
             )
             ->addArgument(
                 'target',
                 InputArgument::OPTIONAL,
                 'Directory for the generated metadata JSON files',
-                ZagDocsMetadata::GENERATED_DIRECTORY,
+                GeneratedDocsMetadata::ZAG_DOCS_DIRECTORY,
             );
     }
 

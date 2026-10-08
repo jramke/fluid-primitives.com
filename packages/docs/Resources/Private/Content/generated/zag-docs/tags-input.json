@@ -96,6 +96,10 @@
             "getItemState": {
                 "type": "(props: ItemProps) => ItemState",
                 "description": "Returns the state of a tag"
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root"
             }
         },
         "context": {
@@ -139,7 +143,7 @@
             "editable": {
                 "type": "boolean | undefined",
                 "description": "Whether a tag can be edited after creation, by pressing `Enter` or double clicking.",
-                "defaultValue": "true"
+                "defaultValue": "false"
             },
             "inputValue": {
                 "type": "string | undefined",
@@ -246,8 +250,7 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "tags-input",
-            "data-part": "root",
+            "data-tags-input-root": "<uid>",
             "data-invalid": "Present when invalid",
             "data-readonly": "Present when read-only",
             "data-disabled": "Present when disabled",
@@ -255,56 +258,48 @@
             "data-empty": "Present when the content is empty"
         },
         "Label": {
-            "data-scope": "tags-input",
-            "data-part": "label",
+            "data-tags-input-label": "<uid>",
             "data-disabled": "Present when disabled",
             "data-invalid": "Present when invalid",
             "data-readonly": "Present when read-only",
             "data-required": "Present when required"
         },
         "Control": {
-            "data-scope": "tags-input",
-            "data-part": "control",
+            "data-tags-input-control": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-invalid": "Present when invalid",
             "data-focus": "Present when focused"
         },
         "Input": {
-            "data-scope": "tags-input",
-            "data-part": "input",
+            "data-tags-input-input": "<uid>",
             "data-invalid": "Present when invalid",
             "data-readonly": "Present when read-only",
             "data-empty": "Present when the content is empty"
         },
         "Item": {
-            "data-scope": "tags-input",
-            "data-part": "item",
+            "data-tags-input-item": "<uid>",
             "data-value": "The value of the item",
             "data-disabled": "Present when disabled"
         },
         "ItemPreview": {
-            "data-scope": "tags-input",
-            "data-part": "item-preview",
+            "data-tags-input-item-preview": "<uid>",
             "data-value": "The value of the item",
             "data-disabled": "Present when disabled",
             "data-highlighted": "Present when highlighted"
         },
         "ItemText": {
-            "data-scope": "tags-input",
-            "data-part": "item-text",
+            "data-tags-input-item-text": "<uid>",
             "data-disabled": "Present when disabled",
             "data-highlighted": "Present when highlighted"
         },
         "ItemDeleteTrigger": {
-            "data-scope": "tags-input",
-            "data-part": "item-delete-trigger",
+            "data-tags-input-item-delete-trigger": "<uid>",
             "data-disabled": "Present when disabled",
             "data-highlighted": "Present when highlighted"
         },
         "ClearTrigger": {
-            "data-scope": "tags-input",
-            "data-part": "clear-trigger",
+            "data-tags-input-clear-trigger": "<uid>",
             "data-readonly": "Present when read-only"
         }
     }

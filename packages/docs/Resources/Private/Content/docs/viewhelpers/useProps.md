@@ -14,18 +14,23 @@ You can also override default values of the imported props by passing a `default
 
 ## Examples
 
-`Tooltip/Root.html` that uses the tooltip primitive:
+`Tooltip/Root.html` that uses the tooltip primitive and delegates rendering to it - `as` binds the
+imported, forwardable prop names under a name you choose, so the actual delegate call can reference
+it directly instead of the opaque `spreadProps="{true}"` this used to require:
 ```html
-<ui:useProps name="primitives:tooltip.root" defaults="{openDelay: 200}" />
+<ui:useProps name="primitives:tooltip.root" as="rootProps" defaults="{openDelay: 200}" />
 
-<primitives:tooltip.root spreadProps="{true}">
+<primitives:tooltip.root spreadProps="{rootProps}">
     <f:slot />
 </primitives:tooltip.root>
 ```
 
+Omit `as` when you only want to reuse another component's prop shape without rendering it at all -
+see [Composition](/docs/core-concepts/composition) for when this applies.
+
 If you dont want all props from a component, you can also selectively import props by passing an array of prop names to the `props` argument.
 ```html
-<ui:useProps name="primitives:tooltip.root" props="{0: 'openDelay', 1: 'closeDelay'}" />
+<ui:useProps name="primitives:tooltip.root" as="rootProps" props="{0: 'openDelay', 1: 'closeDelay'}" />
 
 // ...
 ```
@@ -42,5 +47,6 @@ If a prop for a primitive is required, we use the `requiredAtRuntime` argument o
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
 | `name` | string | Name of component to use the props from | Yes | - |
+| `as` | string | Bind the imported, forwardable prop names under this name, so the actual delegate call can use spreadProps=&quot;{name}&quot;. Required to genuinely delegate rendering - omit it to only reuse the referenced component&#039;s prop declarations without rendering it (see Composition docs). | No | - |
 | `defaults` | array | Default values for props to override the imported ones. Key-value pairs | No | [] |
 | `props` | array | Only use a subset of props from the referenced component. Value should be an array of prop names. | No | [] |

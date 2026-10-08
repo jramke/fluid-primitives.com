@@ -4,13 +4,28 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Accordion" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "AccordionExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
 - Full keyboard navigation support
 - Supports single or multiple expanded panels
 - Supports horizontal and vertical orientations
+
+## Anatomy
+
+```html
+<primitives:accordion.root>
+    <primitives:accordion.item>
+        <primitives:accordion.itemHeader>
+            <primitives:accordion.itemTrigger>
+                <primitives:accordion.itemIndicator />
+            </primitives:accordion.itemTrigger>
+        </primitives:accordion.itemHeader>
+        <primitives:accordion.itemContent />
+    </primitives:accordion.item>
+</primitives:accordion.root>
+```
 
 ## Installation
 
@@ -22,13 +37,13 @@
 
 Allow multiple accordion items to be expanded at once by setting `multiple` to true.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.multiple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "AccordionExamples.multiple" } %}
 
 ### Disabled Items
 
 Disable specific accordion items to prevent interaction.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Accordion.examples.disabled" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "AccordionExamples.disabled" } %}
 
 ## API Reference
 
@@ -46,18 +61,3 @@ Disable specific accordion items to prevent interaction.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:accordion.root>
-    <primitives:accordion.item>
-        <primitives:accordion.itemHeader>
-            <primitives:accordion.itemTrigger>
-                <primitives:accordion.itemIndicator />
-            </primitives:accordion.itemTrigger>
-        </primitives:accordion.itemHeader>
-        <primitives:accordion.itemContent />
-    </primitives:accordion.item>
-</primitives:accordion.root>
-```

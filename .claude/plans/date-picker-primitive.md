@@ -25,7 +25,7 @@ trust `connect.mjs` over `node_modules/@zag-js/docs/data/*.json` wherever they d
 - No `arrow`/`anchor`/`backdrop` parts and no `getArrowProps`/`getBackdropProps`, despite
   `css-vars.json` listing CSS vars for them. The popup is just `positioner` + `content`.
 - `getWeekNumberHeaderCellProps`/`getWeekNumberCellProps` spread `...parts.tableCell.attrs` — they
-  render `data-part="table-cell"`, not their own part. `data-attr.json`'s separate
+  render the `table-cell` part attribute (`data-date-picker-table-cell`), not their own part. `data-attr.json`'s separate
   `WeekNumberHeaderCell`/`WeekNumberCell` entries are stale.
 - **`getTableHeaderProps` is the `<thead>` wrapper. `getTableHeadProps` is each individual
   weekday-name `<th>`** (it sets `aria-hidden: true`). Do not transpose these by pattern-matching
@@ -65,7 +65,7 @@ client-side too, so the primitive has one rule instead of "grid is client-only, 
 server-only".
 
 Build pattern: mirror `Combobox.ts`'s `syncHiddenInput()` — remove stale elements, create fresh
-ones with `this.doc.createElement(...)`, stamp via `this.hydrator.setRefAttributes(el, part,
+ones with `this.doc.createElement(...)`, stamp via `this.hydrator.stamp(el, part,
 value)`, spread via `this.spreadProps(el, ...)`. Same mechanism, applied to `<tr>`/`<td>`/cell nodes
 instead of hidden inputs.
 
@@ -100,29 +100,13 @@ document, not fix: in range mode, `getInputProps({index: 0})` and `({index: 1})`
 `name` — a consumer needing two distinct form values must pass `ids.input` or read
 `api.valueAsString` themselves.
 
-### 4. Id overrides — required, one explicit trap
+### 4. No id overrides needed
 
-Add to both `Resources/Private/Client/src/lib/hydration.ts` and
-`Classes/Utility/ComponentPartIdUtility.php` (confirmed against `date-picker.dom.mjs`):
-
-```ts
-ID_NAMESPACE_OVERRIDES: { 'date-picker': 'datepicker' }   // zag ids are "datepicker:<id>:...", not "date-picker:..."
-PART_SEGMENT_OVERRIDES: {
-  'date-picker': {
-    clearTrigger: 'clear',   // datepicker:id:clear
-    nextTrigger: 'next',     // datepicker:id:next:<view>
-    prevTrigger: 'prev',     // datepicker:id:prev:<view>
-    viewTrigger: 'view',     // datepicker:id:view:<view>
-  },
-}
-```
-
-Mirror the same shape in `ComponentPartIdUtility`'s two const arrays. **Do not add a
-`positioner: 'popper'` override** — every sibling primitive (Popover, Select, Combobox, Menu,
-Tooltip) needs that override because *their* zag `dom.ts` uses the `popper` segment; date-picker's
-own `dom.mjs` already uses the plain `positioner` segment, matching this repo's default. Copying the
-Popover override here breaks `aria-controls`/positioning lookups. `table`, `input`, `label`,
-`control`, `content`, `trigger`, `monthSelect`, `yearSelect` also match the default — no overrides.
+`ui:ref` renders `data-date-picker-<part>="<rootId>"`, exactly what zag's own
+`parts.<part>.attrs(scope.id)` writes, so there is no id or part-name mapping to add for this
+component. The only ids on the page are the ones zag stamps at hydration (`datepicker:<id>:...` -
+nothing on our side has to know that namespace). A consumer who needs a stable id for one part
+passes it through the root's `ids` prop (`ids="{input: 'my-input'}"`).
 
 ### 5. `DatePickerContext` — minimal
 
@@ -284,7 +268,7 @@ export class DatePicker extends FieldAwareComponent<datePicker.Props, datePicker
         this.subscribeToFieldService();
 
         // Static/singleton parts: root, label(index), control, clearTrigger, trigger, rangeText,
-        // positioner, content — plain getElement()+spreadProps(), same as every other primitive.
+        // positioner, content — plain query()+spreadProps(), same as every other primitive.
 
         this.spreadPropsByOptionalValue('input', ({ value }) =>
             this.api.getInputProps({ index: Number(value ?? 0) })
@@ -307,7 +291,7 @@ export class DatePicker extends FieldAwareComponent<datePicker.Props, datePicker
                 value === view ? this.api.getNextTriggerProps({ view }) : null
             );
 
-            const tableEl = this.getElements('table', this.doc).find(el => el.dataset.value === view);
+            const tableEl = this.queryAll('table').find(el => el.dataset.value === view);
             if (tableEl) this.spreadProps(tableEl, this.api.getTableProps({ view }));
 
             this.buildTable(view);
@@ -318,7 +302,7 @@ export class DatePicker extends FieldAwareComponent<datePicker.Props, datePicker
     }
 
     private buildTable(view: 'day' | 'month' | 'year') { /* see below */ }
-    private buildMonthSelect() { /* getElement('monthSelect'); replaceChildren with <option>s from this.api.getMonths() */ }
+    private buildMonthSelect() { /* query('monthSelect'); replaceChildren with <option>s from this.api.getMonths() */ }
     private buildYearSelect() { /* same, from this.api.getYears() */ }
 }
 ```
@@ -328,8 +312,8 @@ remove-then-rebuild-then-stamp-then-spread pattern to row/cell nodes:
 
 ```ts
 private buildTable(view: 'day' | 'month' | 'year') {
-    const theadEl = this.getElements('tableHeader', this.doc).find(el => el.dataset.value === view);
-    const tbodyEl = this.getElements('tableBody', this.doc).find(el => el.dataset.value === view);
+    const theadEl = this.queryAll('tableHeader').find(el => el.dataset.value === view);
+    const tbodyEl = this.queryAll('tableBody').find(el => el.dataset.value === view);
     if (!theadEl || !tbodyEl) return;
 
     theadEl.replaceChildren();
@@ -401,7 +385,7 @@ in the base component.
 Mirror `SelectRenderingTest.php` — assert on concrete server-rendered output, not trivial
 passthrough:
 
-- `data-scope="date-picker"` / `data-part="root"` present.
+- `data-date-picker-root` present.
 - `data-state="closed"` by default, `"open"` when `defaultOpen="{true}"` (same ternary-vs-`f:if`
   null-truthiness trap `SelectRenderingTest` regression-tests for `defaultOpen`).
 - `getDefaultValue()` normalization: single ISO string → hydration `defaultValue` is a one-element
@@ -411,7 +395,7 @@ passthrough:
 - `Content` portaled via `<ui:portal>` still registers for hydration (mirror
   `rendersContentInsidePortalAndStillRegistersForHydration`).
 - `ClearTrigger` hidden with no `defaultValue`, visible with one set.
-- `Table`/`TableHeader`/`TableBody` render as empty shells with correct `data-part`/`data-view`
+- `Table`/`TableHeader`/`TableBody` render as empty shells with correct `data-date-picker-table*`/`data-view`
   wiring and **no** day/cell markup (confirms decision 1 didn't regress into server-side `<f:for>`).
 
 ### `/ui` styled wrapper: `packages/docs/Resources/Private/Components/ui/DatePicker/`

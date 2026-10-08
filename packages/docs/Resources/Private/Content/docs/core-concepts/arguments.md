@@ -28,7 +28,7 @@ Some props use PHP backed enums. Until Fluid supports automatic enum conversion,
 
 ## Automatic Props
 
-Most components receive these props automatically. Availability depends on what a part actually renders - e.g. `class` and `asChild` only make sense on a part that renders its own wrapper element, so a part's own Arguments table (in its component docs page) is the source of truth for which of these it actually accepts.
+Most components receive these props automatically. Availability depends on what a part actually renders - e.g. `class` only makes sense on a part that renders its own wrapper element, so a part's own Arguments table (in its component docs page) is the source of truth for which of these it actually accepts. `asChild` is the one exception - it's opt-in per part rather than inferred (see below).
 
 ### `class`
 
@@ -58,19 +58,25 @@ Usually auto-generated, but you can provide one:
 <ui:accordion.root rootId="faq-accordion"></ui:accordion.root>
 ```
 
-See [Controlled Components](/docs/core-concepts/hydration#content-controlled-components).
+See [Manual Mounting](/docs/core-concepts/hydration#content-manual-mounting).
 
 ### `asChild`
 
-Merge attributes into child element instead of rendering the default wrapper. See [Composition](/docs/core-concepts/composition). Not available on root parts that render no wrapper element of their own (e.g. Dialog, Popover, Tooltip's `root`) - there's nothing to merge the attributes onto.
+Merge attributes into child element instead of rendering the default wrapper. See [Composition](/docs/core-concepts/composition). Opt-in per part via `{ui:asChild()}`, not automatic - every Fluid Primitives part that renders its own wrapper element already opts in. Not available on root parts that render no wrapper element of their own (e.g. Dialog, Popover, Tooltip's `root`) - there's nothing to merge the attributes onto.
 
 ### `ids`
 
-Override default IDs for component parts. Useful when composing multiple components together. See [Composition](/docs/core-concepts/composition).
+Declare the IDs of a component's parts. This is the only place to give a `ui:ref` element an `id` - pass it on the component's root, for the primitives and for your own components alike, and don't write an `id` attribute on the ref'd element yourself:
 
-### `controlled`
+```html
+<ui:collapsible.root ids="{content: 'my-content'}"> ... </ui:collapsible.root>
+```
 
-Mark a component as externally controlled, preventing automatic client-side initialization. See [Hydration](/docs/core-concepts/hydration#content-controlled-components).
+The keys are part names. The id is rendered on the server and handed to the client, so the server-rendered markup, the client lookup and Zag's machine all use the same one. Useful when composing multiple components together. See [Composition](/docs/core-concepts/composition) and [Hydration](/docs/core-concepts/hydration#content-ids).
+
+### `autoMount`
+
+Set to `{false}` to keep the client from initializing the component on its own, so you mount it yourself with `mount`. `true` by default. See [Hydration](/docs/core-concepts/hydration#content-manual-mounting).
 
 ### `attributes`
 
@@ -116,14 +122,26 @@ A bare `type="array"` can't tell a JS array from a JS object, so it resolves to 
 
 ## Inheriting Props
 
-Use `ui:useProps` to inherit prop definitions from another component:
+Use `ui:useProps` to inherit prop definitions from another component - this is how you build wrapper components without redefining every prop:
 
 ```html
 <!-- Inherit all props from the primitive -->
-<ui:useProps name="primitives:accordion.root" />
+<ui:useProps name="primitives:accordion.root" as="rootProps" />
 
 <!-- Inherit specific props only -->
-<ui:useProps name="primitives:accordion.root" props="{0: 'multiple', 1: 'collapsible'}" />
+<ui:useProps
+    name="primitives:accordion.root"
+    as="rootProps"
+    props="{0: 'multiple', 1: 'collapsible'}"
+/>
 ```
 
-This is how you build wrapper components without redefining every prop.
+`as="someName"` binds the imported, forwardable prop names under that name, for a paired `spreadProps="{someName}"` on the component you're actually rendering:
+
+```html
+<primitives:accordion.root spreadProps="{rootProps}">
+    <f:slot />
+</primitives:accordion.root>
+```
+
+`as` is required whenever you genuinely render the referenced component this way - its presence is what tells Fluid Primitives your wrapper actually delegates, as opposed to just reusing another component's prop shape. Omit it if you don't render the referenced component at all (e.g. a wrapper that only wants the same prop _declarations_ for its own, independently-rendered markup) - `ui:useProps` still imports the prop definitions either way, it just won't forward anything anywhere.

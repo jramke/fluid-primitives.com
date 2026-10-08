@@ -1,5 +1,5 @@
-<ui:useProps name="primitives:numberInput.scrubber" />
+<ui:useProps name="primitives:numberInput.scrubber" as="scrubberProps" />
 
-<primitives:numberInput.scrubber spreadProps="{true}" class="{ui:cn(value: 'flex cursor-ew-resize [&>label]:cursor-ew-resize {class}')}">
+<primitives:numberInput.scrubber spreadProps="{scrubberProps}" class="{ui:cn(value: 'flex cursor-ew-resize [&>label]:cursor-ew-resize {class}')}">
     <f:slot />
 </primitives:numberInput.scrubber>

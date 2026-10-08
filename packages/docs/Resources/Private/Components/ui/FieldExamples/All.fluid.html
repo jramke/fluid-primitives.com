@@ -1,0 +1,34 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:fieldExamples.simple />
+    </f:case>
+    <f:case value="with-helper-text">
+        <ui:fieldExamples.withHelperText />
+    </f:case>
+    <f:case value="with-checkbox">
+        <ui:fieldExamples.withCheckbox />
+    </f:case>
+    <f:case value="required">
+        <ui:fieldExamples.required />
+    </f:case>
+    <f:case value="invalid">
+        <ui:fieldExamples.invalid />
+    </f:case>
+    <f:case value="disabled">
+        <ui:fieldExamples.disabled />
+    </f:case>
+    <f:case value="native-validation">
+        <ui:fieldExamples.nativeValidation />
+    </f:case>
+    <f:case value="indicators">
+        <ui:fieldExamples.indicators />
+    </f:case>
+    <f:case value="validation-mode">
+        <ui:fieldExamples.validationMode />
+    </f:case>
+    <f:case value="async-validation">
+        <ui:fieldExamples.asyncValidation />
+    </f:case>
+</f:switch>

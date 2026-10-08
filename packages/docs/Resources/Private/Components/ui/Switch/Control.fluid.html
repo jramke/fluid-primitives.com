@@ -1,7 +1,7 @@
-<ui:useProps name="primitives:switch.control" />
+<ui:useProps name="primitives:switch.control" as="controlProps" />
 
 <primitives:switch.control
-    spreadProps="{true}"
+    spreadProps="{controlProps}"
     class="{ui:cn(value: '
         inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-input px-[2px] shadow-xs transition-all duration-150 ease-out
         data-[hover]:bg-accent-foreground/15

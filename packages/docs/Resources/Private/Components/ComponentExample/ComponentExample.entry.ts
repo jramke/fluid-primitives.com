@@ -4,7 +4,7 @@ import { Tabs } from 'fluid-primitives/tabs';
 
 mountAll('ui:componentExample', ({ props, createHydrator }) => {
     const hydrator = createHydrator();
-    const tabActions = hydrator.getElements<HTMLDivElement>('tab-actions');
+    const tabActions = hydrator.queryAll<HTMLDivElement>('tab-actions');
 
     const tabsProps = getHydrationData('ui:tabs', `${props.id}-tabs`)?.props;
     if (!tabsProps) return;

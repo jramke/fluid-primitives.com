@@ -63,6 +63,10 @@
                 "type": "boolean",
                 "description": "Whether the input is focused."
             },
+            "scrubbing": {
+                "type": "boolean",
+                "description": "Whether the input is being scrubbed."
+            },
             "invalid": {
                 "type": "boolean",
                 "description": "Whether the input is invalid."
@@ -106,6 +110,22 @@
             "focus": {
                 "type": "VoidFunction",
                 "description": "Function to focus the input."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root."
+            },
+            "getInputState": {
+                "type": "() => InputState",
+                "description": "Returns the state of the input."
+            },
+            "getDecrementTriggerState": {
+                "type": "() => DecrementTriggerState",
+                "description": "Returns the state of the decrement trigger."
+            },
+            "getIncrementTriggerState": {
+                "type": "() => IncrementTriggerState",
+                "description": "Returns the state of the increment trigger."
             }
         },
         "context": {
@@ -165,16 +185,6 @@
                 "description": "The amount to increment or decrement the value by",
                 "defaultValue": "1"
             },
-            "largeStep": {
-                "type": "number | undefined",
-                "description": "The amount to increment or decrement the value by when the `Shift` key is held.",
-                "defaultValue": "10 * step"
-            },
-            "smallStep": {
-                "type": "number | undefined",
-                "description": "The amount to increment or decrement the value by when the `Alt` key is held.",
-                "defaultValue": "step / 10"
-            },
             "allowMouseWheel": {
                 "type": "boolean | undefined",
                 "description": "Whether to allow mouse wheel to change the value"
@@ -221,12 +231,41 @@
             },
             "onValueCommit": {
                 "type": "((details: ValueChangeDetails) => void) | undefined",
-                "description": "Function invoked when the value is committed (when the input is blurred or the Enter key is pressed)"
+                "description": "Function invoked when the value settles: the input is blurred or `Enter` is pressed, a stepper\nor scrub gesture ends, or a key or wheel step completes."
             },
             "spinOnPress": {
                 "type": "boolean | undefined",
                 "description": "Whether to spin the value when the increment/decrement button is pressed",
                 "defaultValue": "true"
+            },
+            "largeStep": {
+                "type": "number | undefined",
+                "description": "Step value when Shift key is held (large increments).",
+                "defaultValue": "step * 10"
+            },
+            "smallStep": {
+                "type": "number | undefined",
+                "description": "Step value when Alt/Option key is held (fine control).",
+                "defaultValue": "step * 0.1"
+            },
+            "scrubberPixelSensitivity": {
+                "type": "number | undefined",
+                "description": "How many pixels the pointer must move to change the value by one step.\nHigher values mean more precise control. Lower values mean more sensitivity.",
+                "defaultValue": "2"
+            },
+            "scrubberTeleportDistance": {
+                "type": "number | undefined",
+                "description": "Distance in pixels before the virtual cursor wraps around.\nWhen not set, the viewport bounds are used (default behavior)."
+            },
+            "scrubberDirection": {
+                "type": "\"horizontal\" | \"vertical\" | undefined",
+                "description": "The direction of scrubbing.",
+                "defaultValue": "\"horizontal\""
+            },
+            "snapOnStep": {
+                "type": "boolean | undefined",
+                "description": "Whether values snap to step multiples when scrubbing.",
+                "defaultValue": "false"
             },
             "locale": {
                 "type": "string | undefined",
@@ -250,16 +289,14 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "number-input",
-            "data-part": "root",
+            "data-number-input-root": "<uid>",
             "data-disabled": "Present when disabled",
             "data-focus": "Present when focused",
             "data-invalid": "Present when invalid",
             "data-scrubbing": ""
         },
         "Label": {
-            "data-scope": "number-input",
-            "data-part": "label",
+            "data-number-input-label": "<uid>",
             "data-disabled": "Present when disabled",
             "data-focus": "Present when focused",
             "data-invalid": "Present when invalid",
@@ -267,43 +304,37 @@
             "data-scrubbing": ""
         },
         "Control": {
-            "data-scope": "number-input",
-            "data-part": "control",
+            "data-number-input-control": "<uid>",
             "data-focus": "Present when focused",
             "data-disabled": "Present when disabled",
             "data-invalid": "Present when invalid",
             "data-scrubbing": ""
         },
         "ValueText": {
-            "data-scope": "number-input",
-            "data-part": "value-text",
+            "data-number-input-value-text": "<uid>",
             "data-disabled": "Present when disabled",
             "data-invalid": "Present when invalid",
             "data-focus": "Present when focused",
             "data-scrubbing": ""
         },
         "Input": {
-            "data-scope": "number-input",
-            "data-part": "input",
+            "data-number-input-input": "<uid>",
             "data-invalid": "Present when invalid",
             "data-disabled": "Present when disabled",
             "data-scrubbing": ""
         },
         "DecrementTrigger": {
-            "data-scope": "number-input",
-            "data-part": "decrement-trigger",
+            "data-number-input-decrement-trigger": "<uid>",
             "data-disabled": "Present when disabled",
             "data-scrubbing": ""
         },
         "IncrementTrigger": {
-            "data-scope": "number-input",
-            "data-part": "increment-trigger",
+            "data-number-input-increment-trigger": "<uid>",
             "data-disabled": "Present when disabled",
             "data-scrubbing": ""
         },
         "Scrubber": {
-            "data-scope": "number-input",
-            "data-part": "scrubber",
+            "data-number-input-scrubber": "<uid>",
             "data-disabled": "Present when disabled",
             "data-scrubbing": ""
         }

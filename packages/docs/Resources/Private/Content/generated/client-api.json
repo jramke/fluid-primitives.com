@@ -1,0 +1,1268 @@
+{
+    "AsyncList": {
+        "kind": "class",
+        "name": "AsyncList",
+        "summary": "Wraps the machine of `@zag-js/async-list` for use without any DOM or hydration: construct it, call `init()`, `subscribe()` to state changes and `destroy()` when done. Rendering is yours, do it from inside `subscribe()`.\n\nDebouncing or throttling `setFilter()` is left to the caller, wrap the call site with the `debounce` or `throttle` of `@zag-js/utils`, which this library already depends on.",
+        "declaration": "class AsyncList<T, Filter = string, Sorting = asyncList.SortDescriptor<T>, Cursor = string>",
+        "constructorParams": [
+            {
+                "name": "options",
+                "type": "AsyncListOptions<T, Filter, Sorting, Cursor>"
+            }
+        ],
+        "properties": [
+            {
+                "name": "api",
+                "type": "asyncList.Api<T, Filter, Sorting, Cursor>",
+                "readonly": true,
+                "description": "The api of the current state of the list. It is read fresh on every access, don't hold on to it."
+            }
+        ],
+        "methods": [
+            {
+                "name": "subscribe",
+                "summary": "Calls `fn` with the api on every future state change. It does not fire for the current state, read `api` first if you need it.",
+                "signatures": [
+                    {
+                        "signature": "subscribe(fn: (api: asyncList.Api<T, Filter, Sorting, Cursor>) => void): () => void",
+                        "params": [
+                            {
+                                "name": "fn",
+                                "type": "(api: asyncList.Api<T, Filter, Sorting, Cursor>) => void",
+                                "description": "The listener."
+                            }
+                        ],
+                        "returns": {
+                            "type": "() => void",
+                            "description": "A function that removes the listener."
+                        }
+                    }
+                ],
+                "title": "subscribe()"
+            },
+            {
+                "name": "setFilter",
+                "summary": "Sets the filter and reloads the list with it.",
+                "signatures": [
+                    {
+                        "signature": "setFilter(filter: Filter): void",
+                        "params": [
+                            {
+                                "name": "filter",
+                                "type": "Filter"
+                            }
+                        ],
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "setFilter()"
+            },
+            {
+                "name": "updateProps",
+                "summary": "Changes options at runtime, e.g. `dependencies` to trigger an `autoReload`. `load` is fixed when the list is constructed and can't be swapped here.",
+                "signatures": [
+                    {
+                        "signature": "updateProps(newProps: Partial<Omit<asyncList.Props<T, Filter, Sorting, Cursor>, 'load'>>): void",
+                        "params": [
+                            {
+                                "name": "newProps",
+                                "type": "Partial<Omit<asyncList.Props<T, Filter, Sorting, Cursor>, 'load'>>"
+                            }
+                        ],
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "updateProps()"
+            },
+            {
+                "name": "init",
+                "summary": "Starts the machine, which loads the list for the first time. Call it once, after constructing.",
+                "signatures": [
+                    {
+                        "signature": "init(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "init()"
+            },
+            {
+                "name": "destroy",
+                "summary": "Stops the machine and cancels a load that is in flight.",
+                "signatures": [
+                    {
+                        "signature": "destroy(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "destroy()"
+            }
+        ]
+    },
+    "AsyncListOptions": {
+        "kind": "type",
+        "name": "AsyncListOptions",
+        "summary": "The options of an `AsyncList`: the props of the `@zag-js/async-list` machine.",
+        "members": [
+            {
+                "name": "load",
+                "type": "(args: LoadDetails<Item, Filter, Sorting, Cursor>) => Promise<LoadResult<Item, Cursor>>",
+                "description": "The function to call when the list is loaded"
+            },
+            {
+                "name": "sort",
+                "type": "((args: SortDetails<Item, Filter, Sorting>) => Promise<{ items: Item[]; }> | { items: Item[]; } | undefined) | undefined",
+                "optional": true,
+                "description": "The function to call when the list is sorted client-side. When provided, sorting is performed locally instead of triggering a new load."
+            },
+            {
+                "name": "initialItems",
+                "type": "Item[] | undefined",
+                "optional": true,
+                "description": "The initial items to display"
+            },
+            {
+                "name": "initialSorting",
+                "type": "Sorting | undefined",
+                "optional": true,
+                "description": "The initial sorting state"
+            },
+            {
+                "name": "initialFilter",
+                "type": "Filter | undefined",
+                "optional": true,
+                "description": "The initial filter state"
+            },
+            {
+                "name": "keepPreviousItems",
+                "type": "boolean | undefined",
+                "optional": true,
+                "default": "false",
+                "description": "Whether to keep the previous items visible while new data is loading. Prevents content flash when filter or sort changes."
+            },
+            {
+                "name": "dependencies",
+                "type": "LoadDependency[] | undefined",
+                "optional": true,
+                "description": "The dependencies to watch for changes"
+            },
+            {
+                "name": "autoReload",
+                "type": "boolean | undefined",
+                "optional": true,
+                "description": "Whether to automatically reload the list when the dependencies change"
+            },
+            {
+                "name": "onSuccess",
+                "type": "((details: { items: Item[]; }) => void | undefined) | undefined",
+                "optional": true,
+                "description": "The function to call when the list is loaded successfully"
+            },
+            {
+                "name": "onError",
+                "type": "((details: { error: Error; }) => void | undefined) | undefined",
+                "optional": true,
+                "description": "The function to call when the list fails to load"
+            }
+        ]
+    },
+    "ClientPropConverter": {
+        "kind": "type",
+        "name": "ClientPropConverter",
+        "summary": "Converts a prop from the shape it has on the wire (JSON) to the one the component needs. It gets the wire value and all props of the component.",
+        "declaration": "type ClientPropConverter<TWire = unknown, TMachine = unknown> = (wireValue: TWire, props: Record<string, unknown>) => TMachine"
+    },
+    "ClientPropConverterMap": {
+        "kind": "type",
+        "name": "ClientPropConverterMap",
+        "summary": "The converters of one component, by prop name.",
+        "declaration": "type ClientPropConverterMap = Record<string, ClientPropConverter<any, any>>"
+    },
+    "Component": {
+        "kind": "class",
+        "name": "Component",
+        "summary": "Base class of every primitive. A subclass builds its machine in `initMachine()`, connects it in `initApi()` and spreads the props of its parts onto the DOM in `render()`. Call `init()` once to start it.",
+        "examples": [
+            {
+                "language": "typescript",
+                "code": "class Counter extends Component<CounterProps, CounterApi> {\n    static componentName = 'counter';\n\n    initMachine(props: CounterProps) {\n        return new Machine(counter.machine, props);\n    }\n\n    initApi() {\n        return counter.connect(this.machine.service, normalizeProps);\n    }\n\n    render() {\n        const rootEl = this.hydrator.query('root');\n        if (rootEl) this.spreadProps(rootEl, this.api.getRootProps());\n    }\n}"
+            }
+        ],
+        "declaration": "abstract class Component<Props, Api>",
+        "constructorParams": [
+            {
+                "name": "initialProps",
+                "type": "Props"
+            },
+            {
+                "name": "userDocument",
+                "type": "Document",
+                "optional": true,
+                "default": "document"
+            }
+        ],
+        "properties": [
+            {
+                "name": "document",
+                "type": "Document",
+                "description": "The document the component renders into."
+            },
+            {
+                "name": "namespace",
+                "type": "string",
+                "optional": true,
+                "description": "The Fluid namespace identifier (e.g. \"ui\") this instance was mounted under - assigned by `mountAll`/`mount` right after their callback returns, so not yet available while it runs (`init()` included)."
+            },
+            {
+                "name": "static componentName",
+                "type": "string",
+                "description": "The name of the component, in camelCase. Every subclass has to set it."
+            },
+            {
+                "name": "doc",
+                "type": "Document",
+                "readonly": true,
+                "description": "Alias of `document`."
+            },
+            {
+                "name": "machine",
+                "type": "Machine<any>",
+                "readonly": true,
+                "description": "Created by `init` - reading it earlier throws."
+            },
+            {
+                "name": "api",
+                "type": "Api",
+                "readonly": true,
+                "description": "Created by `init` - reading it earlier throws."
+            },
+            {
+                "name": "hydrator",
+                "type": "ComponentHydrator",
+                "readonly": true,
+                "description": "Finds the component's parts by name, see `ComponentHydrator.query`. Created by `init` - reading it earlier throws."
+            },
+            {
+                "name": "userProps",
+                "type": "Props",
+                "readonly": true,
+                "description": "The props the instance runs on - what `transformProps` made of the ones it was created with. Created by `init` - reading it earlier throws."
+            }
+        ],
+        "methods": [
+            {
+                "name": "initMachine",
+                "summary": "Creates the machine from the props. Called once by `init()`.",
+                "signatures": [
+                    {
+                        "signature": "initMachine(props: Props): Machine<any>",
+                        "params": [
+                            {
+                                "name": "props",
+                                "type": "Props"
+                            }
+                        ],
+                        "returns": {
+                            "type": "Machine<any>"
+                        }
+                    }
+                ],
+                "title": "initMachine()"
+            },
+            {
+                "name": "initApi",
+                "summary": "Connects the machine to its api. Called by `init()` and again after every state change.",
+                "signatures": [
+                    {
+                        "signature": "initApi(): Api",
+                        "returns": {
+                            "type": "Api"
+                        }
+                    }
+                ],
+                "title": "initApi()"
+            },
+            {
+                "name": "initHydrator",
+                "summary": "Creates the hydrator that finds the parts of the component. It needs the `id` prop.",
+                "signatures": [
+                    {
+                        "signature": "initHydrator(props: Props): ComponentHydrator",
+                        "params": [
+                            {
+                                "name": "props",
+                                "type": "Props"
+                            }
+                        ],
+                        "returns": {
+                            "type": "ComponentHydrator"
+                        }
+                    }
+                ],
+                "title": "initHydrator()"
+            },
+            {
+                "name": "init",
+                "summary": "Builds everything the instance runs on - `userProps`, hydrator, machine and api - then renders once and starts the machine. Call it once after constructing.",
+                "signatures": [
+                    {
+                        "signature": "init(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "init()"
+            },
+            {
+                "name": "refresh",
+                "summary": "Renders again with no prop change behind it. Use it after changing the DOM directly, e.g. after inserting a new `Template` instance, for a primitive with no prop that causes a render on its own. Combobox and Select don't need it: `updateProps({ collection })` already renders.",
+                "signatures": [
+                    {
+                        "signature": "refresh(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "refresh()"
+            },
+            {
+                "name": "getName",
+                "summary": "The `componentName` of the class.",
+                "signatures": [
+                    {
+                        "signature": "getName(): string",
+                        "returns": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "title": "getName()"
+            },
+            {
+                "name": "getClientName",
+                "summary": "Kebab form of `getName` - what actually appears in DOM-facing identifiers (part attribute names, hydration keys). See `ComponentHydrator.clientComponentName`.",
+                "signatures": [
+                    {
+                        "signature": "getClientName(): string",
+                        "returns": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "title": "getClientName()"
+            },
+            {
+                "name": "transformProps",
+                "summary": "Override to adjust the props before anything else sees them, e.g. to wrap a callback prop. Runs once, first in `init`: the result becomes `userProps`, which `initHydrator()` and `initMachine()` receive.",
+                "signatures": [
+                    {
+                        "signature": "transformProps(props: Props): Props",
+                        "params": [
+                            {
+                                "name": "props",
+                                "type": "Props"
+                            }
+                        ],
+                        "returns": {
+                            "type": "Props"
+                        }
+                    }
+                ],
+                "title": "transformProps()"
+            },
+            {
+                "name": "updateProps",
+                "summary": "Changes props at runtime. Only the ones you pass change, the others stay.",
+                "signatures": [
+                    {
+                        "signature": "updateProps(newProps: Partial<Props>): void",
+                        "params": [
+                            {
+                                "name": "newProps",
+                                "type": "Partial<Props>"
+                            }
+                        ],
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "updateProps()"
+            },
+            {
+                "name": "destroy",
+                "summary": "Stops the machine and releases the hydrator.",
+                "signatures": [
+                    {
+                        "signature": "destroy(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "destroy()"
+            },
+            {
+                "name": "spreadProps",
+                "summary": "Applies the attributes and event handlers of a part's props to its element.",
+                "signatures": [
+                    {
+                        "signature": "spreadProps(node: HTMLElement, attrs: Attrs): void",
+                        "params": [
+                            {
+                                "name": "node",
+                                "type": "HTMLElement"
+                            },
+                            {
+                                "name": "attrs",
+                                "type": "Attrs"
+                            }
+                        ],
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "spreadProps()"
+            },
+            {
+                "name": "spreadTextControlProps",
+                "summary": "`spreadTextControlProps`: for a text control that mirrors what the user typed.",
+                "signatures": [
+                    {
+                        "signature": "spreadTextControlProps(node: HTMLInputElement | HTMLTextAreaElement, attrs: Attrs): void",
+                        "params": [
+                            {
+                                "name": "node",
+                                "type": "HTMLInputElement | HTMLTextAreaElement"
+                            },
+                            {
+                                "name": "attrs",
+                                "type": "Attrs"
+                            }
+                        ],
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "spreadTextControlProps()"
+            },
+            {
+                "name": "render",
+                "summary": "Spreads the props of every part onto its element. Called after every state change.",
+                "signatures": [
+                    {
+                        "signature": "render(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "render()"
+            }
+        ]
+    },
+    "ComponentHydrationData": {
+        "kind": "interface",
+        "name": "ComponentHydrationData",
+        "summary": "The hydration entry of one component instance, as PHP renders it for `mountAll()` and `mount()`.",
+        "members": [
+            {
+                "name": "autoMount",
+                "type": "boolean",
+                "description": "Whether the instance mounts on its own: `false` when it was rendered with `autoMount=\"{false}\"`."
+            },
+            {
+                "name": "props",
+                "type": "{ id: string; ids: { [key: string]: string }; [key: string]: unknown; }",
+                "description": "The props of the instance. Typed per component by `HydrationPropsRegistry`."
+            }
+        ]
+    },
+    "ComponentHydrator": {
+        "kind": "class",
+        "name": "ComponentHydrator",
+        "summary": "Finds the parts of one component instance. Every part that `ui:ref` renders carries a `data-<component>-<part>=\"<rootId>\"` attribute, so a lookup needs no id and searches the whole document by default. That is also what finds content that was portaled away from the root.",
+        "declaration": "class ComponentHydrator",
+        "constructorParams": [
+            {
+                "name": "componentName",
+                "type": "string",
+                "description": "The name of the component, in camelCase."
+            },
+            {
+                "name": "rootId",
+                "type": "string | undefined",
+                "description": "The `rootId` the component was rendered with. Throws if it is missing."
+            },
+            {
+                "name": "doc",
+                "type": "Document",
+                "optional": true,
+                "default": "document",
+                "description": "The document the parts are searched in."
+            }
+        ],
+        "properties": [
+            {
+                "name": "componentName",
+                "type": "string",
+                "description": "The name of the component, in camelCase."
+            },
+            {
+                "name": "clientComponentName",
+                "type": "string",
+                "description": "The kebab-case form of `componentName`, as it appears in attribute names."
+            },
+            {
+                "name": "doc",
+                "type": "Document",
+                "description": "The document the parts are searched in."
+            },
+            {
+                "name": "rootId",
+                "type": "string",
+                "description": "The `rootId` the component was rendered with."
+            }
+        ],
+        "methods": [
+            {
+                "name": "attr",
+                "summary": "The name of the attribute that marks `part`, e.g. `data-accordion-item-trigger`.",
+                "signatures": [
+                    {
+                        "signature": "attr(part: string): string",
+                        "params": [
+                            {
+                                "name": "part",
+                                "type": "string"
+                            }
+                        ],
+                        "returns": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "title": "attr()"
+            },
+            {
+                "name": "selector",
+                "summary": "The CSS selector of every element of `part` that belongs to this instance.",
+                "signatures": [
+                    {
+                        "signature": "selector(part: string): string",
+                        "params": [
+                            {
+                                "name": "part",
+                                "type": "string"
+                            }
+                        ],
+                        "returns": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "title": "selector()"
+            },
+            {
+                "name": "scopeKey",
+                "summary": "The key that identifies `part`, and optionally one `value` of it, across this instance.",
+                "signatures": [
+                    {
+                        "signature": "scopeKey(part: string, value?: string): string",
+                        "params": [
+                            {
+                                "name": "part",
+                                "type": "string"
+                            },
+                            {
+                                "name": "value",
+                                "type": "string",
+                                "optional": true
+                            }
+                        ],
+                        "returns": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "title": "scopeKey()"
+            },
+            {
+                "name": "query",
+                "summary": "Finds the first element of `part`.",
+                "signatures": [
+                    {
+                        "signature": "query<T extends Element = HTMLElement>(part: string, parent?: Element | Document): T | null",
+                        "params": [
+                            {
+                                "name": "part",
+                                "type": "string",
+                                "description": "The name of the part, in camelCase."
+                            },
+                            {
+                                "name": "parent",
+                                "type": "Element | Document",
+                                "optional": true,
+                                "default": "this.doc",
+                                "description": "Where to search, the whole document by default."
+                            }
+                        ],
+                        "returns": {
+                            "type": "T | null",
+                            "description": "The element, or `null` if there is none."
+                        }
+                    }
+                ],
+                "title": "query()"
+            },
+            {
+                "name": "queryAll",
+                "summary": "Finds every element of `part`.",
+                "signatures": [
+                    {
+                        "signature": "queryAll<T extends Element = HTMLElement>(part: string, parent?: Element | Document): T[]",
+                        "params": [
+                            {
+                                "name": "part",
+                                "type": "string",
+                                "description": "The name of the part, in camelCase."
+                            },
+                            {
+                                "name": "parent",
+                                "type": "Element | Document",
+                                "optional": true,
+                                "default": "this.doc",
+                                "description": "Where to search, the whole document by default."
+                            }
+                        ],
+                        "returns": {
+                            "type": "T[]"
+                        }
+                    }
+                ],
+                "title": "queryAll()"
+            },
+            {
+                "name": "stamp",
+                "summary": "Marks an element as `part` of this instance, like `ui:ref` does on the server. For elements you create after hydration.",
+                "signatures": [
+                    {
+                        "signature": "stamp(element: Element, part: string, value?: string): void",
+                        "params": [
+                            {
+                                "name": "element",
+                                "type": "Element",
+                                "description": "The element to mark."
+                            },
+                            {
+                                "name": "part",
+                                "type": "string",
+                                "description": "The name of the part, in camelCase."
+                            },
+                            {
+                                "name": "value",
+                                "type": "string",
+                                "optional": true,
+                                "description": "Sets `data-value`, for a part that exists once per item."
+                            }
+                        ],
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "stamp()"
+            },
+            {
+                "name": "destroy",
+                "summary": "Nothing to release yet, it exists so every instance can be destroyed alike.",
+                "signatures": [
+                    {
+                        "signature": "destroy(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "destroy()"
+            }
+        ]
+    },
+    "ConverterMachineProps": {
+        "kind": "type",
+        "name": "ConverterMachineProps",
+        "summary": "The shape each prop of a converters object has after conversion. Use it for the `HydrationPropsOverrides` of a component, derived from the converters with `typeof` instead of typed a second time.",
+        "declaration": "type ConverterMachineProps<T extends ClientPropConverterMap> = { [K in keyof T]: T[K] extends ClientPropConverter<any, infer TMachine> ? TMachine : never; }"
+    },
+    "DelayedIndicator": {
+        "kind": "class",
+        "name": "DelayedIndicator",
+        "summary": "Delays showing a transient value long enough to avoid flicker, and keeps it visible for a minimum duration once shown. Feed it every new value through `set()`, typically straight from a subscribe callback, and it forwards them to `onChange`. The values `isTransient` marks are held back for `showDelayMs`, so a fast operation never flashes them. Once shown they stay for at least `minVisibleMs`, so they can't vanish the instant they appeared.\n\nIt works on any value, not only a boolean: one instance can drive a spinner and a status text from the same source, so they never disagree.",
+        "declaration": "class DelayedIndicator<T>",
+        "constructorParams": [
+            {
+                "name": "options",
+                "type": "DelayedIndicatorOptions<T>"
+            }
+        ],
+        "methods": [
+            {
+                "name": "set",
+                "summary": "Passes a new value on, delayed as described above. It does not deduplicate: the same value again can still call `onChange` again, as this filters state over time, it is not a `distinctUntilChanged()`.",
+                "signatures": [
+                    {
+                        "signature": "set(value: T): void",
+                        "params": [
+                            {
+                                "name": "value",
+                                "type": "T",
+                                "description": "The new value."
+                            }
+                        ],
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "set()"
+            },
+            {
+                "name": "destroy",
+                "summary": "Cancels any timer that is running. Call it when the indicator is no longer needed, e.g. on teardown: otherwise a scheduled value can still reach `onChange` afterwards. It is safe to call when nothing is transient or shown.",
+                "signatures": [
+                    {
+                        "signature": "destroy(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "destroy()"
+            }
+        ]
+    },
+    "DelayedIndicatorOptions": {
+        "kind": "interface",
+        "name": "DelayedIndicatorOptions",
+        "summary": "The options of a `DelayedIndicator`.",
+        "members": [
+            {
+                "name": "showDelayMs",
+                "type": "number",
+                "optional": true,
+                "default": "150",
+                "description": "How long a transient value must persist before it is shown at all. Must be finite and >= 0."
+            },
+            {
+                "name": "minVisibleMs",
+                "type": "number",
+                "optional": true,
+                "default": "300",
+                "description": "Once shown, how long a transient value stays current before a settled value can replace it. Must be finite and >= 0."
+            },
+            {
+                "name": "isTransient",
+                "type": "(value: T) => boolean",
+                "description": "Marks which values are transient, e.g. a loading state. Every other value is treated as settled and passes through immediately once no transient value is held."
+            },
+            {
+                "name": "onChange",
+                "type": "(value: T) => void",
+                "description": "Called with each value once it is ready to be shown."
+            }
+        ]
+    },
+    "destroyComponentsWithin": {
+        "kind": "function",
+        "name": "destroyComponentsWithin",
+        "summary": "Destroys every mounted instance whose root element is `root` or inside it, and forgets it. Call it before you remove a subtree from the DOM, e.g. a row of a FieldArray.\n\nOnly the `root` part of an instance counts. A component without one, such as Dialog, is never matched.",
+        "signatures": [
+            {
+                "signature": "destroyComponentsWithin(root: Element | Document): void",
+                "params": [
+                    {
+                        "name": "root",
+                        "type": "Element | Document",
+                        "description": "The element that is about to be removed."
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            }
+        ]
+    },
+    "extbase": {
+        "kind": "object",
+        "name": "extbase",
+        "summary": "Sends GET and POST requests to an Extbase controller action from your own code, e.g. from the `load` callback of an async search. The data is nested under the Extbase argument namespace of the URL, the way `f:uri.action` builds it.",
+        "methods": [
+            {
+                "name": "get",
+                "summary": "GETs `url` with `data` appended as query parameters under its Extbase argument namespace. The URL's own query, `cHash` included, is kept - so the new parameters have to be listed in `FE.cacheHash.excludedParameters`, or TYPO3 rejects the request.",
+                "signatures": [
+                    {
+                        "signature": "get(url: string, data?: Record<string, unknown>, init?: RequestInit): Promise<Response>",
+                        "params": [
+                            {
+                                "name": "url",
+                                "type": "string",
+                                "description": "The URL of the action, absolute or relative."
+                            },
+                            {
+                                "name": "data",
+                                "type": "Record<string, unknown>",
+                                "optional": true,
+                                "description": "The arguments. Nested objects and arrays are flattened into bracket notation."
+                            },
+                            {
+                                "name": "init",
+                                "type": "RequestInit",
+                                "optional": true,
+                                "description": "More options for `fetch`, e.g. `{ signal }`."
+                            }
+                        ],
+                        "returns": {
+                            "type": "Promise<Response>",
+                            "description": "The native `Response`. A non-2xx status resolves normally, check `response.ok`."
+                        }
+                    }
+                ],
+                "title": "get()"
+            },
+            {
+                "name": "post",
+                "summary": "POSTs `data` as `multipart/form-data`, nested under the URL's Extbase argument namespace. A URL without one gets `data` unprefixed.",
+                "signatures": [
+                    {
+                        "signature": "post(url: string, data?: Record<string, unknown>, init?: RequestInit): Promise<Response>",
+                        "params": [
+                            {
+                                "name": "url",
+                                "type": "string",
+                                "description": "The URL of the action."
+                            },
+                            {
+                                "name": "data",
+                                "type": "Record<string, unknown>",
+                                "optional": true,
+                                "description": "The arguments. Nested objects and arrays are flattened into bracket notation, `null` and `undefined` are skipped, a `File` or `Blob` is sent as it is."
+                            },
+                            {
+                                "name": "init",
+                                "type": "RequestInit",
+                                "optional": true,
+                                "description": "More options for `fetch`, e.g. `{ signal }`."
+                            }
+                        ],
+                        "returns": {
+                            "type": "Promise<Response>",
+                            "description": "The native `Response`. A non-2xx status resolves normally, check `response.ok`."
+                        }
+                    }
+                ],
+                "title": "post()"
+            },
+            {
+                "name": "getArgumentPrefix",
+                "summary": "Reads the Extbase argument namespace (`tx_docs_docs`) of a frontend action URL, from its `[controller]` or `[action]` query key. `UriBuilder::uriFor()` nests those under it, also for a custom `pluginNamespace`.",
+                "signatures": [
+                    {
+                        "signature": "getArgumentPrefix(url: string): string | null",
+                        "params": [
+                            {
+                                "name": "url",
+                                "type": "string",
+                                "description": "The URL of the action."
+                            }
+                        ],
+                        "returns": {
+                            "type": "string | null",
+                            "description": "The namespace, or `null` for a URL without such a key."
+                        }
+                    }
+                ],
+                "title": "getArgumentPrefix()"
+            }
+        ]
+    },
+    "FieldAwareComponent": {
+        "kind": "class",
+        "name": "FieldAwareComponent",
+        "summary": "Base class of a primitive that can sit inside a Field. It takes `name`, `disabled`, `readOnly`, `required` and `invalid` from the closest Field and follows its changes, and it tells the field once it has hydrated.",
+        "declaration": "abstract class FieldAwareComponent<Props, Api> extends Component<Props, Api>",
+        "methods": [
+            {
+                "name": "init",
+                "summary": "Builds the component like `Component.init()`, then tells the field that it is hydrated.",
+                "signatures": [
+                    {
+                        "signature": "init(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "init()"
+            },
+            {
+                "name": "subscribeToFieldService",
+                "summary": "Applies every later change of the field to the machine props. It waits for the field if that has not registered yet, and does nothing when there is no field around.",
+                "signatures": [
+                    {
+                        "signature": "subscribeToFieldService(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "subscribeToFieldService()"
+            }
+        ]
+    },
+    "getComponentInstance": {
+        "kind": "function",
+        "name": "getComponentInstance",
+        "summary": "Finds a component instance that is already mounted, by the namespaced name it was mounted with and its hydration id (the `id` prop it was rendered with). Works for instances from `mountAll()` and `mount()` alike. It is for primitives that compose two independent instances of themselves at runtime, e.g. the submenus of a Menu.",
+        "signatures": [
+            {
+                "signature": "getComponentInstance<T extends Component<unknown, unknown> = Component<unknown, unknown>>(componentName: string, id: string): T | undefined",
+                "params": [
+                    {
+                        "name": "componentName",
+                        "type": "string",
+                        "description": "The namespaced name, e.g. `ui:menu`."
+                    },
+                    {
+                        "name": "id",
+                        "type": "string",
+                        "description": "The hydration id of the instance."
+                    }
+                ],
+                "returns": {
+                    "type": "T | undefined",
+                    "description": "The instance, or `undefined` if none is mounted under that id."
+                }
+            }
+        ]
+    },
+    "HydrationPropsFor": {
+        "kind": "type",
+        "name": "HydrationPropsFor",
+        "summary": "The `props` type of the callback of `mountAll()` and `mount()` for the component name `K`: its entry in `HydrationPropsRegistry`, with the props that have a converter replaced by their `HydrationPropsOverrides`. A name that is not in the registry gets the untyped props.",
+        "declaration": "type HydrationPropsFor<K extends string> = K extends keyof HydrationPropsRegistry ? Omit<HydrationPropsRegistry[K], keyof PickOverride<K>> & PickOverride<K> : ComponentHydrationData['props']"
+    },
+    "HydrationPropsOverrides": {
+        "kind": "interface",
+        "name": "HydrationPropsOverrides",
+        "summary": "Overrides the type of the props whose shape changes through a registered client prop converter, for example the `collection` of a Select: JSON on the wire, a `ListCollection` once converted. It is keyed by the bare component name. Derive each entry from the converters with `ConverterMachineProps` instead of typing it by hand."
+    },
+    "HydrationPropsRegistry": {
+        "kind": "interface",
+        "name": "HydrationPropsRegistry",
+        "summary": "Types the `props` of `mountAll()` and `mount()` per component. It is empty on purpose: a project fills it with its own generated types, keyed by the namespaced name used at the call site. A component that is not in it gets the untyped `props` of `ComponentHydrationData`.",
+        "examples": [
+            {
+                "language": "typescript",
+                "code": "declare module 'fluid-primitives' {\n    interface HydrationPropsRegistry {\n        'ui:select': SelectHydrationProps;\n    }\n}"
+            }
+        ]
+    },
+    "Machine": {
+        "kind": "class",
+        "name": "Machine",
+        "summary": "The Zag machine runtime that components run on. It takes `Partial` props: the `id` that Zag requires is guaranteed at runtime by `Component.initHydrator()`.",
+        "declaration": "class Machine<T extends MachineSchema> extends VanillaMachine<T>",
+        "constructorParams": [
+            {
+                "name": "machine",
+                "type": "MachineDefinition<T>"
+            },
+            {
+                "name": "userProps",
+                "type": "Partial<NonNullable<T['props']>>",
+                "optional": true
+            }
+        ],
+        "methods": [
+            {
+                "name": "updateProps",
+                "summary": "Changes props at runtime. Only the ones you pass change, the others stay.",
+                "signatures": [
+                    {
+                        "signature": "updateProps(newProps: Partial<NonNullable<T['props']>> | InputProps<T> | (() => InputProps<T>)): void",
+                        "params": [
+                            {
+                                "name": "newProps",
+                                "type": "Partial<NonNullable<T['props']>> | InputProps<T> | (() => InputProps<T>)"
+                            }
+                        ],
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "updateProps()"
+            }
+        ]
+    },
+    "mergeProps": {
+        "kind": "external",
+        "name": "mergeProps",
+        "package": "@zag-js/vanilla"
+    },
+    "mount": {
+        "kind": "function",
+        "name": "mount",
+        "summary": "Mounts one instance by its `rootId`, also one that was rendered with `autoMount=\"{false}\"`. Unlike `mountAll()`, it creates a new instance on every call, which then replaces the one tracked before. `getComponentInstance()` and `destroyComponentsWithin()` find it like any other.\n\nThe `props` in the callback are typed like those of `mountAll()`.",
+        "signatures": [
+            {
+                "signature": "mount<K extends KnownComponentName | (string & {}), T extends Component<unknown, unknown>>(componentName: K, rootId: string, callback: (data: { autoMount: boolean; props: HydrationPropsFor<Extract<K, string>>; createHydrator: () => ComponentHydrator; }) => T | void): T | undefined",
+                "params": [
+                    {
+                        "name": "componentName",
+                        "type": "K",
+                        "description": "The namespaced name, e.g. `ui:dialog`."
+                    },
+                    {
+                        "name": "rootId",
+                        "type": "string",
+                        "description": "The `rootId` the component was rendered with."
+                    },
+                    {
+                        "name": "callback",
+                        "type": "(data: { autoMount: boolean; props: HydrationPropsFor<Extract<K, string>>; createHydrator: () => ComponentHydrator; }) => T | void",
+                        "description": "Creates the instance and returns it."
+                    }
+                ],
+                "returns": {
+                    "type": "T | undefined",
+                    "description": "The instance, or `undefined` if there is no hydration entry for `rootId`."
+                }
+            }
+        ]
+    },
+    "mountAll": {
+        "kind": "function",
+        "name": "mountAll",
+        "summary": "Mounts every instance of a component that is not mounted yet and was not rendered with `autoMount=\"{false}\"`. It is safe to call more than once, e.g. after lazily inserted DOM adds new instances: mounted ones are skipped.\n\nThe `props` in the callback are typed from `componentName` via `HydrationPropsFor`. A component without generated types gets an untyped bag.",
+        "examples": [
+            {
+                "language": "typescript",
+                "code": "mountAll('ui:accordion', ({ props }) => {\n    const accordion = new Accordion(props);\n    accordion.init();\n    return accordion;\n});"
+            }
+        ],
+        "signatures": [
+            {
+                "signature": "mountAll<K extends KnownComponentName | (string & {})>(componentName: K, callback: (data: { autoMount: boolean; props: HydrationPropsFor<Extract<K, string>>; createHydrator: () => ComponentHydrator; }) => Component<unknown, unknown> | void): void",
+                "params": [
+                    {
+                        "name": "componentName",
+                        "type": "K",
+                        "description": "The namespaced name, e.g. `ui:select`."
+                    },
+                    {
+                        "name": "callback",
+                        "type": "(data: { autoMount: boolean; props: HydrationPropsFor<Extract<K, string>>; createHydrator: () => ComponentHydrator; }) => Component<unknown, unknown> | void",
+                        "description": "Creates the instance of one hydration entry and returns it."
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            }
+        ]
+    },
+    "normalizeProps": {
+        "kind": "external",
+        "name": "normalizeProps",
+        "package": "@zag-js/vanilla"
+    },
+    "registerClientPropConverters": {
+        "kind": "function",
+        "name": "registerClientPropConverters",
+        "summary": "Registers which props of a component need converting before a `mountAll()` or `mount()` callback receives them, e.g. the `collection` of a Select: JSON on the wire, a `ListCollection` once converted.",
+        "signatures": [
+            {
+                "signature": "registerClientPropConverters<T extends ClientPropConverterMap>(componentName: string, propConverters: T): void",
+                "params": [
+                    {
+                        "name": "componentName",
+                        "type": "string",
+                        "description": "The component, e.g. `select`."
+                    },
+                    {
+                        "name": "propConverters",
+                        "type": "T",
+                        "description": "The converters, by prop name."
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            }
+        ]
+    },
+    "spreadProps": {
+        "kind": "external",
+        "name": "spreadProps"
+    },
+    "spreadTextControlProps": {
+        "kind": "function",
+        "name": "spreadTextControlProps",
+        "summary": "Like `spreadProps` for a text control, but it does not assign a `value` the control already shows. Any assignment, even of the same text, makes the browser treat the value as set by a script, and it stops reporting `tooShort` (`minlength`) for such a value. These controls mirror what the user typed into their machine, so that assignment would happen on every keystroke.\n\nAs in `spreadProps`, a value is only considered when it changed since the last call: the control can be one event ahead of the machine, and must not be reset to the machine's older value.",
+        "signatures": [
+            {
+                "signature": "spreadTextControlProps(node: HTMLInputElement | HTMLTextAreaElement, attrs: Attrs, scopeKey: string): () => void",
+                "params": [
+                    {
+                        "name": "node",
+                        "type": "HTMLInputElement | HTMLTextAreaElement"
+                    },
+                    {
+                        "name": "attrs",
+                        "type": "Attrs"
+                    },
+                    {
+                        "name": "scopeKey",
+                        "type": "string"
+                    }
+                ],
+                "returns": {
+                    "type": "() => void"
+                }
+            }
+        ]
+    },
+    "Template": {
+        "kind": "class",
+        "name": "Template",
+        "summary": "Clones the content of a `<template>` part, which must have exactly one root element, and throws otherwise. It is a `DocumentFragment`, so you can append it directly: `root` stays a valid reference to the element after the fragment has been emptied by the insertion.\n\nIt works for any \"clone a `<template>` and fill it with data that doesn't exist at server render time\" case, such as async search results, file upload previews or the rows of a FieldArray.",
+        "declaration": "class Template extends DocumentFragment",
+        "constructorParams": [
+            {
+                "name": "hydrator",
+                "type": "ComponentHydrator",
+                "description": "The hydrator of the component that owns the `<template>`."
+            },
+            {
+                "name": "part",
+                "type": "string",
+                "description": "The name of the `<template>` part."
+            },
+            {
+                "name": "options",
+                "type": "TemplateOptions",
+                "optional": true,
+                "default": "{}",
+                "description": "See `TemplateOptions`."
+            }
+        ],
+        "properties": [
+            {
+                "name": "root",
+                "type": "HTMLElement",
+                "readonly": true,
+                "description": "The one root element of the clone."
+            },
+            {
+                "name": "componentNames",
+                "type": "string[]",
+                "readonly": true,
+                "description": "The client names of the independent root components found inside the clone, empty without `options.value` or when there are none. Call their `mountAll()` after you insert the clone into the document."
+            }
+        ],
+        "methods": [
+            {
+                "name": "query",
+                "summary": "Finds the first element of `part` inside the clone.",
+                "signatures": [
+                    {
+                        "signature": "query<T extends Element = HTMLElement>(part: string): T | null",
+                        "params": [
+                            {
+                                "name": "part",
+                                "type": "string"
+                            }
+                        ],
+                        "returns": {
+                            "type": "T | null"
+                        }
+                    }
+                ],
+                "title": "query()"
+            },
+            {
+                "name": "queryAll",
+                "summary": "Finds every element of `part` inside the clone.",
+                "signatures": [
+                    {
+                        "signature": "queryAll<T extends Element = HTMLElement>(part: string): T[]",
+                        "params": [
+                            {
+                                "name": "part",
+                                "type": "string"
+                            }
+                        ],
+                        "returns": {
+                            "type": "T[]"
+                        }
+                    }
+                ],
+                "title": "queryAll()"
+            }
+        ]
+    },
+    "TemplateOptions": {
+        "kind": "interface",
+        "name": "TemplateOptions",
+        "summary": "The options of a `Template`.",
+        "members": [
+            {
+                "name": "value",
+                "type": "string",
+                "optional": true,
+                "description": "Makes the clone represent one real item: sets `data-value` on its root and on every part inside it that exists once per item, and prepares independent root components inside it, such as a `Field` with an `Input`, so `mountAll()` can mount them. Leave it out for a template without a per-item value."
+            },
+            {
+                "name": "attributes",
+                "type": "Record<string, boolean | string>",
+                "optional": true,
+                "description": "Data attributes to set next to `value`, on the same elements. A boolean toggles a bare `data-x` attribute, `{ disabled: true }` sets `data-disabled` and `false` removes it. A string sets `data-x=\"value\"`. Only has an effect together with `value`."
+            }
+        ]
+    },
+    "uid": {
+        "kind": "function",
+        "name": "uid",
+        "summary": "Creates an id that is unique within the page, e.g. for a part that needs an `id` to reference.",
+        "signatures": [
+            {
+                "signature": "uid(prefix?: string): string",
+                "params": [
+                    {
+                        "name": "prefix",
+                        "type": "string",
+                        "optional": true,
+                        "default": "'f'",
+                        "description": "Starts the id."
+                    }
+                ],
+                "returns": {
+                    "type": "string"
+                }
+            }
+        ]
+    }
+}

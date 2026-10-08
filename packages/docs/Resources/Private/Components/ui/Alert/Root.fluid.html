@@ -2,10 +2,10 @@
 
 <f:switch expression="{variant}">
     <f:case value="destructive">
-        <f:variable name="variantClass" value="text-destructive bg-warning/5 border-destructive/30 [&>svg]:text-current *:[&[data-scope=alert][data-part=content]]:text-destructive/90" />
+        <f:variable name="variantClass" value="text-destructive bg-warning/5 border-destructive/30 [&>svg]:text-current *:[&[data-alert-content]]:text-destructive/90" />
     </f:case>
     <f:case value="warning">
-        <f:variable name="variantClass" value="text-warning bg-warning/5 border-warning/30 [&>svg]:text-warning *:[&[data-scope=alert][data-part=content]]:text-warning/90" />
+        <f:variable name="variantClass" value="text-warning bg-warning/5 border-warning/30 [&>svg]:text-warning *:[&[data-alert-content]]:text-warning/90" />
     </f:case>
     <f:defaultCase>
         <f:variable name="variantClass" value="bg-card text-card-foreground" />

@@ -19,9 +19,28 @@ The `<a>` tag receives all necessary attributes (`aria-describedby`, event handl
 
 This pattern comes from [Radix UI's asChild API](https://www.radix-ui.com/primitives/docs/guides/composition).
 
+### Adding `asChild` to your own component
+
+`asChild` is opt-in per component - every Fluid Primitives component already opts in wherever it
+makes sense, but your own components only get it if you ask for it. Add `{ui:asChild()}` inline,
+inside the opening bracket of whichever tag should receive the merged attributes - the same way you
+already place `{ui:ref(...)}`/`{ui:attributes()}`:
+
+```html
+<button
+    {f:if(condition: class, then: 'class="{class}"' )}
+    {ui:attributes()}
+    {ui:asChild()}>
+    <f:slot />
+</button>
+```
+
+That's it - no separate declaration needed, `{ui:asChild()}` both registers the prop and marks the
+exact tag it should target.
+
 ### Limitations
 
-- **Not available on every part.** `asChild` only works on parts that render their own wrapper element - root parts that render nothing but their slot content (e.g. Dialog, Popover, Tooltip's `root`) have no element to merge attributes onto, so they don't accept it. Check a part's Arguments table in its component docs page to confirm.
+- **Opt-in per part.** `asChild` only works on parts that add `{ui:asChild()}` to their own wrapper element - root parts that render nothing but their slot content (e.g. Dialog, Popover, Tooltip's `root`) have no element to merge attributes onto, so they don't offer it. Check a part's Arguments table in its component docs page to confirm.
 - **Single child element required.** Text nodes or multiple elements won't work.
 - **Child attributes take precedence.** If the child already has an attribute, it won't be overwritten.
 - **No context access inside asChild.** The slot content can't access the component's context. See [TYPO3/Fluid#1132](https://github.com/TYPO3/Fluid/issues/1132).
@@ -32,7 +51,7 @@ When using `asChild`, ensure your element remains accessible. A `<div>` replacin
 
 ## Sharing IDs Between Components
 
-When multiple components need to interact (like a collapsible trigger that also has a tooltip), share IDs to maintain proper accessibility bindings.
+When multiple components share one element (like a collapsible trigger that also has a tooltip), both write an `id` onto it - share that ID so they agree and the accessibility bindings stay intact.
 
 ```html
 <f:variable name="sharedTriggerId" value="{ui:id()}" />

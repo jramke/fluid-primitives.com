@@ -1,6 +1,6 @@
-<ui:useProps name="primitives:radioGroup.root" />
+<ui:useProps name="primitives:radioGroup.root" as="rootProps" />
 
-<primitives:radioGroup.root spreadProps="{true}" class="{ui:cn(value: 'grid gap-2 {class}')}">
+<primitives:radioGroup.root spreadProps="{rootProps}" class="{ui:cn(value: 'grid gap-2 {class}')}">
     <f:slot />
 </primitives:radioGroup.root>
 

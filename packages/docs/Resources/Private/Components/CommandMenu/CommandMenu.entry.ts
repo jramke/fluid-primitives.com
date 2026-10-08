@@ -109,7 +109,7 @@ class CommandMenu {
                 onOpenChange: details => {
                     if (details.open) {
                         requestAnimationFrame(() => {
-                            this.combobox.getElement<HTMLInputElement>('input')?.focus();
+                            this.combobox.hydrator.query<HTMLInputElement>('input')?.focus();
                         });
                     } else {
                         this.combobox.api.setInputValue('');
@@ -127,13 +127,13 @@ class CommandMenu {
     }
 
     setStatus(text: string) {
-        const el = this.combobox.getElement<HTMLElement>('statusText');
+        const el = this.combobox.hydrator.query<HTMLElement>('statusText');
         if (el) el.textContent = text;
     }
 
     updateItems(items: SearchResultItem[]) {
-        const contentEl = this.combobox.getElement<HTMLElement>('content');
-        if (!contentEl || !this.combobox.hydrator) return;
+        const listEl = this.combobox.hydrator.query<HTMLElement>('list');
+        if (!listEl) return;
 
         this.insertedGroups.forEach(el => el.remove());
         this.insertedGroups = [];
@@ -153,17 +153,17 @@ class CommandMenu {
                 value: groupName,
             });
 
-            const labelEl = group.getElement<HTMLElement>('group-label');
+            const labelEl = group.query<HTMLElement>('group-label');
             if (labelEl) labelEl.textContent = groupName;
 
             for (const { value, title } of groupItems) {
                 const item = new Template(this.combobox.hydrator, 'itemTemplate', { value });
-                const titleEl = item.getElement<HTMLElement>('title');
+                const titleEl = item.query<HTMLElement>('title');
                 if (titleEl) titleEl.textContent = title;
                 group.root.appendChild(item);
             }
 
-            contentEl.appendChild(group);
+            listEl.appendChild(group);
             this.insertedGroups.push(group.root);
         }
 

@@ -1,6 +1,6 @@
-<ui:useProps name="primitives:field.root" />
+<ui:useProps name="primitives:field.root" as="rootProps" />
 
-<primitives:field.root spreadProps="{true}" class="{ui:cn(value: 'field {class}')}">
+<primitives:field.root spreadProps="{rootProps}" class="{ui:cn(value: 'field {class}')}">
     <f:slot />
 </primitives:field.root>
 

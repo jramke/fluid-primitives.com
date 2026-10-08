@@ -36,6 +36,14 @@
             "measureSize": {
                 "type": "VoidFunction",
                 "description": "Function to measure the size of the content."
+            },
+            "getTriggerState": {
+                "type": "() => TriggerState",
+                "description": "Returns the state of the trigger"
+            },
+            "getContentState": {
+                "type": "() => ContentState",
+                "description": "Returns the state of the content"
             }
         },
         "context": {
@@ -88,27 +96,23 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "collapsible",
-            "data-part": "root",
+            "data-collapsible-root": "<uid>",
             "data-state": "\"open\" | \"closed\""
         },
         "Content": {
-            "data-scope": "collapsible",
-            "data-part": "content",
+            "data-collapsible-content": "<uid>",
             "data-collapsible": "",
             "data-state": "\"open\" | \"closed\"",
             "data-disabled": "Present when disabled",
             "data-has-collapsed-size": "Present when the content has collapsed width or height"
         },
         "Trigger": {
-            "data-scope": "collapsible",
-            "data-part": "trigger",
+            "data-collapsible-trigger": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-disabled": "Present when disabled"
         },
         "Indicator": {
-            "data-scope": "collapsible",
-            "data-part": "indicator",
+            "data-collapsible-indicator": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-disabled": "Present when disabled"
         }

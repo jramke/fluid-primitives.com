@@ -1,17 +1,27 @@
 # Input
 
-**A text input component that works with Field, with optional word count and live-region announcements.**
+**A text input component that works with Field, with optional word count and screen reader announcements.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "Input", "skipZag": true } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Input" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Input.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "InputExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
 - Works standalone or nested directly inside `ui:field.root` - no `field.control` wrapper needed
 - Optional `transform` callback to sanitize/reformat the value as the user types, with cursor position preserved
 - Optional `wordCount` part rendering a translatable "42 / 250 characters" style counter, driven by `maxLength`
-- Optional `liveRegion` part that announces word count updates to screen readers via [@zag-js/live-region](https://zagjs.com), debounced so it doesn't spam assistive tech on every keystroke
+- Word count updates are announced to screen readers by default through the page's shared live region, debounced so it doesn't spam assistive tech on every keystroke - pass `announce="{false}"` to turn it off
+
+## Anatomy
+
+```html
+<primitives:input.root>
+    <primitives:input.label />
+    <primitives:input.input />
+    <primitives:input.wordCount />
+</primitives:input.root>
+```
 
 ## Installation
 
@@ -23,13 +33,13 @@
 
 Nest `ui:input.root` directly inside `ui:field.root` - it inherits `name`, `disabled`, `required`, `invalid` and `aria-describedby` automatically, the same way `ui:select`/`ui:numberInput` do. Use the primitive's own `label` part (nested inside `root`) rather than `field.label` - it targets the right control automatically.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Input.examples.withField" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "InputExamples.withField" } %}
 
 ### With Word Count
 
-Pass `maxLength` and add the `wordCount`/`liveRegion` parts wherever you want them - they don't need to be direct siblings of `input`.
+Pass `maxLength` and add the `wordCount` part wherever you want it - it doesn't need to be a direct sibling of `input`.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Input.examples.wordCount" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "InputExamples.wordCount" } %}
 
 ### With a Transform Callback
 
@@ -43,24 +53,11 @@ Pass `maxLength` and add the `wordCount`/`liveRegion` parts wherever you want th
     component: "ui:ComponentPropsTable",
     arguments: {
         "name": "Input",
-        "skipZag": true,
         "parts": [
             ["root", "Provides shared input state and wraps all related parts. Renders a `<div>` element."],
             ["label", "Labels the input. Renders a `<label>` element."],
             ["input", "The editable input. Renders an `<input>` element."],
-            ["wordCount", "Displays the character count, e.g. '42 / 250 characters'. Renders a `<span>` element."],
-            ["liveRegion", "Announces word count updates to assistive technology. Renders a `<div>` element."]
+            ["wordCount", "Displays the character count, e.g. '42 / 250 characters'. Renders a `<span>` element."]
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:input.root>
-    <primitives:input.label />
-    <primitives:input.input />
-    <primitives:input.wordCount />
-    <primitives:input.liveRegion />
-</primitives:input.root>
-```

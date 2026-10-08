@@ -6,27 +6,27 @@ When you add a component via the `typo3 ui:add <component>` command, you get bas
 
 ## Data Attributes
 
-Every component part has `data-scope` and `data-part` attributes for precise targeting:
+Every component part is marked with a single `data-<component>-<part>` attribute for precise targeting - the same convention Zag.js uses:
 
 ```html
-<div data-scope="accordion" data-part="item" data-state="open"></div>
+<div data-accordion-item="«rootId»" data-state="open"></div>
 ```
 
-Interactive components also include state attributes like `data-state`, `data-disabled`, or `data-focus`.
+The attribute's value is the component instance's root id, so target it with a presence selector like `[data-accordion-item]`. Interactive components also include state attributes like `data-state`, `data-disabled`, or `data-focus`.
 
 ## Styling with CSS
 
 ### Target by Part
 
 ```css
-[data-scope='accordion'][data-part='trigger'] {
+[data-accordion-item-trigger] {
     display: flex;
     justify-content: space-between;
     padding: 1rem;
     font-weight: 500;
 }
 
-[data-scope='accordion'][data-part='content'] {
+[data-accordion-item-content] {
     padding: 1rem;
     overflow: hidden;
 }
@@ -35,11 +35,11 @@ Interactive components also include state attributes like `data-state`, `data-di
 ### Target by State
 
 ```css
-[data-scope='accordion'][data-part='item'][data-state='open'] {
+[data-accordion-item][data-state='open'] {
     background-color: var(--color-surface-hover);
 }
 
-[data-scope='accordion'][data-part='trigger'][data-disabled] {
+[data-accordion-item-trigger][data-disabled] {
     opacity: 0.5;
     cursor: not-allowed;
 }
@@ -48,11 +48,11 @@ Interactive components also include state attributes like `data-state`, `data-di
 ### Combine Selectors
 
 ```css
-[data-scope='accordion'][data-part='trigger']:hover:not([data-disabled]) {
+[data-accordion-item-trigger]:hover:not([data-disabled]) {
     background-color: var(--color-surface-hover);
 }
 
-[data-scope='accordion'][data-part='trigger']:focus-visible {
+[data-accordion-item-trigger]:focus-visible {
     outline: 2px solid var(--color-focus-ring);
     outline-offset: 2px;
 }
@@ -85,6 +85,14 @@ Use Tailwind's data attribute variants:
         ...
     </ui:accordion.trigger>
 </ui:accordion.item>
+```
+
+### Target a Part from Its Parent
+
+The part attribute works as a Tailwind variant too:
+
+```html
+<ui:alert.root class="*:data-alert-content:text-sm">...</ui:alert.root>
 ```
 
 ### Common State Variants

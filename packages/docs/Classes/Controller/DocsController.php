@@ -12,7 +12,7 @@ use FluidPrimitives\Docs\Services\DocsMarkdownModeResponder;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Services\ViewAsMarkdownLinkInjector;
 use FluidPrimitives\Docs\Utility\DocsUtility;
-use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
+use Jramke\FluidPrimitives\Traits\JsonValidationErrorsTrait;
 use Jramke\FluidPrimitives\Utility\Typed;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -25,7 +25,7 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 final class DocsController extends ActionController
 {
-    use AjaxValidationTrait;
+    use JsonValidationErrorsTrait;
 
     private const array MAIN_LINKS = [
         ['label' => 'The Pitch', 'href' => '/the-pitch'],
@@ -180,13 +180,6 @@ final class DocsController extends ActionController
         $json = json_encode($payload) ?: null;
         $response = $this->jsonResponse($json)->withStatus($status);
         throw new PropagateResponseException($response, $status);
-    }
-
-    #[\Override]
-    protected function errorAction(): ResponseInterface
-    {
-        $this->throwJsonValidationErrorResponse();
-        return parent::errorAction();
     }
 
     /**

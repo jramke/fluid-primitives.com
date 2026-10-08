@@ -65,6 +65,14 @@
             "refresh": {
                 "type": "VoidFunction",
                 "description": "Function to re-compute the snap points\nand clamp the page"
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of a carousel item"
+            },
+            "getIndicatorState": {
+                "type": "(props: IndicatorProps) => IndicatorState",
+                "description": "Returns the state of a carousel indicator"
             }
         },
         "context": {
@@ -91,7 +99,7 @@
                 "description": "The number of slides to scroll at a time.\n\nWhen set to `auto`, the number of slides to scroll is determined by the\n`slidesPerPage` property.",
                 "defaultValue": "\"auto\""
             },
-            "autoplay": {
+            "autoPlay": {
                 "type": "boolean | { delay: number } | undefined",
                 "description": "Whether to scroll automatically. The default delay is 4000ms.",
                 "defaultValue": "false"
@@ -120,7 +128,7 @@
                 "description": "The amount of space between items.",
                 "defaultValue": "\"0px\""
             },
-            "padding": {
+            "itemSpacing": {
                 "type": "string | undefined",
                 "description": "Defines the extra space added around the scrollable area,\nenabling nearby items to remain partially in view."
             },
@@ -138,9 +146,9 @@
                 "description": "The snap type of the item.",
                 "defaultValue": "\"mandatory\""
             },
-            "slideCount": {
+            "count": {
                 "type": "number",
-                "description": "The total number of slides.\nUseful for SSR to render the initial ating the snap points."
+                "description": "The total number of slides.\nUseful for SSR to render the initial snap points."
             },
             "onDragStatusChange": {
                 "type": "((details: DragStatusDetails) => void) | undefined",
@@ -172,54 +180,45 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "carousel",
-            "data-part": "root",
+            "data-carousel-root": "<uid>",
             "data-orientation": "The orientation of the carousel"
         },
         "ItemGroup": {
-            "data-scope": "carousel",
-            "data-part": "item-group",
+            "data-carousel-item-group": "<uid>",
             "data-orientation": "The orientation of the item",
             "data-dragging": "Present when in the dragging state"
         },
         "Item": {
-            "data-scope": "carousel",
-            "data-part": "item",
+            "data-carousel-item": "<uid>",
             "data-index": "The index of the item",
             "data-inview": "Present when in viewport",
             "data-orientation": "The orientation of the item"
         },
         "Control": {
-            "data-scope": "carousel",
-            "data-part": "control",
+            "data-carousel-control": "<uid>",
             "data-orientation": "The orientation of the control"
         },
         "PrevTrigger": {
-            "data-scope": "carousel",
-            "data-part": "prev-trigger",
+            "data-carousel-prev-trigger": "<uid>",
             "data-orientation": "The orientation of the prevtrigger"
         },
         "NextTrigger": {
-            "data-scope": "carousel",
-            "data-part": "next-trigger",
+            "data-carousel-next-trigger": "<uid>",
             "data-orientation": "The orientation of the nexttrigger"
         },
         "IndicatorGroup": {
-            "data-scope": "carousel",
-            "data-part": "indicator-group",
+            "data-carousel-indicator-group": "<uid>",
             "data-orientation": "The orientation of the indicatorgroup"
         },
         "Indicator": {
-            "data-scope": "carousel",
-            "data-part": "indicator",
+            "data-carousel-indicator": "<uid>",
             "data-orientation": "The orientation of the indicator",
             "data-index": "The index of the item",
             "data-readonly": "Present when read-only",
             "data-current": "Present when current"
         },
         "AutoplayTrigger": {
-            "data-scope": "carousel",
-            "data-part": "autoplay-trigger",
+            "data-carousel-autoplay-trigger": "<uid>",
             "data-orientation": "The orientation of the autoplaytrigger",
             "data-pressed": "Present when pressed"
         }

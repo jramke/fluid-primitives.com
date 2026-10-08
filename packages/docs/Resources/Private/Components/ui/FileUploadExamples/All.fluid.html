@@ -1,0 +1,22 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:fileUploadExamples.simple />
+    </f:case>
+    <f:case value="with-field">
+        <ui:fileUploadExamples.withField />
+    </f:case>
+    <f:case value="rejected-files">
+        <ui:fileUploadExamples.rejectedFiles />
+    </f:case>
+    <f:case value="directory">
+        <ui:fileUploadExamples.directory />
+    </f:case>
+    <f:case value="custom-layout">
+        <ui:fileUploadExamples.customLayout />
+    </f:case>
+    <f:case value="delete-confirmation">
+        <ui:fileUploadExamples.deleteConfirmation />
+    </f:case>
+</f:switch>

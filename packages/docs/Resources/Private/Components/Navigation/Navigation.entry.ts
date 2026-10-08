@@ -13,7 +13,7 @@ mountAll('ui:navigation', ({ props }) => {
 
     // Cleanup the fixed values when the machine computed all values needed for layout styles
     setTimeout(() => {
-        scrollArea.getElements('thumb').forEach(thumbEl => {
+        scrollArea.hydrator.queryAll('thumb').forEach(thumbEl => {
             thumbEl.classList.remove('!transform-[var(--sidebar-stored-transform)]');
             thumbEl.classList.remove('!h-[var(--sidebar-stored-thumb-height)]');
         });
@@ -26,15 +26,15 @@ mountAll('ui:navigation', ({ props }) => {
         if (hovered) {
             sessionStorage.setItem(
                 'sidebar-scroll-top',
-                scrollArea.getElement('viewport')?.scrollTop.toString() ?? '0'
+                scrollArea.hydrator.query('viewport')?.scrollTop.toString() ?? '0'
             );
             sessionStorage.setItem(
                 'sidebar-thumb-height',
-                scrollArea.getElement('root')?.style.getPropertyValue('--thumb-height') ?? ''
+                scrollArea.hydrator.query('root')?.style.getPropertyValue('--thumb-height') ?? ''
             );
             sessionStorage.setItem(
                 'sidebar-thumb-transform',
-                scrollArea.getElements('thumb')[0]?.style.getPropertyValue('transform') ?? ''
+                scrollArea.hydrator.queryAll('thumb')[0]?.style.getPropertyValue('transform') ?? ''
             );
         } else {
             sessionStorage.removeItem('sidebar-scroll-top');

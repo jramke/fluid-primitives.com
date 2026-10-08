@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Switch" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Switch.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -13,6 +13,18 @@
 - Works with Field component for form integration
 - Supports disabled, invalid, required, and read-only states
 - Full keyboard support
+
+## Anatomy
+
+```html
+<primitives:switch.root>
+    <primitives:switch.control>
+        <primitives:switch.thumb />
+    </primitives:switch.control>
+    <primitives:switch.label />
+    <primitives:switch.hiddenInput />
+</primitives:switch.root>
+```
 
 ## Installation
 
@@ -24,19 +36,19 @@
 
 Set the switch to be checked by default.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Switch.examples.defaultChecked" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.defaultChecked" } %}
 
 ### Disabled
 
 Prevent interaction with the switch.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Switch.examples.disabled" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.disabled" } %}
 
 ### With Form Field
 
 Use the switch with the Field component for descriptions and validation.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Switch.examples.withField" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.withField" } %}
 
 ## API Reference
 
@@ -54,15 +66,3 @@ Use the switch with the Field component for descriptions and validation.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:switch.root>
-    <primitives:switch.control>
-        <primitives:switch.thumb />
-    </primitives:switch.control>
-    <primitives:switch.label />
-    <primitives:switch.hiddenInput />
-</primitives:switch.root>
-```

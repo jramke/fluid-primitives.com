@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Tooltip" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tooltip.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -13,6 +13,19 @@
 - Supports custom open and close delays
 - Supports custom positioning with placement options
 - Automatically adjusts position to stay in viewport
+
+## Anatomy
+
+```html
+<primitives:tooltip.root>
+    <primitives:tooltip.trigger />
+    <primitives:tooltip.positioner>
+        <primitives:tooltip.content>
+            <primitives:tooltip.arrow />
+        </primitives:tooltip.content>
+    </primitives:tooltip.positioner>
+</primitives:tooltip.root>
+```
 
 ## Installation
 
@@ -24,31 +37,31 @@
 
 Control where the tooltip appears relative to the trigger.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tooltip.examples.customPositioning" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.customPositioning" } %}
 
 ### Open Delay
 
 Set a custom delay before the tooltip opens.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tooltip.examples.openDelay" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.openDelay" } %}
 
 ### Close Delay
 
 Set a custom delay before the tooltip closes after the pointer leaves.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tooltip.examples.closeDelay" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.closeDelay" } %}
 
 ### Disabled Interaction
 
 Prevent the tooltip from opening on hover.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tooltip.examples.disabled" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.disabled" } %}
 
 ### On Icon Buttons
 
 Common pattern for icon-only buttons that need accessible labels.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Tooltip.examples.iconButton" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.iconButton" } %}
 
 ## API Reference
 
@@ -65,16 +78,3 @@ Common pattern for icon-only buttons that need accessible labels.
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:tooltip.root>
-    <primitives:tooltip.trigger />
-    <primitives:tooltip.positioner>
-        <primitives:tooltip.content>
-            <primitives:tooltip.arrow />
-        </primitives:tooltip.content>
-    </primitives:tooltip.positioner>
-</primitives:tooltip.root>
-```

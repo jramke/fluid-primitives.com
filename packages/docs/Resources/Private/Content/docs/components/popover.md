@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "Popover" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -13,6 +13,22 @@
 - Supports custom positioning with placement options
 - Pressing `Escape` closes the popover
 - Automatically adjusts position to stay in viewport
+
+## Anatomy
+
+```html
+<primitives:popover.root>
+    <primitives:popover.trigger />
+    <primitives:popover.positioner>
+        <primitives:popover.content>
+            <primitives:popover.arrow />
+            <primitives:popover.closeTrigger />
+            <primitives:popover.title />
+            <primitives:popover.description />
+        </primitives:popover.content>
+    </primitives:popover.positioner>
+</primitives:popover.root>
+```
 
 ## Installation
 
@@ -24,19 +40,19 @@
 
 Show a close button inside the popover.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.withCloseButton" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.withCloseButton" } %}
 
 ### Custom Positioning
 
 Control where the popover appears relative to the trigger.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.customPositioning" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.customPositioning" } %}
 
 ### Modal Mode
 
 Make the popover modal to trap focus and block interaction with the rest of the page.
 
-{% component: "ui:componentExample", arguments: { "componentName": "Popover.examples.modal" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.modal" } %}
 
 ### Localization
 
@@ -71,19 +87,3 @@ Default close trigger labels are shipped via XLF and follow the current Site Lan
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:popover.root>
-    <primitives:popover.trigger />
-    <primitives:popover.positioner>
-        <primitives:popover.content>
-            <primitives:popover.arrow />
-            <primitives:popover.closeTrigger />
-            <primitives:popover.title />
-            <primitives:popover.description />
-        </primitives:popover.content>
-    </primitives:popover.positioner>
-</primitives:popover.root>
-```

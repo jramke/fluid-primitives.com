@@ -1,0 +1,69 @@
+{
+    "accessibility": [],
+    "api": {
+        "api": [],
+        "context": []
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-gridlist-root": "<uid>",
+            "data-disabled": "Present when disabled"
+        },
+        "Label": {
+            "data-gridlist-label": "<uid>",
+            "data-disabled": "Present when disabled"
+        },
+        "Content": {
+            "data-gridlist-content": "<uid>",
+            "data-disabled": "Present when disabled",
+            "data-empty": "Present when the content is empty",
+            "data-layout": "",
+            "data-focusedvalue": ""
+        },
+        "ItemGroup": {
+            "data-gridlist-item-group": "<uid>",
+            "data-disabled": "Present when disabled"
+        },
+        "ItemGroupLabel": {
+            "data-gridlist-item-group-label": "<uid>",
+            "data-disabled": "Present when disabled"
+        },
+        "Item": {
+            "data-gridlist-item": "<uid>",
+            "data-value": "The value of the item",
+            "data-layout": "",
+            "data-href": "",
+            "data-column": "",
+            "data-row": "",
+            "data-selected": "Present when selected",
+            "data-disabled": "Present when disabled",
+            "data-focused": "",
+            "data-focus-visible": "Present when focused with keyboard",
+            "data-link": "",
+            "data-ownedby": ""
+        },
+        "Cell": {
+            "data-gridlist-cell": "<uid>",
+            "data-layout": ""
+        },
+        "ItemCheckbox": {
+            "data-gridlist-item-checkbox": "<uid>",
+            "data-state": "\"checked\" | \"unchecked\"",
+            "data-disabled": "Present when disabled"
+        },
+        "ItemText": {
+            "data-gridlist-item-text": "<uid>",
+            "data-selected": "Present when selected",
+            "data-disabled": "Present when disabled",
+            "data-focused": ""
+        },
+        "ItemIndicator": {
+            "data-gridlist-item-indicator": "<uid>",
+            "data-selected": "Present when selected"
+        },
+        "Empty": {
+            "data-gridlist-empty": "<uid>",
+            "data-empty": "Present when the content is empty"
+        }
+    }
+}

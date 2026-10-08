@@ -1,7 +1,7 @@
-<ui:useProps name="primitives:scrollArea.scrollbar" />
+<ui:useProps name="primitives:scrollArea.scrollbar" as="scrollbarProps" />
 
 <primitives:scrollArea.scrollbar
-    spreadProps="{true}"
+    spreadProps="{scrollbarProps}"
     class="{ui:cn(value: '
         flex justify-center rounded-md opacity-0 transition-opacity isolate
         data-[hover]:opacity-100 data-[dragging]:opacity-100 data-[scrolling]:opacity-100 peer-focus-visible:opacity-100

@@ -1,6 +1,5 @@
 <ui:prop name="name" type="string" />
 <ui:prop name="parts" type="array" />
-<ui:prop name="skipZag" type="boolean" optional="{true}" default="{false}" />
 
 <f:if condition="{context.isMarkdownMode}">
     <f:then>
@@ -23,34 +22,45 @@
                 </f:for>
             </f:if>
         </f:for>
-        <f:if condition="{context.zagApi}">
+        <f:if condition="{context.machineOptions}">
+
+            ### Machine options
+
+            | Name | Type | Default | Description |
+            | --- | --- | --- | --- |
+            <f:for each="{context.machineOptions}" as="entry" key="name">| `{name}` | `{entry.type -> docs:escapeMarkdownTableCell()}` | `{entry.defaultValue -> docs:escapeMarkdownTableCell()}` | {entry.description -> docs:escapeMarkdownTableCell()} |
+            </f:for>
+        </f:if>
+        <f:if condition="{context.machineApi}">
 
             ### Machine JavaScript API
 
             | Name | Type | Description |
             | --- | --- | --- |
-            <f:for each="{context.zagApi.api}" as="entry" key="name">| `{name}` | `{entry.type -> docs:escapeMarkdownTableCell()}` | {entry.description -> docs:escapeMarkdownTableCell()} |
+            <f:for each="{context.machineApi}" as="entry" key="name">| `{name}` | `{entry.type -> docs:escapeMarkdownTableCell()}` | {entry.description -> docs:escapeMarkdownTableCell()} |
             </f:for>
         </f:if>
-        <f:if condition="{context.zagAccessibility}">
+        <f:if condition="{context.accessibility}">
 
             ### Accessibility
 
             | Key | Description |
             | --- | --- |
-            <f:for each="{context.zagAccessibility}" as="item">| <f:for each="{item.keys}" as="key">`{key -> docs:escapeMarkdownTableCell()}` </f:for> | {item.description -> docs:escapeMarkdownTableCell()} |
+            <f:for each="{context.accessibility}" as="item">| <f:for each="{item.keys}" as="key">`{key -> docs:escapeMarkdownTableCell()}` </f:for> | {item.description -> docs:escapeMarkdownTableCell()} |
             </f:for>
         </f:if>
     </f:then>
     <f:else>
         <div class="component-props-table">
             <div class="content-grid">
-                <p>
-                    The following tables cover the available props of the Fluid Primitives.
-                    <f:if condition="!{skipZag}">
-                        For a full list of available client side props and methods, see the <a href="https://zagjs.com/components/react/{context.nameLowerCaseDashed}#methods-and-properties" target="_blank" rel="noopener noreferrer">Zag.js Machine API</a>.
-                    </f:if>
-                </p>
+                <f:if condition="{context.partsWithProps}">
+                    <p>
+                        The following tables cover the available props of the Fluid Primitives.
+                        <f:if condition="!{context.isMachineSource}">
+                            For a full list of available client side props and methods, see the <a href="https://zagjs.com/components/react/{context.nameLowerCaseDashed}#methods-and-properties" target="_blank" rel="noopener noreferrer">Zag.js Machine API</a>.
+                        </f:if>
+                    </p>
+                </f:if>
 
                 <f:for each="{context.partsWithProps}" as="part" iteration="i">
                     <h3>{part.name}</h3>
@@ -116,7 +126,37 @@
                     </f:if>
                 </f:for>
 
-                <f:if condition="{context.zagApi}">
+                <f:if condition="{context.machineOptions}">
+                    <h3>Machine options</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <f:for each="{context.machineOptions}" as="entry" key="name">
+                                <tr>
+                                    <td><code>{name}</code></td>
+                                    <td>
+                                        <span class="mb-2 inline-block"><code>{entry.type}</code></span>
+                                        <br />
+                                        {entry.description -> f:format.raw()}
+                                    </td>
+                                    <td>
+                                        <f:if condition="{entry.defaultValue}">
+                                            <pre class="not-code-block text-xs">{entry.defaultValue}</pre>
+                                        </f:if>
+                                    </td>
+                                </tr>
+                            </f:for>
+                        </tbody>
+                    </table>
+                </f:if>
+
+                <f:if condition="{context.machineApi}">
                     <h3>Machine JavaScript API</h3>
                     <table>
                         <thead>
@@ -127,7 +167,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <f:for each="{context.zagApi.api}" as="entry" key="name">
+                            <f:for each="{context.machineApi}" as="entry" key="name">
                                 <tr>
                                     <td><code>{name}</code></td>
                                     <td><code>{entry.type}</code></td>
@@ -138,7 +178,7 @@
                     </table>
                 </f:if>
 
-                <f:if condition="{context.zagAccessibility}">
+                <f:if condition="{context.accessibility}">
                     <h3>Accessibility</h3>
                     <table>
                         <thead>
@@ -148,7 +188,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <f:for each="{context.zagAccessibility}" as="item">
+                            <f:for each="{context.accessibility}" as="item">
                                 <tr>
                                     <td>
                                         <f:for each="{item.keys}" as="key">

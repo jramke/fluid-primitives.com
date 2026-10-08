@@ -89,6 +89,18 @@
             "addItemListener": {
                 "type": "(props: ItemListenerProps) => VoidFunction | undefined",
                 "description": "Setup the custom event listener for item selection event"
+            },
+            "getTriggerState": {
+                "type": "(props?: TriggerProps) => TriggerState",
+                "description": "Returns the state of a specific trigger, including whether it's the currently active one"
+            },
+            "getPositionerState": {
+                "type": "() => PositionerState",
+                "description": "Returns the state of the positioner"
+            },
+            "getContentState": {
+                "type": "() => ContentState",
+                "description": "Returns the state of the content"
             }
         },
         "context": {
@@ -172,6 +184,10 @@
                 "type": "((details: TriggerValueChangeDetails) => void) | undefined",
                 "description": "Function called when the trigger value changes."
             },
+            "menubar": {
+                "type": "MenubarContext | undefined",
+                "description": "Config provided by a parent menubar. When set, this menu acts as a menubar menu:\nits trigger becomes a `menuitem` and it coordinates open/close/focus with sibling menus.\nAdapters typically populate this from a menubar context. Omit it for submenus."
+            },
             "dir": {
                 "type": "\"ltr\" | \"rtl\" | undefined",
                 "description": "The document's text/writing direction.",
@@ -189,15 +205,14 @@
     },
     "dataAttributes": {
         "ContextTrigger": {
-            "data-scope": "menu",
-            "data-part": "context-trigger",
+            "data-menu-context-trigger": "<uid>",
             "data-value": "The value of the item",
             "data-current": "Present when current",
             "data-state": "\"open\" | \"closed\""
         },
         "Trigger": {
-            "data-scope": "menu",
-            "data-part": "trigger",
+            "data-menu-trigger": "<uid>",
+            "data-disabled": "Present when disabled",
             "data-placement": "The placement of the trigger",
             "data-side": "The side of the trigger that the trigger is positioned on",
             "data-value": "The value of the item",
@@ -206,30 +221,33 @@
             "data-state": "\"open\" | \"closed\""
         },
         "Indicator": {
-            "data-scope": "menu",
-            "data-part": "indicator",
+            "data-menu-indicator": "<uid>",
             "data-state": "\"open\" | \"closed\""
         },
+        "Positioner": {
+            "data-menu-positioner": "<uid>",
+            "data-instant": "",
+            "data-nested": "Present when the positioner is nested within another {{widget}}",
+            "data-has-nested": "Present when the positioner has nested {{widget}}s"
+        },
         "Content": {
-            "data-scope": "menu",
-            "data-part": "content",
+            "data-menu-content": "<uid>",
             "data-state": "\"open\" | \"closed\"",
-            "data-nested": "menu",
-            "data-has-nested": "menu",
+            "data-instant": "",
             "data-placement": "The placement of the content",
-            "data-side": "The side of the trigger that the content is positioned on"
+            "data-side": "The side of the trigger that the content is positioned on",
+            "data-nested": "menu",
+            "data-has-nested": "menu"
         },
         "Item": {
-            "data-scope": "menu",
-            "data-part": "item",
+            "data-menu-item": "<uid>",
             "data-disabled": "Present when disabled",
             "data-highlighted": "Present when highlighted",
             "data-value": "The value of the item",
             "data-valuetext": "The human-readable value"
         },
         "OptionItem": {
-            "data-scope": "menu",
-            "data-part": "option-item",
+            "data-menu-option-item": "<uid>",
             "data-type": "The type of the item",
             "data-value": "The value of the item",
             "data-state": "\"checked\" | \"unchecked\"",
@@ -238,15 +256,13 @@
             "data-valuetext": "The human-readable value"
         },
         "ItemIndicator": {
-            "data-scope": "menu",
-            "data-part": "item-indicator",
+            "data-menu-item-indicator": "<uid>",
             "data-disabled": "Present when disabled",
             "data-highlighted": "Present when highlighted",
             "data-state": "\"checked\""
         },
         "ItemText": {
-            "data-scope": "menu",
-            "data-part": "item-text",
+            "data-menu-item-text": "<uid>",
             "data-disabled": "Present when disabled",
             "data-highlighted": "Present when highlighted",
             "data-state": "\"checked\""

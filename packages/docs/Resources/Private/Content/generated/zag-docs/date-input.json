@@ -53,6 +53,18 @@
             "getSegmentState": {
                 "type": "(props: SegmentProps) => SegmentState",
                 "description": "Returns the state details for a given segment."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root."
+            },
+            "getControlState": {
+                "type": "() => ControlState",
+                "description": "Returns the state of the control."
+            },
+            "getSegmentGroupState": {
+                "type": "(props?: SegmentGroupProps | undefined) => SegmentGroupState",
+                "description": "Returns the state of a given segment group."
             }
         },
         "context": {
@@ -195,38 +207,33 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "date-input",
-            "data-part": "root",
+            "data-date-input-root": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-invalid": "Present when invalid"
         },
         "Label": {
-            "data-scope": "date-input",
-            "data-part": "label",
+            "data-date-input-label": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-invalid": "Present when invalid"
         },
         "Control": {
-            "data-scope": "date-input",
-            "data-part": "control",
+            "data-date-input-control": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-invalid": "Present when invalid",
             "data-focus": "Present when focused"
         },
         "SegmentGroup": {
-            "data-scope": "date-input",
-            "data-part": "segment-group",
+            "data-date-input-segment-group": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-invalid": "Present when invalid",
             "data-focus": "Present when focused"
         },
         "Segment": {
-            "data-scope": "date-input",
-            "data-part": "segment",
+            "data-date-input-segment": "<uid>",
             "data-type": "The type of the item",
             "data-readonly": "Present when read-only",
             "data-disabled": "Present when disabled",

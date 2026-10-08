@@ -1,7 +1,7 @@
-<ui:useProps name="primitives:select.trigger" />
+<ui:useProps name="primitives:select.trigger" as="triggerProps" />
 <ui:prop name="placeholder" type="string" optional="{true}" default="Select an option" />
 
-<primitives:select.trigger spreadProps="{true}" class="{ui:cn(value: '
+<primitives:select.trigger spreadProps="{triggerProps}" class="{ui:cn(value: '
     border-input focus-visible:border-ring [&[data-placeholder-shown]]:text-muted-foreground
     focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive
     flex h-9 w-full items-center justify-between gap-2 rounded-md border bg-transparent

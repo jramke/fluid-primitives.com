@@ -1,6 +1,6 @@
-<ui:useProps name="primitives:combobox.item" />
+<ui:useProps name="primitives:combobox.item" as="itemProps" />
 
-<primitives:combobox.item spreadProps="{true}" class="{ui:cn(value: '
+<primitives:combobox.item spreadProps="{itemProps}" class="{ui:cn(value: '
     data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground
     [&_svg:not([class*=text-])]:text-muted-foreground relative flex w-full items-center justify-between gap-2
     rounded-sm px-2 py-1.5 text-sm outline-hidden select-none cursor-default

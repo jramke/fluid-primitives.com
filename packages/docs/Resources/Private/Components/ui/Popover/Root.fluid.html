@@ -1,6 +1,6 @@
-<ui:useProps name="primitives:popover.root" defaults="{portalled: true}" />
+<ui:useProps name="primitives:popover.root" as="rootProps" defaults="{portalled: true}" />
 
-<primitives:popover.root spreadProps="{true}">
+<primitives:popover.root spreadProps="{rootProps}">
     <f:slot />
 </primitives:popover.root>
 

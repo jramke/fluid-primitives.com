@@ -1,5 +1,5 @@
-<ui:useProps name="primitives:form.successText" />
+<ui:useProps name="primitives:form.successText" as="successTextProps" />
 
-<primitives:form.successText spreadProps="{true}" class="{ui:cn(value: 'text-sm {class}')}">
+<primitives:form.successText spreadProps="{successTextProps}" class="{ui:cn(value: 'text-sm {class}')}">
     <f:slot />
 </primitives:form.successText>

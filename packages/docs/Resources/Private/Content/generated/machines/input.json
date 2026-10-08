@@ -1,0 +1,127 @@
+{
+    "api": {
+        "api": {
+            "value": {
+                "type": "string",
+                "description": "The current value of the input."
+            },
+            "count": {
+                "type": "number",
+                "description": "The number of characters in the value."
+            },
+            "countText": {
+                "type": "string | null",
+                "description": "The word count text, e.g. `42 / 250 characters`. `null` without `maxLength` or when the text is turned off."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the input is disabled."
+            },
+            "readOnly": {
+                "type": "boolean",
+                "description": "Whether the input is read-only."
+            },
+            "required": {
+                "type": "boolean",
+                "description": "Whether the input is required."
+            },
+            "invalid": {
+                "type": "boolean",
+                "description": "Whether the input is invalid."
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name of the input."
+            },
+            "maxLength": {
+                "type": "number | undefined",
+                "description": "The most characters allowed."
+            }
+        },
+        "context": {
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the input."
+            },
+            "ids": {
+                "type": "Record<string, string> | undefined",
+                "description": "The ids of the parts other elements reference: `input` (the `for` of its label) and `wordCount`."
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name of the input, as it is submitted with the form. Taken from the closest field."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the input is disabled. Taken from the closest field."
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "Whether the input is read-only. Taken from the closest field."
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "Whether the input is required. Taken from the closest field."
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "Whether the input is invalid. Taken from the closest field."
+            },
+            "defaultValue": {
+                "type": "string | undefined",
+                "description": "The initial value of the input."
+            },
+            "maxLength": {
+                "type": "number | undefined",
+                "description": "The most characters allowed. It also drives the word count, e.g. `42 / 250 characters`."
+            },
+            "pattern": {
+                "type": "string | undefined",
+                "description": "A regular expression the value has to match."
+            },
+            "inputMode": {
+                "type": "JSX.HTMLAttributes<HTMLInputElement>['inputMode'] | undefined",
+                "description": "The kind of virtual keyboard to show on devices that have one."
+            },
+            "translations": {
+                "type": "InputTranslations | undefined",
+                "description": "The localized texts of the input."
+            },
+            "announce": {
+                "type": "boolean | undefined",
+                "description": "Whether the word count is announced to assistive tech. Set to `false` to stay silent.",
+                "defaultValue": "true"
+            },
+            "announceDebounce": {
+                "type": "number | undefined",
+                "description": "Milliseconds to debounce word count announcements by, so rapid typing doesn't spam assistive tech on every keystroke. Set to 0 to announce every change immediately.",
+                "defaultValue": "600"
+            },
+            "transform": {
+                "type": "((value: string, event: Event) => string) | undefined",
+                "description": "Runs on every native `input` event, before the value is committed. Return the value to write back to the input, e.g. uppercased or digits only. The cursor position is kept. It cannot be set from a Fluid template, only by constructing `Input` in your own entry file."
+            },
+            "onValueChange": {
+                "type": "((details: { value: string }) => void) | undefined",
+                "description": "Called when the value changes."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-invalid": "Present when invalid",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only"
+        },
+        "Input": {
+            "data-invalid": "Present when invalid",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only"
+        },
+        "Label": {
+            "data-invalid": "Present when invalid",
+            "data-disabled": "Present when disabled",
+            "data-required": "Present when required"
+        }
+    }
+}

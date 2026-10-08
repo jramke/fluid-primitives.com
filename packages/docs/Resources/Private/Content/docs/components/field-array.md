@@ -2,9 +2,9 @@
 
 **A repeatable group of fields, for letting users add and remove rows like "add another person".**
 
-{% component: "ui:referenceButtons", arguments: { "name": "FieldArray", "skipZag": true } %}
+{% component: "ui:referenceButtons", arguments: { "name": "FieldArray" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldArray.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -14,6 +14,29 @@
 - Row `name`s use the same bracket notation (`people[0][firstName]`) Extbase and `FormValues` already understand
 - Optional `minItems`/`maxItems` bounds - `addTrigger`/`removeTrigger` disable themselves once a bound is reached, and `append()`/`remove()` are no-ops past it
 - `emptyState`/`addTrigger`/`removeTrigger` already reflect the correct hidden/disabled state in the server-rendered HTML, from `itemCount`, not only once JavaScript hydrates
+
+## Anatomy
+
+```html
+<primitives:fieldArray.root itemCount="{items -> f:count()}">
+    <primitives:fieldArray.itemTemplate>
+        <primitives:fieldArray.item>
+            <!-- Your row's fields here -->
+            <primitives:fieldArray.removeTrigger />
+        </primitives:fieldArray.item>
+    </primitives:fieldArray.itemTemplate>
+    <primitives:fieldArray.itemGroup>
+        <f:for each="{items}" as="item">
+            <primitives:fieldArray.item index="{...}">
+                <!-- Your row's fields here -->
+                <primitives:fieldArray.removeTrigger />
+            </primitives:fieldArray.item>
+        </f:for>
+        <primitives:fieldArray.emptyState />
+    </primitives:fieldArray.itemGroup>
+    <primitives:fieldArray.addTrigger />
+</primitives:fieldArray.root>
+```
 
 ## Installation
 
@@ -61,13 +84,13 @@ Each `fieldArray.item`'s `index` prop (omitted inside `itemTemplate`, where no r
 
 A `FieldArray` with no rows yet - `emptyState` shows until the first row is added.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldArray.examples.empty" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.empty" } %}
 
 ### Limiting Row Count
 
 `minItems="1"` disables `removeTrigger` once a single row remains; `maxItems="3"` disables `addTrigger` once three rows exist. The status text below the rows ("2 of 3 added") isn't a `FieldArray` feature by itself - it's a plain element the row markup authors itself (`{ui:ref(name: 'status', context: 'fieldArray')}`), kept in sync from `onItemAdded`/`onItemRemoved` the same way this example already mounts each row's own `Field`/`Input`.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldArray.examples.limited" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.limited" } %}
 
 ### Full Form With Client-Side Validation
 
@@ -81,7 +104,6 @@ A complete `Form` wrapping a `FieldArray` of guests, each with a `name`/`email` 
     component: "ui:ComponentPropsTable",
     arguments: {
         "name": "FieldArray",
-        "skipZag": true,
         "parts": [
             ["root", "Contains every part of the field array. Renders a `<div>` element."],
             ["itemTemplate", "Wraps one row's markup, authored once and cloned client-side for each added row. Renders a `<template>` element - never visible itself."],
@@ -93,26 +115,3 @@ A complete `Form` wrapping a `FieldArray` of guests, each with a `name`/`email` 
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:fieldArray.root itemCount="{items -> f:count()}">
-    <primitives:fieldArray.itemTemplate>
-        <primitives:fieldArray.item>
-            <!-- Your row's fields here -->
-            <primitives:fieldArray.removeTrigger />
-        </primitives:fieldArray.item>
-    </primitives:fieldArray.itemTemplate>
-    <primitives:fieldArray.itemGroup>
-        <f:for each="{items}" as="item">
-            <primitives:fieldArray.item index="{...}">
-                <!-- Your row's fields here -->
-                <primitives:fieldArray.removeTrigger />
-            </primitives:fieldArray.item>
-        </f:for>
-        <primitives:fieldArray.emptyState />
-    </primitives:fieldArray.itemGroup>
-    <primitives:fieldArray.addTrigger />
-</primitives:fieldArray.root>
-```

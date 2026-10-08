@@ -68,6 +68,10 @@
             "getItemState": {
                 "type": "(props: ItemProps) => ItemState",
                 "description": "Returns the state of an accordion item."
+            },
+            "getItemHeaderProps": {
+                "type": "(props: ItemProps) => T[\"element\"]",
+                "description": "Returns props for the item heading wrapper around the trigger.\nRender this as a heading element (e.g. `h3`) per the WAI-ARIA accordion pattern."
             }
         },
         "context": {
@@ -110,6 +114,11 @@
                 "description": "The orientation of the accordion items.",
                 "defaultValue": "\"vertical\""
             },
+            "loopFocus": {
+                "type": "boolean | undefined",
+                "description": "Whether to loop focus back to the first/last trigger when navigating\npast the end/start with the arrow keys.",
+                "defaultValue": "true"
+            },
             "dir": {
                 "type": "\"ltr\" | \"rtl\" | undefined",
                 "description": "The document's text/writing direction.",
@@ -127,37 +136,39 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "accordion",
-            "data-part": "root",
+            "data-accordion-root": "<uid>",
             "data-orientation": "The orientation of the accordion"
         },
         "Item": {
-            "data-scope": "accordion",
-            "data-part": "item",
+            "data-accordion-item": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-focus": "Present when focused",
             "data-disabled": "Present when disabled",
             "data-orientation": "The orientation of the item"
         },
         "ItemContent": {
-            "data-scope": "accordion",
-            "data-part": "item-content",
+            "data-accordion-item-content": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-disabled": "Present when disabled",
             "data-focus": "Present when focused",
             "data-orientation": "The orientation of the item"
         },
         "ItemIndicator": {
-            "data-scope": "accordion",
-            "data-part": "item-indicator",
+            "data-accordion-item-indicator": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-disabled": "Present when disabled",
             "data-focus": "Present when focused",
             "data-orientation": "The orientation of the item"
         },
+        "ItemHeader": {
+            "data-accordion-item-header": "<uid>",
+            "data-state": "\"open\" | \"closed\"",
+            "data-focus": "Present when focused",
+            "data-disabled": "Present when disabled",
+            "data-orientation": "The orientation of the item"
+        },
         "ItemTrigger": {
-            "data-scope": "accordion",
-            "data-part": "item-trigger",
+            "data-accordion-item-trigger": "<uid>",
             "data-controls": "",
             "data-orientation": "The orientation of the item",
             "data-state": "\"open\" | \"closed\"",

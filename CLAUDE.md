@@ -15,6 +15,26 @@ You can check out the docs `.md` files under `packages/docs/Resources/Private/Co
 - TYPO3 Fluid (HTML-like templating language)
 - Tailwind CSS v4 (documentation site and registry styling)
 
+## Design Principles
+
+**Prefer a structural/naming fix over an internal flag.** Before adding another parameter, flag,
+or special-case branch to make an edge case work, ask whether a small change to naming, folder
+structure, or public API shape removes the need for it entirely - even at a small DX cost - as
+long as the new shape keeps a similar level of DX while meaningfully simplifying long-term
+maintenance. Default to the structural fix when it isn't clearly worse; if genuinely undecidable,
+ask rather than defaulting to the flag. This applies now, pre-v1 (breaking changes are cheap), and
+still applies post-v1 - a breaking structural fix can still be the right call later if it holds DX
+steady while cutting maintenance cost; being past v1 doesn't by itself make accumulating internal
+flags the correct default.
+
+Example: a folder-shape-detected independent root example (`CheckboxGroup/Examples/SelectAll.fluid.html`)
+shared a hydration/context bucket with the real `CheckboxGroup` component, because base-name
+derivation only looks at the first dotted segment. The fix wasn't a new parameter on
+`getComponentBaseNameFromViewHelperName()` to special-case it - it was not letting a component's
+own folder also be the parent of an unrelated nested example in the first place (move examples out
+of the component's own folder, e.g. `ui:checkboxGroupExamples.selectAll` or
+`ui:examples.checkboxGroup.selectAll`, not `ui:checkboxGroup.examples.selectAll`).
+
 ## Project Structure
 
 ```txt
@@ -39,8 +59,11 @@ packages/
 # Individual commands
 ddev npm run primitives:build # Build the fluid-primitives package
 ddev npm run primitives:dev   # Watch mode for primitives
+ddev npm run primitives:test  # Client unit tests (vitest + jsdom)
 ddev npm run docs:build       # Build documentation site
 ddev npm run docs:dev         # Dev server for docs (port 5173)
+ddev npm run docs:generate    # Regenerate the API docs data (client utilities, self-made machines)
+ddev npm run docs:generate:check  # Fail if the generated API docs data is outdated or a JSDoc is missing
 
 # Code quality
 ddev npm run format           # Format all files with Prettier
@@ -53,7 +76,7 @@ ddev composer mago:analyze    # Analyze PHP code quality with Mago
 
 ## Testing
 
-Tests are located in `packages/fluid-primitives/tests/` and use PHPUnit with the TYPO3 testing framework.
+Tests are located in `packages/fluid-primitives/tests/`. PHP code uses PHPUnit with the TYPO3 testing framework, client TypeScript uses vitest with jsdom (`tests/Client/`, run with `ddev npm run primitives:test`).
 
 ### Test Structure
 
@@ -63,6 +86,7 @@ packages/fluid-primitives/tests/
 ├── Functional/                # Full TYPO3 tests with database (SQLite)
 │   ├── ViewHelpers/           # ViewHelper rendering tests
 │   └── Components/            # Component rendering tests (all primitives go here)
+├── Client/                    # vitest + jsdom tests for pure client logic (machine utilities, Form helpers)
 ├── Bootstrap.php              # Test bootstrap (autoloader + TYPO3 testing framework)
 
 ├── TestCase.php               # Base class for unit tests
@@ -73,6 +97,7 @@ packages/fluid-primitives/tests/
 
 - **Functional/Components/** - All component tests (Accordion, Checkbox, Dialog, etc.). These test the full integration: context logic → Fluid template → HTML output. This ensures the context is correct AND the template uses it correctly.
 - **Unit/** - Core infrastructure only (ComponentUtility, HydrationRegistry, TagAttributes, AbstractComponentContext). These are utilities/base classes not tied to specific components.
+- **Client/** - TypeScript logic that can run without a browser: pure helpers, machine guards/computed values, DOM helpers that jsdom can model. Mirror the source path (`Client/Form/form.path.test.ts` for `Primitives/Form/src/form.path.ts`). Behaviour that needs real focus, layout or hydration order is verified in the docs site instead.
 
 ### Running Tests
 
@@ -85,6 +110,9 @@ ddev composer test:functional   # Run functional tests
 # From package directory (used by GitHub Actions)
 cd packages/fluid-primitives
 ddev composer test              # Run all tests
+
+# Client TypeScript tests
+ddev npm run primitives:test    # Run vitest once
 ```
 
 ### Test Quality Guidelines
@@ -147,6 +175,34 @@ public function skipsPrimitivesNamespacesWhenExtractingBaseName(): void
 - Indentation: per `.editorconfig` (4 spaces, 2 for YAML).
 - Comments: bare minimum — only for a non-obvious constraint or mechanism, never restating what the code does.
 
+## JSDoc for the public surface
+
+The API docs of the client utilities (`Client/src/lib`) and of the self-made machines
+(`Primitives/<Name>/src/*.machine.ts`) are generated from the TypeScript sources by
+`packages/docs/scripts/generate-api-docs.mjs` into `Content/generated/` (committed). Rerun
+`docs:generate` after touching a JSDoc or a public signature - `docs:generate:check` fails otherwise.
+
+- **Everything in a JSDoc block lands in the docs.** Maintainer-only notes belong in `//` comments.
+- Every export, public member, prop and API member needs a summary. Mark what is not public with `@internal`.
+- Tags: `@param name - text`, `@returns`, `@default`, `@example`, `@deprecated`, `{@link X}` (rendered as inline
+  code). Any other tag is an error, so put a `@scope/package` name in backticks.
+- A `data-*` attribute rendered by a machine needs a JSDoc on its key in the `connect.ts`, unless it is one of the
+  standard state attributes (`data-disabled`, `-invalid`, `-valid`, `-required`, `-readonly`, `-touched`, `-dirty`,
+  `-filled`, `-focus`).
+- Show it on a page with `{% component: "ui:apiReference", arguments: { "symbol": "ExportName" } %}`. The page author
+  writes the heading. A self-made machine needs nothing on its page, `ui:componentPropsTable` picks up
+  `generated/machines/<name>.json` before `generated/zag-docs/<name>.json`.
+- A plain `<h2>` or `<h3>` in a component template appears in the table of contents: `ComponentHeadingsExtension` turns it
+  into a real heading with an id and a permalink. Give a heading an attribute (a class) to keep it out.
+
+## Claude skill for library users
+
+`packages/fluid-primitives/` is itself a Claude Code plugin and marketplace (`.claude-plugin/`, `skills/fluid-primitives/SKILL.md`)
+that ships to users from the library repo. `SKILL.md` is hand-written and carries no API data: it sends the agent to `/llms.txt` and the per-page `.md`
+endpoints, so keep a component page's `API Reference` and `Anatomy` sections intact. `npm run version` also bumps `plugin.json`.
+
+A shortcode that emits HTML in the `.md` branch (random ids) pollutes what agents read. Give it a Markdown branch, as `ui:alert` has.
+
 ## TypeScript Guidelines
 
 ### Compiler Settings
@@ -189,12 +245,18 @@ export class Accordion extends Component<accordion.Props, accordion.Api> {
 
     render() {
         // Hydrate DOM elements with state machine props
-        const rootEl = this.getElement('root');
+        const rootEl = this.query('root');
         if (rootEl) this.spreadProps(rootEl, this.api.getRootProps());
         // ... hydrate other elements
     }
 }
 ```
+
+`new Accordion(props)` only stores the props. `init()` runs `transformProps()` once - its result is
+`userProps` - then builds the hydrator, machine and api from it (`initHydrator()`, `initMachine()`,
+`initApi()`), renders and starts the machine. So `machine`/`api` don't exist before `init()`, and a
+field assigned inside `initMachine()` is safe: no overridable hook runs from the base constructor,
+before the subclass' field initializers.
 
 ### Entry File Pattern
 

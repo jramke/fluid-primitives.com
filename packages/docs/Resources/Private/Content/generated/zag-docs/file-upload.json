@@ -69,6 +69,26 @@
             "setClipboardFiles": {
                 "type": "(dt: DataTransfer | null) => boolean",
                 "description": "Sets the clipboard files\nReturns `true` if the clipboard data contains files, `false` otherwise."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root"
+            },
+            "getDropzoneState": {
+                "type": "() => DropzoneState",
+                "description": "Returns the state of the dropzone"
+            },
+            "getTriggerState": {
+                "type": "() => TriggerState",
+                "description": "Returns the state of the trigger"
+            },
+            "getItemGroupState": {
+                "type": "(props: ItemGroupProps) => ItemGroupState",
+                "description": "Returns the state of the item group"
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of the item"
             }
         },
         "context": {
@@ -187,79 +207,68 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "file-upload",
-            "data-part": "root",
+            "data-file-upload-root": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-dragging": "Present when in the dragging state"
         },
         "Dropzone": {
-            "data-scope": "file-upload",
-            "data-part": "dropzone",
+            "data-file-upload-dropzone": "<uid>",
             "data-invalid": "Present when invalid",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-dragging": "Present when in the dragging state"
         },
         "Trigger": {
-            "data-scope": "file-upload",
-            "data-part": "trigger",
+            "data-file-upload-trigger": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-invalid": "Present when invalid"
         },
         "ItemGroup": {
-            "data-scope": "file-upload",
-            "data-part": "item-group",
+            "data-file-upload-item-group": "<uid>",
             "data-disabled": "Present when disabled",
             "data-type": "The type of the item"
         },
         "Item": {
-            "data-scope": "file-upload",
-            "data-part": "item",
+            "data-file-upload-item": "<uid>",
             "data-disabled": "Present when disabled",
             "data-type": "The type of the item"
         },
         "ItemName": {
-            "data-scope": "file-upload",
-            "data-part": "item-name",
+            "data-file-upload-item-name": "<uid>",
             "data-disabled": "Present when disabled",
             "data-type": "The type of the item"
         },
         "ItemSizeText": {
-            "data-scope": "file-upload",
-            "data-part": "item-size-text",
+            "data-file-upload-item-size-text": "<uid>",
             "data-disabled": "Present when disabled",
             "data-type": "The type of the item"
         },
         "ItemPreview": {
-            "data-scope": "file-upload",
-            "data-part": "item-preview",
+            "data-file-upload-item-preview": "<uid>",
             "data-disabled": "Present when disabled",
             "data-type": "The type of the item"
         },
         "ItemPreviewImage": {
-            "data-scope": "file-upload",
-            "data-part": "item-preview-image",
+            "data-file-upload-item-preview-image": "<uid>",
             "data-disabled": "Present when disabled",
             "data-type": "The type of the item"
         },
         "ItemDeleteTrigger": {
-            "data-scope": "file-upload",
-            "data-part": "item-delete-trigger",
+            "data-file-upload-item-delete-trigger": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
             "data-type": "The type of the item"
         },
         "Label": {
-            "data-scope": "file-upload",
-            "data-part": "label",
+            "data-file-upload-label": "<uid>",
             "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
             "data-required": "Present when required"
         },
         "ClearTrigger": {
-            "data-scope": "file-upload",
-            "data-part": "clear-trigger",
+            "data-file-upload-clear-trigger": "<uid>",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only"
         }

@@ -1,0 +1,90 @@
+<ui:prop name="symbol" type="string" />
+
+<f:if condition="{context.isMarkdownMode}">
+    <f:then>
+        <f:for each="{context.blocks}" as="block">
+            <f:switch expression="{block.type}">
+                <f:case value="heading">
+                    <f:if condition="{block.level} == 3"><f:then>### {block.text}</f:then><f:else>#### {block.text}</f:else></f:if>
+                </f:case>
+                <f:case value="text">
+                    {block.markdown -> f:format.raw()}
+                </f:case>
+                <f:case value="code">
+                    ```{block.language}
+                    {block.code -> f:format.raw()}
+                    ```
+                </f:case>
+                <f:case value="table">
+                    <f:if condition="{block.full}">
+                        <f:then>
+                            | Name | Type | Required | Default | Description |
+                            | --- | --- | --- | --- | --- |
+                            <f:for each="{block.rows}" as="row">| `{row.name}` | `{row.type -> docs:escapeMarkdownTableCell()}` | {row.required} | `{row.default -> docs:escapeMarkdownTableCell()}` | {row.description -> docs:escapeMarkdownTableCell()} |
+                            </f:for>
+                        </f:then>
+                        <f:else>
+                            | Name | Type | Description |
+                            | --- | --- | --- |
+                            <f:for each="{block.rows}" as="row">| `{row.name}` | `{row.type -> docs:escapeMarkdownTableCell()}` | {row.description -> docs:escapeMarkdownTableCell()} |
+                            </f:for>
+                        </f:else>
+                    </f:if>
+                </f:case>
+            </f:switch>
+        </f:for>
+    </f:then>
+    <f:else>
+        <div class="component-props-table">
+            <div class="content-grid">
+                <f:for each="{context.blocks}" as="block">
+                    <f:switch expression="{block.type}">
+                        <f:case value="heading">
+                            <f:if condition="{block.level} == 3"><f:then><h3>{block.text}</h3></f:then><f:else><h4>{block.text}</h4></f:else></f:if>
+                        </f:case>
+                        <f:case value="text">
+                            {block.html -> f:format.raw()}
+                        </f:case>
+                        <f:case value="code">
+                            {block.html -> f:format.raw()}
+                        </f:case>
+                        <f:case value="table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <f:if condition="{block.full}">
+                                            <th>Required</th>
+                                            <th>Default</th>
+                                        </f:if>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <f:for each="{block.rows}" as="row">
+                                        <tr>
+                                            <td><code>{row.name}</code></td>
+                                            <td>
+                                                <span class="mb-2 inline-block"><code>{row.type}</code></span>
+                                                <f:if condition="{row.description}">
+                                                    <br />
+                                                    {row.description -> f:format.raw()}
+                                                </f:if>
+                                            </td>
+                                            <f:if condition="{block.full}">
+                                                <td>{row.required}</td>
+                                                <td>
+                                                    <pre class="not-code-block text-xs">{row.default}</pre>
+                                                </td>
+                                            </f:if>
+                                        </tr>
+                                    </f:for>
+                                </tbody>
+                            </table>
+                        </f:case>
+                    </f:switch>
+                </f:for>
+            </div>
+        </div>
+    </f:else>
+</f:if>

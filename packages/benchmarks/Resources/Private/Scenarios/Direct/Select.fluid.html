@@ -16,16 +16,18 @@
     <ui:portal>
         <primitives:select.positioner>
             <primitives:select.content>
-                <f:for each="{collection.items}" as="item">
-                    <primitives:select.item item="{item}">
-                        <primitives:select.itemText>{item.label}</primitives:select.itemText>
-                        <primitives:select.itemIndicator>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4">
-                                <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                        </primitives:select.itemIndicator>
-                    </primitives:select.item>
-                </f:for>
+                <primitives:select.list>
+                    <f:for each="{collection.items}" as="item">
+                        <primitives:select.item item="{item}">
+                            <primitives:select.itemText>{item.label}</primitives:select.itemText>
+                            <primitives:select.itemIndicator>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                            </primitives:select.itemIndicator>
+                        </primitives:select.item>
+                    </f:for>
+                </primitives:select.list>
             </primitives:select.content>
         </primitives:select.positioner>
     </ui:portal>

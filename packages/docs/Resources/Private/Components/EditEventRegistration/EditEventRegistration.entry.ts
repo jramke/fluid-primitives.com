@@ -73,7 +73,7 @@ mountAll('ui:editEventRegistration', ({ props, createHydrator }) => {
             return true;
         },
         render: form => {
-            const submitButton = hydrator.getElement('submit-button');
+            const submitButton = hydrator.query('submit-button');
             if (submitButton) {
                 if (form.api.isSubmitting) {
                     submitButton.setAttribute('aria-disabled', 'true');
@@ -99,7 +99,7 @@ mountAll('ui:editEventRegistration', ({ props, createHydrator }) => {
     };
 
     applyStudentIdVisibility(needsStudentId(form.api.getValues()));
-    studentIdField.addDependencyChangeListener(({ dependencies }) => {
-        applyStudentIdVisibility(dependencies.ticketType === 'student');
+    studentIdField.addDependencyChangeListener(({ values }) => {
+        applyStudentIdVisibility(needsStudentId(values));
     });
 });

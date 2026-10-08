@@ -4,7 +4,7 @@
 
 {% component: "ui:referenceButtons", arguments: { "name": "FileUpload" } %}
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.simple", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.simple", "withEntryFile": true } %}
 
 ## Features
 
@@ -19,6 +19,49 @@
 - Exports `fileValue()`, the identity `FileUpload` stamps onto every rendered item's `data-value`, so userland code can resolve a clicked/found item back to the real `File` it represents
 - Replaces TYPO3's `f:form.upload` and integrates with Extbase's `#[FileUpload]` attribute out of the box
 
+## Anatomy
+
+```html
+<primitives:fileUpload.root>
+    <primitives:fileUpload.label />
+    <primitives:fileUpload.dropzone>
+        <primitives:fileUpload.trigger />
+    </primitives:fileUpload.dropzone>
+    <primitives:fileUpload.hiddenInput />
+
+    <primitives:fileUpload.itemTemplate>
+        <primitives:fileUpload.item>
+            <primitives:fileUpload.itemPreview match="image/*">
+                <primitives:fileUpload.itemPreviewImage />
+            </primitives:fileUpload.itemPreview>
+            <primitives:fileUpload.itemPreview match=".*">
+                <primitives:fileUpload.itemPreviewFallback />
+            </primitives:fileUpload.itemPreview>
+            <primitives:fileUpload.itemName />
+            <primitives:fileUpload.itemSizeText />
+            <primitives:fileUpload.itemError />
+            <primitives:fileUpload.itemDeleteTrigger />
+        </primitives:fileUpload.item>
+    </primitives:fileUpload.itemTemplate>
+
+    <f:comment>Optional - falls back to the itemTemplate above when omitted.</f:comment>
+    <primitives:fileUpload.itemTemplate
+        type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}"
+    >
+        <primitives:fileUpload.item>
+            <primitives:fileUpload.itemName />
+            <primitives:fileUpload.itemError />
+            <primitives:fileUpload.itemDeleteTrigger />
+        </primitives:fileUpload.item>
+    </primitives:fileUpload.itemTemplate>
+
+    <primitives:fileUpload.itemGroup>
+        <primitives:fileUpload.emptyState />
+    </primitives:fileUpload.itemGroup>
+    <primitives:fileUpload.clearTrigger />
+</primitives:fileUpload.root>
+```
+
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": "FileUpload" } %}
@@ -29,19 +72,19 @@
 
 Use file upload inside `Field` for form semantics and validation messaging.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.withField" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.withField" } %}
 
 ### Accepted and Rejected Files
 
 Accepted and rejected files only ever exist as browser `File` objects, so they can never be part of the server-rendered markup. The `item` part is instead authored once inside an `itemTemplate` part inside `ui:fileUpload.root`, and the primitive clones/populates it for every accepted or rejected file - the same [`ui:template`](/docs/core-concepts/hydration) pattern the Combobox uses for asynchronously loaded results, just wrapped in a part so neither the stencil's internal name nor its `context` argument are something you need to type yourself. Rejected items use the `itemError` part to show why they were rejected, and can use an entirely different template (via `itemTemplate`'s `type` prop, see [Custom Item Layout](#custom-item-layout) below) when a rejected file shouldn't look like an accepted one at all.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.rejectedFiles" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.rejectedFiles" } %}
 
 ### Preview Variants
 
 Declare multiple `itemPreview` parts inside the item template, each with a `match` MIME type pattern (e.g. `image/*`). The primitive shows the first matching variant for a given file and hides the rest, which makes an image preview plus a generic fallback icon possible without a custom render callback.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.simple" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.simple" } %}
 
 ### Translations
 
@@ -59,7 +102,7 @@ Use `%fileName%`, not `{fileName}` - Fluid's own inline array/object syntax alre
 
 Enable directory selection in browsers that support `webkitdirectory`.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.directory" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.directory" } %}
 
 ### Custom Item Layout
 
@@ -67,19 +110,19 @@ Nothing about `itemTemplate` requires reusing the default part layout - author w
 
 Rejected items can use a second `itemTemplate`, given `type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}"`, instead of reusing the accepted one - handy when a rejected file should look nothing like an accepted one, e.g. no preview at all. `FileUpload` falls back to the accepted `itemTemplate` for rejected items when no dedicated rejected one is given, so this is opt-in.
 
-The counter is plain userland JS: a `ui:ref` written directly in the root's slot content (`context="fileUpload"`, since it isn't part of the primitive's own template) is read back via `FileUpload`'s own `getElement()`, in a small subclass that updates it after every render.
+The counter is plain userland JS: a `ui:ref` written directly in the root's slot content (`context="fileUpload"`, since it isn't part of the primitive's own template) is read back via the component's `this.hydrator.query()`, in a small subclass that updates it after every render.
 
-Item-level data with no corresponding part works the same way, but each rendered item first has to be found again. `itemModifiedDate` is a plain `ui:ref` inside the item template - `context="fileUpload"` is required here too (and not optional the way it might look from the counter above): ambient `ui:ref` resolution only reliably works for a primitive's own template body, or for hand-authored content with no other part rendered as a sibling first - `itemModifiedDate` sits right next to `itemPreview`/`fileName`, so it needs the explicit argument. The subclass's `render()` override then re-finds every rendered `item` via `getElements('item')`, reads each one's own `itemModifiedDate` child with `getElement('itemModifiedDate', itemEl)` - passing that specific item as the scope is what lets one `getElement()` call resolve correctly per file, the same way it already does for any other item-level part - matches its `data-value` back to a `File` via the exported `fileValue()` helper (the exact identity `FileUpload` itself stamps onto that attribute), and fills in the date. The same pattern works for any other per-item data a template needs.
+Item-level data with no corresponding part works the same way, but each rendered item first has to be found again. `itemModifiedDate` is a plain `ui:ref` inside the item template - `context="fileUpload"` is required here too (and not optional the way it might look from the counter above): ambient `ui:ref` resolution only reliably works for a primitive's own template body, or for hand-authored content with no other part rendered as a sibling first - `itemModifiedDate` sits right next to `itemPreview`/`fileName`, so it needs the explicit argument. The subclass's `render()` override then re-finds every rendered `item` via `this.hydrator.queryAll('item')`, reads each one's own `itemModifiedDate` child with `this.hydrator.query('itemModifiedDate', itemEl)` - passing that specific item as the scope is what lets one `query()` call resolve correctly per file, the same way it already does for any other item-level part - matches its `data-value` back to a `File` via the exported `fileValue()` helper (the exact identity `FileUpload` itself stamps onto that attribute), and fills in the date. The same pattern works for any other per-item data a template needs.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.customLayout", "additionalFiles": { "CustomLayout.entry.ts": "EXT:docs/Resources/Private/Components/ui/FileUpload/Examples/CustomLayout.entry.ts" } } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.customLayout", "additionalFiles": { "CustomLayout.entry.ts": "EXT:docs/Resources/Private/Components/ui/FileUploadExamples/CustomLayout.entry.ts" } } %}
 
 ### Confirm File Deletion
 
-`itemDeleteTrigger` always deletes immediately once clicked - there's no built-in confirmation step, since what "confirm" means (a dialog, an undo toast, nothing) is entirely up to the consumer. This example pairs `FileUpload` with [`Dialog`](/docs/components/dialog) to ask before a file is actually removed: both are mounted as independent, hydration-controlled instances (`controlled="{true}"` + a fixed `rootId`, the same pattern [Combobox's custom filter example](/docs/components/combobox#custom-filter-api) uses), and a capturing-phase click listener on the item group intercepts the delete trigger's own click before it reaches FileUpload's built-in handler - `event.stopImmediatePropagation()` keeps the immediate delete from ever running. The file itself is recovered from the clicked item's `data-value` via the exported `fileValue()` helper (see [Custom Item Layout](#custom-item-layout) above), and only deleted (via `api.deleteFile()`) once the dialog is confirmed.
+`itemDeleteTrigger` always deletes immediately once clicked - there's no built-in confirmation step, since what "confirm" means (a dialog, an undo toast, nothing) is entirely up to the consumer. This example pairs `FileUpload` with [`Dialog`](/docs/components/dialog) to ask before a file is actually removed: both are mounted as independent, hydration-controlled instances (`autoMount="{false}"` + a fixed `rootId`, the same pattern [Combobox's custom filter example](/docs/components/combobox#custom-filter-api) uses), and a capturing-phase click listener on the item group intercepts the delete trigger's own click before it reaches FileUpload's built-in handler - `event.stopImmediatePropagation()` keeps the immediate delete from ever running. The file itself is recovered from the clicked item's `data-value` via the exported `fileValue()` helper (see [Custom Item Layout](#custom-item-layout) above), and only deleted (via `api.deleteFile()`) once the dialog is confirmed.
 
 Delegation is needed here because FileUpload re-clones its item markup on every accepted/rejected-files change, so there's no stable per-item element to attach a listener to directly.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FileUpload.examples.deleteConfirmation", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.deleteConfirmation", "withEntryFile": true } %}
 
 ## Using with Extbase
 
@@ -265,46 +308,3 @@ Clicking that delete trigger checks the sibling checkbox and hides the item imme
         ]
     }
 %}
-
-## Anatomy
-
-```html
-<primitives:fileUpload.root>
-    <primitives:fileUpload.label />
-    <primitives:fileUpload.dropzone>
-        <primitives:fileUpload.trigger />
-    </primitives:fileUpload.dropzone>
-    <primitives:fileUpload.hiddenInput />
-
-    <primitives:fileUpload.itemTemplate>
-        <primitives:fileUpload.item>
-            <primitives:fileUpload.itemPreview match="image/*">
-                <primitives:fileUpload.itemPreviewImage />
-            </primitives:fileUpload.itemPreview>
-            <primitives:fileUpload.itemPreview match=".*">
-                <primitives:fileUpload.itemPreviewFallback />
-            </primitives:fileUpload.itemPreview>
-            <primitives:fileUpload.itemName />
-            <primitives:fileUpload.itemSizeText />
-            <primitives:fileUpload.itemError />
-            <primitives:fileUpload.itemDeleteTrigger />
-        </primitives:fileUpload.item>
-    </primitives:fileUpload.itemTemplate>
-
-    <f:comment>Optional - falls back to the itemTemplate above when omitted.</f:comment>
-    <primitives:fileUpload.itemTemplate
-        type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}"
-    >
-        <primitives:fileUpload.item>
-            <primitives:fileUpload.itemName />
-            <primitives:fileUpload.itemError />
-            <primitives:fileUpload.itemDeleteTrigger />
-        </primitives:fileUpload.item>
-    </primitives:fileUpload.itemTemplate>
-
-    <primitives:fileUpload.itemGroup>
-        <primitives:fileUpload.emptyState />
-    </primitives:fileUpload.itemGroup>
-    <primitives:fileUpload.clearTrigger />
-</primitives:fileUpload.root>
-```

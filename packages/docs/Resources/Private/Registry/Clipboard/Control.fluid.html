@@ -1,5 +1,5 @@
-<ui:useProps name="primitives:clipboard.control" />
+<ui:useProps name="primitives:clipboard.control" as="controlProps" />
 
-<primitives:clipboard.control spreadProps="{true}" class="{ui:cn(value: 'flex gap-2 {class}')}">
+<primitives:clipboard.control spreadProps="{controlProps}">
     <f:slot />
 </primitives:clipboard.control>

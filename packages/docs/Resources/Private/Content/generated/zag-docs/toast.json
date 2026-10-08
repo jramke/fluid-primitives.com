@@ -13,6 +13,10 @@
             "subscribe": {
                 "type": "(callback: (toasts: Options<O>[]) => void) => VoidFunction",
                 "description": "Subscribe to the toast group"
+            },
+            "getGroupState": {
+                "type": "() => GroupState",
+                "description": "Returns the state of the group"
             }
         },
         "context": {
@@ -100,8 +104,7 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "toast",
-            "data-part": "root",
+            "data-toast-root": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-type": "The type of the item",
             "data-placement": "The placement of the toast",
@@ -115,13 +118,11 @@
             "data-overlap": "Present when overlapping"
         },
         "GhostBefore": {
-            "data-scope": "toast",
-            "data-part": "ghost-before",
+            "data-toast-ghost-before": "<uid>",
             "data-ghost": ""
         },
         "GhostAfter": {
-            "data-scope": "toast",
-            "data-part": "ghost-after",
+            "data-toast-ghost-after": "<uid>",
             "data-ghost": ""
         }
     }

@@ -1,0 +1,19 @@
+<ui:exposeToClient />
+
+<div class="space-y-3">
+    <ui:checkbox.root value="all" autoMount="{false}" rootId="select-all" defaultChecked="indeterminate">
+        <ui:checkbox.control />
+        <ui:checkbox.label>All User Permissions</ui:checkbox.label>
+    </ui:checkbox.root>
+
+    <ui:checkboxGroup.root name="permissions[]" defaultValue="{0: 'reports'}" autoMount="{false}" rootId="select-all-group" class="ms-4" aria-label="User Permissions">
+        <f:for each="{context.items}" as="item">
+            <ui:checkbox.root value="{item.value}">
+                <ui:checkbox.control />
+                <ui:checkbox.label>{item.text}</ui:checkbox.label>
+            </ui:checkbox.root>
+        </f:for>
+    </ui:checkboxGroup.root>
+</div>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/CheckboxGroupExamples/SelectAll.entry.ts" />

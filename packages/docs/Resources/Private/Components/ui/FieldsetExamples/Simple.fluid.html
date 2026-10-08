@@ -1,0 +1,18 @@
+<ui:fieldset.root class="max-w-74">
+    <ui:fieldset.legend>Shipping address</ui:fieldset.legend>
+    <ui:fieldset.helperText>We only use it to send your order.</ui:fieldset.helperText>
+    <ui:field.root name="street" required="{true}">
+        <ui:input.root type="text" autocomplete="address-line1">
+            <ui:input.label>Street</ui:input.label>
+            <ui:input.input />
+        </ui:input.root>
+        <ui:field.errorText />
+    </ui:field.root>
+    <ui:field.root name="city" required="{true}">
+        <ui:input.root type="text" autocomplete="address-level2">
+            <ui:input.label>City</ui:input.label>
+            <ui:input.input />
+        </ui:input.root>
+        <ui:field.errorText />
+    </ui:field.root>
+</ui:fieldset.root>

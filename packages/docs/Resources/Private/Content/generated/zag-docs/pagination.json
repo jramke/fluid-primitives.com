@@ -61,6 +61,10 @@
             "goToLastPage": {
                 "type": "VoidFunction",
                 "description": "Function to go to the last page."
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of a pagination item"
             }
         },
         "context": {
@@ -137,30 +141,29 @@
         }
     },
     "dataAttributes": {
+        "Ellipsis": {
+            "data-pagination-ellipsis": "<uid>",
+            "data-index": "The index of the item"
+        },
         "Item": {
-            "data-scope": "pagination",
-            "data-part": "item",
+            "data-pagination-item": "<uid>",
             "data-index": "The index of the item",
             "data-selected": "Present when selected"
         },
         "PrevTrigger": {
-            "data-scope": "pagination",
-            "data-part": "prev-trigger",
+            "data-pagination-prev-trigger": "<uid>",
             "data-disabled": "Present when disabled"
         },
         "FirstTrigger": {
-            "data-scope": "pagination",
-            "data-part": "first-trigger",
+            "data-pagination-first-trigger": "<uid>",
             "data-disabled": "Present when disabled"
         },
         "NextTrigger": {
-            "data-scope": "pagination",
-            "data-part": "next-trigger",
+            "data-pagination-next-trigger": "<uid>",
             "data-disabled": "Present when disabled"
         },
         "LastTrigger": {
-            "data-scope": "pagination",
-            "data-part": "last-trigger",
+            "data-pagination-last-trigger": "<uid>",
             "data-disabled": "Present when disabled"
         }
     }

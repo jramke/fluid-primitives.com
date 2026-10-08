@@ -93,6 +93,10 @@
             "getTriggerState": {
                 "type": "(props: TriggerProps) => TriggerState",
                 "description": "Returns the state of the trigger with the given props"
+            },
+            "getContentState": {
+                "type": "(props: ContentProps) => ContentState",
+                "description": "Returns the state of the content with the given props"
             }
         },
         "context": {
@@ -135,9 +139,10 @@
                 "type": "((details: FocusChangeDetails) => void) | undefined",
                 "description": "Callback to be called when the focused tab changes"
             },
-            "composite": {
+            "virtualFocus": {
                 "type": "boolean | undefined",
-                "description": "Whether the tab is composite"
+                "description": "Whether the tabs use virtual focus instead of roving tabindex.\n\nWhen `true`, triggers receive no DOM focus \u2014 arrow keys update `focusedValue`\nand all triggers remain `tabIndex: -1`. Useful when tabs live inside another\nwidget that manages focus (e.g. a combobox).",
+                "defaultValue": "false"
             },
             "deselectable": {
                 "type": "boolean | undefined",
@@ -164,20 +169,17 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "tabs",
-            "data-part": "root",
+            "data-tabs-root": "<uid>",
             "data-orientation": "The orientation of the tabs",
             "data-focus": "Present when focused"
         },
         "List": {
-            "data-scope": "tabs",
-            "data-part": "list",
+            "data-tabs-list": "<uid>",
             "data-focus": "Present when focused",
             "data-orientation": "The orientation of the list"
         },
         "Trigger": {
-            "data-scope": "tabs",
-            "data-part": "trigger",
+            "data-tabs-trigger": "<uid>",
             "data-orientation": "The orientation of the trigger",
             "data-disabled": "Present when disabled",
             "data-value": "The value of the item",
@@ -186,14 +188,12 @@
             "data-ssr": "Present when not rendered in the browser. Useful for ssr styling"
         },
         "Content": {
-            "data-scope": "tabs",
-            "data-part": "content",
+            "data-tabs-content": "<uid>",
             "data-selected": "Present when selected",
             "data-orientation": "The orientation of the content"
         },
         "Indicator": {
-            "data-scope": "tabs",
-            "data-part": "indicator",
+            "data-tabs-indicator": "<uid>",
             "data-orientation": "The orientation of the indicator"
         }
     }

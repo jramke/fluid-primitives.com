@@ -1,0 +1,70 @@
+{
+    "api": {
+        "api": {
+            "getRows": {
+                "type": "() => { index: number }[]",
+                "description": "The rows that currently exist, by index."
+            },
+            "canAppend": {
+                "type": "() => boolean",
+                "description": "Whether `append()` would currently add a row, i.e. `maxItems` hasn't been reached."
+            },
+            "canRemove": {
+                "type": "() => boolean",
+                "description": "Whether `remove()` would currently remove a row, i.e. more than `minItems` remain."
+            },
+            "append": {
+                "type": "() => void",
+                "description": "Adds a row, if `maxItems` allows it."
+            },
+            "remove": {
+                "type": "(index: number) => void",
+                "description": "Removes the row at `index`, if `minItems` allows it."
+            }
+        },
+        "context": {
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the field array."
+            },
+            "name": {
+                "type": "string",
+                "description": "The name the rows are nested under, e.g. `people` for `people[0][firstName]`."
+            },
+            "itemCount": {
+                "type": "number | undefined",
+                "description": "The number of rows the server rendered. It sets the state of the triggers before hydration, once the client runs it counts the rows in the DOM instead."
+            },
+            "minItems": {
+                "type": "number | undefined",
+                "description": "The fewest rows allowed. At this many, `remove()` and the remove triggers do nothing and the remove triggers are disabled.",
+                "defaultValue": "0"
+            },
+            "maxItems": {
+                "type": "number | undefined",
+                "description": "The most rows allowed. At this many, `append()` and the add trigger do nothing and the add trigger is disabled."
+            },
+            "translations": {
+                "type": "{ rowAdded?: FieldArrayAnnounceTranslation; rowRemoved?: FieldArrayAnnounceTranslation; } | undefined",
+                "description": "The screen reader announcements of an added and a removed row. In a string, `%number%` is replaced with the 1-based position of the row, e.g. `Row %number% removed.`. A callback builds the message from the data of the row, and may use `%number%` in what it returns."
+            },
+            "onItemAdded": {
+                "type": "((detail: { index: number; componentNames: string[] }) => void) | undefined",
+                "description": "Called after a row was added by the add trigger, with its index and the client names of the components inside it, e.g. `['field', 'input']`. Call their `mountAll()` here: the field array doesn't know what the template of a row contains."
+            },
+            "onItemRemoved": {
+                "type": "((detail: { index: number }) => void) | undefined",
+                "description": "Called after a row was removed by its remove trigger, with the index it had. The later rows have already moved up by then."
+            }
+        }
+    },
+    "dataAttributes": {
+        "AddTrigger": {
+            "data-disabled": "Present when disabled"
+        },
+        "RemoveTrigger": {
+            "data-disabled": "Present when disabled",
+            "data-value": "The index of the row the trigger removes."
+        }
+    }
+}

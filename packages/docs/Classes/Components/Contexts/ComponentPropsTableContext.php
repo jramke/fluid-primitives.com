@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Components\Contexts;
 
+use FluidPrimitives\Docs\Services\MachineDocs;
 use FluidPrimitives\Docs\Traits\IsMarkdownModeAwareTrait;
 use FluidPrimitives\Docs\Utility\DocsUtility;
-use FluidPrimitives\Docs\Utility\ZagDocsMetadata;
 use Jramke\FluidPrimitives\Annotations\RequiredAtRuntimeArgumentAnnotation;
 use Jramke\FluidPrimitives\Component\ComponentPrimitivesCollection;
 use Jramke\FluidPrimitives\Contexts\AbstractComponentContext;
@@ -20,6 +20,8 @@ class ComponentPropsTableContext extends AbstractComponentContext
     use IsMarkdownModeAwareTrait;
 
     private const array HIDDEN_PROPS = ['spreadProps'];
+
+    private ?MachineDocs $machineDocs = null;
 
     public function getPartsWithProps(): array
     {
@@ -44,86 +46,37 @@ class ComponentPropsTableContext extends AbstractComponentContext
                 'props' => $this->buildPropsInfo($props),
                 'description' => DocsUtility::simpleMarkdownToHtml($text),
                 'descriptionMarkdown' => $text,
-                'dataAttributes' => $this->getZagDataAttributesForPart($part),
+                'dataAttributes' => $this->getMachineDocs()->dataAttributes($part),
             ];
         }, $parts);
     }
 
-    public function getZagAccessibility(): array
+    public function getAccessibility(): array
     {
-        if ($this->get('skipZag') === true) {
-            return [];
-        }
-
-        $name = Typed::string($this->get('name'));
-        if ($name === '') {
-            return [];
-        }
-
-        $metadata = ZagDocsMetadata::forPrimitive(ComponentNameUtility::camelCaseToLowerCaseDashed($name));
-        $accessibility = Typed::arrayOrNull($metadata['accessibility'] ?? null) ?? [];
-
-        return Typed::arrayOrNull($accessibility['keyboard'] ?? null) ?? [];
+        return $this->getMachineDocs()->accessibility();
     }
 
-    public function getZagApi(): array
+    public function getMachineApi(): array
     {
-        if ($this->get('skipZag') === true) {
-            return [];
-        }
-
-        $name = Typed::string($this->get('name'));
-        if ($name === '') {
-            return [];
-        }
-
-        $metadata = ZagDocsMetadata::forPrimitive(ComponentNameUtility::camelCaseToLowerCaseDashed($name));
-
-        return Typed::arrayOrNull($metadata['api'] ?? null) ?? [];
+        return $this->getMachineDocs()->api();
     }
 
-    private function getZagDataAttributesForPart(string $partName): array
+    public function getMachineOptions(): array
     {
-        if ($this->get('skipZag') === true) {
-            return [];
-        }
-
-        $name = Typed::string($this->get('name'));
-        if ($name === '') {
-            return [];
-        }
-
-        $primitive = ZagDocsMetadata::forPrimitive(ComponentNameUtility::camelCaseToLowerCaseDashed($name));
-        $attributes = Typed::arrayOrNull($primitive['dataAttributes'] ?? null) ?? [];
-        if ($attributes === []) {
-            return [];
-        }
-
-        $normalizedPartName = $this->normalizeZagPartName($partName);
-        if ($normalizedPartName === '') {
-            return [];
-        }
-
-        // Narrowed immediately below via is_array() - attributes values come from decoded JSON
-        // metadata, so their shape isn't statically known any further than "array of mixed".
-        // @mago-expect analysis:mixed-assignment
-        $data = $attributes[$normalizedPartName] ?? [];
-        if (!is_array($data)) {
-            return [];
-        }
-
-        return $data;
+        return $this->getMachineDocs()->options();
     }
 
-    private function normalizeZagPartName(string $partName): string
+    public function getIsMachineSource(): bool
     {
-        if ($partName === '') {
-            return '';
-        }
+        return $this->getMachineDocs()->isMachineSource();
+    }
 
-        $value = preg_replace('/[^a-zA-Z0-9]+/', replacement: ' ', subject: $partName);
-        $value = ucwords((string)$value);
-        return str_replace(' ', replace: '', subject: $value);
+    private function getMachineDocs(): MachineDocs
+    {
+        return $this->machineDocs ??= MachineDocs::forPrimitive(
+            ComponentNameUtility::camelCaseToLowerCaseDashed(Typed::string($this->get('name'))),
+            $this->getIsMarkdownMode(),
+        );
     }
 
     /**

@@ -17,6 +17,10 @@
             "copy": {
                 "type": "VoidFunction",
                 "description": "Copy the value to the clipboard"
+            },
+            "getIndicatorState": {
+                "type": "(props: IndicatorProps) => IndicatorState",
+                "description": "Returns the state of the indicator"
             }
         },
         "context": {
@@ -61,29 +65,24 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "clipboard",
-            "data-part": "root",
+            "data-clipboard-root": "<uid>",
             "data-copied": "Present when copied state is true"
         },
         "Label": {
-            "data-scope": "clipboard",
-            "data-part": "label",
+            "data-clipboard-label": "<uid>",
             "data-copied": "Present when copied state is true"
         },
         "Control": {
-            "data-scope": "clipboard",
-            "data-part": "control",
+            "data-clipboard-control": "<uid>",
             "data-copied": "Present when copied state is true"
         },
         "Input": {
-            "data-scope": "clipboard",
-            "data-part": "input",
+            "data-clipboard-input": "<uid>",
             "data-copied": "Present when copied state is true",
             "data-readonly": "Present when read-only"
         },
         "Trigger": {
-            "data-scope": "clipboard",
-            "data-part": "trigger",
+            "data-clipboard-trigger": "<uid>",
             "data-copied": "Present when copied state is true"
         }
     }

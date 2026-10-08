@@ -1,0 +1,18 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:popoverExamples.simple />
+    </f:case>
+    <f:case value="modal">
+        <ui:popoverExamples.modal />
+    </f:case>
+    <f:case value="custom-positioning">
+        <ui:popoverExamples.customPositioning />
+    </f:case>
+    <f:case value="with-close-button">
+        <ui:popoverExamples.withCloseButton />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

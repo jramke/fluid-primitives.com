@@ -1,7 +1,7 @@
 import { type Meta, type StoryObj, fetchComponent } from '@andersundsehr/storybook-typo3';
 
 export default {
-    component: await fetchComponent('ui:combobox.examples.all'),
+    component: await fetchComponent('ui:comboboxExamples.all'),
 } satisfies Meta;
 
 export const Simple: StoryObj = {
@@ -43,5 +43,11 @@ export const CustomFilterApi: StoryObj = {
 export const Multiple: StoryObj = {
     args: {
         example_id: 'multiple',
+    },
+};
+
+export const InputInContent: StoryObj = {
+    args: {
+        example_id: 'input-in-content',
     },
 };

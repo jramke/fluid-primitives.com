@@ -1,7 +1,7 @@
-<ui:useProps name="primitives:fieldArray.item" />
+<ui:useProps name="primitives:fieldArray.item" as="itemProps" />
 
 <primitives:fieldArray.item
-    spreadProps="{true}"
+    spreadProps="{itemProps}"
     class="{ui:cn(value: 'space-y-4 rounded-md border p-4 {class}')}">
     <f:slot />
 </primitives:fieldArray.item>

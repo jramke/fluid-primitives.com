@@ -41,6 +41,10 @@
             "getScrollbarState": {
                 "type": "(props: ScrollbarProps) => ScrollbarState",
                 "description": "Returns the state of the scrollbar"
+            },
+            "getCornerState": {
+                "type": "() => CornerState",
+                "description": "Returns the state of the corner"
             }
         },
         "context": {
@@ -65,14 +69,12 @@
     },
     "dataAttributes": {
         "Root": {
-            "data-scope": "scroll-area",
-            "data-part": "root",
+            "data-scroll-area-root": "<uid>",
             "data-overflow-x": "Present when the content overflows the x-axis",
             "data-overflow-y": "Present when the content overflows the y-axis"
         },
         "Viewport": {
-            "data-scope": "scroll-area",
-            "data-part": "viewport",
+            "data-scroll-area-viewport": "<uid>",
             "data-at-top": "Present when scrolled to the top edge",
             "data-at-bottom": "Present when scrolled to the bottom edge",
             "data-at-left": "Present when scrolled to the left edge",
@@ -81,14 +83,12 @@
             "data-overflow-y": "Present when the content overflows the y-axis"
         },
         "Content": {
-            "data-scope": "scroll-area",
-            "data-part": "content",
+            "data-scroll-area-content": "<uid>",
             "data-overflow-x": "Present when the content overflows the x-axis",
             "data-overflow-y": "Present when the content overflows the y-axis"
         },
         "Scrollbar": {
-            "data-scope": "scroll-area",
-            "data-part": "scrollbar",
+            "data-scroll-area-scrollbar": "<uid>",
             "data-orientation": "The orientation of the scrollbar",
             "data-scrolling": "Present when scrolling",
             "data-hover": "Present when hovered",
@@ -97,15 +97,13 @@
             "data-overflow-y": "Present when the content overflows the y-axis"
         },
         "Thumb": {
-            "data-scope": "scroll-area",
-            "data-part": "thumb",
+            "data-scroll-area-thumb": "<uid>",
             "data-orientation": "The orientation of the thumb",
             "data-hover": "Present when hovered",
             "data-dragging": "Present when in the dragging state"
         },
         "Corner": {
-            "data-scope": "scroll-area",
-            "data-part": "corner",
+            "data-scroll-area-corner": "<uid>",
             "data-hover": "Present when hovered",
             "data-state": "\"hidden\" | \"visible\"",
             "data-overflow-x": "Present when the content overflows the x-axis",

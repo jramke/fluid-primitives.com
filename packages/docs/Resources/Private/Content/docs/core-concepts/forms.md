@@ -35,7 +35,7 @@ Use `ui:form` with `action` pointing to your Extbase action and `objectName` mat
     action="registration"
     objectName="eventRegistration"
     object="{eventRegistration}"
-    controlled="{true}"
+    autoMount="{false}"
     rootId="registration-form"
 >
     <ui:field.root name="email" required="{true}">
@@ -43,8 +43,8 @@ Use `ui:form` with `action` pointing to your Extbase action and `objectName` mat
             <ui:input.label>Email</ui:input.label>
             <ui:input.input />
         </ui:input.root>
-        <ui:field.description>Used for your confirmation email.</ui:field.description>
-        <ui:field.error />
+        <ui:field.helperText>Used for your confirmation email.</ui:field.helperText>
+        <ui:field.errorText />
     </ui:field.root>
 
     <ui:button type="submit">Register</ui:button>
@@ -63,14 +63,13 @@ declare(strict_types=1);
 namespace Vendor\MyExtension\Controller;
 
 use Vendor\MyExtension\Domain\Model\EventRegistration;
-use Jramke\FluidPrimitives\Traits\AjaxValidationTrait;
+use Jramke\FluidPrimitives\Traits\JsonValidationErrorsTrait;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 final class EventRegistrationController extends ActionController
 {
-    use AjaxValidationTrait;
+    use JsonValidationErrorsTrait;
 
     public function registrationAction(EventRegistration $eventRegistration): ResponseInterface
     {
@@ -79,23 +78,38 @@ final class EventRegistrationController extends ActionController
 
         return $this->jsonResponse(json_encode(['success' => true]))->withStatus(200);
     }
+}
+```
 
+The `JsonValidationErrorsTrait` replaces your controller's `errorAction()`. Instead of Extbase's redirect back to the referring request, failed validation is answered with a 422 JSON response of field-keyed error messages. The Form component reads this response and assigns the errors to individual fields.
+
+{% component: "ui:alert", arguments: {"title": "Why is the response thrown?", "text": "An action inside a content-element plugin is rendered into the page, so a returned JSON body would arrive wrapped in your page layout. The trait throws a `PropagateResponseException` instead, the same way TYPO3 stops rendering for `throwStatus()`. Do the same for any JSON response the client has to read. If the action wrote to the database, call `persistAll()` first: Extbase only flushes persistence after a normal return.", "variant": "info"} %}
+
+The trait applies to the whole controller. To keep Extbase's own error handling for some actions, alias the trait's method and dispatch by hand:
+
+```php
+final class EventRegistrationController extends ActionController
+{
+    use JsonValidationErrorsTrait {
+        errorAction as protected jsonErrorAction;
+    }
+
+    #[\Override]
     protected function errorAction(): ResponseInterface
     {
-        // Converts Extbase validation errors to a 422 JSON response
-        $this->throwJsonValidationErrorResponse();
+        if ($this->actionMethodName === 'registrationAction') {
+            return $this->jsonErrorAction();
+        }
+
+        // Custom handling for the other actions
         return parent::errorAction();
     }
 }
 ```
 
-The `AjaxValidationTrait` provides `throwJsonValidationErrorResponse()`, which intercepts Extbase's normal `errorAction` redirect and instead returns a 422 JSON response with field-keyed error messages. The Form component reads this response and assigns errors to individual fields.
-
-{% component: "ui:alert", arguments: {"title": "Pro Tip", "text": "If your controller action is not registered as a standalone Plugin you can use `throw new PropagateResponseException` to return a plain json response.", "variant": "info"} %}
-
 ### Entry File (TypeScript)
 
-The form requires a client-side entry file. Use `controlled="{true}"` on the root and fetch its hydration data by ID:
+The form requires a client-side entry file. Use `autoMount="{false}"` on the root and fetch its hydration data by ID:
 
 ```typescript
 import { mount } from 'fluid-primitives';
@@ -120,7 +134,7 @@ The Form API exposes a `FormValues` object via `api.getValues()` and inside `val
 
 ## The Field Component
 
-`ui:field.root` wraps any input and wires up labels, errors, descriptions, and ARIA attributes. The `name` prop is required and must match the property name on your model.
+`ui:field.root` wraps any input and wires up labels, helper text, errors, and ARIA attributes. The `name` prop is required and must match the property name on your model.
 
 ### Anatomy
 
@@ -132,8 +146,8 @@ A Field-aware primitive like `ui:input` (or `ui:select`, `ui:numberInput`, ...) 
         <ui:input.label>Email address</ui:input.label>
         <ui:input.input />
     </ui:input.root>
-    <ui:field.description>We'll send your confirmation here.</ui:field.description>
-    <ui:field.error />
+    <ui:field.helperText>We'll send your confirmation here.</ui:field.helperText>
+    <ui:field.errorText />
 </ui:field.root>
 ```
 
@@ -148,7 +162,7 @@ For a genuinely native/custom element with no dedicated primitive, use `field.co
             <option value="5">5 stars</option>
         </select>
     </ui:field.control>
-    <ui:field.error />
+    <ui:field.errorText />
 </ui:field.root>
 ```
 
@@ -156,8 +170,9 @@ For a genuinely native/custom element with no dedicated primitive, use `field.co
 
 - `field.label` — renders a `<label>` with `for` pointing to the control
 - `field.control` — when `asChild="{true}"`, spreads the field's ARIA attributes onto the child element
-- `field.description` — optional helper text, wired to `aria-describedby`
-- `field.error` — renders the error message, wired to `aria-describedby` and only shown when the field is in an error state
+- `field.helperText` — optional helper text, wired to `aria-describedby`
+- `field.errorText` — renders the error message, wired to `aria-describedby` and only shown when the field is in an error state. Give it a `match` to show your own text for one failed constraint, e.g. `valueMissing` or `typeMismatch`
+- `field.indicator` — shows its content while the field is `required`, `invalid`, `valid` or `validating`, depending on its `type`
 
 ### Field Props
 
@@ -169,10 +184,12 @@ For a genuinely native/custom element with no dedicated primitive, use `field.co
 - `readOnly` (`boolean`) — sets the field and controls to read-only
 - `invalid` (`boolean`) — forces the field into an invalid state (e.g. pre-populated server error)
 - `defaultValue` (`mixed`) — pre-populates the field value
+- `validationMode` (`onBlur` | `onSubmit` | `onChange`) — when the field validates and shows its errors, `onBlur` by default
+- `listenTo` (`string[]`) — names of sibling fields whose changes validate this field again
 
 ### Inherited Field Props on Primitives
 
-When a Field-aware primitive is placed inside a `ui:field.root`, the field's state automatically propagates into the primitive. You do not need to repeat `disabled`, `required`, etc. on the primitive itself.
+When a Field-aware primitive is placed inside a `ui:field.root`, the field's state automatically propagates into the primitive. You do not need to repeat `disabled`, `required`, etc. on the primitive itself. A field inside a `ui:fieldset.root` (or a plain `<fieldset disabled>`) is disabled as long as the fieldset is.
 
 ```html
 <!-- disabled on field.root propagates to the Select automatically -->
@@ -183,14 +200,16 @@ When a Field-aware primitive is placed inside a `ui:field.root`, the field's sta
             <ui:select.trigger placeholder="Pick a country" />
         </ui:select.control>
         <ui:select.content>
-            <f:for each="{countries.items}" as="item">
-                <ui:select.item item="{item}">
-                    <ui:select.itemText>{item.label}</ui:select.itemText>
-                </ui:select.item>
-            </f:for>
+            <ui:select.list>
+                <f:for each="{countries.items}" as="item">
+                    <ui:select.item item="{item}">
+                        <ui:select.itemText>{item.label}</ui:select.itemText>
+                    </ui:select.item>
+                </f:for>
+            </ui:select.list>
         </ui:select.content>
     </ui:select.root>
-    <ui:field.error />
+    <ui:field.errorText />
 </ui:field.root>
 ```
 
@@ -202,7 +221,7 @@ Server-side errors are stored by its field and value. So like in the example, wh
 
 ### Extbase Model Validation
 
-Use PHP 8 attributes on your model to declare validation rules. Extbase runs these before your action is called. If validation fails, `errorAction` is triggered — which the `AjaxValidationTrait` converts to a 422 JSON response.
+Use PHP 8 attributes on your model to declare validation rules. Extbase runs these before your action is called. If validation fails, `errorAction` is triggered — which the `JsonValidationErrorsTrait` converts to a 422 JSON response.
 
 ```php
 <?php
@@ -240,18 +259,20 @@ The 422 JSON response has the shape:
 }
 ```
 
-The Form component maps each key to the corresponding field by name and displays the error in `ui:field.error`.
+The Form component maps each key to the corresponding field by name and displays the error in `ui:field.errorText`.
 
 ### Manual 422 Response
 
-For business-rule validation that doesn't belong in the model, return a 422 directly from your action:
+For business-rule validation that doesn't belong in the model, send a 422 directly from your action. Throw it like the trait does, since a returned response would arrive wrapped in your page layout:
 
 ```php
+use TYPO3\CMS\Core\Http\PropagateResponseException;
+
 public function registrationAction(EventRegistration $eventRegistration): ResponseInterface
 {
     if ($eventRegistration->getTicketType() === 'vip') {
         $payload = ['eventRegistration.ticketType' => ['VIP tickets are sold out.']];
-        return $this->jsonResponse(json_encode($payload))->withStatus(422);
+        throw new PropagateResponseException($this->jsonResponse(json_encode($payload))->withStatus(422));
     }
 
     // continue with save...
@@ -310,9 +331,11 @@ When you use `post()`, 422 JSON validation responses do not come back as a norma
 
 To enhance the UX of your forms you should also use (slimmed down) client-side validation in addition to (more complex) server-side validation.
 
-Client-side validation runs on blur for dirty fields and before submission. Once a field already has an error, we validate it on change too so the user gets immediate feedback while fixing it.
+Every field validates itself. What it checks comes from three places that end up in the same list of errors: the native constraints of its control (`required`, `type="email"`, `pattern`, `min`/`max`, `minlength`/`maxlength`, ...), the `validation` of the `Form` described below, and a `validate` function of the field itself (see [Async Validation](/docs/components/field#async-validation)). The server's own errors, from a 422 response or returned by `onSubmit`, are shown the same way.
 
-Each field also tracks local interaction metadata. `field.meta.isTouched` becomes `true` after the first change or blur, `field.meta.isDirty` stays `true` once the value was changed, `field.meta.isPristine` is the inverse of `isDirty`, `field.meta.isBlurred` becomes `true` after the first blur, and `field.meta.isDefaultValue` reflects whether the current value matches the initial value. The same state is mirrored to `field.root` as `data-touched`, `data-dirty`, `data-pristine`, `data-blurred`, and `data-default-value` attributes for styling.
+By default (`validationMode="onBlur"`) a field validates when the user leaves it after editing it, so tabbing through an untouched form stays quiet. Once a field already has an error, we validate it on change too so the user gets immediate feedback while fixing it. A submit validates every field at once, shows all errors and moves the focus to the first invalid field. A disabled field is exempt, like in a native form. See [Validation Mode](/docs/components/field#validation-mode) for the other modes.
+
+Each field also tracks the state of the interaction: `touched` becomes `true` after the user left the field for the first time, `dirty` is `true` while the value differs from the one the field started with (and goes back to `false` when the user reverts the edit), `filled` tells whether the field has a value, and `focused` whether the focus is inside the field. Together with `valid`, `invalid` and `validating` they are available on `form.api.getField(name)` and mirrored to every part of the field as `data-touched`, `data-dirty`, `data-filled`, `data-focus`, `data-valid` and `data-invalid` attributes for styling.
 
 Install your validator separately. For Zod:
 
@@ -376,7 +399,7 @@ const form = new Form({
 });
 ```
 
-Validation callbacks must be synchronous. Use `onSubmit` for async checks.
+The `validation` callback must be synchronous. For an async check of a single field give that field its own `validate` function (see [Async Validation](/docs/components/field#async-validation)), and use `onSubmit` for checks that need the whole form.
 
 ## Async Validation During Submission
 
@@ -430,7 +453,7 @@ The `render` callback on the `Form` constructor runs every time the form state c
 
 ```typescript
 render: form => {
-    const submitButton = hydrator.getElement('submit-button');
+    const submitButton = hydrator.query('submit-button');
     if (submitButton) {
         submitButton.setAttribute('aria-disabled', form.api.isSubmitting ? 'true' : 'false');
         submitButton.textContent = form.api.isSubmitting ? 'Submitting...' : 'Register';

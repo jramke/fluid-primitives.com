@@ -48,6 +48,7 @@ combobox:
     - Trigger.fluid.html
     - ClearTrigger.fluid.html
     - Content.fluid.html
+    - List.fluid.html
     - Item.fluid.html
     - ItemText.fluid.html
     - ItemIndicator.fluid.html
@@ -62,7 +63,7 @@ collapsible:
   files:
     - Root.fluid.html
     - Trigger.fluid.html
-    - TriggerText.fluid.html
+    - Indicator.fluid.html
     - Content.fluid.html
     - Collapsible.entry.ts
 
@@ -77,19 +78,19 @@ dialog:
     - Footer.fluid.html
     - Title.fluid.html
     - Description.fluid.html
-    - CloseTrigger.fluid.html
     - Close.fluid.html
     - Dialog.entry.ts
 
 field:
   name: Field
-  description: A wrapper for form fields with an optional label and description
+  description: A wrapper for form fields with an optional label, helper text, error texts and state indicators
   files:
     - Root.fluid.html
     - Label.fluid.html
-    - Description.fluid.html
+    - HelperText.fluid.html
     - Control.fluid.html
-    - Error.fluid.html
+    - ErrorText.fluid.html
+    - Indicator.fluid.html
     - Field.entry.ts
 
 field-array:
@@ -103,6 +104,16 @@ field-array:
     - AddTrigger.fluid.html
     - RemoveTrigger.fluid.html
     - FieldArray.entry.ts
+
+fieldset:
+  name: Fieldset
+  description: A group of related fields with a legend, helper text and error text that disables everything inside it at once
+  files:
+    - Root.fluid.html
+    - Legend.fluid.html
+    - HelperText.fluid.html
+    - ErrorText.fluid.html
+    - Fieldset.entry.ts
 
 file-upload:
   name: FileUpload
@@ -119,6 +130,10 @@ file-upload:
     - FileMeta.fluid.html
     - FileDeleteTrigger.fluid.html
     - EmptyState.fluid.html
+    - FileError.fluid.html
+    - FilePreviewFallback.fluid.html
+    - ItemPreview.fluid.html
+    - ItemPreviewImage.fluid.html
     - FileUpload.entry.ts
 
 form:
@@ -134,24 +149,22 @@ form:
 
 input:
   name: Input
-  description: A text input that works with Field, with optional word count and live-region announcements
+  description: A text input that works with Field, with optional word count and screen reader announcements
   files:
     - Root.fluid.html
     - Label.fluid.html
     - Input.fluid.html
     - WordCount.fluid.html
-    - LiveRegion.fluid.html
     - Input.entry.ts
 
 textarea:
   name: Textarea
-  description: A multi-line text input that works with Field, with optional word count, live-region announcements, and submit-on-Enter
+  description: A multi-line text input that works with Field, with optional word count, screen reader announcements, and submit-on-Enter
   files:
     - Root.fluid.html
     - Label.fluid.html
     - Textarea.fluid.html
     - WordCount.fluid.html
-    - LiveRegion.fluid.html
     - Textarea.entry.ts
 
 menu:
@@ -197,6 +210,7 @@ number-input:
     - Input.fluid.html
     - IncrementTrigger.fluid.html
     - DecrementTrigger.fluid.html
+    - Scrubber.fluid.html
     - NumberInput.entry.ts
 
 popover:
@@ -208,7 +222,6 @@ popover:
     - Content.fluid.html
     - Title.fluid.html
     - Description.fluid.html
-    - CloseTrigger.fluid.html
     - Close.fluid.html
     - Popover.entry.ts
 
@@ -244,12 +257,29 @@ select:
     - Trigger.fluid.html
     - ValueText.fluid.html
     - Content.fluid.html
+    - List.fluid.html
     - Item.fluid.html
     - ItemText.fluid.html
     - ItemIndicator.fluid.html
     - ItemGroup.fluid.html
     - ItemGroupLabel.fluid.html
     - Select.entry.ts
+
+slider:
+  name: Slider
+  description: An input for selecting a value, or a range of values, from a given range
+  files:
+    - Root.fluid.html
+    - Label.fluid.html
+    - ValueText.fluid.html
+    - Control.fluid.html
+    - Track.fluid.html
+    - Range.fluid.html
+    - Thumb.fluid.html
+    - DraggingIndicator.fluid.html
+    - MarkerGroup.fluid.html
+    - Marker.fluid.html
+    - Slider.entry.ts
 
 switch:
   name: Switch

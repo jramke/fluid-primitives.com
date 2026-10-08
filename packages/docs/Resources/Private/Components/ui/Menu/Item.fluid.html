@@ -1,6 +1,6 @@
-<ui:useProps name="primitives:menu.item" />
+<ui:useProps name="primitives:menu.item" as="itemProps" />
 
-<primitives:menu.item spreadProps="{true}" class="{ui:cn(value: '
+<primitives:menu.item spreadProps="{itemProps}" class="{ui:cn(value: '
     data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground
     [&_svg:not([class*=text-])]:text-muted-foreground
     relative flex w-full items-center gap-2 rounded-sm py-1.5 px-2 text-sm
