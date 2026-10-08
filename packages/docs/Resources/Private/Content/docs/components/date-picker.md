@@ -15,6 +15,7 @@
 - Minimum and maximum dates, and a check for dates that are unavailable
 - Range presets, like "last 7 days"
 - Formats dates and localizes its labels for the site language
+- Submits ISO dates, whatever format the input shows
 - Works with Field component for form integration
 - Opens in a popup, or renders inline without one
 
@@ -28,6 +29,7 @@
         <primitives:datePicker.clearTrigger />
         <primitives:datePicker.trigger />
     </primitives:datePicker.control>
+    <primitives:datePicker.hiddenInput />
     <primitives:datePicker.positioner>
         <primitives:datePicker.content>
             <primitives:datePicker.view view="day">
@@ -103,7 +105,23 @@ Render the calendar in the page, without a popup, with `inline="{true}"`. It is 
 
 ### Dates in forms
 
-The input submits the date as it shows it, in the format of the `locale`: `15.06.2025` on a German site. Pass a `format` and a `parse` function to the `DatePicker` (see above) if your server expects another format. In range mode both inputs get the same `name`: end it with `[]` (`dates[]`) so that PHP receives both dates.
+The `hiddenInput` submits the selected dates as ISO dates (`2025-06-15`), whatever format the `locale` shows them in. The visible `input` has no `name` and is not submitted, and `ui:datePicker.root` renders the `hiddenInput` for you. A range or several dates submit one value per date under the same `name`, so end the name with `[]` (`dates[]`) for PHP to receive all of them. A date picker without a date submits an empty value.
+
+Extbase expects `Y-m-d\TH:i:sP` for a `DateTime` property by default. Tell it to take the ISO date instead:
+
+```php
+public function initializeCreateAction(): void
+{
+    $this->arguments['event']
+        ->getPropertyMappingConfiguration()
+        ->forProperty('date')
+        ->setTypeConverterOption(
+            DateTimeConverter::class,
+            DateTimeConverter::CONFIGURATION_DATE_FORMAT,
+            'Y-m-d'
+        );
+}
+```
 
 ### Time zone
 
@@ -138,6 +156,7 @@ The remaining labels (the days, the buttons that move through the calendar, and 
             ["input", "Shows the selected date as text and lets people type one. Renders an `<input>` element."],
             ["clearTrigger", "Clears the selection. Renders a `<button>` element."],
             ["trigger", "Opens and closes the calendar. Renders a `<button>` element."],
+            ["hiddenInput", "Submits the selected dates as ISO dates, one input per date. Renders `<input type=\"hidden\">` elements."],
             ["positioner", "Positions the floating calendar. Renders a `<div>` element."],
             ["content", "The calendar surface, positioned by `positioner`. Renders a `<div>` element."],
             ["view", "Wraps one view of the calendar: `day`, `month`, or `year`. Renders a `<div>` element."],
