@@ -29,9 +29,20 @@ export type InputHydrationProps = {
     ids: {
         [key: string]: string;
     };
+    name?: string;
+    disabled?: boolean;
+    invalid?: boolean;
+    required?: boolean;
+    readOnly?: boolean;
+    defaultValue?: string;
+    maxLength?: number;
+    pattern?: string;
+    inputMode?: string;
     translations: {
         wordCount: string | false;
     };
+    announce?: boolean;
+    announceDebounce?: number;
 };
 export type SelectHydrationProps = {
     id: string;
