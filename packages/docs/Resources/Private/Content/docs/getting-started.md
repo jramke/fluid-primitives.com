@@ -77,6 +77,8 @@ final class ComponentCollection extends AbstractComponentCollection
 
 Why two template paths? This lets you use `<ui:button>` instead of `<ui:ui.button>`. See [File Structure](/docs/core-concepts/file-structure) for details.
 
+{% component: "ui:alert", arguments: {"title": "No Configuration/Fluid/ComponentCollections.php", "text": "TYPO3 14.1+ can register component collections with configuration only. Fluid Primitives does not support this: those collections cannot resolve `ui:prop` and the other `ui:*` ViewHelpers, so a collection has to be a class extending `AbstractComponentCollection`.", "variant": "info"} %}
+
 ### 2. Register the Namespace
 
 Add the `ui` namespace to your `ext_localconf.php`:
