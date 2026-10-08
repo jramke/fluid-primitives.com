@@ -65,3 +65,5 @@
   items:
     - docs/client-utilities/extbase
     - docs/client-utilities/delayed-indicator
+    - docs/client-utilities/async-list
+    - docs/client-utilities/template

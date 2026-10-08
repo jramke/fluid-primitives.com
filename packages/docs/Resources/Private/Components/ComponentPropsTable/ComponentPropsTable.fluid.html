@@ -53,12 +53,14 @@
     <f:else>
         <div class="component-props-table">
             <div class="content-grid">
-                <p>
-                    The following tables cover the available props of the Fluid Primitives.
-                    <f:if condition="!{context.isMachineSource}">
-                        For a full list of available client side props and methods, see the <a href="https://zagjs.com/components/react/{context.nameLowerCaseDashed}#methods-and-properties" target="_blank" rel="noopener noreferrer">Zag.js Machine API</a>.
-                    </f:if>
-                </p>
+                <f:if condition="{context.partsWithProps}">
+                    <p>
+                        The following tables cover the available props of the Fluid Primitives.
+                        <f:if condition="!{context.isMachineSource}">
+                            For a full list of available client side props and methods, see the <a href="https://zagjs.com/components/react/{context.nameLowerCaseDashed}#methods-and-properties" target="_blank" rel="noopener noreferrer">Zag.js Machine API</a>.
+                        </f:if>
+                    </p>
+                </f:if>
 
                 <f:for each="{context.partsWithProps}" as="part" iteration="i">
                     <h3>{part.name}</h3>
