@@ -2,12 +2,19 @@
 <ui:prop name="text" type="string" optional="{true}" />
 <ui:useProps name="ui:alert.root" props="{0: 'variant'}" />
 
-<ui:alert.root class="{class}" variant="{variant}">
-    <ui:alert.icon />
-    <ui:alert.title>{title}</ui:alert.title>
-    <f:if condition="{text}">
-        <ui:alert.content>
-            {text -> docs:markdown()}
-        </ui:alert.content>
-    </f:if>
-</ui:alert.root>
+<f:if condition="{context.isMarkdownMode}">
+    <f:then>
+        > **{title}**<f:if condition="{text}"> - {text -> f:format.raw()}</f:if>
+    </f:then>
+    <f:else>
+        <ui:alert.root class="{class}" variant="{variant}">
+            <ui:alert.icon />
+            <ui:alert.title>{title}</ui:alert.title>
+            <f:if condition="{text}">
+                <ui:alert.content>
+                    {text -> docs:markdown()}
+                </ui:alert.content>
+            </f:if>
+        </ui:alert.root>
+    </f:else>
+</f:if>
