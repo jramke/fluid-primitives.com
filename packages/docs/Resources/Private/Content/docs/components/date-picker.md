@@ -135,19 +135,29 @@ The calendar highlights today in the time zone of the browser. Set `timeZone` (`
 
 ### Localization
 
-Dates are formatted for the language of the site, or for the `locale` you pass. Labels that are plain text (the clear button, the month and year select, the calendar itself, and the week column) are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop.
+Dates are formatted for the language of the site, or for the `locale` you pass. Every label, from the buttons and the day cells to the month and year select and the placeholder of the input, is shipped via XLF in English and German and follows the current Site Language. They are the `datePicker.*` units of the language file. Some contain a `%placeholder%` that is filled in when the label renders, like the `%date%` of a day cell.
+
+For per-template overrides, pass translated strings through the `translations` prop, by the id of the unit without `datePicker.`.
 
 ```html
 <ui:datePicker.root
     translations="{
-        clearTrigger: f:translate(key: 'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:datePicker.clear')
+        clearTrigger: f:translate(key: 'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:datePicker.clear'),
+        dayCell: 'Pick %date%'
     }"
 >
     ...
 </ui:datePicker.root>
 ```
 
-The remaining labels (the days, the buttons that move through the calendar, and the one that opens it) are built from the date or the view, so they are functions of it. They are in English unless you pass `translations` to the `DatePicker` in your entry file.
+The client builds the labels Zag wants as functions of the date or the view from these texts. To change one of those from TypeScript, spread the translations your entry file receives and override it the way Zag takes it:
+
+```ts
+const datePicker = new DatePicker({
+    ...props,
+    translations: { ...props.translations, dayCell: state => `Pick ${state.valueText}` },
+});
+```
 
 ## API Reference
 
