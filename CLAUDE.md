@@ -62,6 +62,8 @@ ddev npm run primitives:dev   # Watch mode for primitives
 ddev npm run primitives:test  # Client unit tests (vitest + jsdom)
 ddev npm run docs:build       # Build documentation site
 ddev npm run docs:dev         # Dev server for docs (port 5173)
+ddev npm run docs:generate    # Regenerate the API docs data (client utilities, self-made machines)
+ddev npm run docs:generate:check  # Fail if the generated API docs data is outdated or a JSDoc is missing
 
 # Code quality
 ddev npm run format           # Format all files with Prettier
@@ -172,6 +174,26 @@ public function skipsPrimitivesNamespacesWhenExtractingBaseName(): void
 - TS/JS: Prettier (`.prettierrc`).
 - Indentation: per `.editorconfig` (4 spaces, 2 for YAML).
 - Comments: bare minimum — only for a non-obvious constraint or mechanism, never restating what the code does.
+
+## JSDoc for the public surface
+
+The API docs of the client utilities (`Client/src/lib`) and of the self-made machines
+(`Primitives/<Name>/src/*.machine.ts`) are generated from the TypeScript sources by
+`packages/docs/scripts/generate-api-docs.mjs` into `Content/generated/` (committed). Rerun
+`docs:generate` after touching a JSDoc or a public signature - `docs:generate:check` fails otherwise.
+
+- **Everything in a JSDoc block lands in the docs.** Maintainer-only notes belong in `//` comments.
+- Every export, public member, prop and API member needs a summary. Mark what is not public with `@internal`.
+- Tags: `@param name - text`, `@returns`, `@default`, `@example`, `@deprecated`, `{@link X}` (rendered as inline
+  code). Any other tag is an error, so put a `@scope/package` name in backticks.
+- A `data-*` attribute rendered by a machine needs a JSDoc on its key in the `connect.ts`, unless it is one of the
+  standard state attributes (`data-disabled`, `-invalid`, `-valid`, `-required`, `-readonly`, `-touched`, `-dirty`,
+  `-filled`, `-focus`).
+- Show it on a page with `{% component: "ui:apiReference", arguments: { "symbol": "ExportName" } %}`. The page author
+  writes the heading. A self-made machine needs nothing on its page, `ui:componentPropsTable` picks up
+  `generated/machines/<name>.json` before `generated/zag-docs/<name>.json`.
+- A heading in a component template that should appear in the table of contents is written `<h3 data-toc>` (or `h2`),
+  `ComponentHeadingsExtension` turns it into a real heading with an id and a permalink.
 
 ## TypeScript Guidelines
 
