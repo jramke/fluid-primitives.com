@@ -1,6 +1,6 @@
 # Textarea
 
-**A multi-line text input that works with Field, with optional word count, live-region announcements, and submit-on-Enter.**
+**A multi-line text input that works with Field, with optional word count, screen reader announcements, and submit-on-Enter.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "Textarea", "skipZag": true } %}
 
@@ -13,7 +13,7 @@
 - Optional `submitOn` prop to submit the nearest form on Enter or Cmd/Ctrl+Enter instead of inserting a newline
 - Optional `transform` callback to sanitize/reformat the value as the user types, with cursor position preserved
 - Optional `wordCount` part rendering a translatable "42 / 250 characters" style counter, driven by `maxLength`
-- Optional `liveRegion` part that announces word count updates to screen readers via [@zag-js/live-region](https://zagjs.com), debounced so it doesn't spam assistive tech on every keystroke
+- Word count updates are announced to screen readers by default through the page's shared [live region](/docs/utilities/live-region), debounced so it doesn't spam assistive tech on every keystroke - pass `announce="{false}"` to turn it off
 
 ## Installation
 
@@ -29,7 +29,7 @@ Nest `ui:textarea.root` directly inside `ui:field.root` - it inherits `name`, `d
 
 ### With Word Count
 
-Pass `maxLength` and add the `wordCount`/`liveRegion` parts wherever you want them - they don't need to be direct siblings of `textarea`.
+Pass `maxLength` and add the `wordCount` part wherever you want it - it doesn't need to be a direct sibling of `textarea`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TextareaExamples.wordCount" } %}
 
@@ -56,8 +56,7 @@ Pass `submitOn="{f:constant(name: 'Jramke\FluidPrimitives\Enum\TextareaSubmitOn:
             ["root", "Provides shared textarea state and wraps all related parts. Renders a `<div>` element."],
             ["label", "Labels the textarea. Renders a `<label>` element."],
             ["textarea", "The editable textarea. Renders a `<textarea>` element."],
-            ["wordCount", "Displays the character count, e.g. '42 / 250 characters'. Renders a `<span>` element."],
-            ["liveRegion", "Announces word count updates to assistive technology. Renders a `<div>` element."]
+            ["wordCount", "Displays the character count, e.g. '42 / 250 characters'. Renders a `<span>` element."]
         ]
     }
 %}
@@ -69,6 +68,5 @@ Pass `submitOn="{f:constant(name: 'Jramke\FluidPrimitives\Enum\TextareaSubmitOn:
     <primitives:textarea.label />
     <primitives:textarea.textarea />
     <primitives:textarea.wordCount />
-    <primitives:textarea.liveRegion />
 </primitives:textarea.root>
 ```

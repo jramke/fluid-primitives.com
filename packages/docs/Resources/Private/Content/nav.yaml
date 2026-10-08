@@ -65,3 +65,4 @@
   items:
     - docs/utilities/extbase
     - docs/utilities/delayed-indicator
+    - docs/utilities/live-region
