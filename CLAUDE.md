@@ -195,6 +195,13 @@ The API docs of the client utilities (`Client/src/lib`) and of the self-made mac
 - A plain `<h2>` or `<h3>` in a component template appears in the table of contents: `ComponentHeadingsExtension` turns it
   into a real heading with an id and a permalink. Give a heading an attribute (a class) to keep it out.
 
+## Claude skill for library users
+
+`packages/fluid-primitives/` is itself a Claude Code plugin and marketplace (`.claude-plugin/`, `skills/fluid-primitives/SKILL.md`)
+that ships to users from the library repo. `SKILL.md` is hand-written and carries no API data: it sends the agent to `/llms.txt` and the per-page `.md`
+endpoints, so keep a component page's `API Reference` and `Anatomy` sections intact. `npm run version` also bumps `plugin.json`.
+
+A shortcode that emits HTML in the `.md` branch (random ids) pollutes what agents read. Give it a Markdown branch, as `ui:alert` has.
 
 ## TypeScript Guidelines
 

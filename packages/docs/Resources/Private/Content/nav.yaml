@@ -2,6 +2,7 @@
   items:
     - docs/introduction
     - docs/getting-started
+    - docs/ai
 
 - group: Core Concepts
   items:
