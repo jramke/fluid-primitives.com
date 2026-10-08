@@ -29,6 +29,11 @@ export const Multiple: StoryObj = {
         example_id: 'multiple',
     },
 };
+export const MultipleMonths: StoryObj = {
+    args: {
+        example_id: 'multiple-months',
+    },
+};
 export const MinMax: StoryObj = {
     args: {
         example_id: 'min-max',

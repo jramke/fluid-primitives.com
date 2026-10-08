@@ -41,8 +41,8 @@
                     <primitives:datePicker.nextTrigger view="day" />
                 </primitives:datePicker.viewControl>
                 <primitives:datePicker.table view="day">
-                    <primitives:datePicker.tableHeader view="day" />
-                    <primitives:datePicker.tableBody view="day" />
+                    <primitives:datePicker.tableHeader />
+                    <primitives:datePicker.tableBody />
                 </primitives:datePicker.table>
             </primitives:datePicker.view>
             <primitives:datePicker.monthSelect />
@@ -53,7 +53,7 @@
 </primitives:datePicker.root>
 ```
 
-The calendar has three views: `day`, `month`, and `year`. Repeat the `view` with `view="month"` and `view="year"` to switch between them, as `ui:datePicker.content` does. Its cells, the weekday headings, and the options of `monthSelect` and `yearSelect` are not part of the markup you write: they depend on the locale and on the month shown, so the client builds them. Because of that, the grid of an `inline` date picker is empty until it hydrates: `showSkeleton="{true}"` on `ui:datePicker.content` fills the gap with a placeholder.
+The calendar has three views: `day`, `month`, and `year`. Repeat the `view` with `view="month"` and `view="year"` to switch between them, as `ui:datePicker.content` does. The `tableHeader` and `tableBody` belong to the `table` they sit in. Its cells, the weekday headings, and the options of `monthSelect` and `yearSelect` are not part of the markup you write: they depend on the locale and on the month shown, so the client builds them. Because of that, the grid of an `inline` date picker is empty until it hydrates: `showSkeleton="{true}"` on `ui:datePicker.content` fills the gap with a placeholder.
 
 ## Installation
 
@@ -84,6 +84,12 @@ Set `selectionMode` to `DatePickerSelectionMode::Range` (an enum, so `selectionM
 Set `selectionMode` to `DatePickerSelectionMode::Multiple` and limit the number of dates with `maxSelectedDates`. The input shows the first date only, so the example lists all of them below it, with an `onValueChange` callback it gives the `DatePicker` in its entry file (see [Unavailable Dates](#unavailable-dates)).
 
 {% component: "ui:componentExample", arguments: { "componentName": "DatePickerExamples.multiple", "additionalFiles": {"Multiple.entry.ts": "EXT:docs/Resources/Private/Components/ui/DatePickerExamples/Multiple.entry.ts"} } %}
+
+### Multiple Months
+
+`numOfMonths` shows several months of the day view next to each other. Render one `table` per month, with the `offset` of the month it shows (`0` for the first, `1` for the next): `ui:datePicker.content` does it for you, with a table for each of the `numOfMonths`. The month and year views always show a single table.
+
+{% component: "ui:componentExample", arguments: { "componentName": "DatePickerExamples.multipleMonths" } %}
 
 ### Min/Max Constraints
 

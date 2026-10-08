@@ -149,6 +149,7 @@ export type DatePickerHydrationProps = {
     closeOnSelect?: boolean;
     openOnClick?: boolean;
     defaultFocusedValue?: string;
+    numOfMonths?: number;
     startOfWeek?: number;
     fixedWeeks?: boolean;
     showWeekNumbers?: boolean;
