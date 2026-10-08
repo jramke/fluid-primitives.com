@@ -2,7 +2,7 @@
 
 **A multi-line text input that works with Field, with optional word count, screen reader announcements, and submit-on-Enter.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "Textarea", "skipZag": true } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Textarea" } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "TextareaExamples.simple", "withEntryFile": true } %}
 
@@ -51,7 +51,6 @@ Pass `submitOn="{f:constant(name: 'Jramke\FluidPrimitives\Enum\TextareaSubmitOn:
     component: "ui:ComponentPropsTable",
     arguments: {
         "name": "Textarea",
-        "skipZag": true,
         "parts": [
             ["root", "Provides shared textarea state and wraps all related parts. Renders a `<div>` element."],
             ["label", "Labels the textarea. Renders a `<label>` element."],

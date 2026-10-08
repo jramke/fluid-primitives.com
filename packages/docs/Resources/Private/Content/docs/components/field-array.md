@@ -2,7 +2,7 @@
 
 **A repeatable group of fields, for letting users add and remove rows like "add another person".**
 
-{% component: "ui:referenceButtons", arguments: { "name": "FieldArray", "skipZag": true } %}
+{% component: "ui:referenceButtons", arguments: { "name": "FieldArray" } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.simple", "withEntryFile": true } %}
 
@@ -81,7 +81,6 @@ A complete `Form` wrapping a `FieldArray` of guests, each with a `name`/`email` 
     component: "ui:ComponentPropsTable",
     arguments: {
         "name": "FieldArray",
-        "skipZag": true,
         "parts": [
             ["root", "Contains every part of the field array. Renders a `<div>` element."],
             ["itemTemplate", "Wraps one row's markup, authored once and cloned client-side for each added row. Renders a `<template>` element - never visible itself."],

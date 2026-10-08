@@ -2,7 +2,7 @@
 
 **A form field wrapper that provides accessible labeling, helper and error text, validation state and indicators for form inputs.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "Field", "skipZag": true } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Field" } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.simple", "withEntryFile": true } %}
 
@@ -190,7 +190,6 @@ The same flags are available from TypeScript on `field.api` (and on the `FieldHa
     component: "ui:ComponentPropsTable",
     arguments: {
         "name": "Field",
-        "skipZag": true,
         "parts": [
             ["root", "Provides shared field state for labels, helper text, errors, indicators and controls. Renders a `<div>` element."],
             ["label", "Labels the associated form control. Renders a `<label>` element."],

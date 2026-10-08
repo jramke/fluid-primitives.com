@@ -2,7 +2,7 @@
 
 **A text input component that works with Field, with optional word count and screen reader announcements.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "Input", "skipZag": true } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Input" } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "InputExamples.simple", "withEntryFile": true } %}
 
@@ -43,7 +43,6 @@ Pass `maxLength` and add the `wordCount` part wherever you want it - it doesn't 
     component: "ui:ComponentPropsTable",
     arguments: {
         "name": "Input",
-        "skipZag": true,
         "parts": [
             ["root", "Provides shared input state and wraps all related parts. Renders a `<div>` element."],
             ["label", "Labels the input. Renders a `<label>` element."],

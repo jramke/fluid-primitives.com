@@ -2,7 +2,7 @@
 
 **A powerful form component with client-side validation, AJAX submission, and seamless Extbase integration.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "Form", "skipZag": true } %}
+{% component: "ui:referenceButtons", arguments: { "name": "Form" } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "FormExample", "additionalFiles": {"FormExample.ts": "EXT:docs/Resources/Private/Components/FormExample/FormExample.entry.ts"} } %}
 
@@ -31,7 +31,6 @@ Client-side validation is configured in your entry file with the `validation` op
     component: "ui:ComponentPropsTable",
     arguments: {
         "name": "Form",
-        "skipZag": true,
         "parts": [
             ["root", "Submits and manages the form state. Renders a `<form>` element."],
             ["content", "Wraps the editable form UI. It stays visible in `ready`, `invalid`, and `submitting`, and hides in `error` and `success`. Renders a `<div>` element."],

@@ -2,7 +2,7 @@
 
 **A group of checkboxes for selecting multiple values.**
 
-{% component: "ui:referenceButtons", arguments: { "name": "CheckboxGroup", "skipZag": true } %}
+{% component: "ui:referenceButtons", arguments: { "name": "CheckboxGroup" } %}
 
 {% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.simple", "withEntryFile": true } %}
 
@@ -56,7 +56,6 @@ Implement a "Select All" checkbox that toggles all options.
     component: "ui:ComponentPropsTable",
     arguments: {
         "name": "CheckboxGroup",
-        "skipZag": true,
         "parts": [
             ["root", "Provides shared state for a group of related checkboxes. Renders a `<div>` element."],
             ["label", "Labels the checkbox group. Renders a `<span>` element."]
