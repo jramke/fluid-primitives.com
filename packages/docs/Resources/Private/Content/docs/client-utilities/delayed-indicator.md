@@ -32,12 +32,7 @@ Call `indicator.destroy()` when it's no longer needed (e.g. on component teardow
 
 ## Options
 
-| Option         | Type                    | Default | Description                                                                                                                    |
-| -------------- | ----------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `isTransient`  | `(value: T) => boolean` | -       | Marks which values are transient and need delay/hold behavior. Every other value is treated as settled.                        |
-| `onChange`     | `(value: T) => void`    | -       | Called with each value once it's ready to be shown.                                                                            |
-| `showDelayMs`  | `number`                | `150`   | How long a transient value must persist before it's shown at all. Must be finite and `>= 0`.                                   |
-| `minVisibleMs` | `number`                | `300`   | Once shown, the minimum time a transient value stays current before a settled value can replace it. Must be finite and `>= 0`. |
+{% component: "ui:apiReference", arguments: { "symbol": "DelayedIndicatorOptions" } %}
 
 ## Behavior
 
@@ -64,3 +59,7 @@ status.set(getSearchStatus(api, hasResults));
 ```
 
 `renderStatus` reads the single incoming `status` value to update both the spinner's visibility and the status text, so the two are always derived from the same source and change in lockstep.
+
+## API
+
+{% component: "ui:apiReference", arguments: { "symbol": "DelayedIndicator" } %}

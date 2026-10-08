@@ -88,3 +88,7 @@ extbase.getArgumentPrefix(
 ```
 
 Returns `null` for a URL with no `[action]` or `[controller]` key in its query string.
+
+## Reference
+
+{% component: "ui:apiReference", arguments: { "symbol": "extbase" } %}
