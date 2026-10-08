@@ -1,0 +1,112 @@
+{
+    "api": {
+        "api": {
+            "value": {
+                "type": "string[]",
+                "description": "The current value of the checkbox group"
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name for form submission"
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the checkbox group is disabled"
+            },
+            "readOnly": {
+                "type": "boolean",
+                "description": "Whether the checkbox group is read-only"
+            },
+            "invalid": {
+                "type": "boolean",
+                "description": "Whether the checkbox group is invalid"
+            },
+            "isChecked": {
+                "type": "(value: string) => boolean",
+                "description": "Check if a value is selected"
+            },
+            "setValue": {
+                "type": "(value: string[]) => void",
+                "description": "Set the entire value array"
+            },
+            "addValue": {
+                "type": "(value: string) => void",
+                "description": "Add a value to the selection"
+            },
+            "removeValue": {
+                "type": "(value: string) => void",
+                "description": "Remove a value from the selection"
+            },
+            "toggleValue": {
+                "type": "(value: string) => void",
+                "description": "Toggle a value"
+            },
+            "getItemProps": {
+                "type": "(props: CheckboxGroupItemProps) => CheckboxGroupItemState",
+                "description": "Get props to merge into a checkbox item"
+            }
+        },
+        "context": {
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the checkbox group."
+            },
+            "ids": {
+                "type": "Record<string, string> | undefined",
+                "description": "The ids of the elements in the checkbox group. Useful for composition."
+            },
+            "defaultValue": {
+                "type": "string[] | undefined",
+                "description": "The initial value of the checkbox group (uncontrolled)"
+            },
+            "value": {
+                "type": "string[] | undefined",
+                "description": "The controlled value of the checkbox group"
+            },
+            "name": {
+                "type": "string | undefined",
+                "description": "The name of the input fields in the checkbox group (for form submission)"
+            },
+            "form": {
+                "type": "string | undefined",
+                "description": "The form id the checkbox group belongs to"
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "If true, the checkbox group is disabled"
+            },
+            "readOnly": {
+                "type": "boolean | undefined",
+                "description": "If true, the checkbox group is read-only"
+            },
+            "required": {
+                "type": "boolean | undefined",
+                "description": "If true, the checkbox group is required"
+            },
+            "invalid": {
+                "type": "boolean | undefined",
+                "description": "If true, the checkbox group is invalid"
+            },
+            "maxSelectedValues": {
+                "type": "number | undefined",
+                "description": "The maximum number of selected values"
+            },
+            "onValueChange": {
+                "type": "((details: { value: string[] }) => void) | undefined",
+                "description": "Called when the value changes"
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid"
+        },
+        "Label": {
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid"
+        }
+    }
+}

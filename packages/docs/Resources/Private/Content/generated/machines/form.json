@@ -1,0 +1,126 @@
+{
+    "api": {
+        "api": {
+            "isSubmitting": {
+                "type": "boolean",
+                "description": "Whether the form is being submitted."
+            },
+            "isDirty": {
+                "type": "boolean",
+                "description": "Whether the value of any field differs from the one it started with."
+            },
+            "isInvalid": {
+                "type": "boolean",
+                "description": "Whether any field is invalid."
+            },
+            "isSuccessful": {
+                "type": "boolean",
+                "description": "Whether the last submit succeeded."
+            },
+            "isError": {
+                "type": "boolean",
+                "description": "Whether the last submit ended in an error."
+            },
+            "getValues": {
+                "type": "() => FormValues",
+                "description": "The current values of the form."
+            },
+            "getErrors": {
+                "type": "() => FormErrors",
+                "description": "The errors of the invalid fields, by field name."
+            },
+            "getDirty": {
+                "type": "() => FormDirty",
+                "description": "The dirty fields, by field name."
+            },
+            "getTouched": {
+                "type": "() => FormTouched",
+                "description": "The touched fields, by field name."
+            },
+            "getErrorText": {
+                "type": "() => string | null",
+                "description": "The text of the error status of the form, `null` if there is none."
+            },
+            "setErrorText": {
+                "type": "(text: string | null) => void",
+                "description": "Sets the text of the error status. Pass `null` to remove it."
+            },
+            "getSuccessText": {
+                "type": "() => string | null",
+                "description": "The text of the success status of the form, `null` if there is none."
+            },
+            "setSuccessText": {
+                "type": "(text: string | null) => void",
+                "description": "Sets the text of the success status. Pass `null` to remove it."
+            },
+            "clearStatusText": {
+                "type": "() => void",
+                "description": "Removes the error and the success text."
+            },
+            "getAllFields": {
+                "type": "() => Map<string, FieldHandle>",
+                "description": "Every field of the form, by name."
+            },
+            "getField": {
+                "type": "(name: string) => FieldHandle | undefined",
+                "description": "The field with this name, `undefined` if the form has none."
+            },
+            "getFormEl": {
+                "type": "() => HTMLFormElement | null",
+                "description": "The `<form>` element."
+            },
+            "getAction": {
+                "type": "() => string",
+                "description": "The `action` of the form, an empty string if it has none."
+            },
+            "reset": {
+                "type": "() => void",
+                "description": "Resets the form to its initial state."
+            },
+            "syncFields": {
+                "type": "() => void",
+                "description": "Picks up fields that were added or removed after the form was hydrated."
+            },
+            "renameField": {
+                "type": "(oldName: string, newName: string) => void",
+                "description": "Renames a field, keeping its value, touched, dirty and error state. Useful to keep the rows of a FieldArray contiguously indexed after one in the middle was removed."
+            }
+        },
+        "context": {
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the form."
+            },
+            "validation": {
+                "type": "FormValidation | undefined",
+                "description": "Validates the values of the form on the client: a Standard Schema validator such as Zod, or a synchronous callback that gets the `values` and returns the errors by field name. It cannot be set from a Fluid template, only by constructing `Form` in your own entry file."
+            },
+            "objectName": {
+                "type": "string | undefined",
+                "description": "The object name that prefixes the names of nested form fields."
+            },
+            "inputDebounceMs": {
+                "type": "number | undefined",
+                "description": "How long the fields wait after the last change before they read their value, never less than 50. A `validate` that sends a request should not fire on every keystroke.",
+                "defaultValue": "100"
+            },
+            "onSubmit": {
+                "type": "(({ values, api, event, post }: { values: FormValues; api: FormApi; event: JSX.FormEvent<HTMLElement>; post: (url: string) => Promise<Response>; }) => Promise<FormSubmitResult> | FormSubmitResult) | undefined",
+                "description": "Called with the values once the form is valid and submitted. Return `true` for success, `false` for an error, or field errors to mark the form invalid. `post(url)` submits the form as `FormData` and maps a 422 JSON response to field errors for you."
+            },
+            "render": {
+                "type": "((form: Form) => void) | undefined",
+                "description": "Called every time the form state changes. Use it to update UI the form does not wire itself."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-state": "The state of the form. One of: \"invalid\", \"ready\", \"submitting\", \"success\", \"error\".",
+            "data-submitting": "Present while the form is being submitted.",
+            "data-invalid": "Present when invalid",
+            "data-dirty": "Present when dirty",
+            "data-touched": "Present when touched"
+        }
+    }
+}
