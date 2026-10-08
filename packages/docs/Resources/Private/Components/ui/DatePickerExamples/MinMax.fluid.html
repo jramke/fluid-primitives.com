@@ -1,4 +1,8 @@
-<ui:datePicker.root min="2024-01-01" max="2024-12-31">
+<ui:datePicker.root
+    class="max-w-74"
+    min="{f:format.date(date: 'now', format: 'Y-m-d')}"
+    max="{f:format.date(date: '+30 days', format: 'Y-m-d')}">
+    <ui:datePicker.label>Appointment (within the next 30 days)</ui:datePicker.label>
     <ui:datePicker.control>
         <ui:datePicker.input />
         <ui:datePicker.trigger />

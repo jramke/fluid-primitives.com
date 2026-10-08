@@ -1,8 +1,17 @@
-<ui:datePicker.root selectionMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerSelectionMode::Multiple')}" maxSelectedDates="5">
+<ui:datePicker.root
+    class="max-w-74"
+    selectionMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerSelectionMode::Multiple')}"
+    maxSelectedDates="3"
+    autoMount="{false}"
+    rootId="date-picker-multiple">
+    <ui:datePicker.label>Dates (up to 3)</ui:datePicker.label>
     <ui:datePicker.control>
         <ui:datePicker.input />
-        <ui:datePicker.trigger />
         <ui:datePicker.clearTrigger />
+        <ui:datePicker.trigger />
     </ui:datePicker.control>
     <ui:datePicker.content />
+    <p id="date-picker-multiple-dates" class="text-muted-foreground text-sm">No dates selected</p>
 </ui:datePicker.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/DatePickerExamples/Multiple.entry.ts" />

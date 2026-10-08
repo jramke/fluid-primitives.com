@@ -1,6 +1,6 @@
-<ui:useProps name="primitives:datePicker.root" />
+<ui:useProps name="primitives:datePicker.root" as="rootProps" />
 
-<primitives:datePicker.root spreadProps="{true}" class="{ui:cn(value: 'flex flex-col gap-1.5 {class}')}">
+<primitives:datePicker.root spreadProps="{rootProps}" class="{ui:cn(value: 'field {class}')}">
     <f:slot />
 </primitives:datePicker.root>
 

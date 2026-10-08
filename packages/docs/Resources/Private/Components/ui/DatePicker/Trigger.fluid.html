@@ -1,10 +1,10 @@
-<ui:useProps name="primitives:datePicker.trigger" />
+<ui:useProps name="primitives:datePicker.trigger" as="triggerProps" />
 
-<primitives:datePicker.trigger spreadProps="{true}" class="{ui:cn(value: '
+<primitives:datePicker.trigger spreadProps="{triggerProps}" class="{ui:cn(value: '
     border-input focus-visible:border-ring hover:bg-accent hover:text-accent-foreground
     focus-visible:ring-ring/50 flex size-9 shrink-0 items-center justify-center rounded-md border
-    bg-transparent shadow-xs transition-colors outline-none focus-visible:ring-[3px]
-    disabled:cursor-not-allowed disabled:opacity-50
+    bg-transparent shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px]
+    disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50
     [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4
     {class}
 ')}">

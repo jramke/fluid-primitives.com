@@ -1,12 +1,17 @@
 import { type Meta, type StoryObj, fetchComponent } from '@andersundsehr/storybook-typo3';
 
 export default {
-    component: await fetchComponent('ui:datePicker.examples.all'),
+    component: await fetchComponent('ui:datePickerExamples.all'),
 } satisfies Meta;
 
 export const Simple: StoryObj = {
     args: {
         example_id: 'simple',
+    },
+};
+export const DefaultValue: StoryObj = {
+    args: {
+        example_id: 'default-value',
     },
 };
 export const WithField: StoryObj = {
@@ -32,5 +37,10 @@ export const MinMax: StoryObj = {
 export const Inline: StoryObj = {
     args: {
         example_id: 'inline',
+    },
+};
+export const UnavailableDates: StoryObj = {
+    args: {
+        example_id: 'unavailable-dates',
     },
 };

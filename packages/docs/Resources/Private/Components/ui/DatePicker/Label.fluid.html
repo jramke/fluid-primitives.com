@@ -1,5 +1,5 @@
-<ui:useProps name="primitives:datePicker.label" />
+<ui:useProps name="primitives:datePicker.label" as="labelProps" />
 
-<primitives:datePicker.label spreadProps="{true}" class="{ui:cn(value: 'label {class}')}">
+<primitives:datePicker.label spreadProps="{labelProps}" class="{ui:cn(value: 'label {class}')}">
     <f:slot />
 </primitives:datePicker.label>

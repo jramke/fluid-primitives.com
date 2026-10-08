@@ -1,12 +1,13 @@
-<ui:datePicker.root selectionMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerSelectionMode::Range')}">
+<ui:datePicker.root class="max-w-96" selectionMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerSelectionMode::Range')}">
+    <ui:datePicker.label>Stay</ui:datePicker.label>
     <ui:datePicker.control>
         <ui:datePicker.input index="0" />
-        <ui:datePicker.rangeText>–</ui:datePicker.rangeText>
+        <span class="text-muted-foreground">–</span>
         <ui:datePicker.input index="1" />
         <ui:datePicker.trigger />
     </ui:datePicker.control>
     <ui:datePicker.content>
-        <div class="flex gap-2 border-t pt-2">
+        <div class="mt-3 flex flex-wrap gap-2 border-t pt-3">
             <ui:datePicker.presetTrigger value="thisWeek">This week</ui:datePicker.presetTrigger>
             <ui:datePicker.presetTrigger value="thisMonth">This month</ui:datePicker.presetTrigger>
             <ui:datePicker.presetTrigger value="last7Days">Last 7 days</ui:datePicker.presetTrigger>

@@ -1,6 +1,6 @@
-<ui:useProps name="primitives:datePicker.presetTrigger" />
+<ui:useProps name="primitives:datePicker.presetTrigger" as="presetTriggerProps" />
 
-<primitives:datePicker.presetTrigger spreadProps="{true}" class="{ui:cn(value: '
+<primitives:datePicker.presetTrigger spreadProps="{presetTriggerProps}" class="{ui:cn(value: '
     border-input hover:bg-accent hover:text-accent-foreground
     flex h-8 items-center justify-start rounded-md border bg-transparent px-3 text-sm transition-colors
     {class}

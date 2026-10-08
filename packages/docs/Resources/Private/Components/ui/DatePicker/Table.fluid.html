@@ -1,40 +1,39 @@
-<ui:useProps name="primitives:datePicker.table" />
+<ui:useProps name="primitives:datePicker.table" as="tableProps" />
 
 <f:comment>
-    The day/month/year cells themselves are built entirely client-side (no Fluid template exists
-    for `tableCell`/`tableCellTrigger` - see the DatePicker docs page's "Client-rendered grid"
-    note), so their styling lives here as descendant selectors on this shared `<table>` wrapper
-    instead of on a `class="{ui:cn(...)}"` prop the cells themselves could carry.
-
-    Zag spreads one generic `tableCellTrigger`/`tableCell` anatomy part for day/month/year alike -
-    the rendered `data-part` is always `table-cell-trigger`/`table-cell`, never
-    `day-table-cell-trigger` or similar. Only `data-view` ("day"/"month"/"year") tells the cells
-    apart, so every selector below pairs `[data-part=table-cell-trigger]` with `[data-view=...]`
-    rather than a per-view part name.
+    The cells are built on the client, so there is no template that could give them a class: they
+    are styled with selectors on this table. A day, month or year cell is an element that carries
+    `data-date-picker-table-cell-trigger`, and `data-view` tells the three apart.
 </f:comment>
-<primitives:datePicker.table spreadProps="{true}" class="{ui:cn(value: '
+<primitives:datePicker.table spreadProps="{tableProps}" class="{ui:cn(value: '
     w-full border-collapse
-    [&_th]:text-muted-foreground [&_th]:pb-1 [&_th]:text-xs [&_th]:font-normal
+    [&_th]:pb-1 [&_th]:text-xs [&_th]:font-normal [&_th]:text-muted-foreground
     [&_td]:p-0 [&_td]:text-center
-    [&_[data-part=table-cell-trigger][data-view=day]]:flex [&_[data-part=table-cell-trigger][data-view=day]]:size-8
-    [&_[data-part=table-cell-trigger][data-view=day]]:items-center [&_[data-part=table-cell-trigger][data-view=day]]:justify-center
-    [&_[data-part=table-cell-trigger][data-view=day]]:rounded-md [&_[data-part=table-cell-trigger][data-view=day]]:text-sm
-    [&_[data-part=table-cell-trigger][data-view=day]]:transition-colors [&_[data-part=table-cell-trigger][data-view=day]]:cursor-pointer
-    [&_[data-part=table-cell-trigger][data-view=day]:hover]:bg-accent
-    [&_[data-part=table-cell-trigger][data-view=day][data-today]]:font-semibold
-    [&_[data-part=table-cell-trigger][data-view=day][data-selected]]:bg-primary [&_[data-part=table-cell-trigger][data-view=day][data-selected]]:text-primary-foreground
-    [&_[data-part=table-cell-trigger][data-view=day][data-in-range]]:bg-accent
-    [&_[data-part=table-cell-trigger][data-view=day][data-focus]]:outline [&_[data-part=table-cell-trigger][data-view=day][data-focus]]:outline-2 [&_[data-part=table-cell-trigger][data-view=day][data-focus]]:outline-ring
-    [&_[data-part=table-cell-trigger][data-view=day][data-outside-range]]:text-muted-foreground/50
-    [&_[data-part=table-cell-trigger][data-view=day][data-unavailable]]:pointer-events-none [&_[data-part=table-cell-trigger][data-view=day][data-unavailable]]:opacity-30 [&_[data-part=table-cell-trigger][data-view=day][data-unavailable]]:line-through
-    [&_[data-part=table-cell-trigger][data-view=month]]:flex [&_[data-part=table-cell-trigger][data-view=month]]:h-9 [&_[data-part=table-cell-trigger][data-view=month]]:items-center [&_[data-part=table-cell-trigger][data-view=month]]:justify-center
-    [&_[data-part=table-cell-trigger][data-view=month]]:rounded-md [&_[data-part=table-cell-trigger][data-view=month]]:text-sm [&_[data-part=table-cell-trigger][data-view=month]]:transition-colors [&_[data-part=table-cell-trigger][data-view=month]]:cursor-pointer
-    [&_[data-part=table-cell-trigger][data-view=month]:hover]:bg-accent
-    [&_[data-part=table-cell-trigger][data-view=month][data-selected]]:bg-primary [&_[data-part=table-cell-trigger][data-view=month][data-selected]]:text-primary-foreground
-    [&_[data-part=table-cell-trigger][data-view=year]]:flex [&_[data-part=table-cell-trigger][data-view=year]]:h-9 [&_[data-part=table-cell-trigger][data-view=year]]:items-center [&_[data-part=table-cell-trigger][data-view=year]]:justify-center
-    [&_[data-part=table-cell-trigger][data-view=year]]:rounded-md [&_[data-part=table-cell-trigger][data-view=year]]:text-sm [&_[data-part=table-cell-trigger][data-view=year]]:transition-colors [&_[data-part=table-cell-trigger][data-view=year]]:cursor-pointer
-    [&_[data-part=table-cell-trigger][data-view=year]:hover]:bg-accent
-    [&_[data-part=table-cell-trigger][data-view=year][data-selected]]:bg-primary [&_[data-part=table-cell-trigger][data-view=year][data-selected]]:text-primary-foreground
+    [&_[data-type=week-number]]:text-xs [&_[data-type=week-number]]:text-muted-foreground
+
+    [&_[data-date-picker-table-cell-trigger]]:flex [&_[data-date-picker-table-cell-trigger]]:cursor-pointer
+    [&_[data-date-picker-table-cell-trigger]]:items-center [&_[data-date-picker-table-cell-trigger]]:justify-center
+    [&_[data-date-picker-table-cell-trigger]]:rounded-md [&_[data-date-picker-table-cell-trigger]]:text-sm
+    [&_[data-date-picker-table-cell-trigger]]:outline-none [&_[data-date-picker-table-cell-trigger]]:transition-colors
+    [&_[data-date-picker-table-cell-trigger]:focus-visible]:ring-[3px] [&_[data-date-picker-table-cell-trigger]:focus-visible]:ring-ring/50
+    [&_[data-date-picker-table-cell-trigger][data-view=day]]:size-8
+    [&_[data-date-picker-table-cell-trigger]:not([data-view=day])]:h-9
+
+    [&_[data-date-picker-table-cell-trigger]:hover:not([data-selected])]:bg-accent
+    [&_[data-date-picker-table-cell-trigger][data-today]:not([data-selected])]:bg-accent
+    [&_[data-date-picker-table-cell-trigger][data-today]]:font-semibold
+    [&_[data-date-picker-table-cell-trigger][data-selected]]:bg-primary [&_[data-date-picker-table-cell-trigger][data-selected]]:text-primary-foreground
+
+    [&_[data-date-picker-table-cell-trigger][data-in-range]:not([data-selected])]:bg-accent
+    [&_[data-date-picker-table-cell-trigger][data-in-hover-range]:not([data-selected])]:bg-accent/60
+    [&_[data-date-picker-table-cell-trigger][data-in-range]]:rounded-none [&_[data-date-picker-table-cell-trigger][data-in-hover-range]]:rounded-none
+    [&_[data-date-picker-table-cell-trigger][data-in-range][data-range-start]]:rounded-l-md [&_[data-date-picker-table-cell-trigger][data-in-hover-range][data-hover-range-start]]:rounded-l-md
+    [&_[data-date-picker-table-cell-trigger][data-in-range][data-range-end]]:rounded-r-md [&_[data-date-picker-table-cell-trigger][data-in-hover-range][data-hover-range-end]]:rounded-r-md
+
+    [&_[data-date-picker-table-cell-trigger][data-outside-range]]:text-muted-foreground/50
+    [&_[data-date-picker-table-cell-trigger][data-disabled]]:pointer-events-none
+    [&_[data-date-picker-table-cell-trigger][data-disabled]:not([data-outside-range])]:opacity-40
+    [&_[data-date-picker-table-cell-trigger][data-unavailable]]:line-through
     {class}
 ')}">
     <f:slot />

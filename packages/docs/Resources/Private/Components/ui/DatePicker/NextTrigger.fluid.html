@@ -1,6 +1,6 @@
-<ui:useProps name="primitives:datePicker.nextTrigger" />
+<ui:useProps name="primitives:datePicker.nextTrigger" as="nextTriggerProps" />
 
-<primitives:datePicker.nextTrigger spreadProps="{true}" class="{ui:cn(value: '
+<primitives:datePicker.nextTrigger spreadProps="{nextTriggerProps}" class="{ui:cn(value: '
     text-muted-foreground hover:bg-accent hover:text-accent-foreground
     flex size-7 shrink-0 items-center justify-center rounded-md transition-colors
     disabled:pointer-events-none disabled:opacity-50
