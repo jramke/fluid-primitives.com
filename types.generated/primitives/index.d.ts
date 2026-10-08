@@ -382,6 +382,7 @@ export type TextareaHydrationProps = {
     translations: {
         wordCount: string | false;
     };
+    announce?: boolean;
     announceDebounce?: number;
 };
 export type TooltipHydrationProps = {

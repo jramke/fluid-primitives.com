@@ -149,24 +149,22 @@ form:
 
 input:
   name: Input
-  description: A text input that works with Field, with optional word count and live-region announcements
+  description: A text input that works with Field, with optional word count and screen reader announcements
   files:
     - Root.fluid.html
     - Label.fluid.html
     - Input.fluid.html
     - WordCount.fluid.html
-    - LiveRegion.fluid.html
     - Input.entry.ts
 
 textarea:
   name: Textarea
-  description: A multi-line text input that works with Field, with optional word count, live-region announcements, and submit-on-Enter
+  description: A multi-line text input that works with Field, with optional word count, screen reader announcements, and submit-on-Enter
   files:
     - Root.fluid.html
     - Label.fluid.html
     - Textarea.fluid.html
     - WordCount.fluid.html
-    - LiveRegion.fluid.html
     - Textarea.entry.ts
 
 menu:
