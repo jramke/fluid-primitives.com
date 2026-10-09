@@ -7,10 +7,25 @@
         <ui:datePicker.trigger />
     </ui:datePicker.control>
     <ui:datePicker.content>
+        <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
+            <ui:datePicker.view view="{view}">
+                <ui:datePicker.viewControl view="{view}">
+                    <ui:datePicker.prevTrigger view="{view}" />
+                    <ui:datePicker.viewTrigger view="{view}">
+                        <ui:datePicker.rangeText />
+                    </ui:datePicker.viewTrigger>
+                    <ui:datePicker.nextTrigger view="{view}" />
+                </ui:datePicker.viewControl>
+                <ui:datePicker.table view="{view}">
+                    <ui:datePicker.tableHeader />
+                    <ui:datePicker.tableBody />
+                </ui:datePicker.table>
+            </ui:datePicker.view>
+        </f:for>
         <div class="mt-3 flex flex-wrap gap-2 border-t pt-3">
-            <ui:datePicker.presetTrigger value="thisWeek">This week</ui:datePicker.presetTrigger>
-            <ui:datePicker.presetTrigger value="thisMonth">This month</ui:datePicker.presetTrigger>
-            <ui:datePicker.presetTrigger value="last7Days">Last 7 days</ui:datePicker.presetTrigger>
+            <ui:datePicker.presetTrigger value="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerRangePreset::ThisWeek')}">This week</ui:datePicker.presetTrigger>
+            <ui:datePicker.presetTrigger value="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerRangePreset::ThisMonth')}">This month</ui:datePicker.presetTrigger>
+            <ui:datePicker.presetTrigger value="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerRangePreset::Last7Days')}">Last 7 days</ui:datePicker.presetTrigger>
         </div>
     </ui:datePicker.content>
 </ui:datePicker.root>

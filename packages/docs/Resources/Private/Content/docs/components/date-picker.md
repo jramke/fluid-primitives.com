@@ -53,7 +53,7 @@
 </primitives:datePicker.root>
 ```
 
-The calendar has three views: `day`, `month`, and `year`. Repeat the `view` with `view="month"` and `view="year"` to switch between them, as `ui:datePicker.content` does. The `tableHeader` and `tableBody` belong to the `table` they sit in. Its cells, the weekday headings, and the options of `monthSelect` and `yearSelect` are not part of the markup you write: they depend on the locale and on the month shown, so the client builds them. Because of that, the grid of an `inline` date picker is empty until it hydrates: `showSkeleton="{true}"` on `ui:datePicker.content` fills the gap with a placeholder.
+The calendar has three views: `day`, `month`, and `year`. The `content` only holds what you put into it, so you render the views you need yourself, each in a `view` with its controls and its `table`. Every example on this page loops over the views; write them out one by one if the views differ. The `tableHeader` and `tableBody` belong to the `table` they sit in. Its cells, the weekday headings, and the options of `monthSelect` and `yearSelect` are not part of the markup you write: they depend on the locale and on the month shown, so the client builds them. Because of that, the grid of an `inline` date picker is empty until it hydrates: `showSkeleton="{true}"` on the `tableHeader` and the `tableBody` of the day view fills the gap with a placeholder (see [Inline](#inline)).
 
 ## Installation
 
@@ -75,7 +75,7 @@ Use with the Field component for form validation.
 
 ### Range Selection
 
-Set `selectionMode` to `DatePickerSelectionMode::Range` (an enum, so `selectionMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerSelectionMode::Range')}"`) and add an `input` for each end of the range with its `index`. The `presetTrigger` selects a range with one click.
+Set `selectionMode` to `DatePickerSelectionMode::Range` (an enum, so `selectionMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerSelectionMode::Range')}"`) and add an `input` for each end of the range with its `index`. The `presetTrigger` selects a range with one click. Its `value` is a case of the `DatePickerRangePreset` enum (`value="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerRangePreset::Last7Days')}"`): `ThisWeek`, `LastWeek`, `ThisMonth`, `LastMonth`, `ThisQuarter`, `LastQuarter`, `ThisYear`, `LastYear`, `Last3Days`, `Last7Days`, `Last14Days`, `Last30Days`, or `Last90Days`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DatePickerExamples.range" } %}
 
@@ -87,7 +87,7 @@ Set `selectionMode` to `DatePickerSelectionMode::Multiple` and limit the number 
 
 ### Multiple Months
 
-`numOfMonths` shows several months of the day view next to each other. Render one `table` per month, with the `offset` of the month it shows (`0` for the first, `1` for the next): `ui:datePicker.content` does it for you, with a table for each of the `numOfMonths`. The month and year views always show a single table.
+`numOfMonths` shows several months of the day view next to each other. Render one `table` per month in the day view, with the `offset` of the month it shows (`0` for the first, `1` for the next). The example keeps the offsets in a `months` variable, so the same list sets `numOfMonths` and drives the loop. The month and year views always show a single table. The `ui` copy of `content` hides the days outside the visible month when `numOfMonths` is above `1`, so no day shows up in two neighbouring months.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DatePickerExamples.multipleMonths" } %}
 

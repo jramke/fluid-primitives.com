@@ -1,4 +1,6 @@
-<ui:datePicker.root class="max-w-96" numOfMonths="2" selectionMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerSelectionMode::Range')}">
+<f:variable name="months" value="{0: 0, 1: 1}" />
+
+<ui:datePicker.root class="max-w-96" numOfMonths="{months -> f:count()}" selectionMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerSelectionMode::Range')}">
     <ui:datePicker.label>Stay</ui:datePicker.label>
     <ui:datePicker.control>
         <ui:datePicker.input index="0" />
@@ -6,5 +8,35 @@
         <ui:datePicker.input index="1" />
         <ui:datePicker.trigger />
     </ui:datePicker.control>
-    <ui:datePicker.content />
+    <ui:datePicker.content>
+        <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
+            <ui:datePicker.view view="{view}">
+                <ui:datePicker.viewControl view="{view}">
+                    <ui:datePicker.prevTrigger view="{view}" />
+                    <ui:datePicker.viewTrigger view="{view}">
+                        <ui:datePicker.rangeText />
+                    </ui:datePicker.viewTrigger>
+                    <ui:datePicker.nextTrigger view="{view}" />
+                </ui:datePicker.viewControl>
+                <f:if condition="{view} == 'day'">
+                    <f:then>
+                        <div class="flex gap-4">
+                            <f:for each="{months}" as="offset">
+                                <ui:datePicker.table view="day" offset="{offset}">
+                                    <ui:datePicker.tableHeader />
+                                    <ui:datePicker.tableBody />
+                                </ui:datePicker.table>
+                            </f:for>
+                        </div>
+                    </f:then>
+                    <f:else>
+                        <ui:datePicker.table view="{view}">
+                            <ui:datePicker.tableHeader />
+                            <ui:datePicker.tableBody />
+                        </ui:datePicker.table>
+                    </f:else>
+                </f:if>
+            </ui:datePicker.view>
+        </f:for>
+    </ui:datePicker.content>
 </ui:datePicker.root>

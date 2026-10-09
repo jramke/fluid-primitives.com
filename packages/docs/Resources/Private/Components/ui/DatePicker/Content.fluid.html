@@ -1,5 +1,4 @@
 <ui:useProps name="primitives:datePicker.content" as="contentProps" />
-<ui:prop name="showSkeleton" type="boolean" optional="{true}" default="{false}" description="Renders a placeholder grid until the client-side calendar hydrates. Only meaningful for `inline` date pickers - a popup's content is hidden until opened, by which point hydration has already run." />
 
 <f:variable name="multipleMonths" value="{f:if(condition: '{context.numOfMonths} > 1', then: '{true}', else: '{false}')}" />
 
@@ -19,35 +18,6 @@
 <ui:portal disabled="{context.inline}">
     <primitives:datePicker.positioner>
         <primitives:datePicker.content spreadProps="{contentProps}" class="{class}">
-            <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
-                <ui:datePicker.view view="{view}">
-                    <ui:datePicker.viewControl view="{view}">
-                        <ui:datePicker.prevTrigger view="{view}" />
-                        <ui:datePicker.viewTrigger view="{view}">
-                            <ui:datePicker.rangeText />
-                        </ui:datePicker.viewTrigger>
-                        <ui:datePicker.nextTrigger view="{view}" />
-                    </ui:datePicker.viewControl>
-                    <f:if condition="{view} == 'day'">
-                        <f:then>
-                            <div class="flex gap-4">
-                                <f:for each="{context.monthOffsets}" as="offset">
-                                    <ui:datePicker.table view="day" offset="{offset}">
-                                        <ui:datePicker.tableHeader showSkeleton="{showSkeleton}" />
-                                        <ui:datePicker.tableBody showSkeleton="{showSkeleton}" />
-                                    </ui:datePicker.table>
-                                </f:for>
-                            </div>
-                        </f:then>
-                        <f:else>
-                            <ui:datePicker.table view="{view}">
-                                <ui:datePicker.tableHeader />
-                                <ui:datePicker.tableBody />
-                            </ui:datePicker.table>
-                        </f:else>
-                    </f:if>
-                </ui:datePicker.view>
-            </f:for>
             <f:slot />
         </primitives:datePicker.content>
     </primitives:datePicker.positioner>
