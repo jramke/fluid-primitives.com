@@ -9,7 +9,7 @@
 ## Features
 
 - Single, multiple, and range selection
-- Day, month, and year views, switched from the calendar heading
+- Day, month, and year views, switched from the calendar heading, or a picker for months or years only
 - Dates can be typed into the input, in the format of the `locale`
 - Keyboard navigation with the arrow keys, `Home`, `End`, `PageUp`, and `PageDown`
 - Minimum and maximum dates, and a check for dates that are unavailable
@@ -108,6 +108,14 @@ Render the calendar in the page, without a popup, with `inline="{true}"`. It is 
 `isDateUnavailable`, `format`, `parse`, `createCalendar`, and the `on...Change` callbacks are functions, so a template can't pass them. Create the `DatePicker` in your entry file instead and hand them to it with the other props. Here the weekends are unavailable.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DatePickerExamples.unavailableDates", "additionalFiles": {"UnavailableDates.entry.ts": "EXT:docs/Resources/Private/Components/ui/DatePickerExamples/UnavailableDates.entry.ts"} } %}
+
+### Month and Year Picker
+
+Set `minView` to `DatePickerView::Month` to pick a month instead of a day, and `defaultView` to open on the month view. The picked month is its first day, so the `hiddenInput` submits `2025-06-01`. Render only the views the calendar can reach: the day view is left out here. `format` and `parse` turn the input into `06/2025` and read it back. They are functions, so they come from the entry file as in [Unavailable Dates](#unavailable-dates), and `placeholder` tells people what to type.
+
+{% component: "ui:componentExample", arguments: { "componentName": "DatePickerExamples.monthYear", "additionalFiles": {"MonthYear.entry.ts": "EXT:docs/Resources/Private/Components/ui/DatePickerExamples/MonthYear.entry.ts"} } %}
+
+For a year picker, use `DatePickerView::Year` for `minView` and `defaultView`, render the `year` view only, and let `format` return `String(date.year)` and `parse` return `new CalendarDate(year, 1, 1)`.
 
 ### Dates in forms
 

@@ -49,3 +49,8 @@ export const UnavailableDates: StoryObj = {
         example_id: 'unavailable-dates',
     },
 };
+export const MonthYear: StoryObj = {
+    args: {
+        example_id: 'month-year',
+    },
+};
