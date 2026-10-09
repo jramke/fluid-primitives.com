@@ -67,6 +67,31 @@ collapsible:
     - Content.fluid.html
     - Collapsible.entry.ts
 
+date-picker:
+  name: DatePicker
+  description: A calendar for picking a date, several dates, or a range of dates
+  files:
+    - Root.fluid.html
+    - Label.fluid.html
+    - Control.fluid.html
+    - Input.fluid.html
+    - Trigger.fluid.html
+    - ClearTrigger.fluid.html
+    - Content.fluid.html
+    - View.fluid.html
+    - ViewControl.fluid.html
+    - PrevTrigger.fluid.html
+    - ViewTrigger.fluid.html
+    - NextTrigger.fluid.html
+    - RangeText.fluid.html
+    - Table.fluid.html
+    - TableHeader.fluid.html
+    - TableBody.fluid.html
+    - PresetTrigger.fluid.html
+    - MonthSelect.fluid.html
+    - YearSelect.fluid.html
+    - DatePicker.entry.ts
+
 dialog:
   name: Dialog
   description: A popup that opens on top of the entire page

@@ -206,8 +206,9 @@ class DocsUtility
 
     private static function wrapTables(string $html): string
     {
-        // Match <table> tags that do NOT have class="not-prose"
-        $pattern = '/(<table\b(?![^>]*\bclass\s*=\s*["\'][^"\']*\bnot-prose\b[^"\']*["\']).*?<\/table>)/is';
+        // Match <table> tags that do NOT have class="not-prose" and are no interactive grid, like a
+        // calendar - the wrapper is for the data tables of the prose.
+        $pattern = '/(<table\b(?![^>]*\bclass\s*=\s*["\'][^"\']*\bnot-prose\b[^"\']*["\'])(?![^>]*\brole\s*=\s*["\']grid["\']).*?<\/table>)/is';
         $replacement = '<div class="table-wrapper">$1</div>';
 
         return preg_replace($pattern, $replacement, $html) ?? $html;

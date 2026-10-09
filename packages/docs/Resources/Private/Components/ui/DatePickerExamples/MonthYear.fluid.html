@@ -1,0 +1,32 @@
+<ui:datePicker.root
+    class="max-w-74"
+    defaultView="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerView::Month')}"
+    minView="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerView::Month')}"
+    placeholder="mm/yyyy"
+    autoMount="{false}"
+    rootId="date-picker-month-year">
+    <ui:datePicker.label>Card expires</ui:datePicker.label>
+    <ui:datePicker.control>
+        <ui:datePicker.input />
+        <ui:datePicker.trigger />
+    </ui:datePicker.control>
+    <ui:datePicker.content>
+        <f:for each="{0: 'month', 1: 'year'}" as="view">
+            <ui:datePicker.view view="{view}">
+                <ui:datePicker.viewControl view="{view}">
+                    <ui:datePicker.prevTrigger view="{view}" />
+                    <ui:datePicker.viewTrigger view="{view}">
+                        <ui:datePicker.rangeText />
+                    </ui:datePicker.viewTrigger>
+                    <ui:datePicker.nextTrigger view="{view}" />
+                </ui:datePicker.viewControl>
+                <ui:datePicker.table view="{view}">
+                    <ui:datePicker.tableHeader />
+                    <ui:datePicker.tableBody />
+                </ui:datePicker.table>
+            </ui:datePicker.view>
+        </f:for>
+    </ui:datePicker.content>
+</ui:datePicker.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/DatePickerExamples/MonthYear.entry.ts" />

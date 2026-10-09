@@ -11,6 +11,7 @@ import {
     ClipboardHydrationProps as ClipboardHydrationPropsImport,
     CollapsibleHydrationProps as CollapsibleHydrationPropsImport,
     ComboboxHydrationProps as ComboboxHydrationPropsImport,
+    DatePickerHydrationProps as DatePickerHydrationPropsImport,
     DialogHydrationProps as DialogHydrationPropsImport,
     FieldArrayHydrationProps as FieldArrayHydrationPropsImport,
     FieldHydrationProps as FieldHydrationPropsImport,
@@ -39,6 +40,7 @@ import {
     CollapsibleHydrationProps,
     ComboboxHydrationProps,
     CommandMenuHydrationProps,
+    DatePickerHydrationProps,
     DialogHydrationProps,
     FieldArrayHydrationProps,
     FieldHydrationProps,
@@ -67,6 +69,7 @@ declare module 'fluid-primitives' {
         'ui:clipboard': ClipboardHydrationProps;
         'ui:collapsible': CollapsibleHydrationProps;
         'ui:combobox': ComboboxHydrationProps;
+        'ui:datePicker': DatePickerHydrationProps;
         'ui:dialog': DialogHydrationProps;
         'ui:field': FieldHydrationProps;
         'ui:fieldArray': FieldArrayHydrationProps;
@@ -92,6 +95,7 @@ declare module 'fluid-primitives' {
         'primitives:clipboard': ClipboardHydrationPropsImport;
         'primitives:collapsible': CollapsibleHydrationPropsImport;
         'primitives:combobox': ComboboxHydrationPropsImport;
+        'primitives:datePicker': DatePickerHydrationPropsImport;
         'primitives:dialog': DialogHydrationPropsImport;
         'primitives:field': FieldHydrationPropsImport;
         'primitives:fieldArray': FieldArrayHydrationPropsImport;
@@ -119,6 +123,8 @@ declare module 'fluid-primitives' {
 
 export type ComboboxInputBehavior = 'autohighlight' | 'autocomplete' | 'none';
 export type ComboboxSelectionBehavior = 'clear' | 'replace' | 'preserve';
+export type DatePickerSelectionMode = 'single' | 'multiple' | 'range';
+export type DatePickerView = 'day' | 'month' | 'year';
 export type DialogRole = 'dialog' | 'alertdialog';
 export type FileUploadCapture = 'user' | 'environment';
 export type InputMode =

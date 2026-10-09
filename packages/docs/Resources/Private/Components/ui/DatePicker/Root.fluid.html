@@ -1,0 +1,8 @@
+<ui:useProps name="primitives:datePicker.root" as="rootProps" />
+
+<primitives:datePicker.root spreadProps="{rootProps}" class="{ui:cn(value: 'field {class}')}">
+    <f:slot />
+    <primitives:datePicker.hiddenInput />
+</primitives:datePicker.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/DatePicker/DatePicker.entry.ts" />

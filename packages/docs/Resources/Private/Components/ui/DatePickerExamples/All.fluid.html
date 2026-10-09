@@ -1,0 +1,36 @@
+<ui:prop name="example_id" type="string" default="simple" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:datePickerExamples.simple />
+    </f:case>
+    <f:case value="default-value">
+        <ui:datePickerExamples.defaultValue />
+    </f:case>
+    <f:case value="with-field">
+        <ui:datePickerExamples.withField />
+    </f:case>
+    <f:case value="range">
+        <ui:datePickerExamples.range />
+    </f:case>
+    <f:case value="multiple">
+        <ui:datePickerExamples.multiple />
+    </f:case>
+    <f:case value="multiple-months">
+        <ui:datePickerExamples.multipleMonths />
+    </f:case>
+    <f:case value="min-max">
+        <ui:datePickerExamples.minMax />
+    </f:case>
+    <f:case value="inline">
+        <ui:datePickerExamples.inline />
+    </f:case>
+    <f:case value="unavailable-dates">
+        <ui:datePickerExamples.unavailableDates />
+    </f:case>
+    <f:case value="month-year">
+        <ui:datePickerExamples.monthYear />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

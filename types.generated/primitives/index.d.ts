@@ -1,6 +1,8 @@
 import {
     ComboboxInputBehavior,
     ComboboxSelectionBehavior,
+    DatePickerSelectionMode,
+    DatePickerView,
     DialogRole,
     FileUploadCapture,
     InputMode,
@@ -111,6 +113,75 @@ export type ComboboxHydrationProps = {
         clearTriggerLabel: string;
     };
     searchUrl?: string;
+};
+export type DatePickerHydrationProps = {
+    id: string;
+    ids: {
+        [key: string]: string;
+    };
+    locale?: string;
+    timeZone?: string;
+    name?: string;
+    disabled?: boolean;
+    readOnly?: boolean;
+    required?: boolean;
+    invalid?: boolean;
+    outsideDaySelectable?: boolean;
+    closeOnSelect?: boolean;
+    openOnClick?: boolean;
+    numOfMonths?: number;
+    startOfWeek?: number;
+    fixedWeeks?: boolean;
+    showWeekNumbers?: boolean;
+    selectionMode?: DatePickerSelectionMode;
+    maxSelectedDates?: number;
+    placeholder?: string;
+    defaultView?: DatePickerView;
+    minView?: DatePickerView;
+    maxView?: DatePickerView;
+    positioning?: unknown;
+    defaultOpen?: boolean;
+    inline?: boolean;
+    translations: {
+        clearTrigger: string;
+        monthSelect: string;
+        yearSelect: string;
+        content: string;
+        weekColumnHeader: string;
+        triggerOpen: string;
+        triggerClose: string;
+        prevTriggerDay: string;
+        prevTriggerMonth: string;
+        prevTriggerYear: string;
+        nextTriggerDay: string;
+        nextTriggerMonth: string;
+        nextTriggerYear: string;
+        viewTriggerToDay: string;
+        viewTriggerToMonth: string;
+        viewTriggerToYear: string;
+        viewTriggerDay: string;
+        viewTriggerMonth: string;
+        viewTriggerYear: string;
+        presetTrigger: string;
+        weekNumberCell: string;
+        dayCell: string;
+        dayCellSelected: string;
+        dayCellRangeStart: string;
+        dayCellRangeEnd: string;
+        dayCellInRange: string;
+        dayCellUnavailable: string;
+        contentRoleDescription: string;
+        tableRoleDescriptionDay: string;
+        tableRoleDescriptionMonth: string;
+        tableRoleDescriptionYear: string;
+        placeholderDay: string;
+        placeholderMonth: string;
+        placeholderYear: string;
+    };
+    defaultValue?: string[];
+    min?: string;
+    max?: string;
+    defaultFocusedValue?: string;
 };
 export type DialogHydrationProps = {
     id: string;
