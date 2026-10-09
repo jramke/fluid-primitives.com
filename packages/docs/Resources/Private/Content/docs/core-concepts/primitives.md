@@ -112,7 +112,11 @@ Add `as="someName"` when your wrapper genuinely renders the primitive (the commo
 <ui:useProps name="primitives:accordion.root" as="rootProps" />
 
 <!-- Import specific props -->
-<ui:useProps name="primitives:accordion.root" as="rootProps" props="{0: 'multiple', 1: 'defaultValue'}" />
+<ui:useProps
+    name="primitives:accordion.root"
+    as="rootProps"
+    props="{0: 'multiple', 1: 'defaultValue'}"
+/>
 ```
 
 ### `spreadProps="{rootProps}"`
