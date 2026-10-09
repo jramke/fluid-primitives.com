@@ -16,7 +16,7 @@
     [&_[data-date-picker-table-cell-trigger]]:rounded-md [&_[data-date-picker-table-cell-trigger]]:text-sm
     [&_[data-date-picker-table-cell-trigger]]:outline-none [&_[data-date-picker-table-cell-trigger]]:transition-colors
     [&_[data-date-picker-table-cell-trigger]:focus-visible]:ring-[3px] [&_[data-date-picker-table-cell-trigger]:focus-visible]:ring-ring/50
-    [&_[data-date-picker-table-cell-trigger][data-view=day]]:size-8
+    [&_[data-date-picker-table-cell-trigger][data-view=day]]:aspect-square [&_[data-date-picker-table-cell-trigger][data-view=day]]:min-w-8 [&_[data-date-picker-table-cell-trigger][data-view=day]]:min-h-8 [&_[data-date-picker-table-cell-trigger][data-view=day]]:w-full
     [&_[data-date-picker-table-cell-trigger]:not([data-view=day])]:h-9
 
     [&_[data-date-picker-table-cell-trigger]:hover:not([data-selected])]:bg-accent
@@ -27,8 +27,8 @@
     [&_[data-date-picker-table-cell-trigger][data-in-range]:not([data-selected])]:bg-accent
     [&_[data-date-picker-table-cell-trigger][data-in-hover-range]:not([data-selected])]:bg-accent/60
     [&_[data-date-picker-table-cell-trigger][data-in-range]]:rounded-none [&_[data-date-picker-table-cell-trigger][data-in-hover-range]]:rounded-none
-    [&_[data-date-picker-table-cell-trigger][data-in-range][data-range-start]]:rounded-l-md [&_[data-date-picker-table-cell-trigger][data-in-hover-range][data-hover-range-start]]:rounded-l-md
-    [&_[data-date-picker-table-cell-trigger][data-in-range][data-range-end]]:rounded-r-md [&_[data-date-picker-table-cell-trigger][data-in-hover-range][data-hover-range-end]]:rounded-r-md
+    [&_[data-date-picker-table-cell-trigger][data-in-range][data-range-start]:not([data-hover-range-end])]:rounded-l-md [&_[data-date-picker-table-cell-trigger][data-in-hover-range][data-hover-range-start]]:rounded-l-md
+    [&_[data-date-picker-table-cell-trigger][data-in-range][data-range-end]:not([data-hover-range-start])]:rounded-r-md [&_[data-date-picker-table-cell-trigger][data-in-hover-range][data-hover-range-end]]:rounded-r-md
 
     [&_[data-date-picker-table-cell-trigger][data-outside-range]]:text-muted-foreground/50
     [&_[data-date-picker-table-cell-trigger][data-disabled]]:pointer-events-none
