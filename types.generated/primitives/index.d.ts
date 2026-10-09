@@ -127,11 +127,8 @@ export type DatePickerHydrationProps = {
     required?: boolean;
     invalid?: boolean;
     outsideDaySelectable?: boolean;
-    min?: string;
-    max?: string;
     closeOnSelect?: boolean;
     openOnClick?: boolean;
-    defaultFocusedValue?: string;
     numOfMonths?: number;
     startOfWeek?: number;
     fixedWeeks?: boolean;
@@ -182,6 +179,9 @@ export type DatePickerHydrationProps = {
         placeholderYear: string;
     };
     defaultValue?: string[];
+    min?: string;
+    max?: string;
+    defaultFocusedValue?: string;
 };
 export type DialogHydrationProps = {
     id: string;
