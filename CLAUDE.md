@@ -86,9 +86,10 @@ packages/fluid-primitives/tests/
 ├── Functional/                # Full TYPO3 tests with database (SQLite)
 │   ├── ViewHelpers/           # ViewHelper rendering tests
 │   └── Components/            # Component rendering tests (all primitives go here)
-├── Client/                    # vitest + jsdom tests for pure client logic (machine utilities, Form helpers)
+├── Client/                    # vitest + jsdom tests of the client: utilities, machines, and how components hydrate together
+├── Fixtures/                  # Component collections/templates for tests, and files both test suites read (*.json)
+├── Helper/                    # Test doubles and HtmlElement (the tag-scoped assertions of rendering tests)
 ├── Bootstrap.php              # Test bootstrap (autoloader + TYPO3 testing framework)
-
 ├── TestCase.php               # Base class for unit tests
 └── ViewHelperTestCase.php     # Base class for ViewHelper tests
 ```
@@ -97,7 +98,8 @@ packages/fluid-primitives/tests/
 
 - **Functional/Components/** - All component tests (Accordion, Checkbox, Dialog, etc.). These test the full integration: context logic → Fluid template → HTML output. This ensures the context is correct AND the template uses it correctly.
 - **Unit/** - Core infrastructure only (ComponentUtility, HydrationRegistry, TagAttributes, AbstractComponentContext). These are utilities/base classes not tied to specific components.
-- **Client/** - TypeScript logic that can run without a browser: pure helpers, machine guards/computed values, DOM helpers that jsdom can model. Mirror the source path (`Client/Form/form.path.test.ts` for `Primitives/Form/src/form.path.ts`). Behaviour that needs real focus, layout or hydration order is verified in the docs site instead.
+- **Client/** - TypeScript logic that runs in jsdom: pure helpers, machine guards/computed values, DOM helpers, and the registration handshakes between components (Field and the primitives in it, Form and its Fields, the rows of a FieldArray), which are plain DOM events and attributes. Mirror the source path (`Client/Form/form.path.test.ts` for `Primitives/Form/src/form.path.ts`). Behaviour that needs real focus, layout or paint (positioning, scrolling, popups) is verified in the docs site instead.
+- **Fixtures/\*.json** - contracts PHP and TypeScript both implement: `part-naming.json` (`data-<component>-<part>` attributes, scope keys; `Unit/ComponentRefUtilityTest` + `Client/hydration.test.ts`) and `list-collection.json` (the wire shape of a `ListCollection` and what it means; `Unit/ListCollectionTest` + `Client/list-collection.test.ts`). Both sides read the same vectors, so neither can drift. Add a vector there, not a second copy of the expectation.
 
 ### Running Tests
 
@@ -113,6 +115,10 @@ ddev composer test              # Run all tests
 
 # Client TypeScript tests
 ddev npm run primitives:test    # Run vitest once
+
+# Without ddev, as the library's own CI does (.github/workflows/tests.yml: PHP matrix + a Node job)
+cd packages/fluid-primitives
+npm ci && npm test
 ```
 
 ### Test Quality Guidelines
@@ -154,6 +160,12 @@ it('returns expanded based on defaultValue array membership', function () {
     $this->assertFalse($context->getItemState(['value' => 'item-3'])->expanded);
 });
 ```
+
+**Assert on one element, not on the page.** Rendering tests use `elementWith()`, `elementsWith()`, `valuesOf()` and `elementsByValue()` of `Functional/FunctionalTestCase`, which return the attributes of one opening tag. A substring of the whole page is satisfied by the wrong element or a longer attribute name (`disabled` inside `data-disabled`, `name="x"` inside a Field root's `data-name="x"`, slot text echoed back from the template).
+
+**A negative assertion needs a positive control** - the tag it is about must be proven to exist (`elementWith()` fails when it does not), or the test passes when the thing is simply missing. The same goes for a client test of "nothing happens": a stopped machine ignores events anyway, so assert on an effect the leaking listener would cause itself.
+
+**A test must fail when what it guards is removed.** When in doubt, break the production code on purpose and watch it go red - several tests found in review passed for an unrelated reason.
 
 **Test names should describe behavior, not implementation:**
 
