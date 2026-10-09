@@ -93,7 +93,7 @@ Set `selectionMode` to `DatePickerSelectionMode::Multiple` and limit the number 
 
 ### Min/Max Constraints
 
-Restrict the dates that can be selected with `min` and `max`, both ISO dates.
+Restrict the dates that can be selected with `min` and `max`, each an ISO date (`2025-06-15`) or a `DateTimeInterface`, like a date of your model. `defaultFocusedValue` takes the same.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DatePickerExamples.minMax" } %}
 
@@ -121,25 +121,11 @@ For a year picker, use `DatePickerView::Year` for `minView` and `defaultView`, r
 
 The `hiddenInput` submits the selected dates as ISO dates (`2025-06-15`), whatever format the `locale` shows them in. The visible `input` has no `name` and is not submitted, and `ui:datePicker.root` renders the `hiddenInput` for you. A range or several dates submit one value per date under the same `name`, so end the name with `[]` (`dates[]`) for PHP to receive all of them. A date picker without a date submits an empty value.
 
-Extbase expects `Y-m-d\TH:i:sP` for a `DateTime` property by default. Tell it to take the ISO date instead:
-
-```php
-public function initializeCreateAction(): void
-{
-    $this->arguments['event']
-        ->getPropertyMappingConfiguration()
-        ->forProperty('date')
-        ->setTypeConverterOption(
-            DateTimeConverter::class,
-            DateTimeConverter::CONFIGURATION_DATE_FORMAT,
-            'Y-m-d'
-        );
-}
-```
+Extbase maps the value to a `DateTime` or `DateTimeImmutable` property at midnight, in the time zone PHP runs in, without any configuration: Fluid Primitives registers the `IsoDateConverter` type converter for it. Extbase alone expects the W3C date-time (`2025-06-15T00:00:00+02:00`) and cannot map to a `DateTimeImmutable` at all. A `dateFormat` you configure for a property still wins over the converter. Outside Extbase, `new DateTimeImmutable($_POST['date'])` reads the value.
 
 ### Time zone
 
-The calendar highlights today in the time zone of the browser. Set `timeZone` (`Europe/Berlin`) to use another one.
+The calendar works in the time zone of the browser: it highlights today for the person looking at it, and the presets and `min`/`max` count from there. Zag falls back to UTC without a `timeZone`, which highlights the wrong day for a few hours of the day almost everywhere, so Fluid Primitives replaces that default. Set `timeZone` (`Europe/Berlin`) to use another one, like the time zone of a venue. The submitted dates carry no time zone, so it never changes what is submitted.
 
 ### Localization
 
