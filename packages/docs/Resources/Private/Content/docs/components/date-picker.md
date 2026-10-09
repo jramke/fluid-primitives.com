@@ -15,7 +15,7 @@
 - Minimum and maximum dates, and a check for dates that are unavailable
 - Range presets, like "last 7 days"
 - Formats dates and localizes its labels for the site language
-- Submits ISO dates, whatever format the input shows
+- Submits dates Extbase maps to a `DateTime`, whatever format the input shows
 - Works with Field component for form integration
 - Opens in a popup, or renders inline without one
 
@@ -111,7 +111,7 @@ Render the calendar in the page, without a popup, with `inline="{true}"`. It is 
 
 ### Month and Year Picker
 
-Set `minView` to `DatePickerView::Month` to pick a month instead of a day, and `defaultView` to open on the month view. The picked month is its first day, so the `hiddenInput` submits `2025-06-01`. Render only the views the calendar can reach: the day view is left out here. `format` and `parse` turn the input into `06/2025` and read it back. They are functions, so they come from the entry file as in [Unavailable Dates](#unavailable-dates), and `placeholder` tells people what to type.
+Set `minView` to `DatePickerView::Month` to pick a month instead of a day, and `defaultView` to open on the month view. The picked month is its first day, so the `hiddenInput` submits the first of the month. Render only the views the calendar can reach: the day view is left out here. `format` and `parse` turn the input into `06/2025` and read it back. They are functions, so they come from the entry file as in [Unavailable Dates](#unavailable-dates), and `placeholder` tells people what to type.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DatePickerExamples.monthYear", "additionalFiles": {"MonthYear.entry.ts": "EXT:docs/Resources/Private/Components/ui/DatePickerExamples/MonthYear.entry.ts"} } %}
 
@@ -119,13 +119,13 @@ For a year picker, use `DatePickerView::Year` for `minView` and `defaultView`, r
 
 ### Dates in forms
 
-The `hiddenInput` submits the selected dates as ISO dates (`2025-06-15`), whatever format the `locale` shows them in. The visible `input` has no `name` and is not submitted, and `ui:datePicker.root` renders the `hiddenInput` for you. A range or several dates submit one value per date under the same `name`, so end the name with `[]` (`dates[]`) for PHP to receive all of them. A date picker without a date submits an empty value.
+The `hiddenInput` submits each selected date as the W3C date-time of its midnight (`2025-06-15T00:00:00+02:00`), whatever format the `locale` shows it in. The visible `input` has no `name` and is not submitted, and `ui:datePicker.root` renders the `hiddenInput` for you. A range or several dates submit one value per date under the same `name`, so end the name with `[]` (`dates[]`) for PHP to receive all of them. A date picker without a date submits an empty value.
 
-Extbase maps the value to a `DateTime` or `DateTimeImmutable` property at midnight, in the time zone PHP runs in, without any configuration: Fluid Primitives registers the `IsoDateConverter` type converter for it. Extbase alone expects the W3C date-time (`2025-06-15T00:00:00+02:00`) and cannot map to a `DateTimeImmutable` at all. A `dateFormat` you configure for a property still wins over the converter. Outside Extbase, `new DateTimeImmutable($_POST['date'])` reads the value.
+That is the format Extbase maps to a `DateTime` property without any configuration. The offset is the one of the time zone PHP runs in, so the property holds the date that was picked: Extbase converts any other offset to that time zone, which can move the date to the day before or after. Extbase maps a request value to a `DateTime` only: it reads a `DateTimeImmutable` from the database, but has no type converter for one from a request. Type the property `DateTime`, or write a custom type converter for `DateTimeImmutable` if you need it. Outside Extbase, `new DateTimeImmutable($_POST['date'])` reads the value.
 
 ### Time zone
 
-The calendar works in the time zone of the browser: it highlights today for the person looking at it, and the presets and `min`/`max` count from there. Zag falls back to UTC without a `timeZone`, which highlights the wrong day for a few hours of the day almost everywhere, so Fluid Primitives replaces that default. Set `timeZone` (`Europe/Berlin`) to use another one, like the time zone of a venue. The submitted dates carry no time zone, so it never changes what is submitted.
+The calendar works in the time zone of the browser: it highlights today for the person looking at it, and the presets and `min`/`max` count from there. Zag falls back to UTC without a `timeZone`, which highlights the wrong day for a few hours of the day almost everywhere, so Fluid Primitives replaces that default. Set `timeZone` (`Europe/Berlin`) to use another one, like the time zone of a venue. The submitted dates carry the offset of the time zone PHP runs in, whatever `timeZone` is, so it never changes what is submitted.
 
 ### Localization
 
@@ -166,7 +166,7 @@ const datePicker = new DatePicker({
             ["input", "Shows the selected date as text and lets people type one. Renders an `<input>` element."],
             ["clearTrigger", "Clears the selection. Renders a `<button>` element."],
             ["trigger", "Opens and closes the calendar. Renders a `<button>` element."],
-            ["hiddenInput", "Submits the selected dates as ISO dates, one input per date. Renders `<input type=\"hidden\">` elements."],
+            ["hiddenInput", "Submits the selected dates as W3C date-times, one input per date. Renders `<input type=\"hidden\">` elements."],
             ["positioner", "Positions the floating calendar. Renders a `<div>` element."],
             ["content", "The calendar surface, positioned by `positioner`. Renders a `<div>` element."],
             ["view", "Wraps one view of the calendar: `day`, `month`, or `year`. Renders a `<div>` element."],

@@ -302,7 +302,6 @@ namespace Jramke\FluidPrimitives\Service;
 - **`Command/`** - CLI commands and command-specific collaborators (e.g. `ComponentFileWriter`, only ever used by `ComponentAddCommand`). Keep those adjacent rather than promoting them to `Service/` - they're not reusable outside their one command.
 - **`Registry/`** - process-lifetime singletons (`HydrationRegistry`, `PortalRegistry`) and their own collaborators.
 - **`Traits/`** - behavior shared across multiple `Contexts/` classes; see Dependency Injection below for how they declare their host-class requirements.
-- **`TypeConverter/`** - Extbase type converters the library ships (e.g. `IsoDateConverter`, which maps the `Y-m-d` a date picker submits). Each is registered in `Configuration/Services.yaml` with an explicit `extbase.type_converter` tag: Extbase picks a converter by `priority` alone, it never asks the converter whether it can convert, so a converter must hand everything else on to the one it sits in front of.
 
 ### Dependency Injection
 
