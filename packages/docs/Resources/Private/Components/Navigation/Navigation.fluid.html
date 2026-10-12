@@ -6,7 +6,7 @@
 <div class="isolate z-100 relative">
     <aside class="border-r border-dashed fixed top-0 h-screen md:w-[250px] z-2">
         <f:render section="mainlink" arguments="{class: 'pt-4 hidden md:flex'}" />
-        <div class="hidden md:block absolute top-3.5 right-4">
+        <div class="hidden md:block absolute top-4.5 left-[calc(250px+var(--spacing)*3)]">
             <f:render section="versions" arguments="{versions: versions, portalled: true}" />
         </div>
         <ui:scrollArea.root class="persistent-sidebar mt-4 pb-4 h-[calc(100vh-var(--spacing)*16)] hidden md:block" autoMount="{false}" rootId="sidebar-{rootId}">
@@ -99,7 +99,7 @@
                             <ui:scrollArea.root class="**:[p]:!border-t-0 h-full">
                                 <ui:scrollArea.viewport>
                                     <ui:scrollArea.content class="mt-2 mb-4">
-                                        <div class="px-4 pt-4">
+                                        <div class="px-4 pt-2">
                                             <f:render section="versions" arguments="{versions: versions, portalled: false}" />
                                         </div>
                                         <f:render section="navitems" arguments="{nav: nav, path: path}" />
@@ -129,16 +129,20 @@
 <f:section name="versions">
     <f:if condition="{versions}">
         <ui:menu.root>
-            <ui:menu.trigger class="h-7 px-2 text-xs gap-1">
-                <f:for each="{versions}" as="version"><f:if condition="{version.current}">{version.label}</f:if></f:for>
+            <ui:menu.trigger class="h-7! px-2! text-xs gap-1 border-transparent! shadow-none!">
+                <f:for each="{versions}" as="version">
+                    <f:if condition="{version.current}">{version.label}</f:if>
+                </f:for>
                 <ui:icon.chevronDown />
             </ui:menu.trigger>
             <ui:menu.content portalled="{portalled}">
                 <f:for each="{versions}" as="version">
                     <ui:menu.item asChild="{true}" value="{version.label}">
-                        <a href="{version.href}" {f:if(condition: version.current, then: 'aria-current="true"')}>
+                        <a href="{version.href}" {f:if(condition: version.current, then: 'aria-current="true"' )}>
                             {version.label}
-                            <f:if condition="{version.current}"><ui:icon.check class="ms-auto" /></f:if>
+                            <f:if condition="{version.current}">
+                                <ui:icon.check class="ms-auto" />
+                            </f:if>
                         </a>
                     </ui:menu.item>
                 </f:for>
