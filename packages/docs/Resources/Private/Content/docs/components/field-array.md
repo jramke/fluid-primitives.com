@@ -96,6 +96,12 @@ A `FieldArray` with no rows yet - `emptyState` shows until the first row is adde
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.limited" } %}
 
+### Rows With Portalled Components
+
+A row that composes components rendering their content through `ui:portal`: a `Select`, a `DatePicker` and a `Popover`. A portal inside `itemTemplate` renders in place, wrapped in `<div data-portal>`, because the stencil is inert. When a row is added, the clone moves the wrapper to where the portal wants to go - the end of `<body>`, or after the `ui:portalContainer` of its name - and removing the row removes it again. A `ui:portal` with `disabled` stays in the row. The row's entry file mounts the components the clone brought along with `mountAll`.
+
+{% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.complex", "additionalFiles": {"Complex.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldArrayExamples/Complex.entry.ts"} } %}
+
 ### Full Form With Client-Side Validation
 
 A complete `Form` wrapping a `FieldArray` of guests, each with a `name`/`email` pair - required fields and the email format are validated live as you type or blur, using a [Zod schema](/docs/core-concepts/forms#client-side-validation) passed straight to `validation`. `z.array(z.object({...}))` covers however many guest rows currently exist (added or removed) without `FieldArray` needing to know about validation at all - each issue's own path (e.g. `['guests', 0, 'email']`) is matched back to the exact row's own field automatically. Submission is blocked until every row is valid.
