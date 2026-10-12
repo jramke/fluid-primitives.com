@@ -10,6 +10,7 @@ use FluidPrimitives\Docs\Domain\Validator\EventRegistrationValidator;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\DocsMarkdownModeResponder;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
+use FluidPrimitives\Docs\Services\VersionsProvider;
 use FluidPrimitives\Docs\Services\ViewAsMarkdownLinkInjector;
 use FluidPrimitives\Docs\Utility\DocsUtility;
 use Jramke\FluidPrimitives\Traits\JsonValidationErrorsTrait;
@@ -33,14 +34,9 @@ final class DocsController extends ActionController
         ['label' => 'GitHub', 'href' => '/github', 'external' => true],
     ];
 
-    // The v0 site is its own deployment, built from the v0 branch. It has no version select.
-    private const array VERSIONS = [
-        ['label' => 'v1 (beta)', 'href' => '/docs', 'current' => true],
-        ['label' => 'v0.19.1', 'href' => 'https://v0.fluid-primitives.com/docs'],
-    ];
-
     public function __construct(
         private readonly NavigationBuilder $navigationBuilder,
+        private readonly VersionsProvider $versionsProvider,
         private readonly DocsPageTitleProvider $pageTitleProvider,
         private readonly EventRegistrationRepository $eventRegistrationRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
@@ -50,7 +46,7 @@ final class DocsController extends ActionController
     public function showAction(string $path = ''): ResponseInterface
     {
         $this->view->assign('mainLinks', self::MAIN_LINKS);
-        $this->view->assign('versions', self::VERSIONS);
+        $this->view->assign('versions', $this->versionsProvider->getVersions());
 
         if ($path === '') {
             $this->view->assign('layout', 'home');
