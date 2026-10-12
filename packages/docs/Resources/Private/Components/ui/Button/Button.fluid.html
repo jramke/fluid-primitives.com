@@ -17,4 +17,6 @@
     <f:slot />
 </primitives:button>
 
-<vite:asset entry="EXT:docs/Resources/Private/Components/ui/Button/Button.entry.ts" />
+<f:if condition="{focusableWhenDisabled}">
+    <vite:asset entry="EXT:docs/Resources/Private/Components/ui/Button/Button.entry.ts" />
+</f:if>

@@ -79,7 +79,7 @@ final readonly class MachineDocs
         $part = str_replace(
             ' ',
             replace: '',
-            subject: ucwords((string)preg_replace('/[^a-zA-Z0-9]+/', replacement: ' ', subject: $partName)),
+            subject: ucwords((string)preg_replace('/[^a-zA-Z0-9]+/', replacement: ' ', subject: $partName ?: 'root')),
         );
 
         return Typed::arrayOrNull($attributes[$part] ?? null) ?? [];

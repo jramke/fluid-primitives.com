@@ -52,7 +52,7 @@ Some browser and screen reader combinations do not reliably announce a change of
 
 Each `indicator` is only visible in its `state`: `idle`, `loading` or `disabled`. `loading` wins over `disabled`, and a state without an indicator renders nothing, so add one for every state the button can be in. Decorative content like a spinner needs `aria-hidden="true"`.
 
-The server renders the state, and on the client you change it with `api.setLoading()` and `api.setDisabled()`:
+The server renders the state, and on the client you change it with `api.setLoading()` and `api.setDisabled()`. Mount the button yourself with `autoMount="{false}"` and a `rootId`, as below. `ui:button` only loads its own auto-mounting entry file for a button with `focusableWhenDisabled`, because a plain button needs no JavaScript:
 
 {% component: "ui:componentExample", arguments: { "componentName": "ButtonExamples.loading", "additionalFiles": {"Loading.entry.ts": "EXT:docs/Resources/Private/Components/ui/ButtonExamples/Loading.entry.ts"} } %}
 
@@ -77,7 +77,7 @@ Build a component on top of the button once and reuse it. This one always submit
     arguments: {
         "name": "Button",
         "parts": [
-            ["root", "The button. Renders a `<button>` element."],
+            ["", "The button. Renders a `<button>` element."],
             ["indicator", "Shows its content only while the button is in its `state`. Renders a `<span>` element."]
         ]
     }
