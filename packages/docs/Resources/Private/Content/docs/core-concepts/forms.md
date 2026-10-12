@@ -449,16 +449,47 @@ form[data-submitting] button[type='submit'] {
 }
 ```
 
-The `render` callback on the `Form` constructor runs every time the form state changes. Use it to update UI elements that are outside the form machine's automatic wiring:
+The `render` callback on the `Form` constructor runs every time the form state changes. Use it to update UI elements that are outside the form machine's automatic wiring, like the submit button.
+
+## Submit Button
+
+Use the [Button](/docs/components/button) as the submit button. While the form submits it is `loading`: it stays focusable with `focusableWhenDisabled`, so keyboard users keep their place, it ignores clicks and the Enter key, and its `indicator` parts swap the label. See [Loading States](/docs/components/button#content-loading-states) for why the label is wrapped in an element that `aria-labelledby` points at.
+
+```html
+<f:variable name="submitLabelId" value="{ui:id()}" />
+<ui:button
+    type="submit"
+    focusableWhenDisabled="{true}"
+    aria-labelledby="{submitLabelId}"
+    autoMount="{false}"
+    rootId="submit-button"
+>
+    <span id="{submitLabelId}">
+        <ui:button.indicator
+            state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ButtonIndicatorState::Idle')}"
+            >Register</ui:button.indicator
+        >
+        <ui:button.indicator
+            state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ButtonIndicatorState::Loading')}"
+            >Submitting...</ui:button.indicator
+        >
+    </span>
+</ui:button>
+```
+
+Mount the button yourself with its `rootId` and pass the submitting state on in `render`:
 
 ```typescript
-render: form => {
-    const submitButton = hydrator.query('submit-button');
-    if (submitButton) {
-        submitButton.setAttribute('aria-disabled', form.api.isSubmitting ? 'true' : 'false');
-        submitButton.textContent = form.api.isSubmitting ? 'Submitting...' : 'Register';
-    }
-},
+const submitButton = mount('ui:button', 'submit-button', ({ props }) => {
+    const button = new Button(props);
+    button.init();
+    return button;
+});
+
+const form = new Form({
+    ...data.props,
+    render: form => submitButton?.api.setLoading(form.api.isSubmitting),
+});
 ```
 
 ## Complete Example: Event Registration

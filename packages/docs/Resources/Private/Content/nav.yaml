@@ -18,6 +18,7 @@
 - group: Components
   items:
     - docs/components/accordion
+    - docs/components/button
     - docs/components/checkbox
     - docs/components/checkbox-group
     - docs/components/clipboard

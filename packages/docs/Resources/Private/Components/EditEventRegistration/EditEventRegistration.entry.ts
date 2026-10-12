@@ -1,12 +1,17 @@
-import { getHydrationData, mountAll } from 'fluid-primitives';
+import { getHydrationData, mount, mountAll } from 'fluid-primitives';
+import { Button } from 'fluid-primitives/button';
 import { Form, type FormValues } from 'fluid-primitives/form';
 import { z } from 'zod';
 
-mountAll('ui:editEventRegistration', ({ props, createHydrator }) => {
+mountAll('ui:editEventRegistration', ({ props }) => {
     const data = getHydrationData('ui:form', props.id + '-form');
     if (!data) return;
 
-    const hydrator = createHydrator();
+    const submitButton = mount('ui:button', props.id + '-submit', ({ props }) => {
+        const button = new Button(props);
+        button.init();
+        return button;
+    });
 
     const schema = z.object({
         ticketType: z.enum(['vip', 'standard', 'student'], 'Please select a ticket type'),
@@ -72,18 +77,7 @@ mountAll('ui:editEventRegistration', ({ props, createHydrator }) => {
 
             return true;
         },
-        render: form => {
-            const submitButton = hydrator.query('submit-button');
-            if (submitButton) {
-                if (form.api.isSubmitting) {
-                    submitButton.setAttribute('aria-disabled', 'true');
-                    submitButton.textContent = 'Saving...';
-                } else {
-                    submitButton.setAttribute('aria-disabled', 'false');
-                    submitButton.textContent = 'Save changes';
-                }
-            }
-        },
+        render: form => submitButton?.api.setLoading(form.api.isSubmitting),
     });
 
     form.init();

@@ -31,6 +31,25 @@ Components/
         └── Content.html   # Expandable content
 ```
 
+### Root or the Folder Name
+
+A folder has one designated root, and there are two ways to name it:
+
+- **`Root.html`** is the default for multi-part components (`<ui:accordion.root>`). The `.root`
+  suffix makes the entry point obvious next to its parts.
+- **A file named like the folder** is for a component that is a single element first and only has
+  parts as optional extras. `Button/Button.html` with an optional `Button/Indicator.html` gives
+  `<ui:button>` and `<ui:button.indicator>`, no `.root` needed.
+
+Use one of them per folder. Without a `Root.html`, the file named like the folder is the root and
+every other file in the folder is one of its parts. With a `Root.html`, a file named like the folder
+is just another part (`Input/Input.html` is `<ui:input.input>`).
+
+**Changed:** a folder with `Button/Button.html` and further files but no `Root.html` used to make
+every further file its own independent root. They are parts of `Button` now, so
+`<ui:button.indicator>` has access to the context of its button. If you relied on independent roots
+in such a folder, move them to their own folder, like a sibling `ButtonExamples/` folder.
+
 ## How Root Components Are Identified
 
 A component becomes "root" - gets its own `rootId`, PHP context class, and client-side hydration -
@@ -39,10 +58,11 @@ based on where its file sits on disk, not on registering it anywhere. A file is 
 - it's a **single-part component**: its name matches its own containing folder
   (`Button/Button.html`), or
 - it's literally named `Root.html` (`Accordion/Root.html`), or
-- **its own folder has neither of the above** - no file there claims to be the folder's designated
-  `Root`, so every file in it is treated as its own independent root component. This covers a
-  nested folder of demo/example templates as much as a flat folder of otherwise-unrelated small
-  components (a set of icons, each its own file, none named like the folder).
+- **its own folder has neither of the above** - no `Root.html` and no file named like the folder
+  claims to be the folder's designated root, so every file in it is treated as its own independent
+  root component. This covers a nested folder of demo/example templates as much as a flat folder of
+  otherwise-unrelated small components (a set of icons, each its own file, none named like the
+  folder).
 
 This means folders can nest arbitrarily deep with no extra template path registration for
 _detecting_ a file as root at any depth. Its own identity (the key its context and client-side
@@ -86,9 +106,10 @@ give `AnotherComponent` its own top-level folder instead.
 
 **Caveat**: this only looks at which files exist in a folder, not at what a file's own body does.
 If you build a thin wrapper folder around another component's parts and don't (yet) wrap that
-component's own `Root.html` there too, every part you _did_ wrap gets treated as its own root -
-from that folder's point of view, no `Root.html` exists in it. Wrap the part's actual `Root.html`
-as well (even as a thin `ui:useProps` passthrough) to avoid this.
+component's own root there too, every part you _did_ wrap gets treated as its own root - from that
+folder's point of view, there is no `Root.html` and no file named like the folder in it. Wrap the
+part's actual root (`Root.html`, or the file named like the folder) as well, even as a thin
+`ui:useProps` passthrough, to avoid this.
 
 ## Recommended Structure
 

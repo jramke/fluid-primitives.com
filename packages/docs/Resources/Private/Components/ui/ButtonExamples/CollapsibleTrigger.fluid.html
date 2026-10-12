@@ -1,0 +1,11 @@
+<ui:collapsible.root class="w-64 text-sm">
+    <ui:collapsible.trigger asChild="{true}">
+        <ui:button variant="secondary">
+            <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Closed')}">Show details</ui:collapsible.indicator>
+            <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Open')}">Hide details</ui:collapsible.indicator>
+        </ui:button>
+    </ui:collapsible.trigger>
+    <ui:collapsible.content>
+        <p class="mt-2 rounded-md bg-accent px-3 py-2">The button keeps its own behavior and gets the attributes of the trigger on top.</p>
+    </ui:collapsible.content>
+</ui:collapsible.root>

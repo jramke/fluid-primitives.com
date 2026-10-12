@@ -1,6 +1,6 @@
+<ui:useProps name="primitives:button" as="buttonProps" />
 <ui:prop name="variant" type="string" default="default" />
 <ui:prop name="size" type="string" default="default" />
-<ui:prop name="type" type="string" default="button" />
 
 <f:switch expression="{size}">
     <f:case value="icon">
@@ -13,6 +13,10 @@
 
 <ui:cn value="button button-{variant} {sizeClass} {class}" as="class" />
 
-<button class="{class}" type="{type}" {ui:attributes()}>
+<primitives:button spreadProps="{buttonProps}" class="{class}">
     <f:slot />
-</button>
+</primitives:button>
+
+<f:if condition="{focusableWhenDisabled}">
+    <vite:asset entry="EXT:docs/Resources/Private/Components/ui/Button/Button.entry.ts" />
+</f:if>

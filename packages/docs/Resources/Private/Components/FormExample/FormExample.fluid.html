@@ -12,7 +12,18 @@
             <ui:field.errorText />
         </ui:field.root>
 
-        <ui:button type="submit" attributes="{ui:ref(name: 'submit-button', asArray: '{true}')}">Submit</ui:button>
+        <f:variable name="submitLabelId" value="{ui:id()}" />
+        <ui:button
+            type="submit"
+            focusableWhenDisabled="{true}"
+            aria-labelledby="{submitLabelId}"
+            autoMount="{false}"
+            rootId="example-form-submit">
+            <span id="{submitLabelId}">
+                <ui:button.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ButtonIndicatorState::Idle')}">Submit</ui:button.indicator>
+                <ui:button.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ButtonIndicatorState::Loading')}">Submitting...</ui:button.indicator>
+            </span>
+        </ui:button>
     </ui:form.content>
 
     <ui:form.indicator
