@@ -11,6 +11,10 @@ This is particularly useful for modals, tooltips, or any component that needs to
 With the default `name`, portalled content is rendered automatically at the end of `<body>` - no further setup needed.
 Pass a custom `name` together with a matching [ui:portalContainer](./portalContainer) ViewHelper if you want portalled content to end up somewhere else instead.
 
+Inside a `ui:template` stencil (e.g. the row of a FieldArray) the content is rendered in place, wrapped in
+`<div data-portal>`, and moved to its destination when the client clones the stencil. With `disabled` it
+stays in place.
+
 ## Example
 Common use case inside `Tooltip/Content.html`:
 ```html
