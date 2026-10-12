@@ -334,6 +334,22 @@ tabs:
     - Content.fluid.html
     - Tabs.entry.ts
 
+toggle:
+  name: Toggle
+  description: A button that toggles between pressed and unpressed
+  files:
+    - Root.fluid.html
+    - Indicator.fluid.html
+    - Toggle.entry.ts
+
+toggle-group:
+  name: ToggleGroup
+  description: A set of toggle buttons where one or several can be pressed
+  files:
+    - Root.fluid.html
+    - Item.fluid.html
+    - ToggleGroup.entry.ts
+
 tooltip:
   name: Tooltip
   description: A popup that appears when an element is hovered or focused, showing a hint for sighted users

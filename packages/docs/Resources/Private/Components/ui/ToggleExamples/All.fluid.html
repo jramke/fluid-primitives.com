@@ -1,0 +1,18 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:toggleExamples.simple />
+    </f:case>
+    <f:case value="default-pressed">
+        <ui:toggleExamples.defaultPressed />
+    </f:case>
+    <f:case value="disabled">
+        <ui:toggleExamples.disabled />
+    </f:case>
+    <f:case value="indicator">
+        <ui:toggleExamples.indicator />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />
