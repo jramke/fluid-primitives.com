@@ -8,6 +8,14 @@ accordion:
     - ItemContent.fluid.html
     - Accordion.entry.ts
 
+button:
+  name: Button
+  description: A button with a loading state and a disabled state that can keep focus
+  files:
+    - Button.fluid.html
+    - Indicator.fluid.html
+    - Button.entry.ts
+
 checkbox:
   name: Checkbox
   description: An easily stylable checkbox component

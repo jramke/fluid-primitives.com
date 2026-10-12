@@ -1,9 +1,16 @@
-import { getHydrationData, mountAll } from 'fluid-primitives';
+import { getHydrationData, mount, mountAll } from 'fluid-primitives';
+import { Button } from 'fluid-primitives/button';
 import { Form } from 'fluid-primitives/form';
 
 mountAll('ui:formExample', () => {
     const data = getHydrationData('ui:form', 'example-form');
     if (!data) return;
+
+    const submitButton = mount('ui:button', 'example-form-submit', ({ props }) => {
+        const button = new Button(props);
+        button.init();
+        return button;
+    });
 
     const form = new Form({
         ...data.props,
@@ -46,12 +53,7 @@ mountAll('ui:formExample', () => {
 
             return true;
         },
-        render: form => {
-            form.api
-                .getFormEl()
-                ?.querySelector('button[type="submit"]')
-                ?.setAttribute('aria-disabled', form.api.isSubmitting ? 'true' : 'false');
-        },
+        render: form => submitButton?.api.setLoading(form.api.isSubmitting),
     });
 
     form.init();

@@ -1,0 +1,58 @@
+{
+    "api": {
+        "api": {
+            "state": {
+                "type": "ButtonState",
+                "description": "The state of the button, which decides the indicators that are shown."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the button is disabled, either on its own or because it is loading."
+            },
+            "loading": {
+                "type": "boolean",
+                "description": "Whether the button is loading."
+            },
+            "setDisabled": {
+                "type": "(value: boolean) => void",
+                "description": "Disables or enables the button. A loading button stays disabled."
+            },
+            "setLoading": {
+                "type": "(value: boolean) => void",
+                "description": "Starts or stops loading. A loading button is disabled too."
+            },
+            "addEventListener": {
+                "type": "(...args: Parameters<HTMLButtonElement['addEventListener']>) => void",
+                "description": "Adds an event listener to the button element, the same as `addEventListener` of the element."
+            }
+        },
+        "context": {
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the button."
+            },
+            "ids": {
+                "type": "Record<string, string> | undefined",
+                "description": "The ids of the parts other elements reference: `root`."
+            },
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether the button is disabled."
+            },
+            "loading": {
+                "type": "boolean | undefined",
+                "description": "Whether the button is loading. A loading button is disabled too."
+            },
+            "focusableWhenDisabled": {
+                "type": "boolean | undefined",
+                "description": "Keeps a disabled button focusable. It then gets `aria-disabled` instead of the `disabled` attribute, and clicks and key presses are ignored."
+            }
+        }
+    },
+    "dataAttributes": {
+        "Root": {
+            "data-disabled": "Present when disabled",
+            "data-loading": "Present while the button is loading."
+        }
+    }
+}
