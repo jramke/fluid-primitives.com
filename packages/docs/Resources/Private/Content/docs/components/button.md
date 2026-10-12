@@ -66,9 +66,9 @@ The button renders a plain `<button>` and does not set `data-state` or an `id`, 
 
 ### Custom Components
 
-Build a component on top of the button once and reuse it. This one always submits, stays focusable and shows a spinner and a label per state. It composes `ui:button` and passes its own props on, instead of forwarding everything with `spreadProps`: the button keeps its own identity, so the `indicator` parts inside find it.
+The button is meant to be a part of larger components of your own. Put it into the template, give it a `rootId` derived from your component's, and mount it from your component's entry file. The component then drives the button from its own logic, here a backup that runs for a moment.
 
-{% component: "ui:componentExample", arguments: { "componentName": "ButtonExamples.customComponent", "additionalFiles": {"SubmitButton.html": "EXT:docs/Resources/Private/Components/ui/ButtonExamples/SubmitButton.fluid.html"} } %}
+{% component: "ui:componentExample", arguments: { "componentName": "ButtonExamples.backupCard", "additionalFiles": {"BackupCard.entry.ts": "EXT:docs/Resources/Private/Components/ui/ButtonExamples/BackupCard.entry.ts"} } %}
 
 ## API Reference
 
