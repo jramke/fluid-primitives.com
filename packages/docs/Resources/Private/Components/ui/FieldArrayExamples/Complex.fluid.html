@@ -15,146 +15,14 @@
     class="w-full max-w-md">
     <primitives:fieldArray.itemTemplate>
         <ui:fieldArray.item class="grid gap-3 rounded-md border p-3">
-            <div class="grid grid-cols-2 gap-3">
-                <ui:field.root name="firstName" required="{true}">
-                    <ui:input.root>
-                        <ui:input.label>First name</ui:input.label>
-                        <ui:input.input />
-                    </ui:input.root>
-                    <ui:field.errorText />
-                </ui:field.root>
-                <ui:field.root name="favoriteFruit">
-                    <ui:select.root collection="{fruits}">
-                        <ui:select.label>Favorite fruit</ui:select.label>
-                        <ui:select.control>
-                            <ui:select.trigger placeholder="Choose a fruit" />
-                        </ui:select.control>
-                        <ui:select.content>
-                            <ui:select.list>
-                                <f:for each="{fruits.items}" as="fruit">
-                                    <ui:select.item item="{fruit}">
-                                        <ui:select.itemText>{fruit.label}</ui:select.itemText>
-                                        <ui:select.itemIndicator />
-                                    </ui:select.item>
-                                </f:for>
-                            </ui:select.list>
-                        </ui:select.content>
-                    </ui:select.root>
-                </ui:field.root>
-            </div>
-            <ui:field.root name="birthDate">
-                <ui:datePicker.root>
-                    <ui:datePicker.label>Date of birth</ui:datePicker.label>
-                    <ui:datePicker.control>
-                        <ui:datePicker.input />
-                        <ui:datePicker.trigger />
-                    </ui:datePicker.control>
-                    <ui:datePicker.content>
-                        <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
-                            <ui:datePicker.view view="{view}">
-                                <ui:datePicker.viewControl view="{view}">
-                                    <ui:datePicker.prevTrigger view="{view}" />
-                                    <ui:datePicker.viewTrigger view="{view}">
-                                        <ui:datePicker.rangeText />
-                                    </ui:datePicker.viewTrigger>
-                                    <ui:datePicker.nextTrigger view="{view}" />
-                                </ui:datePicker.viewControl>
-                                <ui:datePicker.table view="{view}">
-                                    <ui:datePicker.tableHeader />
-                                    <ui:datePicker.tableBody />
-                                </ui:datePicker.table>
-                            </ui:datePicker.view>
-                        </f:for>
-                    </ui:datePicker.content>
-                </ui:datePicker.root>
-            </ui:field.root>
-            <div class="flex items-center justify-between">
-                <ui:popover.root>
-                    <ui:popover.trigger asChild="{true}">
-                        <ui:button variant="outline" type="button">Tips</ui:button>
-                    </ui:popover.trigger>
-                    <ui:popover.content>
-                        <ui:popover.title>About this row</ui:popover.title>
-                        <ui:popover.description>The popover, the select and the date picker of this row all render their content into the end of the body.</ui:popover.description>
-                    </ui:popover.content>
-                </ui:popover.root>
-                <ui:fieldArray.removeTrigger asChild="{true}">
-                    <ui:button variant="ghost">Remove</ui:button>
-                </ui:fieldArray.removeTrigger>
-            </div>
+            <f:render section="row" arguments="{person: {}, fruits: fruits}" />
         </ui:fieldArray.item>
     </primitives:fieldArray.itemTemplate>
 
     <ui:fieldArray.itemGroup class="grid gap-3">
         <f:for each="{people}" as="person" iteration="it">
             <ui:fieldArray.item index="{it.index}" class="grid gap-3 rounded-md border p-3">
-                <div class="grid grid-cols-2 gap-3">
-                    <ui:field.root name="firstName" defaultValue="{person.firstName}" required="{true}">
-                        <ui:input.root>
-                            <ui:input.label>First name</ui:input.label>
-                            <ui:input.input />
-                        </ui:input.root>
-                        <ui:field.errorText />
-                    </ui:field.root>
-                    <ui:field.root name="favoriteFruit" defaultValue="{person.favoriteFruit}">
-                        <ui:select.root collection="{fruits}">
-                            <ui:select.label>Favorite fruit</ui:select.label>
-                            <ui:select.control>
-                                <ui:select.trigger placeholder="Choose a fruit" />
-                            </ui:select.control>
-                            <ui:select.content>
-                                <ui:select.list>
-                                    <f:for each="{fruits.items}" as="fruit">
-                                        <ui:select.item item="{fruit}">
-                                            <ui:select.itemText>{fruit.label}</ui:select.itemText>
-                                            <ui:select.itemIndicator />
-                                        </ui:select.item>
-                                    </f:for>
-                                </ui:select.list>
-                            </ui:select.content>
-                        </ui:select.root>
-                    </ui:field.root>
-                </div>
-                <ui:field.root name="birthDate">
-                    <ui:datePicker.root>
-                        <ui:datePicker.label>Date of birth</ui:datePicker.label>
-                        <ui:datePicker.control>
-                            <ui:datePicker.input />
-                            <ui:datePicker.trigger />
-                        </ui:datePicker.control>
-                        <ui:datePicker.content>
-                            <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
-                                <ui:datePicker.view view="{view}">
-                                    <ui:datePicker.viewControl view="{view}">
-                                        <ui:datePicker.prevTrigger view="{view}" />
-                                        <ui:datePicker.viewTrigger view="{view}">
-                                            <ui:datePicker.rangeText />
-                                        </ui:datePicker.viewTrigger>
-                                        <ui:datePicker.nextTrigger view="{view}" />
-                                    </ui:datePicker.viewControl>
-                                    <ui:datePicker.table view="{view}">
-                                        <ui:datePicker.tableHeader />
-                                        <ui:datePicker.tableBody />
-                                    </ui:datePicker.table>
-                                </ui:datePicker.view>
-                            </f:for>
-                        </ui:datePicker.content>
-                    </ui:datePicker.root>
-                </ui:field.root>
-                <div class="flex items-center justify-between">
-                    <ui:popover.root>
-                        <ui:popover.trigger asChild="{true}">
-                            <ui:button variant="outline" type="button">Tips</ui:button>
-                        </ui:popover.trigger>
-                        <ui:popover.content>
-                            <ui:popover.title>About this row</ui:popover.title>
-                            <ui:popover.description>The popover, the select and the date picker of this row all render their content into the end of the body.</ui:popover.description>
-                        </ui:popover.content>
-                    </ui:popover.root>
-                    <ui:fieldArray.removeTrigger asChild="{true}">
-                        <ui:button variant="ghost">Remove</ui:button>
-                    </ui:fieldArray.removeTrigger>
-                </div>
+                <f:render section="row" arguments="{person: person, fruits: fruits}" />
             </ui:fieldArray.item>
         </f:for>
         <ui:fieldArray.emptyState>No people added yet.</ui:fieldArray.emptyState>
@@ -166,3 +34,73 @@
 </ui:fieldArray.root>
 
 <vite:asset entry="EXT:docs/Resources/Private/Components/ui/FieldArrayExamples/Complex.entry.ts" />
+
+<f:section name="row">
+    <div class="grid grid-cols-2 gap-3">
+        <ui:field.root name="firstName" defaultValue="{person.firstName}" required="{true}">
+            <ui:input.root>
+                <ui:input.label>First name</ui:input.label>
+                <ui:input.input />
+            </ui:input.root>
+            <ui:field.errorText />
+        </ui:field.root>
+        <ui:field.root name="favoriteFruit" defaultValue="{person.favoriteFruit}">
+            <ui:select.root collection="{fruits}">
+                <ui:select.label>Favorite fruit</ui:select.label>
+                <ui:select.control>
+                    <ui:select.trigger placeholder="Choose a fruit" />
+                </ui:select.control>
+                <ui:select.content>
+                    <ui:select.list>
+                        <f:for each="{fruits.items}" as="fruit">
+                            <ui:select.item item="{fruit}">
+                                <ui:select.itemText>{fruit.label}</ui:select.itemText>
+                                <ui:select.itemIndicator />
+                            </ui:select.item>
+                        </f:for>
+                    </ui:select.list>
+                </ui:select.content>
+            </ui:select.root>
+        </ui:field.root>
+    </div>
+    <ui:field.root name="birthDate">
+        <ui:datePicker.root>
+            <ui:datePicker.label>Date of birth</ui:datePicker.label>
+            <ui:datePicker.control>
+                <ui:datePicker.input />
+                <ui:datePicker.trigger />
+            </ui:datePicker.control>
+            <ui:datePicker.content>
+                <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
+                    <ui:datePicker.view view="{view}">
+                        <ui:datePicker.viewControl view="{view}">
+                            <ui:datePicker.prevTrigger view="{view}" />
+                            <ui:datePicker.viewTrigger view="{view}">
+                                <ui:datePicker.rangeText />
+                            </ui:datePicker.viewTrigger>
+                            <ui:datePicker.nextTrigger view="{view}" />
+                        </ui:datePicker.viewControl>
+                        <ui:datePicker.table view="{view}">
+                            <ui:datePicker.tableHeader />
+                            <ui:datePicker.tableBody />
+                        </ui:datePicker.table>
+                    </ui:datePicker.view>
+                </f:for>
+            </ui:datePicker.content>
+        </ui:datePicker.root>
+    </ui:field.root>
+    <div class="flex items-center justify-between">
+        <ui:popover.root>
+            <ui:popover.trigger asChild="{true}">
+                <ui:button variant="outline" type="button">Tips</ui:button>
+            </ui:popover.trigger>
+            <ui:popover.content>
+                <ui:popover.title>About this row</ui:popover.title>
+                <ui:popover.description>The popover, the select and the date picker of this row all render their content into the end of the body.</ui:popover.description>
+            </ui:popover.content>
+        </ui:popover.root>
+        <ui:fieldArray.removeTrigger asChild="{true}">
+            <ui:button variant="ghost">Remove</ui:button>
+        </ui:fieldArray.removeTrigger>
+    </div>
+</f:section>

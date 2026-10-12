@@ -98,7 +98,7 @@ A `FieldArray` with no rows yet - `emptyState` shows until the first row is adde
 
 ### Rows With Portalled Components
 
-A row that composes components rendering their content through `ui:portal`: a `Select`, a `DatePicker` and a `Popover`. A portal inside `itemTemplate` renders in place, wrapped in `<div data-portal>`, because the stencil is inert. When a row is added, the clone moves the wrapper to where the portal wants to go - the end of `<body>`, or after the `ui:portalContainer` of its name - and removing the row removes it again. A `ui:portal` with `disabled` stays in the row. The row's entry file mounts the components the clone brought along with `mountAll`.
+A row that composes components rendering their content through `ui:portal`: a `Select`, a `DatePicker` and a `Popover`. A portal inside `itemTemplate` renders in place, wrapped in `<div data-portal>`, because the stencil is inert. When a row is added, the clone moves the wrapper to where the portal wants to go - the end of `<body>`, or after the `ui:portalContainer` of its name - and removing the row removes it again. A `ui:portal` with `disabled` stays in the row. The row's entry file mounts the components the clone brought along with `mountAll`. The row is written once, in an `<f:section name="row">` that the stencil and the loop both `f:render` - a long row does not have to be maintained twice.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.complex", "additionalFiles": {"Complex.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldArrayExamples/Complex.entry.ts"} } %}
 
