@@ -68,6 +68,10 @@ Yes, the row is written twice - once for the stencil, once for the loop. This is
 
 Each `fieldArray.item`'s `index` prop (omitted inside `itemTemplate`, where no real index exists yet) automatically prefixes every nested `Field`'s `name` - `<ui:field name="firstName">` inside row `1` of an array named `people` becomes `people[1][firstName]` without you writing that out yourself.
 
+### Rows and the Trusted Properties of an Extbase Form
+
+Inside a `Form` bound to a persisted object, the form signs the field names of every row rendered on the server into `__trustedProperties` (`people[0][firstName]`, `people[1][firstName]`, ...). The stencil in `itemTemplate` is left out, because its index is only known once the client adds the row. Extbase rejects a name that is not signed for a persisted object, so allow the properties of the rows added on the client in the property mapping configuration of the argument, e.g. `forProperty('people.*')->allowAllProperties()` in the `initialize...Action`.
+
 ### Reflecting Row Count on the Server
 
 `root` takes a required `itemCount` prop - the number of rows you're about to render in the loop above. Nothing counts your rows for you (they're your own `f:for` loop, not a collection `FieldArray` owns), so pass it explicitly, e.g. `itemCount="{people -> f:count()}"`. It's what lets `emptyState`/`addTrigger`/`removeTrigger` start in the correct hidden/disabled state in the server-rendered HTML itself, matching `minItems`/`maxItems`, rather than only correcting themselves once JavaScript hydrates.
@@ -91,6 +95,12 @@ A `FieldArray` with no rows yet - `emptyState` shows until the first row is adde
 `minItems="1"` disables `removeTrigger` once a single row remains; `maxItems="3"` disables `addTrigger` once three rows exist. The status text below the rows ("2 of 3 added") isn't a `FieldArray` feature by itself - it's a plain element the row markup authors itself (`{ui:ref(name: 'status', context: 'fieldArray')}`), kept in sync from `onItemAdded`/`onItemRemoved` the same way this example already mounts each row's own `Field`/`Input`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.limited" } %}
+
+### Rows With Portalled Components
+
+A row that composes components rendering their content through `ui:portal`: a `Select`, a `DatePicker` and a `Popover`. A portal inside `itemTemplate` renders in place, wrapped in `<div data-portal>`, because the stencil is inert. When a row is added, the clone moves the wrapper to where the portal wants to go - the end of `<body>`, or after the `ui:portalContainer` of its name - and removing the row removes it again. A `ui:portal` with `disabled` stays in the row. The row's entry file mounts the components the clone brought along with `mountAll`. The row is written once, in an `<f:section name="row">` that the stencil and the loop both `f:render` - a long row does not have to be maintained twice.
+
+{% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.complex", "additionalFiles": {"Complex.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldArrayExamples/Complex.entry.ts"} } %}
 
 ### Full Form With Client-Side Validation
 

@@ -13,6 +13,9 @@ placing portalled content somewhere other than the end of `<body>` (give `ui:por
 `name`), or rendering outside TYPO3's regular page pipeline (e.g. an isolated component preview), where
 nothing else flushes the registry for you.
 
+It renders an empty `<template data-portal-container>` marker first: portals inside a `ui:template` stencil
+are moved after it when the client clones the stencil.
+
 ## Example
 Place a matching `name` wherever you want that portal's content to end up:
 ```html

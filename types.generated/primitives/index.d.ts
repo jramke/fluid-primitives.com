@@ -182,6 +182,7 @@ export type DatePickerHydrationProps = {
     min?: string;
     max?: string;
     defaultFocusedValue?: string;
+    serverTimeZone: string;
 };
 export type DialogHydrationProps = {
     id: string;
@@ -280,7 +281,7 @@ export type InputHydrationProps = {
     pattern?: string;
     inputMode?: InputMode;
     translations: {
-        wordCount: string | false;
+        wordCount: string;
     };
     announce?: boolean;
     announceDebounce?: number;
@@ -463,7 +464,7 @@ export type TextareaHydrationProps = {
     maxLength?: number;
     submitOn?: TextareaSubmitOn;
     translations: {
-        wordCount: string | false;
+        wordCount: string;
     };
     announce?: boolean;
     announceDebounce?: number;

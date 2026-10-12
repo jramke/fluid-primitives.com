@@ -131,9 +131,6 @@ export type InputMode =
     'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
 export type ListCollection = {
     items: Record<string | number, Record<string | number, any> | object>;
-    size: number;
-    first: string | null;
-    last: string | null;
     itemToValueKey: string | null;
     itemToStringKey: string | null;
     isItemDisabledKey: string | null;

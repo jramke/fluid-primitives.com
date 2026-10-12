@@ -69,6 +69,7 @@ ddev npm run docs:generate:check  # Fail if the generated API docs data is outda
 ddev npm run format           # Format all files with Prettier
 ddev npm run format:check     # Check formatting without writing
 ddev npm run types            # TypeScript type checking (tsc --noEmit)
+ddev exec "cd packages/fluid-primitives && npm run types"  # The library's own tsc, including tests/Client (CI runs it too)
 ddev composer run format      # Format PHP files with Mago, always run after changes are done
 ddev composer run lint        # Static analysis for PHP with Mago and Rector
 ddev composer mago:analyze    # Analyze PHP code quality with Mago

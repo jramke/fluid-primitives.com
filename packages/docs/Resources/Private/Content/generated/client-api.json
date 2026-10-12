@@ -1124,7 +1124,7 @@
         "summary": "Like `spreadProps` for a text control, but it does not assign a `value` the control already shows. Any assignment, even of the same text, makes the browser treat the value as set by a script, and it stops reporting `tooShort` (`minlength`) for such a value. These controls mirror what the user typed into their machine, so that assignment would happen on every keystroke.\n\nAs in `spreadProps`, a value is only considered when it changed since the last call: the control can be one event ahead of the machine, and must not be reset to the machine's older value.",
         "signatures": [
             {
-                "signature": "spreadTextControlProps(node: HTMLInputElement | HTMLTextAreaElement, attrs: Attrs, scopeKey: string): () => void",
+                "signature": "spreadTextControlProps(node: HTMLInputElement | HTMLTextAreaElement, attrs: Attrs, scopeKey?: string): () => void",
                 "params": [
                     {
                         "name": "node",
@@ -1136,7 +1136,8 @@
                     },
                     {
                         "name": "scopeKey",
-                        "type": "string"
+                        "type": "string",
+                        "optional": true
                     }
                 ],
                 "returns": {

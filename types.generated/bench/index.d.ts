@@ -39,7 +39,7 @@ export type InputHydrationProps = {
     pattern?: string;
     inputMode?: InputMode;
     translations: {
-        wordCount: string | false;
+        wordCount: string;
     };
     announce?: boolean;
     announceDebounce?: number;

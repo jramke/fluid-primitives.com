@@ -2,6 +2,10 @@
     :where(&) {
         @apply flex flex-col items-start gap-1.5 w-full;
     }
+
+    [data-select-root] {
+        @apply contents;
+    }
 }
 
 @utility label {
