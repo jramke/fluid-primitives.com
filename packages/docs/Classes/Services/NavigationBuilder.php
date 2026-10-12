@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Services;
 
 use FluidPrimitives\Docs\Utility\DocFileMetadataExtractor;
+use Jramke\FluidPrimitives\Utility\Typed;
 use Symfony\Component\Yaml\Yaml;
 
 class NavigationBuilder
@@ -60,6 +61,9 @@ class NavigationBuilder
             $docs[$slug] = [
                 'slug' => '/' . $slug,
                 'title' => $title,
+                'preview' => Typed::bool(
+                    DocFileMetadataExtractor::extractFrontmatter($file->getPathname())['preview'] ?? null,
+                ),
             ];
         }
 

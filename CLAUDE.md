@@ -8,6 +8,8 @@ Fluid Primitives is a headless component library for TYPO3 Fluid templating. It 
 
 You can check out the docs `.md` files under `packages/docs/Resources/Private/Content/docs` or the index/nav under `packages/docs/Resources/Private/Content/nav.yaml` for more informations about core concepts of the library or some components.
 
+A component page that is not stable yet carries `preview: true` in its YAML frontmatter (`---` block at the top of the `.md`), which shows a Preview tag next to its title and in the nav.
+
 **Key technologies:**
 
 - PHP 8.3 (TYPO3 extension, ViewHelpers, Contexts)

@@ -5,6 +5,7 @@
 @import './scroller.css';
 @import './typography.css' layer(components);
 @import './button.css' layer(components);
+@import './badge.css' layer(components);
 @import './permalink.css' layer(components);
 @import './code-block.css' layer(components);
 @import './component-example.css' layer(components);
