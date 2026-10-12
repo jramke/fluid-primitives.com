@@ -108,7 +108,7 @@ final class DocsController extends ActionController
         }
 
         [$content, $toc] = DocsUtility::MarkdownToHtml($markdown, $this->request);
-        $content = ViewAsMarkdownLinkInjector::inject($content, '/' . $path);
+        $content = ViewAsMarkdownLinkInjector::inject($content, '/' . $path, Typed::bool($meta['preview'] ?? null));
 
         $this->view->assignMultiple([
             'content' => $content,

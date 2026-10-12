@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Utility;
 
+use Jramke\FluidPrimitives\Utility\Typed;
+use Symfony\Component\Yaml\Yaml;
+
 /**
  * Pulls a title and a short description out of a docs Markdown file, for the sidebar navigation and
  * llms.txt - both need "what is this page called / about" without rendering the whole page.
@@ -11,6 +14,23 @@ namespace FluidPrimitives\Docs\Utility;
 class DocFileMetadataExtractor
 {
     private const int DESCRIPTION_MAX_LENGTH = 200;
+
+    /**
+     * The YAML frontmatter of a docs page, e.g. `preview: true`. Empty without one.
+     *
+     * @return array<array-key, mixed>
+     */
+    public static function extractFrontmatter(string $filePath): array
+    {
+        $content = file_get_contents($filePath) ?: '';
+        $matches = [];
+
+        if (!preg_match('/^---\n(.*?)\n---\n/s', $content, $matches)) {
+            return [];
+        }
+
+        return Typed::arrayOrNull(Yaml::parse($matches[1])) ?? [];
+    }
 
     public static function extractTitle(string $filePath): string
     {

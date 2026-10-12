@@ -130,6 +130,9 @@
                         href="{f:uri.typolink(parameter: item.slug)}"
                         {f:if(condition: isActive, then: 'aria-current="page"' )}>
                         {item.title}
+                        <f:if condition="{item.preview}">
+                            <span class="preview-badge ms-auto">Preview</span>
+                        </f:if>
                     </a>
                 </f:alias>
             </f:for>
