@@ -1,0 +1,21 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:toggleGroupExamples.simple />
+    </f:case>
+    <f:case value="multiple">
+        <ui:toggleGroupExamples.multiple />
+    </f:case>
+    <f:case value="vertical">
+        <ui:toggleGroupExamples.vertical />
+    </f:case>
+    <f:case value="disabled">
+        <ui:toggleGroupExamples.disabled />
+    </f:case>
+    <f:case value="not-deselectable">
+        <ui:toggleGroupExamples.notDeselectable />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

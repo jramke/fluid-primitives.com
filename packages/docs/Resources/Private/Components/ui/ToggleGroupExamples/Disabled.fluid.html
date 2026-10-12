@@ -1,0 +1,12 @@
+<div class="flex flex-col items-start gap-4">
+    <ui:toggleGroup.root defaultValue="{0: 'left'}" aria-label="Text alignment of the disabled group" disabled="{true}">
+        <ui:toggleGroup.item value="left">Left</ui:toggleGroup.item>
+        <ui:toggleGroup.item value="center">Center</ui:toggleGroup.item>
+        <ui:toggleGroup.item value="right">Right</ui:toggleGroup.item>
+    </ui:toggleGroup.root>
+    <ui:toggleGroup.root defaultValue="{0: 'left'}" aria-label="Text alignment with a disabled item">
+        <ui:toggleGroup.item value="left">Left</ui:toggleGroup.item>
+        <ui:toggleGroup.item value="center" disabled="{true}">Center</ui:toggleGroup.item>
+        <ui:toggleGroup.item value="right">Right</ui:toggleGroup.item>
+    </ui:toggleGroup.root>
+</div>
