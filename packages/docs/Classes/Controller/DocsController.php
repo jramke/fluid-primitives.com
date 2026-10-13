@@ -10,6 +10,7 @@ use FluidPrimitives\Docs\Domain\Validator\EventRegistrationValidator;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\DocsMarkdownModeResponder;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
+use FluidPrimitives\Docs\Services\VersionsProvider;
 use FluidPrimitives\Docs\Services\ViewAsMarkdownLinkInjector;
 use FluidPrimitives\Docs\Utility\DocsUtility;
 use Jramke\FluidPrimitives\Traits\JsonValidationErrorsTrait;
@@ -35,6 +36,7 @@ final class DocsController extends ActionController
 
     public function __construct(
         private readonly NavigationBuilder $navigationBuilder,
+        private readonly VersionsProvider $versionsProvider,
         private readonly DocsPageTitleProvider $pageTitleProvider,
         private readonly EventRegistrationRepository $eventRegistrationRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
@@ -44,6 +46,7 @@ final class DocsController extends ActionController
     public function showAction(string $path = ''): ResponseInterface
     {
         $this->view->assign('mainLinks', self::MAIN_LINKS);
+        $this->view->assign('versions', $this->versionsProvider->getVersions());
 
         if ($path === '') {
             $this->view->assign('layout', 'home');

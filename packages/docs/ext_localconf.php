@@ -58,3 +58,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['docs_searc
     'backend' => FileBackend::class,
     'groups' => ['pages'],
 ];
+
+// @mago-expect lint:no-global
+// @mago-expect analysis:mixed-array-assignment(4)
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['docs_versions'] ??= [
+    'frontend' => VariableFrontend::class,
+    'backend' => FileBackend::class,
+    'groups' => ['pages'],
+];
