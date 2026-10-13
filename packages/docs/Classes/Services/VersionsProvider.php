@@ -10,11 +10,12 @@ use TYPO3\CMS\Core\Http\RequestFactory;
 
 /**
  * The version select entries: the latest release of every major on Packagist. The highest major is
- * this site, every older one is its own deployment at `v<major>.fluid-primitives.com`.
+ * this site, every older one links to its `v<major>` branch of the repository.
  */
 final class VersionsProvider
 {
     private const string PACKAGE = 'jramke/fluid-primitives';
+    private const string REPOSITORY = 'https://github.com/jramke/fluid-primitives.com';
     private const int LIFETIME = 3600;
     private const int FAILURE_LIFETIME = 300;
 
@@ -107,7 +108,7 @@ final class VersionsProvider
             $versions[] =
                 [
                     'label' => "v{$latest}",
-                    'href' => $isCurrent ? '/docs' : "https://v{$major}.fluid-primitives.com/docs",
+                    'href' => $isCurrent ? '/docs' : self::REPOSITORY . "/tree/v{$major}",
                 ] + ($isCurrent ? ['current' => true] : []);
         }
 
