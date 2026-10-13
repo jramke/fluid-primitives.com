@@ -37,19 +37,19 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copy files
 COPY . .
 
-# Remove the local path repository and resolve the latest main-branch snapshot from Packagist
-# This keeps the Docker build aligned with the npm @next snapshot channel
+# Remove the local path repository and resolve the latest v0 release from Packagist
+# This keeps the Docker build aligned with the npm v0 releases
 RUN composer config --unset repositories.fluid-primitives \
-    && composer require jramke/fluid-primitives:"dev-main" --no-update \
+    && composer require jramke/fluid-primitives:"^0.19" --no-update \
     && composer update jramke/fluid-primitives --with-dependencies --no-dev --no-scripts
 
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --no-scripts \
     && composer run-script post-install-cmd || true
 
-# Build frontend assets using the latest published next snapshot from npm
+# Build frontend assets using the latest published v0 release from npm
 RUN npm ci \
-    && npm install fluid-primitives@next --no-save \
+    && npm install fluid-primitives@^0.19 --no-save \
     && npm run docs:build
 
 # Copy entrypoint
