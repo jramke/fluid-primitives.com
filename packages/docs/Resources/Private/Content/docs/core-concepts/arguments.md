@@ -118,7 +118,9 @@ See [Hydration](/docs/core-concepts/hydration) for `mountAll`/`mount` itself.
 
 An object-typed client prop must implement PHP's `JsonSerializable` - this mirrors what hydration already enforces at render time, just surfaced earlier as a generation error. A documented `@return array{...}` shape on `jsonSerialize()` is preferred over reflecting the class's public properties, since it's the actual wire contract.
 
-A bare `type="array"` can't tell a JS array from a JS object, so it resolves to `unknown`. Declare a one-dimensional list as `type="string[]"` instead for a precise generated type - the command warns when it finds a prop it could tighten this way.
+A bare `type="array"` can't tell a JS array from a JS object, so it resolves to `any`, not `unknown`: an `unknown` prop can't be passed on to a primitive's own, more specific prop type without a cast, `any` can. Declare a one-dimensional list as `type="string[]"` instead for a precise generated type - the command prints one warning with the number of props it could tighten this way, and `-v` lists them.
+
+Components added with `ui:add` hand `props` straight to their primitive (`new Select(props)`). Under a strict `tsc` that only type-checks once the generated types are in place, because without them `props` is an untyped bag. Generate the types before running `tsc` on a project that uses them.
 
 ## Inheriting Props
 
