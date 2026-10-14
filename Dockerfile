@@ -37,19 +37,20 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copy files
 COPY . .
 
-# Remove the local path repository and resolve the latest main-branch snapshot from Packagist
-# This keeps the Docker build aligned with the npm @next snapshot channel
+# Remove the local path repository and resolve the newest published release from Packagist.
+# "*@beta" also accepts prereleases, so 1.0.0-beta.1 wins over 0.19.1 and a later stable release wins over both.
+# The docs site and its registry (ui:add) then match what users get from Composer and npm.
 RUN composer config --unset repositories.fluid-primitives \
-    && composer require jramke/fluid-primitives:"dev-main" --no-update \
+    && composer require jramke/fluid-primitives:"*@beta" --no-update \
     && composer update jramke/fluid-primitives --with-dependencies --no-dev --no-scripts
 
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --no-scripts \
     && composer run-script post-install-cmd || true
 
-# Build frontend assets using the latest published next snapshot from npm
+# Build frontend assets with the npm package of the same release as the Composer package
 RUN npm ci \
-    && npm install fluid-primitives@next --no-save \
+    && npm install fluid-primitives@"$(php -r 'require "vendor/autoload.php"; echo Composer\InstalledVersions::getPrettyVersion("jramke/fluid-primitives");')" --no-save \
     && npm run docs:build
 
 # Copy entrypoint
