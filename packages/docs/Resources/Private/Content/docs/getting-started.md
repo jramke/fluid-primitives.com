@@ -14,8 +14,8 @@ Get up and running with Fluid Primitives in just a few steps. This guide covers 
 Install both the PHP and JavaScript packages:
 
 ```bash
-composer require jramke/fluid-primitives
-npm install fluid-primitives
+composer require jramke/fluid-primitives:"^1.0@beta"
+npm install fluid-primitives@beta
 ```
 
 {% component: "ui:alert", arguments: {"title": "Version Match", "text": "Keep the Composer and npm package versions in sync to avoid compatibility issues.", "variant": "warning"} %}
