@@ -8,6 +8,7 @@ Get up and running with Fluid Primitives in just a few steps. This guide covers 
 - PHP 8.3+
 - Basic familiarity with [Fluid Components](https://docs.typo3.org/other/typo3fluid/fluid/main/en-us/Usage/Components.html)
 - A modern JavaScript build setup like Vite, Webpack, etc. (Recommended)
+- To use components from `ui:add` without editing them: [praetorius/vite-asset-collector](https://packagist.org/packages/praetorius/vite-asset-collector) with the `vite` Fluid namespace registered, and your Vite config picking up `Resources/Private/Components/**/*.entry.ts` as entrypoints. Their templates load their entry file with `<vite:asset>`. See [Scaffolding with the CLI](/docs/core-concepts/primitives#content-scaffolding-with-the-cli) for other setups.
 
 ## Installation
 

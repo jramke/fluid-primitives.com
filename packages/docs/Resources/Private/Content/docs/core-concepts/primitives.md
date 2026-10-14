@@ -148,6 +148,14 @@ typo3 ui:add accordion
 
 This generates component files with basic Tailwind styling as a starting point.
 
+The root template of every added component ends with a `<vite:asset>` line that loads its `.entry.ts` file, so the component hydrates without further wiring:
+
+```html
+<vite:asset entry="EXT:my_ext/Resources/Private/Components/ui/Accordion/Accordion.entry.ts" />
+```
+
+The registry stores that line with a `%componentPath%` placeholder (`<vite:asset entry="%componentPath%/Accordion.entry.ts" />`), and `ui:add` replaces it with the path the component is written to, following `--extension` and `--path`. The tag needs [praetorius/vite-asset-collector](https://packagist.org/packages/praetorius/vite-asset-collector) with the `vite` Fluid namespace registered, and the entry file among your Vite entrypoints. `ui:add` warns when the namespace is missing. If you load scripts differently, replace the line with your own, see [JavaScript Entry Files](#content-javascript-entry-files). Repeating the tag is harmless, the asset is only included once per page.
+
 ## Available Primitives
 
 See the [Components](/docs/components) section for all available primitives with examples and API documentation.
