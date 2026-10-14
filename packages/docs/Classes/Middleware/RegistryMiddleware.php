@@ -15,6 +15,11 @@ use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 
+/**
+ * Serves the registry of the installed library release as JSON. `ui:add` doesn't use it in the releases after
+ * 1.0.0-beta.1: it reads the registry from the git tag of the installed version. Kept for 1.0.0-beta.1, which still
+ * calls this endpoint, and because `docs/ai.md` points agents to it. Remove it once beta.1 is no longer supported.
+ */
 final readonly class RegistryMiddleware implements MiddlewareInterface
 {
     public function __construct(
