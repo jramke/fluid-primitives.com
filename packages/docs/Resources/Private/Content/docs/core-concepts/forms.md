@@ -53,6 +53,8 @@ Use `ui:form` with `action` pointing to your Extbase action and `objectName` mat
 
 The form renders as a standard `<form>` with `novalidate` and the Extbase action URL resolved server-side. The `object` prop pre-populates field values from an existing model instance.
 
+{% component: "ui:alert", arguments: {"title": "Which plugin's field prefix?", "text": "The prefix (`tx_myext_myplugin[...]`) follows the plugin the form submits to, not the plugin that renders it. It is derived from `controller` and `action`, so a form rendered by one plugin that posts to an AJAX action registered under another still gets the right prefix. `pluginName` and `extensionName` set it by hand and always win. Outside an Extbase request, for example in a plain Fluid partial, pass both `extensionName` and `pluginName`: with either one missing, rendering throws instead of producing a form whose POST fails later with a missing argument.", "variant": "info"} %}
+
 ### Controller
 
 ```php
