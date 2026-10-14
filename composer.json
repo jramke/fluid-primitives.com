@@ -29,7 +29,8 @@
         ],
         "test": [
             "composer run --working-dir=packages/fluid-primitives test:fromdocs --",
-            "composer run --working-dir=packages/benchmarks test:fromdocs --"
+            "composer run --working-dir=packages/benchmarks test:fromdocs --",
+            "composer run --working-dir=packages/docs test:fromdocs --"
         ]
     },
     "require": {
@@ -90,7 +91,8 @@
     "autoload-dev": {
         "psr-4": {
             "Jramke\\FluidPrimitives\\Tests\\": "packages/fluid-primitives/tests",
-            "FluidPrimitives\\Benchmarks\\Tests\\": "packages/benchmarks/tests"
+            "FluidPrimitives\\Benchmarks\\Tests\\": "packages/benchmarks/tests",
+            "FluidPrimitives\\Docs\\Tests\\": "packages/docs/tests"
         }
     }
 }

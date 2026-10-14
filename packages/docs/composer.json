@@ -17,6 +17,15 @@
             "FluidPrimitives\\Docs\\": "Classes/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "FluidPrimitives\\Docs\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "php vendor/bin/phpunit -c phpunit.xml --testdox --colors=always --display-notices",
+        "test:fromdocs": "php ../../vendor/bin/phpunit -c phpunit.xml --testdox --colors=always --display-notices"
+    },
     "extra": {
         "typo3/cms": {
             "extension-key": "docs"
