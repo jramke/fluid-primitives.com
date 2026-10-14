@@ -119,14 +119,33 @@ mount('ui:form', 'registration-form', ({ props }) => {
     const form = new Form({
         ...props,
         onSubmit: async ({ api, post }) => {
-            const response = await post(api.getAction());
-            return response.ok;
+            let response: Response;
+            try {
+                response = await post(api.getAction());
+            } catch (error) {
+                // post() throws on a 422; the form maps those to field and form errors itself.
+                if (error instanceof Error && ['ValidationError', 'FormError'].includes(error.name))
+                    throw error;
+                api.setErrorText(null);
+                return false;
+            }
+
+            const data: { message?: string } = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                api.setErrorText(data.message ?? null);
+                return false;
+            }
+
+            api.setSuccessText(data.message ?? null);
+            return true;
         },
     });
 
     form.init();
 });
 ```
+
+Without an `onSubmit` the form only prevents the native submit and goes straight to `success` without sending anything, so every form needs one. The `onSubmit` above is what `ui:add form` ships (there with `mountAll`): it posts the form, shows the `message` of a JSON response as the error or success text, and treats a network failure or a response that is not JSON as the generic `error` state. The `try`/`catch` has to rethrow what `post()` throws on a 422, otherwise a validation failure ends in the generic `error` state and the per-field messages are lost. Wiring the submit button's loading state is not part of it, see [Submit Button](#content-submit-button).
 
 The `post()` helper automatically adds the Extbase field name prefix (`tx_myext[MyObject][field]`) before sending, so your form fields can use plain names like `email` or nested dot paths like `person.name` in the template. It always submits the current form as `FormData`, and it also handles 422 JSON validation responses for you by mapping them back to fields and transitioning the form to `invalid`.
 
