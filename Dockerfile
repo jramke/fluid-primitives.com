@@ -48,9 +48,10 @@ RUN composer config --unset repositories.fluid-primitives \
 RUN composer install --no-dev --optimize-autoloader --no-scripts \
     && composer run-script post-install-cmd || true
 
-# Build frontend assets with the npm package of the same release as the Composer package
-RUN npm ci \
-    && npm install fluid-primitives@"$(php -r 'require "vendor/autoload.php"; echo Composer\InstalledVersions::getPrettyVersion("jramke/fluid-primitives");')" --no-save \
+# Build frontend assets with the npm package of the same release as the Composer package.
+# "npm install" instead of "npm ci": it replaces the "file:" dependency on the submodule with the published package,
+# so the root package-lock.json doesn't have to match the library's version after each release.
+RUN npm install fluid-primitives@"$(php -r 'require "vendor/autoload.php"; echo Composer\InstalledVersions::getPrettyVersion("jramke/fluid-primitives");')" \
     && npm run docs:build
 
 # Copy entrypoint
