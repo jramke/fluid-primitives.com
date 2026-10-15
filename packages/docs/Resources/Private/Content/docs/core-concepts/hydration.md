@@ -202,10 +202,20 @@ window.FluidPrimitives = {
     componentInstances: {
         // Instances from mountAll()/mount(), nested the same way
     },
+    globals: {
+        locale: 'de-DE',
+        debug: false,
+    },
 };
 ```
 
 You rarely need to access this directly, but it's there for debugging or advanced use cases.
+
+### Globals
+
+`globals` holds the values of your [global context](/docs/core-concepts/context#content-global-context) that are marked `#[ExposeToClient]`, once per page instead of in the props of every instance. `locale` and `debug` are always in it. Read them with [`getGlobal()`](/docs/client-utilities/globals) rather than from the object.
+
+The object is only written on pages that need it: when at least one component hydrates, or when a template reads `{context.globals.x}` during the render. A page with neither has no `window.FluidPrimitives`, so `getGlobals()` returns `null` there and `getGlobal()` returns its fallback. Reading any global on the server emits all exposed ones.
 
 ## mountAll
 
