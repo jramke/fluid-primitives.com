@@ -1,4 +1,4 @@
-import { getHydrationData, mount, mountAll } from 'fluid-primitives';
+import { extbase, getHydrationData, mount, mountAll } from 'fluid-primitives';
 import { Button } from 'fluid-primitives/button';
 import { Form, type FormValues } from 'fluid-primitives/form';
 import { z } from 'zod';
@@ -60,10 +60,13 @@ mountAll('ui:eventRegistration', ({ props }) => {
 
             return errors;
         },
-        onSubmit: async ({ api, post }) => {
+        onSubmit: async ({ api, values }) => {
             // Wait at least 800ms so we dont flash a loading state and show were working very hard
             const [response] = await Promise.all([
-                post(api.getAction()),
+                extbase.post(api.getAction(), values.toObject(), {
+                    prefix: api.getFieldNamePrefix(),
+                    objectName: api.getObjectName(),
+                }),
                 new Promise(resolve => setTimeout(resolve, 800)),
             ]);
 

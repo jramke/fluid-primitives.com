@@ -26,15 +26,14 @@ await extbase.post('/events/register', { q: 'x' }, { prefix: 'tx_docs_docs' });
 // -> tx_docs_docs[q]=x
 ```
 
-For an action that takes an object, `objectName` nests the data one level deeper, between the prefix and the keys. A `FormData` is named the same way, so the field names of a form can stay plain, in dot or bracket notation. A name that already starts with the prefix is left alone, that is how Extbase's own hidden fields (`__trustedProperties`, `__identity`) come:
+For an action that takes an object, `objectName` nests the data one level deeper, between the prefix and the keys:
 
 ```typescript
 await extbase.post(url, { title: 'Hello', address: { city: 'Berlin' } }, { objectName: 'event' });
 // -> tx_docs_docs[event][title]=Hello, tx_docs_docs[event][address][city]=Berlin
-
-const form = new FormData(formEl); // names like title and address.city
-await extbase.post(url, form, { objectName: 'event' });
 ```
+
+A top-level key that equals the prefix holds Extbase's own fields (`__trustedProperties`, `__identity`) and stays below the prefix alone. That is how the `values.toObject()` of a [`Form`](/docs/core-concepts/forms) arrives, its hidden fields included, so `extbase.post(api.getAction(), values.toObject(), { prefix: api.getFieldNamePrefix(), objectName: api.getObjectName() })` sends a form the way the browser would.
 
 On the PHP side, a plain typed action argument receives the value the same way regardless of whether it arrives via GET or POST:
 

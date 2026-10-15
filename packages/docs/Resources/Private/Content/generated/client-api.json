@@ -869,7 +869,7 @@
                 "summary": "POSTs `data` as `multipart/form-data`, nested under the URL's Extbase argument namespace. A URL without one gets `data` unprefixed.",
                 "signatures": [
                     {
-                        "signature": "post(url: string, data?: Record<string, unknown> | FormData, options?: ExtbaseRequestInit): Promise<Response>",
+                        "signature": "post(url: string, data?: Record<string, unknown>, options?: ExtbaseRequestInit): Promise<Response>",
                         "params": [
                             {
                                 "name": "url",
@@ -878,9 +878,9 @@
                             },
                             {
                                 "name": "data",
-                                "type": "Record<string, unknown> | FormData",
+                                "type": "Record<string, unknown>",
                                 "optional": true,
-                                "description": "The arguments. Nested objects and arrays are flattened into bracket notation, `null` and `undefined` are skipped, a `File` or `Blob` is sent as it is. The names of a `FormData` (dot or bracket notation) are nested the same way, except those that already start with the prefix."
+                                "description": "The arguments. Nested objects and arrays are flattened into bracket notation, `null` and `undefined` are skipped, a `File` or `Blob` is sent as it is. The `toObject()` of the values of a `Form` works as it is."
                             },
                             {
                                 "name": "options",

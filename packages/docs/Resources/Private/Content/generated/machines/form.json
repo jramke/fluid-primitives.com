@@ -73,6 +73,14 @@
                 "type": "() => string",
                 "description": "The `action` of the form, an empty string if it has none."
             },
+            "getFieldNamePrefix": {
+                "type": "() => string | undefined",
+                "description": "The Extbase argument namespace (`tx_events_list`) of the action the form submits to."
+            },
+            "getObjectName": {
+                "type": "() => string | undefined",
+                "description": "The `objectName` of the form: the name of the object its fields belong to."
+            },
             "reset": {
                 "type": "() => void",
                 "description": "Resets the form to its initial state."
@@ -109,8 +117,8 @@
                 "defaultValue": "100"
             },
             "onSubmit": {
-                "type": "(({ values, api, event, post }: { values: FormValues; api: FormApi; event: JSX.FormEvent<HTMLElement>; post: (url: string, init?: RequestInit) => Promise<Response>; }) => Promise<FormSubmitResult> | FormSubmitResult) | undefined",
-                "description": "Called with the values once the form is valid and submitted. Return `true` for success, `false` for an error, or field errors to mark the form invalid. `post(url)` submits the form as `FormData` with the names Extbase expects. A 422 JSON response of `JsonValidationErrorsTrait` is mapped to field errors, or to the error text of the form for the errors of the object itself."
+                "type": "(({ values, api, event }: { values: FormValues; api: FormApi; event: JSX.FormEvent<HTMLElement>; }) => Promise<FormSubmitResult> | FormSubmitResult) | undefined",
+                "description": "Called with the values once the form is valid and submitted. Return `true` for success, `false` for an error, or field errors to mark the form invalid. Send the values with `extbase.post(api.getAction(), values.toObject(), { prefix: api.getFieldNamePrefix(), objectName: api.getObjectName() })`: a 422 JSON response of `JsonValidationErrorsTrait` it throws is mapped to field errors, or to the error text of the form for the errors of the object itself."
             },
             "render": {
                 "type": "((form: Form) => void) | undefined",
