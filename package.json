@@ -14,7 +14,6 @@
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "types": "tsc --noEmit",
-        "types:registry": "tsc --noEmit -p tsconfig.registry.json",
         "storybook": "storybook dev -p 8080 --host 0.0.0.0 --ci",
         "build-storybook": "storybook build -o ./public/storybook/"
     },
