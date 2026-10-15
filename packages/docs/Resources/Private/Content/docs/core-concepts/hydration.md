@@ -100,6 +100,8 @@ Or with Vite Asset Collector:
 <vite:asset entry="EXT:my_ext/Resources/Private/Components/Accordion/accordion.entry.ts" />
 ```
 
+Components added with `ui:add` already contain this line, with the path filled in for where they were written to (see [Scaffolding with the CLI](/docs/core-concepts/primitives#content-scaffolding-with-the-cli)).
+
 ## Connecting Parts in JavaScript
 
 When building custom components without using a state machine, use `ComponentHydrator` to find elements.
