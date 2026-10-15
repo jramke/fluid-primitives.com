@@ -160,4 +160,6 @@ The CLI scaffolding provides a starting point, not a complete design system. You
 - Possibly adjust the component structure
 - Adapt the JavaScript loading to your build setup
 
+`ui:add` never merges into a component you already have. If any of the component's files exists in the target folder, nothing is written and the command fails with the list of files in the way. Add `--force` to overwrite the whole component with the registry version, or move your customised component aside first. Files an older registry version created and a newer one dropped are left alone.
+
 It's inspired by [shadcn/ui](https://ui.shadcn.com/)'s approach: copy the code, own it, customize it.
