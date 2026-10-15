@@ -28,6 +28,15 @@ export type AccordionHydrationProps = {
     disabled?: boolean;
     orientation?: Orientation;
 };
+export type ButtonHydrationProps = {
+    id: string;
+    ids: {
+        [key: string]: string;
+    };
+    disabled?: boolean;
+    loading?: boolean;
+    focusableWhenDisabled?: boolean;
+};
 export type CheckboxGroupExamplesSelectAllHydrationProps = {
     id: string;
     ids: {
@@ -60,7 +69,7 @@ export type CheckboxHydrationProps = {
     disabled?: boolean;
     invalid?: boolean;
     required?: boolean;
-    defaultChecked?: unknown;
+    defaultChecked?: any;
     name?: string;
     form?: string;
     readOnly?: boolean;
@@ -117,7 +126,7 @@ export type ComboboxHydrationProps = {
     selectionBehavior?: ComboboxSelectionBehavior;
     popupType?: PopupType;
     autoFocus?: boolean;
-    positioning?: unknown;
+    positioning?: any;
     translations: {
         triggerLabel: string;
         clearTriggerLabel: string;
@@ -156,7 +165,7 @@ export type DatePickerHydrationProps = {
     defaultView?: DatePickerView;
     minView?: DatePickerView;
     maxView?: DatePickerView;
-    positioning?: unknown;
+    positioning?: any;
     defaultOpen?: boolean;
     inline?: boolean;
     translations: {
@@ -239,7 +248,7 @@ export type FieldHydrationProps = {
     invalid?: boolean;
     required?: boolean;
     readOnly?: boolean;
-    defaultValue?: unknown;
+    defaultValue?: any;
     validationMode?: ValidationMode;
     listenTo?: string[];
 };
@@ -261,7 +270,7 @@ export type FileUploadHydrationProps = {
     invalid?: boolean;
     required?: boolean;
     readOnly?: boolean;
-    accept?: unknown;
+    accept?: any;
     allowDrop?: boolean;
     maxFiles?: number;
     existingFilesCount?: number;
@@ -282,6 +291,7 @@ export type FormHydrationProps = {
         [key: string]: string;
     };
     objectName?: string;
+    fieldNamePrefix: string;
 };
 export type InputHydrationProps = {
     id: string;
@@ -312,7 +322,7 @@ export type MenuHydrationProps = {
     composite?: boolean;
     typeahead?: boolean;
     loopFocus?: boolean;
-    positioning?: unknown;
+    positioning?: any;
     defaultOpen?: boolean;
     defaultHighlightedValue?: string;
     defaultTriggerValue?: string;
@@ -354,7 +364,7 @@ export type NumberInputHydrationProps = {
     clampValueOnBlur?: boolean;
     focusInputOnChange?: boolean;
     spinOnPress?: boolean;
-    formatOptions?: unknown;
+    formatOptions?: any;
     inputMode?: NumberInputMode;
     pattern?: string;
     translations: {
@@ -373,7 +383,7 @@ export type PopoverHydrationProps = {
     restoreFocus?: boolean;
     closeOnInteractOutside?: boolean;
     closeOnEscape?: boolean;
-    positioning?: unknown;
+    positioning?: any;
     defaultOpen?: boolean;
     translations: {
         closeTriggerLabel: string;
@@ -406,7 +416,7 @@ export type SelectHydrationProps = {
     readOnly?: boolean;
     required?: boolean;
     closeOnSelect?: boolean;
-    positioning?: unknown;
+    positioning?: any;
     defaultValue?: string[];
     defaultHighlightedValue?: string;
     loopFocus?: boolean;
@@ -437,7 +447,7 @@ export type SliderHydrationProps = {
     orientation?: Orientation;
     origin?: SliderOrigin;
     thumbAlignment?: SliderThumbAlignment;
-    thumbSize?: unknown;
+    thumbSize?: any;
     thumbCollisionBehavior?: SliderThumbCollisionBehavior;
 };
 export type SwitchHydrationProps = {
@@ -485,6 +495,27 @@ export type TextareaHydrationProps = {
     announce?: boolean;
     announceDebounce?: number;
 };
+export type ToggleGroupHydrationProps = {
+    id: string;
+    ids: {
+        [key: string]: string;
+    };
+    defaultValue?: string[];
+    disabled?: boolean;
+    multiple?: boolean;
+    deselectable?: boolean;
+    loopFocus?: boolean;
+    rovingFocus?: boolean;
+    orientation?: Orientation;
+};
+export type ToggleHydrationProps = {
+    id: string;
+    ids: {
+        [key: string]: string;
+    };
+    defaultPressed?: boolean;
+    disabled?: boolean;
+};
 export type TooltipHydrationProps = {
     id: string;
     ids: {
@@ -499,5 +530,5 @@ export type TooltipHydrationProps = {
     closeOnScroll?: boolean;
     closeOnClick?: boolean;
     interactive?: boolean;
-    positioning?: unknown;
+    positioning?: any;
 };
