@@ -853,7 +853,7 @@
                                 "name": "options",
                                 "type": "ExtbaseRequestInit",
                                 "optional": true,
-                                "description": "More options for `fetch`, e.g. `{ signal }`, and the `prefix` to nest the data under."
+                                "description": "More options for `fetch`, e.g. `{ signal }`, and the `prefix` and `objectName` to nest the data under."
                             }
                         ],
                         "returns": {
@@ -880,13 +880,13 @@
                                 "name": "data",
                                 "type": "Record<string, unknown> | FormData",
                                 "optional": true,
-                                "description": "The arguments. Nested objects and arrays are flattened into bracket notation, `null` and `undefined` are skipped, a `File` or `Blob` is sent as it is. A `FormData` is sent as it is, its names are yours."
+                                "description": "The arguments. Nested objects and arrays are flattened into bracket notation, `null` and `undefined` are skipped, a `File` or `Blob` is sent as it is. The names of a `FormData` (dot or bracket notation) are nested the same way, except those that already start with the prefix."
                             },
                             {
                                 "name": "options",
                                 "type": "ExtbaseRequestInit",
                                 "optional": true,
-                                "description": "More options for `fetch`, e.g. `{ signal }`, and the `prefix` to nest the data under."
+                                "description": "More options for `fetch`, e.g. `{ signal }`, and the `prefix` and `objectName` to nest the data under."
                             }
                         ],
                         "returns": {
@@ -923,8 +923,8 @@
     "ExtbaseRequestInit": {
         "kind": "type",
         "name": "ExtbaseRequestInit",
-        "summary": "The options of `extbase`'s requests: everything `fetch` takes, plus the argument namespace.",
-        "declaration": "type ExtbaseRequestInit = RequestInit & { /** * The Extbase argument namespace (`tx_docs_docs`) the data is nested under. Read from the URL when * omitted, which finds none for a URL without an `[action]` or `[controller]` key, e.g. one a route * enhancer built: pass it then. `''` sends the data unprefixed. */ prefix?: string; }"
+        "summary": "The options of `extbase`'s requests: everything `fetch` takes, plus the names to send the data under.",
+        "declaration": "type ExtbaseRequestInit = RequestInit & { /** * The Extbase argument namespace (`tx_docs_docs`) the data is nested under. Read from the URL when * omitted, which finds none for a URL without an `[action]` or `[controller]` key, e.g. one a route * enhancer built: pass it then. `''` sends the data unprefixed. */ prefix?: string; /** The name of the object the action takes, nested between the prefix and the keys: `tx_docs_docs[event][title]`. */ objectName?: string; }"
     },
     "ExtbaseValidationError": {
         "kind": "class",
