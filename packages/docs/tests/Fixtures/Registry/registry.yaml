@@ -1,0 +1,15 @@
+button:
+  name: Button
+  files:
+    - Button.fluid.html
+
+# Legacy kebab-case key, as registries before the camelCase migration still ship it
+checkbox-group:
+  name: CheckboxGroup
+  files:
+    - Root.fluid.html
+
+datePicker:
+  name: DatePicker
+  files:
+    - Root.fluid.html

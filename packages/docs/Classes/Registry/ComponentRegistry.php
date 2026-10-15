@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Registry;
 
+use Jramke\FluidPrimitives\Utility\ComponentNameUtility;
 use Jramke\FluidPrimitives\Utility\Typed;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Cache\CacheManager;
@@ -16,8 +17,10 @@ final class ComponentRegistry
     private array $components = [];
     private readonly VariableFrontend $cache;
 
-    public function __construct(CacheManager $cacheManager)
-    {
+    public function __construct(
+        CacheManager $cacheManager,
+        private readonly ?string $registryFile = null,
+    ) {
         $cache = $cacheManager->getCache('fluid_primitives_registry');
         if (!$cache instanceof VariableFrontend) {
             throw new \RuntimeException(
@@ -29,9 +32,12 @@ final class ComponentRegistry
         $this->load();
     }
 
+    /**
+     * Components are keyed camelCase like their Fluid tags; a kebab-case spelling (`checkbox-group`) resolves to the same entry.
+     */
     public function has(string $component): bool
     {
-        return array_key_exists($component, $this->components);
+        return array_key_exists(ComponentNameUtility::lowerCaseDashedToCamelCase($component), $this->components);
     }
 
     public function get(string $component): ComponentRegistryDefinition
@@ -40,7 +46,7 @@ final class ComponentRegistry
             throw new \InvalidArgumentException('Unknown component', 1766956244);
         }
 
-        return $this->components[$component];
+        return $this->components[ComponentNameUtility::lowerCaseDashedToCamelCase($component)];
     }
 
     /**
@@ -60,7 +66,9 @@ final class ComponentRegistry
             return;
         }
 
-        $registryFile = GeneralUtility::getFileAbsFileName('EXT:fluid_primitives/Resources/Private/Registry/registry.yaml');
+        $registryFile = $this->registryFile ?? GeneralUtility::getFileAbsFileName(
+            'EXT:fluid_primitives/Resources/Private/Registry/registry.yaml',
+        );
 
         if (!is_file($registryFile)) {
             return;
@@ -80,7 +88,7 @@ final class ComponentRegistry
         // shape is deliberately not trusted any further than "some array of some shape".
         // @mago-expect analysis:mixed-assignment
         foreach ($data as $key => $config) {
-            $key = (string)$key;
+            $key = ComponentNameUtility::lowerCaseDashedToCamelCase((string)$key);
             if (!is_array($config) || !is_array($config['files'] ?? null) || $config['files'] === []) {
                 continue;
             }
