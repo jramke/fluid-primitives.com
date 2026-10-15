@@ -1,4 +1,4 @@
-import { getHydrationData, mount, mountAll } from 'fluid-primitives';
+import { extbase, getHydrationData, mount, mountAll } from 'fluid-primitives';
 import { Button } from 'fluid-primitives/button';
 import { Form, type FormValues } from 'fluid-primitives/form';
 import { z } from 'zod';
@@ -58,9 +58,12 @@ mountAll('ui:editEventRegistration', ({ props }) => {
 
             return errors;
         },
-        onSubmit: async ({ api, post }) => {
+        onSubmit: async ({ api, values }) => {
             const [response] = await Promise.all([
-                post(api.getAction()),
+                extbase.post(api.getAction(), values.toObject(), {
+                    prefix: api.getFieldNamePrefix(),
+                    objectName: api.getObjectName(),
+                }),
                 new Promise(resolve => setTimeout(resolve, 800)),
             ]);
 
