@@ -325,7 +325,7 @@ onSubmit: async ({ api, post }) => {
 },
 ```
 
-When you use `post()`, 422 JSON validation responses do not come back as a normal `Response`. They are intercepted by the Form primitive, mapped to field errors automatically, and transition the form to `invalid`.
+When you use `post()`, 422 JSON validation responses do not come back as a normal `Response`. `post()` sends the form with [`extbase.post()`](/docs/client-utilities/extbase), which throws them as an `ExtbaseValidationError`. The Form primitive catches it, maps the messages to fields automatically, and transitions the form to `invalid`. Messages about the object itself (the `objectName` key of the response) become the error text of the form and the form goes to `error`. The same happens for an `extbase.post()` you send yourself from `onSubmit`.
 
 ## Client-Side Validation
 
