@@ -803,6 +803,29 @@
             }
         ]
     },
+    "devWarn": {
+        "kind": "function",
+        "name": "devWarn",
+        "summary": "Warns in the console, but only on a page rendered in the development context.",
+        "signatures": [
+            {
+                "signature": "devWarn(message: string, ...details: unknown[]): void",
+                "params": [
+                    {
+                        "name": "message",
+                        "type": "string"
+                    },
+                    {
+                        "name": "...details",
+                        "type": "unknown[]"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            }
+        ]
+    },
     "extbase": {
         "kind": "object",
         "name": "extbase",
@@ -813,7 +836,7 @@
                 "summary": "GETs `url` with `data` appended as query parameters under its Extbase argument namespace. The URL's own query, `cHash` included, is kept - so the new parameters have to be listed in `FE.cacheHash.excludedParameters`, or TYPO3 rejects the request.",
                 "signatures": [
                     {
-                        "signature": "get(url: string, data?: Record<string, unknown>, init?: RequestInit): Promise<Response>",
+                        "signature": "get(url: string, data?: Record<string, unknown>, options?: ExtbaseRequestInit): Promise<Response>",
                         "params": [
                             {
                                 "name": "url",
@@ -827,15 +850,15 @@
                                 "description": "The arguments. Nested objects and arrays are flattened into bracket notation."
                             },
                             {
-                                "name": "init",
-                                "type": "RequestInit",
+                                "name": "options",
+                                "type": "ExtbaseRequestInit",
                                 "optional": true,
-                                "description": "More options for `fetch`, e.g. `{ signal }`."
+                                "description": "More options for `fetch`, e.g. `{ signal }`, and the `prefix` and `objectName` to nest the data under."
                             }
                         ],
                         "returns": {
                             "type": "Promise<Response>",
-                            "description": "The native `Response`. A non-2xx status resolves normally, check `response.ok`."
+                            "description": "The native `Response`. A non-2xx status resolves normally, check `response.ok`, except a `422` with a JSON object as body, which throws an `ExtbaseValidationError`."
                         }
                     }
                 ],
@@ -846,7 +869,7 @@
                 "summary": "POSTs `data` as `multipart/form-data`, nested under the URL's Extbase argument namespace. A URL without one gets `data` unprefixed.",
                 "signatures": [
                     {
-                        "signature": "post(url: string, data?: Record<string, unknown>, init?: RequestInit): Promise<Response>",
+                        "signature": "post(url: string, data?: Record<string, unknown>, options?: ExtbaseRequestInit): Promise<Response>",
                         "params": [
                             {
                                 "name": "url",
@@ -857,18 +880,18 @@
                                 "name": "data",
                                 "type": "Record<string, unknown>",
                                 "optional": true,
-                                "description": "The arguments. Nested objects and arrays are flattened into bracket notation, `null` and `undefined` are skipped, a `File` or `Blob` is sent as it is."
+                                "description": "The arguments. Nested objects and arrays are flattened into bracket notation, `null` and `undefined` are skipped, a `File` or `Blob` is sent as it is. The `toObject()` of the values of a `Form` works as it is."
                             },
                             {
-                                "name": "init",
-                                "type": "RequestInit",
+                                "name": "options",
+                                "type": "ExtbaseRequestInit",
                                 "optional": true,
-                                "description": "More options for `fetch`, e.g. `{ signal }`."
+                                "description": "More options for `fetch`, e.g. `{ signal }`, and the `prefix` and `objectName` to nest the data under."
                             }
                         ],
                         "returns": {
                             "type": "Promise<Response>",
-                            "description": "The native `Response`. A non-2xx status resolves normally, check `response.ok`."
+                            "description": "The native `Response`. A non-2xx status resolves normally, check `response.ok`, except a `422` with a JSON object as body, which throws an `ExtbaseValidationError`."
                         }
                     }
                 ],
@@ -894,6 +917,42 @@
                     }
                 ],
                 "title": "getArgumentPrefix()"
+            }
+        ]
+    },
+    "ExtbaseRequestInit": {
+        "kind": "type",
+        "name": "ExtbaseRequestInit",
+        "summary": "The options of `extbase`'s requests: everything `fetch` takes, plus the names to send the data under.",
+        "declaration": "type ExtbaseRequestInit = RequestInit & { /** * The Extbase argument namespace (`tx_docs_docs`) the data is nested under. Read from the URL when * omitted, which finds none for a URL without an `[action]` or `[controller]` key, e.g. one a route * enhancer built: pass it then. `''` sends the data unprefixed. */ prefix?: string; /** The name of the object the action takes, nested between the prefix and the keys: `tx_docs_docs[event][title]`. */ objectName?: string; }"
+    },
+    "ExtbaseValidationError": {
+        "kind": "class",
+        "name": "ExtbaseValidationError",
+        "summary": "Thrown by `extbase` when the action answers `422` with a JSON object, the response `JsonValidationErrorsTrait` sends for failed validation. Any other status resolves as a plain `Response`.",
+        "declaration": "class ExtbaseValidationError extends Error",
+        "constructorParams": [
+            {
+                "name": "errors",
+                "type": "Record<string, string[]>",
+                "description": "The messages by property path, e.g. `{ 'person.email': ['Invalid email'] }`."
+            },
+            {
+                "name": "response",
+                "type": "Response",
+                "description": "The `422` response, its body still unread."
+            }
+        ],
+        "properties": [
+            {
+                "name": "errors",
+                "type": "Record<string, string[]>",
+                "description": "The messages by property path, e.g. `{ 'person.email': ['Invalid email'] }`."
+            },
+            {
+                "name": "response",
+                "type": "Response",
+                "description": "The `422` response, its body still unread."
             }
         ]
     },
@@ -931,6 +990,25 @@
             }
         ]
     },
+    "FluidPrimitivesGlobals": {
+        "kind": "interface",
+        "name": "FluidPrimitivesGlobals",
+        "summary": "What the server renders into `window.FluidPrimitives.globals`: the getters of the global context marked `#[ExposeToClient]`. `locale` and `debug` come from the library, the rest from the project.",
+        "members": [
+            {
+                "name": "locale",
+                "type": "string",
+                "optional": true,
+                "description": "The language of the site as a BCP 47 tag (`de-DE`), missing on a page rendered without a request."
+            },
+            {
+                "name": "debug",
+                "type": "boolean",
+                "optional": true,
+                "description": "Whether TYPO3's Application Context is development (see `GlobalContext::getDebug()`). Gates the client's dev-only warnings (`devWarn()`), which never run unless this is true. Nothing for a consumer to configure, and nothing is stripped from the production bundle either way."
+            }
+        ]
+    },
     "getComponentInstance": {
         "kind": "function",
         "name": "getComponentInstance",
@@ -957,6 +1035,58 @@
             }
         ]
     },
+    "getGlobal": {
+        "kind": "function",
+        "name": "getGlobal",
+        "summary": "Reads one global by its dot path, e.g. `getGlobal('lightbox.icons')`. A key that literally contains a dot wins over the nested lookup. Walks objects and arrays and never throws: a missing segment, or a page without globals, gives `fallback` (or `undefined` without one).",
+        "signatures": [
+            {
+                "signature": "getGlobal<T = unknown>(path: string): T | undefined",
+                "params": [
+                    {
+                        "name": "path",
+                        "type": "string",
+                        "description": "The name of the global, with `.` between nesting levels."
+                    }
+                ],
+                "returns": {
+                    "type": "T | undefined"
+                }
+            },
+            {
+                "signature": "getGlobal<T>(path: string, fallback: T): T",
+                "params": [
+                    {
+                        "name": "path",
+                        "type": "string",
+                        "description": "The name of the global, with `.` between nesting levels."
+                    },
+                    {
+                        "name": "fallback",
+                        "type": "T",
+                        "description": "Returned when the global does not exist."
+                    }
+                ],
+                "returns": {
+                    "type": "T"
+                }
+            }
+        ]
+    },
+    "getGlobals": {
+        "kind": "function",
+        "name": "getGlobals",
+        "summary": "The request-wide values the server rendered into the page: `locale`, `debug` and whatever the project's global context exposes with `#[ExposeToClient]`.",
+        "signatures": [
+            {
+                "signature": "getGlobals(): FluidPrimitivesGlobals | null",
+                "returns": {
+                    "type": "FluidPrimitivesGlobals | null",
+                    "description": "The globals, or `null` when the page has none: `window.FluidPrimitives` only exists when a component hydrates or a global was read while rendering."
+                }
+            }
+        ]
+    },
     "HydrationPropsFor": {
         "kind": "type",
         "name": "HydrationPropsFor",
@@ -976,6 +1106,19 @@
             {
                 "language": "typescript",
                 "code": "declare module 'fluid-primitives' {\n    interface HydrationPropsRegistry {\n        'ui:select': SelectHydrationProps;\n    }\n}"
+            }
+        ]
+    },
+    "isDebug": {
+        "kind": "function",
+        "name": "isDebug",
+        "summary": "Whether the server rendered the page in TYPO3's development context.",
+        "signatures": [
+            {
+                "signature": "isDebug(): boolean",
+                "returns": {
+                    "type": "boolean"
+                }
             }
         ]
     },

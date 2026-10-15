@@ -112,15 +112,26 @@ final class EventRegistrationController extends ActionController
 The form requires a client-side entry file. Use `autoMount="{false}"` on the root and fetch its hydration data by ID:
 
 ```typescript
-import { mount } from 'fluid-primitives';
+import { extbase, mount } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
 mount('ui:form', 'registration-form', ({ props }) => {
     const form = new Form({
         ...props,
-        onSubmit: async ({ api, post }) => {
-            const response = await post(api.getAction());
-            return response.ok;
+        onSubmit: async ({ api, values }) => {
+            const response = await extbase.post(api.getAction(), values.toObject(), {
+                prefix: api.getFieldNamePrefix(),
+                objectName: api.getObjectName(),
+            });
+
+            const data: { message?: string } = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                api.setErrorText(data.message ?? null);
+                return false;
+            }
+
+            api.setSuccessText(data.message ?? null);
+            return true;
         },
     });
 
@@ -128,7 +139,9 @@ mount('ui:form', 'registration-form', ({ props }) => {
 });
 ```
 
-The `post()` helper automatically adds the Extbase field name prefix (`tx_myext[MyObject][field]`) before sending, so your form fields can use plain names like `email` or nested dot paths like `person.name` in the template. It always submits the current form as `FormData`, and it also handles 422 JSON validation responses for you by mapping them back to fields and transitioning the form to `invalid`.
+Without an `onSubmit` the form only prevents the native submit and goes straight to `success` without sending anything, so every form needs one. The `onSubmit` above is what `ui:add form` ships (there with `mountAll`): it sends the values, shows the `message` of a JSON response as the error or success text, and treats a response that is not JSON as one without a message. A network failure rejects, which ends the form in the generic `error` state, as `return false` does. Wiring the submit button's loading state is not part of it, see [Submit Button](#content-submit-button).
+
+[`extbase.post()`](/docs/client-utilities/extbase) is the helper for every request to an Extbase action, the form's one included. It nests the data under the Extbase argument namespace (`tx_myext[MyObject][field]`), so your form fields can use plain names like `email` or nested dot paths like `person.name` in the template. The form's `values.toObject()` carries Extbase's own hidden fields (`__trustedProperties`, `__identity`) and `extbase.post()` keeps them below the prefix. `api.getFieldNamePrefix()` and `api.getObjectName()` are the two names the server rendered the form with, and you do not need to pass the prefix when the action URL carries it. `extbase.post()` also throws a 422 JSON validation response, which the form catches and maps back to the fields before it transitions to `invalid`.
 
 The Form API exposes a `FormValues` object via `api.getValues()` and inside `validation` / `onSubmit` callbacks. `FormValues` keeps leaf values uncoerced as `string | File`, supports `get(path)`, `getAll(path)`, `has(path)`, `pick(path)`, and `toObject()`, and uses your field names as canonical dot paths. That means `ticketCount` still reads as `'2'`, not `2`, until your validator or application code converts it.
 
@@ -311,9 +324,12 @@ For form-level messaging, use `api.setErrorText()` and `api.setSuccessText()`. T
 Set the status text in your entry file and return the matching submit result:
 
 ```typescript
-onSubmit: async ({ api, post }) => {
-    const response = await post(api.getAction());
-    const json = await response.json();
+onSubmit: async ({ api, values }) => {
+    const response = await extbase.post(api.getAction(), values.toObject(), {
+        prefix: api.getFieldNamePrefix(),
+        objectName: api.getObjectName(),
+    });
+    const json = await response.json().catch(() => ({}));
 
     if (!response.ok) {
         api.setErrorText(json.message ?? 'Something went wrong.');
@@ -325,7 +341,7 @@ onSubmit: async ({ api, post }) => {
 },
 ```
 
-When you use `post()`, 422 JSON validation responses do not come back as a normal `Response`. They are intercepted by the Form primitive, mapped to field errors automatically, and transition the form to `invalid`.
+When you send the values with `extbase.post()`, 422 JSON validation responses do not come back as a normal `Response`. It throws them as an `ExtbaseValidationError`, which the Form primitive catches, maps to fields automatically, and transitions the form to `invalid`. Messages about the object itself (the `objectName` key of the response) become the error text of the form and the form goes to `error`.
 
 ## Client-Side Validation
 
@@ -361,8 +377,11 @@ const validation = z.object({
 const form = new Form({
     ...data.props,
     validation,
-    onSubmit: async ({ api, post }) => {
-        const response = await post(api.getAction());
+    onSubmit: async ({ api, values }) => {
+        const response = await extbase.post(api.getAction(), values.toObject(), {
+            prefix: api.getFieldNamePrefix(),
+            objectName: api.getObjectName(),
+        });
         return response.ok;
     },
 });
@@ -403,15 +422,17 @@ The `validation` callback must be synchronous. For an async check of a single fi
 
 ## Async Validation During Submission
 
-If a validation rule depends on async work inside `onSubmit`, prefer `post()` when the endpoint accepts the same form payload shape. If that endpoint returns a non-422 response, you can still map it to field errors yourself:
+If a validation rule depends on async work inside `onSubmit`, send the values with `extbase.post()` as above when the endpoint accepts the same form payload shape. If that endpoint returns a non-422 response, you can still map it to field errors yourself:
 
 ```typescript
 import { Form } from 'fluid-primitives/form';
 
 const form = new Form({
     ...data.props,
-    onSubmit: async ({ post }) => {
-        const response = await post('/email-check');
+    onSubmit: async ({ values }) => {
+        const response = await extbase.post('/email-check', values.toObject(), {
+            prefix: 'tx_myext',
+        });
 
         if (response.status === 409) {
             return {
