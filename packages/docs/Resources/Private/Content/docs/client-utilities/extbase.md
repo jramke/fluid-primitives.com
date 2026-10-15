@@ -19,7 +19,21 @@ await extbase.post(url, { demand: { city: 'Berlin' }, ids: [1, 2] });
 
 `null`/`undefined` values in `data` are skipped, and a `File`/`Blob` is sent as-is. `init` is spread first, so it can extend the request (e.g. `{ signal }`, to make it abortable) without overriding the method/body `post()` sets.
 
-For a URL that doesn't carry an `[action]` or `[controller]` key in its query string, `data` is sent unprefixed - `post()` works as a plain "POST as FormData" helper for non-Extbase endpoints too. If such a URL still expects the namespace, nest `data` under it yourself: `{ tx_docs_docs: { q } }`.
+For a URL that doesn't carry an `[action]` or `[controller]` key in its query string - a pretty URL built by a route enhancer, for example - there is no namespace to read, so `data` is sent unprefixed. Pass the namespace as the `prefix` option then, `get()` takes it too. An empty `prefix` sends `data` unprefixed, which makes `post()` a plain "POST as FormData" helper for non-Extbase endpoints:
+
+```typescript
+await extbase.post('/events/register', { q: 'x' }, { prefix: 'tx_docs_docs' });
+// -> tx_docs_docs[q]=x
+```
+
+For an action that takes an object, `objectName` nests the data one level deeper, between the prefix and the keys:
+
+```typescript
+await extbase.post(url, { title: 'Hello', address: { city: 'Berlin' } }, { objectName: 'event' });
+// -> tx_docs_docs[event][title]=Hello, tx_docs_docs[event][address][city]=Berlin
+```
+
+A top-level key that equals the prefix holds Extbase's own fields (`__trustedProperties`, `__identity`) and stays below the prefix alone. That is how the `values.toObject()` of a [`Form`](/docs/core-concepts/forms) arrives, its hidden fields included, so `extbase.post(api.getAction(), values.toObject(), { prefix: api.getFieldNamePrefix(), objectName: api.getObjectName() })` sends a form the way the browser would.
 
 On the PHP side, a plain typed action argument receives the value the same way regardless of whether it arrives via GET or POST:
 
@@ -50,7 +64,23 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = 'tx_doc
 
 ## Errors
 
-`get()` and `post()` return the native `Response` and, like `fetch`, only reject on a network failure or an aborted `signal`. A non-2xx response resolves normally, so check `response.ok` yourself. A 422 from [`JsonValidationErrorsTrait`](/docs/core-concepts/forms) carries its field messages as the JSON body.
+`get()` and `post()` return the native `Response` and, like `fetch`, reject on a network failure or an aborted `signal`. A non-2xx response resolves normally, so check `response.ok` yourself.
+
+The exception is a `422` with a JSON object as body, what [`JsonValidationErrorsTrait`](/docs/core-concepts/forms) answers for failed validation. It is thrown as an `ExtbaseValidationError` whose `errors` hold the messages by property path and whose `response` is the unread `422` response:
+
+```typescript
+import { extbase, ExtbaseValidationError } from 'fluid-primitives';
+
+try {
+    await extbase.post(url, { person: { email } });
+} catch (error) {
+    if (error instanceof ExtbaseValidationError) {
+        console.log(error.errors); // { 'person.email': ['Invalid email'] }
+    }
+}
+```
+
+A `Form` handles that error itself when it is thrown from `onSubmit`, so you do not have to catch it there.
 
 ## Posting domain models
 
