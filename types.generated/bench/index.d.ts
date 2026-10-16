@@ -18,7 +18,7 @@ export type CheckboxHydrationProps = {
     disabled?: boolean;
     invalid?: boolean;
     required?: boolean;
-    defaultChecked?: unknown;
+    defaultChecked?: any;
     name?: string;
     form?: string;
     readOnly?: boolean;
@@ -57,7 +57,7 @@ export type SelectHydrationProps = {
     readOnly?: boolean;
     required?: boolean;
     closeOnSelect?: boolean;
-    positioning?: unknown;
+    positioning?: any;
     defaultValue?: string[];
     defaultHighlightedValue?: string;
     loopFocus?: boolean;

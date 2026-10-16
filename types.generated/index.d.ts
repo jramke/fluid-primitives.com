@@ -6,6 +6,7 @@ import {
 } from './bench/index.d';
 import {
     AccordionHydrationProps as AccordionHydrationPropsImport,
+    ButtonHydrationProps as ButtonHydrationPropsImport,
     CheckboxGroupHydrationProps as CheckboxGroupHydrationPropsImport,
     CheckboxHydrationProps as CheckboxHydrationPropsImport,
     ClipboardHydrationProps as ClipboardHydrationPropsImport,
@@ -29,10 +30,13 @@ import {
     SwitchHydrationProps as SwitchHydrationPropsImport,
     TabsHydrationProps as TabsHydrationPropsImport,
     TextareaHydrationProps as TextareaHydrationPropsImport,
+    ToggleGroupHydrationProps as ToggleGroupHydrationPropsImport,
+    ToggleHydrationProps as ToggleHydrationPropsImport,
     TooltipHydrationProps as TooltipHydrationPropsImport,
 } from './primitives/index.d';
 import {
     AccordionHydrationProps,
+    ButtonHydrationProps,
     CheckboxGroupExamplesSelectAllHydrationProps,
     CheckboxGroupHydrationProps,
     CheckboxHydrationProps,
@@ -58,11 +62,14 @@ import {
     SwitchHydrationProps,
     TabsHydrationProps,
     TextareaHydrationProps,
+    ToggleGroupHydrationProps,
+    ToggleHydrationProps,
     TooltipHydrationProps,
 } from './ui/index.d';
 declare module 'fluid-primitives' {
     interface HydrationPropsRegistry {
         'ui:accordion': AccordionHydrationProps;
+        'ui:button': ButtonHydrationProps;
         'ui:checkbox': CheckboxHydrationProps;
         'ui:checkboxGroup': CheckboxGroupHydrationProps;
         'ui:checkboxGroupExamples.selectAll': CheckboxGroupExamplesSelectAllHydrationProps;
@@ -87,9 +94,12 @@ declare module 'fluid-primitives' {
         'ui:switch': SwitchHydrationProps;
         'ui:tabs': TabsHydrationProps;
         'ui:textarea': TextareaHydrationProps;
+        'ui:toggle': ToggleHydrationProps;
+        'ui:toggleGroup': ToggleGroupHydrationProps;
         'ui:tooltip': TooltipHydrationProps;
         'ui:commandMenu': CommandMenuHydrationProps;
         'primitives:accordion': AccordionHydrationPropsImport;
+        'primitives:button': ButtonHydrationPropsImport;
         'primitives:checkbox': CheckboxHydrationPropsImport;
         'primitives:checkboxGroup': CheckboxGroupHydrationPropsImport;
         'primitives:clipboard': ClipboardHydrationPropsImport;
@@ -113,6 +123,8 @@ declare module 'fluid-primitives' {
         'primitives:switch': SwitchHydrationPropsImport;
         'primitives:tabs': TabsHydrationPropsImport;
         'primitives:textarea': TextareaHydrationPropsImport;
+        'primitives:toggle': ToggleHydrationPropsImport;
+        'primitives:toggleGroup': ToggleGroupHydrationPropsImport;
         'primitives:tooltip': TooltipHydrationPropsImport;
         'bench:accordion': AccordionHydrationPropsImport2;
         'bench:checkbox': CheckboxHydrationPropsImport2;
