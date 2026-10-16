@@ -79,7 +79,7 @@ ddev composer mago:analyze    # Analyze PHP code quality with Mago (and apply it
 ```
 
 A `PostToolUse` hook (`.claude/hooks/format.sh`) formats every file written or edited through Claude (PHP with Mago, the rest with Prettier).
-The Mago/Rector rules live in `packages/fluid-primitives/` (`mago.toml`, `rector.php`) so its CI runs standalone; the root `mago.toml` (`extends`) and `rector.php` only add the monorepo paths and excludes.
+The Prettier config (`.prettierrc`) lives there too, the root `.prettierrc.mjs` reads it. The Mago/Rector rules live in `packages/fluid-primitives/` (`mago.toml`, `rector.php`) so its CI runs standalone; the root `mago.toml` (`extends`) and `rector.php` only add the monorepo paths and excludes.
 Mago is pinned exactly in the package (and locked in the root) on purpose: newer versions change what `--unsafe` rewrites. Bump both together.
 
 ## Testing
