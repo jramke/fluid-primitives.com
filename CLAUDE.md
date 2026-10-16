@@ -68,14 +68,19 @@ ddev npm run docs:generate    # Regenerate the API docs data (client utilities, 
 ddev npm run docs:generate:check  # Fail if the generated API docs data is outdated or a JSDoc is missing
 
 # Code quality
-ddev npm run format           # Format all files with Prettier
+ddev npm run format           # Format files with Prettier (takes file paths after `--`, default: everything)
 ddev npm run format:check     # Check formatting without writing
 ddev npm run types            # TypeScript type checking (tsc --noEmit)
 ddev exec "cd packages/fluid-primitives && npm run types"  # The library's own tsc, including tests/Client (CI runs it too)
-ddev composer run format      # Format PHP files with Mago, always run after changes are done
-ddev composer run lint        # Static analysis for PHP with Mago and Rector
-ddev composer mago:analyze    # Analyze PHP code quality with Mago
+ddev composer format          # Format PHP files with Mago (takes file paths after `--`)
+ddev composer lint            # Apply Rector and Mago fixes (--unsafe: review the diff), then format
+ddev composer lint:check      # Check only, as CI does: Rector dry-run, Mago lint + analyze, format check
+ddev composer mago:analyze    # Mago analyzer with its fixes applied (mago:analyze:check = report only)
 ```
+
+A `PostToolUse` hook (`.claude/hooks/format.sh`) formats every file written or edited through Claude (PHP with Mago, the rest with Prettier).
+The Prettier config (`.prettierrc`) lives there too, the root `.prettierrc.mjs` reads it. The Mago/Rector rules live in `packages/fluid-primitives/` (`mago.toml`, `rector.php`) so its CI runs standalone; the root `mago.toml` (`extends`) and `rector.php` only add the monorepo paths and excludes.
+Mago is pinned exactly in the package (and locked in the root) on purpose: newer versions change what `--unsafe` rewrites. Bump both together.
 
 ## Testing
 
@@ -107,14 +112,16 @@ packages/fluid-primitives/tests/
 ### Running Tests
 
 ```bash
-# From monorepo root (recommended for development)
-ddev composer test              # Run all tests
-ddev composer test:unit         # Run unit tests
-ddev composer test:functional   # Run functional tests
+# From monorepo root (recommended for development; runs the fluid-primitives, benchmarks and docs suites)
+ddev composer test
 
-# From package directory (used by GitHub Actions)
+# From a standalone checkout of the package (used by GitHub Actions; needs its own `composer update`)
 cd packages/fluid-primitives
-ddev composer test              # Run all tests
+composer test                   # Run all tests
+composer test:unit              # Run unit tests
+composer test:functional        # Run functional tests
+composer lint:check             # Rector, Mago and format check, as the Lint workflow runs them
+npm run format:check            # Prettier check, as the Lint workflow runs it
 
 # Client TypeScript tests
 ddev npm run primitives:test    # Run vitest once

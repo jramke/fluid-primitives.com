@@ -13,7 +13,7 @@
         "primitives:version": "cd packages/fluid-primitives && npm run version",
         "primitives:bump-zag": "cd packages/fluid-primitives && npm run bump-zag",
         "dev": "concurrently \"npm run primitives:dev\" \"npm run docs:dev\"",
-        "format": "prettier --write .",
+        "format": "sh -c 'prettier --write --ignore-unknown ${@:-.}' --",
         "format:check": "prettier --check .",
         "types": "tsc --noEmit",
         "storybook": "storybook dev -p 8080 --host 0.0.0.0 --ci",

@@ -103,15 +103,13 @@ final readonly class MachineDocs
             return $entries;
         }
 
-        return array_map(static function (mixed $entry): mixed {
-            return (
-                is_array($entry)
-                    ? [
-                        ...$entry,
-                        'description' => GeneratedDocsMarkdown::toHtml(Typed::string($entry['description'] ?? '')),
-                    ]
-                    : $entry
-            );
-        }, $entries);
+        return array_map(static fn(mixed $entry): mixed => (
+            is_array($entry)
+                ? [
+                    ...$entry,
+                    'description' => GeneratedDocsMarkdown::toHtml(Typed::string($entry['description'] ?? '')),
+                ]
+                : $entry
+        ), $entries);
     }
 }

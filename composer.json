@@ -15,17 +15,25 @@
         "sort-packages": true
     },
     "scripts": {
-        "mago:lint": "mago lint",
-        "mago:lint:fix": "mago lint --fix --format-after-fix --unsafe",
-        "mago:analyze": "mago analyze",
-        "mago:analyze:fix": "mago analyze --fix --format-after-fix --unsafe",
-        "rector:process": "rector process",
         "format": "mago format",
+        "format:check": "mago format --check",
+        "rector": "rector process",
+        "rector:check": "rector process --dry-run",
+        "mago:lint": "mago lint --fix --format-after-fix --unsafe",
+        "mago:lint:check": "mago lint",
+        "mago:analyze": "mago analyze --fix --format-after-fix --unsafe",
+        "mago:analyze:check": "mago analyze",
         "lint": [
-            "@rector:process",
-            "@mago:lint:fix",
+            "@rector",
             "@mago:lint",
+            "@mago:analyze",
             "@format"
+        ],
+        "lint:check": [
+            "@rector:check",
+            "@mago:lint:check",
+            "@mago:analyze:check",
+            "@format:check"
         ],
         "test": [
             "composer run --working-dir=packages/fluid-primitives test:fromdocs --",

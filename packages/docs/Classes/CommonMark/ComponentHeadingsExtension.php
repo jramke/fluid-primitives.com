@@ -34,9 +34,11 @@ final class ComponentHeadingsExtension implements ExtensionInterface
     {
         $blocks = [];
         foreach ($event->getDocument()->iterator() as $node) {
-            if ($node instanceof HtmlBlock && preg_match(self::HEADING_PATTERN, $node->getLiteral()) === 1) {
-                $blocks[] = $node;
+            if (!$node instanceof HtmlBlock || preg_match(self::HEADING_PATTERN, $node->getLiteral()) !== 1) {
+                continue;
             }
+
+            $blocks[] = $node;
         }
 
         foreach ($blocks as $block) {

@@ -6,7 +6,6 @@ namespace FluidPrimitives\Docs\Controller;
 
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Utility\DocsUtility;
-use Jramke\FluidPrimitives\Utility\Typed;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
@@ -52,17 +51,12 @@ final class SearchIndexController extends ActionController
 
         $index = [];
         foreach ($navigation as $group) {
-            $items = Typed::arrayOrNull($group['items'] ?? null);
-            if ($items === null) {
-                continue;
-            }
+            foreach ($group['items'] as $item) {
+                $slug = $item['slug'];
+                $title = $item['title'];
+                $groupTitle = (string)$group['title'];
 
-            foreach ($items as $item) {
-                $slug = (string)($item['slug'] ?? '');
-                $title = (string)($item['title'] ?? '');
-                $groupTitle = (string)($group['title'] ?? '');
-
-                $filePath = $baseDir . ltrim((string)$slug, '/') . '.md';
+                $filePath = $baseDir . ltrim($slug, characters: '/') . '.md';
                 if (!is_file($filePath)) {
                     continue;
                 }
@@ -89,6 +83,7 @@ final class SearchIndexController extends ActionController
 
     private function stripFrontmatter(string $content): string
     {
+        $matches = [];
         if (preg_match('/^---\n(.*?)\n---\n/s', $content, $matches)) {
             return substr($content, strlen($matches[0]));
         }
@@ -98,10 +93,10 @@ final class SearchIndexController extends ActionController
 
     private function htmlToPlainText(string $html): string
     {
-        $text = (string)preg_replace('/<(script|style)\b[^>]*>.*?<\/\1>/is', ' ', $html);
+        $text = (string)preg_replace('/<(script|style)\b[^>]*>.*?<\/\1>/is', replacement: ' ', subject: $html);
         $text = strip_tags($text);
         $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5);
-        $text = (string)preg_replace('/\s+/', ' ', $text);
+        $text = (string)preg_replace('/\s+/', replacement: ' ', subject: $text);
 
         return trim($text);
     }

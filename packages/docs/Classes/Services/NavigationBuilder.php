@@ -10,6 +10,9 @@ use Symfony\Component\Yaml\Yaml;
 
 class NavigationBuilder
 {
+    /**
+     * @return list<array{title: ?string, items: list<array{slug: string, title: string, preview: bool}>}>
+     */
     public function buildNavigation(string $baseDir, string $navFile): array
     {
         $allDocs = $this->scanDocs($baseDir);
@@ -43,6 +46,9 @@ class NavigationBuilder
         return $navigation;
     }
 
+    /**
+     * @return array<string, array{slug: string, title: string, preview: bool}>
+     */
     private function scanDocs(string $baseDir): array
     {
         $docs = [];
