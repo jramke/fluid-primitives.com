@@ -44,7 +44,7 @@ Show a close button inside the popover.
 
 ### Custom Positioning
 
-Control where the popover appears relative to the trigger.
+Control where the popover appears relative to the trigger. Build the `positioning` with [`ui:positioning`](/docs/viewhelpers/positioning).
 
 {% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.customPositioning" } %}
 

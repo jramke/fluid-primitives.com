@@ -60,6 +60,7 @@
     - docs/viewhelpers/listCollection
     - docs/viewhelpers/portal
     - docs/viewhelpers/portalContainer
+    - docs/viewhelpers/positioning
     - docs/viewhelpers/prop
     - docs/viewhelpers/ref
     - docs/viewhelpers/slotFilled

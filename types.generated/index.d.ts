@@ -152,6 +152,25 @@ export type ListCollection = {
 export type NumberInputMode = 'text' | 'tel' | 'numeric' | 'decimal';
 export type Orientation = 'horizontal' | 'vertical';
 export type PopupType = 'listbox' | 'dialog';
+export type Positioning = {
+    placement?: string;
+    strategy?: string;
+    gutter?: number;
+    shift?: number;
+    offset?: {
+        mainAxis?: number;
+        crossAxis?: number;
+    };
+    overflowPadding?: number;
+    arrowPadding?: number;
+    flip?: boolean | string[];
+    slide?: boolean;
+    overlap?: boolean;
+    sameWidth?: boolean;
+    fitViewport?: boolean;
+    hideWhenDetached?: boolean;
+    sizeMiddleware?: boolean;
+};
 export type SliderOrigin = 'start' | 'center' | 'end';
 export type SliderThumbAlignment = 'contain' | 'center';
 export type SliderThumbCollisionBehavior = 'none' | 'push' | 'swap';
