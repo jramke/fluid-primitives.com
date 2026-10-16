@@ -12,17 +12,17 @@ use TYPO3\CMS\Core\Http\RequestFactory;
  * The version select entries: the latest release of every major on Packagist. The highest major is
  * this site, every older one links to its `v<major>` branch of the repository.
  */
-final class VersionsProvider
+final readonly class VersionsProvider
 {
     private const string PACKAGE = 'jramke/fluid-primitives';
     private const string REPOSITORY = 'https://github.com/jramke/fluid-primitives.com';
     private const int LIFETIME = 3600;
     private const int FAILURE_LIFETIME = 300;
 
-    private readonly VariableFrontend $cache;
+    private VariableFrontend $cache;
 
     public function __construct(
-        private readonly RequestFactory $requestFactory,
+        private RequestFactory $requestFactory,
         CacheManager $cacheManager,
     ) {
         $cache = $cacheManager->getCache('docs_versions');
@@ -41,9 +41,9 @@ final class VersionsProvider
     public function getVersions(): array
     {
         if ($this->cache->has('versions')) {
-            /** @var list<array{label: string, href: string, current?: true}> $versions */
-            $versions = $this->cache->get('versions');
-            return $versions;
+            // The cache is untyped by nature, this class is the only writer of the key.
+            // @mago-expect analysis:mixed-return-statement
+            return $this->cache->get('versions');
         }
 
         $versions = $this->build($this->fetchReleases());
@@ -65,7 +65,7 @@ final class VersionsProvider
             );
             // Narrowed by is_array() below and typed by the @var: the decoded JSON is untyped by nature.
             // @mago-expect analysis:mixed-assignment
-            $data = json_decode((string)$response->getBody(), true, flags: JSON_THROW_ON_ERROR);
+            $data = json_decode((string)$response->getBody(), associative: true, flags: JSON_THROW_ON_ERROR);
         } catch (\Throwable) {
             return [];
         }
@@ -76,9 +76,11 @@ final class VersionsProvider
         /** @var array{packages?: array<string, list<array{version?: string}>>} $data */
         $releases = [];
         foreach ($data['packages'][self::PACKAGE] ?? [] as $release) {
-            if (isset($release['version'])) {
-                $releases[] = ltrim($release['version'], 'v');
+            if (!array_key_exists('version', $release)) {
+                continue;
             }
+
+            $releases[] = ltrim($release['version'], characters: 'v');
         }
 
         return $releases;

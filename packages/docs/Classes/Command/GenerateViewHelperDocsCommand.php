@@ -15,7 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\ArgumentDefinition;
 
 #[AsCommand(name: 'docs:generate-viewhelper-docs', description: 'Generate documentation for Fluid ViewHelpers')]
 class GenerateViewHelperDocsCommand extends Command
@@ -125,7 +124,6 @@ class GenerateViewHelperDocsCommand extends Command
         $viewHelper = GeneralUtility::makeInstance($className);
         $viewHelper->initializeArguments();
 
-        /** @var ArgumentDefinition[] $argumentDefinitions */
         $argumentDefinitions = $viewHelper->prepareArguments();
 
         foreach ($argumentDefinitions as $definition) {

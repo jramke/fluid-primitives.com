@@ -72,10 +72,15 @@ ddev npm run format           # Format all files with Prettier
 ddev npm run format:check     # Check formatting without writing
 ddev npm run types            # TypeScript type checking (tsc --noEmit)
 ddev exec "cd packages/fluid-primitives && npm run types"  # The library's own tsc, including tests/Client (CI runs it too)
-ddev composer run format      # Format PHP files with Mago, always run after changes are done
-ddev composer run lint        # Static analysis for PHP with Mago and Rector
+ddev composer format          # Format PHP files with Mago (takes file paths after `--`)
+ddev composer lint            # Check only, as CI does: Rector dry-run, Mago lint + analyze, format check
+ddev composer lint:fix        # Apply Rector and Mago fixes (--unsafe: review the diff), then format
 ddev composer mago:analyze    # Analyze PHP code quality with Mago
 ```
+
+A `PostToolUse` hook (`.claude/hooks/format.sh`) formats every file written or edited through Claude (PHP with Mago, the rest with Prettier).
+`packages/fluid-primitives/` has its own `mago.toml`, `rector.php` and lint scripts so its CI runs standalone: keep them in sync with the root ones.
+Mago is pinned exactly in the package (and locked in the root) on purpose: newer versions change what `--unsafe` rewrites. Bump both together.
 
 ## Testing
 
