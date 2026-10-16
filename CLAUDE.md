@@ -73,9 +73,9 @@ ddev npm run format:check     # Check formatting without writing
 ddev npm run types            # TypeScript type checking (tsc --noEmit)
 ddev exec "cd packages/fluid-primitives && npm run types"  # The library's own tsc, including tests/Client (CI runs it too)
 ddev composer format          # Format PHP files with Mago (takes file paths after `--`)
-ddev composer lint            # Check only, as CI does: Rector dry-run, Mago lint + analyze, format check
-ddev composer lint:fix        # Apply Rector and Mago fixes (--unsafe: review the diff), then format
-ddev composer mago:analyze    # Analyze PHP code quality with Mago
+ddev composer lint            # Apply Rector and Mago fixes (--unsafe: review the diff), then format
+ddev composer lint:check      # Check only, as CI does: Rector dry-run, Mago lint + analyze, format check
+ddev composer mago:analyze    # Analyze PHP code quality with Mago (and apply its fixes)
 ```
 
 A `PostToolUse` hook (`.claude/hooks/format.sh`) formats every file written or edited through Claude (PHP with Mago, the rest with Prettier).
