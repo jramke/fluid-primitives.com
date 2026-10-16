@@ -367,6 +367,7 @@ Pass a synchronous Standard Schema-compatible validator to the `Form` constructo
 
 ```typescript
 import { z } from 'zod';
+import { mount } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
 const validation = z.object({
@@ -376,16 +377,20 @@ const validation = z.object({
     privacy: z.literal('1', 'You must accept the privacy policy'),
 });
 
-const form = new Form({
-    ...data.props,
-    validation,
-    onSubmit: async ({ api, values }) => {
-        const response = await extbase.post(api.getAction(), values.toObject(), {
-            prefix: api.getFieldNamePrefix(),
-            objectName: api.getObjectName(),
-        });
-        return response.ok;
-    },
+mount('ui:form', 'registration-form', ({ props }) => {
+    const form = new Form({
+        ...props,
+        validation,
+        onSubmit: async ({ api, values }) => {
+            const response = await extbase.post(api.getAction(), values.toObject(), {
+                prefix: api.getFieldNamePrefix(),
+                objectName: api.getObjectName(),
+            });
+            return response.ok;
+        },
+    });
+    form.init();
+    return form;
 });
 ```
 
@@ -398,25 +403,30 @@ Validation keys must match the field `name` props in the template. If client-sid
 If you prefer not to use a schema library, pass a synchronous `validation` callback. It receives the current `values` object and should return the same flat field-keyed error shape used by server validation responses. Missing `value` properties are filled automatically with the current field value:
 
 ```typescript
+import { mount } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
-const form = new Form({
-    ...data.props,
-    validation: ({ values }) => {
-        const errors: Record<string, { messages: string[] }> = {};
-        const email = values.get('email');
+mount('ui:form', 'registration-form', ({ props }) => {
+    const form = new Form({
+        ...props,
+        validation: ({ values }) => {
+            const errors: Record<string, { messages: string[] }> = {};
+            const email = values.get('email');
 
-        if (typeof email !== 'string' || !email.includes('@')) {
-            errors.email = { messages: ['Please enter a valid email address.'] };
-        }
+            if (typeof email !== 'string' || !email.includes('@')) {
+                errors.email = { messages: ['Please enter a valid email address.'] };
+            }
 
-        return errors;
-    },
-    onSubmit: async ({ api, post }) => {
-        const response = await post(api.getAction());
+            return errors;
+        },
+        onSubmit: async ({ api, post }) => {
+            const response = await post(api.getAction());
 
-        return response.ok;
-    },
+            return response.ok;
+        },
+    });
+    form.init();
+    return form;
 });
 ```
 
@@ -427,27 +437,32 @@ The `validation` callback must be synchronous. For an async check of a single fi
 If a validation rule depends on async work inside `onSubmit`, send the values with `extbase.post()` as above when the endpoint accepts the same form payload shape. If that endpoint returns a non-422 response, you can still map it to field errors yourself:
 
 ```typescript
+import { mount } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
-const form = new Form({
-    ...data.props,
-    onSubmit: async ({ values }) => {
-        const response = await extbase.post('/email-check', values.toObject(), {
-            prefix: 'tx_myext',
-        });
+mount('ui:form', 'registration-form', ({ props }) => {
+    const form = new Form({
+        ...props,
+        onSubmit: async ({ values }) => {
+            const response = await extbase.post('/email-check', values.toObject(), {
+                prefix: 'tx_myext',
+            });
 
-        if (response.status === 409) {
-            return {
-                email: { messages: ['This email address is already registered.'] },
-            };
-        }
+            if (response.status === 409) {
+                return {
+                    email: { messages: ['This email address is already registered.'] },
+                };
+            }
 
-        if (!response.ok) {
-            return false;
-        }
+            if (!response.ok) {
+                return false;
+            }
 
-        return true;
-    },
+            return true;
+        },
+    });
+    form.init();
+    return form;
 });
 ```
 
@@ -509,9 +524,13 @@ const submitButton = mount('ui:button', 'submit-button', ({ props }) => {
     return button;
 });
 
-const form = new Form({
-    ...data.props,
-    render: form => submitButton?.api.setLoading(form.api.isSubmitting),
+mount('ui:form', 'registration-form', ({ props }) => {
+    const form = new Form({
+        ...props,
+        render: form => submitButton?.api.setLoading(form.api.isSubmitting),
+    });
+    form.init();
+    return form;
 });
 ```
 

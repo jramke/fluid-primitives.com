@@ -1,4 +1,4 @@
-import { getHydrationData, mountAll } from 'fluid-primitives';
+import { mount, mountAll } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
 // A manual callback rather than a single Zod schema with `.refine()` - a `.refine()` only runs
@@ -9,31 +9,30 @@ import { Form } from 'fluid-primitives/form';
 // own length requirement yet. listenTo on the passwordConfirm field (see the template) does all
 // the cross-field re-triggering here - this callback only needs to describe what "valid" means.
 mountAll('ui:passwordConfirmation', ({ props }) => {
-    const data = getHydrationData('ui:form', props.id + '-form');
-    if (!data) return;
+    mount('ui:form', props.id + '-form', ({ props }) => {
+        const form = new Form({
+            ...props,
+            validation: ({ values }) => {
+                const errors: Record<string, { messages: string[] }> = {};
 
-    const form = new Form({
-        ...data.props,
-        validation: ({ values }) => {
-            const errors: Record<string, { messages: string[] }> = {};
+                const password = values.get('password');
+                if (typeof password !== 'string' || password.length < 8) {
+                    errors.password = { messages: ['Password must be at least 8 characters'] };
+                }
 
-            const password = values.get('password');
-            if (typeof password !== 'string' || password.length < 8) {
-                errors.password = { messages: ['Password must be at least 8 characters'] };
-            }
+                const passwordConfirm = values.get('passwordConfirm');
+                if (passwordConfirm !== null && passwordConfirm !== password) {
+                    errors.passwordConfirm = { messages: ['Passwords do not match'] };
+                }
 
-            const passwordConfirm = values.get('passwordConfirm');
-            if (passwordConfirm !== null && passwordConfirm !== password) {
-                errors.passwordConfirm = { messages: ['Passwords do not match'] };
-            }
-
-            return errors;
-        },
-        onSubmit: async ({ values }) => {
-            alert(JSON.stringify(values.toObject()));
-            return true;
-        },
+                return errors;
+            },
+            onSubmit: async ({ values }) => {
+                alert(JSON.stringify(values.toObject()));
+                return true;
+            },
+        });
+        form.init();
+        return form;
     });
-
-    form.init();
 });
