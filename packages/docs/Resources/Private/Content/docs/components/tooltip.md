@@ -35,7 +35,7 @@
 
 ### Custom Positioning
 
-Control where the tooltip appears relative to the trigger.
+Control where the tooltip appears relative to the trigger. Build the `positioning` with [`ui:positioning`](/docs/viewhelpers/positioning).
 
 {% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.customPositioning" } %}
 
