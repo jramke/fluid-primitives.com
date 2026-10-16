@@ -11,6 +11,6 @@ case "$f" in
 esac
 
 case "$rel" in
-    *.php) ddev composer format -- "$rel" ;;
+    *.php) ddev exec vendor/bin/mago --config packages/fluid-primitives/mago.toml format "$rel" ;;
     *) ddev npm run format -- "$rel" ;;
 esac >/dev/null 2>&1 || true
