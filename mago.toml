@@ -1,0 +1,22 @@
+#:schema https://mago.carthage.software/1.48.1/schema.json
+# Rules and formatter live in the package config so its standalone CI and the monorepo share them.
+extends = "packages/fluid-primitives/mago.toml"
+
+[source]
+paths = ["packages", "config"]
+excludes = [
+    "Public/**",
+    "node_modules/**",
+    "config/system/settings.php",
+    "packages/fluid-primitives/public",
+    "packages/fluid-primitives/vendor",
+    "packages/fluid-primitives/rector.php",
+    "**/*.svg",
+    "**/*.xlf",
+]
+
+[linter]
+excludes = ["packages/fluid-primitives/tests/**"]
+
+[analyzer]
+excludes = ["packages/fluid-primitives/tests/**"]

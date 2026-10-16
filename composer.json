@@ -15,10 +15,10 @@
         "sort-packages": true
     },
     "scripts": {
-        "format": "mago --config packages/fluid-primitives/mago.toml format packages config",
-        "format:check": "mago --config packages/fluid-primitives/mago.toml format packages config --check",
-        "mago:lint": "mago --config packages/fluid-primitives/mago.toml lint packages config",
-        "mago:analyze": "mago --config packages/fluid-primitives/mago.toml analyze packages config",
+        "format": "mago format",
+        "format:check": "mago format --check",
+        "mago:lint": "mago lint",
+        "mago:analyze": "mago analyze",
         "rector:check": "rector process --dry-run",
         "lint": [
             "@rector:check",
@@ -28,8 +28,8 @@
         ],
         "lint:fix": [
             "rector process",
-            "mago --config packages/fluid-primitives/mago.toml lint packages config --fix --format-after-fix --unsafe",
-            "mago --config packages/fluid-primitives/mago.toml analyze packages config --fix --format-after-fix --unsafe",
+            "mago lint --fix --format-after-fix --unsafe",
+            "mago analyze --fix --format-after-fix --unsafe",
             "@format"
         ],
         "test": [
