@@ -313,9 +313,10 @@
                 "summary": "Builds everything the instance runs on - `userProps`, hydrator, machine and api - then renders once and starts the machine. Call it once after constructing.",
                 "signatures": [
                     {
-                        "signature": "init(): void",
+                        "signature": "init(): this",
                         "returns": {
-                            "type": "void"
+                            "type": "this",
+                            "description": "The instance itself, so a `mountAll()`/`mount()` callback can return it right away: `return new Collapsible(props).init();`."
                         }
                     }
                 ],
@@ -967,9 +968,9 @@
                 "summary": "Builds the component like `Component.init()`, then tells the field that it is hydrated.",
                 "signatures": [
                     {
-                        "signature": "init(): void",
+                        "signature": "init(): this",
                         "returns": {
-                            "type": "void"
+                            "type": "this"
                         }
                     }
                 ],
@@ -1203,7 +1204,7 @@
         "examples": [
             {
                 "language": "typescript",
-                "code": "mountAll('ui:accordion', ({ props }) => {\n    const accordion = new Accordion(props);\n    accordion.init();\n    return accordion;\n});"
+                "code": "mountAll('ui:accordion', ({ props }) => new Accordion(props).init());"
             }
         ],
         "signatures": [

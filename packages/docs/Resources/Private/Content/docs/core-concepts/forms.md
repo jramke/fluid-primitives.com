@@ -117,8 +117,8 @@ The form requires a client-side entry file. Use `autoMount="{false}"` on the roo
 import { extbase, mount } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
-mount('ui:form', 'registration-form', ({ props }) => {
-    const form = new Form({
+mount('ui:form', 'registration-form', ({ props }) =>
+    new Form({
         ...props,
         onSubmit: async ({ api, values }) => {
             const response = await extbase.post(api.getAction(), values.toObject(), {
@@ -135,10 +135,8 @@ mount('ui:form', 'registration-form', ({ props }) => {
             api.setSuccessText(data.message ?? null);
             return true;
         },
-    });
-
-    form.init();
-});
+    }).init()
+);
 ```
 
 Without an `onSubmit` the form only prevents the native submit and goes straight to `success` without sending anything, so every form needs one. The `onSubmit` above is what `ui:add form` ships (there with `mountAll`): it sends the values, shows the `message` of a JSON response as the error or success text, and treats a response that is not JSON as one without a message. A network failure rejects, which ends the form in the generic `error` state, as `return false` does. Wiring the submit button's loading state is not part of it, see [Submit Button](#content-submit-button).
