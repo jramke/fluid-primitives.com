@@ -1,15 +1,21 @@
-import { getHydrationData, mountAll } from 'fluid-primitives';
+import { mount, mountAll } from 'fluid-primitives';
 import { Dialog } from 'fluid-primitives/dialog';
 import { ScrollArea } from 'fluid-primitives/scroll-area';
 
 mountAll('ui:navigation', ({ props }) => {
-    const dialogProps = getHydrationData('primitives:dialog', 'nav-drawer-' + props.id)!.props;
-    const dialog = new Dialog(dialogProps);
-    dialog.init();
+    const dialog = mount('primitives:dialog', 'nav-drawer-' + props.id, ({ props }) => {
+        const dialog = new Dialog(props);
+        dialog.init();
+        return dialog;
+    });
 
-    const sidebarScrollAreaProps = getHydrationData('ui:scrollArea', 'sidebar-' + props.id)!.props;
-    const scrollArea = new ScrollArea(sidebarScrollAreaProps);
-    scrollArea.init();
+    const scrollArea = mount('ui:scrollArea', 'sidebar-' + props.id, ({ props }) => {
+        const scrollArea = new ScrollArea(props);
+        scrollArea.init();
+        return scrollArea;
+    });
+
+    if (!dialog || !scrollArea) return;
 
     // Cleanup the fixed values when the machine computed all values needed for layout styles
     setTimeout(() => {
