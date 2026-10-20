@@ -80,12 +80,13 @@
             },
             {
                 "name": "init",
-                "summary": "Starts the machine, which loads the list for the first time. Call it once, after constructing.",
+                "summary": "Starts the machine, which loads the list for the first time when `autoReload` is set. Call it once, after constructing.",
                 "signatures": [
                     {
-                        "signature": "init(): void",
+                        "signature": "init(): this",
                         "returns": {
-                            "type": "void"
+                            "type": "this",
+                            "description": "The instance itself, like `Component.init()`: `const list = new AsyncList(options).init();`."
                         }
                     }
                 ],
