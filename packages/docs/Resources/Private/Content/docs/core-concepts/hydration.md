@@ -64,14 +64,10 @@ On the client, use `mountAll` to initialize components. The first argument is al
 import { mountAll } from 'fluid-primitives';
 import { Accordion } from 'fluid-primitives/accordion';
 
-mountAll('primitives:accordion', ({ props }) => {
-    const accordion = new Accordion(props);
-    accordion.init();
-    return accordion;
-});
+mountAll('primitives:accordion', ({ props }) => new Accordion(props).init());
 ```
 
-This runs for every accordion on the page, extracting props from the hydration data and initializing each instance. Creating a component only stores its props - `init()` builds the state machine, renders and starts it, so `instance.machine`, `instance.api` and `instance.hydrator` are available once `init()` has run. Reading one earlier throws an error telling you to call `init()` first.
+This runs for every accordion on the page, extracting props from the hydration data and initializing each instance. Creating a component only stores its props - `init()` builds the state machine, renders and starts it, and returns the instance so the callback above can return it directly. `instance.machine`, `instance.api` and `instance.hydrator` are available once `init()` has run. Reading one earlier throws an error telling you to call `init()` first.
 
 The namespace is required, not cosmetic: two different component collections can register a
 same-named root component (e.g. your own styled wrapper around `primitives:accordion` that doesn't
@@ -153,16 +149,14 @@ This prevents automatic initialization. You then initialize manually with `mount
 import { mount } from 'fluid-primitives';
 import { Collapsible } from 'fluid-primitives/collapsible';
 
-const collapsible = mount('ui:collapsible', 'my-collapsible', ({ props }) => {
-    const instance = new Collapsible({
+const collapsible = mount('ui:collapsible', 'my-collapsible', ({ props }) =>
+    new Collapsible({
         ...props,
         onOpenChange: ({ open }) => {
             console.log('Collapsible is now', open ? 'open' : 'closed');
         },
-    });
-    instance.init();
-    return instance;
-});
+    }).init()
+);
 ```
 
 Unlike `mountAll`, `mount` doesn't skip a `rootId` it's already seen - calling it twice re-runs the callback and constructs a new instance both times. The resulting instance is still tracked the same way a `mountAll`-created one is, though, so `getComponentInstance` and `destroyComponentsWithin` can find it.
