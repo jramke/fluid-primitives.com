@@ -6,74 +6,32 @@ When you add a component via the `typo3 ui:add <component>` command, you get bas
 
 ## Theme Tokens for Registry Styles
 
-The Tailwind classes of the registry components use semantic color tokens (`bg-primary`, `text-muted-foreground`, `border-input`, `ring-ring`, ...) instead of fixed colors, so a theme change is one place. Tailwind only generates these utilities when your CSS defines the tokens, so add this to the stylesheet that imports Tailwind and change the values to your design:
+The Tailwind classes of the registry components use semantic color tokens (`bg-primary`, `text-muted-foreground`, `border-input`, ...) instead of fixed colors. They are the token names shadcn/ui uses, so a theme made for shadcn/ui should work as well. Tailwind only generates these utilities when your CSS defines the colors, so add this to the stylesheet that imports Tailwind. The values are the ones of this site, change them to your design:
 
 ```css
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
     --radius: 0.5rem;
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.141 0.005 285.823);
-    --popover: oklch(1 0 0);
-    --popover-foreground: var(--foreground);
-    --primary: oklch(0.21 0.006 285.885);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.967 0.001 286.375);
-    --secondary-foreground: oklch(0.21 0.006 285.885);
-    --muted: oklch(0.967 0.001 286.375);
-    --muted-foreground: oklch(0.552 0.016 285.938);
-    --accent: oklch(0.967 0.001 286.375);
-    --accent-foreground: oklch(0.21 0.006 285.885);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.92 0.004 286.32);
-    --input: oklch(0.92 0.004 286.32);
-    --ring: oklch(0.705 0.015 286.067);
 }
 
-.dark {
-    --background: oklch(0.141 0.005 285.823);
-    --foreground: oklch(0.985 0 0);
-    --popover: oklch(0.21 0.006 285.885);
-    --popover-foreground: var(--foreground);
-    --primary: oklch(0.92 0.004 286.32);
-    --primary-foreground: oklch(0.21 0.006 285.885);
-    --secondary: oklch(0.274 0.006 286.033);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.274 0.006 286.033);
-    --muted-foreground: oklch(0.705 0.015 286.067);
-    --accent: oklch(0.274 0.006 286.033);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.552 0.016 285.938);
-}
-
-@theme inline {
-    --radius-sm: calc(var(--radius) - 4px);
-    --radius-md: calc(var(--radius) - 2px);
-    --radius-lg: var(--radius);
-
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --color-popover: var(--popover);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-primary: var(--primary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-secondary: var(--secondary);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-muted: var(--muted);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-accent: var(--accent);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-destructive: var(--destructive);
-    --color-border: var(--border);
-    --color-input: var(--input);
-    --color-ring: var(--ring);
+@theme {
+    --color-background: oklch(1 0 0);
+    --color-foreground: oklch(0.141 0.005 285.823);
+    --color-popover: oklch(1 0 0);
+    --color-popover-foreground: var(--color-foreground);
+    --color-primary: oklch(17.764% 0.00002 271.152);
+    --color-primary-foreground: oklch(0.98 0.016 73.684);
+    --color-secondary: oklch(95.213% 0.00011 271.152);
+    --color-muted: oklch(0.967 0.001 286.375);
+    --color-muted-foreground: oklch(0.552 0.016 285.938);
+    --color-accent: oklch(0.967 0.001 286.375);
+    --color-accent-foreground: oklch(0.21 0.006 285.885);
+    --color-destructive: oklch(0.577 0.245 27.325);
+    --color-border: oklch(0.92 0.004 286.32);
+    --color-input: oklch(0.92 0.004 286.32);
+    --color-ring: var(--color-primary);
 
     --animate-collapsible-down: collapsible-down 0.2s var(--ease-out);
     --animate-collapsible-up: collapsible-up 0.2s var(--ease-out);
@@ -98,7 +56,7 @@ The Tailwind classes of the registry components use semantic color tokens (`bg-p
 
 - `tw-animate-css` (`npm install -D tw-animate-css`) provides the `animate-in`, `fade-in` and `zoom-in-*` classes of Tooltip, Popover and the other floating components.
 - The `animate-collapsible-*` utilities drive [Collapsible](/docs/components/collapsible), whose content exposes `--height` and `--collapsed-height`.
-- The `.dark` block applies when an ancestor carries the `dark` class. Toggle it from your own theme switch, or drop the block and the `@custom-variant` line if you don't need dark mode.
+- The registry has no `dark:` variants. For a dark mode, override the same `--color-*` variables under your own dark selector.
 
 ## Data Attributes
 
