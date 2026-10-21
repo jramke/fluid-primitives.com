@@ -158,11 +158,7 @@ Example with a collapsible:
 import { mountAll } from 'fluid-primitives';
 import { Collapsible } from 'fluid-primitives/collapsible';
 
-mountAll('ui:collapsible', ({ props }) => {
-    const collapsible = new Collapsible(props);
-    collapsible.init();
-    return collapsible;
-});
+mountAll('ui:collapsible', ({ props }) => new Collapsible(props).init());
 ```
 
 See [Hydration](/docs/core-concepts/hydration) for the full picture on client-side setup.
