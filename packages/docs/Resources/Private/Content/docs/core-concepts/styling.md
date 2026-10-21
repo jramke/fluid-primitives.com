@@ -4,6 +4,60 @@ Fluid Primitives is completely unstyled. Use any CSS approach you prefer: Tailwi
 
 When you add a component via the `typo3 ui:add <component>` command, you get basic Tailwind styles as a starting point. If you don't use Tailwind, simply ask your AI to convert these classes to your preferred CSS syntax.
 
+## Theme Tokens for Registry Styles
+
+The Tailwind classes of the registry components use semantic color tokens (`bg-primary`, `text-muted-foreground`, `border-input`, ...) instead of fixed colors. They are the token names shadcn/ui uses, so a theme made for shadcn/ui should work as well. Tailwind only generates these utilities when your CSS defines the colors, so add this to the stylesheet that imports Tailwind. The values are the ones of this site, change them to your design:
+
+```css
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+:root {
+    --radius: 0.5rem;
+}
+
+@theme {
+    --color-background: oklch(1 0 0);
+    --color-foreground: oklch(0.141 0.005 285.823);
+    --color-popover: oklch(1 0 0);
+    --color-popover-foreground: var(--color-foreground);
+    --color-primary: oklch(17.764% 0.00002 271.152);
+    --color-primary-foreground: oklch(0.98 0.016 73.684);
+    --color-secondary: oklch(95.213% 0.00011 271.152);
+    --color-muted: oklch(0.967 0.001 286.375);
+    --color-muted-foreground: oklch(0.552 0.016 285.938);
+    --color-accent: oklch(0.967 0.001 286.375);
+    --color-accent-foreground: oklch(0.21 0.006 285.885);
+    --color-destructive: oklch(0.577 0.245 27.325);
+    --color-border: oklch(0.92 0.004 286.32);
+    --color-input: oklch(0.92 0.004 286.32);
+    --color-ring: var(--color-primary);
+
+    --animate-collapsible-down: collapsible-down 0.2s var(--ease-out);
+    --animate-collapsible-up: collapsible-up 0.2s var(--ease-out);
+    @keyframes collapsible-down {
+        from {
+            height: var(--collapsed-height, 0);
+        }
+        to {
+            height: var(--height);
+        }
+    }
+    @keyframes collapsible-up {
+        from {
+            height: var(--height);
+        }
+        to {
+            height: var(--collapsed-height, 0);
+        }
+    }
+}
+```
+
+- `tw-animate-css` (`npm install -D tw-animate-css`) provides the `animate-in`, `fade-in` and `zoom-in-*` classes of Tooltip, Popover and the other floating components.
+- The `animate-collapsible-*` utilities drive [Collapsible](/docs/components/collapsible), whose content exposes `--height` and `--collapsed-height`.
+- The registry has no `dark:` variants. For a dark mode, override the same `--color-*` variables under your own dark selector.
+
 ## Data Attributes
 
 Every component part is marked with a single `data-<component>-<part>` attribute for precise targeting - the same convention Zag.js uses:
