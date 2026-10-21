@@ -1,12 +1,9 @@
-import { getHydrationData, mount } from 'fluid-primitives';
+import { mount } from 'fluid-primitives';
 import { NumberInput } from 'fluid-primitives/number-input';
 import { Slider } from 'fluid-primitives/slider';
 
 (() => {
-    // NumberInput's own defaultValue is the shared initial value - unlike Slider's own (always
-    // normalized to a float[] client-side, one per thumb), it's kept as the bare number this needs.
-    let currentValue = getHydrationData('ui:numberInput', 'synced-number-input')?.props
-        .defaultValue as number | undefined;
+    let currentValue: number | undefined;
 
     function setValue(next: number) {
         if (next === currentValue) return;
@@ -15,23 +12,23 @@ import { Slider } from 'fluid-primitives/slider';
         numberInput?.api.setValue(next);
     }
 
-    const slider = mount('ui:slider', 'synced-slider', ({ props }) => {
-        const instance = new Slider({
+    const slider = mount('ui:slider', 'synced-slider', ({ props }) =>
+        new Slider({
             ...props,
             onValueChange: ({ value }) => setValue(value[0]),
-        });
-        instance.init();
-        return instance;
-    });
+        }).init()
+    );
 
     const numberInput = mount('ui:numberInput', 'synced-number-input', ({ props }) => {
-        const instance = new NumberInput({
+        // NumberInput's own defaultValue is the shared initial value - unlike Slider's own (always
+        // normalized to a float[] client-side, one per thumb), it's a single value, the number this needs.
+        currentValue = Number(props.defaultValue);
+
+        return new NumberInput({
             ...props,
             onValueChange: ({ valueAsNumber }) => {
                 if (!Number.isNaN(valueAsNumber)) setValue(valueAsNumber);
             },
-        });
-        instance.init();
-        return instance;
+        }).init();
     });
 })();

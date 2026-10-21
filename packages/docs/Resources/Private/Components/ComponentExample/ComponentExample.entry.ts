@@ -1,16 +1,10 @@
-import { getHydrationData, mountAll } from 'fluid-primitives';
+import { mount, mountAll } from 'fluid-primitives';
 import { Collapsible } from 'fluid-primitives/collapsible';
 import { Tabs } from 'fluid-primitives/tabs';
 
 mountAll('ui:componentExample', ({ props, createHydrator }) => {
     const hydrator = createHydrator();
     const tabActions = hydrator.queryAll<HTMLDivElement>('tab-actions');
-
-    const tabsProps = getHydrationData('ui:tabs', `${props.id}-tabs`)?.props;
-    if (!tabsProps) return;
-
-    const collapsibleProps = getHydrationData('ui:collapsible', `${props.id}-collapsible`)?.props;
-    if (!collapsibleProps) return;
 
     tabActions.forEach(el => {
         const value = el.dataset.value;
@@ -19,23 +13,26 @@ mountAll('ui:componentExample', ({ props, createHydrator }) => {
         }
     });
 
-    const collapsible = new Collapsible(collapsibleProps);
-    collapsible.init();
+    const collapsible = mount('ui:collapsible', `${props.id}-collapsible`, ({ props }) =>
+        new Collapsible(props).init()
+    );
+    if (!collapsible) return;
 
-    const tabs = new Tabs({
-        ...tabsProps,
-        onValueChange: ({ value }) => {
-            if (!collapsible.api.open) {
-                collapsible.api.setOpen(true);
-            }
-            tabActions.forEach(el => {
-                if (el.dataset.value === value) {
-                    el.removeAttribute('hidden');
-                } else {
-                    el.setAttribute('hidden', 'true');
+    mount('ui:tabs', `${props.id}-tabs`, ({ props }) =>
+        new Tabs({
+            ...props,
+            onValueChange: ({ value }) => {
+                if (!collapsible.api.open) {
+                    collapsible.api.setOpen(true);
                 }
-            });
-        },
-    });
-    tabs.init();
+                tabActions.forEach(el => {
+                    if (el.dataset.value === value) {
+                        el.removeAttribute('hidden');
+                    } else {
+                        el.setAttribute('hidden', 'true');
+                    }
+                });
+            },
+        }).init()
+    );
 });

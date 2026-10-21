@@ -1,4 +1,4 @@
-import { getHydrationData, mountAll } from 'fluid-primitives';
+import { mount, mountAll } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 import { z } from 'zod';
 
@@ -17,17 +17,14 @@ const guestListSchema = z.object({
 });
 
 mountAll('ui:guestList', ({ props }) => {
-    const data = getHydrationData('ui:form', props.id + '-form');
-    if (!data) return;
-
-    const form = new Form({
-        ...data.props,
-        validation: guestListSchema,
-        onSubmit: async ({ values }) => {
-            alert(JSON.stringify(values.toObject()));
-            return true;
-        },
-    });
-
-    form.init();
+    mount('ui:form', props.id + '-form', ({ props }) =>
+        new Form({
+            ...props,
+            validation: guestListSchema,
+            onSubmit: async ({ values }) => {
+                alert(JSON.stringify(values.toObject()));
+                return true;
+            },
+        }).init()
+    );
 });

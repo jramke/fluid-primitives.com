@@ -1,17 +1,12 @@
-import { extbase, getHydrationData, mount, mountAll } from 'fluid-primitives';
+import { extbase, mount, mountAll } from 'fluid-primitives';
 import { Button } from 'fluid-primitives/button';
 import { Form, type FormValues } from 'fluid-primitives/form';
 import { z } from 'zod';
 
 mountAll('ui:editEventRegistration', ({ props }) => {
-    const data = getHydrationData('ui:form', props.id + '-form');
-    if (!data) return;
-
-    const submitButton = mount('ui:button', props.id + '-submit', ({ props }) => {
-        const button = new Button(props);
-        button.init();
-        return button;
-    });
+    const submitButton = mount('ui:button', props.id + '-submit', ({ props }) =>
+        new Button(props).init()
+    );
 
     const schema = z.object({
         ticketType: z.enum(['vip', 'standard', 'student'], 'Please select a ticket type'),
@@ -39,51 +34,54 @@ mountAll('ui:editEventRegistration', ({ props }) => {
 
     const needsStudentId = (values: FormValues) => values.get('ticketType') === 'student';
 
-    const form = new Form({
-        ...data.props,
-        // See EventRegistration.entry.ts for why this is a callback instead of just the schema.
-        validation: ({ values, validateWithStandardSchema }) => {
-            let errors = validateWithStandardSchema(schema);
+    const form = mount('ui:form', props.id + '-form', ({ props }) =>
+        new Form({
+            ...props,
+            // See EventRegistration.entry.ts for why this is a callback instead of just the schema.
+            validation: ({ values, validateWithStandardSchema }) => {
+                let errors = validateWithStandardSchema(schema);
 
-            const hasStudentId = values.get('studentId') !== null && values.get('studentId') !== '';
+                const hasStudentId =
+                    values.get('studentId') !== null && values.get('studentId') !== '';
 
-            if (needsStudentId(values) && !hasStudentId) {
-                errors = {
-                    ...errors,
-                    studentId: {
-                        messages: ['You need to provide a student id for the student ticket'],
-                    },
-                };
-            }
+                if (needsStudentId(values) && !hasStudentId) {
+                    errors = {
+                        ...errors,
+                        studentId: {
+                            messages: ['You need to provide a student id for the student ticket'],
+                        },
+                    };
+                }
 
-            return errors;
-        },
-        onSubmit: async ({ api, values }) => {
-            const [response] = await Promise.all([
-                extbase.post(api.getAction(), values.toObject(), {
-                    prefix: api.getFieldNamePrefix(),
-                    objectName: api.getObjectName(),
-                }),
-                new Promise(resolve => setTimeout(resolve, 800)),
-            ]);
+                return errors;
+            },
+            onSubmit: async ({ api, values }) => {
+                const [response] = await Promise.all([
+                    extbase.post(api.getAction(), values.toObject(), {
+                        prefix: api.getFieldNamePrefix(),
+                        objectName: api.getObjectName(),
+                    }),
+                    new Promise(resolve => setTimeout(resolve, 800)),
+                ]);
 
-            const data = await response.json();
+                const data = await response.json();
 
-            if (!response.ok) {
-                api.setErrorText(
-                    data.message || 'There was an error saving this registration. Please try again.'
-                );
-                return false;
-            }
+                if (!response.ok) {
+                    api.setErrorText(
+                        data.message ||
+                            'There was an error saving this registration. Please try again.'
+                    );
+                    return false;
+                }
 
-            api.setSuccessText(data.message || 'The registration was updated successfully.');
+                api.setSuccessText(data.message || 'The registration was updated successfully.');
 
-            return true;
-        },
-        render: form => submitButton?.api.setLoading(form.api.isSubmitting),
-    });
-
-    form.init();
+                return true;
+            },
+            render: form => submitButton?.api.setLoading(form.api.isSubmitting),
+        }).init()
+    );
+    if (!form) return;
 
     // Conditionally hide and show the studentId field based on the ticket type, via `listenTo`
     // on studentId itself (see the template) rather than recomputing this on every form state
