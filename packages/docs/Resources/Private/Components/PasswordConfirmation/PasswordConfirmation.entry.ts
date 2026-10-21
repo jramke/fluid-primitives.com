@@ -9,8 +9,8 @@ import { Form } from 'fluid-primitives/form';
 // own length requirement yet. listenTo on the passwordConfirm field (see the template) does all
 // the cross-field re-triggering here - this callback only needs to describe what "valid" means.
 mountAll('ui:passwordConfirmation', ({ props }) => {
-    mount('ui:form', props.id + '-form', ({ props }) => {
-        const form = new Form({
+    mount('ui:form', props.id + '-form', ({ props }) =>
+        new Form({
             ...props,
             validation: ({ values }) => {
                 const errors: Record<string, { messages: string[] }> = {};
@@ -31,8 +31,6 @@ mountAll('ui:passwordConfirmation', ({ props }) => {
                 alert(JSON.stringify(values.toObject()));
                 return true;
             },
-        });
-        form.init();
-        return form;
-    });
+        }).init()
+    );
 });

@@ -4,11 +4,9 @@ import { Form, type FormValues } from 'fluid-primitives/form';
 import { z } from 'zod';
 
 mountAll('ui:eventRegistration', ({ props }) => {
-    const submitButton = mount('ui:button', props.id + '-submit', ({ props }) => {
-        const button = new Button(props);
-        button.init();
-        return button;
-    });
+    const submitButton = mount('ui:button', props.id + '-submit', ({ props }) =>
+        new Button(props).init()
+    );
 
     const schema = z.object({
         ticketType: z.enum(['vip', 'standard', 'student'], 'Please select a ticket type'),
@@ -36,8 +34,8 @@ mountAll('ui:eventRegistration', ({ props }) => {
 
     const needsStudentId = (values: FormValues) => values.get('ticketType') === 'student';
 
-    const form = mount('ui:form', props.id + '-form', ({ props }) => {
-        const instance = new Form({
+    const form = mount('ui:form', props.id + '-form', ({ props }) =>
+        new Form({
             ...props,
             // We need to manually validate the schema because of the conditional logic for studentId.
             // Zod's refine or discriminatedUnion would result in inconsistent validation while the user interacts with the form
@@ -86,10 +84,8 @@ mountAll('ui:eventRegistration', ({ props }) => {
                 return true;
             },
             render: form => submitButton?.api.setLoading(form.api.isSubmitting),
-        });
-        instance.init();
-        return instance;
-    });
+        }).init()
+    );
     if (!form) return;
 
     // Conditionally hide and show the studentId field based on the ticket type, via `listenTo`

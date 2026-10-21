@@ -375,8 +375,8 @@ const validation = z.object({
     privacy: z.literal('1', 'You must accept the privacy policy'),
 });
 
-mount('ui:form', 'registration-form', ({ props }) => {
-    const form = new Form({
+mount('ui:form', 'registration-form', ({ props }) =>
+    new Form({
         ...props,
         validation,
         onSubmit: async ({ api, values }) => {
@@ -386,10 +386,8 @@ mount('ui:form', 'registration-form', ({ props }) => {
             });
             return response.ok;
         },
-    });
-    form.init();
-    return form;
-});
+    }).init()
+);
 ```
 
 Any validator that implements the Standard Schema interface can be passed here without an adapter.
@@ -404,8 +402,8 @@ If you prefer not to use a schema library, pass a synchronous `validation` callb
 import { mount } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
-mount('ui:form', 'registration-form', ({ props }) => {
-    const form = new Form({
+mount('ui:form', 'registration-form', ({ props }) =>
+    new Form({
         ...props,
         validation: ({ values }) => {
             const errors: Record<string, { messages: string[] }> = {};
@@ -422,10 +420,8 @@ mount('ui:form', 'registration-form', ({ props }) => {
 
             return response.ok;
         },
-    });
-    form.init();
-    return form;
-});
+    }).init()
+);
 ```
 
 The `validation` callback must be synchronous. For an async check of a single field give that field its own `validate` function (see [Async Validation](/docs/components/field#async-validation)), and use `onSubmit` for checks that need the whole form.
@@ -438,8 +434,8 @@ If a validation rule depends on async work inside `onSubmit`, send the values wi
 import { mount } from 'fluid-primitives';
 import { Form } from 'fluid-primitives/form';
 
-mount('ui:form', 'registration-form', ({ props }) => {
-    const form = new Form({
+mount('ui:form', 'registration-form', ({ props }) =>
+    new Form({
         ...props,
         onSubmit: async ({ values }) => {
             const response = await extbase.post('/email-check', values.toObject(), {
@@ -458,10 +454,8 @@ mount('ui:form', 'registration-form', ({ props }) => {
 
             return true;
         },
-    });
-    form.init();
-    return form;
-});
+    }).init()
+);
 ```
 
 Returning field errors from `onSubmit` transitions the form to `invalid` and maps errors to fields exactly like a 422 server response.
@@ -516,20 +510,14 @@ Use the [Button](/docs/components/button) as the submit button. While the form s
 Mount the button yourself with its `rootId` and pass the submitting state on in `render`:
 
 ```typescript
-const submitButton = mount('ui:button', 'submit-button', ({ props }) => {
-    const button = new Button(props);
-    button.init();
-    return button;
-});
+const submitButton = mount('ui:button', 'submit-button', ({ props }) => new Button(props).init());
 
-mount('ui:form', 'registration-form', ({ props }) => {
-    const form = new Form({
+mount('ui:form', 'registration-form', ({ props }) =>
+    new Form({
         ...props,
         render: form => submitButton?.api.setLoading(form.api.isSubmitting),
-    });
-    form.init();
-    return form;
-});
+    }).init()
+);
 ```
 
 ## Complete Example: Event Registration

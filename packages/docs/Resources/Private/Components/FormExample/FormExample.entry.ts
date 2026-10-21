@@ -3,14 +3,12 @@ import { Button } from 'fluid-primitives/button';
 import { Form } from 'fluid-primitives/form';
 
 mountAll('ui:formExample', () => {
-    const submitButton = mount('ui:button', 'example-form-submit', ({ props }) => {
-        const button = new Button(props);
-        button.init();
-        return button;
-    });
+    const submitButton = mount('ui:button', 'example-form-submit', ({ props }) =>
+        new Button(props).init()
+    );
 
-    mount('ui:form', 'example-form', ({ props }) => {
-        const form = new Form({
+    mount('ui:form', 'example-form', ({ props }) =>
+        new Form({
             ...props,
             validation: ({ values }) => {
                 const homepage = values.get('homepage');
@@ -55,8 +53,6 @@ mountAll('ui:formExample', () => {
                 return true;
             },
             render: form => submitButton?.api.setLoading(form.api.isSubmitting),
-        });
-        form.init();
-        return form;
-    });
+        }).init()
+    );
 });

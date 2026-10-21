@@ -3,17 +3,13 @@ import { Dialog } from 'fluid-primitives/dialog';
 import { ScrollArea } from 'fluid-primitives/scroll-area';
 
 mountAll('ui:navigation', ({ props }) => {
-    const dialog = mount('primitives:dialog', 'nav-drawer-' + props.id, ({ props }) => {
-        const dialog = new Dialog(props);
-        dialog.init();
-        return dialog;
-    });
+    const dialog = mount('primitives:dialog', 'nav-drawer-' + props.id, ({ props }) =>
+        new Dialog(props).init()
+    );
 
-    const scrollArea = mount('ui:scrollArea', 'sidebar-' + props.id, ({ props }) => {
-        const scrollArea = new ScrollArea(props);
-        scrollArea.init();
-        return scrollArea;
-    });
+    const scrollArea = mount('ui:scrollArea', 'sidebar-' + props.id, ({ props }) =>
+        new ScrollArea(props).init()
+    );
 
     if (!dialog || !scrollArea) return;
 

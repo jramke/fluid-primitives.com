@@ -17,16 +17,14 @@ const guestListSchema = z.object({
 });
 
 mountAll('ui:guestList', ({ props }) => {
-    mount('ui:form', props.id + '-form', ({ props }) => {
-        const form = new Form({
+    mount('ui:form', props.id + '-form', ({ props }) =>
+        new Form({
             ...props,
             validation: guestListSchema,
             onSubmit: async ({ values }) => {
                 alert(JSON.stringify(values.toObject()));
                 return true;
             },
-        });
-        form.init();
-        return form;
-    });
+        }).init()
+    );
 });
