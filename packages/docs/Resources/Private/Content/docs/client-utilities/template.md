@@ -2,11 +2,11 @@
 
 **Clones a `<template>` part and fills it with data that doesn't exist when the server renders the page.**
 
-Use it for anything the client adds after hydration: async search results, previews of uploaded files, or the rows of a recurring field. The markup of the item stays in your Fluid template, so it is styled and translated like the rest of the component.
+Use it for anything the client adds after hydration: async search results, previews of uploaded files or the rows of a recurring field. The markup of the item stays in your Fluid template, so it is styled and translated like the rest of the component.
 
 ## Usage
 
-Declare the `<template>` with [`ui:template`](/docs/viewhelpers/template) inside the component. It needs exactly one root element:
+Declare the `<template>` with [`ui:template`](/docs/viewhelpers/template) inside the component. It needs exactly one root element, otherwise `Template` throws:
 
 ```html
 <ui:combobox.list>
@@ -35,9 +35,9 @@ for (const { value, title } of cities) {
 }
 ```
 
-`instance` is a `DocumentFragment`, so it can be appended as it is. `instance.root` keeps pointing at the item after the insertion has emptied the fragment.
+`instance` is a `DocumentFragment`, so you can append it as it is. `instance.root` keeps pointing at the item after the insertion has emptied the fragment.
 
-With `value` the clone represents one real item: `data-value` is set on it and on the parts inside it that exist once per item, and independent components inside it, such as a `Field` with an `Input`, are prepared. Call the `mountAll()` of each name in `instance.componentNames` after you insert the clone.
+Pass `value` when the clone stands for one real item. It sets `data-value` on the clone and on the parts inside that exist once per item, and prepares independent components inside it, such as a `Field` with an `Input`. After you insert the clone, call the `mountAll()` of each name in `instance.componentNames`.
 
 ## Options
 

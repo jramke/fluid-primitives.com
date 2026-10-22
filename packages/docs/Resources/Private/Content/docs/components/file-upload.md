@@ -8,16 +8,15 @@
 
 ## Features
 
-- Supports button-triggered file selection and drag-and-drop uploads
-- Works with the `Field` primitive for form labels, descriptions, and validation
-- Supports accepted file types, file count limits, size limits, and directory selection
-- Exposes accepted and rejected files through the client-side API
-- Supports clearing files and deleting individual accepted files
-- Lets already-persisted files sit in the same list as newly-picked ones, so an edit form needs only one file list
-- Renders accepted/rejected file items from a Fluid-authored `itemTemplate`, since the actual `File` objects only ever exist in the browser - optionally a completely separate one for rejected items
-- Supports multiple preview variants per item, for example an image preview with a generic file-extension fallback
-- Exports `fileValue()`, the identity `FileUpload` stamps onto every rendered item's `data-value`, so userland code can resolve a clicked/found item back to the real `File` it represents
-- Replaces TYPO3's `f:form.upload` and integrates with Extbase's `#[FileUpload]` attribute out of the box
+- Button-triggered file selection and drag and drop
+- Accepted file types, file count limits, size limits and directory selection
+- Accepted and rejected files through the client-side API
+- Clear all files or delete a single one
+- Already-stored files and newly picked files in one list, for edit forms
+- Items authored in Fluid with an `itemTemplate`, plus a template of their own for rejected items
+- Preview variants per item, for example an image with a file-extension fallback
+- `fileValue()` maps a rendered item back to its `File`
+- Works with [Field](/docs/components/field) and with Extbase's `#[FileUpload]` attribute, as a drop-in for `f:form.upload`
 
 ## Anatomy
 
@@ -68,27 +67,27 @@
 
 ## Examples
 
-### With Field
+### Use a file upload in a field
 
-Use file upload inside `Field` for form semantics and validation messaging.
+Wrap the file upload in a [Field](/docs/components/field) to add helper text and error text, and to mark it `required`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.withField" } %}
 
-### Accepted and Rejected Files
+### Show accepted and rejected files
 
-Accepted and rejected files only ever exist as browser `File` objects, so they can never be part of the server-rendered markup. The `item` part is instead authored once inside an `itemTemplate` part inside `ui:fileUpload.root`, and the primitive clones/populates it for every accepted or rejected file - the same [`ui:template`](/docs/core-concepts/hydration) pattern the Combobox uses for asynchronously loaded results, just wrapped in a part so neither the stencil's internal name nor its `context` argument are something you need to type yourself. Rejected items use the `itemError` part to show why they were rejected, and can use an entirely different template (via `itemTemplate`'s `type` prop, see [Custom Item Layout](#custom-item-layout) below) when a rejected file shouldn't look like an accepted one at all.
+Picked files are listed from an `itemTemplate`: author the item once and `FileUpload` clones it for every accepted or rejected file. A rejected item shows why in its `itemError` part. Drop a file over 1.5 MB, a non-image or a third file to see a rejection.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.rejectedFiles" } %}
 
-### Preview Variants
+### Preview images and other files
 
-Declare multiple `itemPreview` parts inside the item template, each with a `match` MIME type pattern (e.g. `image/*`). The primitive shows the first matching variant for a given file and hides the rest, which makes an image preview plus a generic fallback icon possible without a custom render callback.
+Add several `itemPreview` parts to the item template, each with a `match` MIME type pattern such as `image/*`. The first part that matches the file shows, the others hide: an image preview and a generic fallback for everything else.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.simple" } %}
 
-### Translations
+### Translate the labels
 
-`FileUpload` translates three labels: `dropzone` (the dropzone's `aria-label`), `itemPreview` (an accepted item's preview `alt` text), and `deleteFile` (an item's delete button `aria-label`). The last two are functions in zag-js (`(file: File) => string`), since they interpolate the file's name - but Fluid has no callbacks to hand over, and the `File` only exists in the browser anyway. So they're translated as plain strings containing a literal `%fileName%` placeholder, which the primitive substitutes with the real file name client-side:
+`FileUpload` translates three labels: `dropzone` (the `aria-label` of the dropzone), `itemPreview` (the `alt` text of a preview image) and `deleteFile` (the `aria-label` of a delete button). The last two take a `%fileName%` placeholder, which the browser replaces with the name of the file:
 
 ```html
 <ui:fileUpload.root
@@ -96,50 +95,35 @@ Declare multiple `itemPreview` parts inside the item template, each with a `matc
 ></ui:fileUpload.root>
 ```
 
-Use `%fileName%`, not `{fileName}` - Fluid's own inline array/object syntax already treats a bare `{...}` inside a string as a nested variable expression, so a curly-brace placeholder would silently get stripped from an override written this way. Omit `itemPreview`/`deleteFile` to keep the built-in translation. Per-locale overrides can also live in your own `locallang.xlf` and be read with `f:translate` instead.
+Write `%fileName%`, not `{fileName}`: Fluid reads a curly-brace expression inside a string as a variable and strips it. Leave out `itemPreview` or `deleteFile` to keep the built-in text. To translate per locale, read the texts from your own `locallang.xlf` with `f:translate`.
 
-### Directory Upload
+### Upload a folder
 
-Enable directory selection in browsers that support `webkitdirectory`.
+Set `directory` to pick a whole folder in browsers that support `webkitdirectory`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.directory" } %}
 
-### Custom Item Layout
+### Build your own item layout
 
-Nothing about `itemTemplate` requires reusing the default part layout - author whatever markup you want inside it, drop parts you don't need (here, `itemSizeText` is left out entirely), and read the client-side API directly for anything that isn't a part at all, like a running "x / 5 files selected" count.
+The `itemTemplate` takes any markup. Leave out parts you can do without (this demo has no `itemSizeText`) and add your own, like a running "3 / 5 files selected" counter. Rejected files can have a template of their own: add a second `itemTemplate` with `type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}"`, here one without a preview. Without it, rejected items use the accepted template.
 
-Rejected items can use a second `itemTemplate`, given `type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FileUploadItemType::Rejected')}"`, instead of reusing the accepted one - handy when a rejected file should look nothing like an accepted one, e.g. no preview at all. `FileUpload` falls back to the accepted `itemTemplate` for rejected items when no dedicated rejected one is given, so this is opt-in.
-
-The counter is plain userland JS: a `ui:ref` written directly in the root's slot content (`context="fileUpload"`, since it isn't part of the primitive's own template) is read back via the component's `this.hydrator.query()`, in a small subclass that updates it after every render.
-
-Item-level data with no corresponding part works the same way, but each rendered item first has to be found again. `itemModifiedDate` is a plain `ui:ref` inside the item template - `context="fileUpload"` is required here too: slot content is evaluated against the rendering context of the template that writes it, which does not know which component it ends up in, so a `ui:ref` there always needs it - only a primitive's own template body resolves the component on its own. The subclass's `render()` override then re-finds every rendered `item` via `this.hydrator.queryAll('item')`, reads each one's own `itemModifiedDate` child with `this.hydrator.query('itemModifiedDate', itemEl)` - passing that specific item as the scope is what lets one `query()` call resolve correctly per file, the same way it already does for any other item-level part - matches its `data-value` back to a `File` via the exported `fileValue()` helper (the exact identity `FileUpload` itself stamps onto that attribute), and fills in the date. The same pattern works for any other per-item data a template needs.
+Your own elements are `ui:ref`s with `context="fileUpload"`, in the root's slot or in the item template. A subclass of `FileUpload` fills them in `render()`, which runs after every change. `fileValue()` maps the `data-value` of a rendered item back to its `File`, which is how the demo shows each photo's modified date.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.customLayout", "additionalFiles": { "CustomLayout.entry.ts": "EXT:docs/Resources/Private/Components/ui/FileUploadExamples/CustomLayout.entry.ts" } } %}
 
-### Confirm File Deletion
+### Ask before deleting a file
 
-`itemDeleteTrigger` always deletes immediately once clicked - there's no built-in confirmation step, since what "confirm" means (a dialog, an undo toast, nothing) is entirely up to the consumer. This example pairs `FileUpload` with [`Dialog`](/docs/components/dialog) to ask before a file is actually removed: both are mounted as independent, hydration-controlled instances (`autoMount="{false}"` + a fixed `rootId`, the same pattern [Combobox's custom filter example](/docs/components/combobox#custom-filter-api) uses), and a capturing-phase click listener on the item group intercepts the delete trigger's own click before it reaches FileUpload's built-in handler - `event.stopImmediatePropagation()` keeps the immediate delete from ever running. The file itself is recovered from the clicked item's `data-value` via the exported `fileValue()` helper (see [Custom Item Layout](#custom-item-layout) above), and only deleted (via `api.deleteFile()`) once the dialog is confirmed.
+`itemDeleteTrigger` deletes right away. To ask first, pair the file upload with a [Dialog](/docs/components/dialog): render both with `autoMount="{false}"` and a fixed `rootId`, and listen for the click on the item group in the capture phase. Call `event.stopImmediatePropagation()` there to keep the built-in delete from running, find the file with `fileValue()` and call `api.deleteFile()` once the dialog is confirmed.
 
-Delegation is needed here because FileUpload re-clones its item markup on every accepted/rejected-files change, so there's no stable per-item element to attach a listener to directly.
+Items are cloned again on every change, so the listener belongs on the item group.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FileUploadExamples.deleteConfirmation", "withEntryFile": true } %}
 
-## Using with Extbase
+### Save files with Extbase
 
-`FileUpload` produces a plain, native `<input type="file">` under the hood, so it works with Extbase's [`#[FileUpload]` property attribute](https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ExtensionArchitecture/Extbase/Domain/FileUpload.html) without any special controller code - it replaces `f:form.upload` one-to-one.
+`FileUpload` renders a native `<input type="file">`, so Extbase's [`#[FileUpload]` property attribute](https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ExtensionArchitecture/Extbase/Domain/FileUpload.html) works as it does with `f:form.upload`, without special controller code.
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace MyVendor\MyExtension\Domain\Model;
-
-use TYPO3\CMS\Extbase\Attribute\FileUpload;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-
 class Conference extends AbstractEntity
 {
     #[FileUpload(
@@ -163,15 +147,13 @@ class Conference extends AbstractEntity
             'mimeType' => ['allowedMimeTypes' => ['image/jpeg', 'image/png']],
             'fileExtension' => ['allowedFileExtensions' => ['jpg', 'jpeg', 'png']],
         ],
-        uploadFolder: '1:/user_upload/conference_impressions/',
+        uploadFolder: '1:/user_upload/conference_photos/',
     )]
-    protected ObjectStorage $impressions;
-
-    // constructor, initializeObject(), getters and setters...
+    protected ObjectStorage $photos;
 }
 ```
 
-Use `ui:form.root`, and set `maxFiles` on `FileUpload` to match the property's cardinality - `1` for a single `FileReference`, greater than `1` for an `ObjectStorage<FileReference>`. For a multi-file property, write the `[]` suffix on `name` yourself, the same way you would for a [`CheckboxGroup`](/docs/components/checkbox-group) field bound to an array property - the primitive never appends it for you:
+Use `ui:form.root` and set `maxFiles` on `FileUpload` to match the property: `1` for a single `FileReference`, more for an `ObjectStorage<FileReference>`. For a multi-file property, add the `[]` suffix to `name` yourself, as for a [`CheckboxGroup`](/docs/components/checkbox-group) bound to an array property:
 
 ```html
 <ui:form.root action="update" objectName="conference" object="{conference}">
@@ -187,80 +169,54 @@ Use `ui:form.root`, and set `maxFiles` on `FileUpload` to match the property's c
         </ui:fileUpload.root>
     </ui:field.root>
 
-    <ui:field.root name="impressions">
-        <ui:fileUpload.root name="impressions[]" accept="image/jpeg,image/png" maxFiles="10">
-            <ui:fileUpload.label>Impressions</ui:fileUpload.label>
+    <ui:field.root name="photos">
+        <ui:fileUpload.root name="photos[]" accept="image/jpeg,image/png" maxFiles="10">
+            <ui:fileUpload.label>Photos</ui:fileUpload.label>
             <ui:fileUpload.dropzone>
-                <ui:fileUpload.trigger>Choose images</ui:fileUpload.trigger>
+                <ui:fileUpload.trigger>Choose photos</ui:fileUpload.trigger>
             </ui:fileUpload.dropzone>
             <ui:fileUpload.itemGroup>
-                <ui:fileUpload.emptyState>No images selected yet.</ui:fileUpload.emptyState>
+                <ui:fileUpload.emptyState>No photos selected yet.</ui:fileUpload.emptyState>
             </ui:fileUpload.itemGroup>
         </ui:fileUpload.root>
     </ui:field.root>
 </ui:form.root>
 ```
 
-No `enctype` is needed on the form: `Form` never submits natively - it always posts a `FormData` body via `fetch` (see the [Forms guide](/docs/core-concepts/forms)), and `fetch` always sends a `FormData` body as `multipart/form-data` regardless of any `enctype` attribute, since it isn't reading the `<form>` element at all.
+The form posts with [`extbase.post()`](/docs/client-utilities/extbase), which sends `multipart/form-data`, so the `<form>` needs no `enctype`.
 
-{% component: "ui:alert", arguments: {"title": "Keep validation in sync", "text": "Keep the allowed MIME types/extensions in #[FileUpload] in sync with the TCA type=file 'allowed' key on the same column, and pass the same list to FileUpload's accept prop so the browser's file picker pre-filters accordingly. accept is a client-side hint only, never a security control.", "variant": "warning"} %}
+`accept` only filters the file picker in the browser, `#[FileUpload]` validates the upload itself. List the same MIME types and extensions in `accept`, in `#[FileUpload]` and in the `allowed` key of the TCA `type=file` column.
 
-### Editing: Mixing Already-Uploaded Files With New Ones
+### Edit files that are already uploaded
 
-`FileUpload`'s own file list only ever holds files newly picked in the browser - it has no concept of an already-persisted `FileReference` from a previous request. For an edit form, render existing files as ordinary `item`s directly inside `ui:fileUpload.itemGroup`, alongside the newly-picked ones, instead of showing them in a second, separate list. Give each one `type="existing"` and pair its delete trigger with `ui:fileUploadDeleteCheckbox`, which renders TYPO3's HMAC-signed `@delete` token so Extbase removes the file reference on submit. Newly-picked files get their `id`s from the client (it re-stamps every part with the picked file's own value on mount), but a directly-authored `existing` item never goes through that - pass its own `value`, e.g. the file reference's `uid`, so more than one existing item doesn't collide on the same `id`:
+In an edit form, render the stored files as `item`s with `type="existing"` inside the same `itemGroup` as the newly picked files. Pair each delete trigger with `ui:fileUploadDeleteCheckbox`, which renders the signed `@delete` token Extbase uses to remove the file reference on submit. Give each existing item a `value`, such as the `uid` of its file reference, so their ids stay unique.
 
-Existing items still sit inside the same `itemTemplate`-driven `itemGroup` as newly-picked files (see [Accepted and Rejected Files](#accepted-and-rejected-files) above), so don't drop the item template when adding them - without it, the `itemGroup` renders the existing files fine, but selecting a _new_ file has nothing to clone and populate, and throws:
+Keep the `itemTemplate` next to the existing items: newly picked files are cloned from it, and picking one throws without it.
 
 ```html
 <ui:form.root action="update" objectName="conference" object="{conference}">
-    <ui:field.root name="impressions[]">
+    <ui:field.root name="photos[]">
         <ui:fileUpload.root
             accept="image/jpeg,image/png"
             maxFiles="10"
-            existingFilesCount="{conference.impressions -> f:count()}"
+            existingFilesCount="{conference.photos -> f:count()}"
         >
-            <ui:fileUpload.label>Impressions</ui:fileUpload.label>
+            <ui:fileUpload.label>Photos</ui:fileUpload.label>
             <ui:fileUpload.dropzone>
-                <ui:fileUpload.trigger>Choose images</ui:fileUpload.trigger>
+                <ui:fileUpload.trigger>Choose photos</ui:fileUpload.trigger>
             </ui:fileUpload.dropzone>
 
             <primitives:fileUpload.itemTemplate>
-                <ui:fileUpload.fileItem>
-                    <primitives:fileUpload.itemPreview
-                        match="image/*"
-                        class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border"
-                    >
-                        <primitives:fileUpload.itemPreviewImage class="size-full object-cover" />
-                    </primitives:fileUpload.itemPreview>
-                    <primitives:fileUpload.itemPreview
-                        match=".*"
-                        class="bg-muted text-muted-foreground flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border"
-                    >
-                        <ui:fileUpload.filePreviewFallback />
-                    </primitives:fileUpload.itemPreview>
-                    <div class="grid min-w-0 flex-1 gap-0.5">
-                        <ui:fileUpload.fileName />
-                        <ui:fileUpload.fileMeta />
-                        <ui:fileUpload.fileError />
-                    </div>
-                    <ui:fileUpload.fileDeleteTrigger />
-                </ui:fileUpload.fileItem>
+                <!-- the item markup for newly picked files -->
             </primitives:fileUpload.itemTemplate>
 
             <ui:fileUpload.itemGroup>
-                <f:for each="{conference.impressions}" as="fileReference">
+                <f:for each="{conference.photos}" as="fileReference">
                     <ui:fileUpload.fileItem type="existing" value="{fileReference.uid}">
-                        <f:image
-                            image="{fileReference}"
-                            width="40"
-                            height="40"
-                            class="size-10 shrink-0 rounded-md border object-cover"
-                        />
-                        <div class="grid min-w-0 flex-1 gap-0.5">
-                            <ui:fileUpload.fileName
-                                >{fileReference.originalResource.name}</ui:fileUpload.fileName
-                            >
-                        </div>
+                        <f:image image="{fileReference}" width="40" height="40" />
+                        <ui:fileUpload.fileName
+                            >{fileReference.originalResource.name}</ui:fileUpload.fileName
+                        >
                         <ui:fileUploadDeleteCheckbox
                             fileReference="{fileReference}"
                             class="hidden"
@@ -268,18 +224,18 @@ Existing items still sit inside the same `itemTemplate`-driven `itemGroup` as ne
                         <ui:fileUpload.fileDeleteTrigger />
                     </ui:fileUpload.fileItem>
                 </f:for>
-                <ui:fileUpload.emptyState>No images selected yet.</ui:fileUpload.emptyState>
+                <ui:fileUpload.emptyState>No photos selected yet.</ui:fileUpload.emptyState>
             </ui:fileUpload.itemGroup>
         </ui:fileUpload.root>
     </ui:field.root>
 </ui:form.root>
 ```
 
-Clicking that delete trigger checks the sibling checkbox and hides the item immediately, exactly like removing a newly-picked file - the actual `FileReference` is only deleted once the form is submitted. The checkbox must be a sibling of `fileDeleteTrigger`, never nested inside it: a native `<button>` isn't allowed to contain interactive descendants like `<input>`, so `class="hidden"` (rather than nesting) is how it's kept out of view.
+A click on the delete trigger checks the checkbox next to it and hides the item right away, like removing a newly picked file. The `FileReference` is deleted when the form is submitted. Put the checkbox next to `fileDeleteTrigger`, a `<button>` cannot contain an `<input>`, and hide it with `class="hidden"`.
 
-`ui:fileUploadDeleteCheckbox` requires the enclosing `ui:form.root` to have an `objectName` matching the controller action's argument name, and reads `property` from the surrounding `ui:field.root` when not given explicitly.
+`ui:fileUploadDeleteCheckbox` needs an `objectName` on the enclosing `ui:form.root` that matches the argument name of the controller action. It reads `property` from the surrounding `ui:field.root` unless you pass it.
 
-`existingFilesCount` tells the machine how many slots the existing items above already use, so `maxFiles` and the rejected-as-`TOO_MANY_FILES` behavior account for them too. It's deliberately a plain count, not the existing files themselves: whatever the machine holds as an accepted file also ends up in the hidden input's native `FileList` and gets resubmitted on the next form post - passing the existing `FileReference`s in as reconstructed `File` placeholders would silently overwrite each one with garbage content built from just its name and size.
+`existingFilesCount` counts the slots the existing items use, so `maxFiles` and the `TOO_MANY_FILES` rejection include them.
 
 ## API Reference
 

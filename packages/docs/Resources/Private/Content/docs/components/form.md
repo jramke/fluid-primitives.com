@@ -1,6 +1,6 @@
 # Form
 
-**A powerful form component with client-side validation, AJAX submission, and seamless Extbase integration.**
+**A form that submits to an Extbase action with `fetch` and shows validation errors on its fields.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "Form" } %}
 
@@ -8,16 +8,15 @@
 
 ## Features
 
-- Optional client-side validation with Standard Schema-compatible validators or custom callbacks
-- AJAX form submission with automatic error handling
-- Seamless Extbase controller integration
-- Field validation that follows the validation mode, from native constraints, your schema or callback, and async checks of single fields
-- Form state management (submitting, dirty, invalid, success, error)
-- Built-in primitives for editable content, state indicators, and status text
-- Works with all Field-aware components and basic HTML inputs
-- Automatic field name prefixing for Extbase
+- Submits with `fetch` and maps the `422` validation response of an Extbase action onto the fields
+- Renders Extbase's hidden `__trustedProperties` and `__identity` fields and sends the values under the plugin's argument namespace
+- Client-side validation with a Standard Schema validator such as Zod, or with a callback
+- Errors from native constraints, your schema or callback, async checks of single fields and the server show on the field according to its validation mode
+- Form state as `data-state` (`ready`, `submitting`, `invalid`, `success`, `error`), plus `data-submitting`, `data-invalid`, `data-dirty` and `data-touched`
+- Parts for the editable content, state indicators and status text
+- Works with every Field-aware primitive and plain HTML inputs
 
-See the complete [Form Guide](/docs/core-concepts/forms) for a complete form integration.
+The [Forms guide](/docs/core-concepts/forms) walks through a form from the template to the controller.
 
 ## Anatomy
 
@@ -45,7 +44,14 @@ See the complete [Form Guide](/docs/core-concepts/forms) for a complete form int
 
 {% component: "ui:installationSection", arguments: { "name": "Form" } %}
 
-Client-side validation is configured in your entry file with the `validation` option, not in the Fluid template. Pass either a Standard Schema-compatible validator such as Zod or a synchronous callback that reads the `values` object. `values` uses your field names as dot paths such as `person.name`, keeps leaf values as `string | File`, exposes arrays through `getAll()`, and can be converted to a nested object with `toObject()` or partially read with `pick()`. Validation and server errors stay flat and field-keyed, so nested fields still return errors under keys such as `person.name`. For submit results, return `true`, `false`, or field errors from `onSubmit`, and use `api.setErrorText()` or `api.setSuccessText()` for form-level messages. Send the values with [`extbase.post()`](/docs/client-utilities/extbase) from `onSubmit`, see the [forms guide](/docs/core-concepts/forms). Fields read their value `inputDebounceMs` after the last change (100 by default, never less than 50), so typing does not validate on every keystroke.
+Options that take a function go to `Form` in your entry file, because a function cannot travel through the server-rendered markup. Mount the form from your entry file as shown in [Send the values](/docs/core-concepts/forms#content-send-the-values).
+
+- `validation` - a Standard Schema validator such as Zod, or a synchronous callback that returns errors keyed by field name, see [Client-Side Validation](/docs/core-concepts/forms#content-client-side-validation)
+- `onSubmit` - receives `values` and `api`, and returns `true`, `false` or field errors. Send the values with [`extbase.post()`](/docs/client-utilities/extbase), set the form-level messages with `api.setErrorText()` and `api.setSuccessText()`
+- `render` - runs whenever the form state changes, for UI outside the form's own wiring
+- `inputDebounceMs` - how long fields wait after the last change before they read their value, 100 by default and at least 50, so validation waits for a pause in typing
+
+`values` uses your field names as dot paths such as `person.name` and keeps leaf values as `string | File`. Validation and server errors are keyed by field name too, so a nested field reports under `person.name`.
 
 ## API Reference
 

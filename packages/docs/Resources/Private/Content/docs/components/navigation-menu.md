@@ -65,21 +65,21 @@ When using the shared viewport pattern, add the optional viewport-related parts:
 
 ## Examples
 
-### Simple Dropdown
+### Add dropdowns to items
 
-Render navigation items with inline dropdown content.
+Give an item a `trigger` and a `content` to open a dropdown right below it. Open Products or Company below.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NavigationMenuExamples.simple" } %}
 
-### Links Only
+### Use plain links
 
-Use the navigation menu as a simple list of links, including a current page link.
+An item can hold a plain `link`. Set `current="{true}"` on the link of the page the visitor is on to render `aria-current="page"`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NavigationMenuExamples.withLinks" } %}
 
-### With Viewport
+### Build a mega menu
 
-Use `withViewport="{true}"` to render dropdown content inside a shared viewport. This pattern works well for richer header navigation with animated transitions and an indicator.
+Set `withViewport="{true}"` on the root and place the `content` parts in one shared `viewport`. The panels share one animated surface and an indicator marks the open item. Open Products, then Company.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NavigationMenuExamples.withViewport" } %}
 

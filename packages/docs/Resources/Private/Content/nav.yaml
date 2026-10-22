@@ -68,6 +68,8 @@
 
 - group: Client Utilities
   items:
+    - docs/client-utilities/mounting
+    - docs/client-utilities/component-hydrator
     - docs/client-utilities/extbase
     - docs/client-utilities/delayed-indicator
     - docs/client-utilities/async-list

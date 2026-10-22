@@ -1,0 +1,22 @@
+@utility inline-code {
+    --_border-color: var(--color-border);
+    --_text-color: var(--prose-code-color, var(--color-foreground));
+    font-variant-ligatures: none;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+    color: var(--_text-color);
+    background-color: #fcfcfc5e;
+    border: 1px solid color-mix(in oklab, var(--_border-color) 80%, transparent);
+    border-radius: 6px;
+    padding: 0.2em 0.3em;
+    font-size: 0.825rem;
+
+    :has(.text-sm &) & {
+        font-size: 0.75rem;
+    }
+
+    :has(.text-warning &) & {
+        --_text-color: var(--color-warning);
+        --_border-color: --alpha(var(--color-warning) / 50%);
+    }
+}

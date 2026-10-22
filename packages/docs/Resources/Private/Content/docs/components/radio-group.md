@@ -1,6 +1,6 @@
 # Radio Group
 
-**An easily stylable radio button component.**
+**A group of radio buttons for choosing one value.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "RadioGroup" } %}
 
@@ -9,9 +9,9 @@
 ## Features
 
 - Full keyboard navigation support
-- Supports horizontal and vertical orientations
-- Syncs with native form elements for proper form submission
-- Works with Field component for form integration
+- Horizontal and vertical orientation
+- Syncs with native inputs for form submission
+- Works with the Field component
 
 ## Anatomy
 
@@ -32,21 +32,21 @@
 
 ## Examples
 
-### Disabled Items
+### Disabled items
 
-Disable specific radio options.
+Set `disabled` on a single `radioGroup.item` to lock that option while the others stay selectable.
 
 {% component: "ui:componentExample", arguments: { "componentName": "RadioGroupExamples.disabledItems" } %}
 
-### Disabled Group
+### Disabled group
 
-Disable the entire radio group.
+Set `disabled` on `radioGroup.root` to lock every item at once.
 
 {% component: "ui:componentExample", arguments: { "componentName": "RadioGroupExamples.disabledGroup" } %}
 
-### No Default Value
+### No default value
 
-Start with no option selected by default.
+Leave out `defaultValue` and no option is selected until someone picks one.
 
 {% component: "ui:componentExample", arguments: { "componentName": "RadioGroupExamples.noDefault" } %}
 

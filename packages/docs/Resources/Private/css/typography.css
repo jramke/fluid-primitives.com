@@ -132,15 +132,7 @@
     }
 
     code:where(:not(.not-prose, .not-prose *, pre *)) {
-        font-variant-ligatures: none;
-        font-family: var(--font-mono);
-        font-weight: var(--font-weight-medium);
-        font-size: 0.925rem;
-        color: var(--prose-code-color);
-        background-color: #fcfcfc;
-        border: 1px solid color-mix(in oklab, var(--color-border) 80%, transparent);
-        border-radius: 6px;
-        padding: 0.2em 0.3em;
+        @apply inline-code;
     }
 
     :where(h2, h3, h4) code:where(:not(.not-prose, .not-prose *)) {

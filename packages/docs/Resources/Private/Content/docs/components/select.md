@@ -1,6 +1,6 @@
 # Select
 
-**A common form component for choosing a predefined value in a dropdown menu.**
+**A dropdown for choosing a predefined value, or several.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "Select" } %}
 
@@ -8,17 +8,17 @@
 
 ## Features
 
-- Support for single and multiple selection
-- Typeahead to allow focusing items by typing text
-- Keyboard navigation support including arrow keys, home/end
-- Supports disabled items and groups
-- Can host other widgets, like tabs, next to the list when the popup is a `dialog`
-- Works with Field component for form integration
-- Supports custom positioning
+- Single and multiple selection
+- Typeahead focuses items as you type
+- Keyboard navigation with arrow keys, home and end
+- Disabled items and groups
+- Hosts other widgets, like tabs, next to the list with the `dialog` popup type
+- Works with the Field component
+- Custom positioning
 
 ## Anatomy
 
-Zag puts the listbox semantics, focus, scrolling and the active option on `list`, so the options belong inside `list` rather than directly inside `content`, which is a plain wrapper around it (a dialog, with the `dialog` popup type). The styled `ui:select.content` is the `positioner` and `content` in one part, and `ui:select.list` is the `list` - you place it inside the content yourself:
+Place the options inside `list`, which carries the listbox semantics, focus and scrolling. `content` wraps it and is announced as a dialog with the `dialog` popup type. The styled `ui:select.content` combines `positioner` and `content` in one part, so you nest `ui:select.list` in it yourself:
 
 ```html
 <ui:select.content>
@@ -61,51 +61,51 @@ Zag puts the listbox semantics, focus, scrolling and the active option on `list`
 
 ## Examples
 
-### Default Value
+### Default value
 
-Set an initial selected value.
+Pass `defaultValue` as a list to preselect an item. The demo opens with Banana selected.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.defaultValue" } %}
 
-### Multiple Selection
+### Multiple selection
 
-Allow selecting multiple items.
+Set `multiple="{true}"` to select several items.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.multiple" } %}
 
-### Disabled Items
+### Disabled items
 
-Disable specific items in the list.
+Set `disabled: true` on an item of the collection to make it unselectable.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.disabledItems" } %}
 
-### With Item Groups
+### With item groups
 
-Organize items into logical groups.
+Set `groupByKey` on `ui:listCollection` to group the items, here by their `type`, and render an `itemGroup` with its label per group.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.withGroups" } %}
 
-### With Form Field
+### With form field
 
-Use with the Field component for form validation.
+Wrap the select in `ui:field.root` so it takes the field's `name`, `required` and invalid state. The demo is a country select for a shipping address.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.withField" } %}
 
-### With Tabs
+### With tabs
 
-By default `content` is a passthrough wrapper around the `list`, and the list carries the listbox role. Set `popupType` to `PopupType::Dialog` (an enum, so `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog')}"`) when the popup also holds other interactive widgets: `content` is then announced as a dialog, and `list` stays the listbox. Place those widgets next to the list inside `content`. Here a few tabs narrow the items down - the select keeps a single list, so the example moves it into the active tab's panel and swaps the machine's collection (hiding the other items) whenever the active tab changes.
+Set `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog')}"` when the popup holds more than the list. `content` is then announced as a dialog, `list` stays the listbox, and you place the other widgets next to the list inside `content`. In the demo, tabs narrow the produce down to fruits or vegetables.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.withTabs", "additionalFiles": {"WithTabs.entry.ts": "EXT:docs/Resources/Private/Components/ui/SelectExamples/WithTabs.entry.ts"} } %}
 
 ### Localization
 
-Default clear trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop.
+The label of the clear button ships in the language file and follows the site language. Pass `translations` to override it for one select.
 
 ```html
 <ui:select.root
-    collection="{myCollection}"
+    collection="{countries}"
     translations="{
-        clearTriggerLabel: f:translate(key: 'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:select.clear')
+        clearTriggerLabel: f:translate(key: 'LLL:EXT:my_extension/Resources/Private/Language/locallang.xlf:select.clear')
     }"
 >
     ...

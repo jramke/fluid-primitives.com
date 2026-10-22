@@ -1,14 +1,13 @@
 # Getting Started
 
-Get up and running with Fluid Primitives in just a few steps. This guide covers installation, basic setup, and creating your first component.
+Install Fluid Primitives, register your component collection and build your first component.
 
 ## Prerequisites
 
 - TYPO3 14+
 - PHP 8.3+
-- Basic familiarity with [Fluid Components](https://docs.typo3.org/other/typo3fluid/fluid/main/en-us/Usage/Components.html)
-- A modern JavaScript build setup like Vite, Webpack, etc. (Recommended)
-- To use components from `ui:add` without editing them: [praetorius/vite-asset-collector](https://packagist.org/packages/praetorius/vite-asset-collector) with the `vite` Fluid namespace registered, and your Vite config picking up `Resources/Private/Components/**/*.entry.ts` as entrypoints. Their templates load their entry file with `<vite:asset>`. See [Scaffolding with the CLI](/docs/core-concepts/primitives#content-scaffolding-with-the-cli) for other setups.
+- Familiarity with [Fluid Components](https://docs.typo3.org/other/typo3fluid/fluid/main/en-us/Usage/Components.html)
+- Recommended: a JavaScript build setup, for example Vite with [praetorius/vite-asset-collector](https://packagist.org/packages/praetorius/vite-asset-collector)
 
 ## Installation
 
@@ -21,15 +20,17 @@ npm install fluid-primitives@beta
 
 {% component: "ui:alert", arguments: {"title": "Version Match", "text": "Keep the Composer and npm package versions in sync to avoid compatibility issues.", "variant": "warning"} %}
 
-Also add `jramke/fluid-primitives` to the `require` of your sitepackage's `composer.json`, not only the project root. This makes sure the library loads before your sitepackage, which overrides like the [global context](/docs/core-concepts/context#content-global-context) rely on.
+Your sitepackage should require `jramke/fluid-primitives` in its own `composer.json`. Otherwise overrides, like the [global context](/docs/core-concepts/context#content-global-context), could load before the library and lose.
 
-Using TypeScript? Add the optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package to generate typed client props for `mountAll`/`mount` - see [Generating TypeScript Types](/docs/core-concepts/arguments#content-generating-typescript-types).
+### TypeScript
+
+Using TypeScript? Add the optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package to generate typed client props for `mountAll`/`mount`. Read more about [Generating TypeScript Types](/docs/core-concepts/arguments#content-generating-typescript-types).
 
 ```bash
 composer require --dev jramke/fluid-types
 ```
 
-### Canary Builds
+### Canary builds
 
 Need a fix before the next release? Use the canary builds:
 
@@ -40,7 +41,7 @@ npm install fluid-primitives@next
 
 ## Setup
 
-### 1. Create a Component Collection
+### 1. Create a component collection
 
 Create a `ComponentCollection` class in your sitepackage to register your component paths and contexts:
 
@@ -49,7 +50,7 @@ Create a `ComponentCollection` class in your sitepackage to register your compon
 
 declare(strict_types=1);
 
-namespace MyVendor\MySitepackage\Components;
+namespace MyVendor\MyExtension\Components;
 
 use Jramke\FluidPrimitives\Component\AbstractComponentCollection;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -61,8 +62,8 @@ final class ComponentCollection extends AbstractComponentCollection
     {
         $templatePaths = new TemplatePaths();
         $templatePaths->setTemplateRootPaths([
-            ExtensionManagementUtility::extPath('my_sitepackage', 'Resources/Private/Components/ui'),
-            ExtensionManagementUtility::extPath('my_sitepackage', 'Resources/Private/Components'),
+            ExtensionManagementUtility::extPath('my_extension', 'Resources/Private/Components/ui'),
+            ExtensionManagementUtility::extPath('my_extension', 'Resources/Private/Components'),
         ]);
         return $templatePaths;
     }
@@ -70,103 +71,114 @@ final class ComponentCollection extends AbstractComponentCollection
     public function getContextNamespaces(): array
     {
         return [
-            'MyVendor\\MySitepackage\\Components\\Contexts',
+            'MyVendor\\MyExtension\\Components\\Contexts',
         ];
     }
 }
 ```
 
-**Important:** Use `AbstractComponentCollection` from Fluid Primitives, not Fluid core.
+Registering `ui/` as its own root path makes `<ui:accordion.root>` resolve to `ui/Accordion/Root.html`. [File Structure](/docs/core-concepts/file-structure) shows the layout.
 
-Why two template paths? This lets you use `<ui:button>` instead of `<ui:ui.button>`. See [File Structure](/docs/core-concepts/file-structure) for details.
+The collection extends `AbstractComponentCollection` of Fluid Primitives. A collection built on the Fluid core class, or registered in `Configuration/Fluid/ComponentCollections.php`, cannot resolve `ui:prop` and the other `ui:*` ViewHelpers.
 
-{% component: "ui:alert", arguments: {"title": "No Configuration/Fluid/ComponentCollections.php", "text": "TYPO3 14.1+ can register component collections with configuration only. Fluid Primitives does not support this: those collections cannot resolve `ui:prop` and the other `ui:*` ViewHelpers, so a collection has to be a class extending `AbstractComponentCollection`.", "variant": "info"} %}
-
-### 2. Register the Namespace
+### 2. Register the namespace
 
 Add the `ui` namespace to your `ext_localconf.php`:
 
 ```php
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ui'][] =
-    'MyVendor\\MySitepackage\\Components\\ComponentCollection';
+    'MyVendor\\MyExtension\\Components\\ComponentCollection';
 ```
 
-{% component: "ui:alert", arguments: {"title": "Namespace Array", "text": "Fluid Primitives already registers ViewHelpers under `ui`. Append to the array instead of overwriting it.", "variant": "warning"} %}
+{% component: "ui:alert", arguments: {"title": "Namespace Array", "text": "Fluid Primitives registers its own ViewHelpers under `ui` too. Append your collection with `[] =` to keep both.", "variant": "warning"} %}
 
 ### 3. Include the Site Set (or TypoScript manually)
 
+Add the library's site set to the dependencies of your own set:
+
 ```yaml
-name: vendor/myext
-label: 'MyExt'
+name: my-vendor/my-extension
+label: 'My Extension'
 dependencies:
     - jramke/fluid-primitives
 ```
 
-### 4. Optional: Component Settings
+### 4. Optional: component settings
 
 Expose custom settings to component templates:
 
 ```typoscript
 plugin.tx_fluidprimitives {
     settings {
-        # Your custom settings here
+        privacyPageUid = 12
     }
 }
 ```
 
 These merge with `lib.contentElement.settings` and are available as `{settings}` in component templates.
 
-## Your First Component
+## Your first component
 
-Create a simple button at `Resources/Private/Components/ui/Button/Button.html`:
-
-```html
-<ui:prop name="variant" type="string" optional="{true}" default="primary" />
-<ui:prop name="type" type="string" optional="{true}" default="button" />
-
-<button type="{type}" class="{ui:cn(value: 'btn btn--{variant} {class}')}" {ui:attributes()}>
-    <f:slot />
-</button>
-```
-
-Use it anywhere in your templates:
+A tooltip that shows a short text for a trigger.
 
 ```html
-<ui:button variant="secondary" data-analytics="cta"> Get Started </ui:button>
+<ui:useProps name="primitives:tooltip.root" as="rootProps" />
+<ui:prop name="content" type="string" />
+
+<primitives:tooltip.root spreadProps="{rootProps}">
+    <primitives:tooltip.trigger class="{ui:cn(value: 'tooltip-trigger {class}')}">
+        <f:slot />
+    </primitives:tooltip.trigger>
+    <ui:portal>
+        <primitives:tooltip.positioner class="tooltip-positioner">
+            <primitives:tooltip.content class="tooltip">
+                <primitives:tooltip.arrow class="tooltip-arrow" />
+                {content}
+            </primitives:tooltip.content>
+        </primitives:tooltip.positioner>
+    </ui:portal>
+</primitives:tooltip.root>
+
+<vite:asset entry="EXT:my_extension/Resources/Private/Components/ui/Tooltip/Tooltip.entry.ts" />
 ```
 
-**What's happening:**
-
-- [ui:prop](/docs/viewhelpers/ui-prop) defines the components arguments (props) with types and defaults
-- [ui:attributes](/docs/viewhelpers/ui-attributes) forwards any extra attributes (like `data-*`)
-- [ui:cn](/docs/viewhelpers/ui-cn) is a helper for conditional class names
-- `{class}` is automatically available for additional classes
-- `<f:slot />` renders child content
-
-## Adding Interactive Components
-
-For components with client-side behavior (accordion, dialog, tabs, etc.), you'll also need to initialize them in JavaScript.
-
-Example with a collapsible:
+Use it anywhere in your templates. The slot is the label of the trigger, `content` is the text of the tooltip:
 
 ```html
-<ui:collapsible.root>
-    <ui:collapsible.trigger>Toggle content</ui:collapsible.trigger>
-    <ui:collapsible.content> Hidden content that expands/collapses </ui:collapsible.content>
-</ui:collapsible.root>
+<ui:tooltip content="Orders ship within 2 working days.">Delivery time</ui:tooltip>
 ```
+
+Every prop of the primitive works on your component too, like `openDelay`, `disabled` or `positioning`:
+
+```html
+<ui:tooltip content="Free returns for 30 days" openDelay="200" positioning="{placement: 'bottom'}">
+    Returns
+</ui:tooltip>
+```
+
+The template uses:
+
+- [ui:useProps](/docs/viewhelpers/useProps) - takes over the props of the tooltip primitive, so your component accepts them without declaring each one
+- `spreadProps` - hands the taken-over props to the primitive
+- [ui:prop](/docs/viewhelpers/prop) - defines your own `content` prop
+- `primitives:tooltip.*` - the parts of the [tooltip primitive](/docs/components/tooltip), which bring the delays, keyboard support and ARIA attributes
+- `<f:slot />` - renders the child content of the tag inside the trigger
+- [ui:portal](/docs/viewhelpers/portal) - renders the tooltip at the end of `<body>`
+- `<vite:asset>` - loads the entry file when the component is used
+
+The entry file hydrates every tooltip on the page in the browser:
 
 ```typescript
 import { mountAll } from 'fluid-primitives';
-import { Collapsible } from 'fluid-primitives/collapsible';
+import { Tooltip } from 'fluid-primitives/tooltip';
 
-mountAll('ui:collapsible', ({ props }) => new Collapsible(props).init());
+mountAll('ui:tooltip', ({ props }) => new Tooltip(props).init());
 ```
 
-See [Hydration](/docs/core-concepts/hydration) for the full picture on client-side setup.
+[Hydration](/docs/core-concepts/hydration) covers the client-side setup in full, [Styling](/docs/core-concepts/styling) the data attributes you can target.
 
-## Next Steps
+## Next steps
 
-- [Core Concepts](/docs/core-concepts) - Understand composition, context, and hydration
+- [Core Concepts](/docs/core-concepts) - Composition, context and hydration
 - [Components](/docs/components) - Browse available primitives
 - [ViewHelpers](/docs/viewhelpers) - Reference for `ui:prop`, `ui:ref`, and more

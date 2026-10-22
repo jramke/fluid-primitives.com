@@ -9,8 +9,8 @@
 ## Features
 
 - Based on the ARIA switch pattern
-- Syncs with native form elements for proper form submission
-- Works with Field component for form integration
+- Syncs with a native checkbox for form submission
+- Works with [Field](/docs/components/field)
 - Supports disabled, invalid, required, and read-only states
 - Full keyboard support
 
@@ -32,21 +32,21 @@
 
 ## Examples
 
-### Default Checked
+### Start checked
 
-Set the switch to be checked by default.
+Set `defaultChecked` to render the switch on.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.defaultChecked" } %}
 
-### Disabled
+### Disable the switch
 
-Prevent interaction with the switch.
+Set `disabled` to lock the switch in its current state.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.disabled" } %}
 
-### With Form Field
+### Add helper text and validation
 
-Use the switch with the Field component for descriptions and validation.
+Wrap the switch in a [Field](/docs/components/field) for a helper text, validation messages and the `name` it submits under.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SwitchExamples.withField" } %}
 

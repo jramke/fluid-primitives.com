@@ -33,15 +33,15 @@
 
 ## Examples
 
-### Multiple Expanded Panels
+### Allow several open panels
 
-Allow multiple accordion items to be expanded at once by setting `multiple` to true.
+Set `multiple` to keep several panels open at once. Try opening two items below.
 
 {% component: "ui:componentExample", arguments: { "componentName": "AccordionExamples.multiple" } %}
 
-### Disabled Items
+### Disable single items
 
-Disable specific accordion items to prevent interaction.
+Set `disabled` on an `accordion.item` to keep its panel closed. The second item below is disabled.
 
 {% component: "ui:componentExample", arguments: { "componentName": "AccordionExamples.disabled" } %}
 

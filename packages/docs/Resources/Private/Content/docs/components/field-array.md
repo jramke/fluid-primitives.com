@@ -8,12 +8,12 @@
 
 ## Features
 
-- Add and remove rows client-side, with contiguous `name[0]`, `name[1]`, ... indexing maintained automatically as rows are removed
-- Existing rows render for real on the server - no JavaScript required to see or submit data that's already there
-- Works with `Field` and any Field-aware primitive (Input, Select, Checkbox, ...) nested inside a row
-- Row `name`s use the same bracket notation (`people[0][firstName]`) Extbase and `FormValues` already understand
-- Optional `minItems`/`maxItems` bounds - `addTrigger`/`removeTrigger` disable themselves once a bound is reached, and `append()`/`remove()` are no-ops past it
-- `emptyState`/`addTrigger`/`removeTrigger` already reflect the correct hidden/disabled state in the server-rendered HTML, from `itemCount`, not only once JavaScript hydrates
+- Add and remove rows in the browser, `name[0]`, `name[1]`, ... stay contiguous as rows are removed
+- Existing rows are rendered on the server, so they show and submit without JavaScript
+- Works with `Field` and the field-aware primitives (Input, Select, Checkbox, ...) in a row
+- Row names use the bracket notation Extbase understands (`people[0][firstName]`)
+- Optional `minItems` and `maxItems`, `addTrigger` and `removeTrigger` disable themselves at the bound
+- `emptyState`, `addTrigger` and `removeTrigger` start with the right hidden or disabled state in the server-rendered HTML, derived from `itemCount`
 
 ## Anatomy
 
@@ -42,71 +42,49 @@
 
 {% component: "ui:installationSection", arguments: { "name": "FieldArray" } %}
 
-{% component: "ui:alert", arguments: {"title": "Also install Field", "text": "FieldArray only manages rows and indexing - each row's own fields still need the Field primitive (typo3 ui:add field) nested inside.", "variant": "info"} %}
-
-## How It Works
-
-A row's markup is authored once, inside `itemTemplate` - a `<template>` element that's never rendered directly, only cloned client-side whenever `addTrigger` is clicked. Existing rows are a separate, ordinary loop over data you already have, rendered for real:
-
-```html
-<primitives:fieldArray.itemTemplate>
-    <primitives:fieldArray.item>
-        <!-- one row's fields, authored once -->
-    </primitives:fieldArray.item>
-</primitives:fieldArray.itemTemplate>
-
-<primitives:fieldArray.itemGroup>
-    <f:for each="{people}" as="person" iteration="it">
-        <primitives:fieldArray.item index="{it.index}">
-            <!-- the same row markup, authored again with this person's data -->
-        </primitives:fieldArray.item>
-    </f:for>
-</primitives:fieldArray.itemGroup>
-```
-
-Yes, the row is written twice - once for the stencil, once for the loop. This isn't a shortcut taken for `FieldArray` specifically; it's the same pattern `FileUpload` already uses for mixing already-uploaded files with newly-picked ones (see its docs' "Editing" section), and it's what keeps every row genuinely server-rendered rather than reconstructed from JSON after the page loads.
-
-Each `fieldArray.item`'s `index` prop (omitted inside `itemTemplate`, where no real index exists yet) automatically prefixes every nested `Field`'s `name` - `<ui:field name="firstName">` inside row `1` of an array named `people` becomes `people[1][firstName]` without you writing that out yourself.
-
-### Rows and the Trusted Properties of an Extbase Form
-
-Inside a `Form` bound to a persisted object, the form signs the field names of every row rendered on the server into `__trustedProperties` (`people[0][firstName]`, `people[1][firstName]`, ...). The stencil in `itemTemplate` is left out, because its index is only known once the client adds the row. Extbase rejects a name that is not signed for a persisted object, so allow the properties of the rows added on the client in the property mapping configuration of the argument, e.g. `forProperty('people.*')->allowAllProperties()` in the `initialize...Action`.
-
-### Reflecting Row Count on the Server
-
-`root` takes a required `itemCount` prop - the number of rows you're about to render in the loop above. Nothing counts your rows for you (they're your own `f:for` loop, not a collection `FieldArray` owns), so pass it explicitly, e.g. `itemCount="{people -> f:count()}"`. It's what lets `emptyState`/`addTrigger`/`removeTrigger` start in the correct hidden/disabled state in the server-rendered HTML itself, matching `minItems`/`maxItems`, rather than only correcting themselves once JavaScript hydrates.
-
-```html
-<primitives:fieldArray.root name="people" itemCount="{people -> f:count()}">
-    <!-- ... -->
-</primitives:fieldArray.root>
-```
+{% component: "ui:alert", arguments: {"title": "Also install Field", "text": "The fields in a row are `Field`s, so add the Field primitive too (typo3 ui:add field).", "variant": "info"} %}
 
 ## Examples
 
-### Starting Empty
+### Render the rows you already have
 
-A `FieldArray` with no rows yet - `emptyState` shows until the first row is added.
+Write a row twice: once in `itemTemplate`, which the browser clones for every added row, and once in an `f:for` loop over your data, which the server renders. The demo at the top of the page renders two people this way.
+
+Pass the index of the loop to each `item` as `index`. A `Field` in a row gets its name prefixed with the array name and the index, so `firstName` in row 1 of `people` becomes `people[1][firstName]`.
+
+Pass the number of rows you render as `itemCount`, e.g. `itemCount="{people -> f:count()}"`. It lets `emptyState`, `addTrigger` and `removeTrigger` start with the right state in the server-rendered HTML, matching `minItems` and `maxItems`.
+
+Fields in an added row hydrate once your entry file calls `mountAll` for them in `onItemAdded`.
+
+### Start with an empty list
+
+With `itemCount="0"`, the `emptyState` shows until the first row is added.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.empty" } %}
 
-### Limiting Row Count
+### Limit the number of rows
 
-`minItems="1"` disables `removeTrigger` once a single row remains; `maxItems="3"` disables `addTrigger` once three rows exist. The status text below the rows ("2 of 3 added") isn't a `FieldArray` feature by itself - it's a plain element the row markup authors itself (`{ui:ref(name: 'status', context: 'fieldArray')}`), kept in sync from `onItemAdded`/`onItemRemoved` the same way this example already mounts each row's own `Field`/`Input`.
+`minItems="1"` disables `removeTrigger` once one row is left, `maxItems="3"` disables `addTrigger` at three rows. The "2 of 3 added" text is your own element, marked with `{ui:ref(name: 'status', context: 'fieldArray')}` and updated from `onItemAdded` and `onItemRemoved`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.limited" } %}
 
-### Rows With Portalled Components
+### Add a Select, a DatePicker and a Popover to a row
 
-A row that composes components rendering their content through `ui:portal`: a `Select`, a `DatePicker` and a `Popover`. A portal inside `itemTemplate` renders in place, wrapped in `<div data-portal>`, because the stencil is inert. When a row is added, the clone moves the wrapper to where the portal wants to go - the end of `<body>`, or after the `ui:portalContainer` of its name - and removing the row removes it again. A `ui:portal` with `disabled` stays in the row. The row's entry file mounts the components the clone brought along with `mountAll`. The row is written once, in an `<f:section name="row">` that the stencil and the loop both `f:render` - a long row does not have to be maintained twice.
+Components that render their content through `ui:portal` work in a row. An added row moves that content to the end of `<body>` (or after the `ui:portalContainer` of its name) and removes it again with the row. A `ui:portal` with `disabled` stays in the row.
+
+The demo writes the row once in an `<f:section name="row">` that `itemTemplate` and the loop both `f:render`, and calls `mountAll` for the row's components in `onItemAdded`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.complex", "additionalFiles": {"Complex.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldArrayExamples/Complex.entry.ts"} } %}
 
-### Full Form With Client-Side Validation
+### Validate a guest list
 
-A complete `Form` wrapping a `FieldArray` of guests, each with a `name`/`email` pair - required fields and the email format are validated live as you type or blur, using a [Zod schema](/docs/core-concepts/forms#client-side-validation) passed straight to `validation`. `z.array(z.object({...}))` covers however many guest rows currently exist (added or removed) without `FieldArray` needing to know about validation at all - each issue's own path (e.g. `['guests', 0, 'email']`) is matched back to the exact row's own field automatically. Submission is blocked until every row is valid.
+A `Form` with a `FieldArray` of guests, each with a name and an email address. Pass a [Zod schema](/docs/core-concepts/forms#content-client-side-validation) to `validation`: `z.array(z.object({...}))` covers however many rows exist, and the path of each issue (e.g. `['guests', 0, 'email']`) lands on the field of that row. The form submits once every row is valid.
 
 {% component: "ui:componentExample", arguments: { "componentName": "GuestList", "additionalFiles": {"GuestList.entry.ts": "EXT:docs/Resources/Private/Components/GuestList/GuestList.entry.ts"} } %}
+
+### Save rows to a persisted object
+
+Inside a `Form` bound to a persisted object, `__trustedProperties` signs the field names of the rows rendered on the server (`guests[0][name]`, `guests[1][name]`, ...). Rows added in the browser are unsigned, and Extbase rejects unsigned names for a persisted object. Allow them in the property mapping configuration of the argument, e.g. `forProperty('guests.*')->allowAllProperties()` in `initializeUpdateAction()`.
 
 ## API Reference
 

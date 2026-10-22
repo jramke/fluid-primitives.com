@@ -9,9 +9,9 @@
 ## Features
 
 - Single or multiple selection
-- Roving focus: the group is one tab stop and the arrow keys move between the items, with <kbd>Home</kbd> and <kbd>End</kbd> to jump to the first and last item
+- Roving focus with arrow keys, <kbd>Home</kbd> and <kbd>End</kbd>
 - Supports horizontal and vertical orientations
-- Optionally prevents the pressed item from being deselected
+- Can keep one item pressed
 - Supports disabled items and a disabled group
 
 ## Anatomy
@@ -28,27 +28,27 @@
 
 ## Examples
 
-### Multiple
+### Allow several pressed items
 
-Allow several items to be pressed at the same time.
+Set `multiple` so items press independently. Bold, italic and underline below combine.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToggleGroupExamples.multiple" } %}
 
-### Vertical Orientation
+### Stack the items vertically
 
-Stack the items vertically. The arrow keys follow the orientation.
+Set `orientation` to vertical. The up and down arrow keys move the focus.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToggleGroupExamples.vertical" } %}
 
-### Disabled
+### Disable items
 
-Disable the whole group, or single items. A disabled group always wins over an item, an item can not opt out of it.
+Set `disabled` on the group to disable all its items, or on single items. The first group below is disabled, in the second the Center item is.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToggleGroupExamples.disabled" } %}
 
-### Not Deselectable
+### Keep one item pressed
 
-Keep one item always pressed. This has no effect with `multiple`.
+Set `deselectable="{false}"` for a choice like a billing period, where one option stays selected. `multiple` ignores it.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToggleGroupExamples.notDeselectable" } %}
 

@@ -8,11 +8,11 @@
 
 ## Features
 
-- Multiple selection support (unlike RadioGroup which is single selection)
-- Optional maximum number of selections via `maxSelectedValues`
+- Selects several values at once
+- Optional limit on the selection with `maxSelectedValues`
 - Full keyboard navigation support
-- Syncs with native form elements for proper form submission
-- Works with Field component for form integration
+- Syncs with native inputs for form submission
+- Works with the Field component
 
 ## Anatomy
 
@@ -35,33 +35,33 @@
 
 ## Examples
 
-### Default Checked
+### Default checked
 
-Pre-select multiple options using an array of values.
+Pass the values to preselect as a list in `defaultValue`. The notification preferences start with email and push checked.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.defaultChecked" } %}
 
-### Disabled Items
+### Disabled items
 
-Disable specific checkbox options.
+Set `disabled` on a single `checkbox.root` to lock that option while the others stay interactive.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.disabledItems" } %}
 
-### Disabled Group
+### Disabled group
 
-Disable the entire checkbox group.
+Set `disabled` on `checkboxGroup.root` to lock every option at once.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.disabledGroup" } %}
 
-### Maximum Selections
+### Maximum selections
 
-Limit the number of selectable options. Once the limit is reached, remaining unchecked options are automatically disabled.
+Set `maxSelectedValues` to cap the selection. Pick two colors in the demo and the remaining one is disabled until you uncheck another.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.maxSelected" } %}
 
-### Select All
+### Select all
 
-Implement a "Select All" checkbox that toggles all options.
+A checkbox above the group checks or clears every option, and shows the indeterminate state while only some are checked. The entry file tab shows how the two are wired.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CheckboxGroupExamples.selectAll", "additionalFiles": {"SelectAll.entry.ts": "EXT:docs/Resources/Private/Components/ui/CheckboxGroupExamples/SelectAll.entry.ts"} } %}
 

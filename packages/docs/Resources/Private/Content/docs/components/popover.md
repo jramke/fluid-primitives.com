@@ -36,32 +36,32 @@
 
 ## Examples
 
-### With Close Button
+### Add a close button
 
-Show a close button inside the popover.
+Set `showCloseButton` on `popover.content` to add a close button in the corner.
 
 {% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.withCloseButton" } %}
 
-### Custom Positioning
+### Change the placement
 
-Control where the popover appears relative to the trigger.
+Pass `placement` through the `positioning` prop. The popover below opens to the right of its trigger.
 
 {% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.customPositioning" } %}
 
-### Modal Mode
+### Make it modal
 
-Make the popover modal to trap focus and block interaction with the rest of the page.
+Set `modal` to trap focus and block interaction with the rest of the page while the popover is open.
 
 {% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.modal" } %}
 
-### Localization
+### Translate the close button
 
-Default close trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop.
+The label of the close button comes from the library's language file and follows the site language. Override it per template with the `translations` prop:
 
 ```html
 <ui:popover.root
     translations="{
-        closeTriggerLabel: f:translate(key: 'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:popover.close')
+        closeTriggerLabel: f:translate(key: 'LLL:EXT:my_extension/Resources/Private/Language/locallang.xlf:popover.close')
     }"
 >
     ...

@@ -1,6 +1,6 @@
 # Clipboard
 
-**A component to copy text to the clipboard.**
+**A button that copies a value to the clipboard, with an optional input that shows it.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "Clipboard" } %}
 
@@ -8,9 +8,9 @@
 
 ## Features
 
-- Supports copying text to the clipboard
-- Visual feedback when copying is successful
-- Supports custom timeout for the copied state
+- Copies text to the clipboard
+- Switches to a copied state as visual feedback
+- Custom duration of the copied state with `timeout` (3000 ms by default)
 
 ## Anatomy
 
@@ -32,34 +32,32 @@
 
 ## Examples
 
-### Copy Button Only
+### Copy button on its own
 
-Display only a copy button without the input field.
+Leave out the `input` for a copy button on its own. The demo copies a share link.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ClipboardExamples.copyButtonOnly" } %}
 
-### Custom Timeout
+### Custom timeout
 
-Set a custom duration for how long the "copied" state is shown.
+Set `timeout` in milliseconds to change how long the copied state stays. The button in the demo reads "Copied for 5 seconds!" for `timeout="5000"`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ClipboardExamples.customTimeout" } %}
 
 ### Localization
 
-Default clipboard trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop.
-
-Note that Zag.js uses a function for the trigger label to allow dynamic labels based on the copied state. Fluid Primitives simplifies this by accepting static strings for both states, which are then merged into the appropriate function internally.
+The trigger labels for the idle and the copied state ship in the language file and follow the site language. Pass `translations` with one string per state to override them for one clipboard.
 
 ```html
 <f:variable
     name="clipboardTranslations"
     value="{
-        triggerLabelIdle: '{f:translate(key: \'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:clipboard.copy\')}',
-        triggerLabelCopied: '{f:translate(key: \'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:clipboard.copied\')}'
+        triggerLabelIdle: '{f:translate(key: \'LLL:EXT:my_extension/Resources/Private/Language/locallang.xlf:clipboard.copy\')}',
+        triggerLabelCopied: '{f:translate(key: \'LLL:EXT:my_extension/Resources/Private/Language/locallang.xlf:clipboard.copied\')}'
     }"
 />
 
-<ui:clipboard.root value="Copy me" translations="{clipboardTranslations}"> ... </ui:clipboard.root>
+<ui:clipboard.root value="SUMMER24" translations="{clipboardTranslations}"> ... </ui:clipboard.root>
 ```
 
 ## API Reference

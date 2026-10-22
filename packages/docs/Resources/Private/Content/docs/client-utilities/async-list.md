@@ -1,8 +1,8 @@
 # AsyncList
 
-**Loads, filters and pages a list of items asynchronously, without any DOM. A thin wrapper around the machine of `@zag-js/async-list`.**
+**Loads, filters and pages a list of items asynchronously, without any DOM. Wraps the machine of `@zag-js/async-list`.**
 
-`AsyncList` has no rendering of its own: you create it with a `load` function, subscribe to it and render the items yourself. The Combobox [Async Search](/docs/components/combobox) example uses it to fill the list from an Extbase action while the user types.
+Create it with a `load` function, subscribe to it and render the items yourself. The Combobox [Async Search](/docs/components/combobox) example uses it to fill the list from an Extbase action while the user types.
 
 ## Usage
 
@@ -33,7 +33,7 @@ inputEl.addEventListener('input', () => setFilter(inputEl.value));
 list.init();
 ```
 
-`setFilter()` reloads the list straight away. Debouncing it is up to you, so you decide the delay and can skip it where it isn't needed, e.g. when the list only reloads from `dependencies`. Call `list.destroy()` when you are done with it.
+`setFilter()` reloads the list right away. Debounce the call where typing drives the filter, as above, and skip the debounce where it is not needed, for example when the list only reloads from `dependencies`. Call `list.destroy()` when you are done with the list.
 
 ## Options
 
@@ -43,8 +43,8 @@ list.init();
 
 {% component: "ui:apiReference", arguments: { "symbol": "AsyncList" } %}
 
-## The api object
+## Read the state of the list
 
-`list.api` and the argument of a `subscribe()` listener are the api of the machine:
+`list.api` and the argument of a `subscribe()` listener give you the api of the machine:
 
 {% component: "ui:ComponentPropsTable", arguments: { "name": "AsyncList", "parts": [] } %}

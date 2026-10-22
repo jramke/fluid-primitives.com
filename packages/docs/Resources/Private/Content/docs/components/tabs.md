@@ -11,7 +11,6 @@
 - Full keyboard navigation support with arrow keys
 - Supports horizontal and vertical orientations
 - Supports automatic and manual tab activation modes
-- Content is lazy mounted by default
 - Supports disabled tabs
 
 ## Anatomy
@@ -32,21 +31,21 @@
 
 ## Examples
 
-### Vertical Orientation
+### Stack the tabs vertically
 
-Display tabs in a vertical layout.
+Set `orientation` to vertical and lay the list out beside the panels. The up and down arrow keys move between the tabs.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TabsExamples.vertical" } %}
 
-### Disabled Tabs
+### Disable a tab
 
-Disable specific tabs to prevent interaction.
+Set `disabled` on a `tabs.trigger`. The second tab below is disabled.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TabsExamples.disabledTabs" } %}
 
-### Manual Activation
+### Activate tabs on Enter
 
-Require pressing Enter or Space to activate tabs instead of activating on focus.
+Set `activationMode` to manual: the arrow keys move focus, and <kbd>Enter</kbd> or <kbd>Space</kbd> shows the panel.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TabsExamples.manualActivation" } %}
 

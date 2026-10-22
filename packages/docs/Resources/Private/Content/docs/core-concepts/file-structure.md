@@ -1,14 +1,16 @@
 # File Structure
 
-Organize your components for maintainability as your design system grows.
+By default components live in `Resources/Private/Components/` of your extension. This is the folder structure we and Fluid itself recommend and the one `ui:add` writes.
 
-## Basic Structure
+Its content structure differs from the structure of [native Fluid components](https://docs.typo3.org/other/typo3fluid/fluid/main/en-us/Usage/Components.html), which give every segment of the tag name its own folder and a template named after the component.
 
-Components live in `Resources/Private/Components/` within your sitepackage.
+Fluid Primitives keeps the parts of one component together in a single folder. The last segment of the tag name is the file, the one before it the folder. `AbstractComponentCollection` of Fluid Primitives resolves names this way, and a collection cannot change the mapping.
 
-### Single-Part Components
+## Basic structure
 
-Simple components like buttons go in a folder matching their name:
+### Single-part components
+
+A component that is a single element goes in a folder named like the component:
 
 ```
 Components/
@@ -17,9 +19,9 @@ Components/
         └── Button.html
 ```
 
-### Multi-Part Components
+### Multi-part components
 
-Composable components have a `Root.html` plus additional parts:
+A composable component has a `Root.html` plus one file per part:
 
 ```
 Components/
@@ -31,89 +33,32 @@ Components/
         └── Content.html   # Expandable content
 ```
 
-### Root or the Folder Name
+### Root or the folder name
 
-A folder has one designated root, and there are two ways to name it:
+A folder has one root template, and there are two ways to name it:
 
-- **`Root.html`** is the default for multi-part components (`<ui:accordion.root>`). The `.root`
-  suffix makes the entry point obvious next to its parts.
-- **A file named like the folder** is for a component that is a single element first and only has
-  parts as optional extras. `Button/Button.html` with an optional `Button/Indicator.html` gives
-  `<ui:button>` and `<ui:button.indicator>`, no `.root` needed.
+- **Root** is the default name for multi-part components (`<ui:accordion.root>`). The `.root` suffix makes the entry point obvious next to its parts.
+- **A file named like the folder** is for a component that is a single element first and has parts as optional extras. `Button/Button.html` with an optional `Button/Indicator.html` gives `<ui:button>` and `<ui:button.indicator>`, no `.root` needed.
 
-Use one of them per folder. Without a `Root.html`, the file named like the folder is the root and
-every other file in the folder is one of its parts. With a `Root.html`, a file named like the folder
-is just another part (`Input/Input.html` is `<ui:input.input>`).
+Use one of them per folder. Every other file in the folder is a part of the root and has access to its context, so `<ui:button.indicator>` can read the context of its button. With a `Root.html`, a file named like the folder is a part like any other (`Input/Input.html` is `<ui:input.input>`).
 
-**Changed:** a folder with `Button/Button.html` and further files but no `Root.html` used to make
-every further file its own independent root. They are parts of `Button` now, so
-`<ui:button.indicator>` has access to the context of its button. If you relied on independent roots
-in such a folder, move them to their own folder, like a sibling `ButtonExamples/` folder.
+### Independent components in one folder
 
-## How Root Components Are Identified
+A folder with neither a `Root.html` nor a file named like the folder holds independent components. Each file is its own root, which suits a set of icons: `Icon/Menu.html` is `<ui:icon.menu>` and `Icon/Copy.html` is `<ui:icon.copy>`.
 
-A component becomes "root" - gets its own `rootId`, PHP context class, and client-side hydration -
-based on where its file sits on disk, not on registering it anywhere. A file is root if:
+A wrapper folder around the parts of another component needs that component's root as well, even as a thin `ui:useProps` passthrough in `Root.html` or the file named like the folder. Without it, every wrapped part counts as an independent component.
 
-- it's a **single-part component**: its name matches its own containing folder
-  (`Button/Button.html`), or
-- it's literally named `Root.html` (`Accordion/Root.html`), or
-- **its own folder has neither of the above** - no `Root.html` and no file named like the folder
-  claims to be the folder's designated root, so every file in it is treated as its own independent
-  root component. This covers a nested folder of demo/example templates as much as a flat folder of
-  otherwise-unrelated small components (a set of icons, each its own file, none named like the
-  folder).
+### Nested folders
 
-This means folders can nest arbitrarily deep with no extra template path registration for
-_detecting_ a file as root at any depth. Its own identity (the key its context and client-side
-hydration data are stored under) mirrors that same folder path, one nested level per segment,
-minus only a trailing `.root` marker - a real `Root.html` names the same folder its own siblings
-already resolve to, so it adds nothing of its own:
+Nest folders to group components. `ui/molecules/CheckboxGroup/Root.html` is `<ui:molecules.checkboxGroup.root>`. The folder path is part of the name, so `molecules.checkboxGroup` and a plain `checkboxGroup` are two components, each with its own [context class](/docs/core-concepts/context#content-custom-context-classes).
 
-- An atomic-design tier is kept as a real, distinct identity level, not collapsed away -
-  `<ui:molecules.checkboxGroup.root>` becomes `molecules.checkboxGroup`, `<ui:molecules.tooltip.root>`
-  becomes `molecules.tooltip` - siblings under the same `molecules` namespace, never merged with
-  each other or with an unrelated, untiered `checkboxGroup`/`tooltip`.
-- A component's own folder is _itself_ the leaf identity holding its real instance data
-  (`hydrationData.ui.checkboxGroup.<rootId>`) - never a namespace something else can nest under. An
-  independently-root leaf (folder-shape default) keeps its own last segment for exactly this
-  reason: it's genuinely distinguishing identity, not a marker to drop.
+### One component per folder
 
-```
-Components/
-└── ui/
-    ├── molecules/
-    │   └── CheckboxGroup/
-    │       ├── Root.html            # identity "molecules.checkboxGroup"
-    │       └── Label.html           # identity "molecules.checkboxGroup" - shares its root's identity
-    ├── CheckboxGroup/
-    │   └── Root.html                # identity "checkboxGroup" - a leaf holding real instance data
-    └── CheckboxGroupExamples/
-        └── SelectAll.html           # <ui:checkboxGroupExamples.selectAll> - identity "checkboxGroupExamples.selectAll", own root, own context class, own hydration bucket
-```
+Keep a component's own folder for its own parts. A component nested in it, like `ui/Dialog/CookieSettings/CookieSettings.html`, stores its client data inside the dialog's, so `mountAll('ui:dialog', ...)` takes it for a dialog instance. Give it a folder next to the others: `ui/CookieSettings/CookieSettings.html`.
 
-**Disallowed: nesting an unrelated root inside a real component's own folder.** A component's own
-folder is already a leaf identity (it holds that component's real instance records) - it can never
-also be a namespace another, unrelated root nests under. This is why a demo/example that needs its
-own context class or hydration bucket lives in its own sibling `<Component>Examples/` folder
-(`ui/CheckboxGroupExamples/`, next to `ui/CheckboxGroup/`), never nested inside the real
-component's own folder (`ui/CheckboxGroup/Examples/`) - the latter would make `checkboxGroup` both
-a leaf record and a namespace at once, and `mountAll('ui:checkboxGroup', ...)` would mistake the
-nested example for a real `CheckboxGroup` instance. The same rule applies one level up too: don't
-place another component's own root inside a folder that already belongs to a different declared
-root (`MyComponent/MyComponent.html` plus `MyComponent/AnotherComponent/AnotherComponent.html`) -
-give `AnotherComponent` its own top-level folder instead.
+## Recommended structure
 
-**Caveat**: this only looks at which files exist in a folder, not at what a file's own body does.
-If you build a thin wrapper folder around another component's parts and don't (yet) wrap that
-component's own root there too, every part you _did_ wrap gets treated as its own root - from that
-folder's point of view, there is no `Root.html` and no file named like the folder in it. Wrap the
-part's actual root (`Root.html`, or the file named like the folder) as well, even as a thin
-`ui:useProps` passthrough, to avoid this.
-
-## Recommended Structure
-
-As your component library grows, separate primitive building blocks from composed components:
+Recommended: keep primitives in `ui/` and your compositions next to it.
 
 ```
 Components/
@@ -135,28 +80,11 @@ Components/
     └── RegisterDialog.html
 ```
 
-**Why this split?**
+`<ui:alert.root>` gives you full control over the layout, `<ui:alert>` is the ready-made composition. Your [component collection](/docs/getting-started#content-setup) registers both `ui/` and `Components/` as template root paths.
 
-- `ui/` contains flexible primitives with minimal opinions
-- Root `Components/` contains opinionated, ready-to-use compositions
-- You can use `<ui:alert.root>` for flexibility or `<ui:alert>` for convenience
+## Composed components
 
-### Template Path Configuration
-
-Register both paths so `ui/` components don't need the extra prefix:
-
-```php
-$templatePaths->setTemplateRootPaths([
-    // First: ui/ subfolder (so <ui:button> works, not <ui:ui.button>)
-    ExtensionManagementUtility::extPath('my_sitepackage', 'Resources/Private/Components/ui'),
-    // Second: root Components folder
-    ExtensionManagementUtility::extPath('my_sitepackage', 'Resources/Private/Components'),
-]);
-```
-
-## Composed Components
-
-Creating wrapper components reduces repetitive markup. Here's an `Alert` that composes the primitive parts:
+A composed component wraps primitive parts to save repetitive markup. This `Alert` takes a title and an optional text:
 
 **`Components/Alert/Alert.html`**:
 
@@ -182,15 +110,17 @@ Creating wrapper components reduces repetitive markup. Here's an `Alert` that co
 
 ```html
 <!-- Simple API for common cases -->
-<ui:alert title="Heads up" text="Something important happened" variant="warning" />
+<ui:alert
+    title="Delivery delayed"
+    text="Your order ships within 3 working days."
+    variant="warning"
+/>
 
-<!-- Or use primitives directly for custom layouts -->
+<!-- Or use the parts directly for custom layouts -->
 <ui:alert.root variant="error">
     <ui:alert.icon />
     <ui:alert.content>
-        <strong>Error:</strong> Custom layout with multiple paragraphs...
+        <strong>Payment failed.</strong> Check your card details and try again.
     </ui:alert.content>
 </ui:alert.root>
 ```
-
-This pattern gives you both convenience and flexibility.

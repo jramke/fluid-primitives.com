@@ -1,34 +1,36 @@
 # Primitives
 
-Fluid Primitives provides headless, accessible primitives built on [Zag.js](https://zagjs.com/) state machines. These handle behavior and accessibility; you handle styling.
+Fluid Primitives provides headless, accessible primitives built on [Zag.js](https://zagjs.com/) state machines. They handle behavior and accessibility, you handle styling.
 
-## What's a Primitive?
+## What's a primitive?
 
 A primitive is an unstyled component part with built-in:
 
 - Keyboard navigation
 - Focus management
 - ARIA attributes
-- State handling
+- State attributes like `data-state` and `data-disabled`
 
 Primitives use the `primitives` namespace:
 
 ```html
 <primitives:accordion.root>
-    <primitives:accordion.item value="item-1">
-        <primitives:accordion.trigger>Section 1</primitives:accordion.trigger>
-        <primitives:accordion.content>Content here</primitives:accordion.content>
+    <primitives:accordion.item value="shipping">
+        <primitives:accordion.trigger>Shipping</primitives:accordion.trigger>
+        <primitives:accordion.content>
+            Orders ship within 2 working days.
+        </primitives:accordion.content>
     </primitives:accordion.item>
 </primitives:accordion.root>
 ```
 
-## Primitive vs Component
+## Primitive vs component
 
-**Primitives** (`primitives:*`) are the raw building blocks. They're verbose but give you full control.
+**Primitives** (`primitives:*`) are the unstyled building blocks. Every part is its own tag, which gives you full control over the markup.
 
-**Components** (`ui:*`) are your design system wrappers around primitives. They add your styling, simplify the API, and enforce consistency.
+**Components** (`ui:*`) are your wrappers around primitives. They add your styling and can simplify the API, for example by combining parts.
 
-Example tooltip primitive anatomy:
+A tooltip made of primitives:
 
 ```html
 <primitives:tooltip.root>
@@ -41,19 +43,20 @@ Example tooltip primitive anatomy:
 </primitives:tooltip.root>
 ```
 
-Your simplified component might combine parts:
+Your component can combine parts and provide an abstraction level that matches your design system:
 
 ```html
 <ui:tooltip.root>
     <ui:tooltip.trigger />
     <ui:tooltip.content />
-    <!-- Wraps positioner + content + arrow -->
 </ui:tooltip.root>
 ```
 
-## Building Components from Primitives
+Of course its possible to use every other namespace for your own components as well.
 
-Create wrapper components that use primitives internally. Here's a typical pattern:
+## Building components from primitives
+
+Wrap each primitive part in a template of your own. A tooltip needs three:
 
 **`ui/Tooltip/Root.html`:**
 
@@ -64,7 +67,7 @@ Create wrapper components that use primitives internally. Here's a typical patte
     <f:slot />
 </primitives:tooltip.root>
 
-<vite:asset entry="EXT:my_ext/Resources/Private/Components/ui/Tooltip/tooltip.entry.ts" />
+<vite:asset entry="EXT:my_extension/Resources/Private/Components/ui/Tooltip/tooltip.entry.ts" />
 ```
 
 **`ui/Tooltip/Trigger.html`:**
@@ -90,22 +93,22 @@ Create wrapper components that use primitives internally. Here's a typical patte
 </primitives:tooltip.positioner>
 ```
 
-Now you can use your styled, simplified API:
+Use your styled, simplified API in a template:
 
 ```html
 <ui:tooltip.root>
-    <ui:tooltip.trigger>Hover me</ui:tooltip.trigger>
-    <ui:tooltip.content>Styled tooltip with arrow</ui:tooltip.content>
+    <ui:tooltip.trigger>Delivery time</ui:tooltip.trigger>
+    <ui:tooltip.content>Delivered in 2 to 3 working days</ui:tooltip.content>
 </ui:tooltip.root>
 ```
 
-## Key Concepts
+## Key concepts
 
 ### `ui:useProps`
 
-Imports prop definitions from another component. This ensures your wrapper accepts the same props as the primitive without redeclaring them.
+Imports prop definitions from another component, so your wrapper accepts the same props as the primitive without redeclaring them.
 
-Add `as="someName"` when your wrapper genuinely renders the primitive (the common case above) - it binds the imported, forwardable prop names under that name for the paired `spreadProps="{someName}"` call to use. Omit `as` if you only want to reuse the primitive's prop shape without rendering it at all - see [Inheriting Props](/docs/core-concepts/arguments#content-inheriting-props).
+Set `as="rootProps"` when the wrapper renders the primitive (the common case above). It binds the imported, forwardable prop names to `{rootProps}` for `spreadProps`. Omit `as` to reuse just the prop definitions, see [Inheriting Props](/docs/core-concepts/arguments#content-inheriting-props).
 
 ```html
 <!-- Import all props -->
@@ -121,17 +124,20 @@ Add `as="someName"` when your wrapper genuinely renders the primitive (the commo
 
 ### `spreadProps="{rootProps}"`
 
-Passes the props bound by `ui:useProps`'s `as=` down to the primitive. Without this, you'd need to manually pass each prop.
+Forwards the props bound by the `as` of `ui:useProps` to the primitive in one call.
 
-### JavaScript Entry Files
+### JavaScript entry files
 
-Each primitive needs client-side initialization. Load it in the root template so it's only included when the component is used:
+A primitive hydrates in the browser through an entry file. Load it in the root template, so a page includes it when it uses the component:
 
 ```html
-<vite:asset entry="path/to/component.entry.ts" />
+<vite:asset entry="EXT:my_extension/Resources/Private/Components/ui/Tooltip/tooltip.entry.ts" />
 
-<!-- Or with core asset ViewHelper -->
-<f:asset.script identifier="my-component" src="path/to/component.js" />
+<!-- Or with the core asset ViewHelper -->
+<f:asset.script
+    identifier="my-extension-tooltip"
+    src="EXT:my_extension/Resources/Public/JavaScript/tooltip.js"
+/>
 ```
 
 ## Scaffolding with the CLI
@@ -148,26 +154,26 @@ typo3 ui:add accordion
 
 This generates component files with basic Tailwind styling as a starting point.
 
-The root template of every added component ends with a `<vite:asset>` line that loads its `.entry.ts` file, so the component hydrates without further wiring:
+The root template of every added component ends with a `<vite:asset>` line that loads its `.entry.ts` file, so the component hydrates without extra setup:
 
 ```html
-<vite:asset entry="EXT:my_ext/Resources/Private/Components/ui/Accordion/Accordion.entry.ts" />
+<vite:asset entry="EXT:my_extension/Resources/Private/Components/ui/Accordion/Accordion.entry.ts" />
 ```
 
-The registry stores that line with a `%componentPath%` placeholder (`<vite:asset entry="%componentPath%/Accordion.entry.ts" />`), and `ui:add` replaces it with the path the component is written to, following `--extension` and `--path`. The tag needs [praetorius/vite-asset-collector](https://packagist.org/packages/praetorius/vite-asset-collector) with the `vite` Fluid namespace registered, and the entry file among your Vite entrypoints. `ui:add` warns when the namespace is missing. If you load scripts differently, replace the line with your own, see [JavaScript Entry Files](#content-javascript-entry-files). Repeating the tag is harmless, the asset is only included once per page.
+`ui:add` fills in the path the component is written to, following `--extension` and `--path`. The tag needs [praetorius/vite-asset-collector](https://packagist.org/packages/praetorius/vite-asset-collector) with the `vite` Fluid namespace registered, and a Vite config that picks up `Resources/Private/Components/**/*.entry.ts` as entrypoints. `ui:add` warns when the namespace is missing. If you load scripts differently, replace the line with your own, see [JavaScript Entry Files](#content-javascript-entry-files). Repeating the tag is fine, the asset is included once per page.
 
-## Available Primitives
+## Available primitives
 
-See the [Components](/docs/components) section for all available primitives with examples and API documentation.
+Browse every primitive with examples and API documentation in [Components](/docs/components).
 
-## Registry Limitations
+## Customize scaffolded components
 
-The CLI scaffolding provides a starting point, not a complete design system. You'll need to:
+The CLI scaffolding is a starting point for your own design system. Expect to:
 
 - Customize styling to match your design
-- Possibly adjust the component structure
+- Adjust the component structure where needed
 - Adapt the JavaScript loading to your build setup
 
-`ui:add` never merges into a component you already have. If any of the component's files exists in the target folder, nothing is written and the command fails with the list of files in the way. Add `--force` to overwrite the whole component with the registry version, or move your customised component aside first. Files an older registry version created and a newer one dropped are left alone.
+`ui:add` leaves components you already have untouched. If any of the component's files exists in the target folder, nothing is written and the command fails with the list of files in the way. Add `--force` to overwrite the whole component with the registry version, or move your customized component aside first. Other files in the folder stay as they are.
 
-It's inspired by [shadcn/ui](https://ui.shadcn.com/)'s approach: copy the code, own it, customize it.
+Once the code is in your project, it is yours: copy it, shape it, rename parts.

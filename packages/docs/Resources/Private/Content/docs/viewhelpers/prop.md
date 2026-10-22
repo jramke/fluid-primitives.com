@@ -5,18 +5,18 @@
 {% component: "ui:referenceButtons", arguments: { "name": "PropViewHelper", "type": "viewhelper" } %}
 
 
-Defines a template argument (prop) for a component.
 
-You must use this ViewHelper instead of the standard `f:argument` ViewHelper to define props for a component.
-It mirrors the API of `f:argument` but adds some additional features like exposing the prop to the client hydration data or the context.
+Declares a prop of a component. Use it where you would write `f:argument`: it takes the same arguments and adds `client` and `context`.
 
-{% component: "ui:alert", arguments: {"title": "All props from a root component are automatically exposed to the context.", "variant": "info"} %}
-
-## Example
 ```html
 <ui:prop name="variant" type="string" optional="{true}" default="primary" />
 <ui:prop name="size" type="string" optional="{true}" default="medium" client="{true}" />
 ```
+
+`client` works on a root component and `context` on its other parts. The other way round throws an exception.
+
+{% component: "ui:alert", arguments: {"title": "All props from a root component are automatically exposed to the context.", "variant": "info"} %}
+
  
 
 ## Arguments
@@ -30,4 +30,4 @@ It mirrors the API of `f:argument` but adds some additional features like exposi
 | `default` | mixed | default value for optional argument | No | - |
 | `client` | boolean | Whether the property should be exposed to the client hydration data. See [Hydration](/docs/core-concepts/hydration) for more information. | No | false |
 | `context` | boolean | Whether the property should be exposed to the components context. See [Context](/docs/core-concepts/context) for more information. | No | false |
-| `requiredAtRuntime` | boolean | Whether the property is required at runtime. This means that the component will throw an error if the property is not defined when rendering. This is used internally by the primitives so props spreading works. | No | false |
+| `requiredAtRuntime` | boolean | Whether the property is required at runtime. This means that the component will throw an error if the property is not defined when rendering. Primitives use it for props that a wrapper forwards with [ui:useProps](./useProps). | No | false |

@@ -1,6 +1,6 @@
 # Slider
 
-**An input for selecting a value, or a range of values, from a given range.**
+**A slider for picking a value, or a range of values, between a minimum and a maximum.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "Slider" } %}
 
@@ -9,12 +9,12 @@
 ## Features
 
 - Full keyboard navigation support with arrow, page and home/end keys
-- Supports touch, mouse and pointer interactions, including clicking the track
-- Supports a range of values with multiple thumbs, with a configurable minimum gap between them
-- Supports custom step, `largeStep` and min/max values
-- Supports marks/ticks along the track
-- Accepts `defaultValue` as a single number for one thumb, or a list of numbers for a range
-- Works with the Field component for form integration
+- Touch, mouse and pointer input, including clicks on the track
+- A range of values with several thumbs and a minimum gap between them
+- Custom `step`, `largeStep`, `min` and `max`
+- Marks along the track
+- `defaultValue` as a single number for one thumb, or a list of numbers for a range
+- Works with the Field component
 
 ## Anatomy
 
@@ -44,53 +44,43 @@
 
 ### Range
 
-Use two thumbs to let users pick a range of values.
+Render a `slider.thumb` for each end of the range, with `index` `0` and `1`, and pass two numbers as `defaultValue`. `minStepsBetweenThumbs="10"` keeps the thumbs of the price range at least 10 steps apart.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.range" } %}
 
 ### With marks
 
-Render `slider.marker` elements to show ticks - with a label - along the track.
+Add `slider.marker` elements inside a `slider.markerGroup` to show labeled ticks along the track.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withMarks" } %}
 
 ### Disabled
 
-Prevent the slider from being interacted with.
+Set `disabled="{true}"` to block interaction with the slider.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.disabled" } %}
 
 ### With a number input
 
-Pair the slider with a `number-input` for precise entry, keeping both in sync by updating one
-whenever the other changes. Both are mounted as independent instances
-(`autoMount="{false}"` + a fixed `rootId`) so a custom entry file can wire them together, the same
-pattern [Combobox's custom filter example](/docs/components/combobox#custom-filter-api) uses. Both
-components' own `onValueChange` call into one shared `setValue()` function instead of writing to
-each other directly, so there's a single guard - skip if it's already the current value - rather
-than a `syncing` flag guessing which call is the "real" one.
+Pair the slider with a [number input](/docs/components/number-input) for precise entry: dragging the thumb updates the number, and typing a number moves the thumb. Both are mounted by hand (`autoMount="{false}"` with a fixed `rootId`, see [Mount one instance yourself](/docs/client-utilities/mounting#content-mount-one-instance-yourself)) so the entry file can connect them.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withNumberInput", "additionalFiles": {"WithNumberInput.entry.ts": "EXT:docs/Resources/Private/Components/ui/SliderExamples/WithNumberInput.entry.ts"} } %}
 
-### With a Field
+### With a field
 
-Wrap the slider in [`ui:field.root`](/docs/components/field) to get label association and
-`name`/`disabled`/`invalid` state propagated to the thumb automatically - a donation amount picker,
-with marks for common preset amounts.
+Wrap the slider in [`ui:field.root`](/docs/components/field) to pass `name`, `disabled` and `invalid` to the thumb. The demo is a donation amount picker with marks at common amounts.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withField" } %}
 
 ### With a dragging indicator
 
-Nest `slider.draggingIndicator` inside a `slider.thumb` to show its current value in a small
-tooltip while it's being dragged - it's hidden the rest of the time.
+Nest `slider.draggingIndicator` inside a `slider.thumb` to show the current value in a small tooltip while that thumb is dragged.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withDraggingIndicator" } %}
 
 ### With decimal values
 
-Set `step` to a fraction (e.g. `0.01`) to get fine-grained, decimal precision instead of whole
-numbers - useful whenever the value represents something more precise than an integer count.
+Set `step` to a fraction like `0.01` for decimal precision, for example for prices or ratings.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withDecimalValues" } %}
 

@@ -2,12 +2,12 @@
 
 **Delays showing a transient value long enough to avoid flicker, and once shown, keeps it visible for a minimum duration.**
 
-`DelayedIndicator<T>` wraps any value, not just a boolean loading flag. Feed it every new value through `set()`; values you mark as "transient" are held back briefly before appearing and, once shown, stay for a minimum duration - everything else passes through immediately.
+With the defaults, a spinner appears only when a request takes longer than 150 ms and stays on screen for at least 300 ms. Pass every new value to `set()`. Values that `isTransient` marks are held back before they appear, every other value passes through immediately. The value can be anything, not only a loading flag.
 
 ## Usage
 
 ```typescript
-import { DelayedIndicator } from 'fluid-primitives';
+import { DelayedIndicator, extbase } from 'fluid-primitives';
 
 const indicator = new DelayedIndicator({
     isTransient: value => value === true,
@@ -16,49 +16,49 @@ const indicator = new DelayedIndicator({
     },
 });
 
-async function loadResults(query: string) {
+async function searchProducts(query: string) {
     indicator.set(true);
     try {
-        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-        const results = await response.json();
-        renderResults(results);
+        const response = await extbase.post(searchUrl, { q: query });
+        renderResults(await response.json());
     } finally {
         indicator.set(false);
     }
 }
 ```
 
-Call `indicator.destroy()` when it's no longer needed (e.g. on component teardown) to cancel any in-flight timer.
+Call `indicator.destroy()` on teardown to cancel a pending timer.
 
 ## Options
 
 {% component: "ui:apiReference", arguments: { "symbol": "DelayedIndicatorOptions" } %}
 
-## Behavior
+## Timing
 
-- A transient value is held for `showDelayMs` before `onChange` first receives it.
+- A transient value reaches `onChange` after `showDelayMs`.
 - Once shown, it stays current for at least `minVisibleMs`, even if a settled value arrives sooner.
-- A settled value that arrives before any transient value has been shown is passed to `onChange` immediately.
-- A settled value that arrives while a transient value is being shown waits for that value's `minVisibleMs` floor, then is passed to `onChange`.
-- A transient value arriving while one is already shown updates the displayed content immediately, without resetting the `minVisibleMs` clock.
-- `set()` does not deduplicate - passing the same value again may still result in another `onChange` call, since this is a temporal filter on state rather than a `distinctUntilChanged()` operator.
+- A settled value that arrives before a transient value was shown goes to `onChange` right away, so the transient value never appears.
+- A settled value that arrives while a transient value is shown waits for that value's `minVisibleMs`, then goes to `onChange`.
+- A transient value that arrives while another one is shown updates the display right away and does not restart the `minVisibleMs` clock.
+- `set()` passes repeated values on: the same value again can call `onChange` again.
 
-## Driving multiple UI elements from one instance
+## Update a spinner and a status text together
 
-Because `isTransient`/`onChange` work on any value type, one `DelayedIndicator` can keep several pieces of UI in sync - for example a spinner and a status message that should always change together. From the Combobox [Async Search](/docs/components/combobox) example:
+One `DelayedIndicator` can drive several elements when `onChange` derives all of them from the same value, so they always change together. The Combobox [Async Search](/docs/components/combobox) example does this:
 
 ```typescript
 type SearchStatus = 'loading' | 'error' | 'empty' | 'idle' | 'results';
 
 const status = new DelayedIndicator<SearchStatus>({
-    isTransient: s => s === 'loading',
-    onChange: renderStatus, // toggles both the spinner and the status text together
+    isTransient: value => value === 'loading',
+    onChange: value => {
+        spinnerEl.hidden = value !== 'loading';
+        statusEl.textContent = statusTexts[value];
+    },
 });
 
-status.set(getSearchStatus(api, hasResults));
+status.set('loading');
 ```
-
-`renderStatus` reads the single incoming `status` value to update both the spinner's visibility and the status text, so the two are always derived from the same source and change in lockstep.
 
 ## API
 

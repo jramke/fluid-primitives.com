@@ -5,16 +5,15 @@
 {% component: "ui:referenceButtons", arguments: { "name": "IdViewHelper", "type": "viewhelper" } %}
 
 
-Generates a base36 identifier that is unique per request.
 
-This is used internally for the default value for the `rootId` prop in components. Its exposed as a ViewHelper for convenience.
-This ViewHelper can be used whenever you need a unique ID in your templates and should not be used for cryptographic purposes.
+Generates an id that is unique within the request.
 
-## Example
 ```html
-<f:variable name="myId">{ui:id()}</f:variable>
+<f:variable name="triggerId" value="{ui:id()}" />
 ```
-this will generate a unique id like `«f4»`
+
+The id starts with the `prefix` (`f` by default) and is wrapped in `«»`, for example `«fq7Zr2LpA1»`. Use it when two components share an element and have to agree on its id, as the collapsible and the tooltip do in [Composition](/docs/core-concepts/composition). It is meant for ids in markup, not for secrets.
+
  
 
 ## Arguments

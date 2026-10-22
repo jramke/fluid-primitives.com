@@ -10,9 +10,9 @@
 
 - Focus is trapped within the dialog and restored when closed
 - Supports modal and non-modal modes
-- Scrolling is blocked when dialog is open (in modal mode)
+- Page scrolling is locked while a modal dialog is open
 - Pressing `Escape` closes the dialog
-- Supports controlled and uncontrolled open state
+- Opens from a trigger, `defaultOpen` or your own code
 
 ## Anatomy
 
@@ -35,49 +35,45 @@
 
 ## Examples
 
-### Alert Dialog
+### Confirm a destructive action
 
-For critical confirmations or destructive actions, use `role="alertdialog"`. Alert dialogs differ from regular dialogs in important ways:
-
-- **Automatic focus:** The close/cancel button receives focus when opened, prioritizing the safest action
-- **Requires explicit dismissal:** Cannot be closed by clicking outside, only via button clicks or Escape key
+Set `role="alertdialog"` and `closeOnInteractOutside="{false}"` with `closeOnEscape="{false}"` for critical confirmations like deleting an item. The Cancel button receives focus when the dialog opens, so the safest action comes first.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.alert" } %}
 
-### Nested Dialogs
+### Open a dialog from a dialog
 
-Open a dialog from within another dialog.
+Put a `dialog.root` inside the content of another dialog. Each level opens on top of the previous one.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.nested" } %}
 
-### Popover Inside Dialog
+### Add a popover to a dialog
 
-Render a popover inside dialog content when you need anchored secondary actions without breaking dialog focus management.
+Use a [popover](/docs/components/popover) for small anchored extras like share options. The dialog keeps its focus management.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.withPopover" } %}
 
-### Scrollable Outside
+### Scroll the whole dialog
 
-The dialog positioner can scroll when the content exceeds the viewport height, so the entire dialog can scroll together.
+When the content is taller than the viewport, the dialog scrolls as one piece, header and footer included. The `dialog.positioner` is the scroll container.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.outsideScroll" } %}
 
-### Scrollable Inside
+### Scroll the dialog body
 
-With some additions, the dialog content can scroll when it exceeds the viewport height, while keeping the header and footer visible.
-Set a `max-height` on the content and use `overflow-y: auto` to enable scrolling inside the dialog's content area.
+Keep the header and footer in view while the body scrolls: set a `max-height` on the dialog content and `overflow-y: auto` on the body.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.insideScroll" } %}
 
-### Prevent Close on Outside Click
+### Keep it open on outside click
 
-Keep the dialog open when clicking outside.
+Set `closeOnInteractOutside="{false}"` for a dialog the visitor should answer, like a cookie settings dialog. A click on the backdrop leaves it open.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.preventCloseOutside" } %}
 
-### Prevent Close on Escape
+### Keep it open on Escape
 
-Disable closing the dialog with the Escape key.
+Set `closeOnEscape="{false}"` to ignore the <kbd>Escape</kbd> key.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.preventCloseEscape" } %}
 

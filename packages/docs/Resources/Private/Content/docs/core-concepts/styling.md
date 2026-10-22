@@ -1,12 +1,12 @@
 # Styling
 
-Fluid Primitives is completely unstyled. Use any CSS approach you prefer: Tailwind, vanilla CSS, Sass, PostCSS or whatever you like.
+Fluid Primitives ships no styles. Use the CSS approach your project already has: Tailwind, vanilla CSS, Sass or PostCSS.
 
-When you add a component via the `typo3 ui:add <component>` command, you get basic Tailwind styles as a starting point. If you don't use Tailwind, simply ask your AI to convert these classes to your preferred CSS syntax.
+`typo3 ui:add <component>` adds a component with basic Tailwind styles as a starting point. If your project uses another CSS approach, ask your AI to convert the classes to your CSS syntax.
 
-## Theme Tokens for Registry Styles
+## Theme tokens
 
-The Tailwind classes of the registry components use semantic color tokens (`bg-primary`, `text-muted-foreground`, `border-input`, ...) instead of fixed colors. They are the token names shadcn/ui uses, so a theme made for shadcn/ui should work as well. Tailwind only generates these utilities when your CSS defines the colors, so add this to the stylesheet that imports Tailwind. The values are the ones of this site, change them to your design:
+The Tailwind classes of components added with `ui:add` use semantic color tokens (`bg-primary`, `text-muted-foreground`, `border-input`, ...). You can copy this example into your own stylesheet as a baseline.
 
 ```css
 @import 'tailwindcss';
@@ -56,9 +56,9 @@ The Tailwind classes of the registry components use semantic color tokens (`bg-p
 
 - `tw-animate-css` (`npm install -D tw-animate-css`) provides the `animate-in`, `fade-in` and `zoom-in-*` classes of Tooltip, Popover and the other floating components.
 - The `animate-collapsible-*` utilities drive [Collapsible](/docs/components/collapsible), whose content exposes `--height` and `--collapsed-height`.
-- The registry has no `dark:` variants. For a dark mode, override the same `--color-*` variables under your own dark selector.
+- For a dark mode, override the same `--color-*` variables under your own dark selector.
 
-## Data Attributes
+## Data attributes
 
 Every component part is marked with a single `data-<component>-<part>` attribute for precise targeting - the same convention Zag.js uses:
 
@@ -70,7 +70,7 @@ The attribute's value is the component instance's root id, so target it with a p
 
 ## Styling with CSS
 
-### Target by Part
+### Target by part
 
 ```css
 [data-accordion-item-trigger] {
@@ -86,7 +86,7 @@ The attribute's value is the component instance's root id, so target it with a p
 }
 ```
 
-### Target by State
+### Target by state
 
 ```css
 [data-accordion-item][data-state='open'] {
@@ -99,7 +99,7 @@ The attribute's value is the component instance's root id, so target it with a p
 }
 ```
 
-### Combine Selectors
+### Combine selectors
 
 ```css
 [data-accordion-item-trigger]:hover:not([data-disabled]) {
@@ -120,28 +120,28 @@ Pass classes directly to component parts:
 <ui:accordion.root>
     <ui:accordion.item class="border-b border-gray-200">
         <ui:accordion.trigger class="flex w-full justify-between py-4 font-medium hover:underline">
-            Section Title
+            Shipping
         </ui:accordion.trigger>
-        <ui:accordion.content class="pb-4 text-gray-600"> Content goes here. </ui:accordion.content>
+        <ui:accordion.content class="pb-4 text-gray-600">
+            Orders ship within 2 working days.
+        </ui:accordion.content>
     </ui:accordion.item>
 </ui:accordion.root>
 ```
 
-### State-Based Styling
+### State-based styling
 
 Use Tailwind's data attribute variants:
 
 ```html
 <ui:accordion.item class="border-b data-[state=open]:bg-gray-50">
-    <ui:accordion.trigger
-        class="py-4 data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed"
-    >
+    <ui:accordion.trigger class="py-4 data-disabled:opacity-50 data-disabled:cursor-not-allowed">
         ...
     </ui:accordion.trigger>
 </ui:accordion.item>
 ```
 
-### Target a Part from Its Parent
+### Target a part from its parent
 
 The part attribute works as a Tailwind variant too:
 
@@ -149,19 +149,11 @@ The part attribute works as a Tailwind variant too:
 <ui:alert.root class="*:data-alert-content:text-sm">...</ui:alert.root>
 ```
 
-### Common State Variants
+### Common state variants
 
-```html
-data-[state=open]:...
-<!-- Open state (accordion, collapsible, dialog) -->
-data-[state=closed]:...
-<!-- Closed state -->
-data-[state=active]:...
-<!-- Active tab -->
-data-[disabled]:...
-<!-- Disabled state -->
-data-[highlighted]:...
-<!-- Keyboard-highlighted item (menus, selects) -->
-data-[selected]:...
-<!-- Selected item -->
-```
+- `data-[state=open]:` - open accordion item, collapsible or dialog
+- `data-[state=closed]:` - closed accordion item, collapsible or dialog
+- `data-[selected]:` - selected tab
+- `data-[state=checked]:` - selected item of a select
+- `data-[disabled]:` - disabled part
+- `data-[highlighted]:` - keyboard-highlighted item of a menu or select

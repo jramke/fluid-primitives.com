@@ -1,6 +1,6 @@
 # Combobox
 
-**An input with a popup listbox for searching and selecting values from a collection.**
+**An input with a popup list for searching and selecting values from a collection.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "Combobox" } %}
 
@@ -8,24 +8,23 @@
 
 ## Features
 
-- Searchable listbox with keyboard navigation
-- Supports single and multiple selection
-- Supports disabled items and item groups
+- Searchable list with keyboard navigation
+- Single and multiple selection
+- Disabled items and item groups
 - Works with the Field component for forms and validation
-- Submits the selected item's `value` on form submit, not its label - the visible input only ever displays text, `hiddenInput` carries the real value(s), or an empty one while nothing is selected
-- Supports an `empty` state placeholder shown automatically whenever no items match
-- Filtering is plain `onInputValueChange` userland code, not a special API - swap the match logic per instance the same way you'd swap it in any Zag/Ark UI consumer
-- Ships with locale-aware substring filtering via Zag's i18n utilities, wired up in the default mount entry
-- Supports async, server-rendered search results via `ui:template`
-- Can move the input into the popup, behind a focusable trigger, with the `dialog` popup type
+- Submits the `value` of the selected items through `hiddenInput`, the visible input shows their labels
+- `empty` placeholder for a search without matches
+- Locale-aware filtering in the default entry file, replaceable per instance through `onInputValueChange`
+- Async, server-rendered search results via `ui:template`
+- `dialog` popup type moves the input into the popup, behind a focusable trigger
 
 ## Anatomy
 
-Unlike `Select`, Zag's combobox machine renders no native form control of its own - the visible `input` only ever holds the highlighted item's label (or, with `allowCustomValue`, arbitrary typed text), never its `value`. `hiddenInput` fills that gap: one visually hidden text input (kept out of the accessibility tree and tab order via `aria-hidden`/`tabindex="-1"`, not `type="hidden"`) per selected value, kept in sync with the current selection so the item's `value` (not its label) is what actually gets submitted. Include it once anywhere inside `combobox.root` - it renders as many hidden inputs as there are selected values (one, or - with `multiple` - several), and a single empty one while nothing is selected, like a native input would submit its name with an empty value. That empty input is also what a [Field](/docs/components/field) moves the focus through when the combobox is the first invalid field of a submitted form: it hands the focus on to the visible input.
+`hiddenInput` submits the `value` of the selected items. Place it once anywhere inside `combobox.root` and it renders one visually hidden input per selected value, or a single empty one while nothing is selected. `ui:combobox.root` includes it for you. A [Field](/docs/components/field) focuses the combobox through that input when it is the first invalid field of a submitted form, and the input hands the focus on to the visible one.
 
-Zag puts the listbox semantics and scrolling on `list`, so the options belong inside `list` rather than directly inside `content`, which is a plain wrapper around it (a dialog, with the `dialog` popup type). The styled `ui:combobox.content` is the `positioner` and `content` in one part, and `ui:combobox.list` is the `list` - you place it inside the content yourself.
+Place the options inside `list`, which carries the listbox semantics and scrolling. `content` wraps it and is announced as a dialog with the `dialog` popup type. The styled `ui:combobox.content` combines `positioner` and `content` in one part, so you nest `ui:combobox.list` in it yourself.
 
-`combobox.empty` renders a placeholder for when the collection has no items to show - whether that's because nothing matches the current search text, or because an async search hasn't returned results yet. It's shown/hidden automatically alongside `content`/`list`'s own `data-empty` attribute, so no wiring is needed beyond placing it next to `combobox.list` inside `content` - it isn't an option, so it doesn't belong inside the listbox.
+`combobox.empty` is a placeholder for a collection with nothing to show, because no item matches the search text or an async search is still waiting for results. Place it next to `combobox.list` inside `content`. It shows and hides itself.
 
 ```html
 <primitives:combobox.root>
@@ -59,80 +58,76 @@ Zag puts the listbox semantics and scrolling on `list`, so the options belong in
 
 ## Examples
 
-### Default Value
+### Default value
 
-Set an initial selected value and render its label into the input on first paint.
+Pass `defaultValue` to preselect an item. The demo opens with Nigeria in the input, rendered on the server.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.defaultValue" } %}
 
-### Disabled Items
+### Disabled items
 
-Mark specific options as unavailable.
+Set `disabled: true` on an item of the collection to make it unselectable. Oracle Database and Microsoft SQL Server are disabled in the demo.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.disabledItems" } %}
 
-### With Item Groups
+### With item groups
 
-Organize items into labeled groups.
+Set `groupByKey` on `ui:listCollection` to group the items, here by their `category`. Type in the demo and groups without a match disappear.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.withGroups" } %}
 
-### With Form Field
+### With form field
 
-Use the combobox inside `Field` to share label, name, required and invalid state.
+Wrap the combobox in `ui:field.root` to share label, `name`, required and invalid state. The demo is a required country field.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.withField" } %}
 
-### Multiple Selection
+### Multiple selection
 
-Allow users to select multiple values from the combobox.
+Set `multiple="{true}"` to select several values. The demo lists the selected cities above the input.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.multiple" } %}
 
-### Custom Filter Logic
+### Change the filter
 
-Override the match logic per instance by passing your own `onInputValueChange` to a custom mount entry - swap `contains` for `startsWith`, or filter however you like.
+Pass your own `onInputValueChange` in a custom entry file to change how items match, here by the start of the label with `startsWith`. Type "b" in the demo and the list shrinks to the cities starting with B.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.customFilterApi" } %}
 
-### Async Search
+### Async search
 
-Load items from a server-side search endpoint as the user types, instead of rendering the full collection up front.
+Fetch matching items from a server-side search endpoint as people type. Type a city in the demo to see the results come in.
 
-Author the item's markup once inside a `ui:template` block - it makes `ui:ref` work on plain, hand-authored elements even though they're technically slot content, not a component's own template body. `combobox.item`, `combobox.itemText`, and `combobox.itemIndicator` all detect they're inside a `ui:template` block automatically - so we dont need to pass a `value` prop. On the client, clone the template per search result, populate its `ui:ref`'d elements directly, and rebuild the collection. Fetching, debouncing, and race-condition handling are left to your own code, typically built on `@zag-js/async-list`.
+Write the item markup once inside a [`ui:template`](/docs/viewhelpers/template) block and pass the endpoint as `searchUrl`. The entry file queries it, clones the template for every result and rebuilds the collection. `combobox.item`, `combobox.itemText` and `combobox.itemIndicator` detect the template on their own, so they take no `value`. `collection` is optional when no items are known up front.
 
-`collection` can be omitted entirely for a combobox with no server-known items at all - it's optional and defaults to empty regardless of `searchUrl`.
+`combobox.empty` shows whenever no item is rendered: before the first query, while a request runs, after an error and for a query without matches. Its content is yours to update, here a spinner and a status text. They are slot content, so their `ui:ref` takes `context: 'combobox'`, as in `{ui:ref(name: 'statusSpinner', context: 'combobox')}`.
 
-The status placeholder itself is just `combobox.empty` - `Combobox` already shows/hides it automatically whenever there are no items rendered, whatever the reason (no query typed yet, a request in flight, a failed request, or a query with zero matches). Only its _content_ - a spinner and a status text - is something the example's own code owns and updates; the loading/error messaging is entirely up to you. Both are plain, hand-authored elements passed `{ui:ref(name: 'statusSpinner', context: 'combobox')}` - since they're slot content rather than a component's own template body, `ui:ref` needs the explicit `context` argument to know which ancestor component to attach to, the same way `ui:template`'s own `context` argument does for the item markup below. The example below sends the search query via [`extbase.post()`](/docs/client-utilities/extbase) rather than a GET param, sidestepping a `cHash` mismatch `f:uri.action`'s URL would otherwise hit, and drives the spinner/status text off a single [`DelayedIndicator`](/docs/client-utilities/delayed-indicator) so they can never disagree.
+The demo sends the query with [`extbase.post()`](/docs/client-utilities/extbase), fetches with [`AsyncList`](/docs/client-utilities/async-list) and delays the spinner with a [`DelayedIndicator`](/docs/client-utilities/delayed-indicator) to avoid flicker on fast responses.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.asyncSearch", "additionalFiles": {"AsyncSearch.entry.ts": "EXT:docs/Resources/Private/Components/ui/ComboboxExamples/AsyncSearch.entry.ts"} } %}
 
-### Async Search with Groups
+### Async search with groups
 
-Async results can be grouped too - author a second `ui:template` for the group wrapper (`combobox.itemGroup`/`combobox.itemGroupLabel`), clone one per group returned by your search, and append the item clones into it instead of directly into `combobox.list`.
-
-`combobox.itemGroup` needs a unique `data-id` per instance so `Combobox` can tell groups apart - the same thing `ui:id()` gives a server-rendered group, done client-side with `uid()`. Nothing about `Combobox`'s own rendering needed to change for this: it already looks up every `itemGroup` part independently and reads its `data-id` fresh on every render, whether that element was server-rendered or just cloned.
+Group the results the endpoint returns, here by country. Write a second `ui:template` for the group (`combobox.itemGroup` with `combobox.itemGroupLabel`), clone it once per group, append the cloned items to the group and the group to `combobox.list`. Pass the group key as the `value` of its [`Template`](/docs/client-utilities/template) so the groups stay apart.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.asyncSearchGrouped", "additionalFiles": {"AsyncSearchGrouped.entry.ts": "EXT:docs/Resources/Private/Components/ui/ComboboxExamples/AsyncSearchGrouped.entry.ts"} } %}
 
-### Input in Content
+### Move the input into the popup
 
-By default the input is the combobox's focus target and the popup is a passive listbox. Set `popupType` to `PopupType::Dialog` (`popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog')}"`) to turn it into a popover-style picker instead: the input moves into the `content`, above the `list`, and a trigger opens the popup. The `content` is then announced as a dialog, a click on the label focuses the trigger, and the trigger becomes focusable - it is the only way in, so Zag makes it so by default (the trigger's own `focusable` prop overrides that either way).
-
-Since the input is no longer in the control, the trigger has to show the current selection itself - here a plain button with a hand-authored `valueText` ref that the example's entry file keeps in sync with `api.valueAsString`.
+Set `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog')}"` for a popover-style picker: a trigger opens the popup and the `input` sits at the top of the `content`, above the `list`. `content` is announced as a dialog, and the trigger is focusable (its own `focusable` prop overrides that). With the input in the popup, the trigger shows the selection itself, here through a `valueText` element the entry file keeps in sync with `api.valueAsString`. Open the picker in the demo and type to filter.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.inputInContent", "additionalFiles": {"InputInContent.entry.ts": "EXT:docs/Resources/Private/Components/ui/ComboboxExamples/InputInContent.entry.ts"} } %}
 
 ### Localization
 
-Default combobox trigger labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop.
+The labels of the trigger and the clear button ship in the language file and follow the site language. Pass `translations` to override them for one combobox.
 
 ```html
 <f:variable
     name="comboboxTranslations"
     value="{
-        triggerLabel: '{f:translate(key: \'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:combobox.trigger\')}',
-        clearTriggerLabel: '{f:translate(key: \'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:combobox.clear\')}'
+        triggerLabel: '{f:translate(key: \'LLL:EXT:my_extension/Resources/Private/Language/locallang.xlf:combobox.trigger\')}',
+        clearTriggerLabel: '{f:translate(key: \'LLL:EXT:my_extension/Resources/Private/Language/locallang.xlf:combobox.clear\')}'
     }"
 />
 

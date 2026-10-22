@@ -8,13 +8,13 @@
 
 ## Features
 
-- Support for items, labels, and groups of items
-- Support for checkbox and radio menu items
-- Support for nested/submenu patterns
-- Support for context menus (triggered by right-click) and multiple independent triggers sharing one menu
-- Focus is fully managed using the `aria-activedescendant` pattern
-- Typeahead to allow focusing items by typing text
-- Full keyboard navigation support, including arrow keys, home/end, and submenu navigation
+- Items, labels and groups of items
+- Checkbox and radio items
+- Submenus
+- Context menu and several triggers for one menu
+- Focus managed with `aria-activedescendant`
+- Typeahead to focus items by typing
+- Keyboard navigation with arrow keys, <kbd>Home</kbd>, <kbd>End</kbd> and submenus
 
 ## Anatomy
 
@@ -49,7 +49,7 @@
     </primitives:menu.positioner>
 </primitives:menu.root>
 
-<f:comment><!-- A submenu: linked to its parent by id, not by nesting --></f:comment>
+<f:comment><!-- A submenu: linked to its parent by id --></f:comment>
 <primitives:menu.root rootId="submenu" parentId="parent-rootId">
     <primitives:menu.positioner>
         <primitives:menu.content>
@@ -65,58 +65,51 @@
 
 ## Examples
 
-### Grouping
+### Group related items
 
-Organize items into logical groups with their own labels.
+Wrap related items in a `menu.itemGroup` and name it with a `menu.itemGroupLabel`. A `menu.separator` divides the groups.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.grouping" } %}
 
-### With Links
+### Link to pages
 
-Pass `asChild="{true}"` on `menu.item` to render the item's attributes and behavior directly onto a
-single child element, like a plain `<a href>`, so it behaves like real navigation, including
-keyboard activation.
+Set `asChild="{true}"` on a `menu.item` to put its attributes on your `<a href>`. The item navigates like a regular link, also from the keyboard.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.withLinks" } %}
 
-### With Checkboxes
+### Toggle options
 
-Use `menu.checkboxItem` for items that toggle independently of each other.
+Use `menu.checkboxItem` for options that switch on and off independently. The root sets `closeOnSelect="{false}"`, so the menu stays open while you check several.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.withCheckboxes" } %}
 
-### With Radios
+### Choose one option
 
-Use `menu.radioItem` with a shared `name` for mutually exclusive options.
+Radio items that share a `name` are mutually exclusive: choosing one unchecks the others.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.withRadios" } %}
 
-### Nested Menu
+### Add a submenu
 
-A submenu is just another `menu.root`, linked to its parent by two explicit ids: give the submenu's
-`menu.root` a `rootId` and point its `parentId` back at the parent menu's own `rootId`, then render a
-`menu.triggerItem` inside the _parent's_ own content with a `childId` matching the submenu's `rootId`.
-The submenu itself doesn't need to live anywhere near the parent's markup - it's linked entirely by id.
+Link a submenu to its parent by id: give its `menu.root` a `rootId` and a `parentId` that is the parent's `rootId`, then add a `menu.triggerItem` with a matching `childId` to the parent's content. Open Share or Export below.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.nested" } %}
 
-### Context Menu
+### Open on right-click
 
-Use `menu.contextTrigger` to open the menu on right-click instead of (or in addition to) a regular trigger.
+Wrap an area in a `menu.contextTrigger` to open the menu on right-click. Add a regular `menu.trigger` as well to open the same menu from a button.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.contextMenu" } %}
 
-### Multiple Triggers
+### Share one menu between triggers
 
-Give several `menu.trigger` elements different `value`s to share a single menu instance between them.
+Give each `menu.trigger` its own `value` and they open the same menu.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.multipleTriggers" } %}
 
-### Inside a Dialog
+### Use a menu inside a dialog
 
-By default `menu.content` portals to the end of the document body, same as Select. Pass
-`portalled="{false}"` when nesting a menu inside another portalled/focus-trapped element, like a
-dialog, so it stays within that element's DOM subtree instead.
+Menus portal to the end of the `<body>`. Set `portalled="{false}"` on `menu.content` inside a dialog, or another focus-trapped element, to keep the menu in its DOM subtree.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.insideDialog" } %}
 

@@ -2,7 +2,7 @@
 
 Consider the most common request in any TYPO3 project: "we need an accordion." Or a dialog. Or a select. Something interactive, accessible, and not ugly.
 
-The traditional answer is to build it yourself, every project, from scratch. Wire up some JavaScript, remember `aria-expanded`, forget `aria-controls`, copy-paste last year's version from a different client, hope it still works. Or use Bootstrap and fight the styles and markup.
+The traditional answer is to build it yourself, every project, from scratch. Wire up some JavaScript, remember `aria-expanded`, forget `aria-controls`, copy-paste last year's version from a different client, hope it still works. Or use a ready-made UI kit and fight its styles and markup.
 
 Even on a normal marketing site, the moment you need a [dialog](/docs/components/dialog), [select](/docs/components/select), [tabs](/docs/components/tabs), [navigation menu](/docs/components/navigation-menu), [popover](/docs/components/popover), or better [form](/docs/components/form) UX, you also need keyboard support, focus management, semantics, labeling, and all the edge cases that come with it.
 
@@ -36,24 +36,24 @@ Fluid Primitives goes the other way around: keep the behavior solid, keep the st
 
 ## Built for how we actually work in TYPO3
 
-TYPO3 Fluid finally has first-class component support. So we can build actual components instead of stuffing everything into partials or ViewHelpers.
+TYPO3 Fluid has first-class component support. So we can build actual components instead of stuffing everything into partials or ViewHelpers.
 
 Traditional components tend to accumulate props until they become a mess:
 
 ```html
 <ui:card
-    rootClass="some-class"
-    image="path/to/image"
-    imageAlt="Alt text"
-    title="Hello World"
+    rootClass="event-card"
+    image="fileadmin/events/summer-meetup.jpg"
+    imageAlt="Guests at the summer meetup"
+    title="Summer meetup"
     titleLevel="3"
-    text="Lorem ipsum"
+    text="Join us on 12 June in Berlin."
     cta="1"
     ctaVariant="secondary"
-    ctaText="Learn more"
-    ctaLink="/some-page"
+    ctaText="Register now"
+    ctaLink="/events/summer-meetup"
     secondaryCta="1"
-    secondaryCtaText="More"
+    secondaryCtaText="Add to calendar"
 />
 ```
 
@@ -66,13 +66,13 @@ Fluid's native `f:slot` and named slots via `f:fragment` are already a good step
 Fluid Primitives enables that composable approach:
 
 ```html
-<ui:card.root class="some-class">
-    <ui:card.image src="path/to/image" alt="Alt text" />
-    <ui:card.title level="3">Hello World</ui:card.title>
+<ui:card.root class="event-card">
+    <ui:card.image src="fileadmin/events/summer-meetup.jpg" alt="Guests at the summer meetup" />
+    <ui:card.title level="3">Summer meetup</ui:card.title>
     <ui:card.content>
-        <p>Lorem ipsum</p>
-        <ui:button variant="secondary" link="/some-page">Learn more</ui:button>
-        <ui:button variant="ghost" link="/other-page">Secondary action</ui:button>
+        <p>Join us on 12 June in Berlin.</p>
+        <ui:button variant="secondary" link="/events/summer-meetup">Register now</ui:button>
+        <ui:button variant="ghost" link="/events/summer-meetup.ics">Add to calendar</ui:button>
     </ui:card.content>
 </ui:card.root>
 ```
@@ -91,7 +91,7 @@ Fluid Primitives is headless by design. You get behavior and structure, not a vi
 
 ## Start fast, keep ownership
 
-If you want to move quickly, scaffold components with `typo3 ui:add`. You get a solid starting point with basic styles, similar in spirit to [shadcn/ui](https://ui.shadcn.com/).
+If you want to move quickly, scaffold components with `typo3 ui:add`. You get a solid starting point with basic styles.
 
 But the important part is this: you own the code.
 
@@ -101,7 +101,7 @@ That is the whole point.
 
 Fluid Primitives is my answer to a question I kept asking myself for years: if every modern stack gets good headless component primitives, why not TYPO3 Fluid too?
 
-I think this should be a basic part of the stack. Not a weird extra. Not something every team rebuilds in slightly broken ways. Just a solid foundation you can use, adapt, and trust.
+I think this should be a basic part of the stack. Not a weird extra. Not something every team rebuilds in slightly broken ways. A solid foundation you can use, adapt, and trust.
 
 If that sounds like the way you want to build TYPO3 projects, this package is for you.
 

@@ -5,15 +5,15 @@
 {% component: "ui:referenceButtons", arguments: { "name": "ExposeToClientViewHelper", "type": "viewhelper" } %}
 
 
-Expose a component to the client.
 
-This forces a component to be exposed to the client hydration data even if we did not used any [ui:ref](/docs/viewhelpers/ref) ViewHelper.
+Adds a root component to the client hydration data even when none of its tags carries [`ui:ref`](/docs/viewhelpers/ref).
 
-## Example
+Place it in the template of the root component. In any other template it throws an exception:
+
 ```html
 <ui:exposeToClient />
-...
 ```
+
  
 
 ## Arguments

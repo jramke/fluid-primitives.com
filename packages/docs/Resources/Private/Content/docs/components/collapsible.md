@@ -1,6 +1,6 @@
 # Collapsible
 
-**A collapsible panel controlled by a button.**
+**A panel that a button expands and collapses.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "Collapsible" } %}
 
@@ -30,15 +30,15 @@
 
 ## Examples
 
-### Default Open
+### Start open
 
-Set the collapsible to be open by default.
+Set `defaultOpen` to render the panel expanded.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CollapsibleExamples.defaultOpen" } %}
 
-### Disabled
+### Disable the collapsible
 
-Prevent the collapsible from being toggled.
+Set `disabled` to keep the panel in its current state. The panel below stays closed.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CollapsibleExamples.disabled" } %}
 

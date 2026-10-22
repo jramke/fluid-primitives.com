@@ -8,9 +8,10 @@
 
 ## Features
 
-- Renders a native `<button>` with `aria-pressed`, toggled with <kbd>Space</kbd> and <kbd>Enter</kbd>
-- Can be pressed by default and disabled
-- Optional indicator part that follows the pressed state
+- Native `<button>` with `aria-pressed`
+- Toggles with <kbd>Space</kbd> and <kbd>Enter</kbd>
+- Can start pressed or disabled
+- Optional indicator that follows the pressed state
 - For a set of related toggles, see [Toggle Group](/docs/components/toggle-group)
 
 ## Anatomy
@@ -27,21 +28,21 @@
 
 ## Examples
 
-### Default Pressed
+### Start pressed
 
-Set the toggle to be pressed by default.
+Set `defaultPressed` to render the toggle pressed.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToggleExamples.defaultPressed" } %}
 
-### Disabled
+### Disable a toggle
 
-Prevent the toggle from being pressed.
+Set `disabled` to lock a toggle in its current state, pressed or unpressed.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToggleExamples.disabled" } %}
 
-### Indicator
+### Show the state with an indicator
 
-The indicator carries the same `data-pressed` and `data-disabled` attributes as the root, so it can show the state of the toggle without any extra markup.
+The indicator carries the same `data-pressed` and `data-disabled` attributes as the root. The dot below changes color while the toggle is pressed.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToggleExamples.indicator" } %}
 

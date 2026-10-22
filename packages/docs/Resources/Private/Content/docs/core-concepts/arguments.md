@@ -1,44 +1,32 @@
 # Arguments
 
-Components accept typed arguments called props. Fluid Primitives extends Fluid's built-in argument system with additional features.
+Props are the typed arguments of a component. You declare them with `ui:prop`, which works like Fluid's `f:argument` and can also send a prop to the client or share it with the other parts of a component.
 
-## Defining Props
+## Defining props
 
-Use `ui:prop` instead of Fluid's `f:argument`:
+Declare a prop with `ui:prop`. A prop is required unless it has a `default` or `optional="{true}"`:
 
 ```html
-<ui:prop name="variant" type="string" default="primary" />
-<ui:prop name="disabled" type="boolean" optional="{true}" />
-<ui:prop name="items" type="array" />
+<ui:prop name="title" type="string" />
+<ui:prop name="variant" type="string" default="outlined" />
+<ui:prop name="featured" type="boolean" optional="{true}" />
 ```
 
 See the [ui:prop ViewHelper reference](/docs/viewhelpers/prop) for all options.
 
-### Enum Props
+## Automatic props
 
-Some props use PHP backed enums. Until Fluid supports automatic enum conversion, pass enum cases with `f:constant`. This should get better once [PR #1271](https://github.com/TYPO3/Fluid/pull/1271) lands.
-
-```html
-<ui:tabs.root
-    orientation="{f:constant(name: '
-        Jramke\FluidPrimitives\Enum\Orientation::Horizontal
-    ')}"
-/>
-```
-
-## Automatic Props
-
-Most components receive these props automatically. Availability depends on what a part actually renders - e.g. `class` only makes sense on a part that renders its own wrapper element, so a part's own Arguments table (in its component docs page) is the source of truth for which of these it actually accepts. `asChild` is the one exception - it's opt-in per part rather than inferred (see below).
+Components accept the props below without declaring them. Which ones a part takes depends on what it renders, and the arguments table on each component page lists them: `rootId`, `ids` and `autoMount` belong to root components, `class` to templates that use `{class}` and `asChild` to parts that opt in with `{ui:asChild()}`.
 
 ### `class`
 
-Pass additional CSS classes to any component:
+Add CSS classes to a component:
 
 ```html
-<ui:button class="mt-4 w-full">Submit</ui:button>
+<ui:button class="mt-4 w-full">Add to cart</ui:button>
 ```
 
-Inside your component, use `{class}` to apply them:
+In your own component, `{class}` holds them:
 
 ```html
 <button class="btn {class}">
@@ -46,55 +34,51 @@ Inside your component, use `{class}` to apply them:
 </button>
 ```
 
-See [ui:cn ViewHelper](/docs/viewhelpers/cn) for conditional class names.
+See the [ui:cn ViewHelper](/docs/viewhelpers/cn) for conditional class names.
 
 ### `rootId`
 
-Composable components get a unique identifier. This links parts together and enables hydration.
-
-Usually auto-generated, but you can provide one:
+Every root component has a `rootId` that ties its parts and its hydration data together. It is generated for you. Set your own when you need to find one specific instance, for example to [mount it manually](/docs/client-utilities/mounting#content-mount-one-instance-yourself):
 
 ```html
 <ui:accordion.root rootId="faq-accordion"></ui:accordion.root>
 ```
 
-See [Manual Mounting](/docs/core-concepts/hydration#content-manual-mounting).
-
 ### `asChild`
 
-Merge attributes into child element instead of rendering the default wrapper. See [Composition](/docs/core-concepts/composition). Opt-in per part via `{ui:asChild()}`, not automatic - every Fluid Primitives part that renders its own wrapper element already opts in. Not available on root parts that render no wrapper element of their own (e.g. Dialog, Popover, Tooltip's `root`) - there's nothing to merge the attributes onto.
+Merge a part's attributes into your own element instead of rendering the default wrapper, see [Composition](/docs/core-concepts/composition). It is available on parts that render their own wrapper element. The roots of Dialog, Popover and Tooltip render none. In your own component, add `{ui:asChild()}` to the tag that receives the attributes.
 
 ### `ids`
 
-Declare the IDs of a component's parts. This is the only place to give a `ui:ref` element an `id` - pass it on the component's root, for the primitives and for your own components alike, and don't write an `id` attribute on the ref'd element yourself:
+Declare the ids of a component's parts on its root, never on the individual parts:
 
 ```html
-<ui:collapsible.root ids="{content: 'my-content'}"> ... </ui:collapsible.root>
+<ui:collapsible.root ids="{content: 'shipping-details-content'}"> ... </ui:collapsible.root>
 ```
 
-The keys are part names. The id is rendered on the server and handed to the client, so the server-rendered markup, the client lookup and Zag's machine all use the same one. Useful when composing multiple components together. See [Composition](/docs/core-concepts/composition) and [Hydration](/docs/core-concepts/hydration#content-ids).
+The keys are part names. See [Composition](/docs/core-concepts/composition) and [Hydration](/docs/core-concepts/hydration#content-ids).
 
 ### `autoMount`
 
-Set to `{false}` to keep the client from initializing the component on its own, so you mount it yourself with `mount`. `true` by default. See [Hydration](/docs/core-concepts/hydration#content-manual-mounting).
+Set `autoMount="{false}"` to keep `mountAll` calls on the client from initializing a component, then mount it yourself with `mount`. Defaults to `true`. See [Mount one instance yourself](/docs/client-utilities/mounting#content-mount-one-instance-yourself).
 
 ### `attributes`
 
-Forward additional HTML attributes. See [ui:attributes ViewHelper](/docs/viewhelpers/attributes).
+Forward additional HTML attributes. See the [ui:attributes ViewHelper](/docs/viewhelpers/attributes).
 
-## Client Props
+## Client props
 
-Props needed for client-side behavior use `client="{true}"`:
+Mark a prop of a root component with `client="{true}"` to send it to the client:
 
 ```html
-<ui:prop name="open" type="boolean" optional="{true}" client="{true}" />
+<ui:prop name="defaultOpen" type="boolean" optional="{true}" client="{true}" />
 ```
 
-These are serialized and passed to JavaScript during hydration.
+The value is serialized into the hydration data and arrives as `props` in `mountAll`, see [Hydration](/docs/core-concepts/hydration).
 
-### Generating TypeScript Types
+## Generating TypeScript types
 
-Install the optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package to generate real TypeScript types for every component's client props:
+The optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package generates TypeScript types for the client props of every component:
 
 ```bash
 composer require --dev jramke/fluid-types
@@ -106,7 +90,15 @@ Then run:
 vendor/bin/typo3 typescript:generate
 ```
 
-With no options, this auto-discovers every registered component collection plus any of your own `#[TypeScript]`-tagged classes, and writes one `types.generated.d.ts` file (`--output` to change the path, `--check` to fail instead of writing, useful in CI). Once generated, `mountAll`'s `props` is typed from the component name automatically - no explicit generic needed:
+The package uses [spatie/typescript-transformer](https://github.com/spatie/typescript-transformer) under the hood to generate the TypeScript types.
+
+The command finds every registered component collection and every `#[TypeScript]`-tagged class of your own and writes the types into a `types.generated` folder.
+
+Use `--output` to specify a different folder for the generated TypeScript types.
+
+Use `--check` in CI to compare the files on disk with a fresh run and exit with an error when they differ.
+
+`mountAll` and `mount` then type `props` from the component name:
 
 ```typescript
 mountAll('ui:collapsible', ({ props }) => {
@@ -114,23 +106,23 @@ mountAll('ui:collapsible', ({ props }) => {
 });
 ```
 
-See [Hydration](/docs/core-concepts/hydration) for `mountAll`/`mount` itself.
+### PHP objects on the client
 
-An object-typed client prop must implement PHP's `JsonSerializable` - this mirrors what hydration already enforces at render time, just surfaced earlier as a generation error. A documented `@return array{...}` shape on `jsonSerialize()` is preferred over reflecting the class's public properties, since it's the actual wire contract.
+An object passed as a client prop must implement `JsonSerializable`. Its `jsonSerialize()` needs to carry an `@return array{...}` docblock so the generated type can follow that shape. Generation fails for a class without one.
 
-A bare `type="array"` can't tell a JS array from a JS object, so it resolves to `any`, not `unknown`: an `unknown` prop can't be passed on to a primitive's own, more specific prop type without a cast, `any` can. Declare a one-dimensional list as `type="string[]"` instead for a precise generated type - the command prints one warning with the number of props it could tighten this way, and `-v` lists them.
+### Arrays as client props
 
-Components added with `ui:add` hand `props` straight to their primitive (`new Select(props)`). Under a strict `tsc` that only type-checks once the generated types are in place, because without them `props` is an untyped bag. Generate the types before running `tsc` on a project that uses them.
+A prop declared `type="array"` generates as `any`, because the type cannot tell a list from an object. Declare a list as `type="string[]"` for a precise type. The command prints one warning with the number of props that qualify, and `-v` lists them.
 
-## Inheriting Props
+## Inheriting props
 
-Use `ui:useProps` to inherit prop definitions from another component - this is how you build wrapper components without redefining every prop:
+Build a wrapper around a primitive with `ui:useProps`. It imports the prop definitions, so the wrapper accepts the primitive's props as they are:
 
 ```html
 <!-- Inherit all props from the primitive -->
 <ui:useProps name="primitives:accordion.root" as="rootProps" />
 
-<!-- Inherit specific props only -->
+<!-- Inherit specific props -->
 <ui:useProps
     name="primitives:accordion.root"
     as="rootProps"
@@ -138,7 +130,7 @@ Use `ui:useProps` to inherit prop definitions from another component - this is h
 />
 ```
 
-`as="someName"` binds the imported, forwardable prop names under that name, for a paired `spreadProps="{someName}"` on the component you're actually rendering:
+`as="rootProps"` binds the imported, forwardable prop names under that name. Pass them on with `spreadProps="{rootProps}"` on the component you render:
 
 ```html
 <primitives:accordion.root spreadProps="{rootProps}">
@@ -146,4 +138,4 @@ Use `ui:useProps` to inherit prop definitions from another component - this is h
 </primitives:accordion.root>
 ```
 
-`as` is required whenever you genuinely render the referenced component this way - its presence is what tells Fluid Primitives your wrapper actually delegates, as opposed to just reusing another component's prop shape. Omit it if you don't render the referenced component at all (e.g. a wrapper that only wants the same prop _declarations_ for its own, independently-rendered markup) - `ui:useProps` still imports the prop definitions either way, it just won't forward anything anywhere.
+Add `as` whenever the wrapper renders the referenced component, it tells Fluid Primitives that the wrapper delegates. Without `as` the prop definitions are imported and nothing is forwarded, which suits a wrapper that reuses another component's props for its own markup.

@@ -9,8 +9,8 @@
 ## Features
 
 - Renders a native `<fieldset>`, so browsers and screen readers announce the group with the name of its `legend`
-- `disabled` reaches every control inside it, and every [Field](/docs/components/field) with the primitives it wraps - also the parts that are no native control, like a checkbox's control or a slider's thumb
-- Helper text and error text are linked to the fieldset with `aria-describedby`, the error text is only shown while the fieldset is `invalid`
+- `disabled` reaches every control inside it and every [Field](/docs/components/field) with the primitives it wraps, including custom parts like a checkbox's control or a slider's thumb
+- Helper text and error text are linked to the fieldset with `aria-describedby`, the error text shows while the fieldset is `invalid`
 - A fieldset inside a disabled fieldset is disabled as well
 
 ## Anatomy
@@ -30,21 +30,21 @@
 
 ## Examples
 
-### Disabled
+### Disable a group of fields
 
-Set `disabled` on the root. The fieldset carries it to everything inside, whatever the props of the fields say, and the browser skips them when the form is submitted.
+Set `disabled` on the root and everything inside is disabled, whatever the props of the fields say. The browser leaves disabled controls out of the submit.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldsetExamples.disabled" } %}
 
-### Invalid
+### Mark a group as invalid
 
-`invalid` marks the group as a whole, e.g. "choose at least one". It is not passed on to the fields inside, they keep validating themselves.
+Set `invalid` for a rule about the group as a whole, such as "choose at least one". The fields inside keep validating themselves.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldsetExamples.invalid" } %}
 
-### Toggling Disabled at Runtime
+### Disable a group at runtime
 
-Fields watch the `disabled` attribute of the fieldset they are in, so changing it afterwards reaches them too. Mount the fieldset yourself (`autoMount="{false}"`) to get hold of the instance, and update its props:
+Switch a group with `updateProps({ disabled })`, the fields inside follow. Render the fieldset with `autoMount="{false}"` and mount it in your entry file to get the instance.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldsetExamples.toggleDisabled", "additionalFiles": {"ToggleDisabled.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldsetExamples/ToggleDisabled.entry.ts"} } %}
 

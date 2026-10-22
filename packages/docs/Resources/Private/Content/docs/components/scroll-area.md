@@ -8,11 +8,11 @@
 
 ## Features
 
-- Uses native browser scrolling for performance
+- Native browser scrolling
 - Supports vertical and horizontal scrolling
 - Customizable scrollbar appearance
-- Supports visibility modes: always, scroll, or hover
-- Scrollbar thumb reflects the actual scroll position
+- Scrollbar visible always, while scrolling or on hover
+- Scrollbar thumb follows the scroll position
 
 ## Anatomy
 
@@ -33,15 +33,15 @@
 
 ## Examples
 
-### Horizontal Scroll
+### Scroll horizontally
 
-Enable horizontal scrolling for wide content.
+Add a horizontal `scrollbar` for wide content, like a row of product cards.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ScrollAreaExamples.horizontal" } %}
 
-### Both Directions
+### Scroll in both directions
 
-Support scrolling in both vertical and horizontal directions.
+Add one `scrollbar` per orientation for content that is wider and taller than the area, like a large table.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ScrollAreaExamples.bothDirections" } %}
 

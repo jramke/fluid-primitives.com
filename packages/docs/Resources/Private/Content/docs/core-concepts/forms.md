@@ -1,49 +1,29 @@
 # Forms
 
-A guide to building forms with Fluid Primitives — covering AJAX submission, Extbase integration, client-side validation, and field state management.
-
-## Overview
-
-The Form component replaces TYPO3's `f:form` ViewHelper with an AJAX-first alternative. Instead of a full-page reload, it submits via `fetch`, handles server-side Extbase validation errors, and updates field state without reloading the page.
-
-**What it gives you:**
-
-- AJAX submission — no full-page reload
-- Automatic Extbase field name prefixing (`tx_myext[MyObject][field]`)
-- 422 error mapping from Extbase validation to individual fields
-- Optional client-side validation with Standard Schema-compatible validators or callbacks
-- Form state (`ready`, `submitting`, `invalid`, `success`, `error`) exposed as `data-state` for CSS
-- Field-level error display, label association, and ARIA wiring via the Field component
-- Works with all Field-aware primitives: Select, Checkbox, RadioGroup, NumberInput, DatePicker, Slider, and plain HTML inputs
+Build a form that submits to an Extbase action with `fetch`, shows server and client validation errors on its fields and reports the result without a page reload.
 
 ## Installation
 
-First you should add the Form and Field primitives to your project:
+Add the Form and Field primitives:
 
 ```bash
 typo3 ui:add form && typo3 ui:add field
 ```
 
-## Basic Setup
+## Submit a form to an Extbase action
 
-### Template
+### Render the form
 
-Use `ui:form` with `action` pointing to your Extbase action and `objectName` matching the argument name in your controller:
+Point `action` at your Extbase action and set `objectName` to the name of the action's argument. `object` fills the fields from an existing model instance.
 
 ```html
-<ui:form.root
-    action="registration"
-    objectName="eventRegistration"
-    object="{eventRegistration}"
-    autoMount="{false}"
-    rootId="registration-form"
->
+<ui:form.root action="registration" objectName="eventRegistration" object="{eventRegistration}">
     <ui:field.root name="email" required="{true}">
         <ui:input.root type="email" autocomplete="email">
             <ui:input.label>Email</ui:input.label>
             <ui:input.input />
         </ui:input.root>
-        <ui:field.helperText>Used for your confirmation email.</ui:field.helperText>
+        <ui:field.helperText>We send your confirmation here.</ui:field.helperText>
         <ui:field.errorText />
     </ui:field.root>
 
@@ -51,43 +31,42 @@ Use `ui:form` with `action` pointing to your Extbase action and `objectName` mat
 </ui:form.root>
 ```
 
-The form renders as a standard `<form>` with `novalidate` and the Extbase action URL resolved server-side. The `object` prop pre-populates field values from an existing model instance.
+Each input sits in a [field](/docs/components/field). Its `name` is the property of your model (`person.name` for a nested one), which is how errors find the field. Primitives like `ui:select` or `ui:numberInput` nest the same way, and their own `label` part points the label at the right control. A native element without a primitive goes into `ui:field.control` with `asChild="{true}"`.
 
-{% component: "ui:alert", arguments: {"title": "Which plugin's field prefix?", "text": "The prefix (`tx_myext_myplugin[...]`) follows the plugin the form submits to, not the plugin that renders it. It is derived from `controller` and `action`, so a form rendered by one plugin that posts to an AJAX action registered under another still gets the right prefix. `pluginName` and `extensionName` set it by hand and always win. Outside an Extbase request, for example in a plain Fluid partial, pass both `extensionName` and `pluginName`: with either one missing, rendering throws instead of producing a form whose POST fails later with a missing argument.", "variant": "info"} %}
+The values are sent under the argument namespace of the plugin the form submits to, for example `tx_myextension_eventregistration[eventRegistration][email]`. The form uses the plugin that renders it or, when you set `controller`, the plugin that registers that controller and `action`, so it can render in one plugin and post to an action of another. Set `extensionName` and `pluginName` to name the plugin yourself, they win over both. Outside an Extbase request, in a plain Fluid partial for example, pass both: with either one missing, rendering throws.
 
-### Controller
+### Answer with JSON
+
+Make sure your controller returns a valid JSON response via `$this->jsonResponse()`. To make this work you either have to register the action as an AJAX page type via Typoscript or use `throw PropagateResponseException()`.
+
+{% component: "ui:alert", arguments: {"title": "Persistence Warning", "text": "When using `PropagateResponseException` to return a JSON response, make sure to persist your data manually before throwing the exception since we exit Extbase's normal flow.", "variant": "warning"} %}
+
+`JsonValidationErrorsTrait` replaces the `errorAction()` of your controller. Failed validation is automatically answered with a `422` JSON response of messages keyed by field, which the form maps onto its fields. Good to know: the trait uses `PropagateResponseException` internally to return the JSON response.
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace Vendor\MyExtension\Controller;
-
-use Vendor\MyExtension\Domain\Model\EventRegistration;
 use Jramke\FluidPrimitives\Traits\JsonValidationErrorsTrait;
-use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
 
 final class EventRegistrationController extends ActionController
 {
     use JsonValidationErrorsTrait;
 
+    public function __construct(
+        private readonly EventRegistrationRepository $eventRegistrationRepository,
+    ) {}
+
     public function registrationAction(EventRegistration $eventRegistration): ResponseInterface
     {
-        // Process the submission
-        // $this->eventRegistrationRepository->save($eventRegistration);
+        $this->eventRegistrationRepository->add($eventRegistration);
 
-        return $this->jsonResponse(json_encode(['success' => true]))->withStatus(200);
+        return $this->jsonResponse(
+            json_encode(['message' => 'Thank you for registering.'], JSON_THROW_ON_ERROR),
+        );
     }
 }
 ```
 
-The `JsonValidationErrorsTrait` replaces your controller's `errorAction()`. Instead of Extbase's redirect back to the referring request, failed validation is answered with a 422 JSON response of field-keyed error messages. The Form component reads this response and assigns the errors to individual fields.
-
-{% component: "ui:alert", arguments: {"title": "Why is the response thrown?", "text": "An action inside a content-element plugin is rendered into the page, so a returned JSON body would arrive wrapped in your page layout. The trait throws a `PropagateResponseException` instead, the same way TYPO3 stops rendering for `throwStatus()`. Do the same for any JSON response the client has to read. If the action wrote to the database, call `persistAll()` first: Extbase only flushes persistence after a normal return.", "variant": "info"} %}
-
-The trait applies to the whole controller. To keep Extbase's own error handling for some actions, alias the trait's method and dispatch by hand:
+The trait covers every action of the controller. To keep Extbase's error handling for other actions, alias its method and dispatch by hand:
 
 ```php
 final class EventRegistrationController extends ActionController
@@ -103,15 +82,16 @@ final class EventRegistrationController extends ActionController
             return $this->jsonErrorAction();
         }
 
-        // Custom handling for the other actions
         return parent::errorAction();
     }
 }
 ```
 
-### Entry File (TypeScript)
+### Send the values
 
-The form requires a client-side entry file. Use `autoMount="{false}"` on the root and fetch its hydration data by ID:
+`ui:add form` ships an entry file that mounts every form and posts its values with [`extbase.post()`](/docs/client-utilities/extbase). The `message` of the JSON response becomes the error or success text of the form.
+
+Write your own entry file for `validation`, `render` or a different `onSubmit`. Give the root `autoMount="{false}"` and a `rootId` such as `registration-form`, then mount it by that id (see [Hydration](/docs/core-concepts/hydration)):
 
 ```typescript
 import { extbase, mount } from 'fluid-primitives';
@@ -139,168 +119,100 @@ mount('ui:form', 'registration-form', ({ props }) =>
 );
 ```
 
-Without an `onSubmit` the form only prevents the native submit and goes straight to `success` without sending anything, so every form needs one. The `onSubmit` above is what `ui:add form` ships (there with `mountAll`): it sends the values, shows the `message` of a JSON response as the error or success text, and treats a response that is not JSON as one without a message. A network failure rejects, which ends the form in the generic `error` state, as `return false` does. Wiring the submit button's loading state is not part of it, see [Submit Button](#content-submit-button).
+`extbase.post()` nests the values under the Extbase namespace, Extbase's hidden `__trustedProperties` and `__identity` fields included, so your fields keep plain names like `email` or `person.name`.
 
-[`extbase.post()`](/docs/client-utilities/extbase) is the helper for every request to an Extbase action, the form's one included. It nests the data under the Extbase argument namespace (`tx_myext[MyObject][field]`), so your form fields can use plain names like `email` or nested dot paths like `person.name` in the template. The form's `values.toObject()` carries Extbase's own hidden fields (`__trustedProperties`, `__identity`) and `extbase.post()` keeps them below the prefix. `api.getFieldNamePrefix()` and `api.getObjectName()` are the two names the server rendered the form with, and you do not need to pass the prefix when the action URL carries it. `extbase.post()` also throws a 422 JSON validation response, which the form catches and maps back to the fields before it transitions to `invalid`.
+## Show server-side errors on the fields
 
-The Form API exposes a `FormValues` object via `api.getValues()` and inside `validation` / `onSubmit` callbacks. `FormValues` keeps leaf values uncoerced as `string | File`, supports `get(path)`, `getAll(path)`, `has(path)`, `pick(path)`, and `toObject()`, and uses your field names as canonical dot paths. That means `ticketCount` still reads as `'2'`, not `2`, until your validator or application code converts it.
-
-## The Field Component
-
-`ui:field.root` wraps any input and wires up labels, helper text, errors, and ARIA attributes. The `name` prop is required and must match the property name on your model.
-
-### Anatomy
-
-A Field-aware primitive like `ui:input` (or `ui:select`, `ui:numberInput`, ...) nests directly inside `ui:field.root` - no `field.control` needed, it inherits `name`/`disabled`/`required`/`invalid`/`aria-describedby` automatically. Use the primitive's own `label` part (nested inside its `root`) rather than `field.label` - it targets the right control automatically, the same way `ui:numberInput.label` does:
-
-```html
-<ui:field.root name="email" required="{true}">
-    <ui:input.root type="email">
-        <ui:input.label>Email address</ui:input.label>
-        <ui:input.input />
-    </ui:input.root>
-    <ui:field.helperText>We'll send your confirmation here.</ui:field.helperText>
-    <ui:field.errorText />
-</ui:field.root>
-```
-
-For a genuinely native/custom element with no dedicated primitive, use `field.control` with `asChild="{true}"` instead - it spreads the field's ARIA attributes onto the child element directly:
-
-```html
-<ui:field.root name="rating" required="{true}">
-    <ui:field.label>Rating</ui:field.label>
-    <ui:field.control asChild="{true}">
-        <select>
-            <option value="1">1 star</option>
-            <option value="5">5 stars</option>
-        </select>
-    </ui:field.control>
-    <ui:field.errorText />
-</ui:field.root>
-```
-
-**Parts:**
-
-- `field.label` — renders a `<label>` with `for` pointing to the control
-- `field.control` — when `asChild="{true}"`, spreads the field's ARIA attributes onto the child element
-- `field.helperText` — optional helper text, wired to `aria-describedby`
-- `field.errorText` — renders the error message, wired to `aria-describedby` and only shown when the field is in an error state. Give it a `match` to show your own text for one failed constraint, e.g. `valueMissing` or `typeMismatch`
-- `field.indicator` — shows its content while the field is `required`, `invalid`, `valid` or `validating`, depending on its `type`
-
-### Field Props
-
-`ui:field.root` accepts these props:
-
-- `name` (`string`, required) — maps to the model property and form field name
-- `required` (`boolean`) — marks the field required; propagates to the control
-- `disabled` (`boolean`) — disables the field and all contained controls
-- `readOnly` (`boolean`) — sets the field and controls to read-only
-- `invalid` (`boolean`) — forces the field into an invalid state (e.g. pre-populated server error)
-- `defaultValue` (`mixed`) — pre-populates the field value
-- `validationMode` (`onBlur` | `onSubmit` | `onChange`) — when the field validates and shows its errors, `onBlur` by default
-- `listenTo` (`string[]`) — names of sibling fields whose changes validate this field again
-
-### Inherited Field Props on Primitives
-
-When a Field-aware primitive is placed inside a `ui:field.root`, the field's state automatically propagates into the primitive. You do not need to repeat `disabled`, `required`, etc. on the primitive itself. A field inside a `ui:fieldset.root` (or a plain `<fieldset disabled>`) is disabled as long as the fieldset is.
-
-```html
-<!-- disabled on field.root propagates to the Select automatically -->
-<ui:field.root name="country" disabled="{true}">
-    <ui:select.root collection="{countries}">
-        <ui:select.label>Country</ui:select.label>
-        <ui:select.control>
-            <ui:select.trigger placeholder="Pick a country" />
-        </ui:select.control>
-        <ui:select.content>
-            <ui:select.list>
-                <f:for each="{countries.items}" as="item">
-                    <ui:select.item item="{item}">
-                        <ui:select.itemText>{item.label}</ui:select.itemText>
-                    </ui:select.item>
-                </f:for>
-            </ui:select.list>
-        </ui:select.content>
-    </ui:select.root>
-    <ui:field.errorText />
-</ui:field.root>
-```
-
-## Server-Side Validation
-
-Each form should have server-side validation to ensure your controller gets the expected data. Since server-side validation cant be easily bypassed this is our main source of truth. Client-side validation "just" enhances the UX of your forms. You should use both.
-
-Server-side errors are stored by its field and value. So like in the example, when the user submits a VIP registration he gets an error because vip tickets are sold out. When he changes the ticket type to standard the error resolves. However when the user switches back to the vip ticket we automatically show the server side error again.
-
-### Extbase Model Validation
-
-Use PHP 8 attributes on your model to declare validation rules. Extbase runs these before your action is called. If validation fails, `errorAction` is triggered — which the `JsonValidationErrorsTrait` converts to a 422 JSON response.
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace Vendor\MyExtension\Domain\Model;
-
-use TYPO3\CMS\Extbase\Annotation\Validate;
-
-class EventRegistration
-{
-    #[Validate(['validator' => 'NotEmpty'])]
-    #[Validate(['validator' => 'EmailAddress'])]
-    #[Validate(['validator' => 'StringLength', 'options' => ['maximum' => 255]])]
-    private string $email = '';
-
-    #[Validate(['validator' => 'NotEmpty'])]
-    #[Validate(['validator' => 'StringLength', 'options' => ['maximum' => 255]])]
-    private string $name = '';
-
-    #[Validate(['validator' => 'Boolean', 'options' => ['is' => true]])]
-    private bool $privacy = false;
-
-    // getters and setters...
-}
-```
-
-The 422 JSON response has the shape:
+With the trait, Extbase's validation errors arrive as a `422` response. Each key is a property path, prefixed with the `objectName`:
 
 ```json
 {
-    "eventRegistration.email": ["This field must be a valid email address."],
-    "eventRegistration.name": ["This field must not be empty."]
+    "eventRegistration.email": ["Please enter a valid email address."],
+    "eventRegistration.name": ["Please enter your name."]
 }
 ```
 
-The Form component maps each key to the corresponding field by name and displays the error in `ui:field.errorText`.
+Every key lands on the field with that `name` and shows in its `ui:field.errorText`.
 
-### Manual 422 Response
+A server error belongs to the value that caused it. It disappears when the user changes the value and returns when they enter that value again. Pick the VIP ticket in the [event registration example](#content-complete-example-event-registration) and submit to see it.
 
-For business-rule validation that doesn't belong in the model, send a 422 directly from your action. Throw it like the trait does, since a returned response would arrive wrapped in your page layout:
+A key equal to the `objectName` carries a message about the whole object. It becomes the error text of the form and the form ends in `error`.
+
+### Reject a submission from the action
+
+For a rule that lives outside the model, such as a sold-out ticket, send the `422` yourself:
 
 ```php
-use TYPO3\CMS\Core\Http\PropagateResponseException;
-
-public function registrationAction(EventRegistration $eventRegistration): ResponseInterface
-{
-    if ($eventRegistration->getTicketType() === 'vip') {
-        $payload = ['eventRegistration.ticketType' => ['VIP tickets are sold out.']];
-        throw new PropagateResponseException($this->jsonResponse(json_encode($payload))->withStatus(422));
-    }
-
-    // continue with save...
+if ($eventRegistration->getTicketType() === 'vip') {
+    $payload = ['eventRegistration.ticketType' => ['VIP tickets are sold out.']];
+    $response = $this->jsonResponse(json_encode($payload, JSON_THROW_ON_ERROR))->withStatus(422);
 }
 ```
 
-### Submit Results And Status States
+## Client-side validation
 
-`onSubmit` can return three outcomes:
+Validating in the browser gives quicker feedback and improves the user experience. Keep the server-side validation as well: a client check can be bypassed, the server check cannot. Native constraints, the `validation` of the form and the `validate` of a field end up in the same error text as the errors of the server.
 
-- `true` transitions the form to `success`
-- `false` transitions the form to the generic `error` state
-- `Record<string, { messages: string[] }>` transitions the form to `invalid` and assigns field errors
+Fields check the native constraints of their control without any TypeScript: `required`, `type="email"`, `pattern`, `min`/`max` and `minlength`/`maxlength`. Submit this form empty to see the messages:
 
-For form-level messaging, use `api.setErrorText()` and `api.setSuccessText()`. The `form.content`, `form.indicator`, `form.errorText`, and `form.successText` primitives remove the need for `group-[[data-state=...]]` selectors:
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.nativeValidation" } %}
+
+A field validates when the user leaves it after editing. A submit validates every field and moves the focus to the first invalid one. The [validation mode](/docs/components/field#content-validation-mode) changes when errors show up, and a field can run its own [async check](/docs/components/field#content-async-validation).
+
+### Validate with a schema
+
+Pass a synchronous Standard Schema validator such as Zod (`npm install zod`) as `validation`, next to your `onSubmit`:
+
+```typescript
+import { z } from 'zod';
+
+const validation = z.object({
+    name: z.string().min(1, 'Please enter your name'),
+    email: z.email('Please enter a valid email address'),
+    ticketCount: z.coerce.number().min(1).max(10),
+    privacy: z.literal('1', 'Please accept the privacy policy'),
+});
+
+mount('ui:form', 'registration-form', ({ props }) => new Form({ ...props, validation }).init());
+```
+
+The keys match the `name` of the fields, `person.name` for a nested one. Values arrive as strings or `File`s, so `ticketCount` reads as `'2'` until `z.coerce.number()` converts it. `onSubmit` runs once every field is valid, until then the focus moves to the first invalid field. Any validator that implements the Standard Schema interface works the same way.
+
+### Manual client-side validation
+
+Without a schema library, pass a callback. It receives `values` and returns errors keyed by field name, the shape of a `422` response. A callback also suits rules across fields, like a password confirmation.
+
+```typescript
+mount('ui:form', 'registration-form', ({ props }) =>
+    new Form({
+        ...props,
+        validation: ({ values }) => {
+            const errors: Record<string, { messages: string[] }> = {};
+            const email = values.get('email');
+
+            if (typeof email !== 'string' || !email.includes('@')) {
+                errors.email = { messages: ['Please enter a valid email address.'] };
+            }
+
+            return errors;
+        },
+    }).init()
+);
+```
+
+`values` offers `get(path)`, `getAll(path)`, `has(path)`, `pick(path)` and `toObject()`, with your field names as dot paths. `validation` runs synchronously. Check a single field asynchronously with the `validate` of the field, and use `onSubmit` for checks that need the whole form.
+
+## Show the result of a submit
+
+`onSubmit` ends with one of three results:
+
+- `true` - the form goes to `success`
+- `false` - the form goes to `error`, as does a rejected promise such as a network failure
+- field errors, `Record<string, { messages: string[] }>` - the form goes to `invalid` and every message lands on its field
+
+### Show a message for the whole form
+
+Set the text with `api.setErrorText()` and `api.setSuccessText()`, as the `onSubmit` above does. `form.content` shows its fields in `ready`, `invalid` and `submitting` and hides them in `error` and `success`. A `form.indicator` shows its content in the state you give it. `form.errorText` and `form.successText` show the text you set, or their own content when you set none. A button with `type="reset"` brings the form back to `ready`.
 
 ```html
 <ui:form.root ...>
@@ -321,156 +233,21 @@ For form-level messaging, use `api.setErrorText()` and `api.setSuccessText()`. T
 </ui:form.root>
 ```
 
-Set the status text in your entry file and return the matching submit result:
+### Map a response to field errors
+
+A response other than a `422` can end up on a field too. Return the errors from `onSubmit` after the `extbase.post()` call:
 
 ```typescript
-onSubmit: async ({ api, values }) => {
-    const response = await extbase.post(api.getAction(), values.toObject(), {
-        prefix: api.getFieldNamePrefix(),
-        objectName: api.getObjectName(),
-    });
-    const json = await response.json().catch(() => ({}));
+if (response.status === 409) {
+    return { email: { messages: ['This email address is already registered.'] } };
+}
 
-    if (!response.ok) {
-        api.setErrorText(json.message ?? 'Something went wrong.');
-        return false;
-    }
-
-    api.setSuccessText(json.message ?? 'Your registration was submitted successfully.');
-    return true;
-},
+return response.ok;
 ```
 
-When you send the values with `extbase.post()`, 422 JSON validation responses do not come back as a normal `Response`. It throws them as an `ExtbaseValidationError`, which the Form primitive catches, maps to fields automatically, and transitions the form to `invalid`. Messages about the object itself (the `objectName` key of the response) become the error text of the form and the form goes to `error`.
+### Style the form state
 
-## Client-Side Validation
-
-To enhance the UX of your forms you should also use (slimmed down) client-side validation in addition to (more complex) server-side validation.
-
-Every field validates itself. What it checks comes from three places that end up in the same list of errors: the native constraints of its control (`required`, `type="email"`, `pattern`, `min`/`max`, `minlength`/`maxlength`, ...), the `validation` of the `Form` described below, and a `validate` function of the field itself (see [Async Validation](/docs/components/field#async-validation)). The server's own errors, from a 422 response or returned by `onSubmit`, are shown the same way.
-
-By default (`validationMode="onBlur"`) a field validates when the user leaves it after editing it, so tabbing through an untouched form stays quiet. Once a field already has an error, we validate it on change too so the user gets immediate feedback while fixing it. A submit validates every field at once, shows all errors and moves the focus to the first invalid field. A disabled field is exempt, like in a native form. See [Validation Mode](/docs/components/field#validation-mode) for the other modes.
-
-Each field also tracks the state of the interaction: `touched` becomes `true` after the user left the field for the first time, `dirty` is `true` while the value differs from the one the field started with (and goes back to `false` when the user reverts the edit), `filled` tells whether the field has a value, and `focused` whether the focus is inside the field. Together with `valid`, `invalid` and `validating` they are available on `form.api.getField(name)` and mirrored to every part of the field as `data-touched`, `data-dirty`, `data-filled`, `data-focus`, `data-valid` and `data-invalid` attributes for styling.
-
-Install your validator separately. For Zod:
-
-```bash
-npm install zod
-```
-
-You do not need an extra Standard Schema package in your app code. Just pass your existing schema object to `validation`.
-
-Pass a synchronous Standard Schema-compatible validator to the `Form` constructor. Zod works out of the box. Errors are mapped to fields by key:
-
-```typescript
-import { z } from 'zod';
-import { mount } from 'fluid-primitives';
-import { Form } from 'fluid-primitives/form';
-
-const validation = z.object({
-    name: z.string().min(1, 'Please enter your name'),
-    email: z.email('Please enter a valid email address'),
-    ticketCount: z.coerce.number().min(1).max(10),
-    privacy: z.literal('1', 'You must accept the privacy policy'),
-});
-
-mount('ui:form', 'registration-form', ({ props }) =>
-    new Form({
-        ...props,
-        validation,
-        onSubmit: async ({ api, values }) => {
-            const response = await extbase.post(api.getAction(), values.toObject(), {
-                prefix: api.getFieldNamePrefix(),
-                objectName: api.getObjectName(),
-            });
-            return response.ok;
-        },
-    }).init()
-);
-```
-
-Any validator that implements the Standard Schema interface can be passed here without an adapter.
-
-Validation keys must match the field `name` props in the template. If client-side validation fails, the form stays in the `invalid` state and focus moves to the first invalid field. The `onSubmit` callback is not called.
-
-## Manual Client-Side Validation
-
-If you prefer not to use a schema library, pass a synchronous `validation` callback. It receives the current `values` object and should return the same flat field-keyed error shape used by server validation responses. Missing `value` properties are filled automatically with the current field value:
-
-```typescript
-import { mount } from 'fluid-primitives';
-import { Form } from 'fluid-primitives/form';
-
-mount('ui:form', 'registration-form', ({ props }) =>
-    new Form({
-        ...props,
-        validation: ({ values }) => {
-            const errors: Record<string, { messages: string[] }> = {};
-            const email = values.get('email');
-
-            if (typeof email !== 'string' || !email.includes('@')) {
-                errors.email = { messages: ['Please enter a valid email address.'] };
-            }
-
-            return errors;
-        },
-        onSubmit: async ({ api, post }) => {
-            const response = await post(api.getAction());
-
-            return response.ok;
-        },
-    }).init()
-);
-```
-
-The `validation` callback must be synchronous. For an async check of a single field give that field its own `validate` function (see [Async Validation](/docs/components/field#async-validation)), and use `onSubmit` for checks that need the whole form.
-
-## Async Validation During Submission
-
-If a validation rule depends on async work inside `onSubmit`, send the values with `extbase.post()` as above when the endpoint accepts the same form payload shape. If that endpoint returns a non-422 response, you can still map it to field errors yourself:
-
-```typescript
-import { mount } from 'fluid-primitives';
-import { Form } from 'fluid-primitives/form';
-
-mount('ui:form', 'registration-form', ({ props }) =>
-    new Form({
-        ...props,
-        onSubmit: async ({ values }) => {
-            const response = await extbase.post('/email-check', values.toObject(), {
-                prefix: 'tx_myext',
-            });
-
-            if (response.status === 409) {
-                return {
-                    email: { messages: ['This email address is already registered.'] },
-                };
-            }
-
-            if (!response.ok) {
-                return false;
-            }
-
-            return true;
-        },
-    }).init()
-);
-```
-
-Returning field errors from `onSubmit` transitions the form to `invalid` and maps errors to fields exactly like a 422 server response.
-
-## Form State
-
-The form element receives a `data-state` attribute that reflects the current state:
-
-- `ready` — initial state, form is ready for input
-- `submitting` — submission in progress
-- `invalid` — validation failed (client or server)
-- `success` — `onSubmit` returned `true`
-- `error` — `onSubmit` returned `false` or threw a non-validation error
-
-Use `data-state` in CSS to conditionally show/hide sections or style the submit button:
+The `<form>` carries a `data-state` attribute: `ready`, `submitting`, `invalid`, `success` or `error`. `data-submitting`, `data-invalid`, `data-dirty` and `data-touched` are present while they apply.
 
 ```css
 form[data-submitting] button[type='submit'] {
@@ -479,11 +256,9 @@ form[data-submitting] button[type='submit'] {
 }
 ```
 
-The `render` callback on the `Form` constructor runs every time the form state changes. Use it to update UI elements that are outside the form machine's automatic wiring, like the submit button.
+## Submit button
 
-## Submit Button
-
-Use the [Button](/docs/components/button) as the submit button. While the form submits it is `loading`: it stays focusable with `focusableWhenDisabled`, so keyboard users keep their place, it ignores clicks and the Enter key, and its `indicator` parts swap the label. See [Loading States](/docs/components/button#content-loading-states) for why the label is wrapped in an element that `aria-labelledby` points at.
+Use the [Button](/docs/components/button) as the submit button. It shows a loading state while the form submits: `focusableWhenDisabled` keeps the focus on it and its `indicator` parts swap the label. [Loading States](/docs/components/button#content-loading-states) explains the `aria-labelledby` wrapper.
 
 ```html
 <f:variable name="submitLabelId" value="{ui:id()}" />
@@ -507,9 +282,11 @@ Use the [Button](/docs/components/button) as the submit button. While the form s
 </ui:button>
 ```
 
-Mount the button yourself with its `rootId` and pass the submitting state on in `render`:
+Mount the button with its `rootId` and pass the submitting state on from the `render` callback of the form, which runs whenever the form state changes:
 
 ```typescript
+import { Button } from 'fluid-primitives/button';
+
 const submitButton = mount('ui:button', 'submit-button', ({ props }) => new Button(props).init());
 
 mount('ui:form', 'registration-form', ({ props }) =>
@@ -520,8 +297,8 @@ mount('ui:form', 'registration-form', ({ props }) =>
 );
 ```
 
-## Complete Example: Event Registration
+## Complete example: event registration
 
-A full event registration form with Extbase model validation, a server-side business rule (VIP tickets sold out), and Zod client-side pre-validation via `validation`.
+A registration with a ticket select, a country combobox, an optional badge photo and Zod validation on the client. The student ticket shows a student ID field through [`listenTo`](/docs/components/field#content-show-a-field-depending-on-another-field), and the VIP ticket is sold out on the server.
 
 {% component: "ui:componentExample", arguments: { "componentName": "EventRegistration", "additionalFiles": {"EventRegistration.entry.ts": "EXT:docs/Resources/Private/Components/EventRegistration/EventRegistration.entry.ts", "EventRegistrationController.php": "EXT:docs/Classes/Controller/EventRegistrationController.php", "EventRegistration.php": "EXT:docs/Classes/Domain/Model/EventRegistration.php", "EventRegistrationPerson.php": "EXT:docs/Classes/Domain/Model/EventRegistrationPerson.php", "EventRegistrationValidator.php": "EXT:docs/Classes/Domain/Validator/EventRegistrationValidator.php"} } %}

@@ -1,6 +1,6 @@
 # Checkbox
 
-**An easily stylable checkbox component.**
+**A checkbox with a checked, unchecked and indeterminate state.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "Checkbox" } %}
 
@@ -9,8 +9,8 @@
 ## Features
 
 - Tri-state support (checked, unchecked, indeterminate)
-- Syncs with native form elements for proper form submission
-- Works with Field component for form integration
+- Syncs with a native input for form submission
+- Works with the Field component
 - Full keyboard support
 
 ## Anatomy
@@ -31,21 +31,21 @@
 
 ## Examples
 
-### Default Checked
+### Default checked
 
-Set the checkbox to be checked by default.
+Pass `defaultChecked="{true}"` to render the checkbox checked.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CheckboxExamples.defaultChecked" } %}
 
-### Indeterminate State
+### Indeterminate state
 
-Use the indeterminate state for "select all" checkboxes or partial selections.
+Pass `defaultChecked="indeterminate"` for a "select all" checkbox while only some of its options are selected.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CheckboxExamples.indeterminate" } %}
 
 ### Disabled
 
-Prevent interaction with the checkbox.
+Pass `disabled="{true}"` to block interaction with the checkbox.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CheckboxExamples.disabled" } %}
 

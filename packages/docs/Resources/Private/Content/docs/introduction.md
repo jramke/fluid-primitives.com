@@ -1,20 +1,20 @@
 # Introduction
 
-Fluid Primitives brings modern component patterns to TYPO3. Build accessible, composable UI components with the same developer experience you'd expect from React libraries like Radix or Base UI - but for Fluid templates.
+Fluid Primitives is a headless component library for TYPO3 Fluid. Build accessible, composable UI components like accordions, dialogs, tabs and selects in your Fluid templates, and style them any way you like.
 
-{% component: "ui:alert", arguments: {"title": "Under Construction", "text": "Fluid Primitives is in early development. Expect breaking changes until v1.0. We're actively shipping new components and features.", "variant": "warning"} %}
+{% component: "ui:alert", arguments: {"title": "Under Construction", "text": "Fluid Primitives is in early development. The API can still change until v1.0.", "variant": "warning"} %}
 
-If something is unclear, you found a bug or want a feature, please open an [issue](https://github.com/jramke/fluid-primitives/issues) or reach out via [slack](https://typo3.slack.com/archives/D07KMQW2A6N).
+Open an [issue](https://github.com/jramke/fluid-primitives/issues) if something is unclear, you found a bug or want a feature. You can also reach out via [Slack](https://typo3.slack.com/archives/D07KMQW2A6N).
 
-## What You Get
+## What you get
 
-**Accessible by default.** Every interactive component handles interaction and semantics automatically in a WAI-ARIA compliant way via [Zag.js](https://zagjs.com/) state machines.
+**Accessible.** Keyboard interaction, focus management and ARIA attributes come from [Zag.js](https://zagjs.com/) state machines.
 
-**Composable API.** No more prop drilling. Build complex UIs by composing small, focused parts that work together.
+**Composable.** Assemble a component from small parts in your template and put your own markup between them.
 
-**Unstyled.** Zero design opinions. Use Tailwind, vanilla CSS, or any styling approach. You control every pixel.
+**Unstyled.** The parts carry no design. Style them with Tailwind, vanilla CSS or whatever your project uses.
 
-**Server-rendered.** Components render on the server with PHP/Fluid, then hydrate on the client. No layout shift, great for SEO.
+**Server-rendered.** Fluid renders the full markup on the server and TypeScript hydrates it in the browser. The page loads without layout shift and search engines see the content.
 
 ## Acknowledgments
 

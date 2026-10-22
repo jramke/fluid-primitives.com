@@ -3,6 +3,7 @@
 @import './content-grid.css';
 @import './link.css';
 @import './scroller.css';
+@import './inline-code.css';
 @import './typography.css' layer(components);
 @import './button.css' layer(components);
 @import './badge.css' layer(components);

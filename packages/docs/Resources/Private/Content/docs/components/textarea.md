@@ -1,6 +1,6 @@
 # Textarea
 
-**A multi-line text input that works with Field, with optional word count, screen reader announcements, and submit-on-Enter.**
+**A multi-line text input that works with Field, with an optional character counter, screen reader announcements and submit on Enter.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "Textarea" } %}
 
@@ -8,12 +8,12 @@
 
 ## Features
 
-- Works standalone or nested directly inside `ui:field.root` - no `field.control` wrapper needed
-- Auto-resizes to fit its content via CSS `field-sizing: content` - no `@zag-js/auto-resize` or JS involved, see the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/CSS/field-sizing) for browser support
-- Optional `submitOn` prop to submit the nearest form on Enter or Cmd/Ctrl+Enter instead of inserting a newline
-- Optional `transform` callback to sanitize/reformat the value as the user types, with cursor position preserved
-- Optional `wordCount` part rendering a translatable "42 / 250 characters" style counter, driven by `maxLength`
-- Word count updates are announced to screen readers by default through the page's shared live region, debounced so it doesn't spam assistive tech on every keystroke - pass `announce="{false}"` to turn it off
+- Works standalone or directly inside `ui:field.root`, no `field.control` wrapper
+- The `ui` copy grows with its content through CSS `field-sizing: content`, see the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/CSS/field-sizing) for browser support
+- Optional `submitOn` prop to submit the nearest form on Enter or Cmd/Ctrl+Enter
+- Optional `transform` callback to sanitize or reformat the value while typing, the cursor position is kept
+- Optional `wordCount` part with a translatable "42 / 250 characters" counter, driven by `maxLength`
+- Counter updates are announced to screen readers, debounced by `announceDebounce` (600 ms by default). Pass `announce="{false}"` to turn this off
 
 ## Anatomy
 
@@ -31,27 +31,27 @@
 
 ## Examples
 
-### With Field
+### With field
 
-Nest `ui:textarea.root` directly inside `ui:field.root` - it inherits `name`, `disabled`, `required`, `invalid` and `aria-describedby` automatically, the same way `ui:input`/`ui:select` do. Use the primitive's own `label` part (nested inside `root`) rather than `field.label` - it targets the right control automatically.
+Nest `ui:textarea.root` directly inside `ui:field.root`. The textarea takes `name`, `disabled`, `required`, `invalid` and `aria-describedby` from the field. Label it with the primitive's own `textarea.label`, which targets the textarea for you. The demo is a required bio field with helper and error text.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TextareaExamples.withField" } %}
 
-### With Word Count
+### With word count
 
-Pass `maxLength` and add the `wordCount` part wherever you want it - it doesn't need to be a direct sibling of `textarea`.
+Pass `maxLength` and place the `wordCount` part anywhere inside `textarea.root`. The bio in the demo counts up to 280 characters.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TextareaExamples.wordCount" } %}
 
 ### Submit on Enter
 
-Pass `submitOn="{f:constant(name: 'Jramke\FluidPrimitives\Enum\TextareaSubmitOn::ModEnter')}"` to submit the nearest `<form>` on Cmd/Ctrl+Enter instead of inserting a newline - plain Enter still inserts a newline. Use `TextareaSubmitOn::Enter` for the opposite: plain Enter submits, Shift+Enter inserts a newline. Wrap the textarea in `ui:form.root` (or any native `<form>`) for the submit to actually go anywhere - `submitOn` just calls `closest('form')?.requestSubmit()`.
+Set `submitOn="{f:constant(name: 'Jramke\FluidPrimitives\Enum\TextareaSubmitOn::ModEnter')}"` to submit the surrounding form with Cmd/Ctrl+Enter while plain Enter inserts a newline. `TextareaSubmitOn::Enter` submits with plain Enter and inserts a newline with Shift+Enter. Wrap the textarea in `ui:form.root` or a native `<form>`: `submitOn` calls its `requestSubmit()`. Press Cmd/Ctrl+Enter in the demo to submit it.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TextareaSubmitOnEnterExample", "additionalFiles": {"TextareaSubmitOnEnterExample.ts": "EXT:docs/Resources/Private/Components/TextareaSubmitOnEnterExample/TextareaSubmitOnEnterExample.entry.ts"} } %}
 
-### With a Transform Callback
+### With a transform callback
 
-`transform` runs on every native `input` event, before the value is committed - return the value that should actually be written back to the textarea, with cursor position preserved across the rewrite. Because a real function can't cross the PHP → client JSON boundary, this can only be set by constructing `Textarea` yourself in a custom entry file, rather than as a Fluid prop. Type lowercase below - it's uppercased as you type:
+`transform` runs on every `input` event and returns the value to write back to the textarea. A function can't be set from the template, so pass `transform` where you create `Textarea` in your own entry file. Type in lowercase and it turns uppercase as you type.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TextareaTransformExample", "additionalFiles": {"TextareaTransformExample.ts": "EXT:docs/Resources/Private/Components/TextareaTransformExample/TextareaTransformExample.entry.ts"} } %}
 

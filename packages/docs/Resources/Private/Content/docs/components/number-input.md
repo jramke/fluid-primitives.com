@@ -1,6 +1,6 @@
 # Number Input
 
-**A numeric input component with increment and decrement controls.**
+**A numeric input with increment and decrement buttons.**
 
 {% component: "ui:referenceButtons", arguments: { "name": "NumberInput" } %}
 
@@ -8,13 +8,13 @@
 
 ## Features
 
-- Based on the spinbutton pattern
-- Supports using the scroll wheel to increment and decrement the value
-- Handles floating point rounding errors when incrementing, decrementing, and snapping to step
-- Supports pressing and holding the spin buttons to continuously increment or decrement
-- Supports rounding value to specific number of fraction digits
-- Support for scrubbing interaction
-- Automatically sets the locale based on Site Language
+- Follows the spinbutton pattern
+- Changes the value with the mouse wheel through `allowMouseWheel`
+- Avoids floating point rounding errors when incrementing, decrementing and snapping to a step
+- Keeps stepping while a button is pressed and held
+- Rounds the value to a set number of fraction digits
+- Scrubbing: change the value by dragging
+- Takes its locale from the site language
 
 ## Anatomy
 
@@ -37,40 +37,40 @@
 
 ## Examples
 
-### With Min/Max Constraints
+### With min/max constraints
 
-Pass the `min` prop or `max` prop to set an upper and lower limit for the input. By default, the input will restrict the value to stay within the specified range.
+Pass `min` and `max` to set the range and `step` to set the increment. The buttons stop at the limits, and a typed value snaps into the range when the input loses focus. The demo is a percentage from 0 to 100 in steps of 5.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.minMax" } %}
 
-### With Format Options
+### With format options
 
-You can format the input value to be rounded to specific decimal points or to be displayed as a currency by passing an object in shape of [Intl.NumberFormatOptions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat). Note that this is a client-only API so the initial value rendered on the server will not be formatted.
+Pass `formatOptions`, an object of [Intl.NumberFormat options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat), to round the value to a number of decimals or show it as a currency. The client formats the value, so the server renders it unformatted until the number input hydrates.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.formatOptions" } %}
 
-### With Scrubber
+### With scrubber
 
-The scrubber allows users to change the value by clicking and dragging horizontally.
+Wrap an element in `numberInput.scrubber` to change the value by dragging it horizontally. In the demo that element is the label.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.withScrubber" } %}
 
-### Mouse Wheel Support
+### Mouse wheel support
 
-Enable changing the value with the mouse wheel when the input is focused.
+Set `allowMouseWheel="{true}"` to change the value with the mouse wheel while the input has focus. Focus the input in the demo and scroll.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.mouseWheel" } %}
 
 ### Localization
 
-Default increment and decrement labels are shipped via XLF and follow the current Site Language. For per-template overrides, pass translated strings through the `translations` prop.
+The labels of the increment and decrement buttons ship in the language file and follow the site language. Pass `translations` to override them for one number input, for example for a quantity stepper in a shop.
 
 ```html
 <f:variable
     name="numberInputTranslations"
     value="{
-        incrementLabel: '{f:translate(key: \'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:forms.quantity.increase\')}',
-        decrementLabel: '{f:translate(key: \'LLL:EXT:site_package/Resources/Private/Language/locallang.xlf:forms.quantity.decrease\')}'
+        incrementLabel: '{f:translate(key: \'LLL:EXT:my_extension/Resources/Private/Language/locallang.xlf:forms.quantity.increase\')}',
+        decrementLabel: '{f:translate(key: \'LLL:EXT:my_extension/Resources/Private/Language/locallang.xlf:forms.quantity.decrease\')}'
     }"
 />
 

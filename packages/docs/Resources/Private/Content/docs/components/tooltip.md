@@ -33,33 +33,33 @@
 
 ## Examples
 
-### Custom Positioning
+### Change the placement
 
-Control where the tooltip appears relative to the trigger.
+Pass `placement` through the `positioning` prop. The tooltip below opens to the right of its trigger.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.customPositioning" } %}
 
-### Open Delay
+### Delay the opening
 
-Set a custom delay before the tooltip opens.
+Set `openDelay` in milliseconds, the default is 400. The tooltip below appears one second after you hover the button.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.openDelay" } %}
 
-### Close Delay
+### Delay the closing
 
-Set a custom delay before the tooltip closes after the pointer leaves.
+Set `closeDelay` in milliseconds, the default is 150. The tooltip below stays visible for 500 ms after the pointer leaves.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.closeDelay" } %}
 
-### Disabled Interaction
+### Disable the tooltip
 
-Prevent the tooltip from opening on hover.
+Set `disabled` to keep the tooltip closed, for example while the action behind a button is unavailable.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.disabled" } %}
 
-### On Icon Buttons
+### Label an icon button
 
-Common pattern for icon-only buttons that need accessible labels.
+Give an icon-only button a tooltip for sighted visitors and a visually hidden label for screen readers.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.iconButton" } %}
 

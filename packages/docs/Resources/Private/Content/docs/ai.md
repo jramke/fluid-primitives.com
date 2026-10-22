@@ -2,9 +2,9 @@
 
 Give your coding agent accurate Fluid Primitives knowledge: an installable Claude Code skill, plus plain-text endpoints any agent can read.
 
-## Claude Code Skill
+## Claude Code skill
 
-The skill teaches the usage model and knows the live docs endpoints below, so the agent reads the current props, data attributes, machine options and JS API of a component from the docs instead of guessing. Install it from the plugin marketplace in the library repo:
+The skill teaches the usage model and knows the live docs endpoints below. The agent reads the current props, data attributes, machine options and JS API of a component from the docs. Install it from the plugin marketplace in the library repo:
 
 ```bash
 /plugin marketplace add jramke/fluid-primitives
@@ -13,7 +13,7 @@ The skill teaches the usage model and knows the live docs endpoints below, so th
 
 ## Endpoints
 
-Any agent or tool can use these, no skill needed.
+Any agent or tool can read these without the skill.
 
 | Endpoint                                       | Returns                                                                                                                               |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
