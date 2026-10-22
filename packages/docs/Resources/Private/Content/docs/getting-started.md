@@ -21,6 +21,8 @@ npm install fluid-primitives@beta
 
 {% component: "ui:alert", arguments: {"title": "Version Match", "text": "Keep the Composer and npm package versions in sync to avoid compatibility issues.", "variant": "warning"} %}
 
+Also add `jramke/fluid-primitives` to the `require` of your sitepackage's `composer.json`, not only the project root. This makes sure the library loads before your sitepackage, which overrides like the [global context](/docs/core-concepts/context#content-global-context) rely on.
+
 Using TypeScript? Add the optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package to generate typed client props for `mountAll`/`mount` - see [Generating TypeScript Types](/docs/core-concepts/arguments#content-generating-typescript-types).
 
 ```bash

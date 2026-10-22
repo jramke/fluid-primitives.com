@@ -214,7 +214,7 @@ The library ships a default global context with two getters:
 - `locale` - the locale of the current site language, `null` when there is no request (a Storybook preview, a test)
 - `debug` - `true` in the Development application context
 
-Both are `final`: your own global context can extend them, not change them. To add data, extend the library class and mark it public for the container:
+Both are `final`: your own global context can extend them, not change them. To add data, extend the library class and register it with `#[AsAlias]`:
 
 ```php
 <?php
@@ -225,10 +225,11 @@ namespace MyVendor\MySitepackage\Components\Contexts;
 
 use Jramke\FluidPrimitives\Attributes\ExposeToClient;
 use Jramke\FluidPrimitives\Contexts\GlobalContext as LibraryGlobalContext;
-use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Jramke\FluidPrimitives\Contexts\GlobalContextInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-#[Autoconfigure(public: true)]
+#[AsAlias(GlobalContextInterface::class, public: true)]
 final class GlobalContext extends LibraryGlobalContext
 {
     // Server only: {context.globals.designTokens.colors.primary}
@@ -252,13 +253,7 @@ final class GlobalContext extends LibraryGlobalContext
 
 Like a component context, it is made of getters: `getDesignTokens()` is the key `designTokens`. Results are remembered for the rest of the request, and constructor injection works.
 
-Register your class by aliasing the interface in your sitepackage's `Configuration/Services.yaml`. The library aliases it to its own class, and the extension loaded later wins, so there is always exactly one global context per project:
-
-```yaml
-Jramke\FluidPrimitives\Contexts\GlobalContextInterface:
-    alias: MyVendor\MySitepackage\Components\Contexts\GlobalContext
-    public: true
-```
+Your sitepackage has to [require the library](/docs/getting-started#content-installation) so it loads after it and your class wins.
 
 ### Reading Globals
 
