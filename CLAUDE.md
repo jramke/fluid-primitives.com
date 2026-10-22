@@ -196,6 +196,7 @@ public function skipsPrimitivesNamespacesWhenExtractingBaseName(): void
 - TS/JS: Prettier (`.prettierrc`).
 - Indentation: per `.editorconfig` (4 spaces, 2 for YAML).
 - Comments: bare minimum — only for a non-obvious constraint or mechanism, never restating what the code does.
+- Docs pages, examples and user-facing comments: follow `TONE_OF_VOICE.md`.
 
 ## JSDoc for the public surface
 
