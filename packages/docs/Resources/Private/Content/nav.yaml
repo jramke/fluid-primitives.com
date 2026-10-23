@@ -3,6 +3,7 @@
     - docs/introduction
     - docs/getting-started
     - docs/ai
+    - docs/releases
 
 - group: Core Concepts
   items:
