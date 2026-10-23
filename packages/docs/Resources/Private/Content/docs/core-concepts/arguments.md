@@ -64,7 +64,7 @@ Set `autoMount="{false}"` to keep `mountAll` calls on the client from initializi
 
 ### `attributes`
 
-Forward additional HTML attributes. See the [ui:attributes ViewHelper](/docs/viewhelpers/attributes).
+Forward additional HTML attributes to an element. The attributes that element sets itself stay as they are, see the [ui:attributes ViewHelper](/docs/viewhelpers/attributes#content-keep-what-the-element-sets-itself).
 
 ## Client props
 
