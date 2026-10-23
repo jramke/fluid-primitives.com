@@ -96,11 +96,19 @@ class ValidatedPathMapper implements StaticMappableAspectInterface
             }
         }
 
-        $this->validPaths = (new ValidPathsCollector())->collect();
+        $this->validPaths = $this->collectValidPaths();
 
         if (self::$cache instanceof FrontendInterface) {
             self::$cache->set(self::CACHE_IDENTIFIER, $this->validPaths, [], self::CACHE_LIFETIME);
         }
+    }
+
+    /**
+     * @return array<string, true>
+     */
+    protected function collectValidPaths(): array
+    {
+        return (new ValidPathsCollector())->collect();
     }
 
     private function initializeCache(): void
