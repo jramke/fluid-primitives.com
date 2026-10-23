@@ -22,6 +22,7 @@ use League\CommonMark\Node\Query;
 use League\CommonMark\Renderer\HtmlRenderer;
 use Phiki\Theme\Theme;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Site\Entity\Site;
 
 // DocsUtility groups small, independent static formatting/markdown helpers shared across the docs
 // site's Fluid context classes - splitting them into per-concern classes would just move the same
@@ -88,8 +89,9 @@ class DocsUtility
     {
         if (!self::$simpleConverter instanceof MarkdownConverter) {
             $environment = new Environment([
+                'allow_unsafe_links' => false,
                 'external_link' => [
-                    'internal_hosts' => $_SERVER['HTTP_HOST'],
+                    'internal_hosts' => self::internalHost(),
                     'open_in_new_window' => true,
                 ],
             ]);
@@ -156,6 +158,7 @@ class DocsUtility
     {
         if (!self::$converter instanceof MarkdownConverter) {
             $environment = new Environment([
+                'allow_unsafe_links' => false,
                 'heading_permalink' => [
                     'min_heading_level' => 2,
                     'max_heading_level' => 3,
@@ -166,7 +169,7 @@ class DocsUtility
                     'aria_hidden' => false,
                 ],
                 'external_link' => [
-                    'internal_hosts' => $_SERVER['HTTP_HOST'],
+                    'internal_hosts' => self::internalHost(),
                     'open_in_new_window' => true,
                 ],
                 'table_of_contents' => [
@@ -193,6 +196,22 @@ class DocsUtility
         }
 
         return self::$converter;
+    }
+
+    /**
+     * The host of the site, not of the request: the converters are built once per process, and a `Host` header
+     * would decide which links count as internal for every page after it.
+     */
+    private static function internalHost(): string
+    {
+        // Both narrowed right below
+        // @mago-expect lint:no-global
+        // @mago-expect analysis:mixed-assignment
+        $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
+        // @mago-expect analysis:mixed-assignment
+        $site = $request instanceof ServerRequestInterface ? $request->getAttribute('site') : null;
+
+        return $site instanceof Site ? $site->getBase()->getHost() : 'fluid-primitives.com';
     }
 
     private static function wrapCodeBlocks(string $html): string
