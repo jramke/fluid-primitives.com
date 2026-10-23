@@ -1,0 +1,45 @@
+<ui:listCollection as="empty" />
+
+<ui:datePicker.root
+    class="max-w-74"
+    autoMount="{false}"
+    rootId="date-picker-select-components">
+    <ui:datePicker.label>Date</ui:datePicker.label>
+    <ui:datePicker.control>
+        <ui:datePicker.input />
+        <ui:datePicker.trigger />
+    </ui:datePicker.control>
+    <ui:datePicker.content>
+        <ui:datePicker.view view="day">
+            <ui:datePicker.viewControl view="day">
+                <ui:datePicker.prevTrigger view="day" />
+                <div class="flex items-center gap-1">
+                    <f:for each="{0: 'month', 1: 'year'}" as="part">
+                        <ui:select.root portalled="{false}" collection="{empty}" autoMount="{false}" rootId="date-picker-{part}-select">
+                            <ui:select.control>
+                                <ui:select.trigger placeholder="{part}" class="hover:bg-accent h-7! w-auto! border-0! px-2! font-medium shadow-none!" />
+                            </ui:select.control>
+                            <ui:select.content class="w-auto">
+                                <ui:select.list>
+                                    <ui:template name="itemTemplate" context="select">
+                                        <ui:select.item>
+                                            <ui:select.itemText />
+                                            <ui:select.itemIndicator />
+                                        </ui:select.item>
+                                    </ui:template>
+                                </ui:select.list>
+                            </ui:select.content>
+                        </ui:select.root>
+                    </f:for>
+                </div>
+                <ui:datePicker.nextTrigger view="day" />
+            </ui:datePicker.viewControl>
+            <ui:datePicker.table view="day">
+                <ui:datePicker.tableHeader />
+                <ui:datePicker.tableBody />
+            </ui:datePicker.table>
+        </ui:datePicker.view>
+    </ui:datePicker.content>
+</ui:datePicker.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/DatePickerExamples/SelectComponents.entry.ts" />

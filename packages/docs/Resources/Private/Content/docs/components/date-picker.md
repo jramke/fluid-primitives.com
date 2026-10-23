@@ -117,6 +117,18 @@ Set `minView="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerView::Mon
 
 A year picker uses `DatePickerView::Year` for `minView` and `defaultView`, renders a single `year` view, and has `format` return `String(date.year)` and `parse` return `new CalendarDate(year, 1, 1)`.
 
+### Native selects
+
+The heading of the calendar is up to you. Swap the `viewTrigger` of the day view for a `monthSelect` and a `yearSelect` and people pick the month and the year from the native `<select>` of their device. They are plain elements, so a class restyles them: here they lose their border and arrow to read like the heading. The client fills the options. Months and years outside `min` and `max` are disabled. The month and year views are not reachable without a `viewTrigger`, so only the day view is rendered.
+
+{% component: "ui:componentExample", arguments: { "componentName": "DatePickerExamples.nativeSelects" } %}
+
+### Select components
+
+The [Select](/docs/components/select) works in the heading too, and takes its items from the date picker. `getMonths()` and `getYears()` return the months in the locale of the date picker and the years `min` and `max` allow, with the ones outside disabled. The select renders its items from an `itemTemplate`, and the entry file clones one per month and year, then hands the select a collection of the same items. A select calls `focusMonth()` or `focusYear()` of the date picker, and `onFocusChange` of the date picker sets the selects back, so the arrow buttons and the keyboard keep them in sync. The date picker creates the selects with `mount()` after its own `init()`, so mount them with `autoMount="{false}"` and a `rootId`.
+
+{% component: "ui:componentExample", arguments: { "componentName": "DatePickerExamples.selectComponents", "additionalFiles": {"SelectComponents.entry.ts": "EXT:docs/Resources/Private/Components/ui/DatePickerExamples/SelectComponents.entry.ts"} } %}
+
 ### Dates in forms
 
 The `hiddenInput`, which `ui:datePicker.root` renders for you, submits each selected date as the W3C date-time of its midnight (`2025-06-15T00:00:00+02:00`), whatever format the `locale` shows it in. A range or several dates submit one value per date under the same `name`, so end the name with `[]` (`dates[]`) for PHP to receive all of them. A date picker without a date submits an empty value.
