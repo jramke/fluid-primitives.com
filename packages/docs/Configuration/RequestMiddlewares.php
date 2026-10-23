@@ -16,6 +16,10 @@ return [
         ],
         'fluid-primitives/llms-txt' => [
             'target' => LlmsTxtMiddleware::class,
+            // after `site`, which resolves the site whose base URL the index links to
+            'after' => [
+                'typo3/cms-frontend/site',
+            ],
             'before' => [
                 'typo3/cms-frontend/page-resolver',
             ],
