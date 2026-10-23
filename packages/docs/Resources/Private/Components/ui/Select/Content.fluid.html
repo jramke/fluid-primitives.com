@@ -1,6 +1,7 @@
 <ui:useProps name="primitives:select.content" as="contentProps" />
+<ui:prop name="portalled" type="boolean" default="{true}" />
 
-<ui:portal>
+<ui:portal disabled="{portalled}">
     <primitives:select.positioner>
         <primitives:select.content spreadProps="{contentProps}" class="{ui:cn(value: '
             outline-none bg-popover text-popover-foreground relative z-50
