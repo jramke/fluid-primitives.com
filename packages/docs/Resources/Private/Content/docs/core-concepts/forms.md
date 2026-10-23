@@ -149,6 +149,15 @@ if ($eventRegistration->getTicketType() === 'vip') {
 }
 ```
 
+## Secure the action
+
+A `Form` posts with `fetch` and the cookies of the visitor, like any other form. Extbase signs part of what it sends, the rest is up to your action:
+
+- `__trustedProperties` signs the field names, not the visitor. Name the properties an argument may set with `allowProperties('name', 'email')`, because `allowAllProperties()` lets a visitor set every property of the object.
+- `__identity` is signed as present, its value is not. A visitor can send the identity of any object of that type, so check in the action that they may change it.
+- The frontend session cookie is `SameSite=lax` by default, so another site cannot post a form with the session of the visitor. If your site sets `cookieSameSite` to `none`, send a request token: pass `{ headers: { 'X-TYPO3-RequestToken': token } }` to [`extbase.post()`](/docs/client-utilities/extbase) and read it with `SecurityAspect::getReceivedRequestToken()` in the action.
+- `required`, `pattern`, `maxlength`, `accept` and the client-side validation below only help the visitor. Validate on the server.
+
 ## Client-side validation
 
 Validating in the browser gives quicker feedback and improves the user experience. Keep the server-side validation as well: a client check can be bypassed, the server check cannot. Native constraints, the `validation` of the form and the `validate` of a field end up in the same error text as the errors of the server.

@@ -155,9 +155,10 @@ final class DocsController extends ActionController
 
         if ($status === 200) {
             try {
-                // A submission carrying a signed `__identity` (see `FormContext::renderHiddenIdentityField()`)
-                // is mapped by Extbase onto the already-persisted entity it identifies, so `_isNew()`
-                // is false here for the edit form; a plain new registration has no identity and is still new.
+                // A submission carrying an `__identity` (only its presence is signed, not its value) is mapped
+                // by Extbase onto the already-persisted entity it identifies, so `_isNew()` is false here for
+                // the edit form; a plain new registration has no identity and is still new. The edit form only
+                // exists in Development, a public action would have to check who may change the entity.
                 $eventRegistration->_isNew()
                     ? $this->eventRegistrationRepository->add($eventRegistration)
                     : $this->eventRegistrationRepository->update($eventRegistration);
