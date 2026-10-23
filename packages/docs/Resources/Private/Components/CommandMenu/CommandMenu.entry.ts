@@ -89,7 +89,10 @@ class CommandMenu {
                 },
                 onSelect: (details: SelectionDetails) => {
                     if (!details.itemValue) return;
-                    window.location.href = details.itemValue;
+                    // a page of this site only: the value comes from a JSON response, and `javascript:` would run
+                    const url = new URL(details.itemValue, window.location.origin);
+                    if (url.origin !== window.location.origin) return;
+                    window.location.href = url.href;
                     this.dialog.api.setOpen(false);
                 },
             });

@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Page\PageRenderer;
 
@@ -40,6 +41,11 @@ final readonly class BenchmarkMiddleware implements MiddlewareInterface
 
         if (!str_starts_with($path, self::PATH_PREFIX)) {
             return $handler->handle($request);
+        }
+
+        // The pages render every component many times and are no part of the public site
+        if (!Environment::getContext()->isDevelopment()) {
+            return new HtmlResponse('Not Found', 404);
         }
 
         if ($path === self::PATH_PREFIX) {

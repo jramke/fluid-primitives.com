@@ -5,15 +5,35 @@ declare(strict_types=1);
 use TYPO3\CMS\Core\Cache\Backend\NullBackend;
 use TYPO3\CMS\Core\Core\Environment;
 
+// The committed settings.php holds no secret and no debug option. A production image reads its secrets from the
+// environment and refuses to start without them, every other context gets the development values below.
+
 if (Environment::getContext()->isProduction()) {
+    $required = static function (string $name): string {
+        $value = getenv($name);
+        if (!is_string($value) || $value === '') {
+            throw new \RuntimeException(
+                sprintf('The environment variable %s has to be set in the production context.', $name),
+                1_788_300_001,
+            );
+        }
+
+        return $value;
+    };
+
     // @mago-expect lint:no-global(2)
     // @mago-expect analysis:mixed-argument
     $GLOBALS['TYPO3_CONF_VARS'] = array_replace_recursive($GLOBALS['TYPO3_CONF_VARS'], [
         'SYS' => [
-            'reverseProxySSL' => getenv('PROXY_IP') ?: '*',
-            'reverseProxyIP' => getenv('PROXY_IP') ?: '*',
+            'encryptionKey' => $required('TYPO3_ENCRYPTION_KEY'),
+            // Only a proxy of the private networks of a container setup is believed when it says which host,
+            // address and scheme the visitor used. Set PROXY_IP to the address of yours.
+            'reverseProxySSL' => getenv('PROXY_IP') ?: '127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16',
+            'reverseProxyIP' => getenv('PROXY_IP') ?: '127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16',
             'reverseProxyHeaderMultiValue' => 'first',
-            'trustedHostsPattern' => 'SERVER_NAME',
+            // A pattern for the host header, not SERVER_NAME: Apache takes that from the same header.
+            'trustedHostsPattern' =>
+                '(?:' . (getenv('TRUSTED_HOSTS_PATTERN') ?: '(?:www\.)?fluid-primitives\.com') . ')',
         ],
         'DB' => [
             'Connections' => [
@@ -21,12 +41,28 @@ if (Environment::getContext()->isProduction()) {
                     'host' => getenv('TYPO3_DB_HOST') ?: 'db',
                     'port' => getenv('TYPO3_DB_PORT') ?: '3306',
                     'user' => getenv('TYPO3_DB_USERNAME') ?: 'db',
-                    'password' => getenv('TYPO3_DB_PASSWORD') ?: 'db',
+                    'password' => $required('TYPO3_DB_PASSWORD'),
                     'dbname' => getenv('TYPO3_DB_NAME') ?: 'db',
                 ],
             ],
         ],
     ]);
+
+    // The Install Tool stays locked unless the password hash is given
+    $installToolPassword = getenv('TYPO3_INSTALL_TOOL_PASSWORD');
+    if (is_string($installToolPassword) && $installToolPassword !== '') {
+        // @mago-expect lint:no-global
+        // @mago-expect analysis:mixed-array-assignment(2)
+        $GLOBALS['TYPO3_CONF_VARS']['BE']['installToolPassword'] = $installToolPassword;
+    }
+}
+
+if (!Environment::getContext()->isProduction()) {
+    // Not a secret: the key of a development installation, so a stray copy of it protects nothing
+    // @mago-expect lint:no-global
+    // @mago-expect analysis:mixed-array-assignment(2)
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] = getenv('TYPO3_ENCRYPTION_KEY') ?:
+    'development-only-key-fluid-primitives-0f3a9c1d7b2e4a68c5d09e1f3b7a2c4d8e6f0a1b3c5d7e9f';
 }
 
 if (getenv('IS_DDEV_PROJECT') === 'true') {

@@ -84,7 +84,7 @@ A `Form` with a `FieldArray` of guests, each with a name and an email address. P
 
 ### Save rows to a persisted object
 
-Inside a `Form` bound to a persisted object, `__trustedProperties` signs the field names of the rows rendered on the server (`guests[0][name]`, `guests[1][name]`, ...). Rows added in the browser are unsigned, and Extbase rejects unsigned names for a persisted object. Allow them in the property mapping configuration of the argument, e.g. `forProperty('guests.*')->allowAllProperties()` in `initializeUpdateAction()`.
+Inside a `Form` bound to a persisted object, `__trustedProperties` signs the field names of the rows rendered on the server (`guests[0][name]`, `guests[1][name]`, ...). Rows added in the browser are unsigned, and Extbase rejects unsigned names for a persisted object. Allow the properties of a row in the property mapping configuration of the argument, e.g. `forProperty('guests.*')->allowProperties('name', 'email')` in `initializeUpdateAction()`. Name them, because `allowAllProperties()` would let a visitor set every property of a row.
 
 ## API Reference
 

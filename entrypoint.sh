@@ -6,9 +6,11 @@ mkdir -p /var/www/html/var/log \
          /var/www/html/public/fileadmin \
          /var/www/html/public/typo3temp
 
-# Fix ownership and permissions
-chown -R www-data:www-data /var/www/html
-chmod -R 755 /var/www/html
+# Only what TYPO3 writes at runtime belongs to the web user. The code, the configuration and vendor stay owned
+# by root, so a bug that writes a file cannot change them.
+chown -R www-data:www-data /var/www/html/var \
+                           /var/www/html/public/fileadmin \
+                           /var/www/html/public/typo3temp
 chmod -R 775 /var/www/html/var \
              /var/www/html/public/fileadmin \
              /var/www/html/public/typo3temp

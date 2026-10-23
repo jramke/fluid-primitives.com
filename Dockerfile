@@ -52,7 +52,8 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts \
 # "npm install" instead of "npm ci": it replaces the "file:" dependency on the submodule with the published package,
 # so the root package-lock.json doesn't have to match the library's version after each release.
 RUN npm install fluid-primitives@"$(php -r 'require "vendor/autoload.php"; echo Composer\InstalledVersions::getPrettyVersion("jramke/fluid-primitives");')" \
-    && npm run docs:build
+    && npm run docs:build \
+    && rm -rf node_modules /root/.npm
 
 # Copy entrypoint
 COPY entrypoint.sh /entrypoint.sh

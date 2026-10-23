@@ -1,23 +1,21 @@
 <ui:prop name="defaultValue" type="number" default="0" />
 
 <div class="flex gap-3 items-center">
-    <ui:button attributes="{ui:ref(name: 'dec')}">
+    <ui:button attributes="{ui:ref(name: 'dec', asArray: true)}">
         Dec
     </ui:button>
     <div class="text-bold text-3xl" {ui:ref(name: 'value' )}>
         {defaultValue}
     </div>
-    <ui:button attributes="{ui:ref(name: 'inc')}">
+    <ui:button attributes="{ui:ref(name: 'inc', asArray: true)}">
         Inc
     </ui:button>
     <div>
-        <ui:button attributes="{ui:ref(name: 'start')}">
+        <ui:button attributes="{ui:ref(name: 'start', asArray: true)}">
             Start
         </ui:button>
-        <ui:button attributes="{ui:ref(name: 'stop')}">
+        <ui:button attributes="{ui:ref(name: 'stop', asArray: true)}">
             Stop
         </ui:button>
     </div>
 </div>
-
-<vite:asset entry="EXT:docs/Resources/Private/Components/Counter/Counter.entry.ts" />
