@@ -326,6 +326,7 @@ namespace Jramke\FluidPrimitives\Service;
 - **`ViewHelpers/`** - Fluid ViewHelpers, the `ui:` namespace.
 - **`Service/`** - stateless or DI'd collaborators with real behavior. `Service/Component/` holds `ComponentRenderer`'s own rendering-pipeline collaborators specifically (argument/identity resolution, context merging, hydration collection).
 - **`Factory/`** - classes with a `create()` method that build and wire up another object, typically because that object needs a runtime value (a dynamic class name, the caller's own `$this`) that can't be autowired - see Dependency Injection below.
+- **`Contracts/`** - interfaces a class implements to opt into a behavior of the library (`ConvertibleArgumentInterface`).
 - **`Domain/Dto/`** - plain data carriers with no framework dependencies. Nothing here extends `AbstractDomainObject` - if it did, it'd be an Extbase persisted entity and `Domain/Model` would be the right name; since nothing does, `Dto` is accurate.
 - **`Utility/`** - pure, stateless helpers (mostly static methods, occasionally an instantiated zero-dependency class kept instantiable for testability, e.g. `ExtbaseFormFieldNamer`). Not for anything with a real service dependency in its constructor - that belongs in `Service/`.
 - **`Command/`** - CLI commands and command-specific collaborators (e.g. `ComponentFileWriter`, only ever used by `ComponentAddCommand`). Keep those adjacent rather than promoting them to `Service/` - they're not reusable outside their one command.
@@ -407,6 +408,16 @@ silently collapses to the default instead of testing truthiness. For that, cast 
 <ui:prop name="variant" type="string" optional="{true}" default="primary" />
 <ui:prop name="disabled" type="boolean" optional="{true}" client="{true}" />
 ```
+
+A prop that takes a value object (`ListCollection`, `Positioning`) takes the array form too: declare it
+`type="array|Vendor\Class"` and implement `ConvertibleArgumentInterface::fromArgument()` on the class. Add
+`string` (or another scalar) to the type when the class has a shorthand, like `positioning="top-end"`; the
+class decides what a scalar means and throws `\InvalidArgumentException` for the rest.
+`ComponentRootContextFactory` converts the array - defaults included - before the component renders, so
+`{x}`, `{context.x}`, `$context->get('x')` and the hydration payload all see the object. The union has to
+stay: Fluid validates the arguments at the call site, before our code runs. It mirrors TYPO3/Fluid#1415,
+so once Fluid converts arguments itself, delete `ConvertibleArgumentUtility`, its call in the factory and
+the `array|` part of the prop types.
 
 ### Ref Pattern (for hydration)
 

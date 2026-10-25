@@ -48,6 +48,8 @@ Pass `placement` through the `positioning` prop. The popover below opens to the 
 
 {% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.customPositioning" } %}
 
+`positioning` takes the options you can send to the browser as JSON, like `placement`, `gutter`, `shift`, `offset`, `flip` and `sameWidth`. When the placement is all you set, write it alone: `positioning="right"`. A name that is not an option throws, so a typo does not go unnoticed. Components with a default, like Select and Menu, use what you pass instead of the default, so repeat the options you still want.
+
 ### Make it modal
 
 Set `modal` to trap focus and block interaction with the rest of the page while the popover is open.

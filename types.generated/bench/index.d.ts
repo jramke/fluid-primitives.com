@@ -1,4 +1,4 @@
-import { InputMode, ListCollection, Orientation, PopupType } from '../index.d';
+import { InputMode, ListCollection, Orientation, PopupType, Positioning } from '../index.d';
 export type AccordionHydrationProps = {
     id: string;
     ids: {
@@ -57,7 +57,7 @@ export type SelectHydrationProps = {
     readOnly?: boolean;
     required?: boolean;
     closeOnSelect?: boolean;
-    positioning?: any;
+    positioning?: Positioning;
     defaultValue?: string[];
     defaultHighlightedValue?: string;
     loopFocus?: boolean;

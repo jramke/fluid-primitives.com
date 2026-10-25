@@ -10,6 +10,7 @@ import {
     NumberInputMode,
     Orientation,
     PopupType,
+    Positioning,
     SliderOrigin,
     SliderThumbAlignment,
     SliderThumbCollisionBehavior,
@@ -126,7 +127,7 @@ export type ComboboxHydrationProps = {
     selectionBehavior?: ComboboxSelectionBehavior;
     popupType?: PopupType;
     autoFocus?: boolean;
-    positioning?: any;
+    positioning?: Positioning;
     translations: {
         triggerLabel: string;
         clearTriggerLabel: string;
@@ -165,7 +166,7 @@ export type DatePickerHydrationProps = {
     defaultView?: DatePickerView;
     minView?: DatePickerView;
     maxView?: DatePickerView;
-    positioning?: any;
+    positioning?: Positioning;
     defaultOpen?: boolean;
     inline?: boolean;
     translations: {
@@ -322,7 +323,7 @@ export type MenuHydrationProps = {
     composite?: boolean;
     typeahead?: boolean;
     loopFocus?: boolean;
-    positioning?: any;
+    positioning?: Positioning;
     defaultOpen?: boolean;
     defaultHighlightedValue?: string;
     defaultTriggerValue?: string;
@@ -383,7 +384,7 @@ export type PopoverHydrationProps = {
     restoreFocus?: boolean;
     closeOnInteractOutside?: boolean;
     closeOnEscape?: boolean;
-    positioning?: any;
+    positioning?: Positioning;
     defaultOpen?: boolean;
     translations: {
         closeTriggerLabel: string;
@@ -416,7 +417,7 @@ export type SelectHydrationProps = {
     readOnly?: boolean;
     required?: boolean;
     closeOnSelect?: boolean;
-    positioning?: any;
+    positioning?: Positioning;
     defaultValue?: string[];
     defaultHighlightedValue?: string;
     loopFocus?: boolean;
@@ -530,5 +531,5 @@ export type TooltipHydrationProps = {
     closeOnScroll?: boolean;
     closeOnClick?: boolean;
     interactive?: boolean;
-    positioning?: any;
+    positioning?: Positioning;
 };
