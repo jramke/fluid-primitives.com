@@ -37,6 +37,18 @@ own folder also be the parent of an unrelated nested example in the first place 
 of the component's own folder, e.g. `ui:checkboxGroupExamples.selectAll` or
 `ui:examples.checkboxGroup.selectAll`, not `ui:checkboxGroup.examples.selectAll`).
 
+**Think like a library, not like the case in front of you.** When you build a mechanism for the cases
+that exist today, ask before you finish what else it could serve, in this repo and in a user's project:
+other value types, other components and props, other lifecycle points, other shapes of the same input.
+Then either build the general form or say in the answer what the mechanism does not cover and why, so
+the gap is a decision and not an oversight. A user can implement the library's interfaces, extend any
+context and write their own component collection, so treat those as public API: name them for what they
+do, keep them small, document them, and list them in the changelog.
+
+Example: a mechanism that turns an array prop into a value object was first built for arrays only. The
+scalar shorthand (`positioning="top-end"`) came only when the user asked, though a string is as natural an
+input there. Ask that question up front: which shapes can this input have, and which of them belong here?
+
 ## Project Structure
 
 ```txt
