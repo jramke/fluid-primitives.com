@@ -97,6 +97,18 @@ Set `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.withTabs", "additionalFiles": {"WithTabs.entry.ts": "EXT:docs/Resources/Private/Components/ui/SelectExamples/WithTabs.entry.ts"} } %}
 
+### Pass the items as an array
+
+`collection` takes a plain array of items with a `value` and a `label` too, for example one you built in a controller. Use `ui:listCollection` when your items use other keys or when you want groups.
+
+```html
+<ui:select.root
+    collection="{0: {value: 'de', label: 'Germany'}, 1: {value: 'fr', label: 'France'}}"
+>
+    ...
+</ui:select.root>
+```
+
 ### Localization
 
 The label of the clear button ships in the language file and follows the site language. Pass `translations` to override it for one select.

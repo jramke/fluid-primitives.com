@@ -118,6 +118,18 @@ Set `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog
 
 {% component: "ui:componentExample", arguments: { "componentName": "ComboboxExamples.inputInContent", "additionalFiles": {"InputInContent.entry.ts": "EXT:docs/Resources/Private/Components/ui/ComboboxExamples/InputInContent.entry.ts"} } %}
 
+### Pass the items as an array
+
+`collection` takes a plain array of items with a `value` and a `label` too, for example one you built in a controller. Use `ui:listCollection` when your items use other keys or when you want groups.
+
+```html
+<ui:combobox.root
+    collection="{0: {value: 'de', label: 'Germany'}, 1: {value: 'fr', label: 'France'}}"
+>
+    ...
+</ui:combobox.root>
+```
+
 ### Localization
 
 The labels of the trigger and the clear button ship in the language file and follow the site language. Pass `translations` to override them for one combobox.
