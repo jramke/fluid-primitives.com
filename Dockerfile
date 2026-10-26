@@ -44,13 +44,22 @@ COPY . .
 # Remove the local path repository and resolve the newest published release from Packagist.
 # "*@beta" also accepts prereleases, so 1.0.0-beta.1 wins over 0.19.1 and a later stable release wins over both.
 # The docs site and its registry (ui:add) then match what users get from Composer and npm.
-RUN composer config --unset repositories.fluid-primitives \
+#
+# Composer boots TYPO3 for `asset:publish`, which links the assets of the extensions into public/_assets, and a
+# production TYPO3 refuses to boot without its configuration. The placeholders are exported inside this one RUN, not
+# set with ENV or ARG, so neither the image nor a build argument of the host carries them.
+RUN export APP_URL=https://build.invalid \
+        TYPO3__SYS__encryptionKey=build-placeholder \
+        TYPO3__DB__Connections__Default__host=build-placeholder \
+        TYPO3__DB__Connections__Default__dbname=build-placeholder \
+        TYPO3__DB__Connections__Default__user=build-placeholder \
+        TYPO3__DB__Connections__Default__password=build-placeholder \
+    && composer config --unset repositories.fluid-primitives \
     && composer require jramke/fluid-primitives:"*@beta" --no-update \
-    && composer update jramke/fluid-primitives --with-dependencies --no-dev --no-scripts
-
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader --no-scripts \
-    && composer run-script post-install-cmd || true
+    && composer update jramke/fluid-primitives --with-dependencies --no-dev --no-scripts \
+    && composer install --no-dev --optimize-autoloader --no-scripts \
+    && { composer run-script post-install-cmd || true; } \
+    && test -n "$(ls public/_assets 2>/dev/null)"
 
 # Build frontend assets with the npm package of the same release as the Composer package.
 # "npm install" instead of "npm ci": it replaces the "file:" dependency on the submodule with the published package,
