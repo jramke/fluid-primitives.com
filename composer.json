@@ -5,6 +5,7 @@
     "type": "project",
     "config": {
         "allow-plugins": {
+            "helhum/dotenv-connector": true,
             "typo3/class-alias-loader": true,
             "typo3/cms-composer-installers": true
         },
@@ -44,8 +45,9 @@
         "brainworxx/includekrexx": "^6",
         "fluid-primitives/benchmarks": "@dev",
         "fluid-primitives/docs": "@dev",
+        "helhum/dotenv-connector": "^3.2",
         "helhum/typo3-console": "^8.3",
-        "jramke/fluid-primitives": "*",
+        "jramke/fluid-primitives": "*@beta",
         "league/commonmark": "^2.7",
         "phiki/phiki": "^2.0",
         "praetorius/vite-asset-collector": "^1",
