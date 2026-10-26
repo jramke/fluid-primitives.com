@@ -15,6 +15,10 @@ composer_version: '2'
 web_environment:
   - TYPO3_CONTEXT=Development
 corepack_enable: false
+hooks:
+  post-start:
+    # the lines of .env.default that start with "# @default-only" do not belong in .env
+    - exec: '[ -f .env ] || grep -v "^# @default-only" .env.default > .env'
 
 # Key features of DDEV's config.yaml:
 

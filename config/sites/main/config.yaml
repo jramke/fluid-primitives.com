@@ -1,9 +1,4 @@
-base: 'https://fluid-primitives.com'
-baseVariants:
-  - base: 'https://fluid-primitives.ddev.site'
-    condition: 'applicationContext == "Development"'
-  - base: 'https://fluid-primitives.ddev.site'
-    condition: 'applicationContext == "Production/Local"'
+base: '%env(APP_URL)%'
 dependencies:
   - fluid-primitives/docs
 languages:

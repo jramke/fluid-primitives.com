@@ -1,5 +1,9 @@
 FROM php:8.3-apache
 
+# APP_ENV keeps a stray .env file from being read, the variables of the image come from its host
+ENV APP_ENV=production \
+    TYPO3_CONTEXT=Production
+
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
     unzip \

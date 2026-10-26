@@ -2,137 +2,103 @@
 
 declare(strict_types=1);
 
+use FluidPrimitives\Docs\Utility\ConfigurationFromEnvironment;
 use TYPO3\CMS\Core\Cache\Backend\NullBackend;
 use TYPO3\CMS\Core\Core\Environment;
 
-// The committed settings.php holds no secret and no debug option. A production image reads its secrets from the
-// environment and refuses to start without them, every other context gets the development values below.
+// settings.php holds no secret and no value of one machine. Those come from the environment, see the README:
+//
+// - A `TYPO3__SECTION__key` variable sets `$GLOBALS['TYPO3_CONF_VARS']['SECTION']['key']`, `__` separates the levels.
+// - `APP_URL` is the base URL of the site (config/sites/main/config.yaml) and the only host the site answers to.
+// - `DISABLE_CACHES=true` turns the caches off for development.
+//
+// A variable always wins over the defaults below. A .env file only fills a variable the process does not have.
 
-if (Environment::getContext()->isProduction()) {
-    $required = static function (string $name): string {
-        $value = getenv($name);
-        if (!is_string($value) || $value === '') {
-            throw new \RuntimeException(
-                sprintf('The environment variable %s has to be set in the production context.', $name),
-                1_788_300_001,
-            );
-        }
+$context = Environment::getContext();
+$appHost = (string)parse_url((string)getenv('APP_URL'), PHP_URL_HOST);
 
-        return $value;
-    };
+$defaults = [];
 
-    // @mago-expect lint:no-global(2)
-    // @mago-expect analysis:mixed-argument
-    $GLOBALS['TYPO3_CONF_VARS'] = array_replace_recursive($GLOBALS['TYPO3_CONF_VARS'], [
+// The host header has to be the host of APP_URL: Apache fills SERVER_NAME from that header
+if ($appHost !== '') {
+    $defaults = array_replace_recursive($defaults, [
+        'SYS' => ['trustedHostsPattern' => '(?:' . preg_quote($appHost, delimiter: '/') . ')'],
+    ]);
+}
+
+if ($context->isProduction()) {
+    // Only a proxy of the private networks of a container setup is believed when it says which host, address and
+    // scheme the visitor used. Set TYPO3__SYS__reverseProxyIP to the address of yours.
+    $privateNetworks = '127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16';
+    $defaults = array_replace_recursive($defaults, [
         'SYS' => [
-            'encryptionKey' => $required('TYPO3_ENCRYPTION_KEY'),
-            // Only a proxy of the private networks of a container setup is believed when it says which host,
-            // address and scheme the visitor used. Set PROXY_IP to the address of yours.
-            'reverseProxySSL' => getenv('PROXY_IP') ?: '127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16',
-            'reverseProxyIP' => getenv('PROXY_IP') ?: '127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16',
+            'reverseProxyIP' => $privateNetworks,
+            'reverseProxySSL' => $privateNetworks,
             'reverseProxyHeaderMultiValue' => 'first',
-            // A pattern for the host header, not SERVER_NAME: Apache takes that from the same header.
-            'trustedHostsPattern' =>
-                '(?:' . (getenv('TRUSTED_HOSTS_PATTERN') ?: '(?:www\.)?fluid-primitives\.com') . ')',
         ],
-        'DB' => [
-            'Connections' => [
-                'Default' => [
-                    'host' => getenv('TYPO3_DB_HOST') ?: 'db',
-                    'port' => getenv('TYPO3_DB_PORT') ?: '3306',
-                    'user' => getenv('TYPO3_DB_USERNAME') ?: 'db',
-                    'password' => $required('TYPO3_DB_PASSWORD'),
-                    'dbname' => getenv('TYPO3_DB_NAME') ?: 'db',
-                ],
+    ]);
+}
+
+if ($context->isDevelopment()) {
+    $defaults = array_replace_recursive($defaults, [
+        'BE' => ['debug' => 1, 'sessionTimeout' => 36000],
+        'FE' => ['debug' => 1],
+        'SYS' => ['displayErrors' => 1, 'exceptionalErrors' => 12290, 'devIPmask' => '*'],
+    ]);
+}
+
+if (getenv('DISABLE_CACHES') === 'true') {
+    $nullCaches = ['l10n', 'hash', 'pages', 'typoscript', 'core', 'rootline', 'extbase', 'database_schema'];
+    $defaults = array_replace_recursive($defaults, [
+        'SYS' => [
+            'caching' => [
+                'cacheConfigurations' => array_fill_keys($nullCaches, ['backend' => NullBackend::class]),
             ],
         ],
     ]);
-
-    // The Install Tool stays locked unless the password hash is given
-    $installToolPassword = getenv('TYPO3_INSTALL_TOOL_PASSWORD');
-    if (is_string($installToolPassword) && $installToolPassword !== '') {
-        // @mago-expect lint:no-global
-        // @mago-expect analysis:mixed-array-assignment(2)
-        $GLOBALS['TYPO3_CONF_VARS']['BE']['installToolPassword'] = $installToolPassword;
-    }
-}
-
-if (!Environment::getContext()->isProduction()) {
-    // Not a secret: the key of a development installation, so a stray copy of it protects nothing
-    // @mago-expect lint:no-global
-    // @mago-expect analysis:mixed-array-assignment(2)
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] = getenv('TYPO3_ENCRYPTION_KEY') ?:
-    'development-only-key-fluid-primitives-0f3a9c1d7b2e4a68c5d09e1f3b7a2c4d8e6f0a1b3c5d7e9f';
 }
 
 if (getenv('IS_DDEV_PROJECT') === 'true') {
-    // @mago-expect lint:no-global(2)
-    // @mago-expect analysis:mixed-argument
-    $GLOBALS['TYPO3_CONF_VARS'] = array_replace_recursive($GLOBALS['TYPO3_CONF_VARS'], [
-        'DB' => [
-            'Connections' => [
-                'Default' => [
-                    'dbname' => 'db',
-                    'driver' => 'mysqli',
-                    'host' => 'db',
-                    'password' => 'db', // @mago-expect lint:no-literal-password
-                    'port' => '3306',
-                    'user' => 'db',
-                ],
-            ],
-        ],
+    $defaults = array_replace_recursive($defaults, [
         // This GFX configuration allows processing by installed ImageMagick 6
         'GFX' => [
             'processor' => 'ImageMagick',
             'processor_path' => '/usr/bin/',
             'processor_path_lzw' => '/usr/bin/',
         ],
-        // This mail configuration sends all emails to mailpit
-        'MAIL' => [
-            'transport' => 'smtp',
-            'transport_smtp_encrypt' => false,
-            'transport_smtp_server' => 'localhost:1025',
-        ],
-        'SYS' => [
-            'trustedHostsPattern' => '.*.*',
-            'devIPmask' => '*',
-            'displayErrors' => 1,
-            'exceptionalErrors' => 12290,
-            'caching' => [
-                'cacheConfigurations' => [
-                    'l10n' => [
-                        'backend' => NullBackend::class,
-                    ],
-                    'hash' => [
-                        'backend' => NullBackend::class,
-                    ],
-                    'pages' => [
-                        'backend' => NullBackend::class,
-                    ],
-                    'typoscript' => [
-                        'backend' => NullBackend::class,
-                    ],
-                    'core' => [
-                        'backend' => NullBackend::class,
-                    ],
-                    'rootline' => [
-                        'backend' => NullBackend::class,
-                    ],
-                    'extbase' => [
-                        'backend' => NullBackend::class,
-                    ],
-                    'database_schema' => [
-                        'backend' => NullBackend::class,
-                    ],
-                ],
-            ],
-        ],
-        'BE' => [
-            'sessionTimeout' => 36000,
-            'debug' => 1,
-        ],
-        'FE' => [
-            'debug' => 1,
-        ],
+        // ddev serves the project under more than one host
+        'SYS' => ['trustedHostsPattern' => '.*.*'],
     ]);
 }
+
+$mapper = new ConfigurationFromEnvironment();
+$configuration = $mapper->apply(
+    // @mago-expect lint:no-global
+    // @mago-expect analysis:mixed-argument
+    array_replace_recursive($GLOBALS['TYPO3_CONF_VARS'], $defaults),
+    getenv(),
+);
+
+// An unset secret is an error here, not a TYPO3 that runs with the placeholder of settings.php
+$missing = $mapper->missing($configuration, [
+    'SYS/encryptionKey',
+    'DB/Connections/Default/host',
+    'DB/Connections/Default/dbname',
+    'DB/Connections/Default/user',
+    'DB/Connections/Default/password',
+]);
+if ($appHost === '') {
+    $missing[] = 'APP_URL';
+}
+if ($missing !== []) {
+    throw new \RuntimeException(
+        sprintf(
+            'These environment variables are not set: %s. Copy .env.default to .env for development, an image gets them from its host.',
+            implode(', ', $missing),
+        ),
+        1_788_300_001,
+    );
+}
+
+// @mago-expect lint:no-global
+$GLOBALS['TYPO3_CONF_VARS'] = $configuration;
