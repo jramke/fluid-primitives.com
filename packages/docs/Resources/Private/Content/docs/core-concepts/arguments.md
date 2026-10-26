@@ -92,7 +92,7 @@ vendor/bin/typo3 typescript:generate
 
 The package uses [spatie/typescript-transformer](https://github.com/spatie/typescript-transformer) under the hood to generate the TypeScript types.
 
-The command finds every registered component collection and every `#[TypeScript]`-tagged class of your own and writes the types into a `types.generated` folder.
+The command finds every registered component collection and every `#[TypeScript]`-tagged class of your own and writes the types into a `types.generated` folder. `types.d.ts` declares every type in a global TypeScript namespace: the component types of a collection in the namespace of its Fluid namespace (`ui.AccordionHydrationProps`), a PHP class or enum in its PHP namespace (`Acme.Site.Dto.Link`). You use them without an import. `registry.d.ts` connects the component names to those types.
 
 Use `--output` to specify a different folder for the generated TypeScript types.
 
@@ -109,6 +109,10 @@ mountAll('ui:collapsible', ({ props }) => {
 ### PHP objects on the client
 
 An object passed as a client prop must implement `JsonSerializable`. Its `jsonSerialize()` needs to carry an `@return array{...}` docblock so the generated type can follow that shape. Generation fails for a class without one.
+
+### Two types with the same name
+
+Two types of one name in one TypeScript namespace are invalid, so the command stops with the names of both. It happens when two `#[TypeScript(name: '...')]` attributes pick the same name, or when two components resolve to the same type name (`foo.bar` and `fooBar`). Rename one, or move one into another namespace with `#[TypeScript(location: ['Other'])]`.
 
 ### Arrays as client props
 
