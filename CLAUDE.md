@@ -377,6 +377,23 @@ Two `Symfony\Component\DependencyInjection\Attribute\Autoconfigure` flags matter
 - **`public: true`** - required on any class fetched via `GeneralUtility::makeInstance()`/`$container->get()` from _outside_ the container's own constructor-graph wiring (an entry point: a dynamically-resolved `Contexts/` class, a `Factory/`). Not needed for a class only ever reached as another service's constructor-injected dependency.
 - **`shared: false`** - needed when an object holds per-caller state bound at construction, so a cached singleton instance can't leak one caller's binding into another's.
 
+### Exceptions
+
+Throw the library's own exceptions from `Jramke\FluidPrimitives\Exception\`, never a bare `\RuntimeException`
+or `\InvalidArgumentException` (`Unit/ExceptionHierarchyTest` fails on one). Each implements `ExceptionInterface`,
+so a user can catch all of them, and one class stands for one case, so a user can tell cases apart without
+reading the message.
+
+Raised while a template renders by what the author did (a part outside its root, a wrong or missing prop,
+an unknown option): extend the matching `TYPO3Fluid\Fluid\Core\ViewHelper\` exception. Fluid's
+`ViewHelperInvoker` only catches those, and its error handler then wraps them in a plain `ViewHelper\Exception`
+that names the template - so a test finds the library's exception through `getPrevious()`
+(`FunctionalTestCase::assertRenderThrows()`).
+Code without a Fluid dependency (`Domain/Dto`, registries, CLI) extends the SPL class. The code that calls a
+DTO in a render translates its exception and adds what the DTO cannot know, as `ListCollectionViewHelper` does
+for `groupSort`. Invariants (`$this->renderingContext ?? throw ...`) stay `\LogicException`. Keep the error code
+when you move a throw, and never reuse one.
+
 ### Strict Types
 
 Always use strict types declaration:
