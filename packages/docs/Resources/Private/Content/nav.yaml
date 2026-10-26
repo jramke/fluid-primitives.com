@@ -15,7 +15,6 @@
     - docs/core-concepts/composition
     - docs/core-concepts/styling
     - docs/core-concepts/forms
-    - docs/core-concepts/exceptions
 
 - group: Components
   items:
