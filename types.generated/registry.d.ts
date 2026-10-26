@@ -1,0 +1,68 @@
+export {};
+
+declare module 'fluid-primitives' {
+    interface HydrationPropsRegistry {
+        'ui:accordion': ui.AccordionHydrationProps;
+        'ui:button': ui.ButtonHydrationProps;
+        'ui:checkbox': ui.CheckboxHydrationProps;
+        'ui:checkboxGroup': ui.CheckboxGroupHydrationProps;
+        'ui:checkboxGroupExamples.selectAll': ui.CheckboxGroupExamplesSelectAllHydrationProps;
+        'ui:clipboard': ui.ClipboardHydrationProps;
+        'ui:collapsible': ui.CollapsibleHydrationProps;
+        'ui:combobox': ui.ComboboxHydrationProps;
+        'ui:datePicker': ui.DatePickerHydrationProps;
+        'ui:dialog': ui.DialogHydrationProps;
+        'ui:field': ui.FieldHydrationProps;
+        'ui:fieldArray': ui.FieldArrayHydrationProps;
+        'ui:fieldset': ui.FieldsetHydrationProps;
+        'ui:fileUpload': ui.FileUploadHydrationProps;
+        'ui:form': ui.FormHydrationProps;
+        'ui:input': ui.InputHydrationProps;
+        'ui:menu': ui.MenuHydrationProps;
+        'ui:navigationMenu': ui.NavigationMenuHydrationProps;
+        'ui:numberInput': ui.NumberInputHydrationProps;
+        'ui:popover': ui.PopoverHydrationProps;
+        'ui:radioGroup': ui.RadioGroupHydrationProps;
+        'ui:select': ui.SelectHydrationProps;
+        'ui:slider': ui.SliderHydrationProps;
+        'ui:switch': ui.SwitchHydrationProps;
+        'ui:tabs': ui.TabsHydrationProps;
+        'ui:textarea': ui.TextareaHydrationProps;
+        'ui:toggle': ui.ToggleHydrationProps;
+        'ui:toggleGroup': ui.ToggleGroupHydrationProps;
+        'ui:tooltip': ui.TooltipHydrationProps;
+        'ui:commandMenu': ui.CommandMenuHydrationProps;
+        'primitives:accordion': primitives.AccordionHydrationProps;
+        'primitives:button': primitives.ButtonHydrationProps;
+        'primitives:checkbox': primitives.CheckboxHydrationProps;
+        'primitives:checkboxGroup': primitives.CheckboxGroupHydrationProps;
+        'primitives:clipboard': primitives.ClipboardHydrationProps;
+        'primitives:collapsible': primitives.CollapsibleHydrationProps;
+        'primitives:combobox': primitives.ComboboxHydrationProps;
+        'primitives:datePicker': primitives.DatePickerHydrationProps;
+        'primitives:dialog': primitives.DialogHydrationProps;
+        'primitives:field': primitives.FieldHydrationProps;
+        'primitives:fieldArray': primitives.FieldArrayHydrationProps;
+        'primitives:fieldset': primitives.FieldsetHydrationProps;
+        'primitives:fileUpload': primitives.FileUploadHydrationProps;
+        'primitives:form': primitives.FormHydrationProps;
+        'primitives:input': primitives.InputHydrationProps;
+        'primitives:menu': primitives.MenuHydrationProps;
+        'primitives:navigationMenu': primitives.NavigationMenuHydrationProps;
+        'primitives:numberInput': primitives.NumberInputHydrationProps;
+        'primitives:popover': primitives.PopoverHydrationProps;
+        'primitives:radioGroup': primitives.RadioGroupHydrationProps;
+        'primitives:select': primitives.SelectHydrationProps;
+        'primitives:slider': primitives.SliderHydrationProps;
+        'primitives:switch': primitives.SwitchHydrationProps;
+        'primitives:tabs': primitives.TabsHydrationProps;
+        'primitives:textarea': primitives.TextareaHydrationProps;
+        'primitives:toggle': primitives.ToggleHydrationProps;
+        'primitives:toggleGroup': primitives.ToggleGroupHydrationProps;
+        'primitives:tooltip': primitives.TooltipHydrationProps;
+        'bench:accordion': bench.AccordionHydrationProps;
+        'bench:checkbox': bench.CheckboxHydrationProps;
+        'bench:input': bench.InputHydrationProps;
+        'bench:select': bench.SelectHydrationProps;
+    }
+}
