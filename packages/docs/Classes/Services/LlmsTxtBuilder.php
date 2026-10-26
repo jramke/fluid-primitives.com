@@ -6,6 +6,7 @@ namespace FluidPrimitives\Docs\Services;
 
 use FluidPrimitives\Docs\Utility\DocFileMetadataExtractor;
 use Symfony\Component\Yaml\Yaml;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Builds the llms.txt index (see https://llmstxt.org), served by LlmsTxtMiddleware: every nav.yaml doc,
@@ -13,6 +14,16 @@ use Symfony\Component\Yaml\Yaml;
  */
 class LlmsTxtBuilder
 {
+    /**
+     * The index of the docs content of this extension, with every link below `$baseUrl`.
+     */
+    public function buildForSite(string $baseUrl): string
+    {
+        $baseDir = GeneralUtility::getFileAbsFileName('EXT:docs/Resources/Private/Content/');
+
+        return $this->build($baseDir, $baseDir . 'nav.yaml', $baseUrl);
+    }
+
     public function build(string $baseDir, string $navFile, string $baseUrl): string
     {
         if (!file_exists($navFile)) {

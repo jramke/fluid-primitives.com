@@ -6,7 +6,8 @@ root=${CLAUDE_PROJECT_DIR:-$PWD}
 
 [ -f "$f" ] || exit 0
 case "$f" in
-    "$root"/*) rel=${f#"$root"/} ;;
+    # ./ so a file called --something is a path to the formatter and never one of its options
+    "$root"/*) rel=./${f#"$root"/} ;;
     *) exit 0 ;;
 esac
 

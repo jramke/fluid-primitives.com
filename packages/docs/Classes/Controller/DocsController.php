@@ -9,6 +9,7 @@ use FluidPrimitives\Docs\Domain\Repository\EventRegistrationRepository;
 use FluidPrimitives\Docs\Domain\Validator\EventRegistrationValidator;
 use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\DocsMarkdownModeResponder;
+use FluidPrimitives\Docs\Services\DocsPageGuard;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Services\VersionsProvider;
 use FluidPrimitives\Docs\Services\ViewAsMarkdownLinkInjector;
@@ -41,10 +42,17 @@ final class DocsController extends ActionController
         private readonly EventRegistrationRepository $eventRegistrationRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
         private readonly DocsMarkdownModeResponder $markdownModeResponder,
+        private readonly DocsPageGuard $pageGuard,
     ) {}
 
     public function showAction(string $path = ''): ResponseInterface
     {
+        // The route aspect validated the path of the URL, but an argument in a POST body replaces it
+        $path = $this->pageGuard->resolvePath($path, $this->request);
+        if ($path === null) {
+            return $this->notFoundResponse();
+        }
+
         $this->view->assign('mainLinks', self::MAIN_LINKS);
         $this->view->assign('versions', $this->versionsProvider->getVersions());
 
@@ -93,14 +101,7 @@ final class DocsController extends ActionController
                 );
             }
 
-            // PropagateResponseException, not a plain return - this Extbase action is embedded in the
-            // page's normal PAGEVIEW/layout rendering, which would otherwise wrap the response body in
-            // the full HTML page shell (see registrationAction() below).
-            $this->markdownModeResponder->respondNotFoundIfActive($this->request);
-
-            $this->view->assign('layout', '404');
-            $this->pageTitleProvider->setTitle('Not Found – Fluid Primitives');
-            return $this->htmlResponse()->withStatus(404);
+            return $this->notFoundResponse();
         }
 
         [$meta, $markdown] = $this->parseMarkdownFile($filePath);
@@ -128,6 +129,18 @@ final class DocsController extends ActionController
         return $this->htmlResponse();
     }
 
+    private function notFoundResponse(): ResponseInterface
+    {
+        // PropagateResponseException, not a plain return - this Extbase action is embedded in the
+        // page's normal PAGEVIEW/layout rendering, which would otherwise wrap the response body in
+        // the full HTML page shell (see registrationAction() below).
+        $this->markdownModeResponder->respondNotFoundIfActive($this->request);
+
+        $this->view->assign('layout', '404');
+        $this->pageTitleProvider->setTitle('Not Found – Fluid Primitives');
+        return $this->htmlResponse()->withStatus(404);
+    }
+
     public function registrationAction(
         #[Validate(validator: EventRegistrationValidator::class)]
         EventRegistration $eventRegistration,
@@ -142,9 +155,10 @@ final class DocsController extends ActionController
 
         if ($status === 200) {
             try {
-                // A submission carrying a signed `__identity` (see `FormContext::renderHiddenIdentityField()`)
-                // is mapped by Extbase onto the already-persisted entity it identifies, so `_isNew()`
-                // is false here for the edit form; a plain new registration has no identity and is still new.
+                // A submission carrying an `__identity` (only its presence is signed, not its value) is mapped
+                // by Extbase onto the already-persisted entity it identifies, so `_isNew()` is false here for
+                // the edit form; a plain new registration has no identity and is still new. The edit form only
+                // exists in Development, a public action would have to check who may change the entity.
                 $eventRegistration->_isNew()
                     ? $this->eventRegistrationRepository->add($eventRegistration)
                     : $this->eventRegistrationRepository->update($eventRegistration);

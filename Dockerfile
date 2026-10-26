@@ -1,5 +1,9 @@
 FROM php:8.3-apache
 
+# APP_ENV keeps a stray .env file from being read, the variables of the image come from its host
+ENV APP_ENV=production \
+    TYPO3_CONTEXT=Production
+
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
     unzip \
@@ -52,7 +56,8 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts \
 # "npm install" instead of "npm ci": it replaces the "file:" dependency on the submodule with the published package,
 # so the root package-lock.json doesn't have to match the library's version after each release.
 RUN npm install fluid-primitives@"$(php -r 'require "vendor/autoload.php"; echo Composer\InstalledVersions::getPrettyVersion("jramke/fluid-primitives");')" \
-    && npm run docs:build
+    && npm run docs:build \
+    && rm -rf node_modules /root/.npm
 
 # Copy entrypoint
 COPY entrypoint.sh /entrypoint.sh

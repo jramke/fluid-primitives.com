@@ -1,8 +1,7 @@
 <?php
 return [
     'BE' => [
-        'debug' => true,
-        'installToolPassword' => '$argon2i$v=19$m=65536,t=16,p=1$dldUaHluTnZaVHVGMjNhcA$5Qznk6AWVuQwBWdV0X3oXKQswSLKj+gRwhxAyiO9oXs',
+        'debug' => false,
         'lockSSL' => true,
         'passwordHashing' => [
             'className' => 'TYPO3\\CMS\\Core\\Crypto\\PasswordHashing\\Argon2iPasswordHash',
@@ -13,16 +12,16 @@ return [
         'Connections' => [
             'Default' => [
                 'charset' => 'utf8mb4',
-                'dbname' => 'db',
+                'dbname' => 'REPLACED_BY_ENV',
                 'defaultTableOptions' => [
                     'charset' => 'utf8mb4',
                     'collation' => 'utf8mb4_unicode_ci',
                 ],
                 'driver' => 'mysqli',
-                'host' => 'db',
-                'password' => 'db',
+                'host' => 'REPLACED_BY_ENV',
+                'password' => 'REPLACED_BY_ENV',
                 'port' => 3306,
-                'user' => 'db',
+                'user' => 'REPLACED_BY_ENV',
             ],
         ],
     ],
@@ -60,7 +59,7 @@ return [
         'cacheHash' => [
             'enforceValidation' => true,
         ],
-        'debug' => true,
+        'debug' => false,
         'disableNoCacheParameter' => true,
         'passwordHashing' => [
             'className' => 'TYPO3\\CMS\\Core\\Crypto\\PasswordHashing\\Argon2iPasswordHash',
@@ -117,10 +116,8 @@ return [
                 ],
             ],
         ],
-        'devIPmask' => '*',
-        'displayErrors' => 1,
-        'encryptionKey' => 'cfe31671b958d18f8ff51a2776361a8eeb70e62f0b25ecfe2aa9c42c3f35c134d1e0daf017394b7fe13a4a0f82f16daf',
-        'exceptionalErrors' => 12290,
+        'displayErrors' => 0,
+        'encryptionKey' => 'REPLACED_BY_ENV',
         'features' => [
             'extbase.consistentDateTimeHandling' => true,
             'frontend.cache.autoTagging' => true,

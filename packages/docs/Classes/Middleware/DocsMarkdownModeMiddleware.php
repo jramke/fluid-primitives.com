@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Middleware;
 
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -29,12 +30,24 @@ final readonly class DocsMarkdownModeMiddleware implements MiddlewareInterface
 {
     private const int MARKDOWN_TYPE_NUM = 9576;
 
+    public function __construct(
+        private ResponseFactoryInterface $responseFactory,
+    ) {}
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $path = $request->getUri()->getPath();
 
-        if (!str_ends_with($path, '.md') || str_starts_with($path, '/registry/')) {
+        if (str_starts_with($path, '/registry/')) {
             return $handler->handle($request);
+        }
+
+        if (!str_ends_with($path, '.md')) {
+            // The type is this middleware's own. A visitor who sends it for an HTML page would have that page
+            // rendered into the cache slot of the `.md` page.
+            return (string)($request->getQueryParams()['type'] ?? '') === (string)self::MARKDOWN_TYPE_NUM
+                ? $this->responseFactory->createResponse(404)->withHeader('Content-Type', 'text/plain; charset=utf-8')
+                : $handler->handle($request);
         }
 
         $request = $request

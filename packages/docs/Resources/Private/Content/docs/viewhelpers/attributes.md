@@ -54,10 +54,10 @@ An attribute the element renders under a condition, like `{f:if(condition: close
 
 ## Forward attributes to another component
 
-A component that uses `ui:attributes` gets an `attributes` prop. Pass the attributes on through it:
+A component that uses `ui:attributes` gets an `attributes` prop that takes an array. Pass the attributes on through it with `asArray`:
 
 ```html
-<ui:input attributes="{ui:attributes()}" />
+<ui:input attributes="{ui:attributes(asArray: true)}" />
 ```
 
  

@@ -115,7 +115,7 @@ protected function initializeCreateAction(): void
 {
     $this->arguments->getArgument('registration')
         ->getPropertyMappingConfiguration()
-        ->allowProperties('name', 'email') // or ->allowAllProperties()
+        ->allowProperties('name', 'email')
         ->setTypeConverterOption(
             PersistentObjectConverter::class,
             PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
@@ -123,6 +123,8 @@ protected function initializeCreateAction(): void
         );
 }
 ```
+
+List the properties by name. `allowAllProperties()` would let a visitor set every property of the object, also those no field shows.
 
 ## Reference
 
