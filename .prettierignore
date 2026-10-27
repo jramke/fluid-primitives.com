@@ -1,5 +1,7 @@
 **/*.html
-.ddev/addon-metadata/**
+.ddev/*
+!.ddev/*.yaml
+!.ddev/commands
 composer.lock
 package-lock.json
 types.generated/typescript-transformer-manifest.json
