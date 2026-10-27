@@ -788,7 +788,7 @@
     "destroyComponentsWithin": {
         "kind": "function",
         "name": "destroyComponentsWithin",
-        "summary": "Destroys every mounted instance whose root element is `root` or inside it, and forgets it. Call it before you remove a subtree from the DOM, e.g. a row of a FieldArray.\n\nOnly the `root` part of an instance counts. A component without one, such as Dialog, is never matched.",
+        "summary": "Destroys every mounted instance whose root element is `root` or inside it, and forgets it, its hydration data included. Call it before you remove a subtree from the DOM, e.g. a row of a FieldArray.\n\nOnly the `root` part of an instance counts. A component without one, such as Dialog, is never matched.",
         "signatures": [
             {
                 "signature": "destroyComponentsWithin(root: Element | Document): void",
