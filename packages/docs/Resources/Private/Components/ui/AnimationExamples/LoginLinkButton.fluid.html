@@ -1,0 +1,29 @@
+<f:variable name="label" value="
+    absolute inset-x-0 hidden items-center justify-center gap-2 opacity-0
+    transition-[opacity,translate,display] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] transition-discrete
+    motion-safe:translate-y-6
+" />
+
+<ui:button
+    autoMount="{false}"
+    rootId="{rootId}-button"
+    focusableWhenDisabled="{true}"
+    data-status="idle"
+    class="group/button relative overflow-hidden transition-[background-color,border-color,box-shadow]">
+    <span {ui:ref(name: 'labels')} aria-live="polite" class="relative flex items-center justify-center">
+        <span class="{label} group-data-[status=idle]/button:relative group-data-[status=idle]/button:flex group-data-[status=idle]/button:opacity-100 group-data-[status=idle]/button:translate-y-0 starting:group-data-[status=idle]/button:opacity-0 motion-safe:starting:group-data-[status=idle]/button:-translate-y-6">
+            Send me a login link
+        </span>
+        <span class="{label} group-data-[status=loading]/button:relative group-data-[status=loading]/button:flex group-data-[status=loading]/button:opacity-100 group-data-[status=loading]/button:translate-y-0 starting:group-data-[status=loading]/button:opacity-0 motion-safe:starting:group-data-[status=loading]/button:-translate-y-6">
+            <svg class="size-4 animate-spin" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+            </svg>
+            Sending
+        </span>
+        <span class="{label} group-data-[status=success]/button:relative group-data-[status=success]/button:flex group-data-[status=success]/button:opacity-100 group-data-[status=success]/button:translate-y-0 starting:group-data-[status=success]/button:opacity-0 motion-safe:starting:group-data-[status=success]/button:-translate-y-6">
+            Login link sent!
+        </span>
+    </span>
+</ui:button>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/AnimationExamples/LoginLinkButton.entry.ts" />

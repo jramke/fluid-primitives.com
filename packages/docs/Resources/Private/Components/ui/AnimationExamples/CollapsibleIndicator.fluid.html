@@ -1,0 +1,27 @@
+<f:variable name="swap" value="
+    transition-[opacity,scale,filter,display] duration-150 ease-out transition-discrete
+    starting:opacity-0 motion-safe:starting:scale-50 motion-safe:starting:blur-[4px]
+    [&[hidden]]:opacity-0 motion-safe:[&[hidden]]:scale-50 motion-safe:[&[hidden]]:blur-[4px]
+" />
+
+<ui:collapsible.root class="w-72 text-sm">
+    <ui:collapsible.trigger class="flex w-full cursor-pointer items-center justify-between rounded-md bg-accent px-3 py-2 font-semibold">
+        Shipping details
+        <span class="grid *:col-start-1 *:row-start-1 *:size-4">
+            <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Closed')}" class="{swap}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4" aria-hidden="true">
+                    <path d="M5 12h14" />
+                    <path d="M12 5v14" />
+                </svg>
+            </ui:collapsible.indicator>
+            <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Open')}" class="{swap}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4" aria-hidden="true">
+                    <path d="M5 12h14" />
+                </svg>
+            </ui:collapsible.indicator>
+        </span>
+    </ui:collapsible.trigger>
+    <ui:collapsible.content>
+        <p class="px-3 pt-2 text-muted-foreground">Orders ship within 2 working days. Delivery takes 2 to 3 days inside Germany.</p>
+    </ui:collapsible.content>
+</ui:collapsible.root>

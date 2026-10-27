@@ -1,0 +1,29 @@
+<div class="grid justify-items-center gap-28">
+    <ui:toggleGroup.root deselectable="{false}" defaultValue="{0: 'bottom'}" aria-label="Popover placement" autoMount="{false}" rootId="placement-group">
+        <ui:toggleGroup.item value="top">Top</ui:toggleGroup.item>
+        <ui:toggleGroup.item value="right">Right</ui:toggleGroup.item>
+        <ui:toggleGroup.item value="bottom">Bottom</ui:toggleGroup.item>
+        <ui:toggleGroup.item value="left">Left</ui:toggleGroup.item>
+    </ui:toggleGroup.root>
+
+    <primitives:popover.root positioning="{placement: 'bottom', gutter: 8}" autoMount="{false}" rootId="placement-popover">
+        <primitives:popover.trigger class="inline-flex h-9 cursor-pointer items-center rounded-md border bg-background px-4 text-sm font-medium shadow-xs outline-none hover:bg-accent focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50">
+            Delivery options
+        </primitives:popover.trigger>
+        <ui:portal>
+            <primitives:popover.positioner>
+                <primitives:popover.content class="
+                    w-64 origin-(--transform-origin) rounded-lg border bg-popover p-3 text-sm text-popover-foreground shadow-md outline-none
+                    transition-[opacity,scale,display] duration-250 ease-[cubic-bezier(0.23,1,0.32,1)] transition-discrete
+                    starting:data-[state=open]:opacity-0 data-[state=closed]:opacity-0
+                    motion-safe:starting:data-[state=open]:scale-95 motion-safe:data-[state=closed]:scale-95
+                ">
+                    <primitives:popover.title class="font-medium">Delivery options</primitives:popover.title>
+                    <primitives:popover.description class="mt-1 text-muted-foreground">Choose standard or express shipping at checkout.</primitives:popover.description>
+                </primitives:popover.content>
+            </primitives:popover.positioner>
+        </ui:portal>
+    </primitives:popover.root>
+</div>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/AnimationExamples/PopoverPlacement.entry.ts" />

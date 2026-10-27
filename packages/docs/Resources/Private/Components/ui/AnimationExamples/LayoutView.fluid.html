@@ -1,0 +1,22 @@
+<f:variable name="products" value="{0: {name: 'Trail runner', price: '120 €'}, 1: {name: 'Canvas sneaker', price: '75 €'}, 2: {name: 'Leather boot', price: '189 €'}, 3: {name: 'Rain jacket', price: '139 €'}, 4: {name: 'Wool beanie', price: '29 €'}, 5: {name: 'Day pack', price: '95 €'}}" />
+
+<div class="grid w-full max-w-lg gap-4">
+    <ui:toggleGroup.root deselectable="{false}" defaultValue="{0: 'grid'}" aria-label="Product view" autoMount="{false}" rootId="{rootId}-view">
+        <ui:toggleGroup.item value="grid">Grid</ui:toggleGroup.item>
+        <ui:toggleGroup.item value="list">List</ui:toggleGroup.item>
+    </ui:toggleGroup.root>
+
+    <ul {ui:ref(name: 'products')} data-view="grid" class="group/products grid grid-cols-3 gap-4 data-[view=list]:grid-cols-1 data-[view=list]:gap-3">
+        <f:for each="{products}" as="product">
+            <li data-layout class="flex flex-col gap-2 group-data-[view=list]/products:flex-row group-data-[view=list]/products:items-center group-data-[view=list]/products:gap-3">
+                <div data-layout class="aspect-square w-full rounded-lg bg-muted group-data-[view=list]/products:size-12 group-data-[view=list]/products:w-12"></div>
+                <div data-layout="position" class="text-sm">
+                    <p class="font-medium">{product.name}</p>
+                    <p class="text-muted-foreground">{product.price}</p>
+                </div>
+            </li>
+        </f:for>
+    </ul>
+</div>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/AnimationExamples/LayoutView.entry.ts" />

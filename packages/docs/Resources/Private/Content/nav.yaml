@@ -14,6 +14,7 @@
     - docs/core-concepts/hydration
     - docs/core-concepts/composition
     - docs/core-concepts/styling
+    - docs/core-concepts/animation
     - docs/core-concepts/forms
 
 - group: Components

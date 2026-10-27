@@ -1,0 +1,58 @@
+<f:variable name="products" value="{0: {id: 'trail-runner', name: 'Trail runner', price: '120 €', description: 'Light and grippy, made for wet forest paths. Comes with a spare pair of laces.'}, 1: {id: 'canvas-sneaker', name: 'Canvas sneaker', price: '75 €', description: 'A classic low-top in organic cotton canvas with a recycled rubber sole.'}, 2: {id: 'leather-boot', name: 'Leather boot', price: '189 €', description: 'Full-grain leather, resoleable and waterproof. Breaks in after two weeks.'}}" />
+
+<ui:dialog.root autoMount="{false}" rootId="{rootId}-dialog">
+    <ul class="grid w-full max-w-lg grid-cols-3 gap-4">
+        <f:for each="{products}" as="product">
+            <li>
+                <ui:dialog.trigger value="{product.id}" asChild="{true}">
+                    <button
+                        type="button"
+                        data-description="{product.description}"
+                        class="block w-full cursor-pointer rounded-xl text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50">
+                        <span data-card data-layout class="
+                            flex flex-col gap-2 rounded-xl bg-muted p-2 text-sm
+                            transition-[background-color] duration-(--duration) ease-out
+                            in-data-dialog-content:bg-popover in-data-dialog-content:starting:bg-muted
+                            [[data-dialog-positioner]>&]:starting:bg-popover
+                            group/card
+                        ">
+                            <span data-layout class="block aspect-square rounded-lg bg-foreground/10 group-data-expanded/card:aspect-video"></span>
+                            <span class="flex flex-col group-data-expanded/card:flex-row group-data-expanded/card:items-baseline group-data-expanded/card:justify-between">
+                                <span data-title data-layout="position" class="block font-medium">{product.name}</span>
+                                <span data-layout="position" class="block text-muted-foreground">{product.price}</span>
+                            </span>
+                        </span>
+                    </button>
+                </ui:dialog.trigger>
+            </li>
+        </f:for>
+    </ul>
+
+    <ui:portal>
+        <primitives:dialog.backdrop class="
+            fixed inset-0 z-(--layer-index,0) bg-black/50
+            transition-[opacity,display] duration-300 ease-out transition-discrete
+            starting:data-[state=open]:opacity-0
+            data-[state=closed]:opacity-0
+        " />
+        <primitives:dialog.positioner class="fixed inset-y-0 left-0 z-(--layer-index,0) grid w-screen place-items-center p-6">
+            <primitives:dialog.content class="group/dialog w-full max-w-xs outline-none transition-[display] duration-300 transition-discrete">
+                <div {ui:ref(name: 'slot' )}></div>
+                <div {ui:ref(name: 'extras' )} class="
+                    grid gap-4 pt-2
+                    transition-opacity delay-100 duration-300 ease-out starting:opacity-0 starting:blur-xs
+                    group-data-[state=closed]/dialog:opacity-0 group-data-[state=closed]/dialog:delay-0 group-data-[state=closed]/dialog:duration-100 group-data-[state=closed]/dialog:blur-xs
+                ">
+                    <ui:dialog.description asChild="{true}">
+                        <p {ui:ref(name: 'description' )} class="text-sm text-muted-foreground"></p>
+                    </ui:dialog.description>
+                    <ui:dialog.close asChild="{true}">
+                        <ui:button>Close</ui:button>
+                    </ui:dialog.close>
+                </div>
+            </primitives:dialog.content>
+        </primitives:dialog.positioner>
+    </ui:portal>
+</ui:dialog.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/AnimationExamples/ProductCards.entry.ts" />
