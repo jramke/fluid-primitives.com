@@ -37,7 +37,7 @@ for (const { value, title } of cities) {
 
 `instance` is a `DocumentFragment`, so you can append it as it is. `instance.root` keeps pointing at the item after the insertion has emptied the fragment.
 
-Pass `value` when the clone stands for one real item. It sets `data-value` on the clone and on the parts inside that exist once per item, and prepares independent components inside it, such as a `Field` with an `Input`. After you insert the clone, call the `mountAll()` of each name in `instance.componentNames`.
+Pass `value` when the clone stands for one real item. It sets `data-value` on the clone and on the parts inside that exist once per item, and prepares independent components inside it, such as a `Field` with an `Input`. Each of them gets a root id of its own and keeps it, whatever happens to the position of the item. After you insert the clone, call the `mountAll()` of each name in `instance.componentNames`.
 
 ## Options
 

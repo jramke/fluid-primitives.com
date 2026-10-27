@@ -1,3 +1,7 @@
+---
+preview: true
+---
+
 # Field Array
 
 **A repeatable group of fields, for letting users add and remove rows like "add another person".**
