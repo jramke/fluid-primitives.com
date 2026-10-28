@@ -76,13 +76,14 @@ The form renders `novalidate`, which hands the display of errors to your error t
 
 ### Validation mode
 
-`validationMode` decides when a field validates and shows its errors:
+`validationMode` decides when a field validates and shows its errors. Set it on the [form](/docs/components/form#content-choose-when-fields-validate) for all its fields, or on a single field:
 
-- `onBlur` (default) - validates when the user leaves a field they have edited. Tabbing through untouched fields stays quiet.
-- `onSubmit` - shows errors after the first submit attempt, and from then on while the user types.
+- `auto` (default) - validates when the user leaves a field they have edited, and on every change while an error shows, so the message goes away as soon as the value is fixed. Tabbing through untouched fields stays quiet.
+- `onBlur` - validates when the user leaves a field they have edited, not while they type.
 - `onChange` - validates on every change.
+- `onSubmit` - validates on submit only.
 
-Once an error shows, it is validated again on every change, so the message goes away as soon as the value is fixed. A submit validates all fields, shows every error and moves the focus to the first invalid one. While a mouse button or finger is down, error texts and indicators wait for the release. Keyboard users get them right away.
+A submit validates all fields in every mode, shows every error and moves the focus to the first invalid one. While a mouse button or finger is down, error texts and indicators wait for the release. Keyboard users get them right away.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.validationMode" } %}
 
