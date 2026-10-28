@@ -162,7 +162,7 @@ A `Form` posts with `fetch` and the cookies of the visitor, like any other form.
 
 Validating in the browser gives quicker feedback and improves the user experience. Keep the server-side validation as well: a client check can be bypassed, the server check cannot. Native constraints, the `validation` of the form and the `validate` of a field end up in the same error text as the errors of the server.
 
-Fields check the native constraints of their control without any TypeScript: `required`, `type="email"`, `pattern`, `min`/`max` and `minlength`/`maxlength`. Submit this form empty to see the messages:
+Fields check the native constraints of their control without any TypeScript: `required`, `type="email"`, `pattern`, `min`/`max` and `minlength`/`maxlength`. A `maxLength` that should not cut a paste off works through the [`maxLengthBehavior`](/docs/components/input#content-allow-typing-past-the-limit) of an Input or Textarea. Submit this form empty to see the messages:
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.nativeValidation" } %}
 

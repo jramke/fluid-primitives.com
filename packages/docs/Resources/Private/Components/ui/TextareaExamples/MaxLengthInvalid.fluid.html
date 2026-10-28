@@ -1,0 +1,8 @@
+<ui:field.root class="max-w-74" name="message">
+    <ui:textarea.root maxLength="200" maxLengthBehavior="{f:constant(name: 'Jramke\FluidPrimitives\Enum\MaxLengthBehavior::Invalid')}" placeholder="How can we help?">
+        <ui:textarea.label>Message</ui:textarea.label>
+        <ui:textarea.textarea />
+        <ui:textarea.wordCount />
+    </ui:textarea.root>
+    <ui:field.errorText match="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ValidityMatch::TooLong')}">Shorten your message to 200 characters or fewer.</ui:field.errorText>
+</ui:field.root>

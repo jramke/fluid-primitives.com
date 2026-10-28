@@ -125,6 +125,10 @@
                 "type": "(readOnly: boolean) => void",
                 "description": "Makes the field read-only or editable."
             },
+            "setConstraint": {
+                "type": "(constraint: FieldConstraint | null) => void",
+                "description": "Registers a rule only the control inside the field knows, such as a soft `maxLength`. The field runs it with the value on every validation, and a violation makes the field invalid like a native constraint does. A field has one, a new one replaces the old, `null` takes it back."
+            },
             "addDependencyChangeListener": {
                 "type": "(callback: (detail: FieldDependencyChangeDetail) => void) => () => void",
                 "description": "Calls `callback` whenever the value of a field named in the `listenTo` prop of this field changes. Returns a function that removes the listener again. For a field without `listenTo` it never fires, but the returned function is still safe to call."

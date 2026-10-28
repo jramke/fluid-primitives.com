@@ -9,6 +9,14 @@
                 "type": "number",
                 "description": "The number of characters in the value."
             },
+            "over": {
+                "type": "number",
+                "description": "The number of characters over `maxLength`. It is always `0` for `maxLengthBehavior=\"block\"`."
+            },
+            "atLimit": {
+                "type": "boolean",
+                "description": "Whether the value is exactly `maxLength` characters long."
+            },
             "countText": {
                 "type": "string | null",
                 "description": "The word count text, e.g. `42 / 250 characters`. `null` without `maxLength` or when the text is turned off."
@@ -75,6 +83,11 @@
                 "type": "number | undefined",
                 "description": "The most characters allowed. It also drives the word count, e.g. `42 / 250 characters`."
             },
+            "maxLengthBehavior": {
+                "type": "MaxLengthBehavior | undefined",
+                "description": "What happens when the value is longer than `maxLength`. `block` stops the typing and cuts a paste off, `warn` allows both and only shows that the value is over the limit, `invalid` does the same and makes a surrounding field invalid (`tooLong`).",
+                "defaultValue": "\"block\""
+            },
             "pattern": {
                 "type": "string | undefined",
                 "description": "A regular expression the value has to match."
@@ -111,9 +124,15 @@
         "Root": {
             "data-invalid": "Present when invalid",
             "data-disabled": "Present when disabled",
-            "data-readonly": "Present when read-only"
+            "data-readonly": "Present when read-only",
+            "data-max-length-behavior": "The `maxLengthBehavior` while there is a `maxLength`: `block`, `warn` or `invalid`. Style the over-limit state of `warn` and `invalid` apart. One of: \"invalid\", \"block\", \"warn\".",
+            "data-at-limit": "Present while the value is exactly `maxLength` characters long.",
+            "data-over-limit": "Present while the value is longer than `maxLength` and `maxLengthBehavior` is not `block`."
         },
         "Input": {
+            "data-max-length-behavior": "The `maxLengthBehavior` while there is a `maxLength`: `block`, `warn` or `invalid`. Style the over-limit state of `warn` and `invalid` apart. One of: \"invalid\", \"block\", \"warn\".",
+            "data-at-limit": "Present while the value is exactly `maxLength` characters long.",
+            "data-over-limit": "Present while the value is longer than `maxLength` and `maxLengthBehavior` is not `block`.",
             "data-invalid": "Present when invalid",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only"
@@ -122,6 +141,11 @@
             "data-invalid": "Present when invalid",
             "data-disabled": "Present when disabled",
             "data-required": "Present when required"
+        },
+        "WordCount": {
+            "data-max-length-behavior": "The `maxLengthBehavior` while there is a `maxLength`: `block`, `warn` or `invalid`. Style the over-limit state of `warn` and `invalid` apart. One of: \"invalid\", \"block\", \"warn\".",
+            "data-at-limit": "Present while the value is exactly `maxLength` characters long.",
+            "data-over-limit": "Present while the value is longer than `maxLength` and `maxLengthBehavior` is not `block`."
         }
     }
 }

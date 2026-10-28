@@ -989,6 +989,19 @@
                     }
                 ],
                 "title": "subscribeToFieldService()"
+            },
+            {
+                "name": "destroy",
+                "summary": "Stops the machine and releases the hydrator, and takes its constraint back from the field.",
+                "signatures": [
+                    {
+                        "signature": "destroy(): void",
+                        "returns": {
+                            "type": "void"
+                        }
+                    }
+                ],
+                "title": "destroy()"
             }
         ]
     },

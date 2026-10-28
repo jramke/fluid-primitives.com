@@ -13,6 +13,7 @@
 - Optional `submitOn` prop to submit the nearest form on Enter or Cmd/Ctrl+Enter
 - Optional `transform` callback to sanitize or reformat the value while typing, the cursor position is kept
 - Optional `wordCount` part with a translatable "42 / 250 characters" counter, driven by `maxLength`
+- `maxLengthBehavior` lets a paste arrive whole and shows that it is over `maxLength`, instead of cutting it off
 - Counter updates are announced to screen readers, debounced by `announceDebounce` (600 ms by default). Pass `announce="{false}"` to turn this off
 
 ## Anatomy
@@ -48,6 +49,20 @@ Pass `maxLength` and place the `wordCount` part anywhere inside `textarea.root`.
 Set `submitOn="{f:constant(name: 'Jramke\FluidPrimitives\Enum\TextareaSubmitOn::ModEnter')}"` to submit the surrounding form with Cmd/Ctrl+Enter while plain Enter inserts a newline. `TextareaSubmitOn::Enter` submits with plain Enter and inserts a newline with Shift+Enter. Wrap the textarea in `ui:form.root` or a native `<form>`: `submitOn` calls its `requestSubmit()`. Press Cmd/Ctrl+Enter in the demo to submit it.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TextareaSubmitOnEnterExample", "additionalFiles": {"TextareaSubmitOnEnterExample.ts": "EXT:docs/Resources/Private/Components/TextareaSubmitOnEnterExample/TextareaSubmitOnEnterExample.entry.ts"} } %}
+
+### Allow typing past the limit
+
+Set `maxLengthBehavior="{f:constant(name: 'Jramke\FluidPrimitives\Enum\MaxLengthBehavior::Warn')}"` to keep `maxLength` as a target instead of a wall. The browser cuts nothing off, the count switches to "Characters over the limit: 6" and the parts carry `data-over-limit`, next to `data-at-limit` for exactly `maxLength` characters and `data-max-length-behavior` to style `warn` apart from `invalid`. The form still submits. The demo is a product review that starts over its limit.
+
+{% component: "ui:componentExample", arguments: { "componentName": "TextareaExamples.maxLengthWarn" } %}
+
+Enforce the limit that matters on the server. To accept a few characters over, give the template a lower `maxLength` than the validator, for example `StringLength(maximum: 210)` behind `maxLength="200"`. A textarea submits each line break as two characters, so leave a few characters of room. The count is the one of the browser's `maxlength`, in UTF-16 units, so an emoji counts twice. `mb_strlen` and a `VARCHAR(n)` column count it once, so the count is never lower than the server's.
+
+### Reject text past the limit
+
+`MaxLengthBehavior::Invalid` works like `Warn` and also makes the surrounding field invalid with the `tooLong` validity, so a form does not submit until the text fits. The error shows when the user leaves the field, like any other constraint. Give `ui:field.errorText` a `match` of `ValidityMatch::TooLong` for your own message. Type past the limit in the demo and tab out.
+
+{% component: "ui:componentExample", arguments: { "componentName": "TextareaExamples.maxLengthInvalid" } %}
 
 ### With a transform callback
 

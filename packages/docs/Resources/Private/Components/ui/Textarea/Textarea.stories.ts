@@ -19,6 +19,16 @@ export const WithField: StoryObj = {
         example_id: 'with-field',
     },
 };
+export const MaxLengthWarn: StoryObj = {
+    args: {
+        example_id: 'max-length-warn',
+    },
+};
+export const MaxLengthInvalid: StoryObj = {
+    args: {
+        example_id: 'max-length-invalid',
+    },
+};
 export const SubmitOnEnter: StoryObj = {
     args: {
         example_id: 'submit-on-enter',
