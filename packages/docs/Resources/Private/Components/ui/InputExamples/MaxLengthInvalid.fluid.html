@@ -1,0 +1,8 @@
+<ui:field.root class="max-w-74" name="displayName">
+    <ui:input.root maxLength="20" maxLengthBehavior="{f:constant(name: 'Jramke\FluidPrimitives\Enum\MaxLengthBehavior::Invalid')}" placeholder="Pick a display name">
+        <ui:input.label>Display name</ui:input.label>
+        <ui:input.input />
+        <ui:input.wordCount />
+    </ui:input.root>
+    <ui:field.errorText match="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ValidityMatch::TooLong')}">Use 20 characters or fewer.</ui:field.errorText>
+</ui:field.root>

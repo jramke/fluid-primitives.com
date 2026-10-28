@@ -68,7 +68,7 @@ A required checkbox counts as missing until it is checked, for example "I accept
 
 ### Validate with native constraints
 
-The field reads the `ValidityState` of its control, so the constraints you already know are the rules: `required` as a prop of the field, and `type="email"`, `pattern`, `min`, `max`, `step`, `minlength` and `maxlength` as plain attributes on the input part. The constraints other than `required` come from a native input or textarea.
+The field reads the `ValidityState` of its control, so the constraints you already know are the rules: `required` as a prop of the field, and `type="email"`, `pattern`, `min`, `max`, `step`, `minlength` and `maxlength` as plain attributes on the input part. The constraints other than `required` come from a native input or textarea. An [Input](/docs/components/input#content-reject-text-past-the-limit) or Textarea with a `maxLengthBehavior` of `Invalid` reports `tooLong` as well.
 
 The form renders `novalidate`, which hands the display of errors to your error texts. An error text without a `match` shows the browser's message for the failed constraint. Give it a `match` to show your own text for exactly that constraint: `valueMissing`, `typeMismatch`, `patternMismatch`, `tooShort`, `tooLong`, `rangeUnderflow`, `rangeOverflow`, `stepMismatch`, `badInput` or `customError`.
 
