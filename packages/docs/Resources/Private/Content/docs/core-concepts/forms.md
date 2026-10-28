@@ -166,7 +166,7 @@ Fields check the native constraints of their control without any TypeScript: `re
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.nativeValidation" } %}
 
-A field validates when the user leaves it after editing. A submit validates every field and moves the focus to the first invalid one. The [validation mode](/docs/components/field#content-validation-mode) changes when errors show up, and a field can run its own [async check](/docs/components/field#content-async-validation).
+By default a field validates when the user leaves it after editing, and again on every change while it shows an error. A submit validates every field and moves the focus to the first invalid one. The [validation mode](/docs/components/field#content-validation-mode) changes when errors show up, and a field can run its own [async check](/docs/components/field#content-async-validation).
 
 ### Validate with a schema
 

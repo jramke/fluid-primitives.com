@@ -116,6 +116,11 @@
                 "description": "How long the fields wait after the last change before they read their value, never less than 50. A `validate` that sends a request should not fire on every keystroke.",
                 "defaultValue": "100"
             },
+            "validationMode": {
+                "type": "ValidationMode | undefined",
+                "description": "When the fields of the form validate, unless a field sets its own `validationMode`.",
+                "defaultValue": "\"auto\""
+            },
             "onSubmit": {
                 "type": "(({ values, api, event }: { values: FormValues; api: FormApi; event: JSX.FormEvent<HTMLElement>; }) => Promise<FormSubmitResult> | FormSubmitResult) | undefined",
                 "description": "Called with the values once the form is valid and submitted. Return `true` for success, `false` for an error, or field errors to mark the form invalid. Send the values with `extbase.post(api.getAction(), values.toObject(), { prefix: api.getFieldNamePrefix(), objectName: api.getObjectName() })`: a 422 JSON response of `JsonValidationErrorsTrait` it throws is mapped to field errors, or to the error text of the form for the errors of the object itself."

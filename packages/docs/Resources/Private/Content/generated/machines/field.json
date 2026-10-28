@@ -180,8 +180,8 @@
             },
             "validationMode": {
                 "type": "ValidationMode | undefined",
-                "description": "When validation results become visible.",
-                "defaultValue": "\"onBlur\""
+                "description": "When validation results become visible. Without one, the field follows the `validationMode` of its form, and validates as `auto` outside a form.",
+                "defaultValue": "\"auto\""
             },
             "onValidityChange": {
                 "type": "((details: ValidityChangeDetails) => void) | undefined",

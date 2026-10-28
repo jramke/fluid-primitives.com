@@ -29,7 +29,7 @@ declare namespace Jramke {
             export type SliderThumbCollisionBehavior = 'none' | 'push' | 'swap';
             export type TabsActivationMode = 'automatic' | 'manual';
             export type TextareaSubmitOn = 'enter' | 'mod+enter';
-            export type ValidationMode = 'onSubmit' | 'onBlur' | 'onChange';
+            export type ValidationMode = 'auto' | 'onSubmit' | 'onBlur' | 'onChange';
         }
     }
 }
@@ -363,6 +363,8 @@ declare namespace primitives {
             [key: string]: string;
         };
         objectName?: string;
+        validationMode?: Jramke.FluidPrimitives.Enum.ValidationMode;
+        inputDebounceMs?: number;
         fieldNamePrefix: string;
     };
     export type InputHydrationProps = {
@@ -881,6 +883,8 @@ declare namespace ui {
             [key: string]: string;
         };
         objectName?: string;
+        validationMode?: Jramke.FluidPrimitives.Enum.ValidationMode;
+        inputDebounceMs?: number;
         fieldNamePrefix: string;
     };
     export type InputHydrationProps = {

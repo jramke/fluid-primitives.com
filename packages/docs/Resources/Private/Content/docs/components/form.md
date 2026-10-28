@@ -49,9 +49,19 @@ Options that take a function go to `Form` in your entry file, because a function
 - `validation` - a Standard Schema validator such as Zod, or a synchronous callback that returns errors keyed by field name, see [Client-Side Validation](/docs/core-concepts/forms#content-client-side-validation)
 - `onSubmit` - receives `values` and `api`, and returns `true`, `false` or field errors. Send the values with [`extbase.post()`](/docs/client-utilities/extbase), set the form-level messages with `api.setErrorText()` and `api.setSuccessText()`
 - `render` - runs whenever the form state changes, for UI outside the form's own wiring
-- `inputDebounceMs` - how long fields wait after the last change before they read their value, 100 by default and at least 50, so validation waits for a pause in typing
 
 `values` uses your field names as dot paths such as `person.name` and keeps leaf values as `string | File`. Validation and server errors are keyed by field name too, so a nested field reports under `person.name`.
+
+### Choose when fields validate
+
+Set `validationMode` on the form to give all its fields the same timing, and `inputDebounceMs` to change how long they wait for a pause in typing before they validate: 100 by default, at least 50. A field that sets its own `validationMode` keeps it. The modes are described under [Validation mode](/docs/components/field#content-validation-mode) of the field.
+
+```html
+<primitives:form.root
+    validationMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ValidationMode::OnBlur')}"
+    inputDebounceMs="300"
+></primitives:form.root>
+```
 
 ## API Reference
 
