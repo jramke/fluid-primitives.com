@@ -48,7 +48,7 @@ Set `maxLengthBehavior="{f:constant(name: 'Jramke\FluidPrimitives\Enum\MaxLength
 
 {% component: "ui:componentExample", arguments: { "componentName": "InputExamples.maxLengthWarn" } %}
 
-Enforce the limit that matters on the server. To accept a few characters over, give the template a lower `maxLength` than the validator, for example `StringLength(maximum: 210)` behind `maxLength="200"`. `Warn` and `Invalid` count characters like `mb_strlen` and a `VARCHAR(n)` column do, so an emoji counts once. `Block` counts what the browser counts, UTF-16 units, so an emoji counts twice.
+Enforce the limit that matters on the server. To accept a few characters over, give the template a lower `maxLength` than the validator, for example `StringLength(maximum: 210)` behind `maxLength="200"`. The count is the one of the browser's `maxlength`, in UTF-16 units, so an emoji counts twice. `mb_strlen` and a `VARCHAR(n)` column count it once, so the count is never lower than the server's.
 
 ### Reject text past the limit
 
