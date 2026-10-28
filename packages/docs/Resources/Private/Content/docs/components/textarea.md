@@ -52,7 +52,7 @@ Set `submitOn="{f:constant(name: 'Jramke\FluidPrimitives\Enum\TextareaSubmitOn::
 
 ### Allow typing past the limit
 
-Set `maxLengthBehavior="{f:constant(name: 'Jramke\FluidPrimitives\Enum\MaxLengthBehavior::Warn')}"` to keep `maxLength` as a target instead of a wall. The browser cuts nothing off, the count switches to "6 characters too many" and the parts carry `data-over-limit`, next to `data-at-limit` for exactly `maxLength` characters and `data-max-length-behavior` to style `warn` apart from `invalid`. The form still submits. The demo is a product review that starts over its limit.
+Set `maxLengthBehavior="{f:constant(name: 'Jramke\FluidPrimitives\Enum\MaxLengthBehavior::Warn')}"` to keep `maxLength` as a target instead of a wall. The browser cuts nothing off, the count switches to "Characters over the limit: 6" and the parts carry `data-over-limit`, next to `data-at-limit` for exactly `maxLength` characters and `data-max-length-behavior` to style `warn` apart from `invalid`. The form still submits. The demo is a product review that starts over its limit.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TextareaExamples.maxLengthWarn" } %}
 
