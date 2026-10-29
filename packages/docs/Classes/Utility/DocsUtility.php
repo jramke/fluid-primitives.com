@@ -10,6 +10,7 @@ use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
 use FluidPrimitives\Docs\Services\ComponentShortcodeResolver;
 use FluidPrimitives\Docs\Services\MarkdownLinkRewriter;
 use FluidPrimitives\Docs\Services\MarkdownWhitespaceNormalizer;
+use Jramke\FluidPrimitives\Domain\Dto\TocItem;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
@@ -113,7 +114,7 @@ class DocsUtility
     }
 
     /**
-     * @return array{string, list<array{value: string, depth: int, label: string}>} First item is the content html,
+     * @return array{string, list<TocItem>} First item is the content html,
      *     second item the headings of the page for the table of contents
      */
     public static function markdownToHtml(string $markdown, ServerRequestInterface $request): array

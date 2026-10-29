@@ -39,6 +39,29 @@ preview: true
 
 ## Examples
 
+### Build the items from your content
+
+`items` takes `TocItem` objects or arrays with a `value` (the id of the heading element) and a `depth`. A `TocItem` also carries the `label` for your template, and only its `value` and `depth` reach the client.
+
+```php
+use Jramke\FluidPrimitives\Domain\Dto\TocItem;
+
+$items = array_map(
+    static fn(array $header) => new TocItem(value: 'c' . $header['uid'], depth: 2, label: $header['header']),
+    $contentElements,
+);
+```
+
+```html
+<ui:toc.root items="{items}">
+    <ui:toc.list>
+        <f:for each="{items}" as="item">
+            <ui:toc.item value="{item.value}"><ui:toc.link>{item.label}</ui:toc.link></ui:toc.item>
+        </f:for>
+    </ui:toc.list>
+</ui:toc.root>
+```
+
 ### Indent nested headings
 
 List the `depth` of each heading in `items`: `2` for an `h2`, `3` for an `h3`. An item exposes it as the `--depth` CSS variable, which the `ui:toc.item` of the registry turns into an indent.

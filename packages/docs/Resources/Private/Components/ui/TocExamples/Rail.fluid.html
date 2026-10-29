@@ -10,8 +10,8 @@
     8: {value: 'toc-rail-contact', depth: 2, label: 'Contact', text: 'Write to support@example.com on weekdays.'}
 }" />
 
-<div class="flex h-80 w-full max-w-xl gap-8">
-    <div id="toc-rail-content" class="min-w-0 flex-1 overflow-y-auto rounded-md border px-4 pb-32">
+<div class="flex h-72 w-full max-w-xl gap-8">
+    <div id="toc-rail-content" class="min-w-0 flex-1 overflow-y-auto rounded-md border px-4">
         <f:for each="{headings}" as="heading">
             <section class="min-h-28 py-3">
                 <h{heading.depth} id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h{heading.depth}>
@@ -19,7 +19,7 @@
             </section>
         </f:for>
     </div>
-    <ui:toc.root items="{headings}" scrollEl="#toc-rail-content" autoScroll="{false}" class="w-48 shrink-0">
+    <ui:toc.root items="{headings}" scrollEl="#toc-rail-content" rootMargin="-20px 0% -30% 0%" autoScroll="{false}" class="w-48 shrink-0">
         <ui:toc.title>On this page</ui:toc.title>
         <ui:toc.list>
             <f:for each="{headings}" as="heading" iteration="i">

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\CommonMark;
 
+use Jramke\FluidPrimitives\Domain\Dto\TocItem;
 use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
 use League\CommonMark\Node\Block\Document;
 use League\CommonMark\Node\NodeIterator;
@@ -17,7 +18,7 @@ use League\CommonMark\Node\StringContainerHelper;
 final class PageHeadings
 {
     /**
-     * @return list<array{value: string, depth: int, label: string}>
+     * @return list<TocItem>
      */
     public static function collect(Document $document): array
     {
@@ -34,11 +35,11 @@ final class PageHeadings
                 continue;
             }
 
-            $headings[] = [
-                'value' => $id,
-                'depth' => $node->getLevel(),
-                'label' => StringContainerHelper::getChildText($node, [RawMarkupContainerInterface::class]),
-            ];
+            $headings[] = new TocItem(
+                $id,
+                $node->getLevel(),
+                StringContainerHelper::getChildText($node, [RawMarkupContainerInterface::class]),
+            );
         }
 
         return $headings;

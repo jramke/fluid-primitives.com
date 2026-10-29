@@ -6,7 +6,7 @@
     4: {value: 'toc-collapsible-storing', depth: 2, label: 'Storing', text: 'Let the loaf cool for an hour before cutting. It stays fresh for three days in a linen bag.'}
 }" />
 
-<div class="flex h-80 w-full max-w-xl flex-col gap-3">
+<div class="flex h-72 w-full max-w-xl flex-col gap-3">
     <ui:toc.root items="{headings}" autoMount="{false}" rootId="{rootId}-toc" scrollEl="#toc-collapsible-content" autoScroll="{false}" class="w-full shrink-0 rounded-md border">
         <ui:collapsible.root>
             <ui:collapsible.trigger class="group flex w-full cursor-pointer items-center justify-between gap-3 p-3 text-start font-medium">
@@ -31,7 +31,7 @@
             </ui:collapsible.content>
         </ui:collapsible.root>
     </ui:toc.root>
-    <div id="toc-collapsible-content" class="min-h-0 flex-1 overflow-y-auto rounded-md border px-4 pb-32">
+    <div id="toc-collapsible-content" class="min-h-0 flex-1 overflow-y-auto rounded-md border px-4">
         <f:for each="{headings}" as="heading">
             <section class="min-h-28 py-3">
                 <h{heading.depth} id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h{heading.depth}>
