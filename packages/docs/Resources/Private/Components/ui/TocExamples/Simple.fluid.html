@@ -6,9 +6,9 @@
 }" />
 
 <div class="flex h-80 w-full max-w-xl gap-8">
-    <div id="toc-simple-content" class="min-w-0 flex-1 overflow-y-auto rounded-md border px-4">
+    <div id="toc-simple-content" class="min-w-0 flex-1 overflow-y-auto rounded-md border px-4 pb-32">
         <f:for each="{headings}" as="heading">
-            <section class="min-h-48 py-3">
+            <section class="min-h-28 py-3">
                 <h{heading.depth} id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h{heading.depth}>
                 <p class="mt-2 text-sm text-muted-foreground">{heading.text}</p>
             </section>
