@@ -1,35 +1,27 @@
+<f:variable name="headings" value="{
+    0: {value: 'toc-indicator-delivery', depth: 2, label: 'Delivery', text: 'Orders placed before 2 pm on a working day ship the same day. You get a tracking link by email once the parcel leaves the warehouse.'},
+    1: {value: 'toc-indicator-returns', depth: 2, label: 'Returns', text: 'You can return unworn items within 30 days. Print the return label from your order confirmation and drop the parcel at any post office.'},
+    2: {value: 'toc-indicator-refunds', depth: 3, label: 'Refunds', text: 'We refund the price of the items to the payment method you used.'},
+    3: {value: 'toc-indicator-payment', depth: 2, label: 'Payment', text: 'We accept credit card, PayPal and invoice. Your card is charged when the order ships.'},
+    4: {value: 'toc-indicator-contact', depth: 2, label: 'Contact', text: 'Write to support@example.com or call us on weekdays between 9 am and 5 pm.'}
+}" />
+
 <div class="flex h-80 w-full max-w-xl gap-8">
     <div id="toc-indicator-content" class="min-w-0 flex-1 overflow-y-auto rounded-md border px-4">
-        <section class="min-h-48 py-3">
-            <h2 id="toc-indicator-delivery" class="text-base font-semibold text-foreground">Delivery</h2>
-            <p class="mt-2 text-sm text-muted-foreground">Orders placed before 2 pm on a working day ship the same day. You get a tracking link by email once the parcel leaves the warehouse.</p>
-        </section>
-        <section class="min-h-48 py-3">
-            <h2 id="toc-indicator-returns" class="text-base font-semibold text-foreground">Returns</h2>
-            <p class="mt-2 text-sm text-muted-foreground">You can return unworn items within 30 days. Print the return label from your order confirmation and drop the parcel at any post office.</p>
-        </section>
-        <section class="min-h-48 py-3">
-            <h3 id="toc-indicator-refunds" class="font-semibold text-foreground">Refunds</h3>
-            <p class="mt-2 text-sm text-muted-foreground">We refund the price of the items to the payment method you used.</p>
-        </section>
-        <section class="min-h-48 py-3">
-            <h2 id="toc-indicator-payment" class="text-base font-semibold text-foreground">Payment</h2>
-            <p class="mt-2 text-sm text-muted-foreground">We accept credit card, PayPal and invoice. Your card is charged when the order ships.</p>
-        </section>
-        <section class="min-h-48 py-3">
-            <h2 id="toc-indicator-contact" class="text-base font-semibold text-foreground">Contact</h2>
-            <p class="mt-2 text-sm text-muted-foreground">Write to support@example.com or call us on weekdays between 9 am and 5 pm.</p>
-        </section>
+        <f:for each="{headings}" as="heading">
+            <section class="min-h-48 py-3">
+                <h{heading.depth} id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h{heading.depth}>
+                <p class="mt-2 text-sm text-muted-foreground">{heading.text}</p>
+            </section>
+        </f:for>
     </div>
-    <ui:toc.root scrollEl="#toc-indicator-content" autoScroll="{false}" class="w-44 shrink-0">
+    <ui:toc.root items="{headings}" scrollEl="#toc-indicator-content" autoScroll="{false}" class="w-44 shrink-0">
         <ui:toc.title>On this page</ui:toc.title>
         <ui:toc.list class="border-s">
             <ui:toc.indicator class="-start-px" />
-            <ui:toc.item value="toc-indicator-delivery"><ui:toc.link class="ps-3">Delivery</ui:toc.link></ui:toc.item>
-            <ui:toc.item value="toc-indicator-returns"><ui:toc.link class="ps-3">Returns</ui:toc.link></ui:toc.item>
-            <ui:toc.item value="toc-indicator-refunds" depth="3"><ui:toc.link class="ps-3">Refunds</ui:toc.link></ui:toc.item>
-            <ui:toc.item value="toc-indicator-payment"><ui:toc.link class="ps-3">Payment</ui:toc.link></ui:toc.item>
-            <ui:toc.item value="toc-indicator-contact"><ui:toc.link class="ps-3">Contact</ui:toc.link></ui:toc.item>
+            <f:for each="{headings}" as="heading">
+                <ui:toc.item value="{heading.value}"><ui:toc.link class="ps-3">{heading.label}</ui:toc.link></ui:toc.item>
+            </f:for>
         </ui:toc.list>
     </ui:toc.root>
 </div>

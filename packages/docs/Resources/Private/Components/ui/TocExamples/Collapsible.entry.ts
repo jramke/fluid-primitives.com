@@ -1,20 +1,25 @@
-import { mount } from 'fluid-primitives';
+import { mount, mountAll } from 'fluid-primitives';
 import { Toc } from 'fluid-primitives/toc';
 
-mount('ui:toc', 'collapsible-toc', ({ props }) => {
-    const toc = new Toc({
-        ...props,
-        onActiveChange: ({ activeItems }) => {
-            const root = toc.hydrator.query('root');
-            const index = toc.api.items.findIndex(item => item.value === activeItems[0]?.value);
-            const link = root?.querySelector(
-                `[data-toc-link][data-value="${activeItems[0]?.value}"]`
-            );
+mountAll('ui:tocExamples.collapsible', ({ props, createHydrator }) => {
+    const hydrator = createHydrator();
+    const ring = hydrator.query('ring');
+    const number = hydrator.query('number');
+    const label = hydrator.query('label');
 
-            root?.style.setProperty('--progress', String((index + 1) / toc.api.items.length));
-            root?.querySelector('[data-number]')?.replaceChildren(String(index + 1));
-            root?.querySelector('[data-label]')?.replaceChildren(link?.textContent?.trim() ?? '');
-        },
+    mount('ui:toc', `${props.id}-toc`, ({ props }) => {
+        const toc = new Toc({
+            ...props,
+            onActiveChange: ({ activeIds }) => {
+                const index = toc.api.items.findIndex(item => item.value === activeIds[0]);
+
+                ring?.style.setProperty('--progress', String((index + 1) / toc.api.items.length));
+                if (number) number.textContent = String(index + 1);
+                if (label)
+                    label.textContent =
+                        toc.hydrator.queryAll('link')[index]?.textContent?.trim() ?? '';
+            },
+        });
+        return toc.init();
     });
-    return toc.init();
 });

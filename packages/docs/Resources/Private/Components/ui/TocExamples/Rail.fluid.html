@@ -14,16 +14,12 @@
     <div id="toc-rail-content" class="min-w-0 flex-1 overflow-y-auto rounded-md border px-4">
         <f:for each="{headings}" as="heading">
             <section class="min-h-48 py-3">
-                <f:switch expression="{heading.depth}">
-                    <f:case value="3"><h3 id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h3></f:case>
-                    <f:case value="4"><h4 id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h4></f:case>
-                    <f:defaultCase><h2 id="{heading.value}" class="text-base font-semibold text-foreground">{heading.label}</h2></f:defaultCase>
-                </f:switch>
+                <h{heading.depth} id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h{heading.depth}>
                 <p class="mt-2 text-sm text-muted-foreground">{heading.text}</p>
             </section>
         </f:for>
     </div>
-    <ui:toc.root scrollEl="#toc-rail-content" autoScroll="{false}" class="w-48 shrink-0">
+    <ui:toc.root items="{headings}" scrollEl="#toc-rail-content" autoScroll="{false}" class="w-48 shrink-0">
         <ui:toc.title>On this page</ui:toc.title>
         <ui:toc.list>
             <f:for each="{headings}" as="heading" iteration="i">
@@ -40,7 +36,7 @@
                 <f:variable name="prevX" value="{prevDepth * 8}" />
                 <f:variable name="turns" value="{f:if(condition: '{prevDepth} != {heading.depth}', then: 1, else: 0)}" />
 
-                <ui:toc.item value="{heading.value}" depth="{heading.depth}" class="!ps-0">
+                <ui:toc.item value="{heading.value}" class="!ps-0">
                     <ui:toc.link class="group/link relative pe-2 ps-[calc(var(--depth)*12px-4px)]">
                         <svg class="pointer-events-none absolute -start-2 -top-1.5 w-10 stroke-border transition-colors group-data-[active]/link:stroke-foreground {f:if(condition: '{nextDepth} == {heading.depth}', then: 'h-[calc(100%+6px)]', else: 'h-full')}" aria-hidden="true">
                             <f:if condition="{turns}"><path d="M {prevX}.5 0 C {prevX}.5 8 {x}.5 4 {x}.5 12" fill="none" /></f:if>

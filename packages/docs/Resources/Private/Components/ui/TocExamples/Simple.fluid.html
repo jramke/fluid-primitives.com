@@ -1,29 +1,25 @@
+<f:variable name="headings" value="{
+    0: {value: 'toc-simple-delivery', depth: 2, label: 'Delivery', text: 'Orders placed before 2 pm on a working day ship the same day. You get a tracking link by email once the parcel leaves the warehouse.'},
+    1: {value: 'toc-simple-returns', depth: 2, label: 'Returns', text: 'You can return unworn items within 30 days. Print the return label from your order confirmation and drop the parcel at any post office.'},
+    2: {value: 'toc-simple-payment', depth: 2, label: 'Payment', text: 'We accept credit card, PayPal and invoice. Your card is charged when the order ships.'},
+    3: {value: 'toc-simple-contact', depth: 2, label: 'Contact', text: 'Write to support@example.com or call us on weekdays between 9 am and 5 pm.'}
+}" />
+
 <div class="flex h-80 w-full max-w-xl gap-8">
     <div id="toc-simple-content" class="min-w-0 flex-1 overflow-y-auto rounded-md border px-4">
-        <section class="min-h-48 py-3">
-            <h2 id="toc-simple-delivery" class="text-base font-semibold text-foreground">Delivery</h2>
-            <p class="mt-2 text-sm text-muted-foreground">Orders placed before 2 pm on a working day ship the same day. You get a tracking link by email once the parcel leaves the warehouse.</p>
-        </section>
-        <section class="min-h-48 py-3">
-            <h2 id="toc-simple-returns" class="text-base font-semibold text-foreground">Returns</h2>
-            <p class="mt-2 text-sm text-muted-foreground">You can return unworn items within 30 days. Print the return label from your order confirmation and drop the parcel at any post office.</p>
-        </section>
-        <section class="min-h-48 py-3">
-            <h2 id="toc-simple-payment" class="text-base font-semibold text-foreground">Payment</h2>
-            <p class="mt-2 text-sm text-muted-foreground">We accept credit card, PayPal and invoice. Your card is charged when the order ships.</p>
-        </section>
-        <section class="min-h-48 py-3">
-            <h2 id="toc-simple-contact" class="text-base font-semibold text-foreground">Contact</h2>
-            <p class="mt-2 text-sm text-muted-foreground">Write to support@example.com or call us on weekdays between 9 am and 5 pm.</p>
-        </section>
+        <f:for each="{headings}" as="heading">
+            <section class="min-h-48 py-3">
+                <h{heading.depth} id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h{heading.depth}>
+                <p class="mt-2 text-sm text-muted-foreground">{heading.text}</p>
+            </section>
+        </f:for>
     </div>
-    <ui:toc.root scrollEl="#toc-simple-content" autoScroll="{false}" class="w-36 shrink-0">
+    <ui:toc.root items="{headings}" scrollEl="#toc-simple-content" autoScroll="{false}" class="w-36 shrink-0">
         <ui:toc.title>On this page</ui:toc.title>
         <ui:toc.list>
-            <ui:toc.item value="toc-simple-delivery"><ui:toc.link>Delivery</ui:toc.link></ui:toc.item>
-            <ui:toc.item value="toc-simple-returns"><ui:toc.link>Returns</ui:toc.link></ui:toc.item>
-            <ui:toc.item value="toc-simple-payment"><ui:toc.link>Payment</ui:toc.link></ui:toc.item>
-            <ui:toc.item value="toc-simple-contact"><ui:toc.link>Contact</ui:toc.link></ui:toc.item>
+            <f:for each="{headings}" as="heading">
+                <ui:toc.item value="{heading.value}"><ui:toc.link>{heading.label}</ui:toc.link></ui:toc.item>
+            </f:for>
         </ui:toc.list>
     </ui:toc.root>
 </div>

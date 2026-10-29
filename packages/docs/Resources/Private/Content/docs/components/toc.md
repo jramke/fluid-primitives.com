@@ -37,7 +37,7 @@
 
 ### Indent nested headings
 
-Give an item the `depth` of its heading: `2` for an `h2`, `3` for an `h3`. The item exposes it as the `--depth` CSS variable, which the `ui:toc.item` of the registry turns into an indent.
+List the `depth` of each heading in `items`: `2` for an `h2`, `3` for an `h3`. An item exposes it as the `--depth` CSS variable, which the `ui:toc.item` of the registry turns into an indent.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TocExamples.nested" } %}
 
@@ -55,13 +55,13 @@ Each link draws a segment of the rail beside it, and the segment of an active li
 
 ### Collapse the list into a summary
 
-Put the list into a `ui:collapsible`. The trigger shows the active heading and how far you are, so the list can stay closed. The script mounts the `Toc` itself and updates the summary from `onActiveChange`.
+Put the list into a `ui:collapsible`. The trigger shows the active heading and how far you are, so the list can stay closed. The script mounts the `Toc` itself and updates the summary from `onActiveChange`: the `--progress` of the ring, the number and the label of the active heading.
 
-{% component: "ui:componentExample", arguments: { "componentName": "TocExamples.collapsible", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "TocExamples.collapsible", "additionalFiles": {"Collapsible.entry.ts": "EXT:docs/Resources/Private/Components/ui/TocExamples/Collapsible.entry.ts"} } %}
 
 ### Track headings inside a scroll container
 
-Set `scrollEl` to a CSS selector when the headings scroll inside an element instead of the page. The examples above all do. A click on a link then scrolls that element, with the behavior of `scrollBehavior`.
+Set `scrollEl` to a CSS selector when the headings scroll inside an element instead of the page. The examples above all do. A click on a link then scrolls that element, with the behavior of `scrollBehavior`, which is never smooth for a visitor who prefers reduced motion.
 
 ```html
 <ui:toc.root scrollEl="#article">...</ui:toc.root>
@@ -98,10 +98,10 @@ mountAll('ui:toc', ({ props }) => {
     arguments: {
         "name": "Toc",
         "parts": [
-            ["root", "Wraps the table of contents and provides its state. Renders a `<nav>` element."],
+            ["root", "Wraps the table of contents, provides its state and takes the `items`. Renders a `<nav>` element."],
             ["title", "Labels the table of contents. Renders an `<h2>` element, set `level` for another heading level."],
             ["list", "Wraps the items and is the positioning context of the indicator. Renders a `<ul>` element."],
-            ["item", "One heading of the page, with its `value` and `depth`. Renders an `<li>` element."],
+            ["item", "One heading of the page, identified by its `value`. Renders an `<li>` element."],
             ["link", "Links to the heading of its item. Renders an `<a>` element."],
             ["indicator", "Follows the active items. Renders a `<div>` element."]
         ]
