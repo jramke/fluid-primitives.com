@@ -1,3 +1,7 @@
+---
+preview: true
+---
+
 # Table of Contents
 
 **A table of contents that highlights the headings you are reading.**
