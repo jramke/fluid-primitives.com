@@ -43,9 +43,9 @@
     - docs/components/select
     - docs/components/slider
     - docs/components/switch
+    - docs/components/toc
     - docs/components/tabs
     - docs/components/textarea
-    - docs/components/toc
     - docs/components/toggle
     - docs/components/toggle-group
     - docs/components/tooltip

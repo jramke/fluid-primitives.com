@@ -1,4 +1,4 @@
-# Toc
+# Table of Contents
 
 **A table of contents that highlights the headings you are reading.**
 
@@ -55,7 +55,7 @@ Each link draws a segment of the rail beside it, and the segment of an active li
 
 ### Collapse the list into a summary
 
-Put the list into a `ui:collapsible`. The trigger shows the active heading and how far you are, so the list can stay closed. The script reads the `data-active` attribute of the items, so it needs no handle on the instance.
+Put the list into a `ui:collapsible`. The trigger shows the active heading and how far you are, so the list can stay closed. The script mounts the `Toc` itself and updates the summary from `onActiveChange`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "TocExamples.collapsible", "withEntryFile": true } %}
 
@@ -99,7 +99,7 @@ mountAll('ui:toc', ({ props }) => {
         "name": "Toc",
         "parts": [
             ["root", "Wraps the table of contents and provides its state. Renders a `<nav>` element."],
-            ["title", "Labels the table of contents. Renders an `<h2>` element."],
+            ["title", "Labels the table of contents. Renders an `<h2>` element, set `level` for another heading level."],
             ["list", "Wraps the items and is the positioning context of the indicator. Renders a `<ul>` element."],
             ["item", "One heading of the page, with its `value` and `depth`. Renders an `<li>` element."],
             ["link", "Links to the heading of its item. Renders an `<a>` element."],
