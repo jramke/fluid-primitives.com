@@ -1,0 +1,140 @@
+<ui:exposeToClient />
+<ui:prop name="action" type="string" optional="{true}" default="array" />
+
+<ui:listCollection
+    items="{0: {value: 'nl', label: 'Netherlands'}, 1: {value: 'de', label: 'Germany'}, 2: {value: 'fr', label: 'France'}}"
+    as="countries" />
+<ui:listCollection
+    items="{0: {value: 'php', label: 'PHP'}, 1: {value: 'ts', label: 'TypeScript'}, 2: {value: 'css', label: 'CSS'}}"
+    as="skills" />
+
+<h2 class="text-xl font-semibold">Primitives</h2>
+
+<ui:form.root action="{action}" controller="EmptyValues" objectName="data" autoMount="{false}" rootId="empty-values-form" class="space-y-6">
+
+    <ui:field.root name="newsletter">
+        <ui:switch.root>
+            <ui:switch.control />
+            <ui:switch.label>Newsletter</ui:switch.label>
+        </ui:switch.root>
+    </ui:field.root>
+
+    <ui:field.root name="terms">
+        <ui:checkbox.root>
+            <ui:checkbox.control />
+            <ui:checkbox.label>I accept the terms</ui:checkbox.label>
+        </ui:checkbox.root>
+    </ui:field.root>
+
+    <ui:field.root name="interests[]">
+        <ui:checkboxGroup.root>
+            <ui:checkboxGroup.label>Interests</ui:checkboxGroup.label>
+            <f:for each="{skills.items}" as="item">
+                <ui:checkbox.root value="{item.value}">
+                    <ui:checkbox.control />
+                    <ui:checkbox.label>{item.label}</ui:checkbox.label>
+                </ui:checkbox.root>
+            </f:for>
+        </ui:checkboxGroup.root>
+    </ui:field.root>
+
+    <ui:field.root name="country">
+        <ui:select.root collection="{countries}">
+            <ui:select.label>Country</ui:select.label>
+            <ui:select.control>
+                <ui:select.trigger placeholder="Choose a country" />
+            </ui:select.control>
+            <ui:select.content>
+                <ui:select.list>
+                    <f:for each="{countries.items}" as="item">
+                        <ui:select.item item="{item}">
+                            <ui:select.itemText>{item.label}</ui:select.itemText>
+                            <ui:select.itemIndicator />
+                        </ui:select.item>
+                    </f:for>
+                </ui:select.list>
+            </ui:select.content>
+        </ui:select.root>
+    </ui:field.root>
+
+    <ui:field.root name="skills[]">
+        <ui:combobox.root collection="{skills}" multiple="{true}">
+            <ui:combobox.label>Skills</ui:combobox.label>
+            <ui:combobox.control>
+                <ui:combobox.input placeholder="Search skills" />
+                <ui:combobox.clearTrigger />
+            </ui:combobox.control>
+            <ui:combobox.content>
+                <ui:combobox.list>
+                    <f:for each="{skills.items}" as="item">
+                        <ui:combobox.item item="{item}">
+                            <ui:combobox.itemText>{item.label}</ui:combobox.itemText>
+                            <ui:combobox.itemIndicator />
+                        </ui:combobox.item>
+                    </f:for>
+                </ui:combobox.list>
+            </ui:combobox.content>
+        </ui:combobox.root>
+    </ui:field.root>
+
+    <ui:field.root name="birthday">
+        <ui:datePicker.root class="max-w-74">
+            <ui:datePicker.label>Birthday</ui:datePicker.label>
+            <ui:datePicker.control>
+                <ui:datePicker.input />
+                <ui:datePicker.trigger />
+            </ui:datePicker.control>
+            <ui:datePicker.content>
+                <ui:datePicker.view view="day">
+                    <ui:datePicker.viewControl view="day">
+                        <ui:datePicker.prevTrigger view="day" />
+                        <ui:datePicker.viewTrigger view="day"><ui:datePicker.rangeText /></ui:datePicker.viewTrigger>
+                        <ui:datePicker.nextTrigger view="day" />
+                    </ui:datePicker.viewControl>
+                    <ui:datePicker.table view="day">
+                        <ui:datePicker.tableHeader />
+                        <ui:datePicker.tableBody />
+                    </ui:datePicker.table>
+                </ui:datePicker.view>
+            </ui:datePicker.content>
+        </ui:datePicker.root>
+    </ui:field.root>
+
+    <ui:field.root name="budget">
+        <ui:slider.root defaultValue="50" max="100">
+            <div class="flex justify-between">
+                <ui:slider.label>Budget</ui:slider.label>
+                <ui:slider.valueText />
+            </div>
+            <ui:slider.control>
+                <ui:slider.track><ui:slider.range /></ui:slider.track>
+                <ui:slider.thumb index="0" />
+            </ui:slider.control>
+        </ui:slider.root>
+    </ui:field.root>
+
+    <ui:field.root name="plan">
+        <ui:radioGroup.root defaultValue="basic">
+            <ui:radioGroup.label>Plan</ui:radioGroup.label>
+            <f:for each="{0: 'basic', 1: 'pro', 2: 'team'}" as="plan">
+                <ui:radioGroup.item value="{plan}">
+                    <ui:radioGroup.itemControl />
+                    <ui:radioGroup.itemText>{plan}</ui:radioGroup.itemText>
+                </ui:radioGroup.item>
+            </f:for>
+        </ui:radioGroup.root>
+    </ui:field.root>
+
+    <ui:field.root name="avatar">
+        <ui:fileUpload.root>
+            <ui:fileUpload.label>Avatar</ui:fileUpload.label>
+            <ui:fileUpload.dropzone>
+                <ui:fileUpload.trigger>Choose a file</ui:fileUpload.trigger>
+            </ui:fileUpload.dropzone>
+        </ui:fileUpload.root>
+    </ui:field.root>
+
+    <button type="submit" class="button button-default h-9 px-4">Submit</button>
+</ui:form.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/EmptyValuesForm/EmptyValuesForm.entry.ts" />
