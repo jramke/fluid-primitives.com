@@ -1,0 +1,11 @@
+<ui:collapsible.root collapsedHeight="4.5rem" class="w-72 text-sm">
+    <ui:collapsible.content class="data-[state=closed]:mask-b-from-40%">
+        <p class="leading-6">
+            Fluid Primitives renders every component on the server with Fluid and hydrates it in the browser with a Zag.js state machine. Your templates stay in charge of the markup, the library adds state, keyboard support and ARIA attributes. Style the parts with the <a href="/docs/core-concepts/styling#content-data-attributes" class="font-medium underline underline-offset-4">data attributes</a> they expose.
+        </p>
+    </ui:collapsible.content>
+    <ui:collapsible.trigger class="mt-2 cursor-pointer font-semibold underline underline-offset-4">
+        <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Closed')}">Read more</ui:collapsible.indicator>
+        <ui:collapsible.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\CollapsibleIndicatorState::Open')}">Read less</ui:collapsible.indicator>
+    </ui:collapsible.trigger>
+</ui:collapsible.root>
