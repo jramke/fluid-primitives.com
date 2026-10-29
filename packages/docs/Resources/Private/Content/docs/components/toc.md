@@ -86,38 +86,6 @@ Put the list into a `ui:collapsible`. The trigger shows the active heading and h
 
 {% component: "ui:componentExample", arguments: { "componentName": "TocExamples.collapsible", "additionalFiles": {"Collapsible.entry.ts": "EXT:docs/Resources/Private/Components/ui/TocExamples/Collapsible.entry.ts"} } %}
 
-### Track headings inside a scroll container
-
-Set `scrollEl` to a CSS selector when the headings scroll inside an element instead of the page. The examples above all do. A click on a link then scrolls that element, with the behavior of `scrollBehavior`, which is never smooth for a visitor who prefers reduced motion.
-
-```html
-<ui:toc.root scrollEl="#article">...</ui:toc.root>
-```
-
-### Choose which part of the viewport counts
-
-A heading is active while it is inside the `rootMargin` of the scroll container. The default `-20px 0% -40% 0%` activates headings in the upper 60 percent. `threshold` sets how much of a heading has to be inside the margin.
-
-```html
-<ui:toc.root rootMargin="0px 0px -80% 0px" threshold="0.5">...</ui:toc.root>
-```
-
-### React to the active headings
-
-Create the instance yourself to pass `onActiveChange`. It receives the ids and the items of the active headings.
-
-```typescript
-import { mountAll } from 'fluid-primitives';
-import { Toc } from 'fluid-primitives/toc';
-
-mountAll('ui:toc', ({ props }) => {
-    return new Toc({
-        ...props,
-        onActiveChange: ({ activeIds }) => console.log(activeIds),
-    }).init();
-});
-```
-
 ## API Reference
 
 {%
