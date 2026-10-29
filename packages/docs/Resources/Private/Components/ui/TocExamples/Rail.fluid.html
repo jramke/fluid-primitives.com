@@ -35,12 +35,17 @@
                 <f:variable name="x" value="{heading.depth * 8}" />
                 <f:variable name="prevX" value="{prevDepth * 8}" />
                 <f:variable name="turns" value="{f:if(condition: '{prevDepth} != {heading.depth}', then: 1, else: 0)}" />
+                <f:variable name="draw" value="stroke-foreground [stroke-dasharray:1] [stroke-dashoffset:1] transition-[stroke-dashoffset] duration-200 motion-reduce:transition-none group-data-[active]/link:[stroke-dashoffset:0]" />
 
                 <ui:toc.item value="{heading.value}" class="!ps-0">
                     <ui:toc.link class="group/link relative pe-2 ps-[calc(var(--depth)*12px-4px)]">
-                        <svg class="pointer-events-none absolute -start-2 -top-1.5 w-10 stroke-border transition-colors group-data-[active]/link:stroke-foreground {f:if(condition: '{nextDepth} == {heading.depth}', then: 'h-[calc(100%+6px)]', else: 'h-full')}" aria-hidden="true">
-                            <f:if condition="{turns}"><path d="M {prevX}.5 0 C {prevX}.5 8 {x}.5 4 {x}.5 12" fill="none" /></f:if>
+                        <svg class="pointer-events-none absolute -start-2 -top-1.5 w-10 stroke-border {f:if(condition: '{nextDepth} == {heading.depth}', then: 'h-[calc(100%+6px)]', else: 'h-full')}" aria-hidden="true">
+                            <f:if condition="{turns}">
+                                <path d="M {prevX}.5 0 C {prevX}.5 8 {x}.5 4 {x}.5 12" fill="none" />
+                                <path d="M {prevX}.5 0 C {prevX}.5 8 {x}.5 4 {x}.5 12" fill="none" pathLength="1" class="{draw}" />
+                            </f:if>
                             <line x1="{x}.5" y1="{f:if(condition: turns, then: 12, else: 6)}" x2="{x}.5" y2="100%" />
+                            <line x1="{x}.5" y1="{f:if(condition: turns, then: 12, else: 6)}" x2="{x}.5" y2="100%" pathLength="1" class="{draw} group-data-[active]/link:delay-100" />
                         </svg>
                         {heading.label}
                     </ui:toc.link>
