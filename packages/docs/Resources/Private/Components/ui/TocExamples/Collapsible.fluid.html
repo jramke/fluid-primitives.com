@@ -1,5 +1,5 @@
 <div class="flex h-80 w-full max-w-xl flex-col gap-3">
-    <ui:toc.root scrollEl="#toc-collapsible-content" class="w-full shrink-0 rounded-md border" data-summary="true">
+    <ui:toc.root autoMount="{false}" rootId="collapsible-toc" scrollEl="#toc-collapsible-content" autoScroll="{false}" class="w-full shrink-0 rounded-md border">
         <ui:collapsible.root>
             <ui:collapsible.trigger class="group flex w-full cursor-pointer items-center justify-between gap-3 p-3 text-start font-medium">
                 <span class="flex min-w-0 items-center gap-3">
@@ -8,9 +8,9 @@
                             <circle cx="18" cy="18" r="14" fill="none" stroke-width="2.5" class="stroke-border" />
                             <circle cx="18" cy="18" r="14" fill="none" stroke-width="2.5" stroke-linecap="round" class="stroke-foreground transition-[stroke-dasharray] duration-300 [stroke-dasharray:calc(var(--progress,0)*87.96)_87.96]" />
                         </svg>
-                        <span data-summary-number class="text-[10px] font-semibold tabular-nums">-</span>
+                        <span data-number class="text-[10px] font-semibold tabular-nums">-</span>
                     </span>
-                    <span data-summary-label class="truncate">On this page</span>
+                    <span data-label class="truncate">On this page</span>
                 </span>
                 <ui:icon.chevronDown class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-180" />
             </ui:collapsible.trigger>
