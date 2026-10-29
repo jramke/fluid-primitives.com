@@ -28,6 +28,7 @@ declare module 'fluid-primitives' {
         'ui:switch': ui.SwitchHydrationProps;
         'ui:tabs': ui.TabsHydrationProps;
         'ui:textarea': ui.TextareaHydrationProps;
+        'ui:toc': ui.TocHydrationProps;
         'ui:toggle': ui.ToggleHydrationProps;
         'ui:toggleGroup': ui.ToggleGroupHydrationProps;
         'ui:tooltip': ui.TooltipHydrationProps;
@@ -57,6 +58,7 @@ declare module 'fluid-primitives' {
         'primitives:switch': primitives.SwitchHydrationProps;
         'primitives:tabs': primitives.TabsHydrationProps;
         'primitives:textarea': primitives.TextareaHydrationProps;
+        'primitives:toc': primitives.TocHydrationProps;
         'primitives:toggle': primitives.ToggleHydrationProps;
         'primitives:toggleGroup': primitives.ToggleGroupHydrationProps;
         'primitives:tooltip': primitives.TooltipHydrationProps;
