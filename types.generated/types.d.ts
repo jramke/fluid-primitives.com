@@ -10,6 +10,10 @@ declare namespace Jramke {
                     groupByKey: string | null;
                     groupSort: string[] | string | null;
                 };
+                export type TocItem = {
+                    value: string;
+                    depth: number;
+                };
             }
         }
         namespace Enum {
@@ -587,7 +591,7 @@ declare namespace primitives {
         ids: {
             [key: string]: string;
         };
-        items: any;
+        items: any | Jramke.FluidPrimitives.Domain.Dto.TocItem[];
         defaultActiveIds?: string[];
         rootMargin?: string;
         threshold?: number | number[];
@@ -1125,7 +1129,7 @@ declare namespace ui {
         ids: {
             [key: string]: string;
         };
-        items: any;
+        items: any | Jramke.FluidPrimitives.Domain.Dto.TocItem[];
         defaultActiveIds?: string[];
         rootMargin?: string;
         threshold?: number | number[];
