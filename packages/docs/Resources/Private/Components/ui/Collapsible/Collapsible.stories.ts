@@ -19,3 +19,8 @@ export const Disabled: StoryObj = {
         example_id: 'disabled',
     },
 };
+export const ReadMore: StoryObj = {
+    args: {
+        example_id: 'read-more',
+    },
+};

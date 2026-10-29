@@ -36,6 +36,12 @@ Set `defaultOpen` to render the panel expanded.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CollapsibleExamples.defaultOpen" } %}
 
+### Show a preview of the content
+
+Set `collapsedHeight` on the root to keep the start of the content visible while the panel is closed. The text below shows three lines until you click "Read more". Screen readers read the whole text in both states, and the trigger reports the state through `aria-expanded`.
+
+{% component: "ui:componentExample", arguments: { "componentName": "CollapsibleExamples.readMore" } %}
+
 ### Disable the collapsible
 
 Set `disabled` to keep the panel in its current state. The panel below stays closed.

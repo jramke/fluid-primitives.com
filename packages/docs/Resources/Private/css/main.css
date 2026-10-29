@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@import 'tw-animate-css';
 @import './content-grid.css';
 @import './link.css';
 @import './scroller.css';
@@ -74,6 +73,21 @@
         }
         to {
             height: var(--collapsed-height, 0);
+        }
+    }
+
+    --animate-viewport-in: viewport-in 0.2s var(--ease-out);
+    --animate-viewport-out: viewport-out 0.2s var(--ease-out) forwards;
+    @keyframes viewport-in {
+        from {
+            opacity: 0;
+            scale: 0.9;
+        }
+    }
+    @keyframes viewport-out {
+        to {
+            opacity: 0;
+            scale: 0.9;
         }
     }
 
