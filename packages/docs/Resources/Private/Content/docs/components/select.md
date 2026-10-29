@@ -134,7 +134,7 @@ The label of the clear button ships in the language file and follows the site la
             ["item", "Represents a selectable option. Renders a `<div>` element."],
             ["itemText", "Displays the text content of an option. Renders a `<span>` element."],
             ["itemIndicator", "Displays the selected-state indicator for an option. Renders a `<div>` element."],
-            ["hiddenSelect", "Provides the native `<select>` element for form submission. Renders a `<select>` element."]
+            ["hiddenSelect", "Provides the native `<select>` element for form submission. Renders a `<select>` element, with the empty-value input that submits `''` while nothing is selected in front of it."]
         ]
     }
 %}
