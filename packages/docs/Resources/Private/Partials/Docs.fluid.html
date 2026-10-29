@@ -7,11 +7,27 @@
 </main>
 
 <f:if condition="{toc}">
-    <div class="fixed right-[var(--scrollbar-width,0px)] top-0 h-screen pt-31 w-[250px] pe-8 hidden lg:block">
-        <h2 class="font-medium mb-2 text-sm flex items-center gap-1.5 -ms-1">
+    <ui:toc.root class="fixed right-[var(--scrollbar-width,0px)] top-0 hidden h-screen w-[250px] flex-col pb-8 pe-8 pt-31 lg:flex">
+        <ui:toc.title class="-ms-1 flex items-center gap-1.5">
             <ui:icon.toc />
             On this page
-        </h2>
-        <f:format.raw>{toc}</f:format.raw>
-    </div>
+        </ui:toc.title>
+        <ui:scrollArea.root class="min-h-0 flex-1">
+            <ui:scrollArea.viewport>
+                <ui:scrollArea.content>
+                    <ui:toc.list>
+                        <li><a href="#" class="block py-1 text-muted-foreground transition-colors hover:text-foreground focus-visible:text-foreground">(Top)</a></li>
+                        <f:for each="{toc}" as="heading">
+                            <ui:toc.item value="{heading.value}" depth="{heading.depth}">
+                                <ui:toc.link>{heading.label}</ui:toc.link>
+                            </ui:toc.item>
+                        </f:for>
+                    </ui:toc.list>
+                </ui:scrollArea.content>
+            </ui:scrollArea.viewport>
+            <ui:scrollArea.scrollbar>
+                <ui:scrollArea.thumb />
+            </ui:scrollArea.scrollbar>
+        </ui:scrollArea.root>
+    </ui:toc.root>
 </f:if>

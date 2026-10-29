@@ -185,14 +185,4 @@
         font-variant-ligatures: none;
         line-height: 1.7;
     }
-
-    .table-of-contents {
-        @apply text-sm text-muted-foreground;
-        ul {
-            @apply ms-3;
-        }
-        a {
-            @apply py-1 inline-block hover:text-foreground focus-visible:text-foreground transition-colors;
-        }
-    }
 }
