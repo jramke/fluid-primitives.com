@@ -1,27 +1,52 @@
+<f:variable name="headings" value="{
+    0: {value: 'toc-rail-delivery', depth: 2, label: 'Delivery', text: 'Orders placed before 2 pm on a working day ship the same day.'},
+    1: {value: 'toc-rail-returns', depth: 2, label: 'Returns', text: 'You can return unworn items within 30 days.'},
+    2: {value: 'toc-rail-return-label', depth: 3, label: 'Return label', text: 'Print the label from your order confirmation.'},
+    3: {value: 'toc-rail-return-window', depth: 3, label: 'Return window', text: 'The 30 days start on the day the parcel arrives.'},
+    4: {value: 'toc-rail-payment', depth: 2, label: 'Payment', text: 'We accept credit card, PayPal and invoice.'},
+    5: {value: 'toc-rail-credit-card', depth: 3, label: 'Credit card', text: 'Your card is charged when the order ships.'},
+    6: {value: 'toc-rail-invoice', depth: 3, label: 'Invoice', text: 'You get the invoice with the parcel.'},
+    7: {value: 'toc-rail-due-date', depth: 4, label: 'Due date', text: 'Pay within 14 days of the invoice date.'},
+    8: {value: 'toc-rail-contact', depth: 2, label: 'Contact', text: 'Write to support@example.com on weekdays.'}
+}" />
+
 <div class="flex h-80 w-full max-w-xl gap-8">
     <div id="toc-rail-content" class="min-w-0 flex-1 overflow-y-auto rounded-md border px-4">
-        <f:for each="{context.rails}" as="rail">
+        <f:for each="{headings}" as="heading">
             <section class="min-h-48 py-3">
-                <f:switch expression="{rail.depth}">
-                    <f:case value="3"><h3 id="{rail.value}" class="font-semibold text-foreground">{rail.label}</h3></f:case>
-                    <f:case value="4"><h4 id="{rail.value}" class="font-semibold text-foreground">{rail.label}</h4></f:case>
-                    <f:defaultCase><h2 id="{rail.value}" class="text-base font-semibold text-foreground">{rail.label}</h2></f:defaultCase>
+                <f:switch expression="{heading.depth}">
+                    <f:case value="3"><h3 id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h3></f:case>
+                    <f:case value="4"><h4 id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h4></f:case>
+                    <f:defaultCase><h2 id="{heading.value}" class="text-base font-semibold text-foreground">{heading.label}</h2></f:defaultCase>
                 </f:switch>
-                <p class="mt-2 text-sm text-muted-foreground">{rail.text}</p>
+                <p class="mt-2 text-sm text-muted-foreground">{heading.text}</p>
             </section>
         </f:for>
     </div>
-    <ui:toc.root scrollEl="#toc-rail-content" class="w-48 shrink-0">
+    <ui:toc.root scrollEl="#toc-rail-content" autoScroll="{false}" class="w-48 shrink-0">
         <ui:toc.title>On this page</ui:toc.title>
         <ui:toc.list>
-            <f:for each="{context.rails}" as="rail">
-                <ui:toc.item value="{rail.value}" depth="{rail.depth}" class="!ps-0">
-                    <ui:toc.link class="group/link relative pe-2" style="{rail.linkStyle}">
-                        <svg class="pointer-events-none absolute start-0 stroke-border transition-colors group-data-[active]/link:stroke-foreground" style="{rail.svgStyle}" aria-hidden="true">
-                            <f:if condition="{rail.turns}"><path d="{rail.d}" fill="none" /></f:if>
-                            <line x1="{rail.x}" y1="{rail.y1}" x2="{rail.x}" y2="100%" />
+            <f:for each="{headings}" as="heading" iteration="i">
+                <f:comment>The rail of a link is drawn from the depth of its neighbours: it bends where the depth changes.</f:comment>
+                <f:variable name="before" value="{i.index - 1}" />
+                <f:variable name="after" value="{i.index + 1}" />
+                <f:variable name="prev" value="{headings.{before}}" />
+                <f:variable name="next" value="{headings.{after}}" />
+                <f:variable name="prevDepth" value="{heading.depth}" />
+                <f:variable name="nextDepth" value="{heading.depth}" />
+                <f:if condition="{prev}"><f:variable name="prevDepth" value="{prev.depth}" /></f:if>
+                <f:if condition="{next}"><f:variable name="nextDepth" value="{next.depth}" /></f:if>
+                <f:variable name="x" value="{heading.depth * 8}" />
+                <f:variable name="prevX" value="{prevDepth * 8}" />
+                <f:variable name="turns" value="{f:if(condition: '{prevDepth} != {heading.depth}', then: 1, else: 0)}" />
+
+                <ui:toc.item value="{heading.value}" depth="{heading.depth}" class="!ps-0">
+                    <ui:toc.link class="group/link relative pe-2 ps-[calc(var(--depth)*12px-4px)]">
+                        <svg class="pointer-events-none absolute -start-2 -top-1.5 w-10 stroke-border transition-colors group-data-[active]/link:stroke-foreground {f:if(condition: '{nextDepth} == {heading.depth}', then: 'h-[calc(100%+6px)]', else: 'h-full')}" aria-hidden="true">
+                            <f:if condition="{turns}"><path d="M {prevX}.5 0 C {prevX}.5 8 {x}.5 4 {x}.5 12" fill="none" /></f:if>
+                            <line x1="{x}.5" y1="{f:if(condition: turns, then: 12, else: 6)}" x2="{x}.5" y2="100%" />
                         </svg>
-                        {rail.label}
+                        {heading.label}
                     </ui:toc.link>
                 </ui:toc.item>
             </f:for>
