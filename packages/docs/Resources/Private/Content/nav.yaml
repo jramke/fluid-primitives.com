@@ -45,6 +45,7 @@
     - docs/components/switch
     - docs/components/tabs
     - docs/components/textarea
+    - docs/components/toc
     - docs/components/toggle
     - docs/components/toggle-group
     - docs/components/tooltip

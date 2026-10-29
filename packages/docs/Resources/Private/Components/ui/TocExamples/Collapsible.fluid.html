@@ -1,0 +1,52 @@
+<div class="flex h-80 w-full max-w-xl flex-col gap-3">
+    <ui:toc.root scrollEl="#toc-collapsible-content" class="w-full shrink-0 rounded-md border" data-summary="true">
+        <ui:collapsible.root>
+            <ui:collapsible.trigger class="group flex w-full cursor-pointer items-center justify-between gap-3 p-3 text-start font-medium">
+                <span class="flex min-w-0 items-center gap-3">
+                    <span class="relative grid size-7 shrink-0 place-items-center">
+                        <svg viewBox="0 0 36 36" class="absolute inset-0 -rotate-90" aria-hidden="true">
+                            <circle cx="18" cy="18" r="14" fill="none" stroke-width="2.5" class="stroke-border" />
+                            <circle cx="18" cy="18" r="14" fill="none" stroke-width="2.5" stroke-linecap="round" class="stroke-foreground transition-[stroke-dasharray] duration-300 [stroke-dasharray:calc(var(--progress,0)*87.96)_87.96]" />
+                        </svg>
+                        <span data-summary-number class="text-[10px] font-semibold tabular-nums">-</span>
+                    </span>
+                    <span data-summary-label class="truncate">On this page</span>
+                </span>
+                <ui:icon.chevronDown class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-180" />
+            </ui:collapsible.trigger>
+            <ui:collapsible.content>
+                <ui:toc.list class="px-3 pb-3">
+                    <ui:toc.item value="toc-collapsible-ingredients"><ui:toc.link>Ingredients</ui:toc.link></ui:toc.item>
+                    <ui:toc.item value="toc-collapsible-kneading"><ui:toc.link>Kneading</ui:toc.link></ui:toc.item>
+                    <ui:toc.item value="toc-collapsible-shaping"><ui:toc.link>Shaping</ui:toc.link></ui:toc.item>
+                    <ui:toc.item value="toc-collapsible-baking"><ui:toc.link>Baking</ui:toc.link></ui:toc.item>
+                    <ui:toc.item value="toc-collapsible-storing"><ui:toc.link>Storing</ui:toc.link></ui:toc.item>
+                </ui:toc.list>
+            </ui:collapsible.content>
+        </ui:collapsible.root>
+    </ui:toc.root>
+    <div id="toc-collapsible-content" class="min-h-0 flex-1 overflow-y-auto rounded-md border px-4">
+        <section class="min-h-48 py-3">
+            <h2 id="toc-collapsible-ingredients" class="text-base font-semibold text-foreground">Ingredients</h2>
+            <p class="mt-2 text-sm text-muted-foreground">Mix 500 g flour, 10 g salt, 7 g dry yeast and 350 ml lukewarm water. The dough is sticky, so keep a bowl of water nearby.</p>
+        </section>
+        <section class="min-h-48 py-3">
+            <h2 id="toc-collapsible-kneading" class="text-base font-semibold text-foreground">Kneading</h2>
+            <p class="mt-2 text-sm text-muted-foreground">Knead for ten minutes until the dough stops sticking to your hands, then let it rest for an hour.</p>
+        </section>
+        <section class="min-h-48 py-3">
+            <h2 id="toc-collapsible-shaping" class="text-base font-semibold text-foreground">Shaping</h2>
+            <p class="mt-2 text-sm text-muted-foreground">Fold the dough into a tight ball, place it seam side up in a floured basket and cover it.</p>
+        </section>
+        <section class="min-h-48 py-3">
+            <h2 id="toc-collapsible-baking" class="text-base font-semibold text-foreground">Baking</h2>
+            <p class="mt-2 text-sm text-muted-foreground">Bake at 240 C for 20 minutes with a pan of water on the rack below, then 20 minutes at 200 C.</p>
+        </section>
+        <section class="min-h-48 py-3">
+            <h2 id="toc-collapsible-storing" class="text-base font-semibold text-foreground">Storing</h2>
+            <p class="mt-2 text-sm text-muted-foreground">Let the loaf cool for an hour before cutting. It stays fresh for three days in a linen bag.</p>
+        </section>
+    </div>
+</div>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/TocExamples/Collapsible.entry.ts" />

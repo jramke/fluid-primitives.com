@@ -1,0 +1,30 @@
+<div class="flex h-80 w-full max-w-xl gap-8">
+    <div id="toc-rail-content" class="min-w-0 flex-1 overflow-y-auto rounded-md border px-4">
+        <f:for each="{context.rails}" as="rail">
+            <section class="min-h-48 py-3">
+                <f:switch expression="{rail.depth}">
+                    <f:case value="3"><h3 id="{rail.value}" class="font-semibold text-foreground">{rail.label}</h3></f:case>
+                    <f:case value="4"><h4 id="{rail.value}" class="font-semibold text-foreground">{rail.label}</h4></f:case>
+                    <f:defaultCase><h2 id="{rail.value}" class="text-base font-semibold text-foreground">{rail.label}</h2></f:defaultCase>
+                </f:switch>
+                <p class="mt-2 text-sm text-muted-foreground">{rail.text}</p>
+            </section>
+        </f:for>
+    </div>
+    <ui:toc.root scrollEl="#toc-rail-content" class="w-48 shrink-0">
+        <ui:toc.title>On this page</ui:toc.title>
+        <ui:toc.list>
+            <f:for each="{context.rails}" as="rail">
+                <ui:toc.item value="{rail.value}" depth="{rail.depth}" class="!ps-0">
+                    <ui:toc.link class="group/link relative pe-2" style="{rail.linkStyle}">
+                        <svg class="pointer-events-none absolute start-0 stroke-border transition-colors group-data-[active]/link:stroke-foreground" style="{rail.svgStyle}" aria-hidden="true">
+                            <f:if condition="{rail.turns}"><path d="{rail.d}" fill="none" /></f:if>
+                            <line x1="{rail.x}" y1="{rail.y1}" x2="{rail.x}" y2="100%" />
+                        </svg>
+                        {rail.label}
+                    </ui:toc.link>
+                </ui:toc.item>
+            </f:for>
+        </ui:toc.list>
+    </ui:toc.root>
+</div>
