@@ -21,6 +21,15 @@
         <ui:inputExamples.wordCount />
     </f:comment>
 
-    <ui:checkboxGroupExamples.selectAll />
+    <f:comment>
+        <ui:checkboxGroupExamples.selectAll />
+    </f:comment>
+
+    <f:comment>`array` maps the forms to an array argument, `dto` to the EmptyValues DTO</f:comment>
+    <f:variable name="emptyValuesAction" value="array" />
+    <div class="grid max-w-lg gap-16">
+        <ui:emptyValuesForm action="{emptyValuesAction}" />
+        <ui:emptyValuesNativeForm action="{emptyValuesAction}" />
+    </div>
 
 </main>

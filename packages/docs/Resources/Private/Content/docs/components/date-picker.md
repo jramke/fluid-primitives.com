@@ -131,7 +131,7 @@ The [Select](/docs/components/select) works in the heading too, and takes its it
 
 ### Dates in forms
 
-The `hiddenInput`, which `ui:datePicker.root` renders for you, submits each selected date as the W3C date-time of its midnight (`2025-06-15T00:00:00+02:00`), whatever format the `locale` shows it in. A range or several dates submit one value per date under the same `name`, so end the name with `[]` (`dates[]`) for PHP to receive all of them. A date picker without a date submits an empty value.
+The `hiddenInput`, which `ui:datePicker.root` renders for you, submits each selected date as the W3C date-time of its midnight (`2025-06-15T00:00:00+02:00`), whatever format the `locale` shows it in. A range or several dates submit one value per date under the same `name`, so end the name with `[]` (`dates[]`) for PHP to receive all of them. A date picker without a date submits an empty value under the name without `[]` (see [Clear a property with an empty field](/docs/core-concepts/forms#content-clear-a-property-with-an-empty-field)).
 
 Extbase maps that format to a `DateTime` property without any configuration. The offset is the one of the time zone PHP runs in, so the property holds the date that was picked. Extbase maps request values to `DateTime`, so type the property `DateTime`, or write a custom type converter if it is a `DateTimeImmutable`. Outside Extbase, `new DateTimeImmutable($_POST['date'])` reads the value.
 

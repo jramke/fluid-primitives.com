@@ -1,0 +1,50 @@
+<ui:prop name="action" type="string" optional="{true}" default="array" />
+
+<f:variable name="countries" value="{nl: 'Netherlands', de: 'Germany', fr: 'France'}" />
+<f:variable name="skills" value="{php: 'PHP', ts: 'TypeScript', css: 'CSS'}" />
+
+<h2 class="text-xl font-semibold">Native Fluid</h2>
+
+<f:form action="{action}" controller="EmptyValues" objectName="data" enctype="multipart/form-data" class="space-y-6">
+
+    <label class="flex gap-2"><f:form.checkbox property="newsletter" value="1" role="switch" /> Newsletter</label>
+
+    <label class="flex gap-2"><f:form.checkbox property="terms" value="1" /> I accept the terms</label>
+
+    <fieldset>
+        <legend>Interests</legend>
+        <f:for each="{skills}" as="label" key="value">
+            <label class="flex gap-2"><f:form.checkbox property="interests" value="{value}" multiple="{true}" /> {label}</label>
+        </f:for>
+    </fieldset>
+
+    <label class="grid gap-1">Country
+        <f:form.select property="country" options="{countries}" prependOptionLabel="Choose a country" prependOptionValue="" />
+    </label>
+
+    <label class="grid gap-1">Skills
+        <f:form.select property="skills" options="{skills}" multiple="{true}" />
+    </label>
+
+    <label class="grid gap-1">Birthday
+        <f:form.textfield type="date" property="birthday.date" />
+        <f:form.hidden property="birthday.dateFormat" value="Y-m-d" />
+    </label>
+
+    <label class="grid gap-1">Budget
+        <f:form.textfield type="range" property="budget" value="50" />
+    </label>
+
+    <fieldset>
+        <legend>Plan</legend>
+        <f:for each="{0: 'basic', 1: 'pro', 2: 'team'}" as="plan">
+            <label class="flex gap-2"><f:form.radio property="plan" value="{plan}" checked="{plan} == 'basic'" /> {plan}</label>
+        </f:for>
+    </fieldset>
+
+    <label class="grid gap-1">Avatar
+        <f:form.upload property="avatar" />
+    </label>
+
+    <button type="submit" class="button button-default h-9 px-4">Submit</button>
+</f:form>

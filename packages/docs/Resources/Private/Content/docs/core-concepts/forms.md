@@ -121,6 +121,14 @@ mount('ui:form', 'registration-form', ({ props }) =>
 
 `extbase.post()` nests the values under the Extbase namespace, Extbase's hidden `__trustedProperties` and `__identity` fields included, so your fields keep plain names like `email` or `person.name`.
 
+### Clear a property with an empty field
+
+Every control submits its name, also while it is empty, so Extbase can clear the property it is bound to. An unchecked Checkbox or Switch, a CheckboxGroup with nothing checked, and a Select, Combobox or DatePicker without a value submit `''`. A RadioGroup with nothing chosen submits nothing, like native radios.
+
+A field whose name ends with `[]` (`tags[]`) submits its empty value under the name without the brackets (`tags`), as Fluid's own `f:form.checkbox` does: Extbase maps `''` to an empty array or ObjectStorage. In the form values the field reads as `[]` and an unchecked box as `''`, and `extbase.post()` sends an empty list as `''` again.
+
+A disabled control submits nothing, and neither does its empty-value input. Render your own control's input with [`ui:emptyValueInput`](/docs/viewhelpers/emptyValueInput).
+
 ## Show server-side errors on the fields
 
 With the trait, Extbase's validation errors arrive as a `422` response. Each key is a property path, prefixed with the `objectName`:
