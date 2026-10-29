@@ -62,7 +62,7 @@ Wrap the switch in a [Field](/docs/components/field) for a helper text, validati
             ["control", "Displays the visual switch track. Renders a `<span>` element."],
             ["thumb", "Displays the movable thumb inside the switch track. Renders a `<span>` element."],
             ["indicator", "Displays UI for a specific switch state. Renders a `<span>` element."],
-            ["hiddenInput", "Provides the native checkbox input for form submission. Renders an `<input>` element."]
+            ["hiddenInput", "Provides the native checkbox input for form submission. Renders an `<input>` element, with the empty-value input that submits `''` while the switch is off in front of it."]
         ]
     }
 %}

@@ -44,7 +44,7 @@
 
 ### Range
 
-Render a `slider.thumb` for each end of the range, with `index` `0` and `1`, and pass two numbers as `defaultValue`. `minStepsBetweenThumbs="10"` keeps the thumbs of the price range at least 10 steps apart.
+Render a `slider.thumb` for each end of the range, with `index` `0` and `1`, and pass two numbers as `defaultValue`. `minStepsBetweenThumbs="10"` keeps the thumbs of the price range at least 10 steps apart. In a form, end the `name` with `[]` (`price[]`) for PHP to receive both values.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.range" } %}
 

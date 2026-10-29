@@ -57,7 +57,7 @@ Pass `disabled="{true}"` to block interaction with the checkbox.
         "name": "Checkbox",
         "parts": [
             ["root", "Groups the checkbox control, label, and input into one interactive label. Renders a `<label>` element."],
-            ["hiddenInput", "Provides the native checkbox input for form submission and browser integration. Renders an `<input>` element."],
+            ["hiddenInput", "Provides the native checkbox input for form submission and browser integration. Renders an `<input>` element, with the empty-value input that submits `''` while the box is unchecked in front of it."],
             ["control", "Displays the visual checkbox box that reflects the checked state. Renders a `<div>` element."],
             ["indicator", "Displays the checked or indeterminate indicator inside the control. Renders a `<div>` element."],
             ["label", "Displays the visible label text for the checkbox. Renders a `<span>` element."]

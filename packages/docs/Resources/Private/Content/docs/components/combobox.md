@@ -20,7 +20,7 @@
 
 ## Anatomy
 
-`hiddenInput` submits the `value` of the selected items. Place it once anywhere inside `combobox.root` and it renders one visually hidden input per selected value, or a single empty one while nothing is selected. `ui:combobox.root` includes it for you. A [Field](/docs/components/field) focuses the combobox through that input when it is the first invalid field of a submitted form, and the input hands the focus on to the visible one.
+`hiddenInput` submits the `value` of the selected items. Place it once anywhere inside `combobox.root` and it renders one visually hidden input per selected value. While nothing is selected it renders an empty-value input instead, which submits `''` under the name without the `[]` of a multiple combobox (see [Clear a property with an empty field](/docs/core-concepts/forms#content-clear-a-property-with-an-empty-field)). `ui:combobox.root` includes it for you. A hidden input that has the focus hands it on to the visible one.
 
 Place the options inside `list`, which carries the listbox semantics and scrolling. `content` wraps it and is announced as a dialog with the `dialog` popup type. The styled `ui:combobox.content` combines `positioner` and `content` in one part, so you nest `ui:combobox.list` in it yourself.
 
