@@ -23,7 +23,7 @@
         <ui:toc.title>On this page</ui:toc.title>
         <ui:toc.list>
             <f:for each="{headings}" as="heading" iteration="i">
-                <f:comment>The rail of a link is drawn from the depth of its neighbours: it bends where the depth changes. --o is where the dark line sits on its path: 0 while the item is active, 1 below the active items and -1 above them, so a line draws in and out along the direction you scroll.</f:comment>
+                <f:comment>The rail of a link is drawn from the depth of its neighbours: it bends where the depth changes. The dark copy of the rail is clipped away below the active items (from the bottom) and above them (from the top), so it draws in and out along the direction you scroll.</f:comment>
                 <f:variable name="before" value="{i.index - 1}" />
                 <f:variable name="after" value="{i.index + 1}" />
                 <f:variable name="prev" value="{headings.{before}}" />
@@ -35,18 +35,16 @@
                 <f:variable name="x" value="{heading.depth * 8}" />
                 <f:variable name="prevX" value="{prevDepth * 8}" />
                 <f:variable name="turns" value="{f:if(condition: '{prevDepth} != {heading.depth}', then: 1, else: 0)}" />
-                <f:variable name="draw" value="stroke-foreground [stroke-dasharray:1_1] [stroke-dashoffset:var(--o)] transition-[stroke-dashoffset] duration-200 motion-reduce:transition-none" />
+                <f:variable name="svgClass" value="pointer-events-none absolute -start-2 -top-1.5 w-10 {f:if(condition: '{nextDepth} == {heading.depth}', then: 'h-[calc(100%+6px)]', else: 'h-full')}" />
+                <f:variable name="shape">
+                    <f:if condition="{turns}"><path d="M {prevX}.5 0 C {prevX}.5 8 {x}.5 4 {x}.5 12" fill="none" /></f:if>
+                    <line x1="{x}.5" y1="{f:if(condition: turns, then: 12, else: 6)}" x2="{x}.5" y2="100%" />
+                </f:variable>
 
-                <ui:toc.item value="{heading.value}" class="!ps-0 [--o:1] data-[active]:[--o:0] [&:not([data-active]):has(~[data-active])]:[--o:-1]">
-                    <ui:toc.link class="group/link relative pe-2 ps-[calc(var(--depth)*12px-4px)]">
-                        <svg class="pointer-events-none absolute -start-2 -top-1.5 w-10 stroke-border {f:if(condition: '{nextDepth} == {heading.depth}', then: 'h-[calc(100%+6px)]', else: 'h-full')}" aria-hidden="true">
-                            <f:if condition="{turns}">
-                                <path d="M {prevX}.5 0 C {prevX}.5 8 {x}.5 4 {x}.5 12" fill="none" />
-                                <path d="M {prevX}.5 0 C {prevX}.5 8 {x}.5 4 {x}.5 12" fill="none" pathLength="1" class="{draw}" />
-                            </f:if>
-                            <line x1="{x}.5" y1="{f:if(condition: turns, then: 12, else: 6)}" x2="{x}.5" y2="100%" />
-                            <line x1="{x}.5" y1="{f:if(condition: turns, then: 12, else: 6)}" x2="{x}.5" y2="100%" pathLength="1" class="{draw}" />
-                        </svg>
+                <ui:toc.item value="{heading.value}" class="!ps-0 [--c:inset(0_0_100%_0)] data-[active]:[--c:inset(0)] [&:not([data-active]):has(~[data-active])]:[--c:inset(100%_0_0_0)]">
+                    <ui:toc.link class="relative pe-2 ps-[calc(var(--depth)*12px-4px)]">
+                        <svg class="{svgClass} stroke-border" aria-hidden="true">{shape -> f:format.raw()}</svg>
+                        <svg class="{svgClass} stroke-foreground [clip-path:var(--c)] transition-[clip-path] duration-200 motion-reduce:transition-none" aria-hidden="true">{shape -> f:format.raw()}</svg>
                         {heading.label}
                     </ui:toc.link>
                 </ui:toc.item>
