@@ -112,6 +112,8 @@ The label of the clear button ships in the language file and follows the site la
 </ui:select.root>
 ```
 
+A screen reader announces the highlighted item through a live region, and the texts ship in the language file too. `itemAnnouncement` sets that text and `itemAnnouncementSelected` the one for the selected item, both with `%label%` and `%value%` placeholders, e.g. `itemAnnouncementSelected: '%label%, ausgewählt'`. A client script passes `itemAnnouncement` as a function of `{ value, label, selected }` instead.
+
 ## API Reference
 
 {%

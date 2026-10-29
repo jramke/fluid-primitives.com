@@ -1005,6 +1005,37 @@
             }
         ]
     },
+    "fillPlaceholders": {
+        "kind": "function",
+        "name": "fillPlaceholders",
+        "summary": "Replaces every `%name%` in `text` with the value of `name`. A placeholder without a value is left as written, so a typo stays visible.",
+        "examples": [
+            {
+                "language": "typescript",
+                "code": "fillPlaceholders('Preview of %fileName%', { fileName: 'a.png' }); // 'Preview of a.png'"
+            }
+        ],
+        "signatures": [
+            {
+                "signature": "fillPlaceholders(text: string, values: PlaceholderValues): string",
+                "params": [
+                    {
+                        "name": "text",
+                        "type": "string",
+                        "description": "The text with its placeholders."
+                    },
+                    {
+                        "name": "values",
+                        "type": "PlaceholderValues",
+                        "description": "The values by placeholder name."
+                    }
+                ],
+                "returns": {
+                    "type": "string"
+                }
+            }
+        ]
+    },
     "FluidPrimitivesGlobals": {
         "kind": "interface",
         "name": "FluidPrimitivesGlobals",
@@ -1247,6 +1278,12 @@
         "name": "normalizeProps",
         "package": "@zag-js/vanilla"
     },
+    "PlaceholderValues": {
+        "kind": "type",
+        "name": "PlaceholderValues",
+        "summary": "What a `%placeholder%` of a translation can be filled with.",
+        "declaration": "type PlaceholderValues = Record<string, string | number | null | undefined>"
+    },
     "registerClientPropConverters": {
         "kind": "function",
         "name": "registerClientPropConverters",
@@ -1268,6 +1305,40 @@
                 ],
                 "returns": {
                     "type": "void"
+                }
+            }
+        ]
+    },
+    "resolveTranslations": {
+        "kind": "function",
+        "name": "resolveTranslations",
+        "summary": "Turns the texts of a `translations` prop into what a machine takes. Fluid can't author a callback, so a template writes a text with `%placeholders%` for each translation that a machine wants as a function, while a client script passes the function itself. Both end up as the same function here.\n\nEvery key of `functions` becomes a function: a text is filled with the placeholder values `functions` derives from the details the machine calls it with, a function is kept as it is. Every other key stays a text. Anything else, such as `false`, is left out, so the machine falls back to its own default.",
+        "examples": [
+            {
+                "language": "typescript",
+                "code": "resolveTranslations(\n    { valueText: '%value% items', incrementLabel: 'More' },\n    { valueText: (value: string) => ({ value }) }\n);\n// { valueText: value => `${value} items`, incrementLabel: 'More' }"
+            }
+        ],
+        "signatures": [
+            {
+                "signature": "resolveTranslations<T = Record<string, unknown>>(translations: Record<string, unknown> | undefined, functions?: Record<string, (details: any) => PlaceholderValues>): T | undefined",
+                "params": [
+                    {
+                        "name": "translations",
+                        "type": "Record<string, unknown> | undefined",
+                        "description": "The `translations` prop as it arrives, or `undefined`."
+                    },
+                    {
+                        "name": "functions",
+                        "type": "Record<string, (details: any) => PlaceholderValues>",
+                        "optional": true,
+                        "default": "{}",
+                        "description": "The keys that are functions in the machine, each with what fills its placeholders."
+                    }
+                ],
+                "returns": {
+                    "type": "T | undefined",
+                    "description": "The translations for the machine, or `undefined` without any."
                 }
             }
         ]
@@ -1429,6 +1500,12 @@
                 "description": "Data attributes to set next to `value`, on the same elements. A boolean toggles a bare `data-x` attribute, `{ disabled: true }` sets `data-disabled` and `false` removes it. A string sets `data-x=\"value\"`. Only has an effect together with `value`."
             }
         ]
+    },
+    "TranslationText": {
+        "kind": "type",
+        "name": "TranslationText",
+        "summary": "A translation as a template author or a client script writes it: a text with `%placeholders%` for what is only known when the text is shown, or a function that builds the text from the same details.",
+        "declaration": "type TranslationText<TDetails> = string | ((details: TDetails) => string)"
     },
     "uid": {
         "kind": "function",

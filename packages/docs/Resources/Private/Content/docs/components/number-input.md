@@ -77,6 +77,8 @@ The labels of the increment and decrement buttons ship in the language file and 
 <ui:numberInput.root translations="{numberInputTranslations}"> ... </ui:numberInput.root>
 ```
 
+`valueText` sets the `aria-valuetext` of the input, the text a screen reader reads for the value. Write it with a `%value%` placeholder, e.g. `valueText: '%value% pieces'`. A client script passes a function of the value instead.
+
 ## API Reference
 
 {%

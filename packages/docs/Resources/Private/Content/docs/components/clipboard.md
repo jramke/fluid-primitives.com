@@ -60,6 +60,8 @@ The trigger labels for the idle and the copied state ship in the language file a
 <ui:clipboard.root value="SUMMER24" translations="{clipboardTranslations}"> ... </ui:clipboard.root>
 ```
 
+A client script passes a `triggerLabel` function of the copied state instead of the two strings.
+
 ## API Reference
 
 {%

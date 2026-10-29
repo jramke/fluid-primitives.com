@@ -95,7 +95,7 @@ Add several `itemPreview` parts to the item template, each with a `match` MIME t
 ></ui:fileUpload.root>
 ```
 
-Write `%fileName%`, not `{fileName}`: Fluid reads a curly-brace expression inside a string as a variable and strips it. Leave out `itemPreview` or `deleteFile` to keep the built-in text. To translate per locale, read the texts from your own `locallang.xlf` with `f:translate`.
+Write `%fileName%`, not `{fileName}`: Fluid reads a curly-brace expression inside a string as a variable and strips it. A client script passes a function of the `File` instead of a text. Leave out `itemPreview` or `deleteFile` to keep the built-in text. To translate per locale, read the texts from your own `locallang.xlf` with `f:translate`.
 
 ### Upload a folder
 
