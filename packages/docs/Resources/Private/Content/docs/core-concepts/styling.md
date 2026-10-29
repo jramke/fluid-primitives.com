@@ -10,7 +10,6 @@ The Tailwind classes of components added with `ui:add` use semantic color tokens
 
 ```css
 @import 'tailwindcss';
-@import 'tw-animate-css';
 
 :root {
     --radius: 0.5rem;
@@ -51,11 +50,26 @@ The Tailwind classes of components added with `ui:add` use semantic color tokens
             height: var(--collapsed-height, 0);
         }
     }
+
+    --animate-viewport-in: viewport-in 0.2s var(--ease-out);
+    --animate-viewport-out: viewport-out 0.2s var(--ease-out) forwards;
+    @keyframes viewport-in {
+        from {
+            opacity: 0;
+            scale: 0.9;
+        }
+    }
+    @keyframes viewport-out {
+        to {
+            opacity: 0;
+            scale: 0.9;
+        }
+    }
 }
 ```
 
-- `tw-animate-css` (`npm install -D tw-animate-css`) provides the `animate-in`, `fade-in` and `zoom-in-*` classes of Tooltip, Popover and the other floating components.
 - The `animate-collapsible-*` utilities drive [Collapsible](/docs/components/collapsible), whose content exposes `--height` and `--collapsed-height`.
+- `animate-viewport-in` and `animate-viewport-out` fade and scale the [NavigationMenu](/docs/components/navigation-menu) viewport. Zag switches transitions off on the render that opens it, so both directions are animations.
 - For a dark mode, override the same `--color-*` variables under your own dark selector.
 
 ## Data attributes
