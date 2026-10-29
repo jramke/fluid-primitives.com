@@ -36,7 +36,6 @@
         "fluid-primitives": "file:packages/fluid-primitives",
         "motion": "^14.7.1",
         "tailwindcss": "^4.1.13",
-        "tw-animate-css": "^1.4.0",
         "zbsearch": "^4.0.0",
         "zod": "^4.3.6"
     }
