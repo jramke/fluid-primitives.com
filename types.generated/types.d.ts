@@ -10,6 +10,11 @@ declare namespace Jramke {
                     groupByKey: string | null;
                     groupSort: string[] | string | null;
                 };
+                export type TocItem = {
+                    value: string;
+                    depth: number;
+                    label: string;
+                };
             }
         }
         namespace Enum {
@@ -21,9 +26,11 @@ declare namespace Jramke {
             export type FileUploadCapture = 'user' | 'environment';
             export type InputMode =
                 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
+            export type MaxLengthBehavior = 'block' | 'warn' | 'invalid';
             export type NumberInputMode = 'text' | 'tel' | 'numeric' | 'decimal';
             export type Orientation = 'horizontal' | 'vertical';
             export type PopupType = 'listbox' | 'dialog';
+            export type ScrollBehavior = 'auto' | 'instant' | 'smooth';
             export type SliderOrigin = 'start' | 'center' | 'end';
             export type SliderThumbAlignment = 'contain' | 'center';
             export type SliderThumbCollisionBehavior = 'none' | 'push' | 'swap';
@@ -71,10 +78,12 @@ declare namespace bench {
         readOnly?: boolean;
         defaultValue?: string;
         maxLength?: number;
+        maxLengthBehavior?: Jramke.FluidPrimitives.Enum.MaxLengthBehavior;
         pattern?: string;
         inputMode?: Jramke.FluidPrimitives.Enum.InputMode;
         translations: {
             wordCount: string;
+            wordCountOver: string;
         };
         announce?: boolean;
         announceDebounce?: number;
@@ -102,6 +111,8 @@ declare namespace bench {
         deselectable?: boolean;
         translations: {
             clearTriggerLabel: string;
+            itemAnnouncement: string;
+            itemAnnouncementSelected: string;
         };
     };
 }
@@ -379,10 +390,12 @@ declare namespace primitives {
         readOnly?: boolean;
         defaultValue?: string;
         maxLength?: number;
+        maxLengthBehavior?: Jramke.FluidPrimitives.Enum.MaxLengthBehavior;
         pattern?: string;
         inputMode?: Jramke.FluidPrimitives.Enum.InputMode;
         translations: {
             wordCount: string;
+            wordCountOver: string;
         };
         announce?: boolean;
         announceDebounce?: number;
@@ -501,6 +514,8 @@ declare namespace primitives {
         deselectable?: boolean;
         translations: {
             clearTriggerLabel: string;
+            itemAnnouncement: string;
+            itemAnnouncementSelected: string;
         };
     };
     export type SliderHydrationProps = {
@@ -563,12 +578,27 @@ declare namespace primitives {
         readOnly?: boolean;
         defaultValue?: string;
         maxLength?: number;
+        maxLengthBehavior?: Jramke.FluidPrimitives.Enum.MaxLengthBehavior;
         submitOn?: Jramke.FluidPrimitives.Enum.TextareaSubmitOn;
         translations: {
             wordCount: string;
+            wordCountOver: string;
         };
         announce?: boolean;
         announceDebounce?: number;
+    };
+    export type TocHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        items: any | Jramke.FluidPrimitives.Domain.Dto.TocItem[];
+        defaultActiveIds?: string[];
+        rootMargin?: string;
+        threshold?: number | number[];
+        scrollEl?: string;
+        autoScroll?: boolean;
+        scrollBehavior?: Jramke.FluidPrimitives.Enum.ScrollBehavior;
     };
     export type ToggleGroupHydrationProps = {
         id: string;
@@ -899,10 +929,12 @@ declare namespace ui {
         readOnly?: boolean;
         defaultValue?: string;
         maxLength?: number;
+        maxLengthBehavior?: Jramke.FluidPrimitives.Enum.MaxLengthBehavior;
         pattern?: string;
         inputMode?: Jramke.FluidPrimitives.Enum.InputMode;
         translations: {
             wordCount: string;
+            wordCountOver: string;
         };
         announce?: boolean;
         announceDebounce?: number;
@@ -1020,6 +1052,8 @@ declare namespace ui {
         deselectable?: boolean;
         translations: {
             clearTriggerLabel: string;
+            itemAnnouncement: string;
+            itemAnnouncementSelected: string;
         };
     };
     export type SliderHydrationProps = {
@@ -1082,12 +1116,27 @@ declare namespace ui {
         readOnly?: boolean;
         defaultValue?: string;
         maxLength?: number;
+        maxLengthBehavior?: Jramke.FluidPrimitives.Enum.MaxLengthBehavior;
         submitOn?: Jramke.FluidPrimitives.Enum.TextareaSubmitOn;
         translations: {
             wordCount: string;
+            wordCountOver: string;
         };
         announce?: boolean;
         announceDebounce?: number;
+    };
+    export type TocHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        items: any | Jramke.FluidPrimitives.Domain.Dto.TocItem[];
+        defaultActiveIds?: string[];
+        rootMargin?: string;
+        threshold?: number | number[];
+        scrollEl?: string;
+        autoScroll?: boolean;
+        scrollBehavior?: Jramke.FluidPrimitives.Enum.ScrollBehavior;
     };
     export type ToggleGroupHydrationProps = {
         id: string;

@@ -1,0 +1,44 @@
+<f:variable name="headings" value="{
+    0: {value: 'toc-collapsible-ingredients', depth: 2, label: 'Ingredients', text: 'Mix 500 g flour, 10 g salt, 7 g dry yeast and 350 ml lukewarm water. The dough is sticky, so keep a bowl of water nearby to wet your hands. Use bread flour if you can, it holds the shape better.'},
+    1: {value: 'toc-collapsible-kneading', depth: 2, label: 'Kneading', text: 'Knead for ten minutes until the dough stops sticking to your hands, then let it rest for an hour. It should double in size, and small bubbles show on the surface when it is ready.'},
+    2: {value: 'toc-collapsible-shaping', depth: 2, label: 'Shaping', text: 'Fold the dough into a tight ball, place it seam side up in a floured basket and cover it. Let it rise for another hour, until a finger pressed into it leaves a dent that fills back slowly.'},
+    3: {value: 'toc-collapsible-baking', depth: 2, label: 'Baking', text: 'Bake at 240 C for 20 minutes with a pan of water on the rack below, then 20 minutes at 200 C. The crust should be deep brown, and the loaf sounds hollow when you tap its bottom.'},
+    4: {value: 'toc-collapsible-storing', depth: 2, label: 'Storing', text: 'Let the loaf cool for an hour before cutting. It stays fresh for three days in a linen bag, and you can slice and freeze what you do not eat to toast it later.'}
+}" />
+
+<div class="flex h-72 w-full max-w-xl flex-col gap-3">
+    <ui:toc.root items="{headings}" autoMount="{false}" rootId="{rootId}-toc" scrollEl="#toc-collapsible-content" autoScroll="{false}" class="w-full shrink-0 rounded-md border">
+        <ui:collapsible.root>
+            <ui:collapsible.trigger class="group flex w-full cursor-pointer items-center justify-between gap-3 p-3 text-start font-medium">
+                <span class="flex min-w-0 items-center gap-3">
+                    <span class="relative grid size-7 shrink-0 place-items-center" {ui:ref(name: 'ring' )}>
+                        <svg viewBox="0 0 36 36" class="absolute inset-0 -rotate-90" aria-hidden="true">
+                            <circle cx="18" cy="18" r="14" fill="none" stroke-width="2.5" class="stroke-border" />
+                            <circle cx="18" cy="18" r="14" fill="none" stroke-width="2.5" stroke-linecap="round" class="stroke-foreground transition-[stroke-dasharray] duration-300 [stroke-dasharray:calc(var(--progress,0)*87.96)_87.96]" />
+                        </svg>
+                        <span class="text-[10px] font-semibold tabular-nums" {ui:ref(name: 'number' )}>-</span>
+                    </span>
+                    <span class="truncate" {ui:ref(name: 'label' )}>On this page</span>
+                </span>
+                <ui:icon.chevronDown class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-180" />
+            </ui:collapsible.trigger>
+            <ui:collapsible.content>
+                <ui:toc.list class="px-3 pb-3">
+                    <f:for each="{headings}" as="heading">
+                        <ui:toc.item value="{heading.value}"><ui:toc.link>{heading.label}</ui:toc.link></ui:toc.item>
+                    </f:for>
+                </ui:toc.list>
+            </ui:collapsible.content>
+        </ui:collapsible.root>
+    </ui:toc.root>
+    <div id="toc-collapsible-content" class="min-h-0 flex-1 overflow-y-auto rounded-md border px-4">
+        <f:for each="{headings}" as="heading">
+            <section class="min-h-28 py-3">
+                <h{heading.depth} id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h{heading.depth}>
+                <p class="mt-2 text-sm text-muted-foreground">{heading.text}</p>
+            </section>
+        </f:for>
+    </div>
+</div>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/TocExamples/Collapsible.entry.ts" />

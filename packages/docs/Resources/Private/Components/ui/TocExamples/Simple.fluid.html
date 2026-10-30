@@ -1,0 +1,25 @@
+<f:variable name="headings" value="{
+    0: {value: 'toc-simple-delivery', depth: 2, label: 'Delivery', text: 'Orders placed before 2 pm on a working day ship the same day. You get a tracking link by email once the parcel leaves the warehouse, and you can follow it until the courier hands it over at your door.'},
+    1: {value: 'toc-simple-returns', depth: 2, label: 'Returns', text: 'You can return unworn items within 30 days. Print the return label from your order confirmation and drop the parcel at any post office. Keep the receipt of the post office until your refund has arrived.'},
+    2: {value: 'toc-simple-payment', depth: 2, label: 'Payment', text: 'We accept credit card, PayPal and invoice. Your card is charged when the order ships, not when you place it, so an item that is out of stock never costs you anything.'},
+    3: {value: 'toc-simple-contact', depth: 2, label: 'Contact', text: 'Write to support@example.com or call us on weekdays between 9 am and 5 pm. We answer emails within one working day, and a call is quicker for questions about a parcel on its way.'}
+}" />
+
+<div class="flex h-56 w-full max-w-xl gap-8">
+    <div id="toc-simple-content" class="min-w-0 flex-1 overflow-y-auto rounded-md border px-4">
+        <f:for each="{headings}" as="heading">
+            <section class="min-h-28 py-3">
+                <h{heading.depth} id="{heading.value}" class="font-semibold text-foreground">{heading.label}</h{heading.depth}>
+                <p class="mt-2 text-sm text-muted-foreground">{heading.text}</p>
+            </section>
+        </f:for>
+    </div>
+    <ui:toc.root items="{headings}" scrollEl="#toc-simple-content" autoScroll="{false}" class="w-36 shrink-0">
+        <ui:toc.title>On this page</ui:toc.title>
+        <ui:toc.list>
+            <f:for each="{headings}" as="heading">
+                <ui:toc.item value="{heading.value}"><ui:toc.link>{heading.label}</ui:toc.link></ui:toc.item>
+            </f:for>
+        </ui:toc.list>
+    </ui:toc.root>
+</div>

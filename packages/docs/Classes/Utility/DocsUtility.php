@@ -5,21 +5,18 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Utility;
 
 use FluidPrimitives\Docs\CommonMark\ComponentHeadingsExtension;
+use FluidPrimitives\Docs\CommonMark\PageHeadings;
 use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
 use FluidPrimitives\Docs\Services\ComponentShortcodeResolver;
 use FluidPrimitives\Docs\Services\MarkdownLinkRewriter;
 use FluidPrimitives\Docs\Services\MarkdownWhitespaceNormalizer;
+use Jramke\FluidPrimitives\Domain\Dto\TocItem;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\Extension\Table\TableExtension;
-use League\CommonMark\Extension\TableOfContents\Node\TableOfContents;
-use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
 use League\CommonMark\MarkdownConverter;
-use League\CommonMark\Node\Node;
-use League\CommonMark\Node\Query;
-use League\CommonMark\Renderer\HtmlRenderer;
 use Phiki\Theme\Theme;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Site\Entity\Site;
@@ -117,7 +114,8 @@ class DocsUtility
     }
 
     /**
-     * @return array{string, string} First item is the content html, second item is the toc html
+     * @return array{string, list<TocItem>} First item is the content html,
+     *     second item the headings of the page for the table of contents
      */
     public static function markdownToHtml(string $markdown, ServerRequestInterface $request): array
     {
@@ -125,33 +123,13 @@ class DocsUtility
         $converter = DocsUtility::getMarkdownConverter();
         $converted = $converter->convert($processedMarkdown);
 
-        $document = $converted->getDocument();
+        $headings = PageHeadings::collect($converted->getDocument());
 
-        $toc = (new Query())
-            ->where(Query::type(TableOfContents::class))
-            ->findOne($document);
-
-        if ($toc instanceof Node) {
-            $toc->detach();
-        }
-
-        $renderer = new HtmlRenderer($converter->getEnvironment());
-        $content = $renderer->renderDocument($document);
-
-        $content = self::wrapCodeBlocks($content->getContent());
+        $content = self::wrapCodeBlocks($converted->getContent());
         $content = self::wrapTables($content);
         $content = self::makePermalinksAccessible($content);
 
-        if ($toc instanceof Node) {
-            $toc = $renderer->renderNodes([$toc]);
-            $toc = str_replace(
-                '<ul class="table-of-contents">',
-                replace: '<ul class="table-of-contents"><li><a href="#">(Top)</a></li>',
-                subject: $toc,
-            );
-        }
-
-        return [$content, (string)$toc];
+        return [$content, $headings];
     }
 
     public static function getMarkdownConverter(): MarkdownConverter
@@ -172,15 +150,6 @@ class DocsUtility
                     'internal_hosts' => self::internalHost(),
                     'open_in_new_window' => true,
                 ],
-                'table_of_contents' => [
-                    'html_class' => 'table-of-contents',
-                    'position' => 'top',
-                    'style' => 'bullet',
-                    'min_heading_level' => 2,
-                    'max_heading_level' => 3,
-                    'normalize' => 'relative',
-                    'placeholder' => null,
-                ],
             ]);
 
             $environment
@@ -188,7 +157,6 @@ class DocsUtility
                 ->addExtension(new PhikiCommonMarkExtension(Theme::GithubLight))
                 ->addExtension(new ComponentHeadingsExtension())
                 ->addExtension(new HeadingPermalinkExtension())
-                ->addExtension(new TableOfContentsExtension())
                 ->addExtension(new ExternalLinkExtension())
                 ->addExtension(new TableExtension());
 

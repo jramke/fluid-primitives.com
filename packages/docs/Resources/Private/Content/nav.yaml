@@ -43,6 +43,7 @@
     - docs/components/select
     - docs/components/slider
     - docs/components/switch
+    - docs/components/toc
     - docs/components/tabs
     - docs/components/textarea
     - docs/components/toggle

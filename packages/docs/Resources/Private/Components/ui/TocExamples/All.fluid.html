@@ -1,0 +1,21 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:tocExamples.simple />
+    </f:case>
+    <f:case value="nested">
+        <ui:tocExamples.nested />
+    </f:case>
+    <f:case value="indicator">
+        <ui:tocExamples.indicator />
+    </f:case>
+    <f:case value="rail">
+        <ui:tocExamples.rail />
+    </f:case>
+    <f:case value="collapsible">
+        <ui:tocExamples.collapsible />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />
