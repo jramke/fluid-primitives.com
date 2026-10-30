@@ -12,6 +12,7 @@
 - Supports horizontal and vertical orientations
 - Supports automatic and manual tab activation modes
 - Supports disabled tabs
+- Positions an indicator behind the selected tab, which you animate with CSS
 
 ## Anatomy
 
@@ -30,6 +31,12 @@
 {% component: "ui:installationSection", arguments: { "name": "Tabs" } %}
 
 ## Examples
+
+### Slide an indicator to the selected tab
+
+Put a `tabs.indicator` in the list and style it with the `--top`, `--left`, `--width` and `--height` CSS variables it carries. Add the transition in your CSS. The indicator gets `data-instant` while it moves for another reason than a new selection (the first render, a resize, a changed `dir` or `orientation`), so turn the transition off for it. The triggers carry `data-indicator-pending` until the indicator is measured, as on the server or inside a hidden panel: paint the selected trigger yourself until then.
+
+{% component: "ui:componentExample", arguments: { "componentName": "TabsExamples.indicator" } %}
 
 ### Stack the tabs vertically
 

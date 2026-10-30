@@ -12,6 +12,7 @@
 - Horizontal and vertical orientation
 - Syncs with native inputs for form submission
 - Works with the Field component
+- Positions an indicator behind the checked item, which you animate with CSS
 
 ## Anatomy
 
@@ -31,6 +32,12 @@
 {% component: "ui:installationSection", arguments: { "name": "RadioGroup" } %}
 
 ## Examples
+
+### Build a segmented control
+
+Put a `radioGroup.indicator` in the root and animate it with a CSS transition. It carries the `--top`, `--left`, `--width` and `--height` of the checked item, and gets `data-instant` while it moves for another reason than a new selection (the first render, a resize), so turn the transition off for it. The items carry `data-indicator-pending` until the indicator is measured, as on the server or inside a hidden panel: paint the checked item yourself until then.
+
+{% component: "ui:componentExample", arguments: { "componentName": "RadioGroupExamples.segmented" } %}
 
 ### Disabled items
 
