@@ -8,7 +8,8 @@ mount('ui:select', 'select-with-tabs', ({ props }) => {
 
     // The select keeps a single listbox, so the tabs share it: the list moves into the active
     // panel, and its keyboard navigation has to skip what the tab hides - swap the machine's
-    // collection and hide the rest of the items to match.
+    // collection and hide the rest of the items to match. The client only gets the keys a collection
+    // names, so `category` is there because the template sets it as `groupByKey`.
     const source = select.api.collection;
 
     function showCategory(tabs: Tabs, category: string) {
