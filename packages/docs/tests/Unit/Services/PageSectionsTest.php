@@ -4,30 +4,32 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Tests\Unit\Services;
 
-use FluidPrimitives\Docs\Services\CollapsibleSections;
+use FluidPrimitives\Docs\Services\PageSections;
 use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-final class CollapsibleSectionsTest extends UnitTestCase
+final class PageSectionsTest extends UnitTestCase
 {
     private function section(string $title, string $body): string
     {
         $id = strtolower($title);
 
         return (
-            '<h2 id="' .
+            '<div class="permalink-wrapper"><h2 id="' .
             $id .
             '">' .
             $title .
-            '<a href="#' .
+            '</h2><a href="#' .
             $id .
-            '" class="heading-permalink" title=""></a></h2>' .
+            '" class="heading-permalink" title=""><span class="sr-only">Permalink to heading "' .
+            $title .
+            '"</span></a></div>' .
             $body
         );
     }
 
     #[Test]
-    public function wrapsEverySectionAndOpensTheNewestOnes(): void
+    public function splitsAtTheHeadingsAndOpensTheNewestSections(): void
     {
         $html =
             '<h1>Changelog</h1><p>Intro</p>' .
@@ -35,23 +37,24 @@ final class CollapsibleSectionsTest extends UnitTestCase
             $this->section('v2', '<p><em>2026-10-30</em></p><ul><li>b</li></ul>') .
             $this->section('v1', '<p><em>2026-10-12</em></p><ul><li>c</li></ul>');
 
-        $wrapped = CollapsibleSections::wrap($html);
+        $result = PageSections::split($html);
 
-        self::assertStringStartsWith('<h1>Changelog</h1><p>Intro</p><details', $wrapped);
-        self::assertSame(3, substr_count($wrapped, needle: '<details'));
-        self::assertStringContainsString(
-            '<details class="collapsible-section" open><summary><h2 id="unreleased">',
-            $wrapped,
+        self::assertSame('<h1>Changelog</h1><p>Intro</p>', $result['intro']);
+        self::assertSame(
+            [
+                ['id' => 'unreleased', 'title' => 'Unreleased', 'date' => '', 'body' => '<ul><li>a</li></ul>'],
+                ['id' => 'v2', 'title' => 'v2', 'date' => '2026-10-30', 'body' => '<ul><li>b</li></ul>'],
+                ['id' => 'v1', 'title' => 'v1', 'date' => '2026-10-12', 'body' => '<ul><li>c</li></ul>'],
+            ],
+            $result['sections'],
         );
-        self::assertStringContainsString(
-            '<details class="collapsible-section" open><summary><h2 id="v2">v2</h2><time datetime="2026-10-30">2026-10-30</time></summary><div><ul><li>b</li></ul></div>',
-            $wrapped,
-        );
-        self::assertStringContainsString('<details class="collapsible-section"><summary><h2 id="v1">', $wrapped);
-        self::assertStringNotContainsString('<p><em>2026', $wrapped);
+        self::assertSame(['unreleased', 'v2'], $result['open']);
 
         // Without an Unreleased section only the newest release opens
-        $released = CollapsibleSections::wrap($this->section('v2', '<p>b</p>') . $this->section('v1', '<p>c</p>'));
-        self::assertSame(1, substr_count($released, needle: ' open>'));
+        $released = PageSections::split($this->section('v2', '<p>b</p>') . $this->section('v1', '<p>c</p>'));
+        self::assertSame(['v2'], $released['open']);
+
+        // A page without a `##` heading has nothing to split
+        self::assertSame(['intro' => '<p>x</p>', 'sections' => [], 'open' => []], PageSections::split('<p>x</p>'));
     }
 }

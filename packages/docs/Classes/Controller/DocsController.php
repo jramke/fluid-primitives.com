@@ -11,6 +11,7 @@ use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\DocsMarkdownModeResponder;
 use FluidPrimitives\Docs\Services\DocsPageGuard;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
+use FluidPrimitives\Docs\Services\PageSections;
 use FluidPrimitives\Docs\Services\VersionsProvider;
 use FluidPrimitives\Docs\Services\ViewAsMarkdownLinkInjector;
 use FluidPrimitives\Docs\Utility\DocsUtility;
@@ -34,12 +35,6 @@ final class DocsController extends ActionController
         ['label' => 'Documentation', 'href' => '/docs'],
         ['label' => 'GitHub', 'href' => '/github', 'external' => true],
     ];
-
-    /**
-     * Pages whose `##` sections render as collapsibles. The changelog is the library's own file and cannot carry
-     * frontmatter, so the page is named here.
-     */
-    private const array COLLAPSIBLE_SECTION_PAGES = ['docs/releases'];
 
     public function __construct(
         private readonly NavigationBuilder $navigationBuilder,
@@ -117,15 +112,17 @@ final class DocsController extends ActionController
             return $markdownResponse;
         }
 
-        [$content, $toc] = DocsUtility::markdownToHtml(
-            $markdown,
-            $this->request,
-            collapsibleSections: in_array(rtrim($path, characters: '/'), self::COLLAPSIBLE_SECTION_PAGES, strict: true),
+        [$content, $toc] = DocsUtility::markdownToHtml($markdown, $this->request);
+        ['intro' => $content, 'sections' => $sections, 'open' => $openSections] = PageSections::forPage(
+            rtrim($path, characters: '/'),
+            $content,
         );
         $content = ViewAsMarkdownLinkInjector::inject($content, '/' . $path, Typed::bool($meta['preview'] ?? null));
 
         $this->view->assignMultiple([
             'content' => $content,
+            'sections' => $sections,
+            'openSections' => $openSections,
             'toc' => $toc,
             'nav' => $this->navigationBuilder->buildNavigation($baseDir, $baseDir . 'nav.yaml'),
             'meta' => $meta,

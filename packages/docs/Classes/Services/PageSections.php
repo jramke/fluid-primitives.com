@@ -5,60 +5,72 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Services;
 
 /**
- * Turns every `##` section of a rendered page into a `<details>`, so a long page like the changelog opens on its
- * newest entries and keeps the older ones one click away. It works on the HTML, after the Markdown is converted:
- * the `.md` request path never runs it, so agents read the plain Markdown.
+ * Cuts the rendered HTML of a page at its `##` headings, so a long page like the changelog can show each section as
+ * an accordion item. It works on the HTML, after the Markdown is converted: the `.md` request path never runs it, so
+ * agents read the plain Markdown.
  *
- * The heading stays an `<h2>` (inside the `<summary>`), so it keeps its id and its entry in the table of contents.
- * A line right below it that is only an emphasised date (`_2026-10-30_`) moves into the summary as a `<time>`.
+ * A line right below a heading that is only an emphasised date (`_2026-10-30_`) becomes the `date` of the section.
  */
-final class CollapsibleSections
+final class PageSections
 {
-    private const string HEADING_PATTERN = '/<h2 id="([^"]+)">(.+?)<a href="#\1" class="heading-permalink" title=""><\/a><\/h2>/s';
+    private const string HEADING_PATTERN = '/<div class="permalink-wrapper"><h2 id="([^"]+)">(.+?)<\/h2><a href="#\1" class="heading-permalink" title=""><span class="sr-only">.*?<\/span><\/a><\/div>/s';
 
     private const string DATE_PATTERN = '/^\s*<p><em>(\d{4}-\d{2}-\d{2})<\/em><\/p>\s*/';
 
     /**
+     * Pages whose `##` sections render as accordion items. The changelog is the library's own file and cannot carry
+     * frontmatter, so the page is named here.
+     */
+    private const array ACCORDION_PAGES = ['docs/releases'];
+
+    /**
+     * Splits the page when it is one of the accordion pages, and hands every other page back whole.
+     *
+     * @return array{intro: string, sections: list<array{id: string, title: string, date: string, body: string}>, open: list<string>}
+     */
+    public static function forPage(string $path, string $html): array
+    {
+        return (
+            in_array($path, self::ACCORDION_PAGES, strict: true)
+                ? self::split($html)
+                : ['intro' => $html, 'sections' => [], 'open' => []]
+        );
+    }
+
+    /**
      * @param string $unreleasedTitle The first section with this title does not count as a release: the newest
      *     release after it opens too, because that is what the reader came to see next to it.
+     *
+     * @return array{
+     *     intro: string,
+     *     sections: list<array{id: string, title: string, date: string, body: string}>,
+     *     open: list<string>,
+     * } The html before the first heading, the sections, and the ids of those that start open.
      */
-    public static function wrap(string $html, string $unreleasedTitle = 'Unreleased'): string
+    public static function split(string $html, string $unreleasedTitle = 'Unreleased'): array
     {
         // [intro, id, title, body, id, title, body, ...]
         $parts = preg_split(self::HEADING_PATTERN, $html, flags: PREG_SPLIT_DELIM_CAPTURE) ?: [$html];
 
-        $wrapped = array_shift($parts);
-        $titles = [];
-        foreach (array_chunk($parts, length: 3) as $index => [$id, $title, $body]) {
-            $titles[] = $title;
-            $open = $index === 0 || $index === 1 && $titles[0] === $unreleasedTitle;
-            $wrapped .= self::section($id, $title, $body, $open);
+        $intro = array_shift($parts);
+        $sections = [];
+        foreach (array_chunk($parts, length: 3) as [$id, $title, $body]) {
+            $date = '';
+            $matches = [];
+            if (preg_match(self::DATE_PATTERN, $body, $matches) === 1) {
+                $date = $matches[1];
+                $body = substr($body, strlen($matches[0]));
+            }
+
+            $sections[] = ['id' => $id, 'title' => $title, 'date' => $date, 'body' => $body];
         }
 
-        return $wrapped;
-    }
+        $openCount = ($sections[0]['title'] ?? null) === $unreleasedTitle ? 2 : 1;
 
-    private static function section(string $id, string $title, string $body, bool $open): string
-    {
-        $time = '';
-        $matches = [];
-        if (preg_match(self::DATE_PATTERN, $body, $matches) === 1) {
-            $time = '<time datetime="' . $matches[1] . '">' . $matches[1] . '</time>';
-            $body = substr($body, strlen($matches[0]));
-        }
-
-        return (
-            '<details class="collapsible-section"' .
-            ($open ? ' open' : '') .
-            '><summary><h2 id="' .
-            $id .
-            '">' .
-            $title .
-            '</h2>' .
-            $time .
-            '</summary><div>' .
-            $body .
-            '</div></details>'
-        );
+        return [
+            'intro' => $intro,
+            'sections' => $sections,
+            'open' => array_column(array_slice($sections, offset: 0, length: $openCount), 'id'),
+        ];
     }
 }
