@@ -13,7 +13,7 @@ preview: true
 ## Features
 
 - Highlights the links of the headings that are visible, tracked with an `IntersectionObserver`
-- Highlights several links at once when several headings are visible
+- Highlights several links at once when several headings are visible, or only the topmost one
 - Scrolls its own list so the first active link stays in view
 - Follows the headings of a scroll container as well as of the page
 - Sets `aria-current="location"` on the active links
@@ -60,6 +60,14 @@ $items = array_map(
         </f:for>
     </ui:toc.list>
 </ui:toc.root>
+```
+
+### Highlight only the topmost heading
+
+Every visible heading is active by default. Set `multiple="{false}"` on the root to keep only the topmost visible heading active.
+
+```html
+<ui:toc.root items="{items}" multiple="{false}">...</ui:toc.root>
 ```
 
 ### Indent nested headings
