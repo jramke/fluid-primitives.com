@@ -1,0 +1,41 @@
+.collapsible-section {
+    @apply border-b border-border;
+
+    &:first-of-type {
+        @apply border-t;
+    }
+
+    & > summary {
+        @apply flex cursor-pointer list-none items-center gap-2 py-4 select-none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        &::before {
+            @apply size-4 shrink-0 bg-current opacity-60 transition-transform duration-150;
+            content: '';
+            mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>') center / contain no-repeat;
+        }
+
+        & h2 {
+            @apply m-0;
+        }
+
+        & time {
+            @apply ms-auto mt-0 text-sm text-muted-foreground;
+        }
+    }
+
+    &[open] > summary::before {
+        @apply rotate-90;
+    }
+
+    & > div {
+        @apply pb-8;
+    }
+}
+
+.prose .collapsible-section + .collapsible-section {
+    @apply mt-0;
+}

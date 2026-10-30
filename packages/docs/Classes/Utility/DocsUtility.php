@@ -7,6 +7,7 @@ namespace FluidPrimitives\Docs\Utility;
 use FluidPrimitives\Docs\CommonMark\ComponentHeadingsExtension;
 use FluidPrimitives\Docs\CommonMark\PageHeadings;
 use FluidPrimitives\Docs\Phiki\PhikiCommonMarkExtension;
+use FluidPrimitives\Docs\Services\CollapsibleSections;
 use FluidPrimitives\Docs\Services\ComponentShortcodeResolver;
 use FluidPrimitives\Docs\Services\MarkdownLinkRewriter;
 use FluidPrimitives\Docs\Services\MarkdownWhitespaceNormalizer;
@@ -114,18 +115,28 @@ class DocsUtility
     }
 
     /**
+     * @param bool $collapsibleSections Wrap every `##` section in a `<details>`, see CollapsibleSections
+     *
      * @return array{string, list<TocItem>} First item is the content html,
      *     second item the headings of the page for the table of contents
      */
-    public static function markdownToHtml(string $markdown, ServerRequestInterface $request): array
-    {
+    public static function markdownToHtml(
+        string $markdown,
+        ServerRequestInterface $request,
+        bool $collapsibleSections = false,
+    ): array {
         $processedMarkdown = ComponentShortcodeResolver::resolve($markdown, $request);
         $converter = DocsUtility::getMarkdownConverter();
         $converted = $converter->convert($processedMarkdown);
 
         $headings = PageHeadings::collect($converted->getDocument());
 
-        $content = self::wrapCodeBlocks($converted->getContent());
+        $content = $converted->getContent();
+        if ($collapsibleSections) {
+            $content = CollapsibleSections::wrap($content);
+        }
+
+        $content = self::wrapCodeBlocks($content);
         $content = self::wrapTables($content);
         $content = self::makePermalinksAccessible($content);
 

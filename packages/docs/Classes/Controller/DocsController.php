@@ -35,6 +35,12 @@ final class DocsController extends ActionController
         ['label' => 'GitHub', 'href' => '/github', 'external' => true],
     ];
 
+    /**
+     * Pages whose `##` sections render as collapsibles. The changelog is the library's own file and cannot carry
+     * frontmatter, so the page is named here.
+     */
+    private const array COLLAPSIBLE_SECTION_PAGES = ['docs/releases'];
+
     public function __construct(
         private readonly NavigationBuilder $navigationBuilder,
         private readonly VersionsProvider $versionsProvider,
@@ -111,7 +117,11 @@ final class DocsController extends ActionController
             return $markdownResponse;
         }
 
-        [$content, $toc] = DocsUtility::MarkdownToHtml($markdown, $this->request);
+        [$content, $toc] = DocsUtility::markdownToHtml(
+            $markdown,
+            $this->request,
+            collapsibleSections: in_array(rtrim($path, characters: '/'), self::COLLAPSIBLE_SECTION_PAGES, strict: true),
+        );
         $content = ViewAsMarkdownLinkInjector::inject($content, '/' . $path, Typed::bool($meta['preview'] ?? null));
 
         $this->view->assignMultiple([
