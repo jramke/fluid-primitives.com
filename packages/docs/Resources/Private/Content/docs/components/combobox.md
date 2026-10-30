@@ -136,7 +136,7 @@ The labels of the trigger and the clear button, and what screen readers hear whi
 
 ### Announce loading results
 
-Set `loading` while you fetch results: the list gets `aria-busy` and screen readers hear the loading text instead of "No results". Switch it from a script with `combobox.updateProps({ loading: true })`.
+Set `loading` while you fetch results: the list gets `aria-busy` and screen readers hear the loading text instead of "No results". Switch it from a script with `combobox.updateProps({ loading: true })`, as the async examples above do while their search is loading.
 
 ## API Reference
 

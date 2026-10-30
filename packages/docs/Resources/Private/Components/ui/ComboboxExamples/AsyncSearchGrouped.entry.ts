@@ -103,6 +103,7 @@ mount('ui:combobox', 'async-search-grouped', ({ props }) => {
 
             const hasResults = state.status === 'results';
             updateItems(hasResults ? state.items : []);
+            combobox.updateProps({ loading: state.status === 'loading' });
             if (hasResults) return;
 
             spinnerEl.toggleAttribute('hidden', state.status !== 'loading');
