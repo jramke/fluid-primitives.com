@@ -44,13 +44,13 @@
 
 ### Range
 
-Render a `slider.thumb` for each end of the range, with `index` `0` and `1`, and pass two numbers as `defaultValue`. `minStepsBetweenThumbs="10"` keeps the thumbs of the price range at least 10 steps apart. In a form, end the `name` with `[]` (`price[]`) for PHP to receive both values.
+Render a `slider.thumb` for each end of the range, with `index` `0` and `1`, and pass two numbers as `defaultValue`. `minStepsBetweenThumbs="10"` keeps the thumbs of the price range at least 10 steps apart. `thumbLabels` names each thumb, so a screen reader announces "Minimum price" and "Maximum price" instead of the label twice. In a form, end the `name` with `[]` (`price[]`) for PHP to receive both values.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.range" } %}
 
 ### With marks
 
-Add `slider.marker` elements inside a `slider.markerGroup` to show labeled ticks along the track.
+Add `slider.marker` elements inside a `slider.markerGroup` to show labeled ticks along the track. A marker inside the filled range carries `data-in-range`, which the demo uses to color its dot.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SliderExamples.withMarks" } %}
 
