@@ -23,13 +23,15 @@ preview: true
 
 ```html
 <primitives:toc.root>
-    <primitives:toc.title />
-    <primitives:toc.list>
-        <primitives:toc.indicator />
-        <primitives:toc.item>
-            <primitives:toc.link />
-        </primitives:toc.item>
-    </primitives:toc.list>
+    <primitives:toc.nav>
+        <primitives:toc.title />
+        <primitives:toc.list>
+            <primitives:toc.indicator />
+            <primitives:toc.item>
+                <primitives:toc.link />
+            </primitives:toc.item>
+        </primitives:toc.list>
+    </primitives:toc.nav>
 </primitives:toc.root>
 ```
 
@@ -54,11 +56,15 @@ $items = array_map(
 
 ```html
 <ui:toc.root items="{items}">
-    <ui:toc.list>
-        <f:for each="{items}" as="item">
-            <ui:toc.item value="{item.value}"><ui:toc.link>{item.label}</ui:toc.link></ui:toc.item>
-        </f:for>
-    </ui:toc.list>
+    <ui:toc.nav>
+        <ui:toc.list>
+            <f:for each="{items}" as="item">
+                <ui:toc.item value="{item.value}"
+                    ><ui:toc.link>{item.label}</ui:toc.link></ui:toc.item
+                >
+            </f:for>
+        </ui:toc.list>
+    </ui:toc.nav>
 </ui:toc.root>
 ```
 
@@ -101,7 +107,8 @@ Put the list into a `ui:collapsible`. The trigger shows the active heading and h
     arguments: {
         "name": "Toc",
         "parts": [
-            ["root", "Wraps the table of contents, provides its state and takes the `items`. Renders a `<nav>` element."],
+            ["root", "Wraps the table of contents, provides its state and takes the `items`. Renders a `<div>` element."],
+            ["nav", "The navigation landmark, named by the `title`. Renders a `<nav>` element."],
             ["title", "Labels the table of contents. Renders an `<h2>` element, set `level` for another heading level."],
             ["list", "Wraps the items and is the positioning context of the indicator. Renders a `<ul>` element."],
             ["item", "One heading of the page, identified by its `value`. Renders an `<li>` element."],

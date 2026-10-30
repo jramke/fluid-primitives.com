@@ -15,11 +15,13 @@
         </f:for>
     </div>
     <ui:toc.root items="{headings}" scrollEl="#toc-simple-content" autoScroll="{false}" class="w-36 shrink-0">
-        <ui:toc.title>On this page</ui:toc.title>
-        <ui:toc.list>
-            <f:for each="{headings}" as="heading">
-                <ui:toc.item value="{heading.value}"><ui:toc.link>{heading.label}</ui:toc.link></ui:toc.item>
-            </f:for>
-        </ui:toc.list>
+        <ui:toc.nav>
+            <ui:toc.title>On this page</ui:toc.title>
+            <ui:toc.list>
+                <f:for each="{headings}" as="heading">
+                    <ui:toc.item value="{heading.value}"><ui:toc.link>{heading.label}</ui:toc.link></ui:toc.item>
+                </f:for>
+            </ui:toc.list>
+        </ui:toc.nav>
     </ui:toc.root>
 </div>
