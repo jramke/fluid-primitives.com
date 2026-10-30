@@ -46,9 +46,10 @@ order (`### Select`, `` ### `ui:attributes` ``, `### Client`, `### CLI`, `### Co
 - Several components or the package as a whole (packaging, translations, anything no single heading holds): General
   changes. Never copy one entry under several headings. When the commit has no scope, pick the heading from the diff,
   and ask when none fits instead of inventing one.
-- Under Breaking changes and General changes the bullet starts with the bold scope, because the heading does not
-  name it: `**Select, Combobox:** ...`, ``**`ui:attributes`:** ...``. Under any other heading it does not repeat the
-  scope.
+- Under Breaking changes the bullet starts with the bold scope, because the heading does not name it:
+  `**Select, Combobox:** ...`, ``**`ui:attributes`:** ...``. The same goes for a General changes entry about
+  specific components. An entry about the package as a whole has no prefix. Under any other heading the bullet does
+  not repeat the scope.
 - Features come before fixes inside a heading (`feat` first, `fix` and `perf` after), otherwise next to related entries.
 
 - One sentence, two at most. Name the thing: the ViewHelper, the prop, the function, the exact error.
