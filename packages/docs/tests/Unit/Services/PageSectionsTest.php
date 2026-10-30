@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluidPrimitives\Docs\Tests\Unit\Services;
 
 use FluidPrimitives\Docs\Services\PageSections;
+use Jramke\FluidPrimitives\Domain\Dto\TocItem;
 use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -56,5 +57,22 @@ final class PageSectionsTest extends UnitTestCase
 
         // A page without a `##` heading has nothing to split
         self::assertSame(['intro' => '<p>x</p>', 'sections' => [], 'open' => []], PageSections::split('<p>x</p>'));
+    }
+
+    #[Test]
+    public function listsOnlyTheSectionsInTheTableOfContentsOfAnAccordionPage(): void
+    {
+        $html = $this->section('v1', '<p>c</p>');
+        $toc = [new TocItem('v1', 2, 'v1'), new TocItem('core', 3, 'Core')];
+
+        self::assertSame(
+            ['v1'],
+            array_map(static fn(TocItem $i) => $i->value, PageSections::forPage('docs/releases', $html, $toc)['toc']),
+        );
+
+        $other = PageSections::forPage('docs/introduction', $html, $toc);
+        self::assertSame($toc, $other['toc']);
+        self::assertSame([], $other['sections']);
+        self::assertSame($html, $other['intro']);
     }
 }

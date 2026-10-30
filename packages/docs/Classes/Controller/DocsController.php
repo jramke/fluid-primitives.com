@@ -113,10 +113,12 @@ final class DocsController extends ActionController
         }
 
         [$content, $toc] = DocsUtility::markdownToHtml($markdown, $this->request);
-        ['intro' => $content, 'sections' => $sections, 'open' => $openSections] = PageSections::forPage(
-            rtrim($path, characters: '/'),
-            $content,
-        );
+        [
+            'intro' => $content,
+            'sections' => $sections,
+            'open' => $openSections,
+            'toc' => $toc,
+        ] = PageSections::forPage(rtrim($path, characters: '/'), $content, $toc);
         $content = ViewAsMarkdownLinkInjector::inject($content, '/' . $path, Typed::bool($meta['preview'] ?? null));
 
         $this->view->assignMultiple([

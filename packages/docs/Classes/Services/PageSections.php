@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Services;
 
+use Jramke\FluidPrimitives\Domain\Dto\TocItem;
+
 /**
  * Cuts the rendered HTML of a page at its `##` headings, so a long page like the changelog can show each section as
  * an accordion item. It works on the HTML, after the Markdown is converted: the `.md` request path never runs it, so
@@ -24,17 +26,28 @@ final class PageSections
     private const array ACCORDION_PAGES = ['docs/releases'];
 
     /**
-     * Splits the page when it is one of the accordion pages, and hands every other page back whole.
+     * Splits the page when it is one of the accordion pages, and hands every other page back whole. The table of
+     * contents of a split page lists the sections only, the headings inside them are not worth a link each.
      *
-     * @return array{intro: string, sections: list<array{id: string, title: string, date: string, body: string}>, open: list<string>}
+     * @param list<TocItem> $toc
+     *
+     * @return array{
+     *     intro: string,
+     *     sections: list<array{id: string, title: string, date: string, body: string}>,
+     *     open: list<string>,
+     *     toc: list<TocItem>,
+     * }
      */
-    public static function forPage(string $path, string $html): array
+    public static function forPage(string $path, string $html, array $toc): array
     {
-        return (
-            in_array($path, self::ACCORDION_PAGES, strict: true)
-                ? self::split($html)
-                : ['intro' => $html, 'sections' => [], 'open' => []]
-        );
+        if (!in_array($path, self::ACCORDION_PAGES, strict: true)) {
+            return ['intro' => $html, 'sections' => [], 'open' => [], 'toc' => $toc];
+        }
+
+        return [
+            ...self::split($html),
+            'toc' => array_values(array_filter($toc, static fn(TocItem $item): bool => $item->depth === 2)),
+        ];
     }
 
     /**

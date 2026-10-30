@@ -35,25 +35,21 @@ When unsure, skip and say so in one line. An empty changelog entry is worse than
 
 ## 2. Write
 
-Add one bullet to the matching bold group of `## Unreleased`, creating the group when missing. Order of groups:
-`**Breaking changes**`, `**Features**`, `**Fixes**`. A breaking change is listed under Breaking changes only,
-not twice. The commit type picks the group: `feat` is Features, `fix` and `perf` are Fixes, `!` or
-`BREAKING CHANGE:` is Breaking changes.
+Add one bullet to `## Unreleased` under the heading of the commit scope, creating the heading when missing. The
+table in [CONTRIBUTING.md](../../../packages/fluid-primitives/CONTRIBUTING.md) maps a commit scope to a heading.
+Headings of a release, in order: `### Breaking changes`, `### General changes`, then one per scope in alphabetical
+order (`### Select`, `` ### `ui:attributes` ``, `### Client`, `### CLI`, `### Core`).
 
-Start the bullet with the part of the library it concerns, in bold, followed by a colon. Take it from the
-commit scope, the table in [CONTRIBUTING.md](../../../packages/fluid-primitives/CONTRIBUTING.md) maps one to the other:
-
-- A component: its name as in prose, `**Select:**`, `**DatePicker:**`. A change to its registry copy counts too.
-  A few components: `**Select, Combobox:**`.
-- A ViewHelper that is not part of a component: in code font, ``**`ui:attributes`:**``.
-- `**Client:**` for the client utilities and base classes, `**CLI:**` for `ui:add` and the other commands and
-  the registry as a whole, `**Core:**` for the PHP side every component shares.
-- Many components: name the area they share (`**Form:**`, `**Core:**`), not all of them. When the commit has
-  no scope, pick the prefix from the diff. Never leave it off and never invent a new one: when none fits,
-  ask.
-
-Put the bullet next to the existing ones of the same scope. The prefix is the subject, so the sentence after it
-does not repeat the name: ``**`ui:call`:** Escapes the text a method returns.``
+- A `!` or `BREAKING CHANGE:` goes under Breaking changes only, not twice, whatever its scope.
+- A component, a ViewHelper that is not part of one, `Client`, `CLI` or `Core`: the heading of that scope.
+  A change to the registry copy of a component counts as the component.
+- Several components or the package as a whole (packaging, translations, anything no single heading holds): General
+  changes. Never copy one entry under several headings. When the commit has no scope, pick the heading from the diff,
+  and ask when none fits instead of inventing one.
+- Under Breaking changes and General changes the bullet starts with the bold scope, because the heading does not
+  name it: `**Select, Combobox:** ...`, ``**`ui:attributes`:** ...``. Under any other heading it does not repeat the
+  scope.
+- Features come before fixes inside a heading (`feat` first, `fix` and `perf` after), otherwise next to related entries.
 
 - One sentence, two at most. Name the thing: the ViewHelper, the prop, the function, the exact error.
 - Say what the user sees or must do ("call `extbase.post(...)` instead"), not how the code works.
