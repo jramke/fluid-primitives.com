@@ -30,7 +30,8 @@ mount('ui:select', 'select-with-tabs', ({ props }) => {
     mount('ui:tabs', 'select-with-tabs-tabs', ({ props }) => {
         const tabs = new Tabs({
             ...props,
-            onValueChange: ({ value }) => showCategory(tabs, value),
+            // `value` is null once a deselectable tab is deselected, these tabs are not
+            onValueChange: ({ value }) => value !== null && showCategory(tabs, value),
         });
         tabs.init();
         return tabs;
