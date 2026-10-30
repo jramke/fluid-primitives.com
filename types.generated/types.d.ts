@@ -13,6 +13,7 @@ declare namespace Jramke {
                 export type TocItem = {
                     value: string;
                     depth: number;
+                    label: string;
                 };
             }
         }

@@ -41,7 +41,7 @@ preview: true
 
 ### Build the items from your content
 
-`items` takes `TocItem` objects or arrays with a `value` (the id of the heading element) and a `depth`. A `TocItem` also carries the `label` for your template, and only its `value` and `depth` reach the client.
+`items` takes `TocItem` objects or arrays with a `value` (the id of the heading element) and a `depth`. A `TocItem` also carries the `label` for your template and for client scripts.
 
 ```php
 use Jramke\FluidPrimitives\Domain\Dto\TocItem;
