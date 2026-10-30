@@ -11,6 +11,7 @@ use FluidPrimitives\Docs\PageTitle\DocsPageTitleProvider;
 use FluidPrimitives\Docs\Services\DocsMarkdownModeResponder;
 use FluidPrimitives\Docs\Services\DocsPageGuard;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
+use FluidPrimitives\Docs\Services\PageSections;
 use FluidPrimitives\Docs\Services\VersionsProvider;
 use FluidPrimitives\Docs\Services\ViewAsMarkdownLinkInjector;
 use FluidPrimitives\Docs\Utility\DocsUtility;
@@ -111,11 +112,17 @@ final class DocsController extends ActionController
             return $markdownResponse;
         }
 
-        [$content, $toc] = DocsUtility::MarkdownToHtml($markdown, $this->request);
+        [$content, $toc] = DocsUtility::markdownToHtml($markdown, $this->request);
+        [
+            'intro' => $content,
+            'sections' => $sections,
+            'toc' => $toc,
+        ] = PageSections::forPage(rtrim($path, characters: '/'), $content, $toc);
         $content = ViewAsMarkdownLinkInjector::inject($content, '/' . $path, Typed::bool($meta['preview'] ?? null));
 
         $this->view->assignMultiple([
             'content' => $content,
+            'sections' => $sections,
             'toc' => $toc,
             'nav' => $this->navigationBuilder->buildNavigation($baseDir, $baseDir . 'nav.yaml'),
             'meta' => $meta,

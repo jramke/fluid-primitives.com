@@ -26,13 +26,31 @@ No entry:
 - Version bumps (`chore: version`), merge commits, reverts of unreleased work.
 - A fix to something that is itself still under `Unreleased` - change that entry instead.
 
+A commit that follows [CONTRIBUTING.md](../../../packages/fluid-primitives/CONTRIBUTING.md) already answers most
+of this: `feat` and `fix` (and `perf`) usually need an entry, `docs`, `test`, `refactor`, `style`, `build`, `ci`
+and `chore` usually do not. Check that against the question above, a `refactor` that changes an error message
+still needs one. A `!` or a `BREAKING CHANGE:` footer is a breaking change.
+
 When unsure, skip and say so in one line. An empty changelog entry is worse than a missing one.
 
 ## 2. Write
 
-Add one bullet to the matching bold group of `## Unreleased`, creating the group when missing. Order of groups:
-`**Breaking changes**`, `**Features**`, `**Fixes**`. A breaking change is listed under Breaking changes only,
-not twice.
+Add one bullet to `## Unreleased` under the heading of the commit scope, creating the heading when missing. The
+table in [CONTRIBUTING.md](../../../packages/fluid-primitives/CONTRIBUTING.md) maps a commit scope to a heading.
+Headings of a release, in order: `### Breaking changes`, `### General changes`, then one per scope in alphabetical
+order (`### Select`, `` ### `ui:attributes` ``, `### Client`, `### CLI`, `### Core`).
+
+- A `!` or `BREAKING CHANGE:` goes under Breaking changes only, not twice, whatever its scope.
+- A component, a ViewHelper that is not part of one, `Client`, `CLI` or `Core`: the heading of that scope.
+  A change to the registry copy of a component counts as the component.
+- Several components or the package as a whole (packaging, translations, anything no single heading holds): General
+  changes. Never copy one entry under several headings. When the commit has no scope, pick the heading from the diff,
+  and ask when none fits instead of inventing one.
+- Under Breaking changes the bullet starts with the bold scope, because the heading does not name it:
+  `**Select, Combobox:** ...`, ``**`ui:attributes`:** ...``. The same goes for a General changes entry about
+  specific components. An entry about the package as a whole has no prefix. Under any other heading the bullet does
+  not repeat the scope.
+- Features come before fixes inside a heading (`feat` first, `fix` and `perf` after), otherwise next to related entries.
 
 - One sentence, two at most. Name the thing: the ViewHelper, the prop, the function, the exact error.
 - Say what the user sees or must do ("call `extbase.post(...)` instead"), not how the code works.
@@ -53,7 +71,7 @@ Link the source at the end of the bullet, in parentheses:
 A PR entry goes into the same commit as the change. A commit entry needs the sha of the commit it describes,
 so it cannot be in that commit: commit the change first, then write the entry with
 `git -C packages/fluid-primitives rev-parse --short HEAD` and commit `CHANGELOG.md` alone as
-`Update changelog`. Never amend to add it (the sha would change). A changelog-only commit needs no entry.
+`docs: update changelog`. Never amend to add it (the sha would change). A changelog-only commit needs no entry.
 
 ## Release
 

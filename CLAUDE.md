@@ -230,11 +230,19 @@ The API docs of the client utilities (`Client/src/lib`) and of the self-made mac
 - A plain `<h2>` or `<h3>` in a component template appears in the table of contents: `ComponentHeadingsExtension` turns it
   into a real heading with an id and a permalink. Give a heading an attribute (a class) to keep it out.
 
+## Commit messages
+
+Conventional Commits, preferred and not enforced: `feat(select): ...`, `fix(core): ...`, `feat(ui:attributes)!: ...`
+for a breaking change. The scope is the heading of the changelog entry (a component, `ui:<name>`,
+`client`, `cli` or `core`). The scope table and the type-to-changelog mapping live in
+`packages/fluid-primitives/CONTRIBUTING.md`, one source for the commit, the changelog entry and the `changelog` skill.
+
 ## Changelog
 
 `packages/fluid-primitives/CHANGELOG.md` feeds the docs page `/docs/releases` (symlinked, not copied). Before
 committing a change in `packages/fluid-primitives`, run the `changelog` skill: it decides whether the change needs
-an entry under `## Unreleased` and writes it.
+an entry under `## Unreleased` and writes it. Entries sit under a heading per scope, breaking ones under `### Breaking changes` (see
+`CONTRIBUTING.md`).
 
 ## Claude skill for library users
 
