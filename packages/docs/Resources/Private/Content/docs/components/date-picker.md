@@ -34,7 +34,7 @@
         <primitives:datePicker.content>
             <primitives:datePicker.view view="day">
                 <primitives:datePicker.viewControl view="day">
-                    <primitives:datePicker.prevTrigger view="day" />
+                    <primitives:datePicker.previousTrigger view="day" />
                     <primitives:datePicker.viewTrigger view="day">
                         <primitives:datePicker.rangeText />
                     </primitives:datePicker.viewTrigger>
@@ -177,7 +177,7 @@ const datePicker = new DatePicker({
             ["content", "The calendar surface, positioned by `positioner`. Renders a `<div>` element."],
             ["view", "Wraps one view of the calendar: `day`, `month`, or `year`. Renders a `<div>` element."],
             ["viewControl", "Groups the buttons that move through a view. Renders a `<div>` element."],
-            ["prevTrigger", "Moves a view back: to the previous month, year, or decade. Renders a `<button>` element."],
+            ["previousTrigger", "Moves a view back: to the previous month, year, or decade. Renders a `<button>` element."],
             ["nextTrigger", "Moves a view forward: to the next month, year, or decade. Renders a `<button>` element."],
             ["viewTrigger", "Switches to the next larger view. Renders a `<button>` element."],
             ["rangeText", "Shows the range of dates a view displays, like \"June 2025\". Renders a `<span>` element."],
