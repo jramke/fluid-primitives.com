@@ -1,0 +1,18 @@
+<f:variable name="items" value="{
+    0: { value: 'item-1', title: 'Product Information', content: 'Our flagship product combines cutting-edge technology with sleek design. Built with premium materials, it offers unparalleled performance and reliability.' },
+    1: { value: 'item-2', title: 'Shipping Details', content: 'We offer worldwide shipping with various delivery options to suit your needs. Orders are processed within 24 hours and typically arrive within 5-10 business days.' },
+    2: { value: 'item-3', title: 'Return Policy', content: 'We accept returns within 30 days of purchase. Items must be in original condition and packaging. Please contact our support team to initiate a return.' }
+}" />
+
+<ui:accordion.root class="w-full max-w-[400px]" hiddenUntilFound="{true}">
+    <f:for each="{items}" as="item">
+        <ui:accordion.item value="{item.value}">
+            <ui:accordion.itemTrigger>
+                {item.title}
+            </ui:accordion.itemTrigger>
+            <ui:accordion.itemContent>
+                {item.content}
+            </ui:accordion.itemContent>
+        </ui:accordion.item>
+    </f:for>
+</ui:accordion.root>

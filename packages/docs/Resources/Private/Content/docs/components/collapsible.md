@@ -11,6 +11,7 @@
 - Full keyboard navigation support
 - Supports animation via CSS transitions or animations
 - Supports custom open and collapsed heights/widths
+- Opens when the browser's search finds its content
 
 ## Anatomy
 
@@ -47,6 +48,20 @@ Set `collapsedHeight` on the root to keep the start of the content visible while
 Set `disabled` to keep the panel in its current state. The panel below stays closed.
 
 {% component: "ui:componentExample", arguments: { "componentName": "CollapsibleExamples.disabled" } %}
+
+### Find the closed content with the browser's search
+
+Set `hiddenUntilFound` on the root and the browser's find in page (<kbd>Ctrl</kbd> or <kbd>Cmd</kbd> + <kbd>F</kbd>) searches the closed content too. A match opens the collapsible. Search for "burrito" below.
+
+{% component: "ui:componentExample", arguments: { "componentName": "CollapsibleExamples.findInPage" } %}
+
+A style that resets `[hidden]` hides the content from the search. Leave `until-found` out of the reset:
+
+```css
+[hidden]:not([hidden='until-found']) {
+    display: none;
+}
+```
 
 ## API Reference
 
