@@ -120,7 +120,7 @@ Set `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog
 
 ### Localization
 
-The labels of the trigger and the clear button ship in the language file and follow the site language. Pass `translations` to override them for one combobox.
+The labels of the trigger and the clear button, and what screen readers hear while you type (the number of results, no results, loading), ship in the language file and follow the site language. Pass `translations` to override them for one combobox. `resultsCount` takes a text with a `%count%` placeholder, `resultsCountOne` the text for exactly one result, and an empty text turns that announcement off.
 
 ```html
 <f:variable
@@ -133,6 +133,10 @@ The labels of the trigger and the clear button ship in the language file and fol
 
 <ui:combobox.root translations="{comboboxTranslations}"> ... </ui:combobox.root>
 ```
+
+### Announce loading results
+
+Set `loading` while you fetch results: the list gets `aria-busy` and screen readers hear the loading text instead of "No results". Switch it from a script with `combobox.updateProps({ loading: true })`.
 
 ## API Reference
 
