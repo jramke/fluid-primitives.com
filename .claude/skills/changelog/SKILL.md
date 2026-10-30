@@ -26,13 +26,34 @@ No entry:
 - Version bumps (`chore: version`), merge commits, reverts of unreleased work.
 - A fix to something that is itself still under `Unreleased` - change that entry instead.
 
+A commit that follows [CONTRIBUTING.md](../../../packages/fluid-primitives/CONTRIBUTING.md) already answers most
+of this: `feat` and `fix` (and `perf`) usually need an entry, `docs`, `test`, `refactor`, `style`, `build`, `ci`
+and `chore` usually do not. Check that against the question above, a `refactor` that changes an error message
+still needs one. A `!` or a `BREAKING CHANGE:` footer is a breaking change.
+
 When unsure, skip and say so in one line. An empty changelog entry is worse than a missing one.
 
 ## 2. Write
 
 Add one bullet to the matching bold group of `## Unreleased`, creating the group when missing. Order of groups:
 `**Breaking changes**`, `**Features**`, `**Fixes**`. A breaking change is listed under Breaking changes only,
-not twice.
+not twice. The commit type picks the group: `feat` is Features, `fix` and `perf` are Fixes, `!` or
+`BREAKING CHANGE:` is Breaking changes.
+
+Start the bullet with the part of the library it concerns, in bold, followed by a colon. Take it from the
+commit scope, the table in [CONTRIBUTING.md](../../../packages/fluid-primitives/CONTRIBUTING.md) maps one to the other:
+
+- A component: its name as in prose, `**Select:**`, `**DatePicker:**`. A change to its registry copy counts too.
+  A few components: `**Select, Combobox:**`.
+- A ViewHelper that is not part of a component: in code font, ``**`ui:attributes`:**``.
+- `**Client:**` for the client utilities and base classes, `**CLI:**` for `ui:add` and the other commands and
+  the registry as a whole, `**Core:**` for the PHP side every component shares.
+- Many components: name the area they share (`**Form:**`, `**Core:**`), not all of them. When the commit has
+  no scope, pick the prefix from the diff. Never leave it off and never invent a new one: when none fits,
+  ask.
+
+Put the bullet next to the existing ones of the same scope. The prefix is the subject, so the sentence after it
+does not repeat the name: ``**`ui:call`:** Escapes the text a method returns.``
 
 - One sentence, two at most. Name the thing: the ViewHelper, the prop, the function, the exact error.
 - Say what the user sees or must do ("call `extbase.post(...)` instead"), not how the code works.
@@ -53,7 +74,7 @@ Link the source at the end of the bullet, in parentheses:
 A PR entry goes into the same commit as the change. A commit entry needs the sha of the commit it describes,
 so it cannot be in that commit: commit the change first, then write the entry with
 `git -C packages/fluid-primitives rev-parse --short HEAD` and commit `CHANGELOG.md` alone as
-`Update changelog`. Never amend to add it (the sha would change). A changelog-only commit needs no entry.
+`docs: update changelog`. Never amend to add it (the sha would change). A changelog-only commit needs no entry.
 
 ## Release
 
