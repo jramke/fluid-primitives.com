@@ -49,3 +49,9 @@ export const InsideDialog: StoryObj = {
         example_id: 'inside-dialog',
     },
 };
+
+export const Filterable: StoryObj = {
+    args: {
+        example_id: 'filterable',
+    },
+};

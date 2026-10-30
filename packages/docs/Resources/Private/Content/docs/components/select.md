@@ -12,7 +12,8 @@
 - Typeahead focuses items as you type
 - Keyboard navigation with arrow keys, home and end
 - Disabled items and groups
-- Hosts other widgets, like tabs, next to the list with the `dialog` popup type
+- Hosts other widgets, like tabs or a filter input, next to the list with the `dialog` popup type
+- Filters the items while you type, with an empty state for no matches
 - Works with the Field component
 - Custom positioning
 
@@ -40,6 +41,7 @@ Place the options inside `list`, which carries the listbox semantics, focus and 
     </primitives:select.control>
     <primitives:select.positioner>
         <primitives:select.content>
+            <primitives:select.input />
             <primitives:select.list>
                 <primitives:select.item>
                     <primitives:select.itemText />
@@ -49,6 +51,7 @@ Place the options inside `list`, which carries the listbox semantics, focus and 
                     <primitives:select.itemGroupLabel />
                 </primitives:select.itemGroup>
             </primitives:select.list>
+            <primitives:select.empty />
         </primitives:select.content>
     </primitives:select.positioner>
     <primitives:select.hiddenSelect />
@@ -91,6 +94,14 @@ Wrap the select in `ui:field.root` so it takes the field's `name`, `required` an
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.withField" } %}
 
+### Filter the items
+
+Set `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog')}"`, put a `select.input` above the `select.list` and a `select.empty` below it. The input takes focus when the select opens and keeps it while the arrow keys move the highlight. Typing filters the items by their label, and the `empty` part shows when nothing matches.
+
+{% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.filterable" } %}
+
+The registry entry file filters with `onInputValueChange`. Replace it to filter your own way: call `getSourceCollection()` for the full collection and pass the result to `updateProps({ collection })`.
+
 ### With tabs
 
 Set `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PopupType::Dialog')}"` when the popup holds more than the list. `content` is then announced as a dialog, `list` stays the listbox, and you place the other widgets next to the list inside `content`. In the demo, tabs narrow the produce down to fruits or vegetables.
@@ -130,6 +141,8 @@ A screen reader announces the highlighted item through a live region, and the te
             ["clearTrigger", "Clears the current selection. Renders a `<button>` element."],
             ["positioner", "Positions the floating select content. Renders a `<div>` element."],
             ["content", "The popup surface, positioned by `positioner`. Holds the `list` and, with `popupType` `dialog`, other widgets next to it. Renders a `<div>` element."],
+            ["input", "Filters the items while you type. Renders an `<input>` element, for the `dialog` popup type."],
+            ["empty", "Tells that no item matches. Renders a `<div>` element, hidden while an item is visible."],
             ["list", "The listbox inside `content` that holds the options - it takes focus, scrolls and tracks the active option. Renders a `<div>` element."],
             ["itemGroup", "Groups related options together. Renders a `<div>` element."],
             ["itemGroupLabel", "Labels a group of related options. Renders a `<div>` element."],

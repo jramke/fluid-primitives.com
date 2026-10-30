@@ -1,0 +1,18 @@
+<ui:menu.root popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\MenuPopupType::Dialog')}" autoHighlight="{true}">
+    <ui:menu.trigger>Open Menu</ui:menu.trigger>
+    <ui:menu.content class="w-56">
+        <ui:menu.input placeholder="Search actions" />
+        <ui:menu.list>
+            <ui:menu.item value="new-file">New File</ui:menu.item>
+            <ui:menu.item value="new-window">New Window</ui:menu.item>
+            <ui:menu.item value="open-recent">Open Recent</ui:menu.item>
+            <ui:menu.separator />
+            <ui:menu.item value="save">Save</ui:menu.item>
+            <ui:menu.item value="save-as">Save As</ui:menu.item>
+            <ui:menu.separator />
+            <ui:menu.item value="settings">Settings</ui:menu.item>
+            <ui:menu.item value="quit">Quit</ui:menu.item>
+        </ui:menu.list>
+        <ui:menu.empty>No actions found</ui:menu.empty>
+    </ui:menu.content>
+</ui:menu.root>
