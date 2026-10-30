@@ -407,5 +407,3 @@ FileETag None
 		Require all granted
 	</If>
 </IfModule>
-
-# SetEnv TYPO3_CONTEXT Production/Local
