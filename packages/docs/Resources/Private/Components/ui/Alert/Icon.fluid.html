@@ -1,8 +1,10 @@
 <ui:cn value="size-5 {class}" as="class" />
 
-<f:if condition="{ui:slotFilled()}">
+<f:variable name="icon" value="{f:slot() -> f:spaceless()}" />
+
+<f:if condition="{icon}">
     <f:then>
-        <f:slot />
+        {icon -> f:format.raw()}
     </f:then>
     <f:else>
         <f:switch expression="{context.variant}">
