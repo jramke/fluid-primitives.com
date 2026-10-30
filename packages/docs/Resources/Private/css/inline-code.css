@@ -11,6 +11,10 @@
     padding: 0.2em 0.3em;
     font-size: 0.825rem;
 
+    :is(strong, b) & {
+        font-weight: var(--font-weight-semibold);
+    }
+
     :has(.text-sm &) & {
         font-size: 0.75rem;
     }
