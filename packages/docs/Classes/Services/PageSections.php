@@ -34,14 +34,13 @@ final class PageSections
      * @return array{
      *     intro: string,
      *     sections: list<array{id: string, title: string, date: string, body: string}>,
-     *     open: list<string>,
      *     toc: list<TocItem>,
      * }
      */
     public static function forPage(string $path, string $html, array $toc): array
     {
         if (!in_array($path, self::ACCORDION_PAGES, strict: true)) {
-            return ['intro' => $html, 'sections' => [], 'open' => [], 'toc' => $toc];
+            return ['intro' => $html, 'sections' => [], 'toc' => $toc];
         }
 
         return [
@@ -51,16 +50,12 @@ final class PageSections
     }
 
     /**
-     * @param string $unreleasedTitle The first section with this title does not count as a release: the newest
-     *     release after it opens too, because that is what the reader came to see next to it.
-     *
      * @return array{
      *     intro: string,
      *     sections: list<array{id: string, title: string, date: string, body: string}>,
-     *     open: list<string>,
-     * } The html before the first heading, the sections, and the ids of those that start open.
+     * } The html before the first heading and the sections.
      */
-    public static function split(string $html, string $unreleasedTitle = 'Unreleased'): array
+    public static function split(string $html): array
     {
         // [intro, id, title, body, id, title, body, ...]
         $parts = preg_split(self::HEADING_PATTERN, $html, flags: PREG_SPLIT_DELIM_CAPTURE) ?: [$html];
@@ -78,12 +73,6 @@ final class PageSections
             $sections[] = ['id' => $id, 'title' => $title, 'date' => $date, 'body' => $body];
         }
 
-        $openCount = ($sections[0]['title'] ?? null) === $unreleasedTitle ? 2 : 1;
-
-        return [
-            'intro' => $intro,
-            'sections' => $sections,
-            'open' => array_column(array_slice($sections, offset: 0, length: $openCount), 'id'),
-        ];
+        return ['intro' => $intro, 'sections' => $sections];
     }
 }

@@ -116,7 +116,6 @@ final class DocsController extends ActionController
         [
             'intro' => $content,
             'sections' => $sections,
-            'open' => $openSections,
             'toc' => $toc,
         ] = PageSections::forPage(rtrim($path, characters: '/'), $content, $toc);
         $content = ViewAsMarkdownLinkInjector::inject($content, '/' . $path, Typed::bool($meta['preview'] ?? null));
@@ -124,7 +123,6 @@ final class DocsController extends ActionController
         $this->view->assignMultiple([
             'content' => $content,
             'sections' => $sections,
-            'openSections' => $openSections,
             'toc' => $toc,
             'nav' => $this->navigationBuilder->buildNavigation($baseDir, $baseDir . 'nav.yaml'),
             'meta' => $meta,

@@ -30,7 +30,7 @@ final class PageSectionsTest extends UnitTestCase
     }
 
     #[Test]
-    public function splitsAtTheHeadingsAndOpensTheNewestSections(): void
+    public function splitsAtTheHeadings(): void
     {
         $html =
             '<h1>Changelog</h1><p>Intro</p>' .
@@ -49,14 +49,8 @@ final class PageSectionsTest extends UnitTestCase
             ],
             $result['sections'],
         );
-        self::assertSame(['unreleased', 'v2'], $result['open']);
-
-        // Without an Unreleased section only the newest release opens
-        $released = PageSections::split($this->section('v2', '<p>b</p>') . $this->section('v1', '<p>c</p>'));
-        self::assertSame(['v2'], $released['open']);
-
         // A page without a `##` heading has nothing to split
-        self::assertSame(['intro' => '<p>x</p>', 'sections' => [], 'open' => []], PageSections::split('<p>x</p>'));
+        self::assertSame(['intro' => '<p>x</p>', 'sections' => []], PageSections::split('<p>x</p>'));
     }
 
     #[Test]

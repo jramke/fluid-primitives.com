@@ -5,7 +5,7 @@
 <main class="content-grid py-30 md:ms-[250px] lg:pe-[250px] me-auto lg:w-[calc(100%-250px)] prose" id="main">
     <f:format.raw>{content}</f:format.raw>
     <f:if condition="{sections}">
-        <ui:accordion.root multiple="{true}" defaultValue="{openSections}" rootId="page-sections" class="mt-10 border-t">
+        <ui:accordion.root multiple="{true}" rootId="page-sections" class="mt-10 border-t">
             <f:for each="{sections}" as="section">
                 <primitives:accordion.item value="{section.id}" class="mt-0 border-b">
                     <primitives:accordion.itemHeader level="2" id="{section.id}" class="m-0 scroll-mt-24 lg:scroll-mt-20">
