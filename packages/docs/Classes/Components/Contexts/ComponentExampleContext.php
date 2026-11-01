@@ -18,7 +18,13 @@ class ComponentExampleContext extends AbstractComponentContext
 {
     use IsMarkdownModeAwareTrait;
 
+    // The code of up to this many lines fits the collapsed height, so a collapsible would hide nothing.
+    private const int MAX_LINES_WITHOUT_COLLAPSIBLE = 3;
+
     private ?string $html = null;
+
+    /** @var list<array{label: string, language: string, templateHighlighted: string, templateRaw: string}>|null */
+    private ?array $tabs = null;
 
     // Memoized: `{context.html}` in the Fluid template resolves through `offsetExists()` before
     // `offsetGet()` (see AbstractComponentContext), so this getter runs twice per template access.
@@ -41,7 +47,30 @@ class ComponentExampleContext extends AbstractComponentContext
         return $this->html;
     }
 
+    public function getIsCollapsible(): bool
+    {
+        foreach ($this->getTabs() as $tab) {
+            if (substr_count(trim($tab['templateRaw']), needle: "\n") >= self::MAX_LINES_WITHOUT_COLLAPSIBLE) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return list<array{label: string, language: string, templateHighlighted: string, templateRaw: string}>
+     */
     public function getTabs(): array
+    {
+        // Memoized like getHtml(): the highlighting is not cheap and the template reads this twice.
+        return $this->tabs ??= $this->buildTabs();
+    }
+
+    /**
+     * @return list<array{label: string, language: string, templateHighlighted: string, templateRaw: string}>
+     */
+    private function buildTabs(): array
     {
         $componentName = Typed::string($this->get('componentName'), 'Example');
         $mainTemplateString = $this->getMainComponentTemplateString();
@@ -74,7 +103,7 @@ class ComponentExampleContext extends AbstractComponentContext
             $templateString = $this->getTemplateStringByPath($path);
             $language = pathinfo($path, PATHINFO_EXTENSION);
             $tabs[] = [
-                'label' => $label,
+                'label' => (string)$label,
                 'language' => $language,
                 'templateHighlighted' => $this->highlightTemplateString($templateString, $language),
                 'templateRaw' => $templateString,

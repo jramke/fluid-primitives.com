@@ -13,16 +13,18 @@ mountAll('ui:componentExample', ({ props, createHydrator }) => {
         }
     });
 
-    const collapsible = mount('ui:collapsible', `${props.id}-collapsible`, ({ props }) =>
-        new Collapsible(props).init()
-    );
-    if (!collapsible) return;
+    // Short code renders without a collapsible
+    const collapsible = hydrator.query('collapsible')
+        ? mount('ui:collapsible', `${props.id}-collapsible`, ({ props }) =>
+              new Collapsible(props).init()
+          )
+        : undefined;
 
     mount('ui:tabs', `${props.id}-tabs`, ({ props }) =>
         new Tabs({
             ...props,
             onValueChange: ({ value }) => {
-                if (!collapsible.api.open) {
+                if (collapsible && !collapsible.api.open) {
                     collapsible.api.setOpen(true);
                 }
                 tabActions.forEach(el => {
