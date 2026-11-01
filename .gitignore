@@ -10,3 +10,5 @@ node_modules
 packages/*/node_modules
 .phpunit.cache
 .env
+
+.claude/plans/
