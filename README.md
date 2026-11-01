@@ -63,6 +63,8 @@ The page cache is a file cache in `var/` (`config/system/additional.php`), not i
 
 The image has a `HEALTHCHECK` that requests the home page. A host that starts the new container next to the old one and waits for a healthy status (Coolify and Dokploy do, with their health check turned on) moves the traffic only after the site answers.
 
+Both the healthcheck and the warm-up request `http://127.0.0.1` with the host of `APP_URL`. Apache marks a request from `127.0.0.1` as HTTPS (`local-https` in the `Dockerfile`), so it works however `TYPO3__SYS__reverseProxyIP` and `TYPO3__SYS__reverseProxySSL` are set. Without it, a range that leaves out `127.0.0.1` makes TYPO3 read the request as plain http and answer 404, because no site has an http base.
+
 ## Playground
 
 You can find a Playground page under `/playground` where you can test components and context code without modifying the example files.

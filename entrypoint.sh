@@ -18,25 +18,25 @@ chmod -R 775 /var/www/html/var \
 # The caches live in the database and in var/, so a new image has to start with empty ones
 su -s /bin/sh www-data -c "vendor/bin/typo3 cache:flush || true"
 
-# Builds the caches through the web server, with the headers of the reverse proxy, so the entries are the ones a
-# visitor gets. Runs next to Apache: the port has to be open at once, a proxy shows a bad gateway until it is.
+# Builds the caches through the web server, with the host of the site, so the entries are the ones a visitor gets.
+# Runs next to Apache: the port has to be open at once, a proxy shows a bad gateway until it is.
 warm() {
     host=$(php -r 'echo parse_url(getenv("APP_URL"), PHP_URL_HOST);')
     su -s /bin/sh www-data -c "vendor/bin/typo3 cache:warmup || true"
 
     # Waits for Apache, and renders the home page on the way
     curl -fsS -o /dev/null --max-time 300 --retry 60 --retry-delay 2 --retry-connrefused \
-        -H "Host: $host" -H 'X-Forwarded-Proto: https' http://127.0.0.1/ || return 0
+        -H "Host: $host" http://127.0.0.1/ || { echo "Caches not warmed: the home page does not answer"; return 0; }
 
     { echo /the-pitch; sed -n 's|^ \+- \(.*\)|/\1|p' packages/docs/Resources/Private/Content/nav.yaml; } \
         | xargs -P 4 -I{} curl -fsS -o /dev/null --max-time 300 \
-            -H "Host: $host" -H 'X-Forwarded-Proto: https' 'http://127.0.0.1{}' || true
+            -H "Host: $host" 'http://127.0.0.1{}' || true
 
     # The URL of the search index carries a cHash that only the site can sign, so it is read from a page
-    search=$(curl -fsS --max-time 300 -H "Host: $host" -H 'X-Forwarded-Proto: https' http://127.0.0.1/docs/introduction \
+    search=$(curl -fsS --max-time 300 -H "Host: $host" http://127.0.0.1/docs/introduction \
         | grep -o '/?tx_docs_docs[^"]*SearchIndex[^"]*' | head -n 1 | sed 's/\\u0026/\&/g')
     if [ -n "$search" ]; then
-        curl -fsS -o /dev/null --max-time 300 -H "Host: $host" -H 'X-Forwarded-Proto: https' "http://127.0.0.1$search" || true
+        curl -fsS -o /dev/null --max-time 300 -H "Host: $host" "http://127.0.0.1$search" || true
     fi
     echo "Caches warmed"
 }

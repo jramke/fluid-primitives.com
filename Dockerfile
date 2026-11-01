@@ -32,6 +32,12 @@ RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available
     Require all granted\n\
     </Directory>' >> /etc/apache2/apache2.conf
 
+# The healthcheck and the warm-up of entrypoint.sh request the site from inside the container. TYPO3 takes such a
+# request for plain http, and finds no site for the https base, when 127.0.0.1 is not one of the reverse proxies
+# the host configures (TYPO3__SYS__reverseProxyIP, ...SSL). Only a process of the container has this address.
+RUN echo 'SetEnvIf Remote_Addr "^127\.0\.0\.1$" HTTPS=on' > /etc/apache2/conf-available/local-https.conf \
+    && a2enconf local-https
+
 # Working directory
 WORKDIR /var/www/html
 
@@ -78,7 +84,7 @@ EXPOSE 80
 # A host that waits for a healthy container before it moves the traffic (a rolling update) shows no bad gateway.
 # The first request renders the home page, which takes a while on a cold container.
 HEALTHCHECK --interval=5s --timeout=60s --start-period=60s --retries=12 \
-    CMD curl -fsS -o /dev/null -H "Host: $(php -r 'echo parse_url(getenv("APP_URL"), PHP_URL_HOST);')" -H 'X-Forwarded-Proto: https' http://127.0.0.1/
+    CMD curl -fsS -o /dev/null -H "Host: $(php -r 'echo parse_url(getenv("APP_URL"), PHP_URL_HOST);')" http://127.0.0.1/
 
 # Use custom entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
