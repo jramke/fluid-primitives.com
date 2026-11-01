@@ -3,4 +3,7 @@
     &:has(.component-props-table) {
         @apply full-width;
     }
+    &:has(.docs-video) {
+        @apply breakout-sm;
+    }
 }

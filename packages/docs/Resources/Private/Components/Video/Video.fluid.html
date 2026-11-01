@@ -1,0 +1,107 @@
+<ui:prop name="src" type="string" />
+<ui:prop name="poster" type="string" optional="{true}" />
+<ui:prop name="title" type="string" optional="{true}" default="Video" />
+
+<f:variable name="srcUrl"><f:uri.resource path="{src}" /></f:variable>
+
+<f:if condition="{context.isMarkdownMode}">
+    <f:then>
+        [{title}]({srcUrl})
+    </f:then>
+    <f:else>
+        <vite:asset entry="EXT:docs/Resources/Private/Components/Video/VideoPlayer.entry.ts" />
+        <vite:asset entry="EXT:docs/Resources/Private/Components/Video/Video.entry.ts" />
+        <f:if condition="{poster}">
+            <f:variable name="posterUrl"><f:uri.resource path="{poster}" /></f:variable>
+        </f:if>
+        <div class="{ui:cn(value: 'docs-video not-prose my-8 {class}')}">
+            <video-player class="contents" poster="{posterUrl}">
+                <media-container class="group/player relative block aspect-video w-full overflow-hidden rounded-xl border bg-muted [&:fullscreen]:aspect-auto [&:fullscreen]:rounded-none [&:fullscreen]:border-0">
+                    <video src="{srcUrl}" title="{title}" preload="metadata" playsinline class="size-full object-contain"></video>
+
+                    <f:if condition="{posterUrl}">
+                        <img src="{posterUrl}" alt="" class="pointer-events-none absolute inset-0 size-full bg-muted object-contain transition-opacity duration-300 group-has-[[data-started]]/player:opacity-0" />
+                    </f:if>
+
+                    <media-play-button class="group/play absolute top-1/2 left-1/2 z-10 grid size-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer place-items-center rounded-full bg-primary text-primary-foreground shadow-lg transition-[opacity,scale] duration-200 hover:scale-105 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none group-has-[[data-started]]/player:pointer-events-none group-has-[[data-started]]/player:opacity-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="-translate-x-px">
+                            <path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z" />
+                        </svg>
+                    </media-play-button>
+
+                    <media-controls class="pointer-events-none absolute inset-0 block">
+                        <media-controls-content class="invisible absolute inset-x-3 bottom-3 block opacity-100 transition-opacity duration-200 group-has-[[data-started]]/player:visible not-data-[visible]:not-has-[:focus-visible]:opacity-0">
+                            <media-controls-group aria-label="Playback controls" class="pointer-events-auto flex items-center gap-2 rounded-xl border bg-background/85 p-1.5 text-sm text-foreground shadow-sm backdrop-blur-md">
+                                <media-play-button class="group/play grid size-9 shrink-0 cursor-pointer place-items-center rounded-lg hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="hidden group-data-[paused]/play:block">
+                                        <path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="group-data-[paused]/play:hidden">
+                                        <rect x="6" y="4" width="4" height="16" rx="1" />
+                                        <rect x="14" y="4" width="4" height="16" rx="1" />
+                                    </svg>
+                                </media-play-button>
+
+                                <media-time type="current" class="w-10 shrink-0 text-center tabular-nums"></media-time>
+
+                                <media-time-slider class="group/slider relative flex h-9 min-w-0 flex-1 cursor-pointer items-center">
+                                    <media-slider-track class="relative block h-1 w-full rounded-full bg-foreground/15">
+                                        <media-slider-buffer class="absolute inset-y-0 left-0 w-(--media-slider-buffer) rounded-full bg-foreground/15"></media-slider-buffer>
+                                        <media-slider-fill class="absolute inset-y-0 left-0 w-(--media-slider-fill) rounded-full bg-foreground"></media-slider-fill>
+                                    </media-slider-track>
+                                    <media-slider-thumb class="absolute left-(--media-slider-fill) size-4 -translate-x-1/2 rounded-full border-2 border-foreground bg-background shadow-sm"></media-slider-thumb>
+                                </media-time-slider>
+
+                                <media-time type="remaining" class="w-12 shrink-0 text-center tabular-nums"></media-time>
+
+                                <media-mute-button class="group/mute grid size-9 shrink-0 cursor-pointer place-items-center rounded-lg hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="group-data-[muted]/mute:hidden">
+                                        <path d="M11 4.7 6.5 9H3v6h3.5l4.5 4.3Z" />
+                                        <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                                        <path d="M18.4 5.6a9 9 0 0 1 0 12.8" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden group-data-[muted]/mute:block">
+                                        <path d="M11 4.7 6.5 9H3v6h3.5l4.5 4.3Z" />
+                                        <path d="m16 9.5 5 5" />
+                                        <path d="m21 9.5-5 5" />
+                                    </svg>
+                                </media-mute-button>
+
+                                <media-fullscreen-button class="group/fullscreen grid size-9 shrink-0 cursor-pointer place-items-center rounded-lg hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none data-[hidden]:hidden">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="group-data-[fullscreen]/fullscreen:hidden">
+                                        <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+                                        <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
+                                        <path d="M3 16v3a2 2 0 0 0 2 2h3" />
+                                        <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hidden group-data-[fullscreen]/fullscreen:block">
+                                        <path d="M8 3v3a2 2 0 0 1-2 2H3" />
+                                        <path d="M21 8h-3a2 2 0 0 1-2-2V3" />
+                                        <path d="M3 16h3a2 2 0 0 1 2 2v3" />
+                                        <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
+                                    </svg>
+                                </media-fullscreen-button>
+                            </media-controls-group>
+                        </media-controls-content>
+                    </media-controls>
+
+                    <media-hotkey keys="Space" action="togglePaused"></media-hotkey>
+                    <media-hotkey keys="m" action="toggleMuted"></media-hotkey>
+                    <media-hotkey keys="f" action="toggleFullscreen"></media-hotkey>
+                    <media-hotkey keys="ArrowLeft" action="seekStep" value="-5"></media-hotkey>
+                    <media-hotkey keys="ArrowRight" action="seekStep" value="5"></media-hotkey>
+
+                    <media-status-announcer></media-status-announcer>
+
+                    <media-error-dialog>
+                        <media-dialog-popup class="absolute inset-0 z-20 grid place-content-center gap-3 bg-background/90 p-6 text-center not-data-[open]:hidden">
+                            <media-dialog-title class="text-lg font-semibold"></media-dialog-title>
+                            <media-dialog-description class="text-muted-foreground"></media-dialog-description>
+                            <media-dialog-close class="cursor-pointer justify-self-center rounded-lg border px-4 py-2 hover:bg-accent"></media-dialog-close>
+                        </media-dialog-popup>
+                    </media-error-dialog>
+                </media-container>
+            </video-player>
+        </div>
+    </f:else>
+</f:if>

@@ -1,5 +1,7 @@
 # The Pitch
 
+{% component: "ui:video", arguments: {"src": "EXT:docs/Resources/Public/Videos/launch-video.mp4", "poster": "EXT:docs/Resources/Public/Videos/launch-video-poster.jpg", "title": "Fluid Primitives launch video"} %}
+
 Consider the most common request in any TYPO3 project: "we need an accordion." Or a dialog. Or a select. Something interactive, accessible, and not ugly.
 
 The traditional answer is to build it yourself, every project, from scratch. Wire up some JavaScript, remember `aria-expanded`, forget `aria-controls`, copy-paste last year's version from a different client, hope it still works. Or use a ready-made UI kit and fight its styles and markup.
