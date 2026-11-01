@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Controller;
 
+use FluidPrimitives\Docs\Services\ComponentShortcodeResolver;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Utility\DocsUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -66,8 +67,18 @@ final class SearchIndexController extends ActionController
                     continue;
                 }
 
-                $markdown = $this->stripFrontmatter($content);
-                [$html] = DocsUtility::markdownToHtml($markdown, $this->request);
+                // A demo is a Fluid render each and nearly all of the build time, and the words of a demo are no prose.
+                // The text goes through the plain converter: highlighting and permalinks add nothing to it.
+                $markdown = ComponentShortcodeResolver::strip(
+                    $this->stripFrontmatter($content),
+                    [
+                        'ui:componentExample',
+                    ],
+                );
+                $html = DocsUtility::simpleMarkdownToHtml(ComponentShortcodeResolver::resolve(
+                    $markdown,
+                    $this->request,
+                ));
 
                 $index[] = [
                     'title' => $title,

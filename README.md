@@ -55,6 +55,14 @@ Optional, and set the same way:
 - `TYPO3__BE__installToolPassword` - the hash of the Install Tool password. Without it the Install Tool stays locked.
 - `TYPO3__SYS__systemMaintainers` - the user ids of the system maintainers, comma separated.
 
+### Start-up
+
+`entrypoint.sh` flushes the caches and starts Apache at once, so the port is open before anything else runs. In the background it then warms the TYPO3 system caches (`cache:warmup` compiles the DI container, the TCA and the Fluid templates, it renders no page), requests every page of `nav.yaml` and the search index through Apache, with the host of `APP_URL`, so the first visitor gets a cached page. The log ends with `Caches warmed`.
+
+The page cache is a file cache in `var/` (`config/system/additional.php`), not in the database: a container that starts during a deploy begins with an empty one, instead of serving what the old container wrote there. The search index leaves out the demos (`ui:componentExample`), they are nearly all of its build time.
+
+The image has a `HEALTHCHECK` that requests the home page. A host that starts the new container next to the old one and waits for a healthy status (Coolify and Dokploy do, with their health check turned on) moves the traffic only after the site answers.
+
 ## Playground
 
 You can find a Playground page under `/playground` where you can test components and context code without modifying the example files.

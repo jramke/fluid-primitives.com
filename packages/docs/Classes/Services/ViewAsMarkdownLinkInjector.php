@@ -6,9 +6,8 @@ namespace FluidPrimitives\Docs\Services;
 
 /**
  * Splices a "View as Markdown" link into a rendered doc page's `<h1>`, linking to that same page's
- * `.md` URL (see DocsMarkdownModeMiddleware). Only used for the normal HTML page render -
- * SearchIndexController's own DocsUtility::markdownToHtml() consumer doesn't want this, which is why
- * it isn't folded into that method. A preview page gets its tag next to the `<h1>`.
+ * `.md` URL (see DocsMarkdownModeMiddleware). Only used for the normal HTML page render, which is why
+ * it isn't folded into DocsUtility::markdownToHtml(). A preview page gets its tag next to the `<h1>`.
  */
 class ViewAsMarkdownLinkInjector
 {

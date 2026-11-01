@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use FluidPrimitives\Docs\Utility\ConfigurationFromEnvironment;
+use TYPO3\CMS\Core\Cache\Backend\FileBackend;
 use TYPO3\CMS\Core\Cache\Backend\NullBackend;
 use TYPO3\CMS\Core\Core\Environment;
 
@@ -47,6 +48,12 @@ if ($context->isDevelopment()) {
     ]);
 }
 
+// The pages of a container live in its own var/. In the database they outlive the container: the one that runs
+// during a deploy refills them with its pages, and the new container serves those.
+$defaults = array_replace_recursive($defaults, [
+    'SYS' => ['caching' => ['cacheConfigurations' => ['pages' => ['backend' => FileBackend::class]]]],
+]);
+
 if (getenv('DISABLE_CACHES') === 'true') {
     $nullCaches = ['l10n', 'hash', 'pages', 'typoscript', 'core', 'rootline', 'extbase', 'database_schema'];
     $defaults = array_replace_recursive($defaults, [
@@ -70,6 +77,11 @@ if (getenv('IS_DDEV_PROJECT') === 'true') {
         'SYS' => ['trustedHostsPattern' => '.*.*'],
     ]);
 }
+
+// The default configuration of the page cache sets `compression`, an option of the database backend only
+// @mago-expect lint:no-global
+// @mago-expect analysis:mixed-array-access(5)
+unset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['pages']['options']);
 
 $mapper = new ConfigurationFromEnvironment();
 $configuration = $mapper->apply(

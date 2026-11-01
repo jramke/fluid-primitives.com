@@ -75,5 +75,10 @@ RUN chmod +x /entrypoint.sh
 # Expose port
 EXPOSE 80
 
+# A host that waits for a healthy container before it moves the traffic (a rolling update) shows no bad gateway.
+# The first request renders the home page, which takes a while on a cold container.
+HEALTHCHECK --interval=5s --timeout=60s --start-period=60s --retries=12 \
+    CMD curl -fsS -o /dev/null -H "Host: $(php -r 'echo parse_url(getenv("APP_URL"), PHP_URL_HOST);')" -H 'X-Forwarded-Proto: https' http://127.0.0.1/
+
 # Use custom entrypoint
 ENTRYPOINT ["/entrypoint.sh"]

@@ -34,6 +34,22 @@ class ComponentShortcodeResolver
     }
 
     /**
+     * Removes the shortcodes of the given components (`ui:componentExample`) without rendering them.
+     *
+     * @param list<string> $components
+     */
+    public static function strip(string $markdown, array $components): string
+    {
+        return (
+            preg_replace_callback(
+                self::SHORTCODE_PATTERN,
+                static fn(array $matches) => in_array($matches[1], $components, strict: true) ? '' : $matches[0],
+                $markdown,
+            ) ?? $markdown
+        );
+    }
+
+    /**
      * @param array<array-key, string> $matches
      */
     private static function resolveShortcode(array $matches, ServerRequestInterface $request): string
