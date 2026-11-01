@@ -42,7 +42,7 @@
             width: var(--border-offset-size);
         }
     }
-    pre {
+    [data-scroll-area-root] {
         @apply border border-dashed;
     }
 }

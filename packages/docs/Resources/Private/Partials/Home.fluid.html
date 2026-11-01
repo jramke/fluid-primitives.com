@@ -41,9 +41,11 @@
     <div class="border-t border-b border-dashed mt-section full-width content-grid relative">
         <ui:homeSectionTitle>example</ui:homeSectionTitle>
         <div class="grid grid-cols-1 lg:grid-cols-2 breakout-lg relative">
-            <docs:phiki grammar="html">
-                {f:render(partial: 'HomeExampleCode')}
-            </docs:phiki>
+            <ui:codeScrollArea>
+                <docs:phiki grammar="html">
+                    {f:render(partial: 'HomeExampleCode')}
+                </docs:phiki>
+            </ui:codeScrollArea>
             <div class="border-t border-dashed grid place-items-center p-4 min-h-[200px] lg:border-l lg:border-t-0">
                 <ui:popover.root>
                     <ui:popover.trigger asChild="{true}">

@@ -50,6 +50,34 @@ class ComponentShortcodeResolver
     }
 
     /**
+     * Renders a component of the docs collection from PHP, for markup that is not a shortcode - the
+     * HTML the Markdown converter produced.
+     *
+     * @param array<string, mixed> $arguments
+     * @param array<string, \Closure> $slots
+     */
+    public static function render(
+        string $componentName,
+        array $arguments,
+        array $slots,
+        ServerRequestInterface $request,
+    ): string {
+        $renderingContext = GeneralUtility::makeInstance(RenderingContextFactory::class)->create(request: $request);
+        $delegate = $renderingContext->getViewHelperResolver()->getResponsibleDelegate('ui', $componentName);
+
+        if (!$delegate instanceof ComponentDefinitionProviderInterface) {
+            throw new \LogicException('No component "ui:' . $componentName . '" in the docs collection', 8213045577);
+        }
+
+        return $delegate->getComponentRenderer()->renderComponent(
+            $componentName,
+            $arguments,
+            $slots,
+            $renderingContext,
+        );
+    }
+
+    /**
      * @param array<array-key, string> $matches
      */
     private static function resolveShortcode(array $matches, ServerRequestInterface $request): string

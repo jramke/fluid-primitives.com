@@ -125,7 +125,7 @@ class DocsUtility
 
         $headings = PageHeadings::collect($converted->getDocument());
 
-        $content = self::wrapCodeBlocks($converted->getContent());
+        $content = self::wrapCodeBlocks($converted->getContent(), $request);
         $content = self::wrapTables($content);
         $content = self::makePermalinksAccessible($content);
 
@@ -182,13 +182,27 @@ class DocsUtility
         return $site instanceof Site ? $site->getBase()->getHost() : 'fluid-primitives.com';
     }
 
-    private static function wrapCodeBlocks(string $html): string
+    private static function wrapCodeBlocks(string $html, ServerRequestInterface $request): string
     {
         // Match <pre> tags that do NOT have class="not-code-block"
         $pattern = '/(<pre\b(?![^>]*\bclass\s*=\s*["\'][^"\']*\bnot-code-block\b[^"\']*["\']).*?<\/pre>)/is';
-        $replacement = '<div class="code-block"><div>$1</div></div>';
 
-        return preg_replace($pattern, $replacement, $html) ?? $html;
+        return (
+            preg_replace_callback(
+                $pattern,
+                static fn(array $matches): string => (
+                    '<div class="code-block"><div>' .
+                    ComponentShortcodeResolver::render(
+                        'codeScrollArea',
+                        ['class' => 'not-prose'],
+                        ['default' => static fn(): string => $matches[1]],
+                        $request,
+                    ) .
+                    '</div></div>'
+                ),
+                $html,
+            ) ?? $html
+        );
     }
 
     private static function wrapTables(string $html): string
