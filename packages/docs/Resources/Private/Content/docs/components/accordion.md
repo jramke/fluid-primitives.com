@@ -12,6 +12,7 @@
 - Supports single or multiple expanded panels
 - Supports horizontal and vertical orientations
 - Opens a panel the browser's search finds
+- Animates the content height like [Collapsible](/docs/components/collapsible)
 
 ## Anatomy
 

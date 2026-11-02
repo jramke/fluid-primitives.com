@@ -68,7 +68,7 @@ The Tailwind classes of components added with `ui:add` use semantic color tokens
 }
 ```
 
-- The `animate-collapsible-*` utilities drive [Collapsible](/docs/components/collapsible), whose content exposes `--height` and `--collapsed-height`.
+- The `animate-collapsible-*` utilities drive [Collapsible](/docs/components/collapsible) and the [Accordion](/docs/components/accordion) item content. Both expose `--height`, Collapsible also `--collapsed-height`.
 - `animate-viewport-in` and `animate-viewport-out` fade and scale the [NavigationMenu](/docs/components/navigation-menu) viewport. Zag switches transitions off on the render that opens it, so both directions are animations.
 - For a dark mode, override the same `--color-*` variables under your own dark selector.
 
