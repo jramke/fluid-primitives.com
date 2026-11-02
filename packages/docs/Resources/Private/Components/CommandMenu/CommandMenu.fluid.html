@@ -33,7 +33,7 @@
                         <ui:combobox.clearTrigger />
                         <kbd class="rounded-md border bg-secondary/50 px-1.5 py-0.5 text-[10px] text-muted-foreground content-center">Esc</kbd>
                     </ui:combobox.control>
-                    <ui:combobox.content class="!duration-0 !mt-0 !rounded-b-lg !rounded-t-none !border-t !pointer-events-auto">
+                    <ui:combobox.content class="duration-0! mt-0! rounded-b-lg! rounded-t-none! border-t! pointer-events-auto!">
                         <ui:combobox.empty class="justify-start">
                             <span {ui:ref(name: 'statusText' , context: 'combobox' )}>Loading search index…</span>
                         </ui:combobox.empty>
@@ -44,6 +44,12 @@
                                         <span {ui:ref(name: 'group-label' )}></span>
                                     </ui:combobox.itemGroupLabel>
                                 </ui:combobox.itemGroup>
+                            </ui:template>
+                            <ui:template name="separatorTemplate" context="combobox">
+                                <span class="inline-flex align-middle mx-1">
+                                    <span class="sr-only">, </span>
+                                    <ui:icon.chevronRight class="size-3 text-muted-foreground/60" />
+                                </span>
                             </ui:template>
                             <ui:template name="itemTemplate" context="combobox">
                                 <ui:combobox.item>

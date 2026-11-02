@@ -15,10 +15,24 @@ interface SearchDoc {
     content: string;
 }
 
+interface SectionDoc {
+    title: string;
+    page: string;
+    trail: string[];
+    group: string;
+    url: string;
+}
+
+interface SearchIndex {
+    pages: SearchDoc[];
+    sections: SectionDoc[];
+}
+
 interface SearchResultItem extends CollectionItem {
     value: string;
     title: string;
     group: string;
+    trail?: string[];
 }
 
 const schema = {
@@ -28,11 +42,25 @@ const schema = {
     content: 'string',
 } as const;
 
+const sectionSchema = {
+    title: 'string',
+    page: 'string',
+    trail: 'string[]',
+    group: 'string',
+    url: 'string',
+} as const;
+
 const INPUT_DEBOUNCE_MS = 75;
 const RESULT_LIMIT = 40;
+const MENTIONS_GROUP = 'Mentioned in';
+const TRAILING_GROUPS = ['Sections', 'API Reference', MENTIONS_GROUP];
 
 function toResultItem(doc: SearchDoc): SearchResultItem {
     return { value: doc.url, title: doc.title, group: doc.group };
+}
+
+function sectionToResultItem(doc: SectionDoc): SearchResultItem {
+    return { value: doc.url, title: doc.trail.join(' > '), group: doc.group, trail: doc.trail };
 }
 
 class CommandMenu {
@@ -41,6 +69,7 @@ class CommandMenu {
     private combobox: Combobox;
     private dialog: Dialog;
     private db: ZBSearch<typeof schema> | null = null;
+    private sectionDb: ZBSearch<typeof sectionSchema> | null = null;
     private allItems: SearchResultItem[] = [];
     private insertedGroups: HTMLElement[] = [];
 
@@ -52,12 +81,18 @@ class CommandMenu {
         this.dialog = this.initDialog();
 
         fetch(this.searchIndexUrl)
-            .then(response => (response.ok ? (response.json() as Promise<SearchDoc[]>) : []))
-            .then(async docs => {
-                this.allItems = docs.map(toResultItem);
+            .then(response =>
+                response.ok
+                    ? (response.json() as Promise<SearchIndex>)
+                    : { pages: [], sections: [] }
+            )
+            .then(async ({ pages, sections }) => {
+                this.allItems = pages.map(toResultItem);
 
+                this.sectionDb = create({ schema: sectionSchema });
+                await insertMultiple(this.sectionDb, sections);
                 this.db = create({ schema });
-                await insertMultiple(this.db, docs);
+                await insertMultiple(this.db, pages);
 
                 this.runSearch(this.combobox.api.inputValue);
             })
@@ -159,10 +194,16 @@ class CommandMenu {
             const labelEl = group.query<HTMLElement>('group-label');
             if (labelEl) labelEl.textContent = groupName;
 
-            for (const { value, title } of groupItems) {
+            for (const { value, title, trail } of groupItems) {
                 const item = new Template(this.combobox.hydrator, 'itemTemplate', { value });
                 const titleEl = item.query<HTMLElement>('title');
-                if (titleEl) titleEl.textContent = title;
+                titleEl?.replaceChildren(
+                    ...(trail ?? [title]).flatMap((part, i) =>
+                        i === 0
+                            ? [part]
+                            : [new Template(this.combobox.hydrator, 'separatorTemplate').root, part]
+                    )
+                );
                 group.root.appendChild(item);
             }
 
@@ -180,19 +221,36 @@ class CommandMenu {
     async runSearch(filterText: string) {
         const query = filterText.trim();
 
-        if (query === '' || !this.db) {
+        if (query === '' || !this.db || !this.sectionDb) {
             this.updateItems(this.allItems);
             return;
         }
 
-        const results = await search(this.db, {
-            term: query,
-            properties: ['title', 'content'],
-            boost: { title: 2 },
-            limit: RESULT_LIMIT,
-        });
+        const [titles, contents, sections] = await Promise.all([
+            search(this.db, { term: query, properties: ['title'], limit: RESULT_LIMIT }),
+            search(this.db, { term: query, properties: ['content'], limit: RESULT_LIMIT }),
+            search(this.sectionDb, {
+                term: query,
+                properties: ['title', 'page'],
+                boost: { title: 2 },
+                limit: RESULT_LIMIT,
+            }),
+        ]);
 
-        this.updateItems(results.hits.map(hit => toResultItem(hit.document)));
+        // A page that only mentions the term ranks below every heading that names it. It can't keep its nav group
+        // there: groups render in the order they first appear, and a second "Components" would merge into the first.
+        const pageItems = titles.hits.map(hit => toResultItem(hit.document));
+        const titleUrls = new Set(pageItems.map(item => item.value));
+        const trailingItems = [
+            ...sections.hits.map(hit => sectionToResultItem(hit.document)),
+            ...contents.hits
+                .filter(hit => !titleUrls.has(hit.document.url))
+                .map(hit => ({ ...toResultItem(hit.document), group: MENTIONS_GROUP })),
+        ];
+        this.updateItems([
+            ...pageItems,
+            ...TRAILING_GROUPS.flatMap(group => trailingItems.filter(item => item.group === group)),
+        ]);
     }
 
     debouncedSearch = debounce(this.runSearch.bind(this), INPUT_DEBOUNCE_MS);

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Controller;
 
+use FluidPrimitives\Docs\CommonMark\PageHeadings;
 use FluidPrimitives\Docs\Services\ComponentShortcodeResolver;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Utility\DocsUtility;
+use League\CommonMark\Parser\MarkdownParser;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
@@ -50,7 +52,7 @@ final class SearchIndexController extends ActionController
         $baseDir = GeneralUtility::getFileAbsFileName('EXT:docs/Resources/Private/Content/');
         $navigation = $this->navigationBuilder->buildNavigation($baseDir, $baseDir . 'nav.yaml');
 
-        $index = [];
+        $index = ['pages' => [], 'sections' => []];
         foreach ($navigation as $group) {
             foreach ($group['items'] as $item) {
                 $slug = $item['slug'];
@@ -75,21 +77,51 @@ final class SearchIndexController extends ActionController
                         'ui:componentExample',
                     ],
                 );
-                $html = DocsUtility::simpleMarkdownToHtml(ComponentShortcodeResolver::resolve(
-                    $markdown,
-                    $this->request,
-                ));
+                $markdown = ComponentShortcodeResolver::resolve($markdown, $this->request);
 
-                $index[] = [
+                $index['pages'][] = [
                     'title' => $title,
                     'group' => $groupTitle,
                     'url' => $slug,
-                    'content' => $this->htmlToPlainText($html),
+                    'content' => $this->htmlToPlainText(DocsUtility::simpleMarkdownToHtml($markdown)),
                 ];
+                array_push($index['sections'], ...$this->sections($markdown, $title, $slug));
             }
         }
 
         return json_encode($index, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * The h2 and h3 of a page with the ids the page gives them: parsed, not rendered, by the converter of the page. The
+     * h3 under "API Reference" are the parts and API tables of a component and get a group of their own.
+     *
+     * @return list<array{title: string, page: string, trail: list<string>, group: string, url: string}>
+     */
+    private function sections(string $markdown, string $pageTitle, string $url): array
+    {
+        $document = (new MarkdownParser(DocsUtility::getMarkdownConverter()->getEnvironment()))->parse($markdown);
+
+        $sections = [];
+        $parent = null;
+        foreach (PageHeadings::collect($document) as $heading) {
+            if ($heading->depth === 2) {
+                $parent = $heading->label;
+            }
+
+            $isApi = $heading->depth === 3 && $parent === 'API Reference';
+            $sections[] = [
+                'title' => $heading->label,
+                'page' => $pageTitle,
+                'trail' => $heading->depth === 3 && $parent !== null && !$isApi
+                    ? [$pageTitle, $parent, $heading->label]
+                    : [$pageTitle, $heading->label],
+                'group' => $isApi ? 'API Reference' : 'Sections',
+                'url' => $url . '#' . $heading->value,
+            ];
+        }
+
+        return $sections;
     }
 
     private function stripFrontmatter(string $content): string
