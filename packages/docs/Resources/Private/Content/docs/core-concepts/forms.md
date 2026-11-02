@@ -123,7 +123,7 @@ mount('ui:form', 'registration-form', ({ props }) =>
 
 ### Clear a property with an empty field
 
-Every control submits its name, also while it is empty, so Extbase can clear the property it is bound to. An unchecked Checkbox or Switch, a CheckboxGroup with nothing checked, and a Select, Combobox or DatePicker without a value submit `''`. A RadioGroup with nothing chosen submits nothing, like native radios.
+Every control submits its name, also while it is empty, so Extbase can clear the property it is bound to. An unchecked Checkbox or Switch, a CheckboxGroup or RadioGroup with nothing checked, and a Select, Combobox or DatePicker without a value submit `''`.
 
 A field whose name ends with `[]` (`tags[]`) submits its empty value under the name without the brackets (`tags`), as Fluid's own `f:form.checkbox` does: Extbase maps `''` to an empty array or ObjectStorage. In the form values the field reads as `[]` and an unchecked box as `''`, and `extbase.post()` sends an empty list as `''` again.
 
