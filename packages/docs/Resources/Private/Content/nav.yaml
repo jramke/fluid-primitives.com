@@ -42,6 +42,7 @@
     - docs/components/radio-group
     - docs/components/scroll-area
     - docs/components/select
+    - docs/components/separator
     - docs/components/slider
     - docs/components/switch
     - docs/components/toc

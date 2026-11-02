@@ -25,7 +25,9 @@ final readonly class MachineDocs
 
     public static function forPrimitive(string $primitive, bool $markdown): self
     {
-        return new self($primitive === '' ? [] : GeneratedDocsMetadata::forMachine($primitive), $markdown);
+        $hasMachine = $primitive !== '' && !GeneratedDocsMetadata::isServerOnly($primitive);
+
+        return new self($hasMachine ? GeneratedDocsMetadata::forMachine($primitive) : [], $markdown);
     }
 
     public function isMachineSource(): bool
