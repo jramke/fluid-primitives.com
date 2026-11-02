@@ -1,14 +1,13 @@
 <div class="flex gap-1">
-    <ui:tooltip.root>
-        <ui:tooltip.trigger asChild="{true}">
-            <ui:button size="icon">X</ui:button>
-        </ui:tooltip.trigger>
-        <ui:tooltip.content>Tooltip content 1</ui:tooltip.content>
-    </ui:tooltip.root>
-    <ui:tooltip.root>
-        <ui:tooltip.trigger asChild="{true}">
-            <ui:button size="icon">Y</ui:button>
-        </ui:tooltip.trigger>
-        <ui:tooltip.content>Tooltip content 2</ui:tooltip.content>
-    </ui:tooltip.root>
+    <f:for each="{0: {letter: 'B', label: 'Bold', class: 'font-bold'}, 1: {letter: 'I', label: 'Italic', class: 'italic'}, 2: {letter: 'U', label: 'Underline', class: 'underline'}}" as="action">
+        <ui:tooltip.root>
+            <ui:tooltip.trigger asChild="{true}">
+                <ui:button variant="ghost" size="icon">
+                    <span class="{action.class}" aria-hidden="true">{action.letter}</span>
+                    <span class="sr-only">{action.label}</span>
+                </ui:button>
+            </ui:tooltip.trigger>
+            <ui:tooltip.content>{action.label}</ui:tooltip.content>
+        </ui:tooltip.root>
+    </f:for>
 </div>

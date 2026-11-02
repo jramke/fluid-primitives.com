@@ -51,6 +51,12 @@ Set `closeDelay` in milliseconds, the default is 150. The tooltip below stays vi
 
 {% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.closeDelay" } %}
 
+### Move between tooltips
+
+While a tooltip is open, the next one you hover opens without its delay. Its content gets `data-instant`, so skip the transition for it with `data-[instant]:duration-0`, as the registry `Tooltip` does. Hover one button below, then move to the next.
+
+{% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.multipleNoDelay" } %}
+
 ### Disable the tooltip
 
 Set `disabled` to keep the tooltip closed, for example while the action behind a button is unavailable.
