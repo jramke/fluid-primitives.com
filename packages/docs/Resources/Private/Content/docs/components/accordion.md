@@ -11,6 +11,7 @@
 - Full keyboard navigation support
 - Supports single or multiple expanded panels
 - Supports horizontal and vertical orientations
+- Animates the content height like [Collapsible](/docs/components/collapsible)
 
 ## Anatomy
 
