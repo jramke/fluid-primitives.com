@@ -1,3 +1,7 @@
+---
+preview: true
+---
+
 # File Upload
 
 **A file picker with drag and drop support, file lists, and validation hooks.**
