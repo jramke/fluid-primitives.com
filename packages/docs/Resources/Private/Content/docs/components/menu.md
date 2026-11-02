@@ -103,9 +103,9 @@ Wrap an area in a `menu.contextTrigger` to open the menu on right-click. Add a r
 
 ### Share one menu between triggers
 
-Give each `menu.trigger` its own `value` and they open the same menu.
+Give each `menu.trigger` its own `value` and they open the same menu. `onTriggerValueChange` tells you which one opened it, so an item can act on what its trigger belongs to.
 
-{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.multipleTriggers" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.multipleTriggers", "additionalFiles": {"MultipleTriggers.entry.ts": "EXT:docs/Resources/Private/Components/ui/MenuExamples/MultipleTriggers.entry.ts"} } %}
 
 ### Use a menu inside a dialog
 

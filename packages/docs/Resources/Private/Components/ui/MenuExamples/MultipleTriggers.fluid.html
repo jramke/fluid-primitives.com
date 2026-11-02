@@ -1,7 +1,7 @@
-<ui:menu.root>
+<ui:menu.root autoMount="{false}" rootId="menu-multiple-triggers">
     <div class="flex gap-2">
-        <ui:menu.trigger value="a">Trigger A</ui:menu.trigger>
-        <ui:menu.trigger value="b">Trigger B</ui:menu.trigger>
+        <ui:menu.trigger value="A">Trigger A</ui:menu.trigger>
+        <ui:menu.trigger value="B">Trigger B</ui:menu.trigger>
     </div>
     <ui:menu.content>
         <ui:menu.item value="edit">Edit</ui:menu.item>
@@ -9,3 +9,5 @@
         <ui:menu.item value="delete">Delete</ui:menu.item>
     </ui:menu.content>
 </ui:menu.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/MenuExamples/MultipleTriggers.entry.ts" />
