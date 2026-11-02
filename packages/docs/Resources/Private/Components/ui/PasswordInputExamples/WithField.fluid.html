@@ -1,0 +1,11 @@
+<ui:field.root class="max-w-74" name="password" required="{true}">
+    <ui:passwordInput.root autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
+        <ui:passwordInput.label>Choose a password</ui:passwordInput.label>
+        <ui:passwordInput.control>
+            <ui:passwordInput.input minlength="12" />
+            <ui:passwordInput.visibilityTrigger />
+        </ui:passwordInput.control>
+    </ui:passwordInput.root>
+    <ui:field.helperText>At least 12 characters.</ui:field.helperText>
+    <ui:field.errorText />
+</ui:field.root>
