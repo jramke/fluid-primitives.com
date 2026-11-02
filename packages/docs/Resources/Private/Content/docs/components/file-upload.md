@@ -189,7 +189,7 @@ The form posts with [`extbase.post()`](/docs/client-utilities/extbase), which se
 
 ### Edit files that are already uploaded
 
-In an edit form, render the stored files as `item`s with `type="existing"` inside the same `itemGroup` as the newly picked files. Pair each delete trigger with `ui:fileUploadDeleteCheckbox`, which renders the signed `@delete` token Extbase uses to remove the file reference on submit. Give each existing item a `value`, such as the `uid` of its file reference, so their ids stay unique.
+In an edit form, render the stored files as `item`s with `type="existing"` inside the same `itemGroup` as the newly picked files. Pair each delete trigger with [`ui:fileUploadDeleteCheckbox`](/docs/viewhelpers/fileUploadDeleteCheckbox), which renders the signed `@delete` token Extbase uses to remove the file reference on submit. Give each existing item a `value`, such as the `uid` of its file reference, so their ids stay unique.
 
 Keep the `itemTemplate` next to the existing items: newly picked files are cloned from it, and picking one throws without it.
 

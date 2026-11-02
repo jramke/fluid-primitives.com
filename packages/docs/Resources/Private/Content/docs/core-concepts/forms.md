@@ -127,8 +127,6 @@ Every control submits its name, also while it is empty, so Extbase can clear the
 
 A field whose name ends with `[]` (`tags[]`) submits its empty value under the name without the brackets (`tags`), as Fluid's own `f:form.checkbox` does: Extbase maps `''` to an empty array or ObjectStorage. In the form values the field reads as `[]` and an unchecked box as `''`, and `extbase.post()` sends an empty list as `''` again.
 
-A disabled control submits nothing, and neither does its empty-value input. Render your own control's input with [`ui:emptyValueInput`](/docs/viewhelpers/emptyValueInput).
-
 ## Show server-side errors on the fields
 
 With the trait, Extbase's validation errors arrive as a `422` response. Each key is a property path, prefixed with the `objectName`:

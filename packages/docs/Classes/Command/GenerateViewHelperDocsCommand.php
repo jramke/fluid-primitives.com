@@ -68,6 +68,9 @@ class GenerateViewHelperDocsCommand extends Command
             }
 
             $docComment = $reflection->getDocComment() ?: '';
+            if (str_contains($docComment, '@internal')) {
+                continue;
+            }
 
             $shortName = $reflection->getShortName();
             $baseName = preg_replace('/ViewHelper$/', replacement: '', subject: $shortName);
