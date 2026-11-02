@@ -69,7 +69,7 @@ Pass `defaultValue` as a list to preselect an item. The demo opens with Banana s
 
 ### Multiple selection
 
-Set `multiple="{true}"` to select several items.
+Set `multiple="{true}"` to select several items. `closeOnSelect="{false}"` keeps the list open while you pick them.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.multiple" } %}
 
