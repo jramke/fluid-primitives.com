@@ -6,10 +6,10 @@
     }"
     as="collection" />
 
-<ui:field.root name="country" required="{true}">
+<ui:field.root class="w-full max-w-74" name="country" required="{true}">
     <ui:select.root collection="{collection}">
         <ui:select.label>Country</ui:select.label>
-        <ui:select.control class="min-w-48">
+        <ui:select.control class="w-full">
             <ui:select.trigger placeholder="Select your country" />
         </ui:select.control>
         <ui:select.content>
