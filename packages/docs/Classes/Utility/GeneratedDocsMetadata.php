@@ -21,6 +21,7 @@ final class GeneratedDocsMetadata
     public const string MACHINES_DIRECTORY = self::GENERATED_DIRECTORY . '/machines';
     public const string CLIENT_API_FILE = self::GENERATED_DIRECTORY . '/client-api.json';
     public const string SOURCE_DIRECTORY = 'node_modules/@zag-js/docs/data';
+    public const string PRIMITIVES_DIRECTORY = 'EXT:fluid_primitives/Resources/Private/Primitives';
 
     public const string SOURCE_MACHINE = 'machine';
     public const string SOURCE_ZAG = 'zag';
@@ -71,6 +72,22 @@ final class GeneratedDocsMetadata
         }
 
         return null;
+    }
+
+    /**
+     * Whether the primitive has no client code at all (no `.ts` file in its folder, e.g. `Separator`), so it has
+     * no machine and nothing to generate.
+     */
+    public static function isServerOnly(string $primitive): bool
+    {
+        $folder = str_replace(
+            '-',
+            replace: '',
+            subject: ucwords(self::normalizePrimitiveName($primitive), separators: '-'),
+        );
+        $directory = self::absolutePath(self::PRIMITIVES_DIRECTORY . '/' . $folder);
+
+        return is_dir($directory) && glob($directory . '/*.ts') === [];
     }
 
     /**
