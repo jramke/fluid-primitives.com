@@ -1,0 +1,20 @@
+<ui:tooltip.provider id="remove-item" openDelay="0" positioning="{ placement: 'top' }" />
+
+<ul class="flex flex-col gap-2">
+    <li class="flex items-center justify-between gap-4">
+        <span>Hiking boots</span>
+        <ui:tooltip.trigger provider="remove-item" value="boots" asChild="{true}">
+            <ui:button variant="ghost" size="sm">Remove</ui:button>
+        </ui:tooltip.trigger>
+    </li>
+    <li class="flex items-center justify-between gap-4">
+        <span>Rain jacket</span>
+        <ui:tooltip.trigger provider="remove-item" value="jacket" asChild="{true}">
+            <ui:button variant="ghost" size="sm">Remove</ui:button>
+        </ui:tooltip.trigger>
+    </li>
+</ul>
+
+<ui:tooltip.root provider="remove-item">
+    <ui:tooltip.content>Removes the item from your cart</ui:tooltip.content>
+</ui:tooltip.root>

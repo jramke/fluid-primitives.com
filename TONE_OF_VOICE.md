@@ -26,6 +26,9 @@ A page and every section in it starts with what the reader wants to get done, no
 
 - Headings name the task or the result, short: "Allow several open panels", not "Multiple" and not
   "Advanced Configuration Options". A component's own name stays as it is.
+- A section about a feature with a name of its own takes that name: "Detached triggers" on every component
+  that has them, "Providers" on the context page, not "Open it from anywhere on the page". The reader
+  searches for the feature, and the same heading on every page reads as one feature.
 - Headings use sentence case ("Validate with a schema"). Proper nouns and code keep their own case.
   `Features`, `Anatomy`, `Installation`, `Examples` and `API Reference` stay as they are.
 - Show first, explain second. A demo or a snippet comes before the paragraph about it.

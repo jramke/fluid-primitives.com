@@ -107,6 +107,12 @@ Give each `menu.trigger` its own `value` and they open the same menu. `onTrigger
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.multipleTriggers", "additionalFiles": {"MultipleTriggers.entry.ts": "EXT:docs/Resources/Private/Components/ui/MenuExamples/MultipleTriggers.entry.ts"} } %}
 
+### Detached triggers
+
+The trigger sits apart from the menu and links to a `menu.provider` with `provider`, a `contextTrigger` takes it too. The provider takes the props of the menu: here `positioning`, which aligns the menu to the end of the trigger. Its `id` is the `rootId` of the menu, so a submenu names it in `parentId`. See [Providers](/docs/core-concepts/context#content-providers).
+
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.detached" } %}
+
 ### Use a menu inside a dialog
 
 Menus portal to the end of the `<body>`. Set `portalled="{false}"` on `menu.content` inside a dialog, or another focus-trapped element, to keep the menu in its DOM subtree.

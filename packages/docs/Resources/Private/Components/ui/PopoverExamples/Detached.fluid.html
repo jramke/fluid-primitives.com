@@ -1,0 +1,17 @@
+<ui:popover.provider id="shipping-costs" positioning="{ placement: 'top' }" />
+
+<div class="flex items-center gap-4">
+    <ui:popover.trigger provider="shipping-costs" value="price" asChild="{true}">
+        <ui:button variant="ghost">€ 49.90 plus shipping</ui:button>
+    </ui:popover.trigger>
+    <ui:popover.trigger provider="shipping-costs" value="cart" asChild="{true}">
+        <ui:button variant="outline">Shipping costs</ui:button>
+    </ui:popover.trigger>
+</div>
+
+<ui:popover.root provider="shipping-costs">
+    <ui:popover.content>
+        <ui:popover.title>Shipping costs</ui:popover.title>
+        <ui:popover.description>Free in Germany from € 50, € 4.90 below that.</ui:popover.description>
+    </ui:popover.content>
+</ui:popover.root>

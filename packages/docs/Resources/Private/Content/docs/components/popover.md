@@ -54,6 +54,12 @@ Set `modal` to trap focus and block interaction with the rest of the page while 
 
 {% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.modal" } %}
 
+### Detached triggers
+
+Both triggers link to one `popover.provider` with `provider`, and the popover opens at the one you click. The provider takes the props of the popover: here `positioning`, which places it above the trigger. See [Providers](/docs/core-concepts/context#content-providers).
+
+{% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.detached" } %}
+
 ### Translate the close button
 
 The label of the close button comes from the library's language file and follows the site language. Override it per template with the `translations` prop:

@@ -47,6 +47,12 @@ Put a `dialog.root` inside the content of another dialog. Each level opens on to
 
 {% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.nested" } %}
 
+### Detached triggers
+
+The triggers sit apart from the dialog and link to a `dialog.provider` with `provider`. The provider takes the props of the dialog: here `closeOnInteractOutside="{false}"`, so a click outside leaves it open. Give each trigger its own `value`, so focus returns to the trigger that opened it. See [Providers](/docs/core-concepts/context#content-providers) for triggers in another partial or content element.
+
+{% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.detached" } %}
+
 ### Add a popover to a dialog
 
 Use a [popover](/docs/components/popover) for small anchored extras like share options. The dialog keeps its focus management.

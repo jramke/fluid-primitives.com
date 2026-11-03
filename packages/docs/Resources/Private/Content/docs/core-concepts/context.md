@@ -28,17 +28,49 @@ The prop is then available as `{context.variant.sku}` in every part inside the v
 
 ## Accessing other components' context
 
-To read the context of an enclosing component of another type, use `ui:context`. It takes the component's camelCase name and assigns the context to a variable:
+To read the context of an enclosing component of another type, use `ui:context`. It takes the component with its namespace, as you write its tag, and assigns the context to a variable:
 
 ```html
 <ui:productCard.root price="19.90" currency="EUR">
     <ui:dialog.root>
         <!-- Inside the dialog, read the product card's context -->
-        <ui:context name="productCard" as="cardContext" />
+        <ui:context name="ui:productCard" as="cardContext" />
         <p>{cardContext.price} {cardContext.currency}</p>
     </ui:dialog.root>
 </ui:productCard.root>
 ```
+
+## Providers
+
+A trigger in the header that opens a dialog from a content element further down sits outside its root. Give that root a provider: `<name>.provider` takes the props of the root and an `id`, and renders nothing. The root and the triggers link to it with `provider`, wherever they are on the page:
+
+```html
+<!-- Layouts/Default.html -->
+<ui:dialog.provider id="cookie-settings" closeOnEscape="{false}" />
+
+<!-- Partials/Footer.html -->
+<ui:dialog.trigger provider="cookie-settings">Cookie settings</ui:dialog.trigger>
+
+<!-- the content element -->
+<ui:dialog.root provider="cookie-settings">
+    <ui:dialog.content>...</ui:dialog.content>
+</ui:dialog.root>
+```
+
+- The provider comes first. A part or `ui:context` that names a provider before it renders throws.
+- The props go on the provider, and its `id` is the `rootId` of the root. The root keeps `class`, `asChild` and plain attributes. A prop or `rootId` on the root throws, except a prop set to its default value: Fluid can't tell it apart from an unset one, so the value of the provider wins.
+- One provider and one root per `id`.
+- A root whose folder holds parts has a provider, `ui:button.provider` included.
+- The triggers of Dialog, Popover, Tooltip and Menu take `provider`, the Menu's context trigger too. Add `<ui:detachable />` to a part of your own to give it `provider`. A wrapper built with `ui:useProps` adds its own `<ui:detachable />`.
+- Inside a Field, the root takes the Field's values onto the provided context. A part rendered before the root reads that context without them.
+
+`ui:context` reads a provided context from anywhere after the provider, outside a component too:
+
+```html
+<ui:context name="ui:dialog" provider="cookie-settings" as="cookieDialog" />
+```
+
+See the detached triggers of [Dialog](/docs/components/dialog#content-detached-triggers), [Popover](/docs/components/popover#content-detached-triggers), [Tooltip](/docs/components/tooltip#content-detached-triggers) and [Menu](/docs/components/menu#content-detached-triggers).
 
 ## Custom context classes
 
