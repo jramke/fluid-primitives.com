@@ -40,7 +40,7 @@ To read the context of an enclosing component of another type, use `ui:context`.
 </ui:productCard.root>
 ```
 
-## Render a part outside its root
+## Providers
 
 A trigger in the header that opens a dialog from a content element further down sits outside its root. Give that root a provider: `<name>.provider` takes the props of the root and an `id`, and renders nothing. The root and the triggers link to it with `provider`, wherever they are on the page:
 
@@ -70,7 +70,7 @@ A trigger in the header that opens a dialog from a content element further down 
 <ui:context name="ui:dialog" provider="cookie-settings" as="cookieDialog" />
 ```
 
-See the [Dialog](/docs/components/dialog#content-open-it-from-anywhere-on-the-page) and [Menu](/docs/components/menu#content-place-the-trigger-apart-from-the-menu) examples.
+See the detached triggers of [Dialog](/docs/components/dialog#content-detached-triggers), [Popover](/docs/components/popover#content-detached-triggers), [Tooltip](/docs/components/tooltip#content-detached-triggers) and [Menu](/docs/components/menu#content-detached-triggers).
 
 ## Custom context classes
 

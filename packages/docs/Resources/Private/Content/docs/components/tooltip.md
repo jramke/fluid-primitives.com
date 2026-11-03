@@ -57,6 +57,12 @@ While a tooltip is open, the next one you hover opens without its delay. Its con
 
 {% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.multipleNoDelay" } %}
 
+### Detached triggers
+
+Both buttons link to one `tooltip.provider` with `provider` and share its tooltip. The provider takes the props of the tooltip: here `openDelay="0"` and `positioning`, so it shows at once above the button. See [Providers](/docs/core-concepts/context#content-providers).
+
+{% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.detached" } %}
+
 ### Disable the tooltip
 
 Set `disabled` to keep the tooltip closed, for example while the action behind a button is unavailable.
