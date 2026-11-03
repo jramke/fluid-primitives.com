@@ -58,7 +58,7 @@ A trigger in the header that opens a dialog from a content element further down 
 ```
 
 - The provider comes first. A part or `ui:context` that names a provider before it renders throws.
-- The props go on the provider, and its `id` is the `rootId` of the root. The root keeps `class`, `asChild` and plain attributes, and throws on a prop or a `rootId`.
+- The props go on the provider, and its `id` is the `rootId` of the root: the value `parentId`, `mount()` and `getComponentInstance()` take. The root keeps `class`, `asChild` and plain attributes, and throws on a prop or a `rootId`.
 - One provider and one root per `id`.
 - A root whose folder holds parts has a provider, `ui:button.provider` included.
 - The triggers of Dialog, Popover, Tooltip and Menu take `provider`, the Menu's context trigger too. Add `<ui:detachable />` to a part of your own to give it `provider`. A wrapper built with `ui:useProps` adds its own `<ui:detachable />`.

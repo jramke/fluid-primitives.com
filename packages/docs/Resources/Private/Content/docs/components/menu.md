@@ -109,7 +109,7 @@ Give each `menu.trigger` its own `value` and they open the same menu. `onTrigger
 
 ### Place the trigger apart from the menu
 
-Render a `menu.provider` with an `id` first, and give the trigger and the root that id as `provider`. A submenu keeps working through `triggerItem` and `parentId`.
+Render a `menu.provider` with an `id` first, and give the trigger and the root that id as `provider`. The `id` is the `rootId` of the menu, so a submenu names it in `parentId`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.detached" } %}
 
