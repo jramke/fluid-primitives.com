@@ -11,10 +11,17 @@ Reads the context of the closest enclosing component of another type.
 Use it when a nested component needs something from an ancestor, for example a custom button inside a dialog:
 
 ```html
-<ui:context name="dialog" as="dialogContext" />
+<ui:context name="ui:dialog" as="dialogContext" />
 ```
 
-`name` is the camelCase name of the enclosing component and `as` the variable that receives its context. A component reads its own context through the `context` variable. Asking `ui:context` for it throws an exception.
+`name` is the component with its namespace, as you write its tag, and `as` the variable that receives its context. A component reads its own context through the `context` variable. Asking `ui:context` for it throws an exception.
+
+With `provider` it reads the context a `<component>.provider` created instead, from anywhere after the provider, also outside a component:
+
+```html
+<ui:dialog.provider id="contact" />
+<ui:context name="ui:dialog" provider="contact" as="contactDialog" />
+```
 
  
 
@@ -22,5 +29,6 @@ Use it when a nested component needs something from an ancestor, for example a c
 
 | Name | Type | Description | Required | Default |
 |------|------|-------------|----------|--------|
-| `name` | string | The camelCase base name of the component of which we want the context (e.g. &quot;fileUpload&quot;) | Yes | - |
+| `name` | string | The component with its namespace, as you write its tag (e.g. &quot;ui:fileUpload&quot;) | Yes | - |
 | `as` | string | Variable name to assign the result to | No | '' |
+| `provider` | string | The `id` of a `&lt;component&gt;.provider` to read the context of, instead of the closest enclosing component. | No | '' |

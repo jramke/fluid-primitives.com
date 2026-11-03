@@ -1,0 +1,24 @@
+<ui:dialog.provider id="cookie-settings" />
+
+<div class="flex items-center gap-2">
+    <ui:dialog.trigger provider="cookie-settings" value="banner" asChild="{true}">
+        <ui:button variant="outline">Cookie settings</ui:button>
+    </ui:dialog.trigger>
+    <ui:dialog.trigger provider="cookie-settings" value="footer" asChild="{true}">
+        <ui:button variant="ghost">Privacy</ui:button>
+    </ui:dialog.trigger>
+</div>
+
+<ui:dialog.root provider="cookie-settings">
+    <ui:dialog.content>
+        <ui:dialog.header>
+            <ui:dialog.title>Cookie settings</ui:dialog.title>
+            <ui:dialog.description>Choose which cookies this site may set.</ui:dialog.description>
+        </ui:dialog.header>
+        <ui:dialog.footer>
+            <ui:dialog.close asChild="{true}">
+                <ui:button>Save settings</ui:button>
+            </ui:dialog.close>
+        </ui:dialog.footer>
+    </ui:dialog.content>
+</ui:dialog.root>
