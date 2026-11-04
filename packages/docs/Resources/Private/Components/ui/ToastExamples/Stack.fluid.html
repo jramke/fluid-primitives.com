@@ -1,0 +1,18 @@
+<ui:toaster rootId="stack-toaster" overlap="{false}" placement="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ToastPlacement::TopEnd')}">
+    <ui:toaster.toastTemplate>
+        <ui:toast.root>
+            <div class="grid flex-1 gap-1">
+                <ui:toast.title />
+                <ui:toast.description />
+            </div>
+            <ui:toast.actionTrigger />
+            <ui:toast.closeTrigger />
+        </ui:toast.root>
+    </ui:toaster.toastTemplate>
+</ui:toaster>
+
+<div {ui:ref(name: 'actions' )}>
+    <ui:button variant="secondary">Add to wishlist</ui:button>
+</div>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/ToastExamples/Stack.entry.ts" />
