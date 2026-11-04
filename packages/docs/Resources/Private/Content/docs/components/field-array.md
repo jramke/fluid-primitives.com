@@ -44,9 +44,9 @@ preview: true
 
 ## Installation
 
-{% component: "ui:installationSection", arguments: { "name": "FieldArray" } %}
+The fields in a row are `Field`s, so add both:
 
-{% component: "ui:alert", arguments: {"title": "Also install Field", "text": "The fields in a row are `Field`s, so add the Field primitive too (typo3 ui:add field).", "variant": "info"} %}
+{% component: "ui:installationSection", arguments: { "name": ["FieldArray", "Field"] } %}
 
 ## Examples
 

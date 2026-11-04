@@ -12,8 +12,20 @@ class InstallationSectionContext extends AbstractComponentContext
 {
     use IsMarkdownModeAwareTrait;
 
-    public function getNameLowerCamelCase(): string
+    /**
+     * The registry folders of the components, as given: one name or a list of them.
+     *
+     * @return list<string>
+     */
+    public function getNames(): array
     {
-        return lcfirst(Typed::string($this->get('name')));
+        $names = Typed::arrayOrNull($this->get('name')) ?? [$this->get('name')];
+
+        return array_values(array_map(Typed::string(...), $names));
+    }
+
+    public function getCommand(): string
+    {
+        return 'typo3 ui:add ' . implode(' ', array_map(lcfirst(...), $this->getNames()));
     }
 }
