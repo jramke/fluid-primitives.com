@@ -86,6 +86,81 @@ The toasts overlap by default and spread out while you hover or focus them. Set 
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToastExamples.stack", "additionalFiles": {"Stack.entry.ts": "EXT:docs/Resources/Private/Components/ui/ToastExamples/Stack.entry.ts"} } %}
 
+## Show TYPO3 flash messages
+
+Write a component of your own that renders the flash messages as JSON and marks the `<script>` with [`ui:ref`](/docs/viewhelpers/ref). `f:page.footerData` puts it at the end of the page, apart from the markup of your plugin:
+
+**`Components/FlashMessages/FlashMessages.html`**:
+
+```html
+<ui:prop name="queueIdentifier" type="string" optional="{true}" />
+
+<f:flashMessages as="flashMessages" queueIdentifier="{queueIdentifier}">
+    <f:page.footerData>
+        <script type="application/json" {ui:ref(name: 'messages')}>{flashMessages -> f:format.json() -> f:format.raw()}</script>
+    </f:page.footerData>
+</f:flashMessages>
+
+<vite:asset entry="EXT:my_extension/Resources/Private/Components/FlashMessages/FlashMessages.entry.ts" />
+```
+
+Use it where your plugin template has `f:flashMessages`. It reads the same queue, the one of the plugin by default:
+
+```html
+<ui:flashMessages />
+```
+
+`f:format.json` escapes `<` and `>`, so a message cannot end the `<script>` element. The entry file finds the `<script>` by its ref and shows the messages with the toaster. The keys of `types` are the values of `ContextualFeedbackSeverity`:
+
+**`Components/FlashMessages/FlashMessages.entry.ts`**:
+
+```ts
+import { mountAll } from 'fluid-primitives';
+import { toast } from '../ui/Toaster/Toaster.entry';
+
+const types = { [-2]: 'info', [-1]: 'info', 0: 'success', 1: 'warning', 2: 'error' } as const;
+
+export function showFlashMessages(
+    messages: { severity: keyof typeof types; title: string; message: string }[]
+) {
+    messages.forEach(({ severity, title, message }) =>
+        toast.create({ type: types[severity], title, description: message })
+    );
+}
+
+mountAll('ui:flashMessages', ({ createHydrator }) => {
+    const script = createHydrator().query('messages');
+    if (!script) return;
+
+    showFlashMessages(JSON.parse(script.textContent ?? '[]'));
+    script.remove();
+});
+```
+
+### Flash messages of an AJAX request
+
+An action you call with [`extbase.post()`](/docs/client-utilities/extbase) answers with JSON, so nothing renders its flash messages. Send them along in the response and flush the queue, otherwise they show up on the next page load:
+
+```php
+public function subscribeAction(Subscriber $subscriber): ResponseInterface
+{
+    $this->subscriberRepository->add($subscriber);
+    $this->addFlashMessage('Check your inbox to confirm the subscription.', 'Almost done');
+
+    return $this->jsonResponse(json_encode([
+        'flashMessages' => $this->getFlashMessageQueue()->getAllMessagesAndFlush(),
+    ], JSON_THROW_ON_ERROR));
+}
+```
+
+```ts
+import { extbase } from 'fluid-primitives';
+import { showFlashMessages } from '../FlashMessages/FlashMessages.entry';
+
+const response = await extbase.post(url, values);
+showFlashMessages((await response.json()).flashMessages);
+```
+
 ## API Reference
 
 {%
