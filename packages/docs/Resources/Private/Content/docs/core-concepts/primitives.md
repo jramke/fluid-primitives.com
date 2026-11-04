@@ -150,6 +150,10 @@ typo3 ui:list
 
 # Add a component to your project
 typo3 ui:add accordion
+
+# Add several at once, or every component
+typo3 ui:add form field
+typo3 ui:add --all
 ```
 
 This generates component files with basic Tailwind styling as a starting point.
@@ -174,6 +178,6 @@ The CLI scaffolding is a starting point for your own design system. Expect to:
 - Adjust the component structure where needed
 - Adapt the JavaScript loading to your build setup
 
-`ui:add` leaves components you already have untouched. If any of the component's files exists in the target folder, nothing is written and the command fails with the list of files in the way. Add `--force` to overwrite the whole component with the registry version, or move your customized component aside first. Other files in the folder stay as they are.
+`ui:add` leaves components you already have untouched. If any file of the components you add exists in the target folder, nothing is written and the command fails with the list of files in the way. Add `--force` to overwrite the whole components with the registry version, or move your customized component aside first. Other files in the folders stay as they are.
 
 Once the code is in your project, it is yours: copy it, shape it, rename parts.

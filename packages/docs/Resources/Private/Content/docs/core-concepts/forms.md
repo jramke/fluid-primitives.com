@@ -7,7 +7,7 @@ Build a form that submits to an Extbase action with `fetch`, shows server and cl
 Add the Form and Field primitives:
 
 ```bash
-typo3 ui:add form && typo3 ui:add field
+typo3 ui:add form field
 ```
 
 ## Submit a form to an Extbase action

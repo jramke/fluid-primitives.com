@@ -1,12 +1,12 @@
-<ui:prop name="name" type="string" />
+<ui:prop name="name" type="string|string[]" description="The registry folder of the component, or a list of them to add together, e.g. `['Toaster', 'Toast']`." />
 
 <f:if condition="{context.isMarkdownMode}">
     <f:then>
         ```bash
-        typo3 ui:add {context.nameLowerCamelCase}
+        {context.command}
         ```
 
-        Or copy the files manually from GitHub (https://github.com/jramke/fluid-primitives/tree/main/Resources/Private/Registry/{name}) into your project.
+        Or copy the files manually from GitHub into your project:<f:for each="{context.names}" as="folder"> https://github.com/jramke/fluid-primitives/tree/main/Resources/Private/Registry/{folder}</f:for>
 
         Read more about installing [Components and Primitives](/docs/core-concepts/primitives).
     </f:then>
@@ -18,7 +18,7 @@
             </ui:tabs.list>
             <ui:tabs.content value="cli" class="not-prose breakout-sm">
                 <docs:phiki grammar="bash">
-                    typo3 ui:add {context.nameLowerCamelCase}
+                    {context.command}
                 </docs:phiki>
             </ui:tabs.content>
             <ui:tabs.content value="manual">
@@ -26,7 +26,10 @@
                     <ui:alert.icon />
                     <ui:alert.content class="m-0">
                         <p>
-                            Please copy the files manually <a target=" _blank" href="https://github.com/jramke/fluid-primitives/tree/main/Resources/Private/Registry/{name}">from GitHub</a> into your project.
+                            Please copy the files manually from GitHub into your project:
+                            <f:for each="{context.names}" as="folder" iteration="iteration">
+                                <a target="_blank" href="https://github.com/jramke/fluid-primitives/tree/main/Resources/Private/Registry/{folder}">{folder}</a>{f:if(condition: iteration.isLast, else: ',')}
+                            </f:for>
                         </p>
                     </ui:alert.content>
                 </ui:alert.root>
