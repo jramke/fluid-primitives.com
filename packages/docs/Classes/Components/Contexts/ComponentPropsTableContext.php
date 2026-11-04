@@ -74,7 +74,9 @@ class ComponentPropsTableContext extends AbstractComponentContext
     private function getMachineDocs(): MachineDocs
     {
         return $this->machineDocs ??= MachineDocs::forPrimitive(
-            ComponentNameUtility::camelCaseToLowerCaseDashed(Typed::string($this->get('name'))),
+            ComponentNameUtility::camelCaseToLowerCaseDashed(
+                Typed::stringOrNull($this->get('machine')) ?? Typed::string($this->get('name')),
+            ),
             $this->getIsMarkdownMode(),
         );
     }
