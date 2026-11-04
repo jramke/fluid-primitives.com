@@ -1,7 +1,5 @@
 # Upgrade to 1.0
 
-**Move a project from Fluid Primitives 0.x to 1.0, one step at a time.**
-
 The steps below cover the changes most projects run into. Every detail, with the betas listed one by one, is in the [changelog](/docs/releases).
 
 {% component: "ui:alert", arguments: {"title": "Upgrade both packages together", "text": "The Composer and npm packages share one version. A 1.0 template with a 0.x client fails to hydrate.", "variant": "warning"} %}
