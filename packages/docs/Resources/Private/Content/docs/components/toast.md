@@ -14,6 +14,7 @@ preview: true
 
 - Settings as Fluid props, toasts from any script through one `toast` export
 - `success`, `info`, `warning`, `error` and `loading` toasts, styled through `data-type`
+- Markup per type, such as an icon, and a template per type, which change in place with the type
 - Closes after a duration per type and waits while you hover or focus it, or while the tab is in the background
 - Lets the toasts overlap or lists them, and queues them beyond `max`
 - Updates a toast in place instead of adding the same one twice
@@ -27,6 +28,7 @@ preview: true
 <primitives:toaster>
     <primitives:toaster.toastTemplate>
         <primitives:toast.root>
+            <primitives:toast.indicator />
             <primitives:toast.title />
             <primitives:toast.description />
             <primitives:toast.actionTrigger />
@@ -36,7 +38,7 @@ preview: true
 </primitives:toaster>
 ```
 
-The toaster is the region the toasts appear in and holds their settings. Its `toastTemplate` is the template of one toast: the client clones it for every toast and fills in the title, the description and the label of the action trigger. Anything else in it, such as an icon per type, comes from your markup and CSS.
+The toaster is the region the toasts appear in and holds their settings. Its `toastTemplate` is the template of one toast: the client clones it for every toast and fills in the title, the description and the label of the action trigger. An `indicator` shows markup for one type, and a `toastTemplate` with a `type` is the template of one type.
 
 ## Installation
 
@@ -58,7 +60,7 @@ toast.create({ type: 'success', title: 'Message sent' });
 
 ### Pick a type
 
-Each button below shows a toast of another `type`. The toast renders it as `data-type`, and the styled toast shows an icon for it. A `success` toast stays for 2 seconds, the others for 5 seconds. Set `duration` on the toast or on the toaster to change that.
+Each button below shows a toast of another `type`. The toast renders it as `data-type` and shows the `toast.indicator` of its type, the others are `hidden`. The toaster of the first demo has an indicator with an icon for four types, an `info` toast shows none. When the type changes, as in a promise, the indicators change with it. A `success` toast stays for 2 seconds, the others for 5 seconds. Set `duration` on the toast or on the toaster to change that.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToastExamples.types", "additionalFiles": {"Types.entry.ts": "EXT:docs/Resources/Private/Components/ui/ToastExamples/Types.entry.ts"} } %}
 
@@ -85,6 +87,40 @@ Give the toast an `id`, and update it while `toast.isVisible()` says it is still
 The toasts overlap by default and spread out while you hover or focus them. Set `overlap` to `false` to list them one below the other. This demo has a toaster of its own, with another `placement` and its own `mount()`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToastExamples.stack", "additionalFiles": {"Stack.entry.ts": "EXT:docs/Resources/Private/Components/ui/ToastExamples/Stack.entry.ts"} } %}
+
+### Give a type a template of its own
+
+A `toastTemplate` with a `type` is the template of the toasts of that type, the one without a `type` the template of all others. When a toast changes to a type with another template, as when a promise fails, it stays in its place and takes the content of the new template:
+
+```html
+<ui:toaster rootId="toaster">
+    <ui:toaster.toastTemplate>...</ui:toaster.toastTemplate>
+    <ui:toaster.toastTemplate
+        type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ToastType::Error')}"
+    >
+        <ui:toast.root class="border-destructive">
+            <div class="grid flex-1 gap-1">
+                <ui:toast.title />
+                <ui:toast.description />
+                <a
+                    href="{f:uri.page(pageUid: settings.supportPage)}"
+                    class="text-sm underline underline-offset-4"
+                    >Contact support</a
+                >
+            </div>
+            <ui:toast.closeTrigger />
+        </ui:toast.root>
+    </ui:toaster.toastTemplate>
+</ui:toaster>
+```
+
+### Fill an element of your own
+
+Pass the data of a toast as `meta`, and mark the element in the template with `ui:ref`. A subclass of `Toast` fills it, and a subclass of `Toaster` creates that toast. This demo has a toaster of its own for the cart, and each button passes the image of its product:
+
+{% component: "ui:componentExample", arguments: { "componentName": "ToastExamples.cart", "additionalFiles": {"Cart.entry.ts": "EXT:docs/Resources/Private/Components/ui/ToastExamples/Cart.entry.ts"} } %}
+
+Give such an element a fixed size, an image a `width` and a `height`: the toaster measures a toast when its content changes, not when an image loads.
 
 ### Style the toasts with your own CSS
 
@@ -204,7 +240,7 @@ showFlashMessages((await response.json()).flashMessages);
         "machine": "",
         "parts": [
             ["", "The region the toasts appear in, with their settings. Renders a `<div>` element."],
-            ["toastTemplate", "The template of one toast, with a `toast.root` as its root element. Renders a `<template>` element."]
+            ["toastTemplate", "The template of one toast, with a `toast.root` as its root element, or of the toasts of one `type`. Renders a `<template>` element."]
         ]
     }
 %}
@@ -215,6 +251,7 @@ showFlashMessages((await response.json()).flashMessages);
         "name": "Toast",
         "parts": [
             ["root", "One toast, the root element of the toast template. Renders a `<div>` element."],
+            ["indicator", "Markup for one `type` of toast, such as its icon, `hidden` while the toast has another type. Renders a `<div>` element."],
             ["title", "The title of the toast, hidden when it has none. Renders a `<div>` element."],
             ["description", "The description of the toast, hidden when it has none. Renders a `<div>` element."],
             ["actionTrigger", "Runs the action of the toast and closes it, hidden when the toast has no action. Renders a `<button>` element."],

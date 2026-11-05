@@ -34,3 +34,8 @@ export const Stack: StoryObj = {
         example_id: 'stack',
     },
 };
+export const Cart: StoryObj = {
+    args: {
+        example_id: 'cart',
+    },
+};
