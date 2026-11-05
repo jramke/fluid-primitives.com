@@ -47,7 +47,7 @@ Render the toaster of the demo above once in your page layout. Its `rootId` is `
 ```ts
 import { toast } from '../Toaster/Toaster.entry';
 
-toast.create({ type: 'success', title: 'Address saved' });
+toast.create({ type: 'success', title: 'Message sent' });
 ```
 
 ## Examples
@@ -85,6 +85,40 @@ Give the toast an `id`, and update it while `toast.isVisible()` says it is still
 The toasts overlap by default and spread out while you hover or focus them. Set `overlap` to `false` to list them one below the other. This demo has a toaster of its own, with another `placement` and its own `mount()`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToastExamples.stack", "additionalFiles": {"Stack.entry.ts": "EXT:docs/Resources/Private/Components/ui/ToastExamples/Stack.entry.ts"} } %}
+
+### Style the toasts with your own CSS
+
+The client places every toast through CSS variables on its root, so your CSS has to use them: `--x` and `--y` for `translate`, `--scale` for `scale`, and `--z-index`, `--height` and `--opacity`. Transition them, and the toasts slide in, pile up and spread out. A closing toast has `data-state="closed"`, and a toast behind the front one has `data-sibling`:
+
+```html
+<primitives:toast.root class="toast">...</primitives:toast.root>
+```
+
+```css
+.toast {
+    translate: var(--x) var(--y);
+    scale: var(--scale);
+    z-index: var(--z-index);
+    height: var(--height);
+    opacity: var(--opacity);
+    transition-property: translate, scale, opacity, height;
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0.21, 1.02, 0.73, 1);
+}
+
+.toast[data-state='closed'] {
+    transition-duration: 200ms;
+}
+
+/* a toast behind the front one takes the height of the front one, so hide what it holds */
+.toast > * {
+    transition: opacity 400ms;
+}
+
+.toast[data-overlap][data-sibling] > * {
+    opacity: 0;
+}
+```
 
 ## Show TYPO3 flash messages
 

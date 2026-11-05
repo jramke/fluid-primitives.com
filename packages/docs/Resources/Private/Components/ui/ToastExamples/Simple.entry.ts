@@ -7,8 +7,8 @@ mountAll('ui:toastExamples.simple', ({ createHydrator }) => {
         ?.addEventListener('click', () => {
             toast.create({
                 type: 'success',
-                title: 'Address saved',
-                description: 'We ship your next order to Torstraße 12, Berlin.',
+                title: 'Message sent',
+                description: 'We usually reply within one business day.',
             });
         });
 });
