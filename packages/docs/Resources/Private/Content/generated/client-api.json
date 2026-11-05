@@ -402,7 +402,7 @@
             },
             {
                 "name": "destroy",
-                "summary": "Stops the machine and releases the hydrator.",
+                "summary": "Stops the machine, releases the hydrator and forgets the instance: `getComponentInstance()` no longer finds it, and `mount()` mounts its `rootId` again.",
                 "signatures": [
                     {
                         "signature": "destroy(): void",
@@ -1214,7 +1214,7 @@
     "mount": {
         "kind": "function",
         "name": "mount",
-        "summary": "Mounts one instance by its `rootId`, also one that was rendered with `autoMount=\"{false}\"`. Unlike `mountAll()`, it creates a new instance on every call, which then replaces the one tracked before. `getComponentInstance()` and `destroyComponentsWithin()` find it like any other.\n\nThe `props` in the callback are typed like those of `mountAll()`.",
+        "summary": "Mounts one instance by its `rootId`, also one that was rendered with `autoMount=\"{false}\"`. Like `mountAll()`, it skips an instance that is already mounted: it returns that one and does not call `callback`, so a script that runs twice still gets one instance. To mount it again, call `destroy()` on it first. `getComponentInstance()` and `destroyComponentsWithin()` find it like any other.\n\nThe `props` in the callback are typed like those of `mountAll()`.",
         "signatures": [
             {
                 "signature": "mount<K extends KnownComponentName | (string & {}), T extends Component<unknown, unknown>>(componentName: K, rootId: string, callback: (data: { autoMount: boolean; props: HydrationPropsFor<Extract<K, string>>; createHydrator: () => ComponentHydrator; }) => T | void): T | undefined",
@@ -1237,7 +1237,7 @@
                 ],
                 "returns": {
                     "type": "T | undefined",
-                    "description": "The instance, or `undefined` if there is no hydration entry for `rootId`."
+                    "description": "The instance, the one already mounted, or `undefined` if there is no hydration entry for `rootId`."
                 }
             }
         ]
