@@ -1039,7 +1039,7 @@
     "FluidPrimitivesGlobals": {
         "kind": "interface",
         "name": "FluidPrimitivesGlobals",
-        "summary": "What the server renders into `window.FluidPrimitives.globals`: the getters of the global context marked `#[ExposeToClient]`. `locale` and `debug` come from the library, the rest from the project.",
+        "summary": "The globals the server renders into the hydration data of the page: the getters of the global context marked `#[ExposeToClient]`. `locale` and `debug` come from the library, the rest from the project.",
         "members": [
             {
                 "name": "locale",
@@ -1128,7 +1128,7 @@
                 "signature": "getGlobals(): FluidPrimitivesGlobals | null",
                 "returns": {
                     "type": "FluidPrimitivesGlobals | null",
-                    "description": "The globals, or `null` when the page has none: `window.FluidPrimitives` only exists when a component hydrates or a global was read while rendering."
+                    "description": "The globals, or `null` when the page has none: the server only writes hydration data when a component hydrates or a global was read while rendering."
                 }
             }
         ]

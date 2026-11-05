@@ -39,7 +39,7 @@ The path is a dot path. A key that literally contains a dot wins, otherwise the 
 function getGlobals(): FluidPrimitivesGlobals | null;
 ```
 
-Returns the whole `globals` object, or `null` when the page has no `window.FluidPrimitives`. That is the case on a page where no component hydrates and no template reads a global, see [Hydration](/docs/core-concepts/hydration#content-globals). In entry code that can run on such a page, recommended: read with `getGlobal()` and a fallback.
+Returns the whole `globals` object, or `null` when the page has no hydration data. That is the case on a page where no component hydrates and no template reads a global, see [Hydration](/docs/core-concepts/hydration#content-globals). In entry code that can run on such a page, recommended: read with `getGlobal()` and a fallback.
 
 ## devWarn
 

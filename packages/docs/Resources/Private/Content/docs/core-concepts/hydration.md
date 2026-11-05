@@ -81,43 +81,40 @@ Your entry file mounts the components with [`mountAll`](/docs/client-utilities/m
 
 ## The hydration registry
 
-The page carries its hydration data in `window.FluidPrimitives`, nested by Fluid namespace, component name and `rootId`, the same order as the `namespace:name` that `mountAll` and `mount` take:
+The page carries its hydration data in a `<script type="application/json">` block, nested by Fluid namespace, component name and `rootId`, the same order as the `namespace:name` that `mountAll` and `mount` take:
 
-```javascript
-window.FluidPrimitives = {
-    hydrationData: {
-        primitives: {
-            accordion: {
-                'root-id-1': {
-                    autoMount: true,
-                    props: {
-                        id: 'root-id-1',
-                        ids: [],
-                        multiple: true,
-                        defaultValue: ['shipping']
+```html
+<script
+    type="application/json"
+    data-fluid-primitives-hydration-data="fluid-primitives-hydration-data"
+>
+    {
+        "globals": { "locale": "de-DE", "debug": false },
+        "hydrationData": {
+            "primitives": {
+                "accordion": {
+                    "root-id-1": {
+                        "autoMount": true,
+                        "props": { "id": "root-id-1", "ids": [], "multiple": true, "defaultValue": ["shipping"] }
                     },
-                },
-                'root-id-2': { ... },
+                    "root-id-2": { ... }
+                }
             },
+            "ui": {
+                "collapsible": { ... }
+            }
         },
-        ui: {
-            collapsible: { ... },
-        },
-    },
-    componentInstances: {
-        // Instances from mountAll()/mount(), nested the same way
-    },
-    globals: {
-        locale: 'de-DE',
-        debug: false,
-    },
-};
+        "nestedComponents": {}
+    }
+</script>
 ```
 
-Inspect it in the browser console to debug a component.
+A page from the page cache has a second block for the content of an uncached plugin (`USER_INT`), with its components and without the globals. The library reads every block the first time `mountAll()`, `getHydrationData()` or another of its functions needs the data. The blocks are data, so a Content-Security-Policy lets them through without a nonce.
+
+After that, `window.FluidPrimitives` holds the data of all blocks and the mounted instances. Inspect it in the browser console to debug a component.
 
 ### Globals
 
 `globals` holds the values of your [global context](/docs/core-concepts/context#content-global-context) that are marked `#[ExposeToClient]`, once per page and shared by all instances, plus `locale` and `debug` from the library. Read them with [`getGlobal()`](/docs/client-utilities/globals).
 
-`window.FluidPrimitives` is written on pages where a component hydrates or a template reads `{context.globals.x}`. A read on the server emits all exposed globals. On other pages `getGlobals()` returns `null` and `getGlobal()` returns its fallback.
+The block is written on pages where a component hydrates or a template reads `{context.globals.x}`. A read on the server emits all exposed globals. On other pages `getGlobals()` returns `null` and `getGlobal()` returns its fallback.

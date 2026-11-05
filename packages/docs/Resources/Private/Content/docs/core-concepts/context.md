@@ -277,7 +277,7 @@ Globals live under `context.globals`, separate from the data of the component, s
 
 ### Exposing globals to the client
 
-A getter marked `#[ExposeToClient]` on the global context is written once per page into `window.FluidPrimitives.globals`. The `name` can be a dot path, `myData.someValue` builds a nested object, and `excludeIfNull` works as on a component context. Read the values with [`getGlobal()`](/docs/client-utilities/globals), see also [Hydration](/docs/core-concepts/hydration#content-globals).
+A getter marked `#[ExposeToClient]` on the global context is written once per page into its hydration data. The `name` can be a dot path, `myData.someValue` builds a nested object, and `excludeIfNull` works as on a component context. Read the values with [`getGlobal()`](/docs/client-utilities/globals), see also [Hydration](/docs/core-concepts/hydration#content-globals).
 
 The library exposes `locale` and `debug` already.
 
