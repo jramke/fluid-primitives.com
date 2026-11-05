@@ -43,7 +43,7 @@ const collapsible = mount('ui:collapsible', 'shipping-details', ({ props }) =>
 );
 ```
 
-When the `rootId` is mounted already, `mount` returns that instance and does not call your callback. So you can export the instance from a module, and a second run of that module, which Vite's dev server can cause, still gets the one instance. To mount the `rootId` again, for example with other props, call `destroy()` on the instance first. `getComponentInstance` and `destroyComponentsWithin` find an instance from `mount` like one from `mountAll`.
+When the `rootId` is mounted already, `mount` returns that instance and does not call your callback. So you can export the instance from a module, and a second run of that module still gets the one instance. To mount the `rootId` again, for example with other props, call `destroy()` on the instance first. `getComponentInstance` and `destroyComponentsWithin` find an instance from `mount` like one from `mountAll`.
 
 ## mountAll
 
