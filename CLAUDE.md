@@ -244,6 +244,22 @@ committing a change in `packages/fluid-primitives`, run the `changelog` skill: i
 an entry under `## Unreleased` and writes it. Entries sit under a heading per scope, breaking ones under `### Breaking changes` (see
 `CONTRIBUTING.md`).
 
+## Pull requests
+
+Before you open a PR in `packages/fluid-primitives` or `packages/fluid-types`, or when asked to review one of
+their branches, run the `pr-review` agent (Agent tool, `subagent_type: "pr-review"`) and give it the package
+dir. It reviews with a fresh context: bugs, security, the rules in this file, and the design and DX of the
+change. Fix what is real, then open the PR. List the findings and suggestions you did not take, with the
+reason, under "Review notes" in the PR body.
+
+Before you push more commits to a branch of those packages that has an open PR (`gh pr view` in the
+package dir), run `pr-review` again on only the new commits: pass the range `origin/<branch>..HEAD`, the
+previous findings and what you did about them, and `effort: "medium"`. This covers the fixes of the previous
+review too. Skip it when the new commits only touch the changelog, docs text, formatting or a typo. Put what
+you did not take into a PR comment.
+
+PRs of the monorepo and the docs skip this.
+
 ## Claude skill for library users
 
 `packages/fluid-primitives/` is itself a Claude Code plugin and marketplace (`.claude-plugin/`, `skills/fluid-primitives/SKILL.md`)
