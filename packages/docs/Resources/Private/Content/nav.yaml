@@ -4,6 +4,7 @@
     - docs/getting-started
     - docs/ai
     - docs/releases
+    - docs/upgrade-guide
 
 - group: Core Concepts
   items:
