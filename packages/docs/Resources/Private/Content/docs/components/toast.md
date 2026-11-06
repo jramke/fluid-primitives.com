@@ -38,13 +38,21 @@ preview: true
 </primitives:toaster>
 ```
 
-The toaster is the region the toasts appear in and holds their settings. Its `toastTemplate` is the template of one toast: the client clones it for every toast and fills in the title, the description and the label of the action trigger. An `indicator` shows markup for one type, and a `toastTemplate` with a `type` is the template of one type.
+The toaster is the region the toasts appear in and holds their settings. Its `toastTemplate` is the template of one toast: the client clones it for every toast and fills in the title, the description and the label of the action trigger. A part keeps what the template puts into it while the toast has no text for it. An `indicator` shows markup for one type, and a `toastTemplate` with a `type` is the template of one type.
+
+A toast template holds plain markup. A component that hydrates, such as `ui:button`, or a `ui:portal` inside it is cloned without its script, so it doesn't work in a toast.
 
 ## Installation
 
 {% component: "ui:installationSection", arguments: { "name": ["Toaster", "Toast"] } %}
 
-Render the toaster of the demo above once in your page layout. Its `rootId` is `toaster`, the one its entry file mounts. The entry file exports the store of the toaster as `toast`. Import it wherever you create a toast:
+Render the toaster once in your page layout, with the `rootId` its entry file mounts:
+
+```html
+<ui:toaster rootId="toaster" />
+```
+
+Without content, it renders the toast template of the demo above, with an icon for four types. Put a `ui:toaster.toastTemplate` inside to use one of your own. That replaces the default template, so one of yours has no `type`, for the toasts of every type without a template of its own. A toast template has exactly one root element, a `ui:toast.root`. The entry file exports the store of the toaster as `toast`. Import it wherever you create a toast:
 
 ```ts
 import { toast } from '../Toaster/Toaster.entry';
@@ -60,7 +68,7 @@ toast.create({ type: 'success', title: 'Message sent' });
 
 ### Pick a type
 
-Each button below shows a toast of another `type`. The toast renders it as `data-type` and shows the `toast.indicator` of its type, the others are `hidden`. The toaster of the first demo has an indicator with an icon for four types, an `info` toast shows none. When the type changes, as in a promise, the indicators change with it. A `success` toast stays for 2 seconds, the others for 5 seconds. Set `duration` on the toast or on the toaster to change that.
+Each button below shows a toast of another `type`. The toast renders it as `data-type` and shows the `toast.indicator` of its type, the others are `hidden`. The toaster of the first demo has an indicator with an icon for four types, an `info` toast shows none. When the type changes, as in a promise, the indicators change with it. Only these five types can have an indicator and a template of their own. An icon in an indicator is decoration, so give it `aria-hidden="true"`. For screen readers, name the type in the title, or put visually hidden text such as "Error:" into the indicator. A `success` toast stays for 2 seconds, the others for 5 seconds. Set `duration` on the toast or on the toaster to change that.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToastExamples.types", "additionalFiles": {"Types.entry.ts": "EXT:docs/Resources/Private/Components/ui/ToastExamples/Types.entry.ts"} } %}
 
@@ -84,7 +92,7 @@ Give the toast an `id`, and update it while `toast.isVisible()` says it is still
 
 ### List the toasts
 
-The toasts overlap by default and spread out while you hover or focus them. Set `overlap` to `false` to list them one below the other. This demo has a toaster of its own, with another `placement` and its own `mount()`.
+The toasts overlap by default and spread out while you hover or focus them. Set `overlap` to `false` to list them one below the other. This demo has a toaster of its own, with another `placement` and its own `mount()`. Give every toaster of a page its own `placement`: two toasters with the same one share the id of their region, and `Alt+T` focuses only one of them.
 
 {% component: "ui:componentExample", arguments: { "componentName": "ToastExamples.stack", "additionalFiles": {"Stack.entry.ts": "EXT:docs/Resources/Private/Components/ui/ToastExamples/Stack.entry.ts"} } %}
 
@@ -100,7 +108,7 @@ A `toastTemplate` with a `type` is the template of the toasts of that type, the 
     >
         <ui:toast.root class="border-destructive">
             <div class="grid flex-1 gap-1">
-                <ui:toast.title />
+                <ui:toast.title>Something went wrong</ui:toast.title>
                 <ui:toast.description />
                 <a
                     href="{f:uri.page(pageUid: settings.supportPage)}"
@@ -114,6 +122,8 @@ A `toastTemplate` with a `type` is the template of the toasts of that type, the 
 </ui:toaster>
 ```
 
+The title of this template says "Something went wrong" while the toast has no title of its own.
+
 ### Fill an element of your own
 
 Pass the data of a toast as `meta`, and mark the element in the template with `ui:ref`. A subclass of `Toast` fills it, and a subclass of `Toaster` creates that toast. This demo has a toaster of its own for the cart, and each button passes the image of its product:
@@ -121,6 +131,8 @@ Pass the data of a toast as `meta`, and mark the element in the template with `u
 {% component: "ui:componentExample", arguments: { "componentName": "ToastExamples.cart", "additionalFiles": {"Cart.entry.ts": "EXT:docs/Resources/Private/Components/ui/ToastExamples/Cart.entry.ts"} } %}
 
 Give such an element a fixed size, an image a `width` and a `height`: the toaster measures a toast when its content changes, not when an image loads.
+
+A type change can swap every part of a toast except its root for the ones of another template. Query the parts in `render()`, as the cart toast does, and don't keep them or add listeners to them in `init()`. To animate the swap, override `replaceContent()` and call `super.replaceContent()` inside.
 
 ### Style the toasts with your own CSS
 
@@ -252,8 +264,8 @@ showFlashMessages((await response.json()).flashMessages);
         "parts": [
             ["root", "One toast, the root element of the toast template. Renders a `<div>` element."],
             ["indicator", "Markup for one `type` of toast, such as its icon, `hidden` while the toast has another type. Renders a `<div>` element."],
-            ["title", "The title of the toast, hidden when it has none. Renders a `<div>` element."],
-            ["description", "The description of the toast, hidden when it has none. Renders a `<div>` element."],
+            ["title", "The title of the toast, or what the template puts into it while the toast has none. Hidden when both are empty. Renders a `<div>` element."],
+            ["description", "The description of the toast, or what the template puts into it while the toast has none. Hidden when both are empty. Renders a `<div>` element."],
             ["actionTrigger", "Runs the action of the toast and closes it, hidden when the toast has no action. Renders a `<button>` element."],
             ["closeTrigger", "Closes the toast, hidden when it is not closable. Renders a `<button>` element."]
         ]
