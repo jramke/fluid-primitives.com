@@ -109,7 +109,7 @@ The page carries its hydration data in a `<script type="application/json">` bloc
 </script>
 ```
 
-A page from the page cache has a second block for the content of an uncached plugin (`USER_INT`), with its components and without the globals. The library reads every block the first time `mountAll()`, `getHydrationData()` or another of its functions needs the data. The blocks are data, so a Content-Security-Policy lets them through without a nonce.
+A page from the page cache has a second block for the content of an uncached plugin (`USER_INT`), with its components and without the globals. The library reads every block the first time `mountAll()`, `getHydrationData()` or another of its functions needs the data, and removes it from the page. A block that arrives later, in the `<head>` of a page Turbo Drive swaps in, is read and removed the same way. The blocks are data, so a Content-Security-Policy lets them through without a nonce.
 
 After that, `window.FluidPrimitives` holds the data of all blocks and the mounted instances. Inspect it in the browser console to debug a component.
 

@@ -58,7 +58,7 @@ Pass the index of the loop to each `item` as `index`. A `Field` in a row gets it
 
 Pass the number of rows you render as `itemCount`, e.g. `itemCount="{people -> f:count()}"`. It lets `emptyState`, `addTrigger` and `removeTrigger` start with the right state in the server-rendered HTML, matching `minItems` and `maxItems`.
 
-Fields in an added row hydrate once your entry file calls `mountAll` for them in `onItemAdded`.
+Fields in an added row hydrate on their own: `mountAll` also mounts components whose markup arrives after the page loaded.
 
 ### Start with an empty list
 
@@ -76,7 +76,7 @@ With `itemCount="0"`, the `emptyState` shows until the first row is added.
 
 Components that render their content through `ui:portal` work in a row. An added row moves that content to the end of `<body>` (or after the `ui:portalContainer` of its name) and removes it again with the row. A `ui:portal` with `disabled` stays in the row.
 
-The demo writes the row once in an `<f:section name="row">` that `itemTemplate` and the loop both `f:render`, and calls `mountAll` for the row's components in `onItemAdded`.
+The demo writes the row once in an `<f:section name="row">` that `itemTemplate` and the loop both `f:render`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldArrayExamples.complex", "additionalFiles": {"Complex.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldArrayExamples/Complex.entry.ts"} } %}
 
