@@ -52,7 +52,7 @@ Render the toaster once in your page layout, with the `rootId` its entry file mo
 <ui:toaster rootId="toaster" />
 ```
 
-Without content, it renders the toast template of the demo above, with an icon for four types. Put a `ui:toaster.toastTemplate` inside to use one of your own. That replaces the default template, so one of yours has no `type`, for the toasts of every type without a template of its own. A toast template has exactly one root element, a `ui:toast.root`. The entry file exports the store of the toaster as `toast`. Import it wherever you create a toast:
+Without content, it renders the toast template you see in the demo above, with an icon for four types. Put a `ui:toaster.toastTemplate` inside to use one of your own. That replaces the default template, so one of yours has no `type`, for the toasts of every type without a template of its own. A toast template has exactly one root element, a `ui:toast.root`. The entry file exports the store of the toaster as `toast`. Import it wherever you create a toast:
 
 ```ts
 import { toast } from '../Toaster/Toaster.entry';
