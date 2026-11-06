@@ -1,0 +1,31 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:toastExamples.simple />
+    </f:case>
+    <f:case value="types">
+        <ui:toastExamples.types />
+    </f:case>
+    <f:case value="action">
+        <ui:toastExamples.action />
+    </f:case>
+    <f:case value="promise">
+        <ui:toastExamples.promise />
+    </f:case>
+    <f:case value="deduplicate">
+        <ui:toastExamples.deduplicate />
+    </f:case>
+    <f:case value="stack">
+        <ui:toastExamples.stack />
+    </f:case>
+    <f:case value="cart">
+        <ui:toastExamples.cart />
+    </f:case>
+</f:switch>
+
+<f:if condition="{example_id} != 'simple'">
+    <ui:toaster rootId="toaster" />
+</f:if>
+
+<ui:portalContainer />

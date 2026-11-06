@@ -1,5 +1,6 @@
 <ui:prop name="name" type="string" />
 <ui:prop name="parts" type="array" />
+<ui:prop name="machine" type="string" optional="{true}" description="The machine whose data attributes and API the table lists, the component itself by default. `''` lists none, e.g. for the Toaster, whose Zag.js data is listed with the Toast." />
 
 <f:if condition="{context.isMarkdownMode}">
     <f:then>
@@ -8,10 +9,12 @@
 
             {part.descriptionMarkdown -> f:format.raw()}
 
+            <f:if condition="{part.props}">
             | Name | Type | Required | Default | Description |
             | --- | --- | --- | --- | --- |
             <f:for each="{part.props}" as="prop">| `{prop.name}` | `{prop.type -> docs:escapeMarkdownTableCell()}` | {prop.required} | `{prop.default -> docs:escapeMarkdownTableCell()}` | {prop.description -> docs:escapeMarkdownTableCell()} |
             </f:for>
+            </f:if>
             <f:if condition="{part.dataAttributes}">
 
                 #### Rendered data attributes
