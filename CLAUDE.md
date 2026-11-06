@@ -260,6 +260,17 @@ you did not take into a PR comment.
 
 PRs of the monorepo and the docs skip this.
 
+## Bugs in Zag.js
+
+When a bug comes from Zag.js (a machine or the vanilla adapter) and not from how the library uses it, fix it in Zag
+instead of working around it here: an issue and, where possible, a pull request on `chakra-ui/zag`. First check
+`upstream/v2`: when it is fixed there but not released, wait for the release (see the `zag-update` skill).
+
+Run the `zag-upstream` agent with the failure scenario. It confirms the cause in the Zag source, checks for an
+existing issue, and writes `issue.md` and `plan.md` to `.claude/plans/<slug>/` in the fork (`../zag`, `jramke/zag`),
+without our library in them. A session in the fork implements the plan. Add a workaround here only when the user
+asks for one, mark it `// TODO(zag#<issue>)`, and remove it with the Zag release that fixes it.
+
 ## Claude skill for library users
 
 `packages/fluid-primitives/` is itself a Claude Code plugin and marketplace (`.claude-plugin/`, `skills/fluid-primitives/SKILL.md`)

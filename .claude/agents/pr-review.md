@@ -96,5 +96,8 @@ Return to the caller, most important first:
    can do then, or what gets simpler to maintain) and what it costs.
 3. **Questions** - things you could not decide from the code.
 
+Mark a finding `[zag]` when its cause is in Zag.js (a machine or the vanilla adapter) and not in how the library
+uses it: the caller routes it upstream through the `zag-upstream` agent instead of a workaround.
+
 Leave out praise, summaries of the change and style nits a formatter would fix. "No findings" is a
 valid result; say what you checked.
