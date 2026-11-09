@@ -788,7 +788,7 @@
     "destroyComponentsWithin": {
         "kind": "function",
         "name": "destroyComponentsWithin",
-        "summary": "Destroys every mounted instance whose parts are inside `root`, its portaled content included, and forgets it, its hydration data included. `mountAll()` already does this for markup that leaves the page, so call it only when the instances must be gone before your next line runs, e.g. before you rename the fields of the rows after a removed one. Call it before you insert markup that replaces `root` with the same rootIds: their hydration data is forgotten.",
+        "summary": "Destroys every mounted instance whose parts are inside `root`, its portaled content included, and forgets it, its hydration data included. `mountAll()` already does this for markup that leaves the page, so call it only when the instances must be gone before your next line runs, e.g. before you rename the fields of the rows after a removed one. Call it before you insert markup that replaces `root` with the same rootIds: their hydration data is forgotten. Instances whose markup already left the page are not found here, `mountAll()` destroys those.",
         "signatures": [
             {
                 "signature": "destroyComponentsWithin(root: Element | Document): void",
@@ -796,7 +796,7 @@
                     {
                         "name": "root",
                         "type": "Element | Document",
-                        "description": "The element that is about to be removed."
+                        "description": "The element that is about to be removed, or was just removed."
                     }
                 ],
                 "returns": {

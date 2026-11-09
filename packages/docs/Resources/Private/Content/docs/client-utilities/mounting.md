@@ -21,7 +21,7 @@ The namespace is required because two component collections can register a compo
 
 ### Markup that arrives later
 
-`mountAll` keeps watching the page. When markup with components arrives, for example a row of a FieldArray, a [`Template`](/docs/client-utilities/template) clone, or HTML that Turbo or a `fetch()` swapped in, it mounts them with the same callback, a microtask later. Hydration data blocks in the new HTML are read too. An instance is destroyed once every element it rendered onto has left the page, portaled content included, and stayed away for a task, so an element Turbo keeps with `data-turbo-permanent` keeps its state.
+`mountAll` keeps watching the page. When markup with components arrives, for example a row of a FieldArray, a [`Template`](/docs/client-utilities/template) clone, or HTML that Turbo or a `fetch()` swapped in, it mounts them with the same callback, a microtask later. Hydration data blocks in the new HTML are read too. An instance is destroyed once every element it rendered onto has left the page, portaled content included, and stayed away for a task, so an element Turbo keeps with `data-turbo-permanent` keeps its state. Markup with the same `rootId` that arrives while the old markup is out replaces the old instance right away.
 
 To have the instances on your next line, call `mountWithin` on the element that holds the new markup. To destroy instances right away, call `destroyComponentsWithin` on the element you are about to remove.
 
@@ -37,6 +37,8 @@ A callback that returns no instance, one that only sets up other components for 
 A component mounts this way when the `mountAll` of its name already ran on the page and its hydration data is there. Load the entry file of every component the new HTML can contain. A Turbo Drive visit brings the data of the next page in its `<head>`. The server writes the data into the `<head>`, so the components in the HTML of a Turbo Frame or a `fetch()` mount when the page already has their data.
 
 The hydration data of a page stays after its markup leaves, so a page Turbo restores from its cache mounts again. Give a `rootId` you set yourself to one component across all pages, or a restored page mounts with the props of the page that came last.
+
+Two swaps mount nothing on their own. Hydration data that arrives in a later change of the page than its markup: call `mountWithin` once both are in. Markup with the `rootId` of an instance that still has content on the page, such as a portal outside the swapped region: call `destroy()` on the old instance before you swap, it keeps the hydration data.
 
 ### Mount one instance yourself
 
