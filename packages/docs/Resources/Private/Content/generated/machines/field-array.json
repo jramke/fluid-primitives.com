@@ -49,8 +49,8 @@
                 "description": "The screen reader announcements of an added and a removed row. In a string, `%number%` is replaced with the 1-based position of the row, e.g. `Row %number% removed.`. A callback builds the message from the data of the row, and may use `%number%` in what it returns."
             },
             "onItemAdded": {
-                "type": "((detail: { index: number; componentNames: string[] }) => void) | undefined",
-                "description": "Called after a row was added by the add trigger, with its index and the client names of the components inside it, e.g. `['field', 'input']`. Call their `mountAll()` here: the field array doesn't know what the template of a row contains."
+                "type": "((detail: { index: number }) => void) | undefined",
+                "description": "Called after a row was added by the add trigger, with its index. The components inside the row are mounted by then, with the callbacks of their `mountAll()`."
             },
             "onItemRemoved": {
                 "type": "((detail: { index: number }) => void) | undefined",
