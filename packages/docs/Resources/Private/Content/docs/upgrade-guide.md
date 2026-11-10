@@ -6,12 +6,16 @@ The steps below cover the changes most projects run into. Every detail, with the
 
 ## Update the packages
 
-1.0 needs TYPO3 14, PHP 8.3 and `typo3fluid/fluid` 5.2 or newer.
+1.0 needs TYPO3 14.1 or newer, PHP 8.3 and `typo3fluid/fluid` 5.2 or newer.
 
 ```bash
 composer require jramke/fluid-primitives:"^1.0@beta"
 npm install fluid-primitives@beta
 ```
+
+### Move your Fluid namespaces
+
+TYPO3 14.1 deprecated registering global Fluid namespaces in `$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']`, and Fluid Primitives now registers `ui` and `primitives` in `Configuration/Fluid/Namespaces.php`. Move your own entries there too, as [Getting Started](/docs/getting-started#content-setup) shows. Entries that stay in `TYPO3_CONF_VARS` still load after the library's.
 
 ## Templates
 

@@ -10,7 +10,8 @@
         "TYPO3 CMS"
     ],
     "require": {
-        "typo3/cms-core": "^14"
+        "typo3/cms-core": "^14.1",
+        "jramke/fluid-primitives": "*"
     },
     "autoload": {
         "psr-4": {
