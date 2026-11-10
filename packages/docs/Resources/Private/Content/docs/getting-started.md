@@ -4,7 +4,7 @@ Install Fluid Primitives, register your component collection and build your firs
 
 ## Prerequisites
 
-- TYPO3 14+
+- TYPO3 14.1+
 - PHP 8.3+
 - Familiarity with [Fluid Components](https://docs.typo3.org/other/typo3fluid/fluid/main/en-us/Usage/Components.html)
 - Recommended: a JavaScript build setup, for example Vite with [praetorius/vite-asset-collector](https://packagist.org/packages/praetorius/vite-asset-collector)
@@ -83,14 +83,21 @@ The collection extends `AbstractComponentCollection` of Fluid Primitives. A coll
 
 ### 2. Register the namespace
 
-Add the `ui` namespace to your `ext_localconf.php`:
+Register the collection for the `ui` namespace in `Configuration/Fluid/Namespaces.php` of your sitepackage:
 
 ```php
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ui'][] =
-    'MyVendor\\MyExtension\\Components\\ComponentCollection';
+<?php
+
+declare(strict_types=1);
+
+use MyVendor\MyExtension\Components\ComponentCollection;
+
+return [
+    'ui' => [ComponentCollection::class],
+];
 ```
 
-{% component: "ui:alert", arguments: {"title": "Namespace Array", "text": "Fluid Primitives registers its own ViewHelpers under `ui` too. Append your collection with `[] =` to keep both.", "variant": "warning"} %}
+{% component: "ui:alert", arguments: {"title": "Load order", "text": "Fluid Primitives registers its own ViewHelpers under `ui` too, and Fluid resolves the last entry first. Require `jramke/fluid-primitives` in the `composer.json` of your sitepackage so your collection loads after it and wins.", "variant": "warning"} %}
 
 ### 3. Include the Site Set (or TypoScript manually)
 

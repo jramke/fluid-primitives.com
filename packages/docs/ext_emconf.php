@@ -11,7 +11,8 @@ $EM_CONF[$_EXTKEY] = [
     'category' => 'templates',
     'constraints' => [
         'depends' => [
-            'typo3' => '14.0.0-14.3.99',
+            'typo3' => '14.1.0-14.3.99',
+            'fluid_primitives' => '0.0.0-0.0.0',
         ],
         'conflicts' => [],
     ],
