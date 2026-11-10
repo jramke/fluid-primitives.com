@@ -37,7 +37,28 @@ Your own components offer `asChild` when you add `{ui:asChild()}` inside the ope
 - **Opt-in per part.** `asChild` works on parts that add `{ui:asChild()}` to their own wrapper element. Root parts that render only their slot content (e.g. Dialog, Popover, Tooltip's `root`) have no element to merge attributes onto, so they do not offer it. The Arguments table in a component's docs page shows which parts do.
 - **Single child element.** The slot holds exactly one element. Text nodes or several elements do not work.
 - **Child attributes take precedence.** An attribute the child already has keeps its value.
-- **No context access inside asChild.** The slot content cannot access the component's context. See [TYPO3/Fluid#1132](https://github.com/TYPO3/Fluid/issues/1132).
+- **No `{context}` inside asChild.** The slot content renders in your template, where the `{context}` of the component is missing ([TYPO3/Fluid#1132](https://github.com/TYPO3/Fluid/issues/1132)). Read it with `ui:context`, see [Read the context inside asChild](#content-read-the-context-inside-aschild).
+
+### Read the context inside asChild
+
+`ui:context` reads the context of the enclosing root into a variable. Put it before the part, the slot of `asChild` takes exactly one element:
+
+```html
+<ui:collapsible.root disabled="{product.soldOut}">
+    <ui:context name="ui:collapsible" as="collapsible" />
+    <ui:collapsible.trigger asChild="{true}">
+        <ui:button variant="ghost" title="{f:if(condition: collapsible.disabled, then: 'Sold out')}">
+            Delivery options
+        </ui:button>
+    </ui:collapsible.trigger>
+    <ui:collapsible.content>Ships within 2 working days.</ui:collapsible.content>
+</ui:collapsible.root>
+```
+
+- It works inside a component of your own. In a plain template, such as the template of a controller action, `ui:context` throws, so move the markup into a component.
+- Inside the templates of the component it reads, `ui:context` throws too: use `{context}` there.
+- You get the context of the root. Inside a part, it also holds the props the part exposes with `context="{true}"`, such as `{accordion.item.value}` inside an accordion item.
+- What a part computes in its own template is missing, such as the open state of an accordion item. Call the method of the context it comes from yourself: `{accordion -> ui:call(method: 'getItemState', arguments: {0: {value: 'shipping'}})}`.
 
 ### Accessibility note
 
