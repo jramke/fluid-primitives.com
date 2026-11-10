@@ -41,12 +41,12 @@ Your own components offer `asChild` when you add `{ui:asChild()}` inside the ope
 
 ### Read the context inside asChild
 
-`ui:context` reads the context of the enclosing root into a variable. Put it before the part, the slot of `asChild` takes exactly one element:
+`ui:context` reads the context of the enclosing root into a variable. It renders nothing, so it can sit in the slot next to the one element:
 
 ```html
 <ui:collapsible.root disabled="{product.soldOut}">
-    <ui:context name="ui:collapsible" as="collapsible" />
     <ui:collapsible.trigger asChild="{true}">
+        <ui:context name="ui:collapsible" as="collapsible" />
         <ui:button variant="ghost" title="{f:if(condition: collapsible.disabled, then: 'Sold out')}">
             Delivery options
         </ui:button>
