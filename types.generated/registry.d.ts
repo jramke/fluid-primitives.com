@@ -21,6 +21,7 @@ declare module 'fluid-primitives' {
         'ui:menu': ui.MenuHydrationProps;
         'ui:navigationMenu': ui.NavigationMenuHydrationProps;
         'ui:numberInput': ui.NumberInputHydrationProps;
+        'ui:passwordInput': ui.PasswordInputHydrationProps;
         'ui:popover': ui.PopoverHydrationProps;
         'ui:radioGroup': ui.RadioGroupHydrationProps;
         'ui:select': ui.SelectHydrationProps;
@@ -32,6 +33,7 @@ declare module 'fluid-primitives' {
         'ui:toggle': ui.ToggleHydrationProps;
         'ui:toggleGroup': ui.ToggleGroupHydrationProps;
         'ui:tooltip': ui.TooltipHydrationProps;
+        'ui:wishlistButton': ui.WishlistButtonHydrationProps;
         'ui:commandMenu': ui.CommandMenuHydrationProps;
         'primitives:accordion': primitives.AccordionHydrationProps;
         'primitives:button': primitives.ButtonHydrationProps;
@@ -51,6 +53,7 @@ declare module 'fluid-primitives' {
         'primitives:menu': primitives.MenuHydrationProps;
         'primitives:navigationMenu': primitives.NavigationMenuHydrationProps;
         'primitives:numberInput': primitives.NumberInputHydrationProps;
+        'primitives:passwordInput': primitives.PasswordInputHydrationProps;
         'primitives:popover': primitives.PopoverHydrationProps;
         'primitives:radioGroup': primitives.RadioGroupHydrationProps;
         'primitives:select': primitives.SelectHydrationProps;

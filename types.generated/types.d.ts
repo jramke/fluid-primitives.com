@@ -29,6 +29,7 @@ declare namespace Jramke {
             export type MaxLengthBehavior = 'block' | 'warn' | 'invalid';
             export type NumberInputMode = 'text' | 'tel' | 'numeric' | 'decimal';
             export type Orientation = 'horizontal' | 'vertical';
+            export type PasswordAutoComplete = 'current-password' | 'new-password';
             export type PopupType = 'listbox' | 'dialog';
             export type ScrollBehavior = 'auto' | 'instant' | 'smooth';
             export type SliderOrigin = 'start' | 'center' | 'end';
@@ -459,6 +460,24 @@ declare namespace primitives {
             decrementLabel: string;
         };
         locale?: string;
+    };
+    export type PasswordInputHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        disabled?: boolean;
+        invalid?: boolean;
+        required?: boolean;
+        readOnly?: boolean;
+        name?: string;
+        defaultVisible?: boolean;
+        autoComplete?: Jramke.FluidPrimitives.Enum.PasswordAutoComplete;
+        ignorePasswordManagers?: boolean;
+        translations: {
+            visibilityTriggerLabelHidden: string;
+            visibilityTriggerLabelVisible: string;
+        };
     };
     export type PopoverHydrationProps = {
         id: string;
@@ -999,6 +1018,24 @@ declare namespace ui {
         };
         locale?: string;
     };
+    export type PasswordInputHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        disabled?: boolean;
+        invalid?: boolean;
+        required?: boolean;
+        readOnly?: boolean;
+        name?: string;
+        defaultVisible?: boolean;
+        autoComplete?: Jramke.FluidPrimitives.Enum.PasswordAutoComplete;
+        ignorePasswordManagers?: boolean;
+        translations: {
+            visibilityTriggerLabelHidden: string;
+            visibilityTriggerLabelVisible: string;
+        };
+    };
     export type PopoverHydrationProps = {
         id: string;
         ids: {
@@ -1174,5 +1211,12 @@ declare namespace ui {
         closeOnClick?: boolean;
         interactive?: boolean;
         positioning?: any;
+    };
+    export type WishlistButtonHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        productId: string;
     };
 }
