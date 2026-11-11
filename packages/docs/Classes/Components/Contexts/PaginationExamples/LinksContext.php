@@ -10,4 +10,9 @@ final class LinksContext extends AbstractEventListContext
     {
         return 'eventPage';
     }
+
+    protected function getSection(): string
+    {
+        return 'event-list';
+    }
 }

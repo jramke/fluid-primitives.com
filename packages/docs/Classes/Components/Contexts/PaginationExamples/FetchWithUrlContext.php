@@ -10,4 +10,9 @@ final class FetchWithUrlContext extends AbstractEventListContext
     {
         return 'archivePage';
     }
+
+    protected function getSection(): string
+    {
+        return 'event-archive';
+    }
 }

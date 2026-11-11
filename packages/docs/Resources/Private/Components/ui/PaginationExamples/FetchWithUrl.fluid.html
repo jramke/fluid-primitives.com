@@ -3,9 +3,7 @@
     autoMount="{false}"
     paginator="{paginator}"
     defaultPageSize="4"
-    type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PaginationType::Link')}"
-    pageArgument="archivePage"
-    section="event-archive"
+   
     class="w-full max-w-md flex-col items-stretch gap-4">
     <ui:context name="ui:pagination" as="paginationContext" />
     <ul
@@ -33,12 +31,12 @@
                 <f:else><ui:pagination.ellipsis index="{page.index}" /></f:else>
             </f:if>
         </f:for>
-        <ui:template name="itemTemplate" context="pagination">
+        <primitives:pagination.itemTemplate>
             <ui:pagination.item />
-        </ui:template>
-        <ui:template name="ellipsisTemplate" context="pagination">
+        </primitives:pagination.itemTemplate>
+        <primitives:pagination.ellipsisTemplate>
             <ui:pagination.ellipsis />
-        </ui:template>
+        </primitives:pagination.ellipsisTemplate>
         <ui:pagination.nextTrigger />
     </div>
 </ui:pagination.root>

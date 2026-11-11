@@ -6,71 +6,57 @@ interface ArchiveEvent {
     city: string;
 }
 
-// The links stay real links: a crawler and a visitor without JavaScript load the page of a link.
-// Here a click changes the page on the client and loads its events from a JSON endpoint.
 mount('ui:pagination', 'event-archive', ({ props }) => {
-    // The URL of every page, built by the server
-    const pageUrls = props.pageUrls as Record<number, string>;
-    let request: AbortController | undefined;
-    let fromHistory = false;
-
     const pagination: Pagination = new Pagination({
         ...props,
         onPageChange: ({ page }) => {
-            if (!fromHistory) history.pushState({ page }, '', pageUrls[page]);
-            fromHistory = false;
+            // The history entry remembers its page for back and forward
+            history.replaceState({ page }, '');
             showEvents(page);
         },
     });
+    pagination.init();
+    history.replaceState({ page: pagination.api.page }, '');
+
+    const rootEl = pagination.hydrator.query('root')!;
+    const eventsEl = pagination.hydrator.query('events')!;
 
     async function showEvents(page: number) {
-        request?.abort();
-        request = new AbortController();
-        try {
-            const eventsEl = pagination.hydrator.query('events')!;
-            const response = await extbase.post(
-                eventsEl.dataset.url!,
-                { page },
-                { signal: request.signal }
-            );
-            if (!response.ok)
-                throw new Error(`Loading page ${page} failed with ${response.status}`);
-            const { events } = (await response.json()) as { events: ArchiveEvent[] };
+        const response = await extbase.post(eventsEl.dataset.url!, { page });
+        const { events } = (await response.json()) as { events: ArchiveEvent[] };
+        // A click on another page while this one loads wins
+        if (page !== pagination.api.page) return;
 
-            const rows = events.map(({ title, city }) => {
+        eventsEl.replaceChildren(
+            ...events.map(({ title, city }) => {
                 const row = new Template(pagination.hydrator, 'eventTemplate');
                 row.query('title')!.textContent = title;
                 row.query('city')!.textContent = city;
                 return row;
-            });
-            eventsEl.replaceChildren(...rows);
-        } catch (error) {
-            // A click on another page cancels the request of this one
-            if ((error as Error).name !== 'AbortError') window.location.href = pageUrls[page];
-        }
+            })
+        );
     }
 
-    pagination.init();
-    history.replaceState({ page: pagination.api.page }, '');
-
-    // The pagination changes the page itself, the browser only opens a link in a new tab
-    pagination.hydrator.query('root')?.addEventListener(
+    // A click on a link adds its URL to the history instead of loading it. A click with a modifier
+    // key opens the link in a new tab and leaves this page as it is.
+    rootEl.addEventListener(
         'click',
         event => {
-            if (!(event.target as Element).closest('a[href]')) return;
+            const link = (event.target as Element).closest('a[href]');
+            if (!link) return;
             if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey) {
                 event.stopPropagation();
-            } else {
-                event.preventDefault();
+                return;
             }
+            event.preventDefault();
+            history.pushState(null, '', link.getAttribute('href'));
         },
         { capture: true }
     );
 
+    // Back and forward only change the URL: show the page of the history entry
     window.addEventListener('popstate', event => {
-        if (typeof event.state?.page !== 'number') return;
-        fromHistory = true;
-        pagination.api.setPage(event.state.page);
+        if (typeof event.state?.page === 'number') pagination.api.setPage(event.state.page);
     });
 
     return pagination;

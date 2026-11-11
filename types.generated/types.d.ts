@@ -29,6 +29,8 @@ declare namespace Jramke {
             export type MaxLengthBehavior = 'block' | 'warn' | 'invalid';
             export type NumberInputMode = 'text' | 'tel' | 'numeric' | 'decimal';
             export type Orientation = 'horizontal' | 'vertical';
+            export type PaginationType = 'button' | 'link';
+            export type PasswordAutoComplete = 'current-password' | 'new-password';
             export type PopupType = 'listbox' | 'dialog';
             export type ScrollBehavior = 'auto' | 'instant' | 'smooth';
             export type SliderOrigin = 'start' | 'center' | 'end';
@@ -36,6 +38,8 @@ declare namespace Jramke {
             export type SliderThumbCollisionBehavior = 'none' | 'push' | 'swap';
             export type TabsActivationMode = 'automatic' | 'manual';
             export type TextareaSubmitOn = 'enter' | 'mod+enter';
+            export type ToastPlacement =
+                'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end';
             export type ValidationMode = 'auto' | 'onSubmit' | 'onBlur' | 'onChange';
         }
     }
@@ -460,6 +464,45 @@ declare namespace primitives {
         };
         locale?: string;
     };
+    export type PaginationHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        defaultPageSize?: number;
+        siblingCount?: number;
+        boundaryCount?: number;
+        translations: {
+            rootLabel: string;
+            firstTriggerLabel: string;
+            prevTriggerLabel: string;
+            nextTriggerLabel: string;
+            lastTriggerLabel: string;
+            itemLabel: string;
+        };
+        count: number;
+        defaultPage: number;
+        pageUrls?: string[];
+        type: Jramke.FluidPrimitives.Enum.PaginationType;
+    };
+    export type PasswordInputHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        disabled?: boolean;
+        invalid?: boolean;
+        required?: boolean;
+        readOnly?: boolean;
+        name?: string;
+        defaultVisible?: boolean;
+        autoComplete?: Jramke.FluidPrimitives.Enum.PasswordAutoComplete;
+        ignorePasswordManagers?: boolean;
+        translations: {
+            visibilityTriggerLabelHidden: string;
+            visibilityTriggerLabelVisible: string;
+        };
+    };
     export type PopoverHydrationProps = {
         id: string;
         ids: {
@@ -586,6 +629,25 @@ declare namespace primitives {
         };
         announce?: boolean;
         announceDebounce?: number;
+    };
+    export type ToasterHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        placement?: Jramke.FluidPrimitives.Enum.ToastPlacement;
+        overlap?: boolean;
+        max?: number;
+        gap?: number;
+        offsets?: string | any;
+        duration?: number;
+        removeDelay?: number;
+        pauseOnPageIdle?: boolean;
+        hotkey?: string[];
+        translations: {
+            groupLabel: string;
+            closeTriggerLabel: string;
+        };
     };
     export type TocHydrationProps = {
         id: string;
@@ -999,6 +1061,45 @@ declare namespace ui {
         };
         locale?: string;
     };
+    export type PaginationHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        defaultPageSize?: number;
+        siblingCount?: number;
+        boundaryCount?: number;
+        translations: {
+            rootLabel: string;
+            firstTriggerLabel: string;
+            prevTriggerLabel: string;
+            nextTriggerLabel: string;
+            lastTriggerLabel: string;
+            itemLabel: string;
+        };
+        count: number;
+        defaultPage: number;
+        pageUrls?: string[];
+        type: Jramke.FluidPrimitives.Enum.PaginationType;
+    };
+    export type PasswordInputHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        disabled?: boolean;
+        invalid?: boolean;
+        required?: boolean;
+        readOnly?: boolean;
+        name?: string;
+        defaultVisible?: boolean;
+        autoComplete?: Jramke.FluidPrimitives.Enum.PasswordAutoComplete;
+        ignorePasswordManagers?: boolean;
+        translations: {
+            visibilityTriggerLabelHidden: string;
+            visibilityTriggerLabelVisible: string;
+        };
+    };
     export type PopoverHydrationProps = {
         id: string;
         ids: {
@@ -1124,6 +1225,25 @@ declare namespace ui {
         };
         announce?: boolean;
         announceDebounce?: number;
+    };
+    export type ToasterHydrationProps = {
+        id: string;
+        ids: {
+            [key: string]: string;
+        };
+        placement?: Jramke.FluidPrimitives.Enum.ToastPlacement;
+        overlap?: boolean;
+        max?: number;
+        gap?: number;
+        offsets?: string | any;
+        duration?: number;
+        removeDelay?: number;
+        pauseOnPageIdle?: boolean;
+        hotkey?: string[];
+        translations: {
+            groupLabel: string;
+            closeTriggerLabel: string;
+        };
     };
     export type TocHydrationProps = {
         id: string;

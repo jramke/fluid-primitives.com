@@ -25,6 +25,8 @@ preview: true
     <primitives:pagination.prevTrigger />
     <primitives:pagination.item />
     <primitives:pagination.ellipsis />
+    <primitives:pagination.itemTemplate />
+    <primitives:pagination.ellipsisTemplate />
     <primitives:pagination.nextTrigger />
     <primitives:pagination.lastTrigger />
 </primitives:pagination.root>
@@ -42,17 +44,17 @@ The root has the pages to show in its context, `pages`: a list of entries with a
             <f:else><ui:pagination.ellipsis index="{page.index}" /></f:else>
         </f:if>
     </f:for>
-    <ui:template name="itemTemplate" context="pagination">
+    <primitives:pagination.itemTemplate>
         <ui:pagination.item />
-    </ui:template>
-    <ui:template name="ellipsisTemplate" context="pagination">
+    </primitives:pagination.itemTemplate>
+    <primitives:pagination.ellipsisTemplate>
         <ui:pagination.ellipsis />
-    </ui:template>
+    </primitives:pagination.ellipsisTemplate>
     <ui:pagination.nextTrigger />
 </ui:pagination.root>
 ```
 
-An item without content shows its page number, an ellipsis without content shows `…`. With the two templates, the client renders the pages it shows when the page changes without a reload: the pages go where the templates are. Pages that reload with every click need no templates. With `type` `link`, the templates make the server send the URL of every page, see [Load pages without a reload](#content-load-pages-without-a-reload).
+An item without content shows its page number, an ellipsis without content shows `…`. With `itemTemplate` and `ellipsisTemplate`, the client renders the pages it shows when the page changes without a reload: the pages go where the templates are. Pages that reload with every click need no templates.
 
 ## Installation
 
@@ -62,12 +64,19 @@ An item without content shows its page number, an ellipsis without content shows
 
 ### Paginate a TYPO3 list
 
-Pass the paginator of your list action to `paginator`, and set `type` to `link`. Every page is a link with a cHash that goes through the route enhancers of your site, so search engines find every page. The links set the `currentPage` argument of your plugin, `pageArgument` names another one. `section` takes the id of an element the links jump to, so the next page opens at the list instead of the top of the page.
+Pass the paginator of your list action to `paginator`: it sets the current page and the number of pages. The root works out which pages to show, so the paginator is all it needs. If your action already builds a TYPO3 pagination such as `SlidingWindowPagination`, pass its paginator, `{pagination.paginator}`, and set the pages to show as in [Show a window of pages](#content-show-a-window-of-pages).
+
+For links, wrap the paginator in a `UrlAwarePaginator` with a function that returns the URL of a page. Build it with the `UriBuilder` of your controller: the URLs carry a cHash and go through the route enhancers of your site, so search engines find every page. `setSection()` makes the links jump to the list, so the next page opens at the list. The root builds the URLs of the pages it shows.
 
 ```php
 public function listAction(int $currentPage = 1): ResponseInterface
 {
-    $paginator = new QueryResultPaginator($this->eventRepository->findAll(), $currentPage, 4);
+    $paginator = new UrlAwarePaginator(
+        new QueryResultPaginator($this->eventRepository->findAll(), $currentPage, 4),
+        fn(int $page): string => $this->uriBuilder->reset()
+            ->setSection('event-list')
+            ->uriFor(null, ['currentPage' => $page]),
+    );
     $this->view->assign('paginator', $paginator);
 
     return $this->htmlResponse();
@@ -78,7 +87,7 @@ public function listAction(int $currentPage = 1): ResponseInterface
 
 ### Load pages without a reload
 
-Keep the links, and change the page on the client instead. Render the root with `autoMount="{false}"` and mount it yourself: `onPageChange` loads the events of the page from a JSON endpoint and puts the URL of the page into the address bar, so the back button, a bookmark and a search engine get the same page. With `type` `link` and the item template, the server sends the URL of every page along, and the links the client renders get theirs from it.
+Keep the links of the list action above, and change the page on the client instead. Render the root with `autoMount="{false}"` and mount it yourself: `onPageChange` loads the events of the page from a JSON endpoint, and a click on a link adds its URL to the browser history instead of loading it. The back button, a reload and a bookmark open the same page, and search engines follow the links. With an `itemTemplate`, the server sends the URL of every page as `pageUrls`, so the links the client renders lead to their page too.
 
 ```php
 public function eventsAction(int $page = 1): ResponseInterface
@@ -95,15 +104,23 @@ public function eventsAction(int $page = 1): ResponseInterface
 
 {% component: "ui:componentExample", arguments: { "componentName": "PaginationExamples.fetchWithUrl", "id": "event-archive", "additionalFiles": {"FetchWithUrl.entry.ts": "EXT:docs/Resources/Private/Components/ui/PaginationExamples/FetchWithUrl.entry.ts"} } %}
 
+The client takes `pageUrls` as Zag's `getPageUrl` for the links it renders. Pass a `getPageUrl` of your own when you mount the root, and the links the client renders get its URLs. Keep the cHash in mind: a query argument the server did not put into the URL breaks it.
+
 ### Paginate a list in the browser
 
 With buttons, the pagination changes the page on the client and calls `onPageChange`. Render the items of the page there from a `ui:template`. `count` and `defaultPageSize` set the number of pages.
 
 {% component: "ui:componentExample", arguments: { "componentName": "PaginationExamples.clientList", "additionalFiles": {"ClientList.entry.ts": "EXT:docs/Resources/Private/Components/ui/PaginationExamples/ClientList.entry.ts"} } %}
 
+### Show a window of pages
+
+`siblingCount` sets the number of pages on each side of the current one, `boundaryCount` the number at the start and the end. With `boundaryCount="0"` and the ellipsis left out of the loop and of the templates, the pagination shows a window of pages that moves with the current one.
+
+{% component: "ui:componentExample", arguments: { "componentName": "PaginationExamples.window" } %}
+
 ### Jump to the first and last page
 
-Add `firstTrigger` and `lastTrigger`. `siblingCount` sets the number of pages next to the current one, `boundaryCount` the number at the start and the end.
+Add `firstTrigger` and `lastTrigger`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "PaginationExamples.firstAndLast" } %}
 
@@ -115,8 +132,10 @@ Add `firstTrigger` and `lastTrigger`. `siblingCount` sets the number of pages ne
         "name": "Pagination",
         "parts": [
             ["root", "Provides the pages and labels the navigation. Renders a `<nav>` element."],
-            ["item", "Goes to one page. Renders an `<a>` element with `type` `link`, a `<button>` element otherwise."],
+            ["item", "Goes to one page. Renders an `<a>` element with a `UrlAwarePaginator` or `pageUrls`, a `<button>` element otherwise."],
             ["ellipsis", "Stands for the pages that are left out. Renders a `<span>` element."],
+            ["itemTemplate", "Holds the item the client clones for a page it renders. Renders a `<template>` element."],
+            ["ellipsisTemplate", "Holds the ellipsis the client clones. Renders a `<template>` element."],
             ["firstTrigger", "Goes to the first page. Renders an `<a>` or a `<button>` element, as the item."],
             ["prevTrigger", "Goes to the previous page. Renders an `<a>` or a `<button>` element, as the item."],
             ["nextTrigger", "Goes to the next page. Renders an `<a>` or a `<button>` element, as the item."],

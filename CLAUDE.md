@@ -377,6 +377,7 @@ namespace Jramke\FluidPrimitives\Service;
 - **`Utility/`** - pure, stateless helpers (mostly static methods, occasionally an instantiated zero-dependency class kept instantiable for testability, e.g. `ExtbaseFormFieldNamer`). Not for anything with a real service dependency in its constructor - that belongs in `Service/`.
 - **`Command/`** - CLI commands and command-specific collaborators (e.g. `ComponentFileWriter`, only ever used by `ComponentAddCommand`). Keep those adjacent rather than promoting them to `Service/` - they're not reusable outside their one command.
 - **`Registry/`** - process-lifetime singletons (`HydrationRegistry`, `PortalRegistry`) and their own collaborators.
+- **`Pagination/`** - TYPO3 pagination classes that users create in their controllers (`UrlAwarePaginator`, a `PaginatorInterface` decorator).
 - **`Traits/`** - behavior shared across multiple `Contexts/` classes; see Dependency Injection below for how they declare their host-class requirements.
 
 ### Dependency Injection

@@ -8,12 +8,12 @@
             <f:else><ui:pagination.ellipsis index="{page.index}" /></f:else>
         </f:if>
     </f:for>
-    <ui:template name="itemTemplate" context="pagination">
+    <primitives:pagination.itemTemplate>
         <ui:pagination.item />
-    </ui:template>
-    <ui:template name="ellipsisTemplate" context="pagination">
+    </primitives:pagination.itemTemplate>
+    <primitives:pagination.ellipsisTemplate>
         <ui:pagination.ellipsis />
-    </ui:template>
+    </primitives:pagination.ellipsisTemplate>
     <ui:pagination.nextTrigger />
     <ui:pagination.lastTrigger />
 </ui:pagination.root>

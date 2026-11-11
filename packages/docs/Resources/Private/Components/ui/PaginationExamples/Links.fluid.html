@@ -7,7 +7,7 @@
             </li>
         </f:for>
     </ul>
-    <ui:pagination.root paginator="{paginator}" defaultPageSize="4" type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PaginationType::Link')}" pageArgument="eventPage" section="event-list">
+    <ui:pagination.root paginator="{paginator}" defaultPageSize="4">
         <ui:context name="ui:pagination" as="paginationContext" />
         <ui:pagination.prevTrigger />
         <f:for each="{paginationContext.pages}" as="page">

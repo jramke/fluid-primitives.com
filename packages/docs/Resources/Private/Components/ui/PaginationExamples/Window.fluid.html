@@ -1,0 +1,13 @@
+<ui:pagination.root count="1000" defaultPageSize="20" defaultPage="22" siblingCount="2" boundaryCount="0">
+    <ui:context name="ui:pagination" as="paginationContext" />
+    <ui:pagination.prevTrigger />
+    <f:for each="{paginationContext.pages}" as="page">
+        <f:if condition="{page.type} == 'page'">
+            <ui:pagination.item value="{page.value}" />
+        </f:if>
+    </f:for>
+    <primitives:pagination.itemTemplate>
+        <ui:pagination.item />
+    </primitives:pagination.itemTemplate>
+    <ui:pagination.nextTrigger />
+</ui:pagination.root>
