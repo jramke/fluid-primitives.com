@@ -6,7 +6,7 @@
 
 
 
-Reads the context of the closest enclosing component of another type.
+Reads the context of the closest enclosing component.
 
 Use it when a nested component needs something from an ancestor, for example a custom button inside a dialog:
 
@@ -14,26 +14,30 @@ Use it when a nested component needs something from an ancestor, for example a c
 <ui:context name="ui:dialog" as="dialogContext" />
 ```
 
-It works in the template of a component and in a plain template alike, such as the slot of a part with `asChild`:
+It works anywhere inside the root, in the template of a component and in a plain template alike. That covers a
+partial that does not get the data of the root, and the slot of a part with `asChild`:
 
 ```html
-<ui:collapsible.root disabled="{product.soldOut}">
-    <ui:collapsible.trigger asChild="{true}">
-        <ui:context name="ui:collapsible" as="collapsible" />
-        <button type="button" title="{f:if(condition: collapsible.disabled, then: 'Sold out')}">Delivery options</button>
-    </ui:collapsible.trigger>
-</ui:collapsible.root>
+<!-- Partials/DeliveryOptions.html, rendered inside <ui:collapsible.root disabled="{product.soldOut}"> -->
+<ui:collapsible.trigger asChild="{true}">
+    <ui:context name="ui:collapsible" as="collapsibleContext" />
+    <button type="button" title="{f:if(condition: collapsibleContext.disabled, then: 'Sold out')}">Delivery options</button>
+</ui:collapsible.trigger>
 ```
 
-Inside a part it also holds the props the part exposes with `context="{true}"`, such as `{accordion.item.value}` inside an accordion item. Without an enclosing component of that name, the variable is `null`.
+Inside a part, the context also holds the props the part exposes with `context="{true}"`, such as
+`{accordionContext.item.value}` inside an accordion item. Without an enclosing component of that name, the variable is
+`null`. Like `f:variable`, it stays set after the root.
 
-`name` is the component with its namespace, as you write its tag, and `as` the variable that receives its context. A component reads its own context through the `context` variable. Asking `ui:context` for it throws an exception.
+`name` is the component with its namespace, as you write its tag, and `as` the variable that receives its context.
+The template of a component reads its own context through the `context` variable: asking `ui:context` for it there
+throws an exception.
 
 With `provider` it reads the context a `<component>.provider` created instead, from anywhere after the provider, also outside a component:
 
 ```html
 <ui:dialog.provider id="contact" />
-<ui:context name="ui:dialog" provider="contact" as="contactDialog" />
+<ui:context name="ui:dialog" provider="contact" as="contactDialogContext" />
 ```
 
  

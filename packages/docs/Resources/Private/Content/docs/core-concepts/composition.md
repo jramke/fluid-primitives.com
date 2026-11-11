@@ -46,8 +46,8 @@ Your own components offer `asChild` when you add `{ui:asChild()}` inside the ope
 ```html
 <!-- Partials/DeliveryOptions.html, rendered inside <ui:collapsible.root disabled="{product.soldOut}"> -->
 <ui:collapsible.trigger asChild="{true}">
-    <ui:context name="ui:collapsible" as="collapsible" />
-    <ui:button variant="ghost" title="{f:if(condition: collapsible.disabled, then: 'Sold out')}">
+    <ui:context name="ui:collapsible" as="collapsibleContext" />
+    <ui:button variant="ghost" title="{f:if(condition: collapsibleContext.disabled, then: 'Sold out')}">
         Delivery options
     </ui:button>
 </ui:collapsible.trigger>
@@ -55,8 +55,8 @@ Your own components offer `asChild` when you add `{ui:asChild()}` inside the ope
 
 - It works in a component and in a plain template, such as the template of a controller action.
 - Inside the templates of the component it reads, `ui:context` throws: use `{context}` there.
-- You get the context of the root. Inside a part, it also holds the props the part exposes with `context="{true}"`, such as `{accordion.item.value}` inside an accordion item.
-- What a part computes in its own template is missing, such as the open state of an accordion item. Call the method of the context it comes from yourself: `{accordion -> ui:call(method: 'getItemState', arguments: {0: {value: 'shipping'}})}`.
+- You get the context of the root. Inside a part, it also holds the props the part exposes with `context="{true}"`, such as `{accordionContext.item.value}` inside an accordion item.
+- What a part computes in its own template is missing, such as the open state of an accordion item. Call the method of the context it comes from yourself: `{accordionContext -> ui:call(method: 'getItemState', arguments: {0: {value: 'shipping'}})}`.
 
 ### Accessibility note
 
