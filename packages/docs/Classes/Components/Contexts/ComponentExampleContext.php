@@ -87,7 +87,7 @@ class ComponentExampleContext extends AbstractComponentContext
             $entryFileTemplateString = $this->getEntryFileTemplateString();
             if ($entryFileTemplateString !== '' && $entryFileTemplateString !== '0') {
                 $tabs[] = [
-                    'label' => explode('.', $componentName)[0] . '.ts',
+                    'label' => $this->getComponentBaseName() . '.entry.ts',
                     'language' => 'ts',
                     'templateHighlighted' => $this->highlightTemplateString($entryFileTemplateString, 'ts'),
                     'templateRaw' => $entryFileTemplateString,
@@ -119,9 +119,21 @@ class ComponentExampleContext extends AbstractComponentContext
         return $this->getComponentResolver()->getTemplatePaths()->getTemplateSource('Default', $templateName);
     }
 
+    /**
+     * The component an example belongs to: its examples live in a folder of their own, `CollapsibleExamples/`.
+     */
+    private function getComponentBaseName(): string
+    {
+        return (string)preg_replace(
+            pattern: '/Examples$/',
+            replacement: '',
+            subject: explode('.', Typed::string($this->get('componentName')))[0],
+        );
+    }
+
     private function getEntryFileTemplateString(): string
     {
-        $componentBaseName = explode('.', Typed::string($this->get('componentName')))[0];
+        $componentBaseName = $this->getComponentBaseName();
         foreach ($this->getComponentResolver()->getTemplatePaths()->getTemplateRootPaths() as $rootPath) {
             $entryFilePath = $rootPath . $componentBaseName . '/' . $componentBaseName . '.entry.ts';
             $templateString = $this->getTemplateStringByPath($entryFilePath);

@@ -3,6 +3,7 @@
 <ui:prop name="componentName" type="string" />
 <ui:prop name="additionalFiles" type="array" optional="{true}" />
 <ui:prop name="withEntryFile" type="boolean" default="{false}" />
+<ui:prop name="id" type="string" optional="{true}" />
 
 <f:variable name="tabs">{context.tabs}</f:variable>
 <f:variable name="collapsible" value="{context.isCollapsible}" />
@@ -19,7 +20,7 @@
         </f:for>
     </f:then>
     <f:else>
-        <div class="component-example not-prose">
+        <div class="component-example not-prose" {f:if(condition: id, then: 'id="{id}"')}>
             <div>
                 <div class="component-example-preview z-1">{context.html -> f:format.raw()}</div>
                 <f:if condition="{collapsible}">
