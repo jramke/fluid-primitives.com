@@ -41,22 +41,20 @@ Your own components offer `asChild` when you add `{ui:asChild()}` inside the ope
 
 ### Read the context inside asChild
 
-`ui:context` reads the context of the enclosing root into a variable. It renders nothing, so it can sit in the slot next to the one element:
+`ui:context` reads the context of the enclosing root into a variable. It renders nothing, so it can sit in the slot next to the one element. Here a partial rendered inside the root reads its `disabled`, without the product being passed to it:
 
 ```html
-<ui:collapsible.root disabled="{product.soldOut}">
-    <ui:collapsible.trigger asChild="{true}">
-        <ui:context name="ui:collapsible" as="collapsible" />
-        <ui:button variant="ghost" title="{f:if(condition: collapsible.disabled, then: 'Sold out')}">
-            Delivery options
-        </ui:button>
-    </ui:collapsible.trigger>
-    <ui:collapsible.content>Ships within 2 working days.</ui:collapsible.content>
-</ui:collapsible.root>
+<!-- Partials/DeliveryOptions.html, rendered inside <ui:collapsible.root disabled="{product.soldOut}"> -->
+<ui:collapsible.trigger asChild="{true}">
+    <ui:context name="ui:collapsible" as="collapsible" />
+    <ui:button variant="ghost" title="{f:if(condition: collapsible.disabled, then: 'Sold out')}">
+        Delivery options
+    </ui:button>
+</ui:collapsible.trigger>
 ```
 
-- It works inside a component of your own. In a plain template, such as the template of a controller action, `ui:context` throws, so move the markup into a component.
-- Inside the templates of the component it reads, `ui:context` throws too: use `{context}` there.
+- It works in a component and in a plain template, such as the template of a controller action.
+- Inside the templates of the component it reads, `ui:context` throws: use `{context}` there.
 - You get the context of the root. Inside a part, it also holds the props the part exposes with `context="{true}"`, such as `{accordion.item.value}` inside an accordion item.
 - What a part computes in its own template is missing, such as the open state of an accordion item. Call the method of the context it comes from yourself: `{accordion -> ui:call(method: 'getItemState', arguments: {0: {value: 'shipping'}})}`.
 

@@ -14,6 +14,19 @@ Use it when a nested component needs something from an ancestor, for example a c
 <ui:context name="ui:dialog" as="dialogContext" />
 ```
 
+It works in the template of a component and in a plain template alike, such as the slot of a part with `asChild`:
+
+```html
+<ui:collapsible.root disabled="{product.soldOut}">
+    <ui:collapsible.trigger asChild="{true}">
+        <ui:context name="ui:collapsible" as="collapsible" />
+        <button type="button" title="{f:if(condition: collapsible.disabled, then: 'Sold out')}">Delivery options</button>
+    </ui:collapsible.trigger>
+</ui:collapsible.root>
+```
+
+Inside a part it also holds the props the part exposes with `context="{true}"`, such as `{accordion.item.value}` inside an accordion item. Without an enclosing component of that name, the variable is `null`.
+
 `name` is the component with its namespace, as you write its tag, and `as` the variable that receives its context. A component reads its own context through the `context` variable. Asking `ui:context` for it throws an exception.
 
 With `provider` it reads the context a `<component>.provider` created instead, from anywhere after the provider, also outside a component:
