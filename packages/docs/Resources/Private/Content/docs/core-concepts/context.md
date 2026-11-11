@@ -67,7 +67,7 @@ A trigger in the header that opens a dialog from a content element further down 
 `ui:context` reads a provided context from anywhere after the provider, outside a component too:
 
 ```html
-<ui:context name="ui:dialog" provider="cookie-settings" as="cookieDialog" />
+<ui:context name="ui:dialog" provider="cookie-settings" as="cookieDialogContext" />
 ```
 
 See the detached triggers of [Dialog](/docs/components/dialog#content-detached-triggers), [Popover](/docs/components/popover#content-detached-triggers), [Tooltip](/docs/components/tooltip#content-detached-triggers) and [Menu](/docs/components/menu#content-detached-triggers).
