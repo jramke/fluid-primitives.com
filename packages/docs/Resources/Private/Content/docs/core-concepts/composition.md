@@ -47,8 +47,8 @@ Your own components offer `asChild` when you add `{ui:asChild()}` inside the ope
 <!-- Partials/DeliveryOptions.html, rendered inside <ui:collapsible.root disabled="{product.soldOut}"> -->
 <ui:collapsible.trigger asChild="{true}">
     <ui:context name="ui:collapsible" as="collapsibleContext" />
-    <ui:button variant="ghost" title="{f:if(condition: collapsibleContext.disabled, then: 'Sold out')}">
-        Delivery options
+    <ui:button variant="ghost">
+        Delivery options{f:if(condition: collapsibleContext.disabled, then: ' (sold out)')}
     </ui:button>
 </ui:collapsible.trigger>
 ```

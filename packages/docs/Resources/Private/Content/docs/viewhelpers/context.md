@@ -21,7 +21,7 @@ partial that does not get the data of the root, and the slot of a part with `asC
 <!-- Partials/DeliveryOptions.html, rendered inside <ui:collapsible.root disabled="{product.soldOut}"> -->
 <ui:collapsible.trigger asChild="{true}">
     <ui:context name="ui:collapsible" as="collapsibleContext" />
-    <button type="button" title="{f:if(condition: collapsibleContext.disabled, then: 'Sold out')}">Delivery options</button>
+    <button type="button">Delivery options{f:if(condition: collapsibleContext.disabled, then: ' (sold out)')}</button>
 </ui:collapsible.trigger>
 ```
 
