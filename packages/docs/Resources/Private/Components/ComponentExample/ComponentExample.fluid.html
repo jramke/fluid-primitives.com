@@ -20,7 +20,7 @@
         </f:for>
     </f:then>
     <f:else>
-        <div class="component-example not-prose" {f:if(condition: id, then: 'id="{id}"')}>
+        <div class="component-example not-prose scroll-mt-24 lg:scroll-mt-20" {f:if(condition: id, then: 'id="{id}"')}>
             <div>
                 <div class="component-example-preview z-1">{context.html -> f:format.raw()}</div>
                 <f:if condition="{collapsible}">
