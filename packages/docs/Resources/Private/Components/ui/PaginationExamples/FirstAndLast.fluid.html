@@ -1,0 +1,19 @@
+<ui:pagination.root count="500" defaultPage="12" siblingCount="2">
+    <ui:context name="ui:pagination" as="paginationContext" />
+    <ui:pagination.firstTrigger />
+    <ui:pagination.prevTrigger />
+    <f:for each="{paginationContext.pages}" as="page">
+        <f:if condition="{page.type} == 'page'">
+            <f:then><ui:pagination.item value="{page.value}" /></f:then>
+            <f:else><ui:pagination.ellipsis index="{page.index}" /></f:else>
+        </f:if>
+    </f:for>
+    <ui:template name="itemTemplate" context="pagination">
+        <ui:pagination.item />
+    </ui:template>
+    <ui:template name="ellipsisTemplate" context="pagination">
+        <ui:pagination.ellipsis />
+    </ui:template>
+    <ui:pagination.nextTrigger />
+    <ui:pagination.lastTrigger />
+</ui:pagination.root>

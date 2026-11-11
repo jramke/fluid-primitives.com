@@ -1,0 +1,21 @@
+<div class="flex w-full max-w-md flex-col gap-4">
+    <ul class="divide-y rounded-md border text-sm">
+        <f:for each="{paginator.paginatedItems}" as="event">
+            <li class="flex justify-between gap-4 px-4 py-2">
+                <span>{event.title}</span>
+                <span class="text-muted-foreground">{event.city}</span>
+            </li>
+        </f:for>
+    </ul>
+    <ui:pagination.root paginator="{paginator}" defaultPageSize="4" type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PaginationType::Link')}" pageArgument="eventPage" section="event-list">
+        <ui:context name="ui:pagination" as="paginationContext" />
+        <ui:pagination.prevTrigger />
+        <f:for each="{paginationContext.pages}" as="page">
+            <f:if condition="{page.type} == 'page'">
+                <f:then><ui:pagination.item value="{page.value}" /></f:then>
+                <f:else><ui:pagination.ellipsis index="{page.index}" /></f:else>
+            </f:if>
+        </f:for>
+        <ui:pagination.nextTrigger />
+    </ui:pagination.root>
+</div>
