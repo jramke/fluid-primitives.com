@@ -22,7 +22,7 @@ mount('ui:pagination', 'event-archive', ({ props }) => {
     const eventsEl = pagination.hydrator.query('events')!;
 
     async function showEvents(page: number) {
-        const response = await extbase.post(eventsEl.dataset.url!, { page });
+        const response = await extbase.post(eventsEl.dataset.url!, { currentPage: page });
         const { events } = (await response.json()) as { events: ArchiveEvent[] };
         // A click on another page while this one loads wins
         if (page !== pagination.api.page) return;

@@ -14,11 +14,6 @@ export const FirstAndLast: StoryObj = {
         example_id: 'first-and-last',
     },
 };
-export const ClientList: StoryObj = {
-    args: {
-        example_id: 'client-list',
-    },
-};
 export const Links: StoryObj = {
     args: {
         example_id: 'links',
@@ -27,5 +22,10 @@ export const Links: StoryObj = {
 export const FetchWithUrl: StoryObj = {
     args: {
         example_id: 'fetch-with-url',
+    },
+};
+export const Window: StoryObj = {
+    args: {
+        example_id: 'window',
     },
 };

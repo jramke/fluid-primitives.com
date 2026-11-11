@@ -22,12 +22,12 @@ ExtensionUtility::configurePlugin(
         DocsController::class => 'show,registration,homepage',
         EmptyValuesController::class => 'array,dto',
         CitySearchController::class => 'search',
-        EventArchiveController::class => 'page',
+        EventArchiveController::class => 'list',
         SearchIndexController::class => 'index',
     ],
     [
         CitySearchController::class => 'search',
-        EventArchiveController::class => 'page',
+        EventArchiveController::class => 'list',
     ],
 );
 
