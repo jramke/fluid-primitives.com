@@ -410,8 +410,11 @@ final readonly class SomeFactory
 
 Two `Symfony\Component\DependencyInjection\Attribute\Autoconfigure` flags matter here:
 
-- **`public: true`** - required on any class fetched via `GeneralUtility::makeInstance()`/`$container->get()` from _outside_ the container's own constructor-graph wiring (an entry point: a dynamically-resolved `Contexts/` class, a `Factory/`). Not needed for a class only ever reached as another service's constructor-injected dependency.
+- **`public: true`** - required on any class fetched via `GeneralUtility::makeInstance()`/`$container->get()` from _outside_ the container's own constructor-graph wiring (an entry point: a `Factory/`). A component context does not need it, see below. Not needed for a class only ever reached as another service's constructor-injected dependency.
 - **`shared: false`** - needed when an object holds per-caller state bound at construction, so a cached singleton instance can't leak one caller's binding into another's.
+  A component context needs neither flag: `Configuration/Services.php` registers every `ComponentContextInterface`
+  of the container (a project's own context too) as public and non-shared, so each root gets its own instance and a
+  context may keep state in its own fields. `GlobalContext` is not a component context and stays one per request.
 
 ### Exceptions
 
