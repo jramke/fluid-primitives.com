@@ -202,12 +202,9 @@ class LightboxContext extends AbstractComponentContext
 
 ## Dependency injection
 
-Inject TYPO3 services into a context through its constructor. Add `#[Autoconfigure(public: true)]` so the component renderer can create the context with its services:
+Inject TYPO3 services into a context through its constructor. The library registers every context as a service of its own, so autowiring and autoconfiguration in your `Services.yaml` (the TYPO3 default) are all it needs:
 
 ```php
-use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
-
-#[Autoconfigure(public: true)]
 class ProductCardContext extends AbstractComponentContext
 {
     public function __construct(
@@ -220,6 +217,8 @@ class ProductCardContext extends AbstractComponentContext
     }
 }
 ```
+
+Every root gets its own instance of its context, also a root inside another root of the same component. A value you compute once and keep in a field of the context belongs to that root alone.
 
 ## Global context
 
