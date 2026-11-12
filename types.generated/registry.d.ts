@@ -21,6 +21,8 @@ declare module 'fluid-primitives' {
         'ui:menu': ui.MenuHydrationProps;
         'ui:navigationMenu': ui.NavigationMenuHydrationProps;
         'ui:numberInput': ui.NumberInputHydrationProps;
+        'ui:pagination': ui.PaginationHydrationProps;
+        'ui:passwordInput': ui.PasswordInputHydrationProps;
         'ui:popover': ui.PopoverHydrationProps;
         'ui:radioGroup': ui.RadioGroupHydrationProps;
         'ui:select': ui.SelectHydrationProps;
@@ -28,6 +30,7 @@ declare module 'fluid-primitives' {
         'ui:switch': ui.SwitchHydrationProps;
         'ui:tabs': ui.TabsHydrationProps;
         'ui:textarea': ui.TextareaHydrationProps;
+        'ui:toaster': ui.ToasterHydrationProps;
         'ui:toc': ui.TocHydrationProps;
         'ui:toggle': ui.ToggleHydrationProps;
         'ui:toggleGroup': ui.ToggleGroupHydrationProps;
@@ -51,6 +54,8 @@ declare module 'fluid-primitives' {
         'primitives:menu': primitives.MenuHydrationProps;
         'primitives:navigationMenu': primitives.NavigationMenuHydrationProps;
         'primitives:numberInput': primitives.NumberInputHydrationProps;
+        'primitives:pagination': primitives.PaginationHydrationProps;
+        'primitives:passwordInput': primitives.PasswordInputHydrationProps;
         'primitives:popover': primitives.PopoverHydrationProps;
         'primitives:radioGroup': primitives.RadioGroupHydrationProps;
         'primitives:select': primitives.SelectHydrationProps;
@@ -58,6 +63,7 @@ declare module 'fluid-primitives' {
         'primitives:switch': primitives.SwitchHydrationProps;
         'primitives:tabs': primitives.TabsHydrationProps;
         'primitives:textarea': primitives.TextareaHydrationProps;
+        'primitives:toaster': primitives.ToasterHydrationProps;
         'primitives:toc': primitives.TocHydrationProps;
         'primitives:toggle': primitives.ToggleHydrationProps;
         'primitives:toggleGroup': primitives.ToggleGroupHydrationProps;

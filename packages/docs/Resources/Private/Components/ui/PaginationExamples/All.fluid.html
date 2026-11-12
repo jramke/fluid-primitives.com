@@ -1,0 +1,21 @@
+<ui:prop name="example_id" type="string" default="default" />
+
+<f:switch expression="{example_id}">
+    <f:case value="simple">
+        <ui:paginationExamples.simple />
+    </f:case>
+    <f:case value="first-and-last">
+        <ui:paginationExamples.firstAndLast />
+    </f:case>
+    <f:case value="links">
+        <ui:paginationExamples.links />
+    </f:case>
+    <f:case value="fetch-with-url">
+        <ui:paginationExamples.fetchWithUrl />
+    </f:case>
+    <f:case value="window">
+        <ui:paginationExamples.window />
+    </f:case>
+</f:switch>
+
+<ui:portalContainer />

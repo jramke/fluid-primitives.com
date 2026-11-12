@@ -5,6 +5,7 @@ declare(strict_types=1);
 use FluidPrimitives\Docs\Controller\CitySearchController;
 use FluidPrimitives\Docs\Controller\DocsController;
 use FluidPrimitives\Docs\Controller\EmptyValuesController;
+use FluidPrimitives\Docs\Controller\EventArchiveController;
 use FluidPrimitives\Docs\Controller\SearchIndexController;
 use FluidPrimitives\Docs\Routing\Aspect\ValidatedPathMapper;
 use TYPO3\CMS\Core\Cache\Backend\FileBackend;
@@ -21,10 +22,12 @@ ExtensionUtility::configurePlugin(
         DocsController::class => 'show,registration,homepage',
         EmptyValuesController::class => 'array,dto',
         CitySearchController::class => 'search',
+        EventArchiveController::class => 'list',
         SearchIndexController::class => 'index',
     ],
     [
         CitySearchController::class => 'search',
+        EventArchiveController::class => 'list',
     ],
 );
 

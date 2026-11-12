@@ -1,0 +1,43 @@
+<ui:pagination.root
+    rootId="event-archive"
+    autoMount="{false}"
+    paginator="{paginator}"
+    defaultPageSize="4"
+    fetchUrl="{f:uri.action(action: 'list', controller: 'EventArchive', format: 'json')}"
+    class="w-full max-w-md flex-col items-stretch gap-4">
+    <ui:context name="ui:pagination" as="paginationContext" />
+    <ul
+        {ui:ref(name: 'events', context: 'pagination')}
+        class="divide-y rounded-md border text-sm">
+        <f:for each="{paginator.paginatedItems}" as="event">
+            <li class="flex justify-between gap-4 px-4 py-2">
+                <span>{event.title}</span>
+                <span class="text-muted-foreground">{event.city}</span>
+            </li>
+        </f:for>
+    </ul>
+    <ui:template name="eventTemplate" context="pagination">
+        <li class="flex justify-between gap-4 px-4 py-2">
+            <span {ui:ref(name: 'title')}></span>
+            <span class="text-muted-foreground" {ui:ref(name: 'city')}></span>
+        </li>
+    </ui:template>
+    <div class="flex items-center gap-1">
+        <ui:pagination.prevTrigger />
+        <f:for each="{paginationContext.pages}" as="page">
+            <f:if condition="{page.type} == 'page'">
+                <f:then><ui:pagination.item value="{page.value}" /></f:then>
+                <f:else><ui:pagination.ellipsis index="{page.index}" /></f:else>
+            </f:if>
+        </f:for>
+        <primitives:pagination.itemTemplate>
+            <ui:pagination.item />
+        </primitives:pagination.itemTemplate>
+        <primitives:pagination.ellipsisTemplate>
+            <ui:pagination.ellipsis />
+        </primitives:pagination.ellipsisTemplate>
+        <ui:pagination.nextTrigger />
+    </div>
+</ui:pagination.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/PaginationExamples/FetchWithUrl.entry.ts" />
