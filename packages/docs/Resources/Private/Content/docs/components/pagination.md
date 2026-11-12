@@ -85,7 +85,7 @@ public function listAction(int $currentPage = 1): ResponseInterface
 
 ### Load pages without a reload
 
-Render the root with `autoMount="{false}"` and mount it yourself: `onPageChange` loads the events from the same list action with `format` `json`, and a click adds the URL of its link to the history instead of loading it. With an `itemTemplate`, the server sends the URL of every page as `pageUrls`, for the links the client renders.
+Pass your endpoint to `fetchUrl`, here the same list action with `format` `json`, render the root with `autoMount="{false}"` and mount it yourself with a `loadPage` function. It loads and shows a page after every page change: pass its `signal` to the request, so a response of a page that is no longer current is dropped. A click on a link no longer loads its URL: the address bar follows the page, and back and forward change it. For that, the server sends the URL of every page to the client.
 
 ```php
 public function listAction(int $currentPage = 1): ResponseInterface

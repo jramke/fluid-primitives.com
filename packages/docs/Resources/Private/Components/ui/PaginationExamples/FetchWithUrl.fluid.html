@@ -3,12 +3,11 @@
     autoMount="{false}"
     paginator="{paginator}"
     defaultPageSize="4"
-   
+    fetchUrl="{f:uri.action(action: 'list', controller: 'EventArchive', format: 'json')}"
     class="w-full max-w-md flex-col items-stretch gap-4">
     <ui:context name="ui:pagination" as="paginationContext" />
     <ul
         {ui:ref(name: 'events', context: 'pagination')}
-        data-url="{f:uri.action(action: 'list', controller: 'EventArchive', format: 'json')}"
         class="divide-y rounded-md border text-sm">
         <f:for each="{paginator.paginatedItems}" as="event">
             <li class="flex justify-between gap-4 px-4 py-2">

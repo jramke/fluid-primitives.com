@@ -472,6 +472,7 @@ declare namespace primitives {
         defaultPageSize?: number;
         siblingCount?: number;
         boundaryCount?: number;
+        fetchUrl?: string;
         translations: {
             rootLabel: string;
             firstTriggerLabel: string;
@@ -1069,6 +1070,7 @@ declare namespace ui {
         defaultPageSize?: number;
         siblingCount?: number;
         boundaryCount?: number;
+        fetchUrl?: string;
         translations: {
             rootLabel: string;
             firstTriggerLabel: string;
