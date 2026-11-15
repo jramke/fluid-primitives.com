@@ -58,10 +58,6 @@ the changelog.
   hydrates."
 - **A limit the reader will run into is the exception.** State it once, where it matters, in the
   positive form when possible, and name the alternative: "File uploads go through `extbase.post`."
-- **A limit that needs more than a sentence** (its cause, an example of what breaks) goes into a
-  `## Known limitations` section at the end of the page, one `###` per limit, named after it: "Converters
-  are shared by component name". The section where the reader meets it keeps one sentence and a link, so
-  the how-to stays short. Say why the limit exists in one sentence, then what breaks and the way around it.
 - **Keep other libraries out of it.** No comparisons, no "like in X". The acknowledgments on the
   introduction page are the place to credit them.
 
@@ -139,6 +135,9 @@ them here, and do not teach a reader how TYPO3, Symfony, Fluid or Composer work.
 ## Stay focused
 
 - One concept per section, the smallest example that shows our API.
+- Split a section that grows long. Give a side topic its own heading, and leave a sentence and a link where
+  the reader needs it. Example: the name clash of client prop converters sits under "Known limitations" at the
+  end of the arguments page, the converter section links to it.
 - No paragraph that restates the code, defends a design choice or lists what is possible but not asked for.
 - Say a requirement once, where the reader needs it, and link to it from other pages.
 - Do not open a page or section by restating its title.
