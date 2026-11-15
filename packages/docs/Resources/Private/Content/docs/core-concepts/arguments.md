@@ -107,9 +107,7 @@ mountAll('ui:deliveryDate', ({ props }) => {
 - A converter must handle `undefined`, because it runs for every instance, also when the server sent no value.
 - The converters are keyed by the bare component name, `deliveryDate`, so they apply to the component in every namespace.
 
-The library registers converters for its own components under their names, as soon as the module of one is imported. A component of your own with the same name then gets these converters too, in every namespace, and a registration of yours under that name replaces the library's.
-
-Say a booking form has its own `booking:datePicker`, built on another date library, while the same bundle imports `fluid-primitives/date-picker` for the date picker of a newsletter form. The library's converters then run for the booking date picker as well: its `min` arrives as a parsed date object, not as the string your code hands to the other library, and the booking date picker breaks. Register your own converters for `datePicker` to fix it, and the library's date picker gets yours and breaks instead. Give your component a name that no component of the library uses, such as `bookingDatePicker`.
+The library registers the converters of its components under their bare names, because it cannot know the namespace you mount them under. A component of your own with the same name gets them too: a `booking:datePicker` built on another date library receives `min` as a parsed date object once `fluid-primitives/date-picker` is imported, and converters of your own under that name replace the library's. Give your component a name no library component uses, such as `bookingDatePicker`.
 
 To type the converted props, see [Type a converted prop](/docs/core-concepts/typescript#content-type-a-converted-prop).
 
