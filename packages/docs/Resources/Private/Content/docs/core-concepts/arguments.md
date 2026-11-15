@@ -74,49 +74,42 @@ Mark a prop of a root component with `client="{true}"` to send it to the client:
 <ui:prop name="defaultOpen" type="boolean" optional="{true}" client="{true}" />
 ```
 
-The value is serialized into the hydration data and arrives as `props` in `mountAll`, see [Hydration](/docs/core-concepts/hydration).
+The value is serialized into the hydration data and arrives as `props` in `mountAll`, see [Hydration](/docs/core-concepts/hydration). The optional [TypeScript package](/docs/core-concepts/typescript) types these `props` per component.
 
-## Generating TypeScript types
+An object is sent as JSON. A class that implements `JsonSerializable` sends what `jsonSerialize()` returns, any other class all of its public properties, so keep secrets out of the public properties of an object you pass to a client prop.
 
-The optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package generates TypeScript types for the client props of every component:
+### Convert a prop on the client
 
-```bash
-composer require --dev jramke/fluid-types
-```
-
-Then run:
-
-```bash
-vendor/bin/typo3 typescript:generate
-```
-
-The package uses [spatie/typescript-transformer](https://github.com/spatie/typescript-transformer) under the hood to generate the TypeScript types.
-
-The command finds every registered component collection and every `#[TypeScript]`-tagged class of your own and writes the types into a `types.generated` folder. `types.d.ts` declares every type in a global TypeScript namespace: the component types of a collection in the namespace of its Fluid namespace (`ui.AccordionHydrationProps`), a PHP class or enum in its PHP namespace (`Acme.Site.Dto.Link`). You use them without an import. `registry.d.ts` connects the component names to those types.
-
-Use `--output` to specify a different folder for the generated TypeScript types.
-
-Use `--check` in CI to compare the files on disk with a fresh run and exit with an error when they differ.
-
-`mountAll` and `mount` then type `props` from the component name:
+Register a converter when the client works with a prop in another shape than its JSON. A delivery date picker gets its earliest date as a string and needs a `Date`:
 
 ```typescript
-mountAll('ui:collapsible', ({ props }) => {
-    // props is typed as CollapsibleHydrationProps
+import {
+    mountAll,
+    registerClientPropConverters,
+    type ClientPropConverterMap,
+} from 'fluid-primitives';
+
+const deliveryDatePropConverters = {
+    earliest: (earliest: string | undefined) =>
+        earliest === undefined ? undefined : new Date(earliest),
+} satisfies ClientPropConverterMap;
+
+registerClientPropConverters('deliveryDate', deliveryDatePropConverters);
+
+mountAll('ui:deliveryDate', ({ props }) => {
+    // props.earliest is a Date, or undefined when the server sent none
 });
 ```
 
-### PHP objects on the client
+`mountAll` and `mount` run the converters before the callback.
 
-An object passed as a client prop must implement `JsonSerializable`. Its `jsonSerialize()` needs to carry an `@return array{...}` docblock so the generated type can follow that shape. Generation fails for a class without one.
+- Register the converters before `mountAll` or `mount` runs for the component, at the top level of the module that mounts it. A component that mounts first gets the JSON value.
+- A converter must handle `undefined`, because it runs for every instance, also when the server sent no value.
+- The converters are keyed by the bare component name, `deliveryDate`, so they apply to the component in every namespace. Keep that name apart from the library's, see [Converters are shared by component name](#content-converters-are-shared-by-component-name).
 
-### Two types with the same name
+To type the converted props, see [Type a converted prop](/docs/core-concepts/typescript#content-type-a-converted-prop).
 
-Two types of one name in one TypeScript namespace are invalid, so the command stops with the names of both. It happens when two `#[TypeScript(name: '...')]` attributes pick the same name, or when two components resolve to the same type name (`foo.bar` and `fooBar`). Rename one, or move one into another namespace with `#[TypeScript(location: ['Other'])]`.
-
-### Arrays as client props
-
-A prop declared `type="array"` generates as `any`, because the type cannot tell a list from an object. Declare a list as `type="string[]"` for a precise type. The command prints one warning with the number of props that qualify, and `-v` lists them.
+{% component: "ui:apiReference", arguments: { "symbol": "registerClientPropConverters" } %}
 
 ## Inheriting props
 
@@ -143,3 +136,9 @@ Build a wrapper around a primitive with `ui:useProps`. It imports the prop defin
 ```
 
 Add `as` whenever the wrapper renders the referenced component, it tells Fluid Primitives that the wrapper delegates. Without `as` the prop definitions are imported and nothing is forwarded, which suits a wrapper that reuses another component's props for its own markup.
+
+## Known limitations
+
+### Converters are shared by component name
+
+The library registers the converters of its components under their bare names, because it cannot know the namespace you mount them under. A component of your own with the same name gets them too: a `booking:datePicker` built on another date library receives `min` as a parsed date object once `fluid-primitives/date-picker` is imported, and converters of your own under that name replace the library's. Give your component a name no library component uses, such as `bookingDatePicker`.

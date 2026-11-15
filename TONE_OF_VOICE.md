@@ -79,6 +79,14 @@ consequence.
   otherwise its overrides load before the library and lose."
 - Give a reason only for a requirement. A recommendation that needs a long defence is probably not worth
   making.
+- A requirement reads as one. Write "must" and what breaks otherwise. A flat statement of fact
+  ("implements") reads as a description of what usually happens, and the reader misses that the library
+  depends on it.
+
+|       | Example                                                                                  |
+| ----- | ---------------------------------------------------------------------------------------- |
+| Don't | The sitepackage requires `jramke/fluid-primitives`.                                      |
+| Do    | The sitepackage must require `jramke/fluid-primitives`, or its overrides load before it. |
 
 ## Use real-world scenarios
 
@@ -127,6 +135,9 @@ them here, and do not teach a reader how TYPO3, Symfony, Fluid or Composer work.
 ## Stay focused
 
 - One concept per section, the smallest example that shows our API.
+- Split a section that grows long. Give a side topic its own heading, and leave a sentence and a link where
+  the reader needs it. Example: the name clash of client prop converters sits under "Known limitations" at the
+  end of the arguments page, the converter section links to it.
 - No paragraph that restates the code, defends a design choice or lists what is possible but not asked for.
 - Say a requirement once, where the reader needs it, and link to it from other pages.
 - Do not open a page or section by restating its title.
@@ -159,7 +170,8 @@ them here, and do not teach a reader how TYPO3, Symfony, Fluid or Composer work.
 
 Search the page for words that usually signal a violation, and rewrite what you find: `now`,
 `no longer`, `used to`, `instead of`, `not`, `never`, `always`, `must`, `only`, `just`, `simply`,
-`my_ext`, `site_package`, `EXT:docs`, `React`.
+`my_ext`, `site_package`, `EXT:docs`, `React`. Every `must` names a real requirement with its consequence,
+and every real requirement says `must`.
 
 ## Extend this file
 

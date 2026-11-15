@@ -100,6 +100,7 @@
     "autoload-dev": {
         "psr-4": {
             "Jramke\\FluidPrimitives\\Tests\\": "packages/fluid-primitives/tests",
+            "Jramke\\FluidTypes\\Tests\\": "packages/fluid-types/tests",
             "FluidPrimitives\\Benchmarks\\Tests\\": "packages/benchmarks/tests",
             "FluidPrimitives\\Docs\\Tests\\": "packages/docs/tests"
         }

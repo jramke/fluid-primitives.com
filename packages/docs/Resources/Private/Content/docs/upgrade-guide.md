@@ -155,7 +155,7 @@ The constructor stores the props, `init()` builds the hydrator, machine and api.
 
 ## Generate TypeScript types
 
-Optional: [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) types the `props` of `mountAll()` and `mount()` per component. See [Generating TypeScript types](/docs/core-concepts/arguments#content-generating-typescript-types).
+Optional: [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) types the `props` of `mountAll()` and `mount()` per component. See [TypeScript](/docs/core-concepts/typescript).
 
 ```bash
 composer require --dev jramke/fluid-types

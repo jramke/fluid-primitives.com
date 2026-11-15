@@ -24,7 +24,7 @@ Your sitepackage should require `jramke/fluid-primitives` in its own `composer.j
 
 ### TypeScript
 
-Using TypeScript? Add the optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package to generate typed client props for `mountAll`/`mount`. Read more about [Generating TypeScript Types](/docs/core-concepts/arguments#content-generating-typescript-types).
+Using TypeScript? Add the optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package to generate typed client props for `mountAll`/`mount`. Read more on the [TypeScript](/docs/core-concepts/typescript) page.
 
 ```bash
 composer require --dev jramke/fluid-types
