@@ -58,6 +58,10 @@ the changelog.
   hydrates."
 - **A limit the reader will run into is the exception.** State it once, where it matters, in the
   positive form when possible, and name the alternative: "File uploads go through `extbase.post`."
+- **A limit that needs more than a sentence** (its cause, an example of what breaks) goes into a
+  `## Known limitations` section at the end of the page, one `###` per limit, named after it: "Converters
+  are shared by component name". The section where the reader meets it keeps one sentence and a link, so
+  the how-to stays short. Say why the limit exists in one sentence, then what breaks and the way around it.
 - **Keep other libraries out of it.** No comparisons, no "like in X". The acknowledgments on the
   introduction page are the place to credit them.
 

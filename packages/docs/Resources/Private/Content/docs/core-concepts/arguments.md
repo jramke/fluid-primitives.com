@@ -105,9 +105,7 @@ mountAll('ui:deliveryDate', ({ props }) => {
 
 - Register the converters before `mountAll` or `mount` runs for the component, at the top level of the module that mounts it. A component that mounts first gets the JSON value.
 - A converter must handle `undefined`, because it runs for every instance, also when the server sent no value.
-- The converters are keyed by the bare component name, `deliveryDate`, so they apply to the component in every namespace.
-
-The library registers the converters of its components under their bare names, because it cannot know the namespace you mount them under. A component of your own with the same name gets them too: a `booking:datePicker` built on another date library receives `min` as a parsed date object once `fluid-primitives/date-picker` is imported, and converters of your own under that name replace the library's. Give your component a name no library component uses, such as `bookingDatePicker`.
+- The converters are keyed by the bare component name, `deliveryDate`, so they apply to the component in every namespace. Keep that name apart from the library's, see [Converters are shared by component name](#content-converters-are-shared-by-component-name).
 
 To type the converted props, see [Type a converted prop](/docs/core-concepts/typescript#content-type-a-converted-prop).
 
@@ -138,3 +136,9 @@ Build a wrapper around a primitive with `ui:useProps`. It imports the prop defin
 ```
 
 Add `as` whenever the wrapper renders the referenced component, it tells Fluid Primitives that the wrapper delegates. Without `as` the prop definitions are imported and nothing is forwarded, which suits a wrapper that reuses another component's props for its own markup.
+
+## Known limitations
+
+### Converters are shared by component name
+
+The library registers the converters of its components under their bare names, because it cannot know the namespace you mount them under. A component of your own with the same name gets them too: a `booking:datePicker` built on another date library receives `min` as a parsed date object once `fluid-primitives/date-picker` is imported, and converters of your own under that name replace the library's. Give your component a name no library component uses, such as `bookingDatePicker`.
