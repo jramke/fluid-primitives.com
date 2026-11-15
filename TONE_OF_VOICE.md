@@ -79,6 +79,14 @@ consequence.
   otherwise its overrides load before the library and lose."
 - Give a reason only for a requirement. A recommendation that needs a long defence is probably not worth
   making.
+- A requirement reads as one. Write "must" and what breaks otherwise. A flat statement of fact
+  ("implements") reads as a description of what usually happens, and the reader misses that the library
+  depends on it.
+
+|       | Example                                                                                    |
+| ----- | ------------------------------------------------------------------------------------------ |
+| Don't | An object passed as a client prop implements `JsonSerializable`.                           |
+| Do    | An object passed as a client prop must implement `JsonSerializable`, or the command stops. |
 
 ## Use real-world scenarios
 
@@ -159,7 +167,8 @@ them here, and do not teach a reader how TYPO3, Symfony, Fluid or Composer work.
 
 Search the page for words that usually signal a violation, and rewrite what you find: `now`,
 `no longer`, `used to`, `instead of`, `not`, `never`, `always`, `must`, `only`, `just`, `simply`,
-`my_ext`, `site_package`, `EXT:docs`, `React`.
+`my_ext`, `site_package`, `EXT:docs`, `React`. Every `must` names a real requirement with its consequence,
+and every real requirement says `must`.
 
 ## Extend this file
 
