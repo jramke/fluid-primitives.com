@@ -107,6 +107,8 @@ mountAll('ui:deliveryDate', ({ props }) => {
 - A converter must handle `undefined`, because it runs for every instance, also when the server sent no value.
 - The converters are keyed by the bare component name, `deliveryDate`, so they apply to the component in every namespace.
 
+The library registers converters for `checkbox`, `clipboard`, `combobox`, `datePicker`, `fileUpload`, `menu`, `numberInput`, `pagination`, `passwordInput`, `popover`, `select`, `slider`, `toc` and `tooltip`, as soon as its module is imported, such as `fluid-primitives/date-picker`. A component of your own with one of these names then gets them too, in every namespace, and your own registration under one of them replaces the library's. Give your component another name, such as `bookingDatePicker`.
+
 To type the converted props, see [Type a converted prop](/docs/core-concepts/typescript#content-type-a-converted-prop).
 
 {% component: "ui:apiReference", arguments: { "symbol": "registerClientPropConverters" } %}
