@@ -83,10 +83,10 @@ consequence.
   ("implements") reads as a description of what usually happens, and the reader misses that the library
   depends on it.
 
-|       | Example                                                                                    |
-| ----- | ------------------------------------------------------------------------------------------ |
-| Don't | An object passed as a client prop implements `JsonSerializable`.                           |
-| Do    | An object passed as a client prop must implement `JsonSerializable`, or the command stops. |
+|       | Example                                                                                  |
+| ----- | ---------------------------------------------------------------------------------------- |
+| Don't | The sitepackage requires `jramke/fluid-primitives`.                                      |
+| Do    | The sitepackage must require `jramke/fluid-primitives`, or its overrides load before it. |
 
 ## Use real-world scenarios
 
