@@ -76,6 +76,8 @@ Mark a prop of a root component with `client="{true}"` to send it to the client:
 
 The value is serialized into the hydration data and arrives as `props` in `mountAll`, see [Hydration](/docs/core-concepts/hydration). The optional [TypeScript package](/docs/core-concepts/typescript) types these `props` per component.
 
+An object is sent as JSON. A class that implements `JsonSerializable` sends what `jsonSerialize()` returns, any other class all of its public properties, so keep secrets out of the public properties of an object you pass to a client prop.
+
 ## Inheriting props
 
 Build a wrapper around a primitive with `ui:useProps`. It imports the prop definitions, so the wrapper accepts the primitive's props as they are:
