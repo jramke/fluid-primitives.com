@@ -74,9 +74,42 @@ Mark a prop of a root component with `client="{true}"` to send it to the client:
 <ui:prop name="defaultOpen" type="boolean" optional="{true}" client="{true}" />
 ```
 
-The value is serialized into the hydration data and arrives as `props` in `mountAll`, see [Hydration](/docs/core-concepts/hydration). The optional [TypeScript package](/docs/core-concepts/typescript) types these `props` per component. A prop the client needs in another shape than its JSON, such as a date string as a `Date`, gets a [client converter](/docs/core-concepts/typescript#content-convert-a-prop-on-the-client).
+The value is serialized into the hydration data and arrives as `props` in `mountAll`, see [Hydration](/docs/core-concepts/hydration). The optional [TypeScript package](/docs/core-concepts/typescript) types these `props` per component.
 
 An object is sent as JSON. A class that implements `JsonSerializable` sends what `jsonSerialize()` returns, any other class all of its public properties, so keep secrets out of the public properties of an object you pass to a client prop.
+
+### Convert a prop on the client
+
+Register a converter when the client works with a prop in another shape than its JSON. A delivery date picker gets its earliest date as a string and needs a `Date`:
+
+```typescript
+import {
+    mountAll,
+    registerClientPropConverters,
+    type ClientPropConverterMap,
+} from 'fluid-primitives';
+
+const deliveryDatePropConverters = {
+    earliest: (earliest: string | undefined) =>
+        earliest === undefined ? undefined : new Date(earliest),
+} satisfies ClientPropConverterMap;
+
+registerClientPropConverters('deliveryDate', deliveryDatePropConverters);
+
+mountAll('ui:deliveryDate', ({ props }) => {
+    // props.earliest is a Date, or undefined when the server sent none
+});
+```
+
+`mountAll` and `mount` run the converters before the callback.
+
+- Register the converters before `mountAll` or `mount` runs for the component, at the top level of the module that mounts it. A component that mounts first gets the JSON value.
+- A converter must handle `undefined`, because it runs for every instance, also when the server sent no value.
+- The converters are keyed by the bare component name, `deliveryDate`, so they apply to the component in every namespace.
+
+To type the converted props, see [Type a converted prop](/docs/core-concepts/typescript#content-type-a-converted-prop).
+
+{% component: "ui:apiReference", arguments: { "symbol": "registerClientPropConverters" } %}
 
 ## Inheriting props
 
