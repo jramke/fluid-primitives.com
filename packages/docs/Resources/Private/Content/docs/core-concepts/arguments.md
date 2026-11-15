@@ -74,7 +74,7 @@ Mark a prop of a root component with `client="{true}"` to send it to the client:
 <ui:prop name="defaultOpen" type="boolean" optional="{true}" client="{true}" />
 ```
 
-The value is serialized into the hydration data and arrives as `props` in `mountAll`, see [Hydration](/docs/core-concepts/hydration). The optional [TypeScript package](/docs/core-concepts/typescript) types these `props` per component.
+The value is serialized into the hydration data and arrives as `props` in `mountAll`, see [Hydration](/docs/core-concepts/hydration). The optional [TypeScript package](/docs/core-concepts/typescript) types these `props` per component. A prop the client needs in another shape than its JSON, such as a date string as a `Date`, gets a [client converter](/docs/core-concepts/typescript#content-convert-a-prop-on-the-client).
 
 An object is sent as JSON. A class that implements `JsonSerializable` sends what `jsonSerialize()` returns, any other class all of its public properties, so keep secrets out of the public properties of an object you pass to a client prop.
 
