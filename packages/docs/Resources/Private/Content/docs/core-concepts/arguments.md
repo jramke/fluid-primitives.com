@@ -74,49 +74,7 @@ Mark a prop of a root component with `client="{true}"` to send it to the client:
 <ui:prop name="defaultOpen" type="boolean" optional="{true}" client="{true}" />
 ```
 
-The value is serialized into the hydration data and arrives as `props` in `mountAll`, see [Hydration](/docs/core-concepts/hydration).
-
-## Generating TypeScript types
-
-The optional [jramke/fluid-types](https://packagist.org/packages/jramke/fluid-types) package generates TypeScript types for the client props of every component:
-
-```bash
-composer require --dev jramke/fluid-types
-```
-
-Then run:
-
-```bash
-vendor/bin/typo3 typescript:generate
-```
-
-The package uses [spatie/typescript-transformer](https://github.com/spatie/typescript-transformer) under the hood to generate the TypeScript types.
-
-The command finds every registered component collection and every `#[TypeScript]`-tagged class of your own and writes the types into a `types.generated` folder. `types.d.ts` declares every type in a global TypeScript namespace: the component types of a collection in the namespace of its Fluid namespace (`ui.AccordionHydrationProps`), a PHP class or enum in its PHP namespace (`Acme.Site.Dto.Link`). You use them without an import. `registry.d.ts` connects the component names to those types.
-
-Use `--output` to specify a different folder for the generated TypeScript types.
-
-Use `--check` in CI to compare the files on disk with a fresh run and exit with an error when they differ.
-
-`mountAll` and `mount` then type `props` from the component name:
-
-```typescript
-mountAll('ui:collapsible', ({ props }) => {
-    // props is typed as CollapsibleHydrationProps
-});
-```
-
-### PHP objects on the client
-
-An object passed as a client prop must implement `JsonSerializable`. Its `jsonSerialize()` needs to carry an `@return array{...}` docblock so the generated type can follow that shape. Generation fails for a class without one.
-
-### Two types with the same name
-
-Two types of one name in one TypeScript namespace are invalid, so the command stops with the names of both. It happens when two `#[TypeScript(name: '...')]` attributes pick the same name, or when two components resolve to the same type name (`foo.bar` and `fooBar`). Rename one, or move one into another namespace with `#[TypeScript(location: ['Other'])]`.
-
-### Arrays as client props
-
-A prop declared `type="array"` generates as `any`, because the type cannot tell a list from an object. Declare a list as `type="string[]"` for a precise type. The command prints one warning with the number of props that qualify, and `-v` lists them.
+The value is serialized into the hydration data and arrives as `props` in `mountAll`, see [Hydration](/docs/core-concepts/hydration). The optional [TypeScript package](/docs/core-concepts/typescript) types these `props` per component.
 
 ## Inheriting props
 
