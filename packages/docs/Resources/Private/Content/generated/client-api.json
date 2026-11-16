@@ -1203,19 +1203,6 @@
                     }
                 ],
                 "title": "updateProps()"
-            },
-            {
-                "name": "notify",
-                "summary": "Tells the subscribers to render again, without a prop change behind it.",
-                "signatures": [
-                    {
-                        "signature": "notify(): void",
-                        "returns": {
-                            "type": "void"
-                        }
-                    }
-                ],
-                "title": "notify()"
             }
         ]
     },
