@@ -8,7 +8,8 @@
 
 ## Features
 
-- Follows the spinbutton pattern
+- A text field with stepper buttons, so screen readers on touch devices reach the buttons
+- Submits the number itself through a hidden input, while the input shows it formatted
 - Changes the value with the mouse wheel through `allowMouseWheel`
 - Avoids floating point rounding errors when incrementing, decrementing and snapping to a step
 - Keeps stepping while a button is pressed and held
@@ -24,6 +25,7 @@
     <primitives:numberInput.control>
         <primitives:numberInput.decrementTrigger />
         <primitives:numberInput.input />
+        <primitives:numberInput.hiddenInput />
         <primitives:numberInput.incrementTrigger />
     </primitives:numberInput.control>
     <primitives:numberInput.scrubber />
@@ -39,7 +41,7 @@
 
 ### With min/max constraints
 
-Pass `min` and `max` to set the range and `step` to set the increment. The buttons stop at the limits, and a typed value snaps into the range when the input loses focus. The demo is a percentage from 0 to 100 in steps of 5.
+Pass `min` and `max` to set the range and `step` to set the increment. The buttons stop at the limits, and the input refuses a typed value outside of the range. With `allowOutOfRange="{true}"` it keeps that value and marks the input invalid instead. The demo is a percentage from 0 to 100 in steps of 5.
 
 {% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.minMax" } %}
 
@@ -63,7 +65,7 @@ Set `allowMouseWheel="{true}"` to change the value with the mouse wheel while th
 
 ### Localization
 
-The labels of the increment and decrement buttons ship in the language file and follow the site language. Pass `translations` to override them for one number input, for example for a quantity stepper in a shop.
+The labels of the increment and decrement buttons and the role description of the input ship in the language file and follow the site language. Pass `translations` to override them for one number input, for example for a quantity stepper in a shop.
 
 ```html
 <f:variable
@@ -77,7 +79,7 @@ The labels of the increment and decrement buttons ship in the language file and 
 <ui:numberInput.root translations="{numberInputTranslations}"> ... </ui:numberInput.root>
 ```
 
-`valueText` sets the `aria-valuetext` of the input, the text a screen reader reads for the value. Write it with a `%value%` placeholder, e.g. `valueText: '%value% pieces'`. A client script passes a function of the value instead.
+`roleDescription` is how a screen reader names the input, "number field" in English.
 
 ## API Reference
 
@@ -89,7 +91,8 @@ The labels of the increment and decrement buttons ship in the language file and 
             ["root", "Provides shared number input state and wraps all related parts. Renders a `<div>` element."],
             ["label", "Labels the number input. Renders a `<label>` element."],
             ["control", "Groups the input and stepper triggers. Renders a `<div>` element."],
-            ["input", "Provides the editable spinbutton input. Renders an `<input>` element."],
+            ["input", "The text field that shows the formatted value. It has no `name`, the hidden input submits the value. Renders an `<input>` element."],
+            ["hiddenInput", "Submits the number itself under the `name` of the root, and takes the value the browser autofills. Render it inside the root whenever the number input belongs to a form, the registry `ui:numberInput.input` renders it for you. Renders a visually hidden `<input>` element."],
             ["incrementTrigger", "Increases the current value. Renders a `<button>` element."],
             ["decrementTrigger", "Decreases the current value. Renders a `<button>` element."],
             ["scrubber", "Allows changing the value by dragging. Renders a `<div>` element."],

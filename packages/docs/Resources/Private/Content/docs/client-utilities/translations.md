@@ -2,26 +2,31 @@
 
 **Turns the texts of a `translations` prop into the functions a state machine wants.**
 
-Many translations depend on state: the name of a file, the value of a number, the item a screen reader announces. A machine wants a function for those, but Fluid has no callbacks. A template writes a text with `%placeholders%` instead, a client script passes the function, and `resolveTranslations()` makes both the same function.
+Many translations depend on state: the name of a file, the number of a page, the item a screen reader announces. A machine wants a function for those, but Fluid has no callbacks. A template writes a text with `%placeholders%` instead, a client script passes the function, and `resolveTranslations()` makes both the same function.
 
 ## Usage
 
 In a template, write the text. The `%` form survives Fluid, a curly-brace placeholder would be read as a variable:
 
 ```html
-<ui:numberInput.root translations="{valueText: '%value% pieces'}"> ... </ui:numberInput.root>
+<ui:pagination.root translations="{itemLabel: 'Page %page% of %totalPages%'}">
+    ...
+</ui:pagination.root>
 ```
 
 In a client script, pass the function itself:
 
 ```typescript
 import { mountAll } from 'fluid-primitives';
-import { NumberInput } from 'fluid-primitives/numberInput';
+import { Pagination } from 'fluid-primitives/pagination';
 
-mountAll('primitives:numberInput', ({ props }) =>
-    new NumberInput({
+mountAll('primitives:pagination', ({ props }) =>
+    new Pagination({
         ...props,
-        translations: { ...props.translations, valueText: value => `${value} pieces` },
+        translations: {
+            ...props.translations,
+            itemLabel: ({ page, totalPages }) => `Page ${page} of ${totalPages}`,
+        },
     }).init()
 );
 ```
@@ -34,7 +39,7 @@ Pass the `translations` prop and the keys that are functions to `resolveTranslat
 import { resolveTranslations } from 'fluid-primitives';
 
 const translations = resolveTranslations(props.translations, {
-    valueText: (value: string) => ({ value }),
+    itemLabel: (details: { page: number; totalPages: number }) => ({ ...details }),
 });
 ```
 

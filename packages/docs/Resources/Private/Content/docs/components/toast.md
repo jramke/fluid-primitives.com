@@ -29,8 +29,10 @@ preview: true
     <primitives:toaster.toastTemplate>
         <primitives:toast.root>
             <primitives:toast.indicator />
-            <primitives:toast.title />
-            <primitives:toast.description />
+            <primitives:toast.content>
+                <primitives:toast.title />
+                <primitives:toast.description />
+            </primitives:toast.content>
             <primitives:toast.actionTrigger />
             <primitives:toast.closeTrigger />
         </primitives:toast.root>
@@ -107,7 +109,7 @@ A `toastTemplate` with a `type` is the template of the toasts of that type, the 
         type="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ToastType::Error')}"
     >
         <ui:toast.root class="border-destructive">
-            <div class="grid flex-1 gap-1">
+            <ui:toast.content>
                 <ui:toast.title>Something went wrong</ui:toast.title>
                 <ui:toast.description />
                 <a
@@ -115,7 +117,7 @@ A `toastTemplate` with a `type` is the template of the toasts of that type, the 
                     class="text-sm underline underline-offset-4"
                     >Contact support</a
                 >
-            </div>
+            </ui:toast.content>
             <ui:toast.closeTrigger />
         </ui:toast.root>
     </ui:toaster.toastTemplate>
@@ -166,7 +168,16 @@ The client places every toast through CSS variables on its root, so your CSS has
 .toast[data-overlap][data-sibling] > * {
     opacity: 0;
 }
+
+/* follow the pointer while a toast is swiped away */
+.toast[data-swiping] {
+    transition: none;
+}
 ```
+
+A toast can be swiped away toward the nearest edges of its placement. The swipe moves it through `--x` and `--y`, so turn the transition off while it has `data-swiping`. Set `swipeDirections` on the toaster, or `[]` to turn swiping off.
+
+The toaster sets no `z-index`, give the region one that keeps the toasts above your dialogs, as the registry `Toaster` does with `z-[2147483647]`.
 
 ## Show TYPO3 flash messages
 
@@ -264,6 +275,7 @@ showFlashMessages((await response.json()).flashMessages);
         "parts": [
             ["root", "One toast, the root element of the toast template. Renders a `<div>` element."],
             ["indicator", "Markup for one `type` of toast, such as its icon, `hidden` while the toast has another type. Renders a `<div>` element."],
+            ["content", "Wraps the title and the description. The toast follows the height of its content, so a toast template needs it. Renders a `<div>` element."],
             ["title", "The title of the toast, or what the template puts into it while the toast has none. Hidden when both are empty. Renders a `<div>` element."],
             ["description", "The description of the toast, or what the template puts into it while the toast has none. Hidden when both are empty. Renders a `<div>` element."],
             ["actionTrigger", "Runs the action of the toast and closes it, hidden when the toast has no action. Renders a `<button>` element."],

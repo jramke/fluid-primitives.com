@@ -22,7 +22,7 @@ preview: true
 ```html
 <primitives:pagination.root>
     <primitives:pagination.firstTrigger />
-    <primitives:pagination.prevTrigger />
+    <primitives:pagination.previousTrigger />
     <primitives:pagination.item />
     <primitives:pagination.ellipsis />
     <primitives:pagination.itemTemplate />
@@ -37,7 +37,7 @@ The context of the root holds the `pages` to show, each with a `type` (`page` or
 ```html
 <ui:pagination.root count="120">
     <ui:context name="ui:pagination" as="paginationContext" />
-    <ui:pagination.prevTrigger />
+    <ui:pagination.previousTrigger />
     <f:for each="{paginationContext.pages}" as="page">
         <f:if condition="{page.type} == 'page'">
             <f:then><ui:pagination.item value="{page.value}" /></f:then>
@@ -133,7 +133,7 @@ Add `firstTrigger` and `lastTrigger`.
             ["itemTemplate", "Holds the item the client clones for a page it renders. Renders a `<template>` element."],
             ["ellipsisTemplate", "Holds the ellipsis the client clones. Renders a `<template>` element."],
             ["firstTrigger", "Goes to the first page. Renders an `<a>` or a `<button>` element, as the item."],
-            ["prevTrigger", "Goes to the previous page. Renders an `<a>` or a `<button>` element, as the item."],
+            ["previousTrigger", "Goes to the previous page. Renders an `<a>` or a `<button>` element, as the item."],
             ["nextTrigger", "Goes to the next page. Renders an `<a>` or a `<button>` element, as the item."],
             ["lastTrigger", "Goes to the last page. Renders an `<a>` or a `<button>` element, as the item."]
         ]

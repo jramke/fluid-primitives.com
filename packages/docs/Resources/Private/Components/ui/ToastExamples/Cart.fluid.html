@@ -2,10 +2,10 @@
     <ui:toaster.toastTemplate>
         <ui:toast.root class="items-center">
             <img class="size-12 shrink-0 rounded-md" width="48" height="48" alt="" {ui:ref(name: 'image', context: 'toast' )} />
-            <div class="grid flex-1 gap-1">
+            <ui:toast.content>
                 <ui:toast.title />
                 <ui:toast.description />
-            </div>
+            </ui:toast.content>
             <ui:toast.closeTrigger />
         </ui:toast.root>
     </ui:toaster.toastTemplate>
