@@ -91,7 +91,7 @@ Add several `itemPreview` parts to the item template, each with a `match` MIME t
 
 ### Translate the labels
 
-`FileUpload` translates three labels: `dropzone` (the `aria-label` of the dropzone), `itemPreview` (the `alt` text of a preview image) and `deleteFile` (the `aria-label` of a delete button). The last two take a `%fileName%` placeholder, which the browser replaces with the name of the file:
+`FileUpload` translates five texts: `dropzone` (the `aria-label` of the dropzone), `itemPreview` (the `alt` text of a preview image), `deleteFile` (the `aria-label` of a delete button), and what a screen reader hears when files change: `filesAdded` and `fileDeleted`. `itemPreview`, `deleteFile` and `fileDeleted` take a `%fileName%` placeholder, which the browser replaces with the name of the file, and `filesAdded` takes `%fileNames%`, the names of all files added at once:
 
 ```html
 <ui:fileUpload.root
@@ -99,7 +99,7 @@ Add several `itemPreview` parts to the item template, each with a `match` MIME t
 ></ui:fileUpload.root>
 ```
 
-Write `%fileName%`, not `{fileName}`: Fluid reads a curly-brace expression inside a string as a variable and strips it. A client script passes a function of the `File` instead of a text. Leave out `itemPreview` or `deleteFile` to keep the built-in text. To translate per locale, read the texts from your own `locallang.xlf` with `f:translate`.
+Write `%fileName%`, not `{fileName}`: Fluid reads a curly-brace expression inside a string as a variable and strips it. A client script passes a function of the `File` instead of a text. Leave one out to keep the built-in text. To translate per locale, read the texts from your own `locallang.xlf` with `f:translate`.
 
 ### Upload a folder
 

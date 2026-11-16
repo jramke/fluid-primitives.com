@@ -70,6 +70,12 @@ Pass `defaultValue` as a list to preselect an item. The demo opens with Banana s
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.defaultValue" } %}
 
+### Open over the trigger
+
+Set `alignItemWithTrigger="{true}"` and the list opens over the trigger, with the selected item right on top of its value, as a native select on macOS does. A long list scrolls so that item is in place. Touch input and a lack of room fall back to the list below the trigger.
+
+{% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.alignItemWithTrigger" } %}
+
 ### Multiple selection
 
 Set `multiple="{true}"` to select several items. `closeOnSelect="{false}"` keeps the list open while you pick them.

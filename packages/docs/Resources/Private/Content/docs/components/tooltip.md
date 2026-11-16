@@ -63,6 +63,8 @@ Both buttons link to one `tooltip.provider` with `provider` and share its toolti
 
 {% component: "ui:componentExample", arguments: { "componentName": "TooltipExamples.detached" } %}
 
+To show another text per trigger and animate between them, render a content with the `value` of each trigger inside a `tooltip.viewport`, as in [Popover](/docs/components/popover#content-animate-between-triggers).
+
 ### Disable the tooltip
 
 Set `disabled` to keep the tooltip closed, for example while the action behind a button is unavailable.
@@ -85,7 +87,8 @@ Give an icon-only button a tooltip for sighted visitors and a visually hidden la
             ["root", "Provides tooltip state and context for the composed parts. Renders no wrapper element."],
             ["trigger", "Acts as the anchor that opens the tooltip. Renders a `<button>` element."],
             ["positioner", "Positions the tooltip content relative to the trigger. Renders a `<div>` element."],
-            ["content", "Displays the tooltip bubble content. Renders a `<div>` element."],
+            ["viewport", "Frames the contents of several triggers and animates between them, as in [Popover](/docs/components/popover#content-animate-between-triggers). Optional. Renders a `<div>` element."],
+            ["content", "Displays the tooltip bubble content. With a `value`, it is the content of the trigger with that value. Renders a `<div>` element."],
             ["arrow", "Displays a decorative tooltip arrow. Renders a `<div>` element."]
         ]
     }

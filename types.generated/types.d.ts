@@ -108,6 +108,7 @@ declare namespace bench {
         required?: boolean;
         closeOnSelect?: boolean;
         positioning?: any;
+        alignItemWithTrigger?: boolean;
         defaultValue?: string[];
         defaultHighlightedValue?: string;
         loopFocus?: boolean;
@@ -375,6 +376,8 @@ declare namespace primitives {
             dropzone: string;
             itemPreview: string;
             deleteFile: string;
+            filesAdded: string;
+            fileDeleted: string;
         };
     };
     export type FormHydrationProps = {
@@ -555,6 +558,7 @@ declare namespace primitives {
         required?: boolean;
         closeOnSelect?: boolean;
         positioning?: any;
+        alignItemWithTrigger?: boolean;
         defaultValue?: string[];
         defaultHighlightedValue?: string;
         loopFocus?: boolean;
@@ -980,6 +984,8 @@ declare namespace ui {
             dropzone: string;
             itemPreview: string;
             deleteFile: string;
+            filesAdded: string;
+            fileDeleted: string;
         };
     };
     export type FormHydrationProps = {
@@ -1159,6 +1165,7 @@ declare namespace ui {
         required?: boolean;
         closeOnSelect?: boolean;
         positioning?: any;
+        alignItemWithTrigger?: boolean;
         defaultValue?: string[];
         defaultHighlightedValue?: string;
         loopFocus?: boolean;

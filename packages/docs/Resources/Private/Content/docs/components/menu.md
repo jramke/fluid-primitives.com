@@ -111,6 +111,8 @@ Give each `menu.trigger` its own `value` and they open the same menu. `onTrigger
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.multipleTriggers", "additionalFiles": {"MultipleTriggers.entry.ts": "EXT:docs/Resources/Private/Components/ui/MenuExamples/MultipleTriggers.entry.ts"} } %}
 
+For other items per trigger, render a content with the `value` of each trigger inside a `menu.viewport`. The menu animates between them as in [Popover](/docs/components/popover#content-animate-between-triggers). Filtering works on one content only.
+
 ### Detached triggers
 
 The trigger sits apart from the menu and links to a `menu.provider` with `provider`, a `contextTrigger` takes it too. The provider takes the props of the menu: here `positioning`, which aligns the menu to the end of the trigger. Its `id` is the `rootId` of the menu, so a submenu names it in `parentId`. See [Providers](/docs/core-concepts/context#content-providers).
@@ -139,7 +141,8 @@ Menus portal to the end of the `<body>`. Set `portalled="{false}"` on `menu.cont
             ["root", "Provides shared menu state to the rest of the parts. Renders no element of its own."],
             ["trigger", "Opens and closes the menu. Renders a `<button>` element."],
             ["contextTrigger", "Opens the menu at the cursor position on right-click. Renders a `<div>` element."],
-            ["content", "Contains the menu items. Renders a `<div>` element."],
+            ["viewport", "Frames the contents of several triggers and animates between them, as in [Popover](/docs/components/popover#content-animate-between-triggers). Optional. Renders a `<div>` element."],
+            ["content", "Contains the menu items. With a `value`, it is the content of the trigger with that value. Renders a `<div>` element."],
             ["input", "Filters the items while you type. Renders an `<input>` element, for the `dialog` popup type."],
             ["list", "Wraps the items next to the `input` and the `empty` part. Renders a `<div>` element, the `menu` of a `dialog` popup."],
             ["empty", "Tells that no item matches. Renders a `<div>` element, hidden while an item is visible."],
