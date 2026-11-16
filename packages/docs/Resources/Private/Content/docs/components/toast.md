@@ -169,13 +169,14 @@ The client places every toast through CSS variables on its root, so your CSS has
     opacity: 0;
 }
 
-/* follow the pointer while a toast is swiped away */
+/* follow the pointer while a toast is swiped away, without selecting its text */
 .toast[data-swiping] {
     transition: none;
+    user-select: none;
 }
 ```
 
-A toast can be swiped away toward the nearest edges of its placement. The swipe moves it through `--x` and `--y`, so turn the transition off while it has `data-swiping`. Set `swipeDirections` on the toaster, or `[]` to turn swiping off.
+A toast can be swiped away toward the nearest edges of its placement. The swipe moves it through `--x` and `--y`, so turn the transition and text selection off while it has `data-swiping`. Set `swipeDirections` on the toaster, or `[]` to turn swiping off.
 
 The toaster sets no `z-index`, give the region one that keeps the toasts above your dialogs, as the registry `Toaster` does with `z-[2147483647]`.
 

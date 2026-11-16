@@ -1,19 +1,19 @@
 <ui:popover.root positioning="{ placement: 'bottom' }">
     <div class="flex items-center gap-2">
         <ui:popover.trigger value="notifications" asChild="{true}">
-            <ui:button variant="outline">Notifications</ui:button>
+            <ui:button variant="secondary">Notifications</ui:button>
         </ui:popover.trigger>
         <ui:popover.trigger value="activity" asChild="{true}">
-            <ui:button variant="outline">Activity</ui:button>
+            <ui:button variant="secondary">Activity</ui:button>
         </ui:popover.trigger>
         <ui:popover.trigger value="profile" asChild="{true}">
-            <ui:button variant="outline">Profile</ui:button>
+            <ui:button variant="secondary">Profile</ui:button>
         </ui:popover.trigger>
     </div>
 
     <ui:portal>
         <primitives:popover.positioner class="
-            z-[calc(50_+_var(--layer-index,0))] [--arrow-size:8px] [--arrow-background:var(--color-popover)]
+            z-[var(--layer-index,0)] [--arrow-size:8px] [--arrow-background:var(--color-popover)]
             [--duration:350ms] [--easing:cubic-bezier(0.22,1,0.36,1)]
             data-[transitioning]:transition-transform data-[transitioning]:duration-(--duration) data-[transitioning]:ease-(--easing)
         ">
