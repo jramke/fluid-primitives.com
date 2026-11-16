@@ -148,7 +148,7 @@ A screen reader announces the highlighted item through a live region, and the te
             ["positioner", "Positions the floating select content. Renders a `<div>` element."],
             ["content", "The popup surface, positioned by `positioner`. Holds the `list` and, with `popupType` `dialog`, other widgets next to it. Renders a `<div>` element."],
             ["input", "Filters the items while you type. Renders an `<input>` element, for the `dialog` popup type."],
-            ["empty", "Tells that no item matches. Renders a `<div>` element, hidden while an item is visible."],
+            ["empty", "Tells that no item matches. Renders a `<div>` that stays on the page as a live region, with a `<div>` inside it that takes your `class` and attributes and is hidden while an item is visible."],
             ["list", "The listbox inside `content` that holds the options - it takes focus, scrolls and tracks the active option. Renders a `<div>` element."],
             ["itemGroup", "Groups related options together. Renders a `<div>` element."],
             ["itemGroupLabel", "Labels a group of related options. Renders a `<div>` element."],

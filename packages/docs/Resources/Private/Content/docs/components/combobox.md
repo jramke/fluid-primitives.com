@@ -24,7 +24,7 @@
 
 Place the options inside `list`, which carries the listbox semantics and scrolling. `content` wraps it and is announced as a dialog with the `dialog` popup type. The styled `ui:combobox.content` combines `positioner` and `content` in one part, so you nest `ui:combobox.list` in it yourself.
 
-`combobox.empty` is a placeholder for a collection with nothing to show, because no item matches the search text or an async search is still waiting for results. Place it next to `combobox.list` inside `content`. It shows and hides itself.
+`combobox.empty` is a placeholder for a collection with nothing to show, because no item matches the search text or an async search is still waiting for results. Place it next to `combobox.list` inside `content`. It stays on the page as a live region, so a screen reader reads its message when it shows, and the element inside it, which takes your `class`, shows and hides.
 
 ```html
 <primitives:combobox.root>
@@ -154,7 +154,7 @@ Set `loading` while you fetch results: the list gets `aria-busy` and screen read
             ["positioner", "Positions the floating combobox content. Renders a `<div>` element."],
             ["content", "The popup surface, positioned by `positioner`. Holds the `list` and `empty` and, with `popupType` `dialog`, the `input` too. Renders a `<div>` element."],
             ["list", "The listbox inside `content` that holds the options - it scrolls and carries `role=\"listbox\"`. Renders a `<div>` element."],
-            ["empty", "Displays a placeholder for when no items match the current search. Renders a `<div>` element."],
+            ["empty", "Tells that nothing is there to show. Renders a `<div>` that stays on the page as a live region, with a `<div>` inside it that takes your `class` and attributes and is hidden while an item is visible."],
             ["item", "Represents a selectable option. Renders a `<div>` element."],
             ["itemText", "Displays the text content of an option. Renders a `<div>` element."],
             ["itemIndicator", "Displays the selected-state indicator for an option. Renders a `<div>` element."],
