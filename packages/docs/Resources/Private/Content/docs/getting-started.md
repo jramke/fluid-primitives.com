@@ -30,15 +30,6 @@ Using TypeScript? Add the optional [jramke/fluid-types](https://packagist.org/pa
 composer require --dev jramke/fluid-types
 ```
 
-### Canary builds
-
-Need a fix before the next release? Use the canary builds:
-
-```bash
-composer require jramke/fluid-primitives:"dev-main"
-npm install fluid-primitives@next
-```
-
 ## Setup
 
 ### 1. Create a component collection
