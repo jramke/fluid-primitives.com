@@ -32,11 +32,13 @@ composer require --dev jramke/fluid-types
 
 ### Canary builds
 
-Need a fix before the next release? Use the canary builds:
+Need a fix before the next release? Use the canary build:
 
 ```bash
 composer require jramke/fluid-primitives:"dev-main"
 ```
+
+There is no npm canary, so this only works for a fix on the PHP side. The client stays on the npm release you installed.
 
 ## Setup
 
