@@ -38,6 +38,10 @@
                 "type": "VoidFunction",
                 "description": "Restart the marquee animation from the beginning."
             },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root"
+            },
             "getContentState": {
                 "type": "(props: ContentProps) => ContentState",
                 "description": "Returns the state of a content instance"

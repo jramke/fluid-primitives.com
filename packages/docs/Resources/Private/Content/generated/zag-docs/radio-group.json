@@ -151,7 +151,7 @@
             "data-hover": "Present when hovered",
             "data-invalid": "Present when invalid",
             "data-orientation": "The orientation of the item",
-            "data-ssr": "Present when not rendered in the browser. Useful for ssr styling"
+            "data-indicator-pending": "Present while the indicator isn't in place yet (server render or not measured)"
         },
         "ItemText": {
             "data-radio-group-item-text": "<uid>",
@@ -163,7 +163,7 @@
             "data-hover": "Present when hovered",
             "data-invalid": "Present when invalid",
             "data-orientation": "The orientation of the item",
-            "data-ssr": "Present when not rendered in the browser. Useful for ssr styling"
+            "data-indicator-pending": "Present while the indicator isn't in place yet (server render or not measured)"
         },
         "ItemControl": {
             "data-radio-group-item-control": "<uid>",
@@ -176,12 +176,13 @@
             "data-hover": "Present when hovered",
             "data-invalid": "Present when invalid",
             "data-orientation": "The orientation of the item",
-            "data-ssr": "Present when not rendered in the browser. Useful for ssr styling"
+            "data-indicator-pending": "Present while the indicator isn't in place yet (server render or not measured)"
         },
         "Indicator": {
             "data-radio-group-indicator": "<uid>",
             "data-disabled": "Present when disabled",
-            "data-orientation": "The orientation of the indicator"
+            "data-orientation": "The orientation of the indicator",
+            "data-instant": ""
         }
     }
 }

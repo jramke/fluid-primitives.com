@@ -367,7 +367,7 @@
             "data-disabled": "Present when disabled"
         },
         "NodeCell": {
-            "data-tree-view-node-cell": "<uid>",
+            "data-tree-view-cell": "<uid>",
             "data-value": "The value of the item"
         }
     }

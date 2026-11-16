@@ -53,21 +53,9 @@
                 "type": "VoidFunction",
                 "description": "Function to exit edit mode, and submit any changes"
             },
-            "getAreaState": {
-                "type": "() => AreaState",
-                "description": "Returns the state of the area"
-            },
-            "getLabelState": {
-                "type": "() => LabelState",
-                "description": "Returns the state of the label"
-            },
-            "getInputState": {
-                "type": "() => InputState",
-                "description": "Returns the state of the input"
-            },
-            "getPreviewState": {
-                "type": "() => PreviewState",
-                "description": "Returns the state of the preview"
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root"
             }
         },
         "context": {
@@ -194,6 +182,13 @@
         }
     },
     "dataAttributes": {
+        "Root": {
+            "data-editable-root": "<uid>",
+            "data-focus": "Present when focused",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid"
+        },
         "Area": {
             "data-editable-area": "<uid>",
             "data-focus": "Present when focused",

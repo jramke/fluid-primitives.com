@@ -4,18 +4,18 @@
         "api": {
             "view": {
                 "type": "ViewType",
-                "description": "Current view."
+                "description": "The view currently rendered."
             },
             "date": {
-                "type": "DateValue",
+                "type": "CalendarDateTime",
                 "description": "Focused date (drives which range is visible)."
             },
             "today": {
-                "type": "DateValue",
+                "type": "CalendarDateTime",
                 "description": "Locale/timezone-aware \"today\" date \u2014 useful for highlighting current day."
             },
             "visibleRange": {
-                "type": "{ start: DateValue; end: DateValue }",
+                "type": "{ start: CalendarDateTime; end: CalendarDateTime }",
                 "description": "Raw start/end of the currently visible range."
             },
             "visibleRangeText": {
@@ -23,32 +23,52 @@
                 "description": "Localized text for the visible range \u2014 prefer this over formatting by hand."
             },
             "visibleDays": {
-                "type": "DateValue[]",
-                "description": "Enumerated dates from visibleRange.start to visibleRange.end, inclusive.\nWhen `workWeekOnly` is true and `view === \"week\"`, this is filtered down\nto `workWeekDays`."
+                "type": "CalendarDateTime[]",
+                "description": "Enumerated dates from visibleRange.start to visibleRange.end, inclusive."
+            },
+            "columns": {
+                "type": "SchedulerColumn<P>[]",
+                "description": "The columns to render \u2014 one per visible day, or one per day \u00d7 resource when grouping by resource."
+            },
+            "getTimelineState": {
+                "type": "() => TimelineState<P>",
+                "description": "Rows and slots for the timeline view."
+            },
+            "getAllDaySegments": {
+                "type": "(days?: CalendarDateTime[]) => AllDaySegment<P>[]",
+                "description": "All-day events as continuous bars across a row of days, one per event."
+            },
+            "getAllDayOverflow": {
+                "type": "(days?: CalendarDateTime[]) => { date: CalendarDateTime; count: number }[]",
+                "description": "Bars `maxAllDayRows` hid, counted per day, for rendering a \"+N more\" affordance."
+            },
+            "resources": {
+                "type": "SchedulerResource<P>[]",
+                "description": "The resources passed in, or an empty array."
             },
             "formatTime": {
-                "type": "(date: DateValue) => string",
+                "type": "(date: CalendarDateTime) => string",
                 "description": "Locale/timezone-aware hour+minute label, e.g. \"09:30\" / \"9:30 AM\"."
             },
             "formatTimeRange": {
-                "type": "(start: DateValue, end: DateValue) => string",
+                "type": "(start: CalendarDateTime, end: CalendarDateTime) => string",
                 "description": "Locale/timezone-aware time range, e.g. \"09:30 \u2013 11:00\"."
             },
             "formatLongDate": {
-                "type": "(date: DateValue) => string",
+                "type": "(date: CalendarDateTime) => string",
                 "description": "Locale/timezone-aware long date, e.g. \"Friday, April 24\"."
             },
             "formatDuration": {
-                "type": "(start: DateValue, end: DateValue) => string",
+                "type": "(start: CalendarDateTime, end: CalendarDateTime) => string",
                 "description": "Human-friendly duration between two dates, e.g. \"1h 30m\" / \"45m\"."
             },
             "formatWeekDay": {
-                "type": "(date: DateValue, style?: \"short\" | \"long\" | \"narrow\") => string",
+                "type": "(date: CalendarDateTime, style?: \"short\" | \"long\" | \"narrow\") => string",
                 "description": "Locale/timezone-aware weekday label for a specific date.",
                 "defaultValue": "\"short\""
             },
-            "weekDays": {
-                "type": "WeekDay[]",
+            "getWeekDays": {
+                "type": "() => WeekDay[]",
                 "description": "Day-of-week labels ordered by startOfWeek/locale."
             },
             "hourRange": {
@@ -64,8 +84,8 @@
                 "description": "Events whose range overlaps `visibleRange` \u2014 the set you actually render."
             },
             "getAgendaGroups": {
-                "type": "() => { date: DateValue; events: SchedulerEvent<P>[] }[]",
-                "description": "Visible events grouped by day and sorted by start. Lazy \u2014 computed only\nwhen called. Use for agenda / list layouts."
+                "type": "() => { date: CalendarDateTime; events: SchedulerEvent<P>[] }[]",
+                "description": "Visible events grouped by day and sorted by start."
             },
             "isDragging": {
                 "type": "boolean",
@@ -81,87 +101,99 @@
             },
             "dragState": {
                 "type": "DragState<P> | null",
-                "description": "State of the active drag or resize \u2014 null when idle. `start`/`end` track the\ncurrent pointer-predicted position; `origin` is where the gesture began."
+                "description": "State of the active drag or resize \u2014 null when idle."
             },
             "selectedSlot": {
-                "type": "{ start: DateValue; end: DateValue } | null",
-                "description": "Slot the user selected (clicked or drag-selected). Clears on escape or new click."
+                "type": "{ start: CalendarDateTime; end: CalendarDateTime } | null",
+                "description": "Slot the user selected (clicked or drag-selected)."
             },
             "focusedDate": {
-                "type": "DateValue | null",
-                "description": "Day cell that currently has keyboard focus in a month/year grid. Drives the\nroving tabindex emitted by `getDayCellTriggerProps`. `null` when focus\nhasn't entered the grid yet \u2014 the cell matching `api.date` receives\n`tabIndex=0` in that case."
+                "type": "CalendarDateTime | null",
+                "description": "Day cell that currently has keyboard focus in a month/year grid."
             },
             "setFocusedDate": {
-                "type": "(date: DateValue) => void",
-                "description": "Imperatively move keyboard focus to a specific date. Use this to jump\nfocus from outside the grid (e.g. a \"Today\" button)."
+                "type": "(date: CalendarDateTime) => void",
+                "description": "Imperatively move keyboard focus to a specific date."
             },
             "clearFocusedDate": {
                 "type": "() => void",
-                "description": "Clear keyboard focus. Typically called on grid blur or Escape."
+                "description": "Drop keyboard focus from the month grid."
             },
             "setView": {
                 "type": "(view: ViewType) => void",
-                "description": "Set the current view."
+                "description": "Switch to another view."
             },
             "setDate": {
-                "type": "(date: DateValue) => void",
-                "description": "Set the current date."
+                "type": "(date: CalendarDateTime) => void",
+                "description": "Move the visible range to contain this date."
             },
             "goToToday": {
                 "type": "() => void",
-                "description": "Go to today."
+                "description": "Jump the visible range to today."
             },
             "goToNext": {
                 "type": "() => void",
-                "description": "Go to next."
+                "description": "Advance by one view-sized step."
             },
-            "goToPrev": {
+            "goToPrevious": {
                 "type": "() => void",
-                "description": "Go to previous."
+                "description": "Go back by one view-sized step."
             },
             "clearSelectedSlot": {
                 "type": "() => void",
                 "description": "Dismiss the selected slot highlight (e.g. when a create dialog closes)."
             },
             "getEventState": {
-                "type": "(id: string) => EventStateDetail",
-                "description": "Get the state of the event."
+                "type": "(props: EventProps<P>) => EventState",
+                "description": "Interaction state for an event \u2014 dragging, focused, conflicting, and so on."
             },
             "getDayColumnState": {
                 "type": "(props: DayColumnProps) => DayColumnState",
-                "description": "Day-level flags for the given column \u2014 use to conditionally render custom\nUI (drop-target hint, day-specific styling) without reconstructing the\ncomparisons from `dragState` / `selectedSlot`."
+                "description": "Day-level flags for the given column \u2014 use to conditionally render custom UI (drop-target hint, day-specific styling) without reconstructing the comparisons from `dragState` / `selectedSlot`."
             },
             "getEventPosition": {
                 "type": "(event: SchedulerEvent<P>) => EventPosition",
                 "description": "Numeric position within a day column \u2014 use for custom layouts."
             },
             "getTimePercent": {
-                "type": "(date: DateValue) => number",
+                "type": "(date: CalendarDateTime) => number",
                 "description": "0..1 fraction of the visible day range corresponding to the given date's time-of-day."
             },
             "getMonthName": {
-                "type": "(date: DateValue) => string",
+                "type": "(date: CalendarDateTime) => string",
                 "description": "Localized full month name for the given date, e.g. \"April\"."
             },
-            "monthNames": {
-                "type": "string[]",
+            "getViewText": {
+                "type": "(view: ViewType) => string",
+                "description": "Display text for a view, e.g. \"Week\". Render it as the view item's children."
+            },
+            "getMonthNames": {
+                "type": "() => string[]",
                 "description": "Twelve localized month names in order."
             },
             "getMonthGrid": {
-                "type": "(date?: DateValue) => DateValue[][]",
-                "description": "Weeks \u00d7 days covering the month that contains `date`, padded to full weeks.\nUse for month grids and mini-month cells."
+                "type": "(date?: CalendarDateTime) => CalendarDateTime[][]",
+                "description": "Weeks \u00d7 days covering the month that contains `date`, padded to full weeks."
             },
             "getEventById": {
                 "type": "(id: string) => SchedulerEvent<P> | undefined",
                 "description": "O(1) event lookup by id (reads from the current events list)."
             },
             "getEventsForDay": {
-                "type": "(date: DateValue) => SchedulerEvent<P>[]",
-                "description": "Get events for a given day."
+                "type": "(date: CalendarDateTime) => SchedulerEvent<P>[]",
+                "description": "Events touching a day, multi-day ones included."
+            },
+            "getEventsForColumn": {
+                "type": "(column: SchedulerColumn<P>) => SchedulerEvent<P>[]",
+                "description": "Events for a column \u2014 scoped to its resource when grouping by resource."
+            },
+            "getEventsForRow": {
+                "type": "(row: TimelineRow<P>) => SchedulerEvent<P>[]",
+                "description": "Events for a timeline lane \u2014 scoped to its resource when the lane has one."
             },
             "getEventsForSlot": {
-                "type": "(start: DateValue, end: DateValue) => SchedulerEvent<P>[]",
-                "description": "Get events for a given slot."
+                "type": "(start: CalendarDateTime, end: CalendarDateTime) => SchedulerEvent<P>[]",
+                "description": "Events overlapping a time slot."
             },
             "hasConflict": {
                 "type": "(event: SchedulerEvent<P>) => boolean",
@@ -169,11 +201,11 @@
             },
             "getEventEl": {
                 "type": "(id: string) => HTMLElement | null",
-                "description": "The DOM element rendered by `getEventProps` for the given event id.\nUseful for anchoring a popover/menu to a specific event from outside\nReact render cycles. Returns `null` if not yet mounted."
+                "description": "The DOM element rendered by `getEventProps` for the given event id."
             },
             "getSelectedSlotEl": {
                 "type": "() => HTMLElement | null",
-                "description": "The DOM element rendered by `getSelectedSlotProps` for the active\n`selectedSlot` day. Useful for anchoring a popover to the selection\n(e.g. click-to-create). Returns `null` when nothing is selected."
+                "description": "The DOM element rendered by `getSelectedSlotProps` for the active `selectedSlot` day."
             },
             "getRootState": {
                 "type": "() => RootState",
@@ -198,11 +230,11 @@
                 "description": "Fires when the view mode changes."
             },
             "date": {
-                "type": "DateValue | undefined",
+                "type": "CalendarDateTime | undefined",
                 "description": "Current focused date"
             },
             "defaultDate": {
-                "type": "DateValue | undefined",
+                "type": "CalendarDateTime | undefined",
                 "description": "Initial focused date when uncontrolled"
             },
             "onDateChange": {
@@ -238,17 +270,35 @@
                 "description": "When true, `api.visibleDays` in week view is filtered down to `workWeekDays`.",
                 "defaultValue": "false"
             },
+            "resources": {
+                "type": "SchedulerResource<T>[] | undefined",
+                "description": "Resources (people, rooms, equipment) to schedule against."
+            },
+            "groupBy": {
+                "type": "GroupBy | undefined",
+                "description": "What each column represents.",
+                "defaultValue": "\"date\""
+            },
             "onSlotSelect": {
                 "type": "((details: SlotSelectDetails) => void) | undefined",
-                "description": "Fires when a user selects an empty slot \u2014 either by single click or by\ndrag-release. Discriminate via `details.action`. Use to open a quick-create\npopover anchored to `selectedSlot`."
+                "description": "Fires when a user selects an empty slot \u2014 either by single click or by drag-release."
+            },
+            "onEventReceive": {
+                "type": "((details: EventReceiveDetails<T>) => void) | undefined",
+                "description": "Fires when an item dragged from outside the scheduler is dropped on a slot."
+            },
+            "dataTransferFormat": {
+                "type": "string | undefined",
+                "description": "`dataTransfer` format read on an external drop.",
+                "defaultValue": "\"text/plain\""
             },
             "onSlotDoubleClick": {
                 "type": "((details: SlotDoubleClickDetails) => void) | undefined",
-                "description": "Fires on double-click of an empty slot \u2014 the conventional \"create event\"\nfast-path that bypasses slot selection (selectedSlot is not set)."
+                "description": "Fires on double-click of an empty slot \u2014 the conventional \"create event\" fast-path that bypasses slot selection (selectedSlot is not set)."
             },
             "onDayActivate": {
                 "type": "((details: DayActivateDetails) => void) | undefined",
-                "description": "Fires when a day cell is activated via click, Enter, or Space while focused.\nTypically used in month or year views to navigate to that day's detail view\nor open a quick-add dialog."
+                "description": "Fires when a day cell is activated via click, Enter, or Space while focused."
             },
             "onEventClick": {
                 "type": "((details: EventClickDetails<T>) => void) | undefined",
@@ -264,11 +314,15 @@
             },
             "canDragEvent": {
                 "type": "((event: SchedulerEvent<T>) => boolean) | undefined",
-                "description": "Return false to prevent dragging an event. Gates entry to event-dragging state."
+                "description": "Return false to prevent dragging an event."
             },
             "canResizeEvent": {
                 "type": "((event: SchedulerEvent<T>) => boolean) | undefined",
-                "description": "Return false to prevent resizing an event. Gates entry to event-resizing state."
+                "description": "Return false to prevent resizing an event."
+            },
+            "canDropEvent": {
+                "type": "((details: EventDropDetails<T>) => boolean) | undefined",
+                "description": "Decides whether a drag or resize may commit at its current position."
             },
             "locale": {
                 "type": "string | undefined",
@@ -277,11 +331,11 @@
             },
             "timeZone": {
                 "type": "string | undefined",
-                "description": "IANA timezone string. Defaults to local timezone."
+                "description": "IANA time zone driving `today` and every formatter."
             },
             "startOfWeek": {
                 "type": "0 | 1 | 2 | 3 | 4 | 5 | 6 | undefined",
-                "description": "Override the first day of the week (0=Sun\u20266=Sat). Falls back to locale default."
+                "description": "Override the first day of the week (0=Sun\u20266=Sat)."
             },
             "showWeekNumbers": {
                 "type": "boolean | undefined",
@@ -292,6 +346,10 @@
                 "type": "boolean | undefined",
                 "description": "Show a line at the current time in day/week views.",
                 "defaultValue": "true"
+            },
+            "maxAllDayRows": {
+                "type": "number | undefined",
+                "description": "Levels of all-day bars to show before the rest collapse into per-day counts. Unbounded when unset."
             },
             "maxRecurrenceInstances": {
                 "type": "number | undefined",
@@ -328,7 +386,7 @@
     },
     "dataAttributes": {
         "SelectedSlot": {
-            "data-scheduler-selected-slot": "<uid>",
+            "data-scheduler-slot-highlight": "<uid>",
             "data-active": "Present when active or pressed",
             "data-pending": ""
         },
@@ -337,7 +395,8 @@
             "data-view": "The view of the scheduler",
             "data-dragging": "Present when in the dragging state",
             "data-resizing": "",
-            "data-selecting-slot": ""
+            "data-selecting-slot": "",
+            "data-drop-invalid": ""
         },
         "ViewItem": {
             "data-scheduler-view-item": "<uid>",
@@ -347,12 +406,32 @@
         "ColumnHeader": {
             "data-scheduler-column-header": "<uid>",
             "data-date": "",
+            "data-resource": "",
+            "data-disabled": "Present when disabled",
             "data-today": "Present when the date represents today",
             "data-weekend": "Present when is a weekend day"
         },
         "Grid": {
             "data-scheduler-grid": "<uid>",
             "data-view": "The view of the grid"
+        },
+        "TimelineSlot": {
+            "data-scheduler-timeline-slot": "<uid>",
+            "data-date": "",
+            "data-today": "Present when the date represents today"
+        },
+        "TimelineRow": {
+            "data-scheduler-timeline-row": "<uid>",
+            "data-resource": "",
+            "data-disabled": "Present when disabled"
+        },
+        "TimelineRowHeader": {
+            "data-scheduler-timeline-row-header": "<uid>",
+            "data-resource": ""
+        },
+        "TimelineTrack": {
+            "data-scheduler-timeline-track": "<uid>",
+            "data-resource": ""
         },
         "HourLabel": {
             "data-scheduler-hour-label": "<uid>",
@@ -365,6 +444,10 @@
         "DayColumn": {
             "data-scheduler-day-column": "<uid>",
             "data-date": "",
+            "data-resource": "",
+            "data-disabled": "Present when disabled",
+            "data-today": "Present when the date represents today",
+            "data-weekend": "Present when is a weekend day",
             "data-drop-target": ""
         },
         "DayCell": {
@@ -374,7 +457,8 @@
             "data-outside": "",
             "data-weekend": "Present when is a weekend day",
             "data-selected": "Present when selected",
-            "data-all-day": ""
+            "data-all-day": "",
+            "data-drop-target": ""
         },
         "DayCellTrigger": {
             "data-scheduler-day-cell-trigger": "<uid>",
@@ -391,8 +475,11 @@
             "data-focused": "",
             "data-selected": "Present when selected",
             "data-conflict": "",
+            "data-invalid": "Present when invalid",
             "data-disabled": "Present when disabled",
-            "data-all-day": ""
+            "data-all-day": "",
+            "data-clip-start": "",
+            "data-clip-end": ""
         },
         "EventResizeHandle": {
             "data-scheduler-event-resize-handle": "<uid>",

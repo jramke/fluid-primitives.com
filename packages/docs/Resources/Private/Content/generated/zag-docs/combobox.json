@@ -55,6 +55,14 @@
                 "type": "boolean",
                 "description": "Whether the combobox is open"
             },
+            "inline": {
+                "type": "boolean",
+                "description": "Whether the list renders inline"
+            },
+            "loading": {
+                "type": "boolean",
+                "description": "Whether the results are being loaded"
+            },
             "inputValue": {
                 "type": "string",
                 "description": "The value of the combobox input"
@@ -67,13 +75,9 @@
                 "type": "V | null",
                 "description": "The highlighted item"
             },
-            "setHighlightValue": {
-                "type": "(value: string) => void",
-                "description": "The value of the combobox input"
-            },
-            "clearHighlightValue": {
-                "type": "VoidFunction",
-                "description": "Function to clear the highlighted value"
+            "setHighlightedValue": {
+                "type": "(value: string | null) => void",
+                "description": "Function to highlight a value, or clear the highlight with `null`"
             },
             "syncSelectedItems": {
                 "type": "VoidFunction",
@@ -307,9 +311,9 @@
                 "type": "((details: ScrollToIndexDetails) => void) | undefined",
                 "description": "Function to scroll to a specific index"
             },
-            "disableLayer": {
+            "inline": {
                 "type": "boolean | undefined",
-                "description": "Whether to disable registering this a dismissable layer"
+                "description": "Whether the list renders inline: always open, not positioned or dismissable"
             },
             "navigate": {
                 "type": "((details: NavigateDetails) => void) | null | undefined",
@@ -319,6 +323,10 @@
                 "type": "\"listbox\" | \"dialog\" | undefined",
                 "description": "The ARIA pattern of the popup. Drives `aria-haspopup` on the trigger, the\n`role` of the content element, the trigger's keyboard handling, and the\nlabel's click target.\n- `\"listbox\"` (default) \u2014 input-driven combobox; popup is a passive listbox.\n- `\"dialog\"` \u2014 popover-style combobox; popup is announced as a dialog,\n  trigger is keyboard-active, label-click focuses the trigger.",
                 "defaultValue": "\"listbox\""
+            },
+            "loading": {
+                "type": "boolean | undefined",
+                "description": "Whether the results are being loaded (e.g. fetched from a server).\n\nWhile loading, the listbox is marked with `aria-busy`, the loading message is\nannounced instead of the result count, and \"no results\" is never announced."
             },
             "dir": {
                 "type": "\"ltr\" | \"rtl\" | undefined",
@@ -350,6 +358,8 @@
     "dataAttributes": {
         "Root": {
             "data-combobox-root": "<uid>",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
             "data-invalid": "Present when invalid",
             "data-readonly": "Present when read-only"
         },
@@ -393,12 +403,15 @@
             "data-placement": "The placement of the content",
             "data-side": "The side of the trigger that the content is positioned on",
             "data-empty": "Present when the content is empty",
+            "data-inline": "Present when the content is inline",
+            "data-loading": "Present when loading",
             "data-nested": "listbox",
             "data-has-nested": "listbox"
         },
         "List": {
             "data-combobox-list": "<uid>",
-            "data-empty": "Present when the content is empty"
+            "data-empty": "Present when the content is empty",
+            "data-loading": "Present when loading"
         },
         "ClearTrigger": {
             "data-combobox-clear-trigger": "<uid>",

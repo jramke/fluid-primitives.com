@@ -78,18 +78,6 @@
                 "type": "() => RootState",
                 "description": "Returns the state of the root."
             },
-            "getLabelState": {
-                "type": "() => LabelState",
-                "description": "Returns the state of the label."
-            },
-            "getControlState": {
-                "type": "() => ControlState",
-                "description": "Returns the state of the control (input, textarea, select, or a custom host)."
-            },
-            "getHelperTextState": {
-                "type": "() => HelperTextState",
-                "description": "Returns the state of the helper text."
-            },
             "getErrorTextState": {
                 "type": "(props?: ErrorTextProps) => ErrorTextState",
                 "description": "Returns the state of the error text."
@@ -112,6 +100,10 @@
             "invalid": {
                 "type": "boolean | undefined",
                 "description": "Whether the field is invalid, regardless of computed validity.\nUse for app-level errors (e.g. server errors) the machine cannot compute itself."
+            },
+            "errors": {
+                "type": "string | string[] | undefined",
+                "description": "Errors from outside the field, such as a server response. They mark the field invalid\nuntil the user changes the value, and show again when different errors are passed or the form is submitted."
             },
             "dirty": {
                 "type": "boolean | undefined",

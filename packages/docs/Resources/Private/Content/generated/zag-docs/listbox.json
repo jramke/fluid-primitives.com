@@ -14,9 +14,9 @@
                 "type": "V | null",
                 "description": "The highlighted item"
             },
-            "highlightValue": {
-                "type": "(value: string) => void",
-                "description": "Function to highlight a value"
+            "setHighlightedValue": {
+                "type": "(value: string | null) => void",
+                "description": "Function to highlight a value, or clear the highlight with `null`"
             },
             "highlightFirst": {
                 "type": "VoidFunction",
@@ -33,10 +33,6 @@
             "highlightPrevious": {
                 "type": "VoidFunction",
                 "description": "Function to highlight the previous value"
-            },
-            "clearHighlightedValue": {
-                "type": "VoidFunction",
-                "description": "Function to clear the highlighted value"
             },
             "selectedItems": {
                 "type": "V[]",

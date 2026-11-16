@@ -42,6 +42,10 @@
                 "type": "boolean",
                 "description": "Whether the progress bar is indeterminate."
             },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root. The label, track, range and circle parts share it."
+            },
             "getViewState": {
                 "type": "(props: ViewProps) => ViewState",
                 "description": "Returns the state of a view"
@@ -59,7 +63,7 @@
             "defaultValue": {
                 "type": "number | null | undefined",
                 "description": "The initial value of the progress bar when rendered.\nUse when you don't need to control the value of the progress bar.",
-                "defaultValue": "50"
+                "defaultValue": "min"
             },
             "min": {
                 "type": "number | undefined",

@@ -116,16 +116,12 @@
                 "description": "Function to set the positioning options of the cascade-select"
             },
             "setOpen": {
-                "type": "(open: boolean) => void",
+                "type": "(open: boolean, reason?: OpenChangeReason | undefined) => void",
                 "description": "Function to open the cascade-select"
             },
-            "setHighlightValue": {
-                "type": "(value: string | string[]) => void",
-                "description": "Function to set the highlighted value (path or single value to find)"
-            },
-            "clearHighlightValue": {
-                "type": "() => void",
-                "description": "Function to clear the highlighted value"
+            "setHighlightedValue": {
+                "type": "(value: string | string[] | null) => void",
+                "description": "Function to set the highlighted value (path or single value to find), or clear it with `null`"
             },
             "selectValue": {
                 "type": "(value: string[]) => void",

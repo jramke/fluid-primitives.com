@@ -65,6 +65,10 @@
                 "type": "boolean",
                 "description": "Whether the tags have reached the max limit."
             },
+            "highlightedValue": {
+                "type": "string | null",
+                "description": "The value of the highlighted tag."
+            },
             "setValue": {
                 "type": "(value: string[]) => void",
                 "description": "Function to set the value of the tags."

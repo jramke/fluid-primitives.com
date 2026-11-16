@@ -53,6 +53,10 @@
             "valueState": {
                 "type": "MeterValueState",
                 "description": "How good the current value is: `optimal`, `suboptimal`, or `least-optimal`."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root. The label, track and indicator share it."
             }
         },
         "context": {
@@ -66,7 +70,8 @@
             },
             "defaultValue": {
                 "type": "number | undefined",
-                "description": "The initial value of the meter when rendered.\nUse when you don't need to control the value of the meter."
+                "description": "The initial value of the meter when rendered.\nUse when you don't need to control the value of the meter.",
+                "defaultValue": "min"
             },
             "min": {
                 "type": "number | undefined",

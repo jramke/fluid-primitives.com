@@ -42,6 +42,14 @@
                 "type": "(props: ScrollbarProps) => ScrollbarState",
                 "description": "Returns the state of the scrollbar"
             },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root. The content shares it."
+            },
+            "getViewportState": {
+                "type": "() => ViewportState",
+                "description": "Returns the state of the viewport"
+            },
             "getCornerState": {
                 "type": "() => CornerState",
                 "description": "Returns the state of the corner"

@@ -34,6 +34,14 @@
                 "type": "PageRange",
                 "description": "The page range. Represented as an object with `start` and `end` properties."
             },
+            "type": {
+                "type": "\"button\" | \"link\"",
+                "description": "The type of the pagination controls."
+            },
+            "getPageUrl": {
+                "type": "(page: number) => string | undefined",
+                "description": "Returns the url for the given page, or `undefined` when `getPageUrl` is not provided."
+            },
             "slice": {
                 "type": "<V>(data: V[]) => V[]",
                 "description": "Function to slice an array of data based on the current page."
@@ -50,7 +58,7 @@
                 "type": "VoidFunction",
                 "description": "Function to go to the next page."
             },
-            "goToPrevPage": {
+            "goToPreviousPage": {
                 "type": "VoidFunction",
                 "description": "Function to go to the previous page."
             },
@@ -150,8 +158,8 @@
             "data-index": "The index of the item",
             "data-selected": "Present when selected"
         },
-        "PrevTrigger": {
-            "data-pagination-prev-trigger": "<uid>",
+        "PreviousTrigger": {
+            "data-pagination-previous-trigger": "<uid>",
             "data-disabled": "Present when disabled"
         },
         "FirstTrigger": {

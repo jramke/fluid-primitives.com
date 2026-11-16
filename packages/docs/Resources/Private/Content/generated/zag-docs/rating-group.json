@@ -55,9 +55,9 @@
                 "type": "(props: ItemProps) => ItemState",
                 "description": "Returns the state of a rating item"
             },
-            "getControlState": {
-                "type": "() => ControlState",
-                "description": "Returns the state of the control"
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root. The label, control and hidden input share it."
             }
         },
         "context": {
@@ -134,6 +134,11 @@
         }
     },
     "dataAttributes": {
+        "Root": {
+            "data-rating-group-root": "<uid>",
+            "data-disabled": "Present when disabled",
+            "data-readonly": "Present when read-only"
+        },
         "Label": {
             "data-rating-group-label": "<uid>",
             "data-disabled": "Present when disabled",
