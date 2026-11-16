@@ -145,7 +145,7 @@ Menus portal to the end of the `<body>`. Set `portalled="{false}"` on `menu.cont
             ["content", "Contains the menu items. With a `value`, it is the content of the trigger with that value. Renders a `<div>` element."],
             ["input", "Filters the items while you type. Renders an `<input>` element, for the `dialog` popup type."],
             ["list", "Wraps the items next to the `input` and the `empty` part. Renders a `<div>` element, the `menu` of a `dialog` popup."],
-            ["empty", "Tells that no item matches. Renders a `<div>` element, hidden while an item is visible."],
+            ["empty", "Tells that no item matches. Renders a `<div>` that stays on the page as a live region, with a `<div>` inside it that takes your `class` and attributes and is hidden while an item is visible."],
             ["item", "A selectable menu action. Renders a `<div>` element."],
             ["checkboxItem", "A menu item that toggles independently of other items. Renders a `<div>` element."],
             ["radioItem", "A menu item that's mutually exclusive with other radio items sharing the same `name`. Renders a `<div>` element."],
