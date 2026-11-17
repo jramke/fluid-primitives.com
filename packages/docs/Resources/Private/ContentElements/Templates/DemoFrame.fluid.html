@@ -1,0 +1,13 @@
+<f:layout name="Default" />
+<f:section name="Main">
+    <f:variable name="url" value="{f:uri.typolink(parameter: data.header_link)}" />
+    <figure data-demo-frame class="w-full min-w-80 max-w-full resize-x overflow-hidden rounded-xl border bg-background">
+        <div class="flex items-center gap-3 border-b px-4 py-2 text-xs text-muted-foreground">
+            <span class="truncate font-mono" data-demo-frame-url>{url}</span>
+            <a href="{url}" target="_blank" data-demo-frame-link class="ms-auto shrink-0 underline-offset-4 hover:underline">Open in a new tab</a>
+        </div>
+        <iframe src="{url}" title="{data.header}" class="block h-[44rem] w-full"></iframe>
+        <figcaption class="border-t px-4 py-1.5 pe-8 text-end text-xs text-muted-foreground">Drag the corner to make the page narrower</figcaption>
+    </figure>
+    <vite:asset entry="EXT:docs/Resources/Private/js/DemoFrame.entry.ts" />
+</f:section>

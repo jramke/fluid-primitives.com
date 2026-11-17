@@ -1,0 +1,13 @@
+mod.web_layout.BackendLayouts {
+    Demo {
+        title = Demo
+        config.backend_layout {
+            colCount = 1
+            rowCount = 1
+            rows.1.columns.1 {
+                name = Demo
+                colPos = 0
+            }
+        }
+    }
+}

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FluidPrimitives\Demos\Service;
+namespace FluidPrimitives\Docs\Services;
 
 use Jramke\FluidPrimitives\Utility\Typed;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,16 +30,6 @@ final readonly class DemoPages
         return $pageInformation instanceof PageInformation
             ? Typed::arrayOrNull($pageInformation->getLocalRootLine()[1] ?? null)
             : null;
-    }
-
-    public function currentSlug(ServerRequestInterface $request): string
-    {
-        // @mago-expect analysis:mixed-assignment
-        $pageInformation = $request->getAttribute('frontend.page.information');
-
-        return $pageInformation instanceof PageInformation
-            ? Typed::string($pageInformation->getPageRecord()['slug'] ?? null)
-            : '';
     }
 
     /**

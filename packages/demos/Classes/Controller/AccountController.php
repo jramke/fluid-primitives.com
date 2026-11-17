@@ -49,11 +49,7 @@ final class AccountController extends ActionController
             ['uid' => $user['uid']],
         );
 
-        $this->respond([
-            'message' => 'Your name is saved.',
-            'name' => $name,
-            'initials' => CurrentUser::initials($name),
-        ]);
+        $this->respond(['message' => 'Your name is saved.']);
     }
 
     /**

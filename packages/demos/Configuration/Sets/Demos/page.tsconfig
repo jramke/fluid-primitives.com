@@ -1,11 +1,11 @@
 mod.web_layout.BackendLayouts {
-    Demo {
-        title = Demo
+    Acme {
+        title = Acme
         config.backend_layout {
             colCount = 1
             rowCount = 1
             rows.1.columns.1 {
-                name = Demo
+                name = Content
                 colPos = 0
             }
         }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FluidPrimitives\Demos\Command;
+namespace FluidPrimitives\Docs\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -18,16 +18,17 @@ use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Creates the demo pages under the root page of the site, with their content elements and records. A page is
- * created when no page has its slug, so a new demo reaches an installation that has the older ones, production
- * included. A page that exists stays as it is.
+ * Creates the demos: the imaginary site "Acme" of EXT:demos with its records, and a docs page per demo that shows
+ * a page of Acme in a frame. A page is created when no page has its slug, so a new demo reaches an installation
+ * that has the older ones, production included. A page that exists stays as it is.
  */
 // One run that creates each demo with its content, kept in one place on purpose
 // @mago-expect lint:kan-defect
 #[AsCommand('demos:setup', 'Creates the demo pages and their records that are missing.')]
-final class SetupCommand extends Command
+final class DemosSetupCommand extends Command
 {
     private const string OVERVIEW = '/demos';
+    private const string SITE = '/acme';
 
     public function __construct(
         private readonly ConnectionPool $connectionPool,
@@ -41,54 +42,33 @@ final class SetupCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->initializeDataHandler();
+        $rootPageId = $this->rootPageId();
 
-        $overview = $this->page(self::OVERVIEW, $this->rootPageId(), [
-            'title' => 'Demos',
-            'abstract' => 'Parts of a TYPO3 site built with Fluid Primitives, next to EXT:news and felogin. Each demo is a page with content elements, as on your own site.',
-            'backend_layout' => 'pagets__Demo',
-            'backend_layout_next_level' => 'pagets__Demo',
-        ]);
-        $data = $this->page(self::OVERVIEW . '/demo-data', $overview['uid'], [
-            'title' => 'Demo data',
-            'doktype' => 254,
+        // The imaginary site, each page placed after the one before it: a negative pid in DataHandler
+        $site = $this->page(self::SITE, $rootPageId, [
+            'title' => 'Acme',
             'nav_hide' => 1,
+            'backend_layout' => 'pagets__Acme',
+            'backend_layout_next_level' => 'pagets__Acme',
         ]);
+        $data = $this->page(self::SITE . '/data', $site['uid'], ['title' => 'Data', 'doktype' => 254]);
         $dataPid = $data['uid'];
+        $news = $this->page(self::SITE . '/news', -$dataPid, ['title' => 'News']);
+        $article = $this->page(self::SITE . '/news/article', $news['uid'], ['title' => 'Article', 'nav_hide' => 1]);
+        $login = $this->page(self::SITE . '/login', -$news['uid'], ['title' => 'Log in']);
+        $register = $this->page(self::SITE . '/register', -$login['uid'], ['title' => 'Create an account']);
+        $account = $this->page(self::SITE . '/account', -$register['uid'], ['title' => 'Account settings']);
+
         if ($data['created']) {
             $this->createRecords($dataPid);
         }
-
-        // Each page is placed after the one before it: a negative pid in DataHandler
-        $news = $this->page(self::OVERVIEW . '/news', $overview['uid'], [
-            'title' => 'News list',
-            'abstract' => 'An EXT:news list with a search, a category and a date filter. The list and its pages load without a reload.',
-            'keywords' => 'Input, Select, Date Picker, Pagination',
-        ]);
-        $article = $this->page(self::OVERVIEW . '/news/article', -$news['uid'], [
-            'title' => 'News article',
-            'nav_hide' => 1,
-        ]);
-        $login = $this->page(self::OVERVIEW . '/login', -$article['uid'], [
-            'title' => 'Login and registration',
-            'abstract' => 'The felogin login, a registration that shows the validation errors of Extbase on its fields, and a user menu with account settings.',
-            'keywords' => 'Form, Field, Input, Password Input, Button, Menu',
-        ]);
-        $register = $this->page(self::OVERVIEW . '/login/register', $login['uid'], [
-            'title' => 'Registration',
-            'abstract' => 'Create an account for the login demo.',
-            'nav_hide' => 1,
-        ]);
-        $account = $this->page(self::OVERVIEW . '/login/account', -$register['uid'], [
-            'title' => 'Account settings',
-            'abstract' => 'The settings page of the user menu.',
-            'nav_hide' => 1,
-        ]);
-        $header = $this->page(self::OVERVIEW . '/header', -$login['uid'], [
-            'title' => 'Site header',
-            'abstract' => 'A navigation with two dropdowns. On small screens it moves into a drawer with collapsible sections.',
-            'keywords' => 'Navigation Menu, Dialog, Collapsible',
-        ]);
-
+        if ($site['created']) {
+            $this->createContent($site['uid'], 'text', [
+                'header' => 'Acme',
+                'header_layout' => 1,
+                'bodytext' => '<p>An imaginary site for the demos of Fluid Primitives.</p>',
+            ]);
+        }
         if ($news['created']) {
             $this->createContent($news['uid'], 'news_newssearchresult', [
                 'pi_flexform' => $this->flexForm([
@@ -106,19 +86,71 @@ final class SetupCommand extends Command
             ]);
         }
         if ($login['created']) {
-            $this->createLoginContent($login['uid'], $dataPid);
+            $this->createContent($login['uid'], 'felogin_login', [
+                'pi_flexform' => $this->flexForm([
+                    'sDEF' => [
+                        'settings.pages' => $dataPid,
+                        // @mago-expect lint:no-literal-password
+                        'settings.showForgotPassword' => 0,
+                    ],
+                    's_redirect' => [
+                        'settings.redirectMode' => 'login',
+                        'settings.redirectPageLogin' => $account['uid'],
+                    ],
+                ]),
+            ]);
         }
         if ($register['created']) {
-            // The user menu shows at any login, the registration hides at login
-            $userMenu = $this->createContent($register['uid'], 'demos_usermenu', ['fe_group' => -2]);
-            $this->createContent(-$userMenu, 'demos_registration', ['pages' => $dataPid, 'fe_group' => -1]);
+            // Hide at login
+            $this->createContent($register['uid'], 'demos_registration', ['pages' => $dataPid, 'fe_group' => -1]);
         }
         if ($account['created']) {
-            $userMenu = $this->createContent($account['uid'], 'demos_usermenu');
-            $this->createContent(-$userMenu, 'demos_account');
+            $this->createContent($account['uid'], 'demos_account');
         }
-        if ($header['created']) {
-            $this->createContent($header['uid'], 'demos_siteheader');
+
+        // The docs pages, each shows a page of Acme in a frame
+        $overview = $this->page(self::OVERVIEW, $rootPageId, [
+            'title' => 'Demos',
+            'abstract' => 'Parts of a TYPO3 site built with Fluid Primitives, next to EXT:news and felogin. Each demo is a page of an imaginary site, its code is in packages/demos.',
+            'backend_layout' => 'pagets__Demo',
+            'backend_layout_next_level' => 'pagets__Demo',
+        ]);
+        $previous = 0;
+        foreach ([
+            [
+                'slug' => '/news',
+                'frame' => $news['uid'],
+                'title' => 'News list',
+                'abstract' => 'An EXT:news list with a search, a category and a date filter. The list and its pages load without a reload.',
+                'keywords' => 'Input, Select, Date Picker, Pagination',
+            ],
+            [
+                'slug' => '/login',
+                'frame' => $login['uid'],
+                'title' => 'Login and registration',
+                'abstract' => 'The felogin login, a registration that shows the validation errors of Extbase on its fields, and a user menu with account settings.',
+                'keywords' => 'Form, Field, Input, Password Input, Button, Menu',
+            ],
+            [
+                'slug' => '/header',
+                'frame' => $site['uid'],
+                'title' => 'Site header',
+                'abstract' => 'A navigation with two dropdowns. On small screens it moves into a drawer with collapsible sections.',
+                'keywords' => 'Navigation Menu, Dialog, Collapsible',
+            ],
+        ] as $demo) {
+            $page = $this->page(self::OVERVIEW . $demo['slug'], $previous === 0 ? $overview['uid'] : -$previous, [
+                'title' => $demo['title'],
+                'abstract' => $demo['abstract'],
+                'keywords' => $demo['keywords'],
+            ]);
+            if ($page['created']) {
+                $this->createContent($page['uid'], 'docs_demoframe', [
+                    'header' => $demo['title'],
+                    'header_link' => 't3://page?uid=' . $demo['frame'],
+                ]);
+            }
+            $previous = $page['uid'];
         }
 
         $output->writeln('The demos are set up.');
@@ -187,30 +219,13 @@ final class SetupCommand extends Command
         return $uids['NEW_content'];
     }
 
-    private function createLoginContent(int $pageUid, int $dataPid): void
-    {
-        // Show at any login
-        $userMenu = $this->createContent($pageUid, 'demos_usermenu', ['fe_group' => -2]);
-        $this->createContent(-$userMenu, 'felogin_login', [
-            // Hide at login: the user menu logs out
-            'fe_group' => -1,
-            'pi_flexform' => $this->flexForm([
-                'sDEF' => [
-                    'settings.pages' => $dataPid,
-                    // @mago-expect lint:no-literal-password
-                    'settings.showForgotPassword' => 0,
-                ],
-            ]),
-        ]);
-    }
-
     /**
      * The news with their categories, and the user group of the registration.
      */
     private function createRecords(int $pid): void
     {
         /** @var array{categories: list<string>, articles: list<array{title: string, date: string|int, categories: list<string>, teaser: string, body: string}>} $data */
-        $data = Yaml::parseFile(GeneralUtility::getFileAbsFileName('EXT:demos/Resources/Private/DemoData/News.yaml'));
+        $data = Yaml::parseFile(GeneralUtility::getFileAbsFileName('EXT:docs/Resources/Private/DemoData/News.yaml'));
 
         // In their own run: DataHandler leaves the categories of a news record empty when they are new in the same one
         $categories = [];

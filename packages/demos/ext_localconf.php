@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use FluidPrimitives\Demos\Controller\AccountController;
 use FluidPrimitives\Demos\Controller\RegistrationController;
-use FluidPrimitives\Demos\Controller\SiteHeaderController;
 use FluidPrimitives\Demos\Controller\UserMenuController;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
@@ -17,8 +16,6 @@ ExtensionUtility::configurePlugin(
     [RegistrationController::class => 'form,create'],
     [RegistrationController::class => 'create'],
 );
-
-ExtensionUtility::configurePlugin('Demos', 'SiteHeader', [SiteHeaderController::class => 'show'], []);
 
 // Both show the logged-in user, so neither is cached
 ExtensionUtility::configurePlugin(

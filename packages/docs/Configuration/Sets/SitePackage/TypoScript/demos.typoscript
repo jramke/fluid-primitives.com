@@ -1,0 +1,10 @@
+# The demos: docs pages that show a page of the imaginary site of EXT:demos in a frame
+tt_content.docs_demoframe =< lib.contentElement
+tt_content.docs_demoframe.templateName = DemoFrame
+
+# The docs pages set their whole title themselves
+[traverse(page, "slug") starts with "/demos"]
+    config.pageTitle.stdWrap.noTrimWrap = || – Fluid Primitives|
+[END]
+
+lib.demoContent < styles.content.get

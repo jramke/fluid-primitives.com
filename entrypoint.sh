@@ -33,7 +33,7 @@ warm() {
     curl -fsS -o /dev/null --max-time 300 --retry 60 --retry-delay 2 --retry-connrefused \
         -H "Host: $host" http://127.0.0.1/ || { echo "Caches not warmed: the home page does not answer"; return 0; }
 
-    { echo /the-pitch; printf "/demos\n/demos/news\n/demos/login\n/demos/header\n"; sed -n 's|^ \+- \(.*\)|/\1|p' packages/docs/Resources/Private/Content/nav.yaml; } \
+    { echo /the-pitch; printf "/demos\n/demos/news\n/demos/login\n/demos/header\n/acme\n/acme/news\n/acme/login\n/acme/register\n"; sed -n 's|^ \+- \(.*\)|/\1|p' packages/docs/Resources/Private/Content/nav.yaml; } \
         | xargs -P 4 -I{} curl -fsS -o /dev/null --max-time 300 \
             -H "Host: $host" 'http://127.0.0.1{}' || true
 

@@ -1,8 +1,8 @@
 # Demos
 
-The demos of [fluid-primitives.com/demos](https://fluid-primitives.com/demos): parts of a TYPO3 site you build again and again, done with Fluid Primitives and the extensions you already use. Each demo is a page with content elements, like on your own site. The components are the ones `typo3 ui:add` gives you, from the [docs](../docs/Resources/Private/Components/ui).
+Acme, the imaginary site of [fluid-primitives.com/demos](https://fluid-primitives.com/demos): parts of a TYPO3 site you build again and again, done with Fluid Primitives and the extensions you already use. The docs show its pages in a frame, open one in a new tab to see it on its own. The components are the ones `typo3 ui:add` gives you, from the [docs](../docs/Resources/Private/Components/ui), and the forms use the entry file `ui:add form` ships.
 
-Run `typo3 demos:setup` to create the pages, the content elements and the records. The command creates a demo page when no page has its slug, and leaves the pages that exist as they are.
+The pages and records come from `typo3 demos:setup` of the docs extension.
 
 ## News
 
@@ -14,28 +14,19 @@ An EXT:news list with a search, a category and a date filter. The list follows e
 - [`setup.typoscript`](Configuration/Sets/Demos/setup.typoscript) - `disableOverrideDemand = 0` lets the filter set the categories, `categoryConjunction = or` makes EXT:news use them.
 - [`ext_localconf.php`](ext_localconf.php) - excludes the category filter from the cHash, like EXT:news does for its search: a GET form can't sign its values. The plugin is uncached.
 
-## Login
-
-The login of felogin on `/demos/login`, a registration on its own page that shows the validation errors of Extbase on its fields, and a user menu with the account settings.
-
-- [`Login.fluid.html`](Resources/Private/Extensions/Felogin/Templates/Login/Login.fluid.html) - felogin with an Input and a Password Input in fields. It is a native form, felogin logs in on a full request. Keep the names `user`, `pass` and `logintype`.
-- [`Form.fluid.html`](Resources/Private/Templates/Registration/Form.fluid.html) and [`Registration.entry.ts`](Resources/Private/js/Registration.entry.ts) - the registration is a `ui:form` that posts with `fetch`. It checks the password confirmation on the client, the server checks everything again.
-- [`RegistrationController.php`](Classes/Controller/RegistrationController.php) and [`RegistrationValidator.php`](Classes/Domain/Validator/RegistrationValidator.php) - `JsonValidationErrorsTrait` answers failed validation with a `422`, which the form shows on the fields. A taken email address gets the same answer from the action. After a registration the script keeps the email in the `sessionStorage`, and [`Login.entry.ts`](Resources/Private/js/Login.entry.ts) fills it into the login form.
-- [`UserMenu/Show.fluid.html`](Resources/Private/Templates/UserMenu/Show.fluid.html) - after the login, a `ui:menu` with the initials of the user as trigger: their name and email, a link to the account settings and "Log out". The initials are where an Avatar would go. A menu item is no form control, so [`UserMenu.entry.ts`](Resources/Private/js/UserMenu.entry.ts) submits the logout form when "Log out" is selected. The plugin is uncached, see [`UserMenuController.php`](Classes/Controller/UserMenuController.php) and [`CurrentUser.php`](Classes/Service/CurrentUser.php).
-- [`Account/Edit.fluid.html`](Resources/Private/Templates/Account/Edit.fluid.html) - the account settings: a `ui:form` that changes the name, see [`AccountController.php`](Classes/Controller/AccountController.php) and [`Account.entry.ts`](Resources/Private/js/Account.entry.ts). The action changes the record of the session, never one the request names. After a save the user menu shows the new initials.
-
-The felogin form and the registration hide at login, the user menu shows at login. The demo deletes accounts a day after they were created, at the next registration.
-
-## Header
-
-The header of an imaginary website: a navigation with two dropdowns, which moves into a drawer on small screens.
-
-- [`SiteHeader/Show.fluid.html`](Resources/Private/Templates/SiteHeader/Show.fluid.html) - a `ui:navigationMenu` with the dropdowns "Product" and "Resources" and two links. Below `@3xl`, a width of a container query, a button opens a `ui:dialog` with the same links, as a drawer from the side, and each dropdown is a `ui:collapsible` there. Resize the frame of the demo to see it. The links are in the template, on your site they come from the page tree.
-
-## Load a list without a reload
-
-The news list uses [`RegionLoader.entry.ts`](Resources/Private/js/RegionLoader.entry.ts). Mark the part of the page that changes with `data-region="name"` and its filter form with `data-region-form="name"`. A click on a page of the pagination or a submit of the form loads the new page with `fetch` and swaps that part. The address bar follows, and back and forward work. `data-region-live` submits the form whenever a filter changes. Without JavaScript the links and the form load the page as usual.
+[`RegionLoader.entry.ts`](Resources/Private/js/RegionLoader.entry.ts) loads the list without a reload. Mark the part of the page that changes with `data-region="name"` and its filter form with `data-region-form="name"`. A click on a page of the pagination or a submit of the form loads the new page with `fetch` and swaps that part. The address bar follows, and back and forward work. `data-region-live` submits the form whenever a filter changes. Without JavaScript the links and the form load the page as usual. The new page brings the hydration data of its components in a `<script>` block, the script adds it to the `<head>` with the new markup, and `mountAll()` mounts the new pagination.
 
 The pagination is `ui:pagination.root` with the paginator of the plugin. [`PageUrlsViewHelper.php`](Classes/ViewHelpers/PageUrlsViewHelper.php) builds the URL of every page for its `pageUrls`, the current URL with the page argument of the plugin.
 
-The new page brings the hydration data of its components in a `<script>` block. The script adds the block to the `<head>` with the new markup, and `mountAll()` mounts the new pagination.
+## Login
+
+The login of felogin, a registration that shows the validation errors of Extbase on its fields, and account settings behind the user menu of the header.
+
+- [`Login.fluid.html`](Resources/Private/Extensions/Felogin/Templates/Login/Login.fluid.html) - felogin with an Input and a Password Input in fields. It is a native form, felogin logs in on a full request and redirects to the account settings. Keep the names `user`, `pass` and `logintype`.
+- [`Form.fluid.html`](Resources/Private/Templates/Registration/Form.fluid.html) - the registration is a `ui:form` that posts with `fetch`. [`RegistrationController.php`](Classes/Controller/RegistrationController.php) and [`RegistrationValidator.php`](Classes/Domain/Validator/RegistrationValidator.php): `JsonValidationErrorsTrait` answers failed validation with a `422`, which the form shows on the fields. A taken email address gets the same answer from the action.
+- [`UserMenu/Show.fluid.html`](Resources/Private/Templates/UserMenu/Show.fluid.html) - in the header, a `ui:menu` with the initials of the user as trigger: their name and email, a link to the account settings and a link that logs out. The initials are where an Avatar would go. Logged out, a link to the login. The plugin is uncached, see [`UserMenuController.php`](Classes/Controller/UserMenuController.php) and [`CurrentUser.php`](Classes/Service/CurrentUser.php).
+- [`Account/Edit.fluid.html`](Resources/Private/Templates/Account/Edit.fluid.html) - a `ui:form` that changes the name, see [`AccountController.php`](Classes/Controller/AccountController.php). The action changes the record of the session, never one the request names.
+
+## Header
+
+[`Header.fluid.html`](Resources/Private/PageView/Partials/Header.fluid.html), the header of every page: a `ui:navigationMenu` with two dropdowns and two links, and the user menu. Below `md` a button opens a `ui:dialog` with the same links, as a drawer from the side, and each dropdown is a `ui:collapsible` there. The links of the dropdowns lead nowhere, on your site they come from the page tree.

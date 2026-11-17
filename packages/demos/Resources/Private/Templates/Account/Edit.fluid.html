@@ -1,14 +1,14 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
-<section class="mt-8 max-w-md rounded-xl border p-6 sm:p-8">
-    <h2 class="text-xl font-semibold">Account settings</h2>
+<section class="mx-auto max-w-md rounded-xl border p-6 sm:p-8">
+    <h1 class="text-xl font-semibold">Account settings</h1>
     <f:if condition="{user}">
         <f:then>
             <p class="mt-1 text-sm text-muted-foreground">
-                {user.email}, member since <f:format.date format="F j, Y">{user.memberSince}</f:format.date>.
+                {user.email}, member since <f:format.date format="F j, Y">{user.memberSince}</f:format.date>
             </p>
 
-            <ui:form.root action="update" objectName="account" autoMount="{false}" rootId="account-form" class="mt-6">
+            <ui:form.root action="update" objectName="account" class="group/form mt-6">
                 <ui:form.content class="space-y-5">
                     <ui:field.root name="name" required="{true}">
                         <ui:input.root autocomplete="name" defaultValue="{user.name}">
@@ -18,7 +18,7 @@
                         <ui:field.helperText>The user menu shows its initials.</ui:field.helperText>
                         <ui:field.errorText />
                     </ui:field.root>
-                    <ui:button type="submit">Save</ui:button>
+                    <ui:button type="submit" class="group-data-submitting/form:pointer-events-none group-data-submitting/form:opacity-60">Save</ui:button>
                 </ui:form.content>
                 <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}" class="space-y-4">
                     <ui:alert.root>
@@ -26,7 +26,9 @@
                         <ui:alert.title>Saved</ui:alert.title>
                         <ui:alert.content><ui:form.successText /></ui:alert.content>
                     </ui:alert.root>
-                    <ui:button type="reset" variant="secondary">Edit again</ui:button>
+                    <ui:button asChild="{true}" variant="secondary">
+                        <a href="/acme/account">Back to the settings</a>
+                    </ui:button>
                 </ui:form.indicator>
                 <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}" class="space-y-4">
                     <ui:alert.root variant="destructive">
@@ -37,11 +39,10 @@
                     <ui:button type="reset" variant="secondary">Back to the form</ui:button>
                 </ui:form.indicator>
             </ui:form.root>
-            <vite:asset entry="EXT:demos/Resources/Private/js/Account.entry.ts" />
         </f:then>
         <f:else>
             <p class="mt-1 text-sm text-muted-foreground">
-                <a href="/demos/login" class="underline">Log in</a> to see your settings.
+                <a href="/acme/login" class="underline underline-offset-4">Log in</a> to see your settings.
             </p>
         </f:else>
     </f:if>

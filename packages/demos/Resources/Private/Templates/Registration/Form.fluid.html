@@ -1,12 +1,16 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
-<section class="max-w-md rounded-xl border p-6 sm:p-8">
-    <h2 class="text-xl font-semibold">Create an account</h2>
+<f:comment>
+    The Form of `ui:add form` posts with fetch and shows the validation errors of the server on the fields, its
+    entry file needs nothing of this page.
+</f:comment>
+<section class="mx-auto max-w-md rounded-xl border p-6 sm:p-8">
+    <h1 class="text-xl font-semibold">Create an account</h1>
     <p class="mt-1 text-sm text-muted-foreground">
-        Already have one? <a href="/demos/login" class="underline underline-offset-4">Log in</a>. The demo deletes accounts a day after they were created.
+        Already have one? <a href="/acme/login" class="underline underline-offset-4">Log in</a>
     </p>
 
-    <ui:form.root action="create" objectName="registration" autoMount="{false}" rootId="registration-form" class="mt-6">
+    <ui:form.root action="create" objectName="registration" class="group/form mt-6">
         <ui:form.content class="space-y-5">
             <ui:field.root name="name" required="{true}">
                 <ui:input.root autocomplete="name">
@@ -37,7 +41,7 @@
                 <ui:field.errorText />
             </ui:field.root>
 
-            <ui:field.root name="passwordConfirmation" required="{true}" listenTo="{0: 'password'}">
+            <ui:field.root name="passwordConfirmation" required="{true}">
                 <ui:passwordInput.root autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
                     <ui:passwordInput.label>Repeat the password</ui:passwordInput.label>
                     <ui:passwordInput.control>
@@ -48,29 +52,17 @@
                 <ui:field.errorText />
             </ui:field.root>
 
-            <f:variable name="submitLabelId" value="{ui:id()}" />
-            <ui:button
-                type="submit"
-                class="w-full"
-                focusableWhenDisabled="{true}"
-                aria-labelledby="{submitLabelId}"
-                autoMount="{false}"
-                rootId="registration-submit">
-                <span id="{submitLabelId}">
-                    <ui:button.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ButtonIndicatorState::Idle')}">Create account</ui:button.indicator>
-                    <ui:button.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ButtonIndicatorState::Loading')}">Creating your account…</ui:button.indicator>
-                </span>
-            </ui:button>
+            <ui:button type="submit" class="w-full group-data-submitting/form:pointer-events-none group-data-submitting/form:opacity-60">Create account</ui:button>
         </ui:form.content>
 
-        <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}">
+        <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}" class="space-y-4">
             <ui:alert.root>
                 <ui:alert.icon />
                 <ui:alert.title>Done</ui:alert.title>
                 <ui:alert.content><ui:form.successText /></ui:alert.content>
             </ui:alert.root>
-            <ui:button asChild="{true}" class="mt-4 w-full">
-                <a href="/demos/login">Log in</a>
+            <ui:button asChild="{true}" class="w-full">
+                <a href="/acme/login">Log in</a>
             </ui:button>
         </ui:form.indicator>
         <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}" class="space-y-4">
@@ -83,6 +75,4 @@
         </ui:form.indicator>
     </ui:form.root>
 </section>
-
-<vite:asset entry="EXT:demos/Resources/Private/js/Registration.entry.ts" />
 </html>

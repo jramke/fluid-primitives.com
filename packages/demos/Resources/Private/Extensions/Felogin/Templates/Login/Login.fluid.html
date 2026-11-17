@@ -4,17 +4,17 @@
     A native form: felogin logs in on a full request. The inputs keep the names felogin reads, user, pass and
     logintype.
 </f:comment>
-<section class="max-w-md rounded-xl border p-6 sm:p-8">
-    <h2 class="text-xl font-semibold">Log in</h2>
+<section class="mx-auto max-w-md rounded-xl border p-6 sm:p-8">
+    <h1 class="text-xl font-semibold">Log in</h1>
     <p class="mt-1 text-sm text-muted-foreground">
-        No account yet? <a href="/demos/login/register" class="underline underline-offset-4">Create one</a>, the demo deletes it after a day.
+        No account yet? <a href="/acme/register" class="underline underline-offset-4">Create one</a>
     </p>
 
     <f:if condition="{messageKey} == 'error'">
         <ui:alert class="mt-6" variant="destructive" title="{f:render(partial: 'RenderLabelOrMessage', arguments: {key: 'error_header'})}" text="{f:render(partial: 'RenderLabelOrMessage', arguments: {key: 'error_message'})}" />
     </f:if>
 
-    <f:form target="_top" fieldNamePrefix="" action="login" requestToken="{requestToken}" spellcheck="false" class="mt-6 space-y-5" id="login-form">
+    <f:form fieldNamePrefix="" action="login" requestToken="{requestToken}" spellcheck="false" class="mt-6 space-y-5" id="login-form">
         <ui:field.root name="user" required="{true}">
             <ui:input.root type="email" autocomplete="username">
                 <ui:input.label>Email</ui:input.label>
@@ -48,6 +48,4 @@
         <ui:button type="submit" class="w-full">Log in</ui:button>
     </f:form>
 </section>
-
-<vite:asset entry="EXT:demos/Resources/Private/js/Login.entry.ts" />
 </html>

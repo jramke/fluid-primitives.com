@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace FluidPrimitives\Demos\DataProcessing;
+namespace FluidPrimitives\Docs\DataProcessing;
 
-use FluidPrimitives\Demos\Service\DemoPages;
+use FluidPrimitives\Docs\Services\DemoPages;
 use Jramke\FluidPrimitives\Utility\Typed;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;

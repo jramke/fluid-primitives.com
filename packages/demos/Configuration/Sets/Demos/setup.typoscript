@@ -1,9 +1,13 @@
-page.10 {
-    paths.10 = EXT:demos/Resources/Private/PageView/
-    dataProcessing.1763337800 = FluidPrimitives\Demos\DataProcessing\DemoPageProcessor
-}
+page.10.paths.10 = EXT:demos/Resources/Private/PageView/
 
-lib.demoContent < styles.content.get
+lib.content < styles.content.get
+
+# The header of every page, uncached: it shows who is logged in
+lib.userMenu = EXTBASEPLUGIN
+lib.userMenu {
+    extensionName = Demos
+    pluginName = UserMenu
+}
 
 plugin.tx_news {
     view {
@@ -24,13 +28,3 @@ plugin.tx_news {
         }
     }
 }
-
-# The docs pages set their whole title themselves
-[traverse(page, "slug") starts with "/demos"]
-    config.pageTitle.stdWrap.noTrimWrap = || – Fluid Primitives|
-[END]
-
-# The login pages change with the login: a browser must not keep the page it got before
-[traverse(page, "slug") starts with "/demos/login"]
-    config.sendCacheHeaders = 0
-[END]

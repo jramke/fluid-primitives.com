@@ -16,14 +16,11 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
- * Creates a frontend user in the storage folder of the plugin, who then logs in with the felogin form next to it.
+ * Creates a frontend user in the storage folder of the plugin, who then logs in with felogin.
  */
 final class RegistrationController extends ActionController
 {
     use JsonValidationErrorsTrait;
-
-    // The demo runs on a public site: accounts are removed a day after they were created
-    private const int ACCOUNT_LIFETIME = 86400;
 
     public function __construct(
         private readonly ConnectionPool $connectionPool,
@@ -42,7 +39,6 @@ final class RegistrationController extends ActionController
         Registration $registration,
     ): ResponseInterface {
         $storagePid = $this->getStoragePid();
-        $this->removeExpiredAccounts($storagePid);
 
         if ($this->isRegistered($registration->email)) {
             $this->respond(['registration.email' => ['This email address is already registered.']], 422);
@@ -63,7 +59,6 @@ final class RegistrationController extends ActionController
 
         $this->respond([
             'message' => 'Your account is ready. Log in with your email address and password.',
-            'username' => $registration->email,
         ]);
     }
 
@@ -108,21 +103,5 @@ final class RegistrationController extends ActionController
             ->setMaxResults(1)
             ->executeQuery()
             ->fetchOne();
-    }
-
-    private function removeExpiredAccounts(int $storagePid): void
-    {
-        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('fe_users');
-        $queryBuilder->getRestrictions()->removeAll();
-        $queryBuilder
-            ->delete('fe_users')
-            ->where(
-                $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($storagePid)),
-                $queryBuilder->expr()->lt(
-                    'crdate',
-                    $queryBuilder->createNamedParameter(time() - self::ACCOUNT_LIFETIME),
-                ),
-            )
-            ->executeStatement();
     }
 }
