@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use FluidPrimitives\Demos\Controller\AccountController;
 use FluidPrimitives\Demos\Controller\RegistrationController;
+use FluidPrimitives\Demos\Controller\SiteHeaderController;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 // @mago-expect analysis:unused-statement
@@ -13,6 +15,21 @@ ExtensionUtility::configurePlugin(
     'Registration',
     [RegistrationController::class => 'form,create'],
     [RegistrationController::class => 'create'],
+);
+
+// Both show the logged-in user, so neither is cached
+ExtensionUtility::configurePlugin(
+    'Demos',
+    'SiteHeader',
+    [SiteHeaderController::class => 'show'],
+    [SiteHeaderController::class => 'show'],
+);
+
+ExtensionUtility::configurePlugin(
+    'Demos',
+    'Account',
+    [AccountController::class => 'edit,update'],
+    [AccountController::class => 'edit,update'],
 );
 
 // The category filter of the news demo is part of a GET form, which has no cHash. EXT:news excludes its search

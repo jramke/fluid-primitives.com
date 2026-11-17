@@ -2,7 +2,7 @@
 
 The demos of [fluid-primitives.com/demos](https://fluid-primitives.com/demos): parts of a TYPO3 site you build again and again, done with Fluid Primitives and the extensions you already use. Each demo is a page with content elements, like on your own site. The components are the ones `typo3 ui:add` gives you, from the [docs](../docs/Resources/Private/Components/ui).
 
-Run `typo3 demos:setup` once to create the pages, the content elements and the records, then `typo3 ke_search:indexing` for the search index. The command does nothing when the `/demos` page exists.
+Run `typo3 demos:setup` to create the pages, the content elements and the records, then `typo3 ke_search:indexing` for the search index. The command creates a demo page when no page has its slug, and leaves the pages that exist as they are.
 
 ## Search
 
@@ -31,6 +31,18 @@ The login of felogin and a registration that shows the validation errors of Extb
 - [`RegistrationController.php`](Classes/Controller/RegistrationController.php) and [`RegistrationValidator.php`](Classes/Domain/Validator/RegistrationValidator.php) - `JsonValidationErrorsTrait` answers failed validation with a `422`, which the form shows on the fields. A taken email address gets the same answer from the action. After a registration the script fills in the email of the login form.
 
 The demo deletes accounts a day after they were created, at the next registration.
+
+## Header
+
+The header of a website: a Navigation Menu built from the page tree, a Dialog for the navigation on small screens and a Menu for the logged-in user.
+
+- [`Show.fluid.html`](Resources/Private/Templates/SiteHeader/Show.fluid.html) - the header. A `ui:navigationMenu` with a dropdown of the demo pages and two links. Below a width of the header, `@3xl` of a container query, a button opens a `ui:dialog` with the same links, as a drawer from the side. The demo shows the header in two widths.
+- The user menu is a `ui:menu` with the initials of the logged-in user as trigger: their name and email, a link to the account settings and "Log out". A menu item is no form control, so [`SiteHeader.entry.ts`](Resources/Private/js/SiteHeader.entry.ts) submits the logout form when "Log out" is selected. The initials are where an Avatar would go.
+- [`SiteHeaderController.php`](Classes/Controller/SiteHeaderController.php) - reads the pages with [`DemoPages.php`](Classes/Service/DemoPages.php) and the user with [`CurrentUser.php`](Classes/Service/CurrentUser.php). The plugin is uncached: it shows who is logged in.
+
+## Account
+
+The settings page the user menu links to: a `ui:form` that changes the name of the logged-in user, see [`AccountController.php`](Classes/Controller/AccountController.php) and [`Account.entry.ts`](Resources/Private/js/Account.entry.ts). The action changes the record of the session, never one the request names. After a save, the header on the page shows the new initials.
 
 ## Load a list without a reload
 

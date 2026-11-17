@@ -18,14 +18,16 @@ use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Creates the demo pages, their content elements and records under the root page of the site, once. The demos
- * live in the database like on any TYPO3 site, so this command gives every installation, production included,
- * the same ones.
+ * Creates the demo pages under the root page of the site, with their content elements and records. A page is
+ * created when no page has its slug, so a new demo reaches an installation that has the older ones, production
+ * included. A page that exists stays as it is.
  */
-#[AsCommand('demos:setup', 'Creates the pages and records of the demos, when they are missing.')]
+// One run that creates each demo with its content, kept in one place on purpose
+// @mago-expect lint:kan-defect
+#[AsCommand('demos:setup', 'Creates the demo pages and their records that are missing.')]
 final class SetupCommand extends Command
 {
-    private const string OVERVIEW_SLUG = '/demos';
+    private const string OVERVIEW = '/demos';
 
     public function __construct(
         private readonly ConnectionPool $connectionPool,
@@ -38,11 +40,88 @@ final class SetupCommand extends Command
     // @mago-expect lint:halstead
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->overviewExists()) {
-            $output->writeln('The demos exist already.');
-            return Command::SUCCESS;
+        $this->initializeDataHandler();
+
+        $overview = $this->page(self::OVERVIEW, $this->rootPageId(), [
+            'title' => 'Demos',
+            'abstract' => 'Common parts of a TYPO3 site, built with Fluid Primitives and the extensions you know.',
+            'backend_layout' => 'pagets__Demo',
+            'backend_layout_next_level' => 'pagets__Demo',
+        ]);
+        $data = $this->page(self::OVERVIEW . '/demo-data', $overview['uid'], [
+            'title' => 'Demo data',
+            'doktype' => 254,
+            'nav_hide' => 1,
+        ]);
+        $dataPid = $data['uid'];
+        if ($data['created']) {
+            $this->createRecords($dataPid);
         }
 
+        // Each page is placed after the one before it: a negative pid in DataHandler
+        $search = $this->page(self::OVERVIEW . '/search', $overview['uid'], [
+            'title' => 'Search',
+            'abstract' => 'ke_search with suggestions while you type, in a Combobox, and paginated results that load without a reload.',
+        ]);
+        $news = $this->page(self::OVERVIEW . '/news', -$search['uid'], [
+            'title' => 'News list',
+            'abstract' => 'An EXT:news list with a search, a category and a date filter, and a pagination that loads the pages without a reload.',
+        ]);
+        $article = $this->page(self::OVERVIEW . '/news/article', -$news['uid'], [
+            'title' => 'News article',
+            'nav_hide' => 1,
+        ]);
+        $login = $this->page(self::OVERVIEW . '/login', -$article['uid'], [
+            'title' => 'Login and registration',
+            'abstract' => 'The login of felogin and a registration that shows the validation errors of Extbase on its fields, with the Form and the Password Input.',
+        ]);
+        $header = $this->page(self::OVERVIEW . '/header', -$login['uid'], [
+            'title' => 'Site header',
+            'abstract' => 'A Navigation Menu built from the page tree, a Dialog for the navigation on small screens and a Menu for the logged-in user.',
+        ]);
+        $account = $this->page(self::OVERVIEW . '/account', -$header['uid'], [
+            'title' => 'Account settings',
+            'abstract' => 'The settings page of the user menu in the site header.',
+            'nav_hide' => 1,
+        ]);
+
+        if ($search['created']) {
+            $this->createSearchContent($search['uid'], $dataPid, $article['uid']);
+        }
+        if ($news['created']) {
+            $this->createContent($news['uid'], 'news_newssearchresult', [
+                'pi_flexform' => $this->flexForm([
+                    'sDEF' => ['settings.startingpoint' => $dataPid],
+                    'additional' => ['settings.detailPid' => $article['uid']],
+                ]),
+            ]);
+        }
+        if ($article['created']) {
+            $this->createContent($article['uid'], 'news_newsdetail', [
+                'pi_flexform' => $this->flexForm([
+                    'sDEF' => ['settings.startingpoint' => $dataPid],
+                    'additional' => ['settings.backPid' => $news['uid']],
+                ]),
+            ]);
+        }
+        if ($login['created']) {
+            $this->createLoginContent($login['uid'], $dataPid);
+        }
+        if ($header['created']) {
+            $this->createContent($header['uid'], 'demos_siteheader');
+        }
+        if ($account['created']) {
+            $siteHeader = $this->createContent($account['uid'], 'demos_siteheader');
+            $this->createContent(-$siteHeader, 'demos_account');
+        }
+
+        $output->writeln('The demos are set up. Run ke_search:indexing to build the search index.');
+
+        return Command::SUCCESS;
+    }
+
+    private function initializeDataHandler(): void
+    {
         Bootstrap::initializeBackendAuthentication();
         // DataHandler reads both from the globals
         // @mago-expect lint:no-global(2)
@@ -51,169 +130,110 @@ final class SetupCommand extends Command
         $GLOBALS['LANG'] = $this->languageServiceFactory->createFromUserPreferences(
             $backendUser instanceof BackendUserAuthentication ? $backendUser : null,
         );
+    }
 
-        // Read before anything is created: an error in the file must not leave half of the demos behind
-        /** @var array{categories: list<string>, articles: list<array{title: string, date: string|int, categories: list<string>, teaser: string, body: string}>} $newsData */
-        $newsData = Yaml::parseFile(GeneralUtility::getFileAbsFileName(
-            'EXT:demos/Resources/Private/DemoData/News.yaml',
-        ));
+    private function rootPageId(): int
+    {
+        return array_values($this->siteFinder->getAllSites())[0]->getRootPageId();
+    }
 
-        $rootPageId = array_values($this->siteFinder->getAllSites())[0]->getRootPageId();
+    /**
+     * The page with the slug, created with the fields when there is none.
+     *
+     * @param int $pid The parent page, or the negative uid of the page to place it after
+     * @param array<string, int|string> $fields
+     * @return array{uid: int, created: bool}
+     */
+    private function page(string $slug, int $pid, array $fields): array
+    {
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('pages');
+        $uid = (int)$queryBuilder
+            ->select('uid')
+            ->from('pages')
+            ->where($queryBuilder->expr()->eq('slug', $queryBuilder->createNamedParameter($slug)))
+            ->executeQuery()
+            ->fetchOne();
+        if ($uid > 0) {
+            return ['uid' => $uid, 'created' => false];
+        }
 
-        // A new page is placed first among its siblings, so they are listed last to first. New pages are hidden by
-        // default.
-        $pages = $this->create([
-            'pages' => array_map(static fn(array $page): array => ['hidden' => 0, ...$page], [
-                'NEW_overview' => [
-                    'pid' => $rootPageId,
-                    'title' => 'Demos',
-                    'slug' => self::OVERVIEW_SLUG,
-                    'abstract' => 'Common parts of a TYPO3 site, built with Fluid Primitives and the extensions you know.',
-                    'backend_layout' => 'pagets__Demo',
-                    'backend_layout_next_level' => 'pagets__Demo',
-                ],
-                'NEW_data' => [
-                    'pid' => 'NEW_overview',
-                    'title' => 'Demo data',
-                    'doktype' => 254,
-                    'nav_hide' => 1,
-                ],
-                'NEW_login' => [
-                    'pid' => 'NEW_overview',
-                    'title' => 'Login and registration',
-                    'slug' => self::OVERVIEW_SLUG . '/login',
-                    'abstract' => 'The login of felogin and a registration that shows the validation errors of Extbase on its fields, with the Form and the Password Input.',
-                ],
-                'NEW_article' => [
-                    'pid' => 'NEW_overview',
-                    'title' => 'News article',
-                    'slug' => self::OVERVIEW_SLUG . '/news/article',
-                    'nav_hide' => 1,
-                ],
-                'NEW_news' => [
-                    'pid' => 'NEW_overview',
-                    'title' => 'News list',
-                    'slug' => self::OVERVIEW_SLUG . '/news',
-                    'abstract' => 'An EXT:news list with a search, a category and a date filter, and a pagination that loads the pages without a reload.',
-                ],
-                'NEW_search' => [
-                    'pid' => 'NEW_overview',
-                    'title' => 'Search',
-                    'slug' => self::OVERVIEW_SLUG . '/search',
-                    'abstract' => 'ke_search with suggestions while you type, in a Combobox, and paginated results that load without a reload.',
-                ],
+        // New pages are hidden by default
+        $uids = $this->create(['pages' => ['NEW_page' => ['pid' => $pid, 'slug' => $slug, 'hidden' => 0, ...$fields]]]);
+
+        return ['uid' => $uids['NEW_page'], 'created' => true];
+    }
+
+    /**
+     * @param int $pid The page, or the negative uid of the content element to place it after
+     * @param array<string, mixed> $fields
+     */
+    private function createContent(int $pid, string $contentType, array $fields = []): int
+    {
+        $uids = $this->create([
+            'tt_content' => ['NEW_content' => [
+                'pid' => $pid,
+                'CType' => $contentType,
+                'header_layout' => 100,
+                ...$fields,
+            ]],
+        ]);
+
+        return $uids['NEW_content'];
+    }
+
+    private function createSearchContent(int $pageUid, int $dataPid, int $articleUid): void
+    {
+        $searchBox = $this->createContent($pageUid, 'ke_search_pi1', [
+            'pages' => $dataPid,
+            'pi_flexform' => $this->flexForm([
+                'MAIN' => ['resultPage' => $pageUid],
+                'view' => ['showDate' => 1, 'highlightSword' => 1, 'previewMode' => 'abstract'],
+                'pagebrowser' => ['resultsPerPage' => 5, 'pagebrowserOnTop' => 0, 'pagebrowserAtBottom' => 1],
             ]),
         ]);
-        $dataPid = $pages['NEW_data'];
+        $this->createContent(-$searchBox, 'ke_search_pi2', [
+            'pi_flexform' => $this->flexForm(['MAIN' => ['loadFlexformsFromOtherCE' => $searchBox]]),
+        ]);
 
-        $records = $this->create([
-            ...$this->newsRecords($newsData, $dataPid),
-            'fe_groups' => ['NEW_group' => ['pid' => $dataPid, 'title' => 'Demo members']],
+        $this->create([
             'tx_kesearch_indexerconfig' => ['NEW_indexer' => [
                 'pid' => $dataPid,
                 'title' => 'Demo news',
                 'type' => 'news',
                 'storagepid' => $dataPid,
                 'sysfolder' => $dataPid,
-                'targetpid' => $pages['NEW_article'],
-            ]],
-            'tt_content' => [
-                'NEW_searchbox' => [
-                    'pid' => $pages['NEW_search'],
-                    'CType' => 'ke_search_pi1',
-                    'header' => 'Search',
-                    'header_layout' => 100,
-                    'pages' => $dataPid,
-                    'pi_flexform' => $this->flexForm([
-                        'MAIN' => ['resultPage' => $pages['NEW_search']],
-                        'view' => ['showDate' => 1, 'highlightSword' => 1, 'previewMode' => 'abstract'],
-                        'pagebrowser' => ['resultsPerPage' => 5, 'pagebrowserOnTop' => 0, 'pagebrowserAtBottom' => 1],
-                    ]),
-                ],
-                'NEW_newslist' => [
-                    'pid' => $pages['NEW_news'],
-                    'CType' => 'news_newssearchresult',
-                    'header' => 'News',
-                    'header_layout' => 100,
-                    'pi_flexform' => $this->flexForm([
-                        'sDEF' => ['settings.startingpoint' => $dataPid],
-                        'additional' => ['settings.detailPid' => $pages['NEW_article']],
-                    ]),
-                ],
-                'NEW_newsdetail' => [
-                    'pid' => $pages['NEW_article'],
-                    'CType' => 'news_newsdetail',
-                    'header' => 'News article',
-                    'header_layout' => 100,
-                    'pi_flexform' => $this->flexForm([
-                        'sDEF' => ['settings.startingpoint' => $dataPid],
-                        'additional' => ['settings.backPid' => $pages['NEW_news']],
-                    ]),
-                ],
-                'NEW_registration' => [
-                    'pid' => $pages['NEW_login'],
-                    'CType' => 'demos_registration',
-                    'header' => 'Registration',
-                    'header_layout' => 100,
-                    'pages' => $dataPid,
-                    // Hide at login
-                    'fe_group' => -1,
-                ],
-                'NEW_login' => [
-                    'pid' => $pages['NEW_login'],
-                    'CType' => 'felogin_login',
-                    'header' => 'Login',
-                    'header_layout' => 100,
-                    'pi_flexform' => $this->flexForm([
-                        'sDEF' => [
-                            'settings.pages' => $dataPid,
-                            // @mago-expect lint:no-literal-password
-                            'settings.showForgotPassword' => 0,
-                            'settings.showLogoutFormAfterLogin' => 1,
-                        ],
-                    ]),
-                ],
-            ],
-        ]);
-
-        $this->create([
-            'tt_content' => ['NEW_results' => [
-                // A negative pid places the element after the search box
-                'pid' => -$records['NEW_searchbox'],
-                'CType' => 'ke_search_pi2',
-                'header' => 'Search results',
-                'header_layout' => 100,
-                'pi_flexform' => $this->flexForm(['MAIN' => ['loadFlexformsFromOtherCE' => $records['NEW_searchbox']]]),
+                'targetpid' => $articleUid,
             ]],
         ]);
-
-        $output->writeln('Created the demos. Run ke_search:indexing to build the search index.');
-
-        return Command::SUCCESS;
     }
 
-    private function overviewExists(): bool
+    private function createLoginContent(int $pageUid, int $dataPid): void
     {
-        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('pages');
-
-        return (
-            (int)$queryBuilder
-                ->count('uid')
-                ->from('pages')
-                ->where($queryBuilder->expr()->eq('slug', $queryBuilder->createNamedParameter(self::OVERVIEW_SLUG)))
-                ->executeQuery()
-                ->fetchOne() > 0
-        );
+        $login = $this->createContent($pageUid, 'felogin_login', [
+            'pi_flexform' => $this->flexForm([
+                'sDEF' => [
+                    'settings.pages' => $dataPid,
+                    // @mago-expect lint:no-literal-password
+                    'settings.showForgotPassword' => 0,
+                    'settings.showLogoutFormAfterLogin' => 1,
+                ],
+            ]),
+        ]);
+        $this->createContent(-$login, 'demos_registration', [
+            'pages' => $dataPid,
+            // Hide at login
+            'fe_group' => -1,
+        ]);
     }
 
     /**
-     * Creates the categories, and returns the articles that use them.
-     *
-     * @param array{categories: list<string>, articles: list<array{title: string, date: string|int, categories: list<string>, teaser: string, body: string}>} $data
-     * @return array<string, array<string, array<string, mixed>>>
+     * The news with their categories, and the user group of the registration.
      */
-    private function newsRecords(array $data, int $pid): array
+    private function createRecords(int $pid): void
     {
+        /** @var array{categories: list<string>, articles: list<array{title: string, date: string|int, categories: list<string>, teaser: string, body: string}>} $data */
+        $data = Yaml::parseFile(GeneralUtility::getFileAbsFileName('EXT:demos/Resources/Private/DemoData/News.yaml'));
+
         // In their own run: DataHandler leaves the categories of a news record empty when they are new in the same one
         $categories = [];
         foreach ($data['categories'] as $index => $title) {
@@ -240,7 +260,10 @@ final class SetupCommand extends Command
             ];
         }
 
-        return ['tx_news_domain_model_news' => $news];
+        $this->create([
+            'tx_news_domain_model_news' => $news,
+            'fe_groups' => ['NEW_group' => ['pid' => $pid, 'title' => 'Demo members']],
+        ]);
     }
 
     /**

@@ -1,0 +1,49 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<section class="mt-10 max-w-md rounded-xl border p-6 sm:p-8">
+    <h2 class="text-xl font-semibold">Account settings</h2>
+    <f:if condition="{user}">
+        <f:then>
+            <p class="mt-1 text-sm text-muted-foreground">
+                {user.email}, member since <f:format.date format="F j, Y">{user.memberSince}</f:format.date>.
+            </p>
+
+            <ui:form.root action="update" objectName="account" autoMount="{false}" rootId="account-form" class="mt-6">
+                <ui:form.content class="space-y-5">
+                    <ui:field.root name="name" required="{true}">
+                        <ui:input.root autocomplete="name" defaultValue="{user.name}">
+                            <ui:input.label>Name</ui:input.label>
+                            <ui:input.input />
+                        </ui:input.root>
+                        <ui:field.helperText>The user menu shows its initials.</ui:field.helperText>
+                        <ui:field.errorText />
+                    </ui:field.root>
+                    <ui:button type="submit">Save</ui:button>
+                </ui:form.content>
+                <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}" class="space-y-4">
+                    <ui:alert.root>
+                        <ui:alert.icon />
+                        <ui:alert.title>Saved</ui:alert.title>
+                        <ui:alert.content><ui:form.successText /></ui:alert.content>
+                    </ui:alert.root>
+                    <ui:button type="reset" variant="secondary">Edit again</ui:button>
+                </ui:form.indicator>
+                <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}" class="space-y-4">
+                    <ui:alert.root variant="destructive">
+                        <ui:alert.icon />
+                        <ui:alert.title>That did not work</ui:alert.title>
+                        <ui:alert.content><ui:form.errorText>Something went wrong. Please try again.</ui:form.errorText></ui:alert.content>
+                    </ui:alert.root>
+                    <ui:button type="reset" variant="secondary">Back to the form</ui:button>
+                </ui:form.indicator>
+            </ui:form.root>
+            <vite:asset entry="EXT:demos/Resources/Private/js/Account.entry.ts" />
+        </f:then>
+        <f:else>
+            <p class="mt-1 text-sm text-muted-foreground">
+                <a href="/demos/login" class="underline">Log in</a> to see your settings.
+            </p>
+        </f:else>
+    </f:if>
+</section>
+</html>
