@@ -26,13 +26,13 @@
                 "type": "DropPlacement | null",
                 "description": "The current drop placement relative to the target."
             },
-            "getItemState": {
-                "type": "(value: string) => ItemState",
-                "description": "Get the drag/drop state for a specific item."
-            },
             "cancelDrag": {
                 "type": "() => void",
                 "description": "Programmatically cancel the current drag."
+            },
+            "move": {
+                "type": "(details: MoveDetails) => void",
+                "description": "Moves an item one step, or to the start or end, without dragging.\nCalls `onDrop`, announces the move and keeps focus on the item."
             },
             "pointerPosition": {
                 "type": "Point | null",
@@ -41,6 +41,22 @@
             "instructions": {
                 "type": "string",
                 "description": "Keyboard instructions text for screen readers.\nAutomatically set as `aria-description` on draggable and drag handle elements."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root"
+            },
+            "getDraggableState": {
+                "type": "(props: DraggableProps) => DraggableState",
+                "description": "Returns the state of a draggable item. Its drag handle shares it."
+            },
+            "getDropTargetState": {
+                "type": "(props: DropTargetProps) => DropTargetState",
+                "description": "Returns the state of a drop target"
+            },
+            "getDropIndicatorState": {
+                "type": "(props: DropIndicatorProps) => DropIndicatorState",
+                "description": "Returns the state of a drop indicator"
             },
             "getDragPreviewState": {
                 "type": "() => DragPreviewState",
@@ -99,6 +115,11 @@
             "activationConstraint": {
                 "type": "{ distance?: number | undefined; delay?: number | undefined } | undefined",
                 "description": "Activation constraint for pointer drag. Prevents accidental drags."
+            },
+            "isActivationKey": {
+                "type": "((event: KeyboardEvent) => boolean) | undefined",
+                "description": "Whether the key press starts a keyboard drag on a draggable or drag handle.\nReturn `false` for items that use Enter or Space for their own action, and reorder with `api.move`.\nUpdate `translations.instructions` to match.",
+                "defaultValue": "(event) => event.key === \"Enter\" || event.key === \" \""
             },
             "canDrag": {
                 "type": "((value: string) => boolean) | undefined",

@@ -198,7 +198,7 @@
                 "description": "Clears the selected date(s)."
             },
             "setOpen": {
-                "type": "(open: boolean) => void",
+                "type": "(open: boolean, reason?: OpenChangeReason) => void",
                 "description": "Function to open or close the calendar."
             },
             "focusMonth": {
@@ -241,7 +241,7 @@
                 "type": "VoidFunction",
                 "description": "Goes to the next month/year/decade."
             },
-            "goToPrev": {
+            "goToPrevious": {
                 "type": "VoidFunction",
                 "description": "Goes to the previous month/year/decade."
             },
@@ -270,7 +270,7 @@
                 "description": "Returns the state of the trigger."
             },
             "getInputState": {
-                "type": "() => InputState",
+                "type": "(props?: InputProps) => InputState",
                 "description": "Returns the state of the input."
             }
         },
@@ -473,6 +473,7 @@
             "data-state": "\"open\" | \"closed\"",
             "data-disabled": "Present when disabled",
             "data-readonly": "Present when read-only",
+            "data-invalid": "Present when invalid",
             "data-empty": "Present when the content is empty"
         },
         "Label": {
@@ -524,24 +525,24 @@
             "data-view": "The view of the tablerow"
         },
         "WeekNumberHeaderCell": {
-            "data-date-picker-week-number-header-cell": "<uid>",
+            "data-date-picker-table-cell": "<uid>",
             "data-view": "The view of the weeknumberheadercell",
-            "data-type": "The type of the item",
+            "data-type": "\"week-number\"",
             "data-disabled": "Present when disabled"
         },
         "WeekNumberCell": {
-            "data-date-picker-week-number-cell": "<uid>",
+            "data-date-picker-table-cell": "<uid>",
             "data-view": "The view of the weeknumbercell",
             "data-week-index": "",
-            "data-type": "The type of the item",
+            "data-type": "\"week-number\"",
             "data-disabled": "Present when disabled"
         },
         "DayTableCell": {
-            "data-date-picker-day-table-cell": "<uid>",
+            "data-date-picker-table-cell": "<uid>",
             "data-value": "The value of the item"
         },
         "DayTableCellTrigger": {
-            "data-date-picker-day-table-cell-trigger": "<uid>",
+            "data-date-picker-table-cell-trigger": "<uid>",
             "data-disabled": "Present when disabled",
             "data-selectable": "",
             "data-selected": "Present when selected",
@@ -560,12 +561,12 @@
             "data-hover-range-end": "Present when is the end of the hovered range"
         },
         "MonthTableCell": {
-            "data-date-picker-month-table-cell": "<uid>",
+            "data-date-picker-table-cell": "<uid>",
             "data-selected": "Present when selected",
             "data-value": "The value of the item"
         },
         "MonthTableCellTrigger": {
-            "data-date-picker-month-table-cell-trigger": "<uid>",
+            "data-date-picker-table-cell-trigger": "<uid>",
             "data-disabled": "Present when disabled",
             "data-selectable": "",
             "data-selected": "Present when selected",
@@ -581,12 +582,12 @@
             "data-hover-range-end": "Present when is the end of the hovered range"
         },
         "YearTableCell": {
-            "data-date-picker-year-table-cell": "<uid>",
+            "data-date-picker-table-cell": "<uid>",
             "data-selected": "Present when selected",
             "data-value": "The value of the item"
         },
         "YearTableCellTrigger": {
-            "data-date-picker-year-table-cell-trigger": "<uid>",
+            "data-date-picker-table-cell-trigger": "<uid>",
             "data-disabled": "Present when disabled",
             "data-selectable": "",
             "data-selected": "Present when selected",
@@ -605,8 +606,8 @@
             "data-date-picker-next-trigger": "<uid>",
             "data-disabled": "Present when disabled"
         },
-        "PrevTrigger": {
-            "data-date-picker-prev-trigger": "<uid>",
+        "PreviousTrigger": {
+            "data-date-picker-previous-trigger": "<uid>",
             "data-disabled": "Present when disabled"
         },
         "Trigger": {

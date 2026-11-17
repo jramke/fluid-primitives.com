@@ -33,6 +33,10 @@
             "setValue": {
                 "type": "(value: number) => void",
                 "description": "Sets the value."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root"
             }
         },
         "context": {
@@ -137,11 +141,17 @@
         },
         "Symbol": {
             "data-number-flow-symbol": "<uid>",
-            "data-type": "The type of the item"
+            "data-type": "The type of the item",
+            "data-key": "",
+            "data-entering": "",
+            "data-exiting": ""
         },
         "Digit": {
             "data-number-flow-digit": "<uid>",
-            "data-place": ""
+            "data-place": "",
+            "data-key": "",
+            "data-entering": "",
+            "data-exiting": ""
         },
         "DigitTrack": {
             "data-number-flow-digit-track": "<uid>",

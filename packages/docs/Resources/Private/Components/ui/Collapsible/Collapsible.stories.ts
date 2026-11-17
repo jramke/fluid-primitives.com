@@ -24,3 +24,8 @@ export const ReadMore: StoryObj = {
         example_id: 'read-more',
     },
 };
+export const FindInPage: StoryObj = {
+    args: {
+        example_id: 'find-in-page',
+    },
+};

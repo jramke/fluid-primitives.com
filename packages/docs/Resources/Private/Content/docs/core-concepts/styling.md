@@ -68,7 +68,7 @@ The Tailwind classes of components added with `ui:add` use semantic color tokens
 }
 ```
 
-- The `animate-collapsible-*` utilities drive [Collapsible](/docs/components/collapsible), whose content exposes `--height` and `--collapsed-height`.
+- The `animate-collapsible-*` utilities drive [Collapsible](/docs/components/collapsible) and the [Accordion](/docs/components/accordion) item content. Both expose `--height`, Collapsible also `--collapsed-height`.
 - `animate-viewport-in` and `animate-viewport-out` fade and scale the [NavigationMenu](/docs/components/navigation-menu) viewport. Zag switches transitions off on the render that opens it, so both directions are animations.
 - For a dark mode, override the same `--color-*` variables under your own dark selector.
 
@@ -81,6 +81,18 @@ Every component part is marked with a single `data-<component>-<part>` attribute
 ```
 
 The attribute's value is the component instance's root id, so target it with a presence selector like `[data-accordion-item]`. Interactive components also include state attributes like `data-state`, `data-disabled`, or `data-focus`.
+
+## Layering
+
+Popups such as a select, a popover or a dialog portal to the end of `<body>`, outside of your page. Give the root element of your page `isolation: isolate`, so everything in it shares one stacking context and the popups always paint on top of it, whatever `z-index` your header or a sticky sidebar has:
+
+```html
+<div id="root" class="isolate">
+    <!-- your page -->
+</div>
+```
+
+Open popups and dialogs form a stack. Each one gets `--layer-index`, its place in that stack, so a popover opened from a dialog lies above the dialog. Put it on the positioner, the element that is a stacking context of its own, as the registry does with `z-[var(--layer-index,0)]`. A `z-index` on the content has no effect. A tooltip is not part of the stack, so the registry gives it `z-50`, and the toaster `z-[2147483647]` to stay above everything.
 
 ## Styling with CSS
 

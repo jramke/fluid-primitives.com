@@ -8,9 +8,11 @@
 
 ## Features
 
-- Full keyboard navigation support
+- Keyboard accessible: <kbd>Tab</kbd> moves between the triggers, <kbd>Enter</kbd> and <kbd>Space</kbd> toggle a panel
 - Supports single or multiple expanded panels
 - Supports horizontal and vertical orientations
+- Opens a panel the browser's search finds
+- Animates the content height like [Collapsible](/docs/components/collapsible)
 
 ## Anatomy
 
@@ -44,6 +46,20 @@ Set `multiple` to keep several panels open at once. Try opening two items below.
 Set `disabled` on an `accordion.item` to keep its panel closed. The second item below is disabled.
 
 {% component: "ui:componentExample", arguments: { "componentName": "AccordionExamples.disabled" } %}
+
+### Find closed panels with the browser's search
+
+Set `hiddenUntilFound` on the root and the browser's find in page (<kbd>Ctrl</kbd> or <kbd>Cmd</kbd> + <kbd>F</kbd>) searches closed panels too. A match opens its item. Search for "returns" or "business days" below.
+
+{% component: "ui:componentExample", arguments: { "componentName": "AccordionExamples.findInPage" } %}
+
+A style that resets `[hidden]` hides these panels from the search. Leave `until-found` out of the reset:
+
+```css
+[hidden]:not([hidden='until-found']) {
+    display: none;
+}
+```
 
 ## API Reference
 

@@ -51,8 +51,8 @@
                 "description": "Expands the specified panel."
             },
             "resizePanel": {
-                "type": "(id: PanelId, unsafePanelSize: number) => void",
-                "description": "Resizes the specified panel."
+                "type": "(id: PanelId, size: PanelSize) => void",
+                "description": "Resizes the specified panel. Takes a percentage, or a size with a unit such as `\"200px\"`."
             },
             "getLayout": {
                 "type": "() => string",
@@ -65,9 +65,17 @@
             "getResizeTriggerState": {
                 "type": "(props: ResizeTriggerProps) => ResizeTriggerState",
                 "description": "Returns the state of the resize trigger."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root. The panels share it."
             }
         },
         "context": {
+            "disabled": {
+                "type": "boolean | undefined",
+                "description": "Whether resizing is disabled for the whole splitter"
+            },
             "orientation": {
                 "type": "\"horizontal\" | \"vertical\" | undefined",
                 "description": "The orientation of the splitter. Can be `horizontal` or `vertical`",
@@ -103,7 +111,8 @@
             },
             "keyboardResizeBy": {
                 "type": "number | null | undefined",
-                "description": "The number of pixels to resize the panel by when the keyboard is used."
+                "description": "The percentage to resize the panel by when an arrow key is pressed.",
+                "defaultValue": "1"
             },
             "nonce": {
                 "type": "string | undefined",

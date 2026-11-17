@@ -6,6 +6,10 @@
                 "type": "boolean",
                 "description": "Whether the drawer is open."
             },
+            "modal": {
+                "type": "boolean",
+                "description": "Whether the drawer is modal."
+            },
             "dragging": {
                 "type": "boolean",
                 "description": "Whether the drawer is currently being dragged."
@@ -19,7 +23,7 @@
                 "description": "Set the active trigger value."
             },
             "setOpen": {
-                "type": "(open: boolean) => void",
+                "type": "(open: boolean, reason?: OpenChangeReason) => void",
                 "description": "Function to open or close the menu."
             },
             "snapPoints": {
@@ -92,8 +96,8 @@
                 "defaultValue": "true"
             },
             "initialFocusEl": {
-                "type": "(() => MaybeElement) | null | undefined",
-                "description": "Element to receive focus when the sheet is opened."
+                "type": "(() => MaybeElement | false) | null | undefined",
+                "description": "Element to receive focus when the sheet is opened.\nReturn `false` to skip moving focus, or `null` to use the default."
             },
             "finalFocusEl": {
                 "type": "(() => MaybeElement) | undefined",

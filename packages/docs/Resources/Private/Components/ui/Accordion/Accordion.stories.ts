@@ -19,3 +19,8 @@ export const Multiple: StoryObj = {
         example_id: 'multiple',
     },
 };
+export const FindInPage: StoryObj = {
+    args: {
+        example_id: 'find-in-page',
+    },
+};

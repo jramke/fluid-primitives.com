@@ -27,9 +27,13 @@
     <primitives:menu.positioner>
         <primitives:menu.arrow />
         <primitives:menu.content>
-            <primitives:menu.item>
-                <primitives:menu.itemText />
-            </primitives:menu.item>
+            <primitives:menu.input />
+            <primitives:menu.list>
+                <primitives:menu.item>
+                    <primitives:menu.itemText />
+                </primitives:menu.item>
+            </primitives:menu.list>
+            <primitives:menu.empty />
             <primitives:menu.checkboxItem>
                 <primitives:menu.itemIndicator />
                 <primitives:menu.itemText />
@@ -107,15 +111,23 @@ Give each `menu.trigger` its own `value` and they open the same menu. `onTrigger
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.multipleTriggers", "additionalFiles": {"MultipleTriggers.entry.ts": "EXT:docs/Resources/Private/Components/ui/MenuExamples/MultipleTriggers.entry.ts"} } %}
 
+For other items per trigger, render a content with the `value` of each trigger inside a `menu.viewport`. The menu animates between them as in [Popover](/docs/components/popover#content-animate-between-triggers). Filtering works on one content only.
+
 ### Detached triggers
 
 The trigger sits apart from the menu and links to a `menu.provider` with `provider`, a `contextTrigger` takes it too. The provider takes the props of the menu: here `positioning`, which aligns the menu to the end of the trigger. Its `id` is the `rootId` of the menu, so a submenu names it in `parentId`. See [Providers](/docs/core-concepts/context#content-providers).
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.detached" } %}
 
+### Filter the items
+
+Set `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\MenuPopupType::Dialog')}"` for a popup that holds more than the items: `content` becomes a dialog and the `menu.list` around the items the menu. Put a `menu.input` above the list and a `menu.empty` below it. The input keeps focus while the arrow keys move the highlight, and typing filters the items by their text. Set `autoHighlight` to highlight the first match as you type.
+
+{% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.filterable" } %}
+
 ### Use a menu inside a dialog
 
-Menus portal to the end of the `<body>`. Set `portalled="{false}"` on `menu.content` inside a dialog, or another focus-trapped element, to keep the menu in its DOM subtree.
+A menu inside a [Dialog](/docs/components/dialog) portals to the end of the `<body>` like any other. It lies above the dialog, takes the focus inside its focus trap, and closing the menu leaves the dialog open. Set `portalled="{false}"` on `menu.content` to keep the menu next to its trigger in the DOM instead.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.insideDialog" } %}
 
@@ -129,7 +141,11 @@ Menus portal to the end of the `<body>`. Set `portalled="{false}"` on `menu.cont
             ["root", "Provides shared menu state to the rest of the parts. Renders no element of its own."],
             ["trigger", "Opens and closes the menu. Renders a `<button>` element."],
             ["contextTrigger", "Opens the menu at the cursor position on right-click. Renders a `<div>` element."],
-            ["content", "Contains the menu items. Renders a `<div>` element."],
+            ["viewport", "Frames the contents of several triggers and animates between them, as in [Popover](/docs/components/popover#content-animate-between-triggers). Optional. Renders a `<div>` element."],
+            ["content", "Contains the menu items. With a `value`, it is the content of the trigger with that value. Renders a `<div>` element."],
+            ["input", "Filters the items while you type. Renders an `<input>` element, for the `dialog` popup type."],
+            ["list", "Wraps the items next to the `input` and the `empty` part. Renders a `<div>` element, the `menu` of a `dialog` popup."],
+            ["empty", "Tells that no item matches. Renders a `<div>` that stays on the page as a live region, with a `<div>` inside it that takes your `class` and attributes and is hidden while an item is visible."],
             ["item", "A selectable menu action. Renders a `<div>` element."],
             ["checkboxItem", "A menu item that toggles independently of other items. Renders a `<div>` element."],
             ["radioItem", "A menu item that's mutually exclusive with other radio items sharing the same `name`. Renders a `<div>` element."],

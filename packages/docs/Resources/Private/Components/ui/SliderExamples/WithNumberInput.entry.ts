@@ -22,12 +22,12 @@ import { Slider } from 'fluid-primitives/slider';
     const numberInput = mount('ui:numberInput', 'synced-number-input', ({ props }) => {
         // NumberInput's own defaultValue is the shared initial value - unlike Slider's own (always
         // normalized to a float[] client-side, one per thumb), it's a single value, the number this needs.
-        currentValue = Number(props.defaultValue);
+        currentValue = props.defaultValue;
 
         return new NumberInput({
             ...props,
-            onValueChange: ({ valueAsNumber }) => {
-                if (!Number.isNaN(valueAsNumber)) setValue(valueAsNumber);
+            onValueChange: ({ value }) => {
+                if (value !== null) setValue(value);
             },
         }).init();
     });

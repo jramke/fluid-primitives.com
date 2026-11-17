@@ -30,16 +30,16 @@
                 "description": "Whether the collapsible is disabled"
             },
             "setOpen": {
-                "type": "(open: boolean) => void",
+                "type": "(open: boolean, reason?: OpenChangeReason) => void",
                 "description": "Function to open or close the collapsible."
             },
             "measureSize": {
                 "type": "VoidFunction",
                 "description": "Function to measure the size of the content."
             },
-            "getTriggerState": {
-                "type": "() => TriggerState",
-                "description": "Returns the state of the trigger"
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root"
             },
             "getContentState": {
                 "type": "() => ContentState",
@@ -79,6 +79,10 @@
                 "type": "number | string | undefined",
                 "description": "The width of the content when collapsed."
             },
+            "hiddenUntilFound": {
+                "type": "boolean | undefined",
+                "description": "Whether the closed content stays searchable with the browser's find-in-page.\nUses `hidden=\"until-found\"`, and opens the collapsible when a match is found inside it."
+            },
             "id": {
                 "type": "string",
                 "description": "The unique identifier of the machine."
@@ -97,7 +101,8 @@
     "dataAttributes": {
         "Root": {
             "data-collapsible-root": "<uid>",
-            "data-state": "\"open\" | \"closed\""
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled"
         },
         "Content": {
             "data-collapsible-content": "<uid>",

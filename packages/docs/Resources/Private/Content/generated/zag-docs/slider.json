@@ -143,14 +143,6 @@
                 "type": "ElementIds | undefined",
                 "description": "The ids of the elements in the slider. Useful for composition."
             },
-            "aria-label": {
-                "type": "string[] | undefined",
-                "description": "The aria-label of each slider thumb. Useful for providing an accessible name to the slider"
-            },
-            "aria-labelledby": {
-                "type": "string[] | undefined",
-                "description": "The `id` of the elements that labels each slider thumb. Useful for providing an accessible name to the slider"
-            },
             "name": {
                 "type": "string | undefined",
                 "description": "The name associated with each slider thumb (when used in a form)"
@@ -195,6 +187,14 @@
                 "type": "((details: ValueTextDetails) => string) | undefined",
                 "description": "Function that returns a human readable value for the slider thumb"
             },
+            "getAriaLabel": {
+                "type": "((details: ThumbLabelDetails) => string) | undefined",
+                "description": "Function that returns the accessible name of each thumb, e.g. \"Minimum price\""
+            },
+            "getAriaLabelledBy": {
+                "type": "((details: ThumbLabelDetails) => string) | undefined",
+                "description": "Function that returns the `id` of the element that labels each thumb.\nDefaults to the label part when no `getAriaLabel` is provided."
+            },
             "min": {
                 "type": "number | undefined",
                 "description": "The minimum value of the slider",
@@ -236,8 +236,8 @@
                 "defaultValue": "\"contain\""
             },
             "thumbSize": {
-                "type": "{ width: number; height: number } | undefined",
-                "description": "The slider thumbs dimensions"
+                "type": "number | { width: number; height: number } | undefined",
+                "description": "The slider thumbs dimensions. A number sets both the width and height."
             },
             "thumbCollisionBehavior": {
                 "type": "\"none\" | \"push\" | \"swap\" | undefined",
@@ -264,8 +264,8 @@
             "data-slider-label": "<uid>",
             "data-disabled": "Present when disabled",
             "data-orientation": "The orientation of the label",
-            "data-invalid": "Present when invalid",
             "data-dragging": "Present when in the dragging state",
+            "data-invalid": "Present when invalid",
             "data-focus": "Present when focused"
         },
         "Root": {
@@ -280,15 +280,16 @@
             "data-slider-value-text": "<uid>",
             "data-disabled": "Present when disabled",
             "data-orientation": "The orientation of the valuetext",
+            "data-dragging": "Present when in the dragging state",
             "data-invalid": "Present when invalid",
             "data-focus": "Present when focused"
         },
         "Track": {
             "data-slider-track": "<uid>",
             "data-disabled": "Present when disabled",
-            "data-invalid": "Present when invalid",
-            "data-dragging": "Present when in the dragging state",
             "data-orientation": "The orientation of the track",
+            "data-dragging": "Present when in the dragging state",
+            "data-invalid": "Present when invalid",
             "data-focus": "Present when focused"
         },
         "Thumb": {
@@ -296,23 +297,24 @@
             "data-index": "The index of the item",
             "data-name": "",
             "data-disabled": "Present when disabled",
+            "data-invalid": "Present when invalid",
             "data-orientation": "The orientation of the thumb",
             "data-focus": "Present when focused",
             "data-dragging": "Present when in the dragging state"
         },
         "Range": {
             "data-slider-range": "<uid>",
-            "data-dragging": "Present when in the dragging state",
-            "data-focus": "Present when focused",
-            "data-invalid": "Present when invalid",
             "data-disabled": "Present when disabled",
-            "data-orientation": "The orientation of the range"
+            "data-orientation": "The orientation of the range",
+            "data-dragging": "Present when in the dragging state",
+            "data-invalid": "Present when invalid",
+            "data-focus": "Present when focused"
         },
         "Control": {
             "data-slider-control": "<uid>",
-            "data-dragging": "Present when in the dragging state",
             "data-disabled": "Present when disabled",
             "data-orientation": "The orientation of the control",
+            "data-dragging": "Present when in the dragging state",
             "data-invalid": "Present when invalid",
             "data-focus": "Present when focused"
         },
@@ -325,7 +327,8 @@
             "data-orientation": "The orientation of the marker",
             "data-value": "The value of the item",
             "data-disabled": "Present when disabled",
-            "data-state": "\"under-value\" | \"over-value\" | \"at-value\""
+            "data-state": "\"under-value\" | \"over-value\" | \"at-value\"",
+            "data-in-range": "Present when is within the range"
         },
         "DraggingIndicator": {
             "data-slider-dragging-indicator": "<uid>",

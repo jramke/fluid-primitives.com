@@ -53,6 +53,14 @@
             "onPressedChange": {
                 "type": "((pressed: boolean) => void) | undefined",
                 "description": "Event handler called when the pressed state of the toggle changes."
+            },
+            "id": {
+                "type": "string",
+                "description": "The unique identifier of the machine."
+            },
+            "getRootNode": {
+                "type": "(() => ShadowRoot | Document | Node) | undefined",
+                "description": "A root node to correctly resolve document in custom environments. E.x.: Iframes, Electron."
             }
         }
     },

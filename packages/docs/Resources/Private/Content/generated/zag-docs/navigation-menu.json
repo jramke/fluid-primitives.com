@@ -46,7 +46,7 @@
                 "description": "The current value of the menu"
             },
             "setValue": {
-                "type": "(value: string) => void",
+                "type": "(value: string, reason?: ValueChangeReason) => void",
                 "description": "Sets the value of the menu"
             },
             "open": {
@@ -56,6 +56,10 @@
             "isViewportRendered": {
                 "type": "boolean",
                 "description": "Whether the viewport is rendered"
+            },
+            "activationDirection": {
+                "type": "Exclude<ActivationDirection, \"none\"> | null",
+                "description": "Where the open item's trigger sits relative to the previous one: `left`, `right`, `up` or `down`.\n`null` when opened from closed."
             },
             "getViewportNode": {
                 "type": "() => HTMLElement | null",
@@ -69,6 +73,10 @@
                 "type": "VoidFunction",
                 "description": "Function to reposition the viewport"
             },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root. The list, indicator, arrow and viewport positioner share it."
+            },
             "getTriggerState": {
                 "type": "(props: ItemProps) => TriggerState",
                 "description": "Returns the state of a specific trigger"
@@ -76,6 +84,14 @@
             "getContentState": {
                 "type": "(props: ContentProps) => ContentState",
                 "description": "Returns the state of a specific content"
+            },
+            "getViewportState": {
+                "type": "() => ViewportState",
+                "description": "Returns the state of the viewport"
+            },
+            "getItemState": {
+                "type": "(props: ItemProps) => ItemState",
+                "description": "Returns the state of a specific item"
             }
         },
         "context": {
@@ -188,6 +204,8 @@
             "data-navigation-menu-content": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-orientation": "The orientation of the content",
+            "data-activation-direction": "",
+            "data-motion": "",
             "data-value": "The value of the item",
             "data-nested": "Present when the content is nested within another {{widget}}",
             "data-has-nested": "Present when the content has nested {{widget}}s"
@@ -201,6 +219,7 @@
             "data-navigation-menu-viewport": "<uid>",
             "data-state": "\"open\" | \"closed\"",
             "data-orientation": "The orientation of the viewport",
+            "data-activation-direction": "",
             "data-align": "",
             "data-nested": "Present when the viewport is nested within another {{widget}}",
             "data-has-nested": "Present when the viewport has nested {{widget}}s"

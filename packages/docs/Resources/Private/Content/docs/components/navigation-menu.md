@@ -12,6 +12,7 @@
 - Keyboard navigation with arrow keys, `Home`, and `End`
 - Supports trigger-based menus and direct navigation links in the same list
 - Animated indicator and shared viewport support
+- The viewport and the contents carry `data-activation-direction` while you move between items, so a content can slide in from the side of the item you came from
 - Supports horizontal and vertical orientation
 
 ## Anatomy

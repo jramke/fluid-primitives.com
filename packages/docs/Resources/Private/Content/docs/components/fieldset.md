@@ -10,7 +10,7 @@
 
 - Renders a native `<fieldset>`, so browsers and screen readers announce the group with the name of its `legend`
 - `disabled` reaches every control inside it and every [Field](/docs/components/field) with the primitives it wraps, including custom parts like a checkbox's control or a slider's thumb
-- Helper text and error text are linked to the fieldset with `aria-describedby`, the error text shows while the fieldset is `invalid`
+- Helper text and error text are linked to the fieldset with `aria-describedby`, the error text shows while the fieldset is `invalid`, and every `Field` inside describes its control with it too
 - A fieldset inside a disabled fieldset is disabled as well
 
 ## Anatomy

@@ -9,6 +9,11 @@ export const Simple: StoryObj = {
         example_id: 'simple',
     },
 };
+export const Segmented: StoryObj = {
+    args: {
+        example_id: 'segmented',
+    },
+};
 export const DisabledGroup: StoryObj = {
     args: {
         example_id: 'disabled-group',

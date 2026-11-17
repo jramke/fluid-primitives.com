@@ -17,6 +17,10 @@
             "setError": {
                 "type": "VoidFunction",
                 "description": "Function to set error state."
+            },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root."
             }
         },
         "context": {
@@ -44,6 +48,10 @@
         }
     },
     "dataAttributes": {
+        "Root": {
+            "data-avatar-root": "<uid>",
+            "data-status": ""
+        },
         "Image": {
             "data-avatar-image": "<uid>",
             "data-state": "\"visible\" | \"hidden\""

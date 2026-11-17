@@ -23,7 +23,7 @@
         </li>
     </ui:template>
     <div class="flex items-center gap-1">
-        <ui:pagination.prevTrigger />
+        <ui:pagination.previousTrigger />
         <f:for each="{paginationContext.pages}" as="page">
             <f:if condition="{page.type} == 'page'">
                 <f:then><ui:pagination.item value="{page.value}" /></f:then>

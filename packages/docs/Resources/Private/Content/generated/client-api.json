@@ -1336,7 +1336,7 @@
         "examples": [
             {
                 "language": "typescript",
-                "code": "resolveTranslations(\n    { valueText: '%value% items', incrementLabel: 'More' },\n    { valueText: (value: string) => ({ value }) }\n);\n// { valueText: value => `${value} items`, incrementLabel: 'More' }"
+                "code": "resolveTranslations(\n    { itemLabel: 'Page %page% of %totalPages%', rootLabel: 'Pages' },\n    { itemLabel: (details: { page: number; totalPages: number }) => ({ ...details }) }\n);\n// { itemLabel: ({ page, totalPages }) => `Page ${page} of ${totalPages}`, rootLabel: 'Pages' }"
             }
         ],
         "signatures": [

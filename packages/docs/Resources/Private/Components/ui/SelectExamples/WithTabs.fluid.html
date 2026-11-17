@@ -7,6 +7,7 @@
         4: {value: 'broccoli', label: 'Broccoli', category: 'vegetable'},
         5: {value: 'spinach', label: 'Spinach', category: 'vegetable'}
     }"
+    groupByKey="category"
     as="collection" />
 
 <ui:select.root
@@ -26,7 +27,7 @@
                 <ui:tabs.trigger class="text-sm" value="vegetable">Vegetables</ui:tabs.trigger>
             </ui:tabs.list>
             <ui:tabs.content value="all">
-                <ui:select.list>
+                <ui:select.list class="rounded-b-md focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-ring/50">
                     <f:for each="{collection.items}" as="item">
                         <ui:select.item item="{item}">
                             <ui:select.itemText>{item.label}</ui:select.itemText>

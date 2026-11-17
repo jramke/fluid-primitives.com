@@ -18,6 +18,10 @@
                 "type": "VoidFunction",
                 "description": "Copy the value to the clipboard"
             },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root"
+            },
             "getIndicatorState": {
                 "type": "(props: IndicatorProps) => IndicatorState",
                 "description": "Returns the state of the indicator"
@@ -46,7 +50,7 @@
             },
             "onStatusChange": {
                 "type": "((details: CopyStatusDetails) => void) | undefined",
-                "description": "The function to be called when the value is copied to the clipboard"
+                "description": "The function to be called when the copied status changes, or copying fails"
             },
             "timeout": {
                 "type": "number | undefined",

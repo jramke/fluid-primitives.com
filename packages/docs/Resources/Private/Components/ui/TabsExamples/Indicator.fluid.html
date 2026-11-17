@@ -1,0 +1,23 @@
+<ui:tabs.root defaultValue="tab1">
+    <ui:tabs.list class="relative mb-3 gap-0 rounded-lg bg-muted p-1 h-auto">
+        <primitives:tabs.indicator class="absolute top-(--top) left-(--left) h-(--height) w-(--width) rounded-md bg-background shadow-sm transition-[left,top,width,height] duration-200 ease-out data-instant:transition-none" />
+        <ui:tabs.trigger value="tab1" class="relative z-10 px-3 py-1 after:hidden data-[selected]:data-[indicator-pending]:bg-background data-[selected]:data-[indicator-pending]:shadow-sm">Account</ui:tabs.trigger>
+        <ui:tabs.trigger value="tab2" class="relative z-10 px-3 py-1 after:hidden data-[selected]:data-[indicator-pending]:bg-background data-[selected]:data-[indicator-pending]:shadow-sm">Password</ui:tabs.trigger>
+        <ui:tabs.trigger value="tab3" class="relative z-10 px-3 py-1 after:hidden data-[selected]:data-[indicator-pending]:bg-background data-[selected]:data-[indicator-pending]:shadow-sm">Settings</ui:tabs.trigger>
+    </ui:tabs.list>
+    <ui:tabs.content value="tab1">
+        <div class="aspect-video w-84 rounded-md border-dashed border p-4 text-sm grid place-items-center text-center">
+            Manage your account settings and preferences.
+        </div>
+    </ui:tabs.content>
+    <ui:tabs.content value="tab2">
+        <div class="aspect-video w-84 rounded-md border-dashed border p-4 text-sm grid place-items-center text-center">
+            Change your password and other security options.
+        </div>
+    </ui:tabs.content>
+    <ui:tabs.content value="tab3">
+        <div class="aspect-video w-84 rounded-md border-dashed border p-4 text-sm grid place-items-center text-center">
+            Configure your application settings and preferences.
+        </div>
+    </ui:tabs.content>
+</ui:tabs.root>

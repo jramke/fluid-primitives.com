@@ -1,0 +1,33 @@
+<ui:listCollection
+    items="{
+        0: {value: 'jan', label: 'January'},
+        1: {value: 'feb', label: 'February'},
+        2: {value: 'mar', label: 'March'},
+        3: {value: 'apr', label: 'April'},
+        4: {value: 'may', label: 'May'},
+        5: {value: 'jun', label: 'June'},
+        6: {value: 'jul', label: 'July'},
+        7: {value: 'aug', label: 'August'},
+        8: {value: 'sep', label: 'September'},
+        9: {value: 'oct', label: 'October'},
+        10: {value: 'nov', label: 'November'},
+        11: {value: 'dec', label: 'December'}
+    }"
+    as="collection" />
+
+<ui:select.root collection="{collection}" defaultValue="{0: 'aug'}">
+    <ui:select.label>Month</ui:select.label>
+    <ui:select.control class="min-w-48">
+        <ui:select.trigger placeholder="Choose a month" />
+    </ui:select.control>
+    <ui:select.content>
+        <ui:select.list>
+            <f:for each="{collection.items}" as="item">
+                <ui:select.item item="{item}">
+                    <ui:select.itemText>{item.label}</ui:select.itemText>
+                    <ui:select.itemIndicator />
+                </ui:select.item>
+            </f:for>
+        </ui:select.list>
+    </ui:select.content>
+</ui:select.root>

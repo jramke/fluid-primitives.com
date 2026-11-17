@@ -24,30 +24,6 @@
                     "Shift + Tab"
                 ],
                 "description": "Moves focus to the previous focusable element"
-            },
-            {
-                "keys": [
-                    "ArrowDown"
-                ],
-                "description": "Moves focus to the next trigger"
-            },
-            {
-                "keys": [
-                    "ArrowUp"
-                ],
-                "description": "Moves focus to the previous trigger."
-            },
-            {
-                "keys": [
-                    "Home"
-                ],
-                "description": "When focus is on an trigger, moves focus to the first trigger."
-            },
-            {
-                "keys": [
-                    "End"
-                ],
-                "description": "When focus is on an trigger, moves focus to the last trigger."
             }
         ]
     },
@@ -62,7 +38,7 @@
                 "description": "The value of the accordion"
             },
             "setValue": {
-                "type": "(value: string[]) => void",
+                "type": "(value: string[], reason?: ValueChangeReason) => void",
                 "description": "Sets the value of the accordion"
             },
             "getItemState": {
@@ -87,7 +63,7 @@
             "collapsible": {
                 "type": "boolean | undefined",
                 "description": "Whether an accordion item can be closed after it has been expanded.",
-                "defaultValue": "false"
+                "defaultValue": "true"
             },
             "value": {
                 "type": "string[] | undefined",
@@ -114,10 +90,9 @@
                 "description": "The orientation of the accordion items.",
                 "defaultValue": "\"vertical\""
             },
-            "loopFocus": {
+            "hiddenUntilFound": {
                 "type": "boolean | undefined",
-                "description": "Whether to loop focus back to the first/last trigger when navigating\npast the end/start with the arrow keys.",
-                "defaultValue": "true"
+                "description": "Whether closed items stay searchable with the browser's find-in-page.\nUses `hidden=\"until-found\"`, and expands an item when a match is found inside it."
             },
             "dir": {
                 "type": "\"ltr\" | \"rtl\" | undefined",
@@ -148,6 +123,7 @@
         },
         "ItemContent": {
             "data-accordion-item-content": "<uid>",
+            "data-value": "The value of the item",
             "data-state": "\"open\" | \"closed\"",
             "data-disabled": "Present when disabled",
             "data-focus": "Present when focused",

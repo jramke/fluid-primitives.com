@@ -15,6 +15,22 @@
             },
             {
                 "keys": [
+                    "Home",
+                    "ArrowUp",
+                    "Control + ArrowLeft"
+                ],
+                "description": "Moves focus to the first input"
+            },
+            {
+                "keys": [
+                    "End",
+                    "ArrowDown",
+                    "Control + ArrowRight"
+                ],
+                "description": "Moves focus to the last filled input"
+            },
+            {
+                "keys": [
                     "Backspace"
                 ],
                 "description": "Deletes the value in the current input and moves focus to the previous input"
@@ -74,10 +90,6 @@
             "getRootState": {
                 "type": "() => RootState",
                 "description": "Returns the state of the root."
-            },
-            "getLabelState": {
-                "type": "() => LabelState",
-                "description": "Returns the state of the label."
             },
             "getInputState": {
                 "type": "(props: InputProps) => InputState",
@@ -163,17 +175,9 @@
                 "type": "boolean | undefined",
                 "description": "Whether to auto-submit the owning form when all inputs are filled."
             },
-            "blurOnComplete": {
-                "type": "boolean | undefined",
-                "description": "Whether to blur the input when the value is complete"
-            },
-            "selectOnFocus": {
-                "type": "boolean | undefined",
-                "description": "Whether to select input value when input is focused"
-            },
-            "sanitizeValue": {
+            "normalizeValue": {
                 "type": "((value: string) => string) | undefined",
-                "description": "Function to sanitize pasted values before validation.\nUseful for stripping dashes, spaces, or other formatting."
+                "description": "Function to normalize typed or pasted text, such as uppercasing it."
             },
             "translations": {
                 "type": "IntlTranslations | undefined",

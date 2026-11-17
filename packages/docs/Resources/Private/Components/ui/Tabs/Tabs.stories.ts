@@ -9,6 +9,11 @@ export const Simple: StoryObj = {
         example_id: 'simple',
     },
 };
+export const Indicator: StoryObj = {
+    args: {
+        example_id: 'indicator',
+    },
+};
 export const Vertical: StoryObj = {
     args: {
         example_id: 'vertical',

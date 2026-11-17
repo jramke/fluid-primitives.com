@@ -13,6 +13,7 @@
 - Supports custom positioning with placement options
 - Pressing `Escape` closes the popover
 - Automatically adjusts position to stay in viewport
+- Moves between several triggers with one content per trigger, which a viewport animates
 
 ## Anatomy
 
@@ -60,6 +61,14 @@ Both triggers link to one `popover.provider` with `provider`, and the popover op
 
 {% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.detached" } %}
 
+### Animate between triggers
+
+Give every trigger a `value` and render a content with the same `value` for each one inside a `popover.viewport`. When you move from one trigger to the next, the popover stays open: the positioner slides over, the viewport takes the size of the new content, and both contents carry `data-activation-direction` (`left` or `right`), so they can slide in the direction of the move. While the switch runs, the positioner and the viewport have `data-transitioning`, and the viewport sizes itself with `--viewport-width` and `--viewport-height`.
+
+{% component: "ui:componentExample", arguments: { "componentName": "PopoverExamples.switchTriggers" } %}
+
+Style the box (background, border, shadow) on the viewport, not on the contents: the viewport is what the user sees resize. Put the arrow after the viewport, so it is painted on top of it. Position the contents absolutely at the top left and give them their own width, so the viewport can measure them.
+
 ### Translate the close button
 
 The label of the close button comes from the library's language file and follows the site language. Override it per template with the `translations` prop:
@@ -84,7 +93,8 @@ The label of the close button comes from the library's language file and follows
             ["root", "Provides popover state and context for the composed parts. Renders no wrapper element."],
             ["trigger", "Opens and closes the popover. Renders a `<button>` element."],
             ["positioner", "Positions the popover content relative to the trigger. Renders a `<div>` element."],
-            ["content", "Contains the popover panel content. Renders a `<div>` element."],
+            ["viewport", "Frames the contents of several triggers and animates between them, the box the user sees. Optional. Renders a `<div>` element."],
+            ["content", "Contains the popover panel content. With a `value`, it is the content of the trigger with that value. Renders a `<div>` element."],
             ["arrow", "Displays a decorative arrow for the popover. Renders a `<div>` element."],
             ["indicator", "Displays a decorative state indicator. Renders a `<div>` element."],
             ["title", "Provides the accessible title for the popover. Renders a `<div>` element."],

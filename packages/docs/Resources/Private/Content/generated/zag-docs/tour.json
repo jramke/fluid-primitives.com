@@ -43,7 +43,7 @@
                 "type": "boolean",
                 "description": "Whether there is a next step"
             },
-            "hasPrevStep": {
+            "hasPreviousStep": {
                 "type": "boolean",
                 "description": "Whether there is a previous step"
             },
@@ -91,7 +91,7 @@
                 "type": "VoidFunction",
                 "description": "Move to the next step"
             },
-            "prev": {
+            "previous": {
                 "type": "VoidFunction",
                 "description": "Move to the previous step"
             },
@@ -175,6 +175,10 @@
                 "description": "The radius of the spotlight clip path",
                 "defaultValue": "4"
             },
+            "scrollToTargetFn": {
+                "type": "((details: ScrollToTargetDetails) => void) | undefined",
+                "description": "Function to scroll the step target into view.\nDefaults to `scrollIntoView` with the nearest alignment."
+            },
             "translations": {
                 "type": "IntlTranslations | undefined",
                 "description": "The translations for the tour"
@@ -210,13 +214,19 @@
         "Backdrop": {
             "data-tour-backdrop": "<uid>",
             "data-state": "\"open\" | \"closed\"",
-            "data-type": "The type of the item"
+            "data-type": "The type of the item",
+            "data-instant": ""
+        },
+        "Spotlight": {
+            "data-tour-spotlight": "<uid>",
+            "data-instant": ""
         },
         "Positioner": {
             "data-tour-positioner": "<uid>",
             "data-type": "The type of the item",
             "data-placement": "The placement of the positioner",
-            "data-side": "The side of the trigger that the positioner is positioned on"
+            "data-side": "The side of the trigger that the positioner is positioned on",
+            "data-instant": ""
         },
         "Content": {
             "data-tour-content": "<uid>",
@@ -244,7 +254,7 @@
         },
         "ActionTrigger": {
             "data-tour-action-trigger": "<uid>",
-            "data-type": "The type of the item",
+            "data-type": "\"next\" | \"previous\" | \"close\" | \"skip\" | \"custom\"",
             "data-disabled": "Present when disabled"
         }
     }

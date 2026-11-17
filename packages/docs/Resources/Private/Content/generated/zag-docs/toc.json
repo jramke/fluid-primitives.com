@@ -64,6 +64,11 @@
                 "description": "The default scroll behavior used when auto-scrolling the TOC container\nand when scrolling to a heading (via link click or `api.scrollTo`).\nCan be overridden per-call by passing `behavior` to `api.scrollTo`.",
                 "defaultValue": "\"smooth\""
             },
+            "multiple": {
+                "type": "boolean | undefined",
+                "description": "Whether every visible heading can be active at once.\nWhen `false`, only the topmost visible heading is active.",
+                "defaultValue": "false"
+            },
             "onActiveChange": {
                 "type": "((details: ActiveChangeDetails) => void) | undefined",
                 "description": "Callback when the active (visible) headings change."

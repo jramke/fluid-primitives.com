@@ -51,6 +51,10 @@
                 "type": "boolean",
                 "description": "Whether the menubar is disabled."
             },
+            "getRootState": {
+                "type": "() => RootState",
+                "description": "Returns the state of the root"
+            },
             "getMenuContext": {
                 "type": "() => MenubarMenuContext",
                 "description": "Returns the config to pass to each top-level menu's `menubar` prop. Adapters\nusually expose this via a context so nested `<Menu>`s can read it."

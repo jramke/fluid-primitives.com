@@ -1,4 +1,4 @@
-<ui:form.root actionUri="#" class="w-full max-w-74">
+<ui:form.root actionUri="#" autoMount="{false}" rootId="field-validation-mode" class="w-full max-w-74">
     <ui:form.content class="space-y-6">
         <ui:field.root name="auto" required="{true}">
             <ui:input.root type="text">
@@ -38,4 +38,13 @@
 
         <ui:button type="submit">Submit</ui:button>
     </ui:form.content>
+
+    <ui:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}"
+        class="space-y-3">
+        <ui:form.successText class="block">All four fields are valid.</ui:form.successText>
+        <ui:button type="reset" variant="secondary">Start over</ui:button>
+    </ui:form.indicator>
 </ui:form.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/FieldExamples/ValidationMode.entry.ts" />

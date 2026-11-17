@@ -8,28 +8,30 @@
 
 <div class="flex h-72 w-full max-w-xl flex-col gap-3">
     <ui:toc.root items="{headings}" autoMount="{false}" rootId="{rootId}-toc" scrollEl="#toc-collapsible-content" autoScroll="{false}" class="w-full shrink-0 rounded-md border">
-        <ui:collapsible.root>
-            <ui:collapsible.trigger class="group flex w-full cursor-pointer items-center justify-between gap-3 p-3 text-start font-medium">
-                <span class="flex min-w-0 items-center gap-3">
-                    <span class="relative grid size-7 shrink-0 place-items-center" {ui:ref(name: 'ring' )}>
-                        <svg viewBox="0 0 36 36" class="absolute inset-0 -rotate-90" aria-hidden="true">
-                            <circle cx="18" cy="18" r="14" fill="none" stroke-width="2.5" class="stroke-border" />
-                            <circle cx="18" cy="18" r="14" fill="none" stroke-width="2.5" stroke-linecap="round" class="stroke-foreground transition-[stroke-dasharray] duration-300 [stroke-dasharray:calc(var(--progress,0)*87.96)_87.96]" />
-                        </svg>
-                        <span class="text-[10px] font-semibold tabular-nums" {ui:ref(name: 'number' )}>-</span>
+        <ui:toc.nav aria-label="On this page">
+            <ui:collapsible.root>
+                <ui:collapsible.trigger class="group flex w-full cursor-pointer items-center justify-between gap-3 p-3 text-start font-medium">
+                    <span class="flex min-w-0 items-center gap-3">
+                        <span class="relative grid size-7 shrink-0 place-items-center" {ui:ref(name: 'ring' )}>
+                            <svg viewBox="0 0 36 36" class="absolute inset-0 -rotate-90" aria-hidden="true">
+                                <circle cx="18" cy="18" r="14" fill="none" stroke-width="2.5" class="stroke-border" />
+                                <circle cx="18" cy="18" r="14" fill="none" stroke-width="2.5" stroke-linecap="round" class="stroke-foreground transition-[stroke-dasharray] duration-300 [stroke-dasharray:calc(var(--progress,0)*87.96)_87.96]" />
+                            </svg>
+                            <span class="text-[10px] font-semibold tabular-nums" {ui:ref(name: 'number' )}>-</span>
+                        </span>
+                        <span class="truncate" {ui:ref(name: 'label' )}>On this page</span>
                     </span>
-                    <span class="truncate" {ui:ref(name: 'label' )}>On this page</span>
-                </span>
-                <ui:icon.chevronDown class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-180" />
-            </ui:collapsible.trigger>
-            <ui:collapsible.content>
-                <ui:toc.list class="px-3 pb-3">
-                    <f:for each="{headings}" as="heading">
-                        <ui:toc.item value="{heading.value}"><ui:toc.link>{heading.label}</ui:toc.link></ui:toc.item>
-                    </f:for>
-                </ui:toc.list>
-            </ui:collapsible.content>
-        </ui:collapsible.root>
+                    <ui:icon.chevronDown class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-180" />
+                </ui:collapsible.trigger>
+                <ui:collapsible.content>
+                    <ui:toc.list class="px-3 pb-3">
+                        <f:for each="{headings}" as="heading">
+                            <ui:toc.item value="{heading.value}"><ui:toc.link>{heading.label}</ui:toc.link></ui:toc.item>
+                        </f:for>
+                    </ui:toc.list>
+                </ui:collapsible.content>
+            </ui:collapsible.root>
+        </ui:toc.nav>
     </ui:toc.root>
     <div id="toc-collapsible-content" class="min-h-0 flex-1 overflow-y-auto rounded-md border px-4">
         <f:for each="{headings}" as="heading">

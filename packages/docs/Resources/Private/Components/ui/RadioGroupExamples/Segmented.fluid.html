@@ -1,0 +1,14 @@
+<f:variable name="items" value="{
+    0: { value: 'day', text: 'Day' },
+    1: { value: 'week', text: 'Week' },
+    2: { value: 'month', text: 'Month' }
+}" />
+
+<ui:radioGroup.root defaultValue="week" class="relative inline-flex w-fit gap-0 rounded-lg bg-muted p-1">
+    <primitives:radioGroup.indicator class="absolute top-(--top) left-(--left) h-(--height) w-(--width) rounded-md bg-background shadow-sm transition-[left,top,width,height] duration-200 ease-out data-instant:transition-none" />
+    <f:for each="{items}" as="item">
+        <ui:radioGroup.item value="{item.value}" class="relative z-10 cursor-pointer rounded-md px-3 py-1 text-sm font-medium text-muted-foreground data-[state=checked]:text-foreground data-[state=checked]:data-[indicator-pending]:bg-background data-[state=checked]:data-[indicator-pending]:shadow-sm">
+            <ui:radioGroup.itemText>{item.text}</ui:radioGroup.itemText>
+        </ui:radioGroup.item>
+    </f:for>
+</ui:radioGroup.root>

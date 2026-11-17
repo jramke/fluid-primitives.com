@@ -72,7 +72,7 @@ The field reads the `ValidityState` of its control, so the constraints you alrea
 
 The form renders `novalidate`, which hands the display of errors to your error texts. An error text without a `match` shows the browser's message for the failed constraint. Give it a `match` to show your own text for exactly that constraint: `valueMissing`, `typeMismatch`, `patternMismatch`, `tooShort`, `tooLong`, `rangeUnderflow`, `rangeOverflow`, `stepMismatch`, `badInput` or `customError`.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.nativeValidation" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.nativeValidation", "additionalFiles": {"NativeValidation.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldExamples/NativeValidation.entry.ts"} } %}
 
 ### Validation mode
 
@@ -83,9 +83,9 @@ The form renders `novalidate`, which hands the display of errors to your error t
 - `onChange` - validates on every change.
 - `onSubmit` - validates on submit only.
 
-A submit validates all fields in every mode, shows every error and moves the focus to the first invalid one. While a mouse button or finger is down, error texts and indicators wait for the release. Keyboard users get them right away.
+A submit validates all fields in every mode, shows every error and moves the focus to the first invalid one, also in a form that is not a [Form](/docs/components/form). While a mouse button or finger is down, error texts and indicators wait for the release. Keyboard users get them right away.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.validationMode" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.validationMode", "additionalFiles": {"ValidationMode.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldExamples/ValidationMode.entry.ts"} } %}
 
 ### Show state with indicators
 
@@ -97,7 +97,7 @@ An `indicator` shows its content while the field is in the state given by its `t
 
 Ask the server whether a username is still free: pass a `validate` function that returns a message (or a list of messages) to mark the field invalid, and `null` to accept the value. It can return a promise. While the request runs, the `validating` indicator shows and a submit waits for the result. A result for a value the user has changed meanwhile is dropped.
 
-A function cannot be rendered into markup, so pass `validate` from TypeScript: render the field with `autoMount="{false}"` and mount it in your entry file. `validate` receives the `value` and a snapshot of the native `validity`. It runs where the validation mode lets errors show (on blur by default), which makes it a good place for a request.
+A function cannot be rendered into markup, so pass `validate` from TypeScript: render the field with `autoMount="{false}"` and mount it in your entry file. `validate` receives the `value`, a snapshot of the native `validity` and the `formValues` of its form by name, to compare with another field. It runs where the validation mode lets errors show (on blur by default), which makes it a good place for a request.
 
 {% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.asyncValidation", "additionalFiles": {"AsyncValidation.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldExamples/AsyncValidation.entry.ts"} } %}
 

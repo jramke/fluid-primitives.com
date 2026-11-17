@@ -40,3 +40,9 @@ export const WithTabs: StoryObj = {
         example_id: 'with-tabs',
     },
 };
+
+export const Filterable: StoryObj = {
+    args: {
+        example_id: 'filterable',
+    },
+};

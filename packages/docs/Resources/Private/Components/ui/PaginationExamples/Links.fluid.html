@@ -9,7 +9,7 @@
     </ul>
     <ui:pagination.root paginator="{paginator}" defaultPageSize="4">
         <ui:context name="ui:pagination" as="paginationContext" />
-        <ui:pagination.prevTrigger />
+        <ui:pagination.previousTrigger />
         <f:for each="{paginationContext.pages}" as="page">
             <f:if condition="{page.type} == 'page'">
                 <f:then><ui:pagination.item value="{page.value}" /></f:then>

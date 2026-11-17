@@ -83,6 +83,12 @@ Set `closeOnEscape="{false}"` to ignore the <kbd>Escape</kbd> key.
 
 {% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.preventCloseEscape" } %}
 
+### Keep the page usable
+
+Set `modal="{false}"` for a dialog that does not block the page: the content outside stays reachable and the registry content renders no backdrop. Add `preventScroll="{false}"` and `trapFocus="{false}"` to leave scrolling and focus alone as well.
+
+{% component: "ui:componentExample", arguments: { "componentName": "DialogExamples.nonModal" } %}
+
 ## API Reference
 
 {%

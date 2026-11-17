@@ -76,12 +76,12 @@
                 "description": "Whether the input value is empty."
             },
             "value": {
-                "type": "string",
-                "description": "The formatted value of the input."
+                "type": "number | null",
+                "description": "The number, or `null` when the input is empty."
             },
-            "valueAsNumber": {
-                "type": "number",
-                "description": "The value of the input as a number."
+            "formattedValue": {
+                "type": "string",
+                "description": "The value as shown in the input."
             },
             "setValue": {
                 "type": "(value: number) => void",
@@ -163,22 +163,20 @@
                 "defaultValue": "\"-?[0-9]*(.[0-9]+)?\""
             },
             "value": {
-                "type": "string | undefined",
-                "description": "The controlled value of the input"
+                "type": "number | null | undefined",
+                "description": "The controlled value. Use `null` for an empty input."
             },
             "defaultValue": {
-                "type": "string | undefined",
-                "description": "The initial value of the input when rendered.\nUse when you don't need to control the value of the input."
+                "type": "number | null | undefined",
+                "description": "The initial value when rendered.\nUse when you don't need to control the value."
             },
             "min": {
                 "type": "number | undefined",
-                "description": "The minimum value of the number input",
-                "defaultValue": "Number.MIN_SAFE_INTEGER"
+                "description": "The minimum value of the number input"
             },
             "max": {
                 "type": "number | undefined",
-                "description": "The maximum value of the number input",
-                "defaultValue": "Number.MAX_SAFE_INTEGER"
+                "description": "The maximum value of the number input"
             },
             "step": {
                 "type": "number | undefined",
@@ -189,15 +187,10 @@
                 "type": "boolean | undefined",
                 "description": "Whether to allow mouse wheel to change the value"
             },
-            "allowOverflow": {
+            "allowOutOfRange": {
                 "type": "boolean | undefined",
-                "description": "Whether to allow the value overflow the min/max range",
-                "defaultValue": "true"
-            },
-            "clampValueOnBlur": {
-                "type": "boolean | undefined",
-                "description": "Whether to clamp the value when the input loses focus (blur)",
-                "defaultValue": "true"
+                "description": "Whether a typed value can stay outside the min/max range instead of being clamped on blur or Enter.\nThe value is then reported as invalid. Stepping always stays within the range.",
+                "defaultValue": "false"
             },
             "focusInputOnChange": {
                 "type": "boolean | undefined",
@@ -214,8 +207,7 @@
             },
             "inputMode": {
                 "type": "InputMode | undefined",
-                "description": "Hints at the type of data that might be entered by the user. It also determines\nthe type of keyboard shown to the user on mobile devices",
-                "defaultValue": "\"decimal\""
+                "description": "Hints at the type of data that might be entered by the user. It also determines\nthe type of keyboard shown to the user on mobile devices.\nDefaults to `\"text\"` on iPhone when negatives are allowed, otherwise `\"decimal\"`."
             },
             "onValueChange": {
                 "type": "((details: ValueChangeDetails) => void) | undefined",

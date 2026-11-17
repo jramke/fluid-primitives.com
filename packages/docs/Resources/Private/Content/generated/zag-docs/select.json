@@ -33,6 +33,12 @@
             },
             {
                 "keys": [
+                    "Tab"
+                ],
+                "description": "Closes the select and moves focus to the next element after the trigger (Shift+Tab: the one before it)."
+            },
+            {
+                "keys": [
                     "A-Z",
                     "a-z"
                 ],
@@ -66,13 +72,9 @@
                 "type": "V | null",
                 "description": "The highlighted item"
             },
-            "setHighlightValue": {
-                "type": "(value: string) => void",
-                "description": "Function to highlight a value"
-            },
-            "clearHighlightValue": {
-                "type": "VoidFunction",
-                "description": "Function to clear the highlighted value"
+            "setHighlightedValue": {
+                "type": "(value: string | null) => void",
+                "description": "Function to highlight a value, or clear the highlight with `null`"
             },
             "selectedItems": {
                 "type": "V[]",
@@ -115,7 +117,7 @@
                 "description": "Returns the state of a select item"
             },
             "setOpen": {
-                "type": "(open: boolean) => void",
+                "type": "(open: boolean, reason?: OpenChangeReason) => void",
                 "description": "Function to open or close the select"
             },
             "collection": {
@@ -298,6 +300,8 @@
     "dataAttributes": {
         "Root": {
             "data-select-root": "<uid>",
+            "data-state": "\"open\" | \"closed\"",
+            "data-disabled": "Present when disabled",
             "data-invalid": "Present when invalid",
             "data-readonly": "Present when read-only"
         },

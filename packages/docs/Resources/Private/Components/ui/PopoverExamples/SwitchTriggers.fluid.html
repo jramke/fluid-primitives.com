@@ -1,0 +1,48 @@
+<ui:popover.root positioning="{ placement: 'bottom' }">
+    <div class="flex items-center gap-2">
+        <ui:popover.trigger value="notifications" asChild="{true}">
+            <ui:button variant="secondary">Notifications</ui:button>
+        </ui:popover.trigger>
+        <ui:popover.trigger value="activity" asChild="{true}">
+            <ui:button variant="secondary">Activity</ui:button>
+        </ui:popover.trigger>
+        <ui:popover.trigger value="profile" asChild="{true}">
+            <ui:button variant="secondary">Profile</ui:button>
+        </ui:popover.trigger>
+    </div>
+
+    <ui:portal>
+        <primitives:popover.positioner class="
+            z-[var(--layer-index,0)] [--arrow-size:8px] [--arrow-background:var(--color-popover)]
+            [--duration:350ms] [--easing:cubic-bezier(0.22,1,0.36,1)]
+            data-[transitioning]:transition-transform data-[transitioning]:duration-(--duration) data-[transitioning]:ease-(--easing)
+        ">
+            <primitives:popover.viewport class="
+                overflow-clip rounded-md border bg-popover text-popover-foreground shadow-md origin-(--transform-origin)
+                transition-[opacity,scale,display] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] transition-discrete
+                starting:data-[state=open]:opacity-0 data-[state=closed]:opacity-0
+                motion-safe:starting:data-[state=open]:scale-95 motion-safe:data-[state=closed]:scale-95
+                data-[transitioning]:transition-[width,height] data-[transitioning]:duration-(--duration) data-[transitioning]:ease-(--easing)
+            ">
+                <f:for each="{
+                    0: {value: 'notifications', title: 'Notifications', description: 'You are all caught up.'},
+                    1: {value: 'activity', title: 'Activity', description: 'Nothing new happened this week.'},
+                    2: {value: 'profile', title: 'Ada Lovelace', description: 'Pro plan. Manage your profile, your billing and your team.'}
+                }" as="item">
+                    <primitives:popover.content value="{item.value}" class="
+                        absolute top-0 left-0 w-max max-w-72 p-3 outline-none [--slide:3rem]
+                        data-[activation-direction~=left]:[--slide:-3rem] motion-reduce:[--slide:0rem]
+                        in-data-[transitioning]:transition-[translate,opacity,display] in-data-[transitioning]:transition-discrete
+                        in-data-[transitioning]:duration-(--duration) in-data-[transitioning]:ease-(--easing)
+                        in-data-[transitioning]:starting:data-[state=open]:translate-x-(--slide) in-data-[transitioning]:starting:data-[state=open]:opacity-0
+                        in-data-[transitioning]:data-[state=closed]:-translate-x-(--slide) in-data-[transitioning]:data-[state=closed]:opacity-0
+                    ">
+                        <primitives:popover.title class="text-sm font-medium">{item.title}</primitives:popover.title>
+                        <primitives:popover.description class="mt-1 text-sm text-muted-foreground">{item.description}</primitives:popover.description>
+                    </primitives:popover.content>
+                </f:for>
+            </primitives:popover.viewport>
+            <primitives:popover.arrow class="border-l border-t" />
+        </primitives:popover.positioner>
+    </ui:portal>
+</ui:popover.root>

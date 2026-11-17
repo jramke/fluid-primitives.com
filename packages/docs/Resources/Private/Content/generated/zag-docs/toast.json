@@ -30,11 +30,11 @@
             },
             "create": {
                 "type": "(data: Options<V>) => string",
-                "description": "Create a new toast with the given options"
+                "description": "Create a toast or update an existing toast with the same ID.\nCalls targeting closing toasts are ignored."
             },
             "update": {
-                "type": "(id: string, data: Partial<ToastProps<V>>) => string",
-                "description": "Update an existing toast with new properties"
+                "type": "(id: string, data: MaybeFunction<Partial<ToastProps<V>>, Partial<ToastProps<V>>>) => string",
+                "description": "Update a toast with new properties or a function of its current properties.\nUpdates to closing toasts are ignored.\nFunctional updates are also ignored when the toast does not exist."
             },
             "remove": {
                 "type": "(id?: string) => void",
@@ -115,7 +115,19 @@
             "data-first": "",
             "data-sibling": "",
             "data-stack": "",
-            "data-overlap": "Present when overlapping"
+            "data-overlap": "Present when overlapping",
+            "data-swiping": "",
+            "data-swipe-direction": ""
+        },
+        "Content": {
+            "data-toast-content": "<uid>",
+            "data-state": "\"open\" | \"closed\"",
+            "data-first": "",
+            "data-sibling": "",
+            "data-stack": "",
+            "data-overlap": "Present when overlapping",
+            "data-nested": "dialog",
+            "data-has-nested": "dialog"
         },
         "GhostBefore": {
             "data-toast-ghost-before": "<uid>",

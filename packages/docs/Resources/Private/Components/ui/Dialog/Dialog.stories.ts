@@ -44,3 +44,8 @@ export const OutsideScroll: StoryObj = {
         example_id: 'outside-scroll',
     },
 };
+export const NonModal: StoryObj = {
+    args: {
+        example_id: 'non-modal',
+    },
+};

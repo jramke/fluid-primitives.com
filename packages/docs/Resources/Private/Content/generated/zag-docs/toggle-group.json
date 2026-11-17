@@ -118,7 +118,7 @@
             },
             "deselectable": {
                 "type": "boolean | undefined",
-                "description": "Whether the toggle group allows empty selection.\n**Note:** This is ignored if `multiple` is `true`.",
+                "description": "Whether the last pressed item can be unpressed, leaving the selection empty.",
                 "defaultValue": "true"
             },
             "dir": {

@@ -1,6 +1,6 @@
 <ui:pagination.root count="1000" defaultPageSize="20" defaultPage="22" siblingCount="2" boundaryCount="0">
     <ui:context name="ui:pagination" as="paginationContext" />
-    <ui:pagination.prevTrigger />
+    <ui:pagination.previousTrigger />
     <f:for each="{paginationContext.pages}" as="page">
         <f:if condition="{page.type} == 'page'">
             <ui:pagination.item value="{page.value}" />

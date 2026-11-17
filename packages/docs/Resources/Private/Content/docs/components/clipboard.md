@@ -11,6 +11,7 @@
 - Copies text to the clipboard
 - Switches to a copied state as visual feedback
 - Custom duration of the copied state with `timeout` (3000 ms by default)
+- Copies with the Clipboard API, which browsers only offer on https pages and on localhost
 
 ## Anatomy
 

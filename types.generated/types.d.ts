@@ -27,6 +27,7 @@ declare namespace Jramke {
             export type InputMode =
                 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
             export type MaxLengthBehavior = 'block' | 'warn' | 'invalid';
+            export type MenuPopupType = 'menu' | 'dialog';
             export type NumberInputMode = 'text' | 'tel' | 'numeric' | 'decimal';
             export type Orientation = 'horizontal' | 'vertical';
             export type PaginationType = 'button' | 'link';
@@ -53,6 +54,7 @@ declare namespace bench {
         multiple?: boolean;
         collapsible?: boolean;
         defaultValue?: string[];
+        hiddenUntilFound?: boolean;
         disabled?: boolean;
         orientation?: Jramke.FluidPrimitives.Enum.Orientation;
     };
@@ -106,6 +108,7 @@ declare namespace bench {
         required?: boolean;
         closeOnSelect?: boolean;
         positioning?: any;
+        alignItemWithTrigger?: boolean;
         defaultValue?: string[];
         defaultHighlightedValue?: string;
         loopFocus?: boolean;
@@ -129,6 +132,7 @@ declare namespace primitives {
         multiple?: boolean;
         collapsible?: boolean;
         defaultValue?: string[];
+        hiddenUntilFound?: boolean;
         disabled?: boolean;
         orientation?: Jramke.FluidPrimitives.Enum.Orientation;
     };
@@ -188,6 +192,7 @@ declare namespace primitives {
         };
         defaultOpen?: boolean;
         disabled?: boolean;
+        hiddenUntilFound?: boolean;
         collapsedHeight?: string;
         collapsedWidth?: string;
     };
@@ -224,7 +229,12 @@ declare namespace primitives {
         translations: {
             triggerLabel: string;
             clearTriggerLabel: string;
+            resultsCount: string;
+            resultsCountOne: string;
+            noResults: string;
+            loading: string;
         };
+        loading?: boolean;
         searchUrl?: string;
     };
     export type DatePickerHydrationProps = {
@@ -263,9 +273,9 @@ declare namespace primitives {
             weekColumnHeader: string;
             triggerOpen: string;
             triggerClose: string;
-            prevTriggerDay: string;
-            prevTriggerMonth: string;
-            prevTriggerYear: string;
+            previousTriggerDay: string;
+            previousTriggerMonth: string;
+            previousTriggerYear: string;
             nextTriggerDay: string;
             nextTriggerMonth: string;
             nextTriggerYear: string;
@@ -283,10 +293,6 @@ declare namespace primitives {
             dayCellRangeEnd: string;
             dayCellInRange: string;
             dayCellUnavailable: string;
-            contentRoleDescription: string;
-            tableRoleDescriptionDay: string;
-            tableRoleDescriptionMonth: string;
-            tableRoleDescriptionYear: string;
             placeholderDay: string;
             placeholderMonth: string;
             placeholderYear: string;
@@ -370,6 +376,8 @@ declare namespace primitives {
             dropzone: string;
             itemPreview: string;
             deleteFile: string;
+            filesAdded: string;
+            fileDeleted: string;
         };
     };
     export type FormHydrationProps = {
@@ -410,7 +418,8 @@ declare namespace primitives {
             [key: string]: string;
         };
         closeOnSelect?: boolean;
-        composite?: boolean;
+        popupType?: Jramke.FluidPrimitives.Enum.MenuPopupType;
+        autoHighlight?: boolean | string;
         typeahead?: boolean;
         loopFocus?: boolean;
         positioning?: any;
@@ -444,15 +453,14 @@ declare namespace primitives {
         readOnly?: boolean;
         name?: string;
         form?: string;
-        defaultValue: string;
+        defaultValue?: number;
         min?: number;
         max?: number;
         step?: number;
         smallStep?: number;
         largeStep?: number;
         allowMouseWheel?: boolean;
-        allowOverflow?: boolean;
-        clampValueOnBlur?: boolean;
+        allowOutOfRange?: boolean;
         focusInputOnChange?: boolean;
         spinOnPress?: boolean;
         formatOptions?: any;
@@ -461,6 +469,7 @@ declare namespace primitives {
         translations: {
             incrementLabel: string;
             decrementLabel: string;
+            roleDescription: string;
         };
         locale?: string;
     };
@@ -476,7 +485,7 @@ declare namespace primitives {
         translations: {
             rootLabel: string;
             firstTriggerLabel: string;
-            prevTriggerLabel: string;
+            previousTriggerLabel: string;
             nextTriggerLabel: string;
             lastTriggerLabel: string;
             itemLabel: string;
@@ -549,6 +558,7 @@ declare namespace primitives {
         required?: boolean;
         closeOnSelect?: boolean;
         positioning?: any;
+        alignItemWithTrigger?: boolean;
         defaultValue?: string[];
         defaultHighlightedValue?: string;
         loopFocus?: boolean;
@@ -581,7 +591,8 @@ declare namespace primitives {
         orientation?: Jramke.FluidPrimitives.Enum.Orientation;
         origin?: Jramke.FluidPrimitives.Enum.SliderOrigin;
         thumbAlignment?: Jramke.FluidPrimitives.Enum.SliderThumbAlignment;
-        thumbSize?: any;
+        thumbSize?: number | any;
+        thumbLabels?: string[];
         thumbCollisionBehavior?: Jramke.FluidPrimitives.Enum.SliderThumbCollisionBehavior;
     };
     export type SwitchHydrationProps = {
@@ -644,6 +655,7 @@ declare namespace primitives {
         duration?: number;
         removeDelay?: number;
         pauseOnPageIdle?: boolean;
+        swipeDirections?: string[];
         hotkey?: string[];
         translations: {
             groupLabel: string;
@@ -659,6 +671,7 @@ declare namespace primitives {
         defaultActiveIds?: string[];
         rootMargin?: string;
         threshold?: number | number[];
+        multiple?: boolean;
         scrollEl?: string;
         autoScroll?: boolean;
         scrollBehavior?: Jramke.FluidPrimitives.Enum.ScrollBehavior;
@@ -710,6 +723,7 @@ declare namespace ui {
         multiple?: boolean;
         collapsible?: boolean;
         defaultValue?: string[];
+        hiddenUntilFound?: boolean;
         disabled?: boolean;
         orientation?: Jramke.FluidPrimitives.Enum.Orientation;
     };
@@ -779,6 +793,7 @@ declare namespace ui {
         };
         defaultOpen?: boolean;
         disabled?: boolean;
+        hiddenUntilFound?: boolean;
         collapsedHeight?: string;
         collapsedWidth?: string;
     };
@@ -815,7 +830,12 @@ declare namespace ui {
         translations: {
             triggerLabel: string;
             clearTriggerLabel: string;
+            resultsCount: string;
+            resultsCountOne: string;
+            noResults: string;
+            loading: string;
         };
+        loading?: boolean;
         searchUrl?: string;
     };
     export type CommandMenuHydrationProps = {
@@ -861,9 +881,9 @@ declare namespace ui {
             weekColumnHeader: string;
             triggerOpen: string;
             triggerClose: string;
-            prevTriggerDay: string;
-            prevTriggerMonth: string;
-            prevTriggerYear: string;
+            previousTriggerDay: string;
+            previousTriggerMonth: string;
+            previousTriggerYear: string;
             nextTriggerDay: string;
             nextTriggerMonth: string;
             nextTriggerYear: string;
@@ -881,10 +901,6 @@ declare namespace ui {
             dayCellRangeEnd: string;
             dayCellInRange: string;
             dayCellUnavailable: string;
-            contentRoleDescription: string;
-            tableRoleDescriptionDay: string;
-            tableRoleDescriptionMonth: string;
-            tableRoleDescriptionYear: string;
             placeholderDay: string;
             placeholderMonth: string;
             placeholderYear: string;
@@ -968,6 +984,8 @@ declare namespace ui {
             dropzone: string;
             itemPreview: string;
             deleteFile: string;
+            filesAdded: string;
+            fileDeleted: string;
         };
     };
     export type FormHydrationProps = {
@@ -1008,7 +1026,8 @@ declare namespace ui {
             [key: string]: string;
         };
         closeOnSelect?: boolean;
-        composite?: boolean;
+        popupType?: Jramke.FluidPrimitives.Enum.MenuPopupType;
+        autoHighlight?: boolean | string;
         typeahead?: boolean;
         loopFocus?: boolean;
         positioning?: any;
@@ -1042,15 +1061,14 @@ declare namespace ui {
         readOnly?: boolean;
         name?: string;
         form?: string;
-        defaultValue: string;
+        defaultValue?: number;
         min?: number;
         max?: number;
         step?: number;
         smallStep?: number;
         largeStep?: number;
         allowMouseWheel?: boolean;
-        allowOverflow?: boolean;
-        clampValueOnBlur?: boolean;
+        allowOutOfRange?: boolean;
         focusInputOnChange?: boolean;
         spinOnPress?: boolean;
         formatOptions?: any;
@@ -1059,6 +1077,7 @@ declare namespace ui {
         translations: {
             incrementLabel: string;
             decrementLabel: string;
+            roleDescription: string;
         };
         locale?: string;
     };
@@ -1074,7 +1093,7 @@ declare namespace ui {
         translations: {
             rootLabel: string;
             firstTriggerLabel: string;
-            prevTriggerLabel: string;
+            previousTriggerLabel: string;
             nextTriggerLabel: string;
             lastTriggerLabel: string;
             itemLabel: string;
@@ -1146,6 +1165,7 @@ declare namespace ui {
         required?: boolean;
         closeOnSelect?: boolean;
         positioning?: any;
+        alignItemWithTrigger?: boolean;
         defaultValue?: string[];
         defaultHighlightedValue?: string;
         loopFocus?: boolean;
@@ -1178,7 +1198,8 @@ declare namespace ui {
         orientation?: Jramke.FluidPrimitives.Enum.Orientation;
         origin?: Jramke.FluidPrimitives.Enum.SliderOrigin;
         thumbAlignment?: Jramke.FluidPrimitives.Enum.SliderThumbAlignment;
-        thumbSize?: any;
+        thumbSize?: number | any;
+        thumbLabels?: string[];
         thumbCollisionBehavior?: Jramke.FluidPrimitives.Enum.SliderThumbCollisionBehavior;
     };
     export type SwitchHydrationProps = {
@@ -1241,6 +1262,7 @@ declare namespace ui {
         duration?: number;
         removeDelay?: number;
         pauseOnPageIdle?: boolean;
+        swipeDirections?: string[];
         hotkey?: string[];
         translations: {
             groupLabel: string;
@@ -1256,6 +1278,7 @@ declare namespace ui {
         defaultActiveIds?: string[];
         rootMargin?: string;
         threshold?: number | number[];
+        multiple?: boolean;
         scrollEl?: string;
         autoScroll?: boolean;
         scrollBehavior?: Jramke.FluidPrimitives.Enum.ScrollBehavior;
