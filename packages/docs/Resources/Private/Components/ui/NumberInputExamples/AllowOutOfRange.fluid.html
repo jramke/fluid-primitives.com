@@ -1,4 +1,4 @@
-<ui:form.root actionUri="#" class="w-full max-w-74">
+<ui:form.root actionUri="#" autoMount="{false}" rootId="book-a-table" class="w-full max-w-74">
     <ui:form.content class="space-y-6">
         <ui:field.root name="guests" required="{true}">
             <ui:numberInput.root min="1" max="8" defaultValue="2" allowOutOfRange="{true}">
@@ -17,4 +17,13 @@
 
         <ui:button type="submit">Book a table</ui:button>
     </ui:form.content>
+
+    <ui:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}"
+        class="space-y-3">
+        <ui:form.successText class="block">Your table is booked.</ui:form.successText>
+        <ui:button type="reset" variant="secondary">Book another table</ui:button>
+    </ui:form.indicator>
 </ui:form.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/NumberInputExamples/AllowOutOfRange.entry.ts" />
