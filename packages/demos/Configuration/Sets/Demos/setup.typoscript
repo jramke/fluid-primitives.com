@@ -29,3 +29,8 @@ plugin.tx_news {
 [traverse(page, "slug") starts with "/demos"]
     config.pageTitle.stdWrap.noTrimWrap = || – Fluid Primitives|
 [END]
+
+# The login pages change with the login: a browser must not keep the page it got before
+[traverse(page, "slug") starts with "/demos/login"]
+    config.sendCacheHeaders = 0
+[END]

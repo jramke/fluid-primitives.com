@@ -7,6 +7,7 @@ namespace FluidPrimitives\Demos\Service;
 use Jramke\FluidPrimitives\Utility\Typed;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Page\PageInformation;
 
 /**
@@ -55,7 +56,7 @@ final readonly class DemoPages
     }
 
     /**
-     * @return list<array{slug: string, title: string, abstract: string, preview: false}>
+     * @return list<array{slug: string, title: string, abstract: string, components: list<array{label: string, href: string}>, preview: false}>
      */
     public function demos(int $overviewUid): array
     {
@@ -73,10 +74,27 @@ final readonly class DemoPages
                 'slug' => Typed::string($page['slug'] ?? null),
                 'title' => Typed::string($page['title'] ?? null),
                 'abstract' => Typed::string($page['abstract'] ?? null),
+                'components' => $this->components(Typed::string($page['keywords'] ?? null)),
                 'preview' => false,
             ];
         }
 
         return $demos;
+    }
+
+    /**
+     * The components a demo uses, listed in the keywords of its page, with their docs page.
+     *
+     * @return list<array{label: string, href: string}>
+     */
+    private function components(string $keywords): array
+    {
+        return array_map(
+            static fn(string $label): array => [
+                'label' => $label,
+                'href' => '/docs/components/' . strtolower(str_replace(search: ' ', replace: '-', subject: $label)),
+            ],
+            GeneralUtility::trimExplode(',', $keywords, removeEmptyValues: true),
+        );
     }
 }

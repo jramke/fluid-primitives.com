@@ -16,11 +16,11 @@ An EXT:news list with a search, a category and a date filter. The list follows e
 
 ## Login
 
-The login of felogin, a registration that shows the validation errors of Extbase on its fields, and a user menu with the account settings.
+The login of felogin on `/demos/login`, a registration on its own page that shows the validation errors of Extbase on its fields, and a user menu with the account settings.
 
 - [`Login.fluid.html`](Resources/Private/Extensions/Felogin/Templates/Login/Login.fluid.html) - felogin with an Input and a Password Input in fields. It is a native form, felogin logs in on a full request. Keep the names `user`, `pass` and `logintype`.
 - [`Form.fluid.html`](Resources/Private/Templates/Registration/Form.fluid.html) and [`Registration.entry.ts`](Resources/Private/js/Registration.entry.ts) - the registration is a `ui:form` that posts with `fetch`. It checks the password confirmation on the client, the server checks everything again.
-- [`RegistrationController.php`](Classes/Controller/RegistrationController.php) and [`RegistrationValidator.php`](Classes/Domain/Validator/RegistrationValidator.php) - `JsonValidationErrorsTrait` answers failed validation with a `422`, which the form shows on the fields. A taken email address gets the same answer from the action. After a registration the script fills in the email of the login form.
+- [`RegistrationController.php`](Classes/Controller/RegistrationController.php) and [`RegistrationValidator.php`](Classes/Domain/Validator/RegistrationValidator.php) - `JsonValidationErrorsTrait` answers failed validation with a `422`, which the form shows on the fields. A taken email address gets the same answer from the action. After a registration the script keeps the email in the `sessionStorage`, and [`Login.entry.ts`](Resources/Private/js/Login.entry.ts) fills it into the login form.
 - [`UserMenu/Show.fluid.html`](Resources/Private/Templates/UserMenu/Show.fluid.html) - after the login, a `ui:menu` with the initials of the user as trigger: their name and email, a link to the account settings and "Log out". The initials are where an Avatar would go. A menu item is no form control, so [`UserMenu.entry.ts`](Resources/Private/js/UserMenu.entry.ts) submits the logout form when "Log out" is selected. The plugin is uncached, see [`UserMenuController.php`](Classes/Controller/UserMenuController.php) and [`CurrentUser.php`](Classes/Service/CurrentUser.php).
 - [`Account/Edit.fluid.html`](Resources/Private/Templates/Account/Edit.fluid.html) - the account settings: a `ui:form` that changes the name, see [`AccountController.php`](Classes/Controller/AccountController.php) and [`Account.entry.ts`](Resources/Private/js/Account.entry.ts). The action changes the record of the session, never one the request names. After a save the user menu shows the new initials.
 
@@ -28,10 +28,9 @@ The felogin form and the registration hide at login, the user menu shows at logi
 
 ## Header
 
-The header of a website: a Navigation Menu built from the page tree, and a Dialog with the navigation on small screens.
+The header of an imaginary website: a navigation with two dropdowns, which moves into a drawer on small screens.
 
-- [`SiteHeader/Show.fluid.html`](Resources/Private/Templates/SiteHeader/Show.fluid.html) - a `ui:navigationMenu` with a dropdown of the demo pages and two links. Below `@3xl`, a width of a container query, a button opens a `ui:dialog` with the same links, as a drawer from the side. Resize the frame of the demo to see it.
-- [`SiteHeaderController.php`](Classes/Controller/SiteHeaderController.php) - reads the pages with [`DemoPages.php`](Classes/Service/DemoPages.php).
+- [`SiteHeader/Show.fluid.html`](Resources/Private/Templates/SiteHeader/Show.fluid.html) - a `ui:navigationMenu` with the dropdowns "Product" and "Resources" and two links. Below `@3xl`, a width of a container query, a button opens a `ui:dialog` with the same links, as a drawer from the side, and each dropdown is a `ui:collapsible` there. Resize the frame of the demo to see it. The links are in the template, on your site they come from the page tree.
 
 ## Load a list without a reload
 

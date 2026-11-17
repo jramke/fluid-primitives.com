@@ -1,8 +1,10 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
-<section class="mt-8 max-w-md rounded-xl border p-6 sm:p-8">
+<section class="max-w-md rounded-xl border p-6 sm:p-8">
     <h2 class="text-xl font-semibold">Create an account</h2>
-    <p class="mt-1 text-sm text-muted-foreground">The demo deletes accounts a day after they were created.</p>
+    <p class="mt-1 text-sm text-muted-foreground">
+        Already have one? <a href="/demos/login" class="underline underline-offset-4">Log in</a>. The demo deletes accounts a day after they were created.
+    </p>
 
     <ui:form.root action="create" objectName="registration" autoMount="{false}" rootId="registration-form" class="mt-6">
         <ui:form.content class="space-y-5">
@@ -67,6 +69,9 @@
                 <ui:alert.title>Done</ui:alert.title>
                 <ui:alert.content><ui:form.successText /></ui:alert.content>
             </ui:alert.root>
+            <ui:button asChild="{true}" class="mt-4 w-full">
+                <a href="/demos/login">Log in</a>
+            </ui:button>
         </ui:form.indicator>
         <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}" class="space-y-4">
             <ui:alert.root variant="destructive">

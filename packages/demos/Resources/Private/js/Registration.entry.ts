@@ -6,16 +6,8 @@ const submitButton = mount('ui:button', 'registration-submit', ({ props }) =>
     new Button(props).init()
 );
 
-// The new account logs in with the felogin form on the same page: fill in its email and move on to the password
-function continueWithLogin(username: string) {
-    const login = document.getElementById('login-form');
-    const user = login?.querySelector<HTMLInputElement>('input[name="user"]');
-    if (!user) return;
-
-    user.value = username;
-    user.dispatchEvent(new Event('input', { bubbles: true }));
-    login?.querySelector<HTMLInputElement>('input[name="pass"]')?.focus();
-}
+// The login page fills in the email of the new account, see Login.entry.ts
+const NEW_ACCOUNT_KEY = 'demos-new-account';
 
 mount('ui:form', 'registration-form', ({ props }) =>
     new Form({
@@ -45,7 +37,11 @@ mount('ui:form', 'registration-form', ({ props }) =>
             }
 
             api.setSuccessText(data.message ?? null);
-            if (data.username) continueWithLogin(data.username);
+            try {
+                if (data.username) sessionStorage.setItem(NEW_ACCOUNT_KEY, data.username);
+            } catch {
+                // No storage: the login form stays empty
+            }
             return true;
         },
         render: form => submitButton?.api.setLoading(form.api.isSubmitting),

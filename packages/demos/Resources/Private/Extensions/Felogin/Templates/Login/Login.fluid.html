@@ -6,7 +6,9 @@
 </f:comment>
 <section class="max-w-md rounded-xl border p-6 sm:p-8">
     <h2 class="text-xl font-semibold">Log in</h2>
-    <p class="mt-1 text-sm text-muted-foreground">Log in with the account you create below.</p>
+    <p class="mt-1 text-sm text-muted-foreground">
+        No account yet? <a href="/demos/login/register" class="underline underline-offset-4">Create one</a>, the demo deletes it after a day.
+    </p>
 
     <f:if condition="{messageKey} == 'error'">
         <ui:alert class="mt-6" variant="destructive" title="{f:render(partial: 'RenderLabelOrMessage', arguments: {key: 'error_header'})}" text="{f:render(partial: 'RenderLabelOrMessage', arguments: {key: 'error_message'})}" />
@@ -46,4 +48,6 @@
         <ui:button type="submit" class="w-full">Log in</ui:button>
     </f:form>
 </section>
+
+<vite:asset entry="EXT:demos/Resources/Private/js/Login.entry.ts" />
 </html>

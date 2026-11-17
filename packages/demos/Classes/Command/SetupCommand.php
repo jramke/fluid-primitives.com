@@ -37,13 +37,14 @@ final class SetupCommand extends Command
         parent::__construct();
     }
 
+    // @mago-expect lint:halstead
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->initializeDataHandler();
 
         $overview = $this->page(self::OVERVIEW, $this->rootPageId(), [
             'title' => 'Demos',
-            'abstract' => 'Common parts of a TYPO3 site, built with Fluid Primitives and the extensions you know.',
+            'abstract' => 'Parts of a TYPO3 site built with Fluid Primitives, next to EXT:news and felogin. Each demo is a page with content elements, as on your own site.',
             'backend_layout' => 'pagets__Demo',
             'backend_layout_next_level' => 'pagets__Demo',
         ]);
@@ -60,7 +61,8 @@ final class SetupCommand extends Command
         // Each page is placed after the one before it: a negative pid in DataHandler
         $news = $this->page(self::OVERVIEW . '/news', $overview['uid'], [
             'title' => 'News list',
-            'abstract' => 'An EXT:news list with a search, a category and a date filter, and a pagination that loads the pages without a reload.',
+            'abstract' => 'An EXT:news list with a search, a category and a date filter. The list and its pages load without a reload.',
+            'keywords' => 'Input, Select, Date Picker, Pagination',
         ]);
         $article = $this->page(self::OVERVIEW . '/news/article', -$news['uid'], [
             'title' => 'News article',
@@ -68,16 +70,23 @@ final class SetupCommand extends Command
         ]);
         $login = $this->page(self::OVERVIEW . '/login', -$article['uid'], [
             'title' => 'Login and registration',
-            'abstract' => 'The login of felogin, a registration that shows the validation errors of Extbase on its fields, and a user menu with the account settings.',
+            'abstract' => 'The felogin login, a registration that shows the validation errors of Extbase on its fields, and a user menu with account settings.',
+            'keywords' => 'Form, Field, Input, Password Input, Button, Menu',
         ]);
-        $account = $this->page(self::OVERVIEW . '/login/account', $login['uid'], [
+        $register = $this->page(self::OVERVIEW . '/login/register', $login['uid'], [
+            'title' => 'Registration',
+            'abstract' => 'Create an account for the login demo.',
+            'nav_hide' => 1,
+        ]);
+        $account = $this->page(self::OVERVIEW . '/login/account', -$register['uid'], [
             'title' => 'Account settings',
             'abstract' => 'The settings page of the user menu.',
             'nav_hide' => 1,
         ]);
         $header = $this->page(self::OVERVIEW . '/header', -$login['uid'], [
             'title' => 'Site header',
-            'abstract' => 'A Navigation Menu built from the page tree, and a Dialog with the navigation on small screens.',
+            'abstract' => 'A navigation with two dropdowns. On small screens it moves into a drawer with collapsible sections.',
+            'keywords' => 'Navigation Menu, Dialog, Collapsible',
         ]);
 
         if ($news['created']) {
@@ -98,6 +107,11 @@ final class SetupCommand extends Command
         }
         if ($login['created']) {
             $this->createLoginContent($login['uid'], $dataPid);
+        }
+        if ($register['created']) {
+            // The user menu shows at any login, the registration hides at login
+            $userMenu = $this->createContent($register['uid'], 'demos_usermenu', ['fe_group' => -2]);
+            $this->createContent(-$userMenu, 'demos_registration', ['pages' => $dataPid, 'fe_group' => -1]);
         }
         if ($account['created']) {
             $userMenu = $this->createContent($account['uid'], 'demos_usermenu');
@@ -177,7 +191,7 @@ final class SetupCommand extends Command
     {
         // Show at any login
         $userMenu = $this->createContent($pageUid, 'demos_usermenu', ['fe_group' => -2]);
-        $login = $this->createContent(-$userMenu, 'felogin_login', [
+        $this->createContent(-$userMenu, 'felogin_login', [
             // Hide at login: the user menu logs out
             'fe_group' => -1,
             'pi_flexform' => $this->flexForm([
@@ -187,11 +201,6 @@ final class SetupCommand extends Command
                     'settings.showForgotPassword' => 0,
                 ],
             ]),
-        ]);
-        $this->createContent(-$login, 'demos_registration', [
-            'pages' => $dataPid,
-            // Hide at login
-            'fe_group' => -1,
         ]);
     }
 

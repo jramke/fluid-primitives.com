@@ -1,15 +1,31 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
 <f:comment>
-    The header follows the width of its container, not of the window (@container, @3xl:). The frame of the demo
-    can be resized, drag its corner to see the navigation move into the Dialog.
+    The links of an imaginary site. On a real one they come from the page tree, a MenuProcessor for example.
+    The header follows the width of its container, not of the window (@container, @3xl:), so the frame of the
+    demo can be resized to see the navigation move into the Dialog.
 </f:comment>
+<f:variable name="menus" value="{
+    0: {value: 'product', label: 'Product', items: {
+        0: {label: 'Analytics', description: 'See which pages your visitors read and where they leave.'},
+        1: {label: 'Automation', description: 'Publish, archive and notify on a schedule.'},
+        2: {label: 'Integrations', description: 'Connect your CRM, your shop and your newsletter.'},
+        3: {label: 'Security', description: 'Single sign-on, roles and an audit log.'}
+    }},
+    1: {value: 'resources', label: 'Resources', items: {
+        0: {label: 'Guides', description: 'Step by step, from the first page to the launch.'},
+        1: {label: 'Blog', description: 'Stories from the teams that use it.'},
+        2: {label: 'Changelog', description: 'What is new in every release.'}
+    }}
+}" />
+<f:variable name="links" value="{0: {value: 'pricing', label: 'Pricing'}, 1: {value: 'contact', label: 'Contact'}}" />
+
 <p class="mb-3 text-sm text-muted-foreground">Drag the bottom right corner to make the page narrower.</p>
 <div class="@container h-[32rem] w-full max-w-full min-w-80 resize-x overflow-hidden rounded-xl border">
     <header class="flex h-16 items-center gap-2 border-b px-4">
-        <a href="{overviewSlug}" class="me-4 flex items-center gap-2 text-sm font-semibold">
+        <a href="#" class="me-4 flex items-center gap-2 text-sm font-semibold">
             <f:image src="EXT:fluid_primitives/Resources/Public/Icons/Extension.svg" class="size-7 rounded-md" alt="" />
-            Demo site
+            Acme
         </a>
         <f:render section="navigation" arguments="{_all}" />
         <div class="ms-auto">
@@ -22,30 +38,28 @@
 <f:section name="navigation">
     <ui:navigationMenu.root class="hidden @3xl:flex" aria-label="Main">
         <ui:navigationMenu.list>
-            <ui:navigationMenu.item value="demos">
-                <ui:navigationMenu.trigger>Demos</ui:navigationMenu.trigger>
-                <ui:navigationMenu.content>
-                    <ul class="grid w-[34rem] grid-cols-2 gap-1 p-1">
-                        <f:for each="{demos}" as="demo">
-                            <li>
-                                <ui:navigationMenu.link
-                                    href="{demo.slug}"
-                                    current="{f:if(condition: '{demo.slug} == {pagePath}', then: 1, else: 0)}"
-                                    class="flex-col items-start gap-1 p-3">
-                                    <span class="font-medium">{demo.title}</span>
-                                    <span class="line-clamp-2 text-xs text-muted-foreground">{demo.abstract}</span>
-                                </ui:navigationMenu.link>
-                            </li>
-                        </f:for>
-                    </ul>
-                </ui:navigationMenu.content>
-            </ui:navigationMenu.item>
-            <ui:navigationMenu.item value="docs">
-                <ui:navigationMenu.link href="/docs">Documentation</ui:navigationMenu.link>
-            </ui:navigationMenu.item>
-            <ui:navigationMenu.item value="pitch">
-                <ui:navigationMenu.link href="/the-pitch">The Pitch</ui:navigationMenu.link>
-            </ui:navigationMenu.item>
+            <f:for each="{menus}" as="menu">
+                <ui:navigationMenu.item value="{menu.value}">
+                    <ui:navigationMenu.trigger>{menu.label}</ui:navigationMenu.trigger>
+                    <ui:navigationMenu.content>
+                        <ul class="grid w-[30rem] grid-cols-2 gap-1 p-1">
+                            <f:for each="{menu.items}" as="item">
+                                <li>
+                                    <ui:navigationMenu.link href="#" class="flex-col items-start gap-1 p-3">
+                                        <span class="font-medium">{item.label}</span>
+                                        <span class="text-xs text-muted-foreground">{item.description}</span>
+                                    </ui:navigationMenu.link>
+                                </li>
+                            </f:for>
+                        </ul>
+                    </ui:navigationMenu.content>
+                </ui:navigationMenu.item>
+            </f:for>
+            <f:for each="{links}" as="link">
+                <ui:navigationMenu.item value="{link.value}">
+                    <ui:navigationMenu.link href="#">{link.label}</ui:navigationMenu.link>
+                </ui:navigationMenu.item>
+            </f:for>
         </ui:navigationMenu.list>
     </ui:navigationMenu.root>
 </f:section>
@@ -73,17 +87,28 @@
                         </primitives:dialog.closeTrigger>
                     </div>
                     <nav aria-label="Main">
-                        <p class="px-2 text-xs font-semibold text-muted-foreground">Demos</p>
-                        <ul class="mt-1">
-                            <f:for each="{demos}" as="demo">
+                        <ul class="divide-y">
+                            <f:comment>A dropdown of the wide header is a Collapsible here</f:comment>
+                            <f:for each="{menus}" as="menu">
                                 <li>
-                                    <a href="{demo.slug}" class="block rounded-md px-2 py-2 text-sm hover:bg-accent aria-[current=page]:font-medium" {f:if(condition: '{demo.slug} == {pagePath}', then: 'aria-current="page"')}>{demo.title}</a>
+                                    <ui:collapsible.root>
+                                        <ui:collapsible.trigger class="group flex w-full cursor-pointer items-center justify-between py-3 text-sm font-medium">
+                                            {menu.label}
+                                            <ui:icon.chevronDown class="size-4 transition-transform group-data-[state=open]:rotate-180" />
+                                        </ui:collapsible.trigger>
+                                        <ui:collapsible.content>
+                                            <ul class="pb-3">
+                                                <f:for each="{menu.items}" as="item">
+                                                    <li><a href="#" class="block rounded-md px-3 py-2 text-sm hover:bg-accent">{item.label}</a></li>
+                                                </f:for>
+                                            </ul>
+                                        </ui:collapsible.content>
+                                    </ui:collapsible.root>
                                 </li>
                             </f:for>
-                        </ul>
-                        <ul class="mt-4 border-t pt-4">
-                            <li><a href="/docs" class="block rounded-md px-2 py-2 text-sm hover:bg-accent">Documentation</a></li>
-                            <li><a href="/the-pitch" class="block rounded-md px-2 py-2 text-sm hover:bg-accent">The Pitch</a></li>
+                            <f:for each="{links}" as="link">
+                                <li><a href="#" class="block py-3 text-sm font-medium">{link.label}</a></li>
+                            </f:for>
                         </ul>
                     </nav>
                 </primitives:dialog.content>
@@ -91,5 +116,4 @@
         </ui:portal>
     </ui:dialog.root>
 </f:section>
-
 </html>
