@@ -1,0 +1,3 @@
+felogin:
+  view:
+    templateRootPath: 'EXT:demos/Resources/Private/Extensions/Felogin/Templates/'

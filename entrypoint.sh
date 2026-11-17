@@ -22,13 +22,18 @@ su -s /bin/sh www-data -c "vendor/bin/typo3 cache:flush || true"
 # Runs next to Apache: the port has to be open at once, a proxy shows a bad gateway until it is.
 warm() {
     host=$(php -r 'echo parse_url(getenv("APP_URL"), PHP_URL_HOST);')
+
+    # The tables of new extensions, and the demo pages and records that are missing
+    su -s /bin/sh www-data -c "vendor/bin/typo3 extension:setup && vendor/bin/typo3 demos:setup" \
+        || echo "Demos not set up"
+
     su -s /bin/sh www-data -c "vendor/bin/typo3 cache:warmup || true"
 
     # Waits for Apache, and renders the home page on the way
     curl -fsS -o /dev/null --max-time 300 --retry 60 --retry-delay 2 --retry-connrefused \
         -H "Host: $host" http://127.0.0.1/ || { echo "Caches not warmed: the home page does not answer"; return 0; }
 
-    { echo /the-pitch; sed -n 's|^ \+- \(.*\)|/\1|p' packages/docs/Resources/Private/Content/nav.yaml; } \
+    { echo /the-pitch; printf "/demos\n/demos/news\n/demos/login\n/demos/header\n/acme\n/acme/news\n/acme/login\n/acme/register\n"; sed -n 's|^ \+- \(.*\)|/\1|p' packages/docs/Resources/Private/Content/nav.yaml; } \
         | xargs -P 4 -I{} curl -fsS -o /dev/null --max-time 300 \
             -H "Host: $host" 'http://127.0.0.1{}' || true
 

@@ -1,6 +1,7 @@
 base: '%env(APP_URL)%'
 dependencies:
   - fluid-primitives/docs
+  - fluid-primitives/demos
 languages:
   - title: English
     enabled: true
@@ -29,3 +30,17 @@ routeEnhancers:
     aspects:
       path:
         type: ValidatedPathMapper
+  News:
+    type: Extbase
+    extension: News
+    plugin: Pi1
+    routes:
+      - routePath: '/{news-title}'
+        _controller: 'News::detail'
+        _arguments:
+          news-title: news
+    aspects:
+      news-title:
+        type: PersistedAliasMapper
+        tableName: tx_news_domain_model_news
+        routeFieldName: path_segment

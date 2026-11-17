@@ -1,0 +1,83 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:comment>
+    The demo is on a public site: password managers leave its inputs alone.
+    The form posts with fetch and shows the validation errors of the server on the fields. The fields check
+    their native constraints on the client, Registration.entry.ts adds the one rule HTML has no attribute for:
+    the repeated password.
+</f:comment>
+<section class="mx-auto max-w-md rounded-xl border p-6 sm:p-8">
+    <h1 class="text-xl font-semibold">Create an account</h1>
+    <p class="mt-1 text-sm text-muted-foreground">
+        Already have one? <a href="/acme/login" class="underline underline-offset-4">Log in</a>
+    </p>
+
+    <ui:form.root action="create" objectName="registration" autoMount="{false}" rootId="registration" class="group/form mt-6">
+        <ui:form.content class="space-y-5">
+            <ui:field.root name="name" required="{true}">
+                <ui:input.root autocomplete="name">
+                    <ui:input.label>Name</ui:input.label>
+                    <ui:input.input />
+                </ui:input.root>
+                <ui:field.errorText />
+            </ui:field.root>
+
+            <ui:field.root name="email" required="{true}">
+                <ui:input.root type="email" autocomplete="email">
+                    <ui:input.label>Email</ui:input.label>
+                    <ui:input.input data-1p-ignore="" data-lpignore="true" data-bwignore="true" data-form-type="other" data-protonpass-ignore="true" />
+                </ui:input.root>
+                <ui:field.helperText>You log in with it.</ui:field.helperText>
+                <ui:field.errorText />
+            </ui:field.root>
+
+            <ui:field.root name="password" required="{true}">
+                <ui:passwordInput.root ignorePasswordManagers="{true}" autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
+                    <ui:passwordInput.label>Password</ui:passwordInput.label>
+                    <ui:passwordInput.control>
+                        <ui:passwordInput.input minlength="{minPasswordLength}" />
+                        <ui:passwordInput.visibilityTrigger />
+                    </ui:passwordInput.control>
+                </ui:passwordInput.root>
+                <ui:field.helperText>At least {minPasswordLength} characters.</ui:field.helperText>
+                <ui:field.errorText />
+            </ui:field.root>
+
+            <f:comment>listenTo validates the field again when the password changes</f:comment>
+            <ui:field.root name="passwordConfirmation" required="{true}" listenTo="{0: 'password'}">
+                <ui:passwordInput.root ignorePasswordManagers="{true}" autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
+                    <ui:passwordInput.label>Repeat the password</ui:passwordInput.label>
+                    <ui:passwordInput.control>
+                        <ui:passwordInput.input />
+                        <ui:passwordInput.visibilityTrigger />
+                    </ui:passwordInput.control>
+                </ui:passwordInput.root>
+                <ui:field.errorText />
+            </ui:field.root>
+
+            <ui:button type="submit" class="w-full group-data-submitting/form:pointer-events-none group-data-submitting/form:opacity-60">Create account</ui:button>
+        </ui:form.content>
+
+        <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}" class="space-y-4">
+            <ui:alert.root>
+                <ui:alert.icon />
+                <ui:alert.title>Done</ui:alert.title>
+                <ui:alert.content><ui:form.successText /></ui:alert.content>
+            </ui:alert.root>
+            <ui:button asChild="{true}" class="w-full">
+                <a href="/acme/login">Log in</a>
+            </ui:button>
+        </ui:form.indicator>
+        <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}" class="space-y-4">
+            <ui:alert.root variant="destructive">
+                <ui:alert.icon />
+                <ui:alert.title>That did not work</ui:alert.title>
+                <ui:alert.content><ui:form.errorText>Something went wrong. Please try again.</ui:form.errorText></ui:alert.content>
+            </ui:alert.root>
+            <ui:button type="reset" variant="secondary">Back to the form</ui:button>
+        </ui:form.indicator>
+    </ui:form.root>
+</section>
+
+<vite:asset entry="EXT:demos/Resources/Private/js/Registration.entry.ts" />
+</html>

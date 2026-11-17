@@ -1,0 +1,90 @@
+<?php
+
+declare(strict_types=1);
+
+namespace FluidPrimitives\Docs\Services;
+
+use Jramke\FluidPrimitives\Utility\Typed;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Page\PageInformation;
+
+/**
+ * The demo pages: the subpages of the first level page of the rootline, `/demos`, that show in menus.
+ */
+final readonly class DemoPages
+{
+    public function __construct(
+        private PageRepository $pageRepository,
+    ) {}
+
+    /**
+     * @return array<array-key, mixed>|null The overview page of the request, `/demos`
+     */
+    public function overview(ServerRequestInterface $request): ?array
+    {
+        // @mago-expect analysis:mixed-assignment
+        $pageInformation = $request->getAttribute('frontend.page.information');
+
+        return $pageInformation instanceof PageInformation
+            ? Typed::arrayOrNull($pageInformation->getLocalRootLine()[1] ?? null)
+            : null;
+    }
+
+    /**
+     * @return array<array-key, mixed>|null The demo of the request, the second level page of the rootline
+     */
+    public function demo(ServerRequestInterface $request): ?array
+    {
+        // @mago-expect analysis:mixed-assignment
+        $pageInformation = $request->getAttribute('frontend.page.information');
+
+        return $pageInformation instanceof PageInformation
+            ? Typed::arrayOrNull($pageInformation->getLocalRootLine()[2] ?? null)
+            : null;
+    }
+
+    /**
+     * @return list<array{slug: string, title: string, abstract: string, components: list<array{label: string, href: string}>, preview: false}>
+     */
+    public function demos(int $overviewUid): array
+    {
+        $demos = [];
+        // @mago-expect analysis:mixed-assignment
+        foreach ($this->pageRepository->getMenu($overviewUid) as $menuItem) {
+            $page = Typed::array($menuItem);
+            if (
+                Typed::bool($page['nav_hide'] ?? null) ||
+                Typed::int($page['doktype'] ?? null) !== PageRepository::DOKTYPE_DEFAULT
+            ) {
+                continue;
+            }
+            $demos[] = [
+                'slug' => Typed::string($page['slug'] ?? null),
+                'title' => Typed::string($page['title'] ?? null),
+                'abstract' => Typed::string($page['abstract'] ?? null),
+                'components' => $this->components(Typed::string($page['keywords'] ?? null)),
+                'preview' => false,
+            ];
+        }
+
+        return $demos;
+    }
+
+    /**
+     * The components a demo uses, listed in the keywords of its page, with their docs page.
+     *
+     * @return list<array{label: string, href: string}>
+     */
+    private function components(string $keywords): array
+    {
+        return array_map(
+            static fn(string $label): array => [
+                'label' => $label,
+                'href' => '/docs/components/' . strtolower(str_replace(search: ' ', replace: '-', subject: $label)),
+            ],
+            GeneralUtility::trimExplode(',', $keywords, removeEmptyValues: true),
+        );
+    }
+}

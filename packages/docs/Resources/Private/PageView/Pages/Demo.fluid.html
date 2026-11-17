@@ -1,0 +1,52 @@
+<f:layout name="Default" />
+<f:section name="Main">
+
+    <ui:skipNavLink />
+    <ui:navigation nav="{demo.nav}" path="{demo.path}" />
+
+    <main class="content-grid py-30 md:ms-[250px] me-auto md:w-[calc(100%-250px)]" id="main">
+        <div class="prose">
+            <h1>{page.pageRecord.title}</h1>
+            <f:if condition="{page.pageRecord.abstract}">
+                <p class="text-lg text-muted-foreground">{page.pageRecord.abstract}</p>
+            </f:if>
+            <p>
+                <a href="{demo.githubUrl}" target="_blank" rel="noopener noreferrer">
+                    {f:if(condition: demo.isOverview, then: 'All demos on GitHub', else: 'The code of this demo on GitHub')}
+                </a>
+            </p>
+        </div>
+
+        <f:if condition="{demo.isOverview}">
+            <f:then>
+                <div class="breakout not-prose mt-12 divide-y divide-dashed border-y border-dashed">
+                    <f:for each="{demo.demos}" as="item">
+                        <article class="grid gap-2 py-8 md:grid-cols-[16rem_1fr] md:gap-10">
+                            <h2 class="font-semibold">
+                                <a href="{item.slug}" class="underline-offset-4 hover:underline">{item.title}</a>
+                            </h2>
+                            <div>
+                                <p class="text-muted-foreground">{item.abstract}</p>
+                                <f:if condition="{item.components}">
+                                    <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="Components">
+                                        <f:for each="{item.components}" as="component">
+                                            <li>
+                                                <a href="{component.href}" class="rounded-md border px-1.5 py-0.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground">{component.label}</a>
+                                            </li>
+                                        </f:for>
+                                    </ul>
+                                </f:if>
+                            </div>
+                        </article>
+                    </f:for>
+                </div>
+            </f:then>
+            <f:else>
+                <div class="breakout-lg not-prose mt-12">
+                    <f:cObject typoscriptObjectPath="lib.demoContent" />
+                </div>
+            </f:else>
+        </f:if>
+    </main>
+
+</f:section>

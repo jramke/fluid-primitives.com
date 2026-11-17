@@ -1,0 +1,25 @@
+{
+    "name": "fluid-primitives/demos",
+    "type": "typo3-cms-extension",
+    "description": "Acme, the imaginary site of the Fluid Primitives demos: an EXT:news list with filters, a felogin login with registration and account settings, and a site header.",
+    "license": [
+        "GPL-2.0-or-later"
+    ],
+    "require": {
+        "fluid-primitives/docs": "*",
+        "georgringer/news": "^14.1",
+        "jramke/fluid-primitives": "*",
+        "typo3/cms-core": "^14.3",
+        "typo3/cms-felogin": "^14.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "FluidPrimitives\\Demos\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "demos"
+        }
+    }
+}

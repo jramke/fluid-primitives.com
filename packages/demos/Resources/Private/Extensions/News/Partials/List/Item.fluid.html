@@ -1,0 +1,16 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:n="http://typo3.org/ns/GeorgRinger/News/ViewHelpers" data-namespace-typo3-fluid="true">
+<li class="relative py-6">
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+        <time datetime="{f:format.date(date: newsItem.datetime, format: 'Y-m-d')}">
+            <f:format.date format="F j, Y">{newsItem.datetime}</f:format.date>
+        </time>
+        <f:for each="{newsItem.categories}" as="category">
+            <span class="rounded-full border px-2 py-0.5 text-xs">{category.title}</span>
+        </f:for>
+    </div>
+    <h2 class="mt-2 text-lg font-semibold">
+        <n:link newsItem="{newsItem}" settings="{settings}" class="after:absolute after:inset-0 hover:underline">{newsItem.title}</n:link>
+    </h2>
+    <p class="mt-1 text-muted-foreground">{newsItem.teaser}</p>
+</li>
+</html>
