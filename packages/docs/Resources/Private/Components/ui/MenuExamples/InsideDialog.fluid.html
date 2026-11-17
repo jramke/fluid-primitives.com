@@ -5,14 +5,11 @@
     <ui:dialog.content>
         <ui:dialog.header>
             <ui:dialog.title>Project Settings</ui:dialog.title>
-            <ui:dialog.description>
-                The menu below sets <code>portalled="{false}"</code> on <code>ui:menu.content</code> so it
-                stays inside this dialog's DOM subtree instead of portalling to the document body.
-            </ui:dialog.description>
+            <ui:dialog.description>Choose what happens to this project.</ui:dialog.description>
         </ui:dialog.header>
         <ui:menu.root>
             <ui:menu.trigger class="self-start">Options</ui:menu.trigger>
-            <ui:menu.content portalled="{false}">
+            <ui:menu.content>
                 <ui:menu.item value="rename">Rename</ui:menu.item>
                 <ui:menu.item value="duplicate">Duplicate</ui:menu.item>
                 <ui:menu.item value="archive">Archive</ui:menu.item>

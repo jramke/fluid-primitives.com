@@ -127,7 +127,7 @@ Set `popupType="{f:constant(name: 'Jramke\FluidPrimitives\Enum\MenuPopupType::Di
 
 ### Use a menu inside a dialog
 
-Menus portal to the end of the `<body>`. Set `portalled="{false}"` on `menu.content` inside a dialog, or another focus-trapped element, to keep the menu in its DOM subtree.
+A menu inside a [Dialog](/docs/components/dialog) portals to the end of the `<body>` like any other. It lies above the dialog, takes the focus inside its focus trap, and closing the menu leaves the dialog open. Set `portalled="{false}"` on `menu.content` to keep the menu next to its trigger in the DOM instead.
 
 {% component: "ui:componentExample", arguments: { "componentName": "MenuExamples.insideDialog" } %}
 
