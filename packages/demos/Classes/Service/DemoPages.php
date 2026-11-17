@@ -31,6 +31,29 @@ final readonly class DemoPages
             : null;
     }
 
+    public function currentSlug(ServerRequestInterface $request): string
+    {
+        // @mago-expect analysis:mixed-assignment
+        $pageInformation = $request->getAttribute('frontend.page.information');
+
+        return $pageInformation instanceof PageInformation
+            ? Typed::string($pageInformation->getPageRecord()['slug'] ?? null)
+            : '';
+    }
+
+    /**
+     * @return array<array-key, mixed>|null The demo of the request, the second level page of the rootline
+     */
+    public function demo(ServerRequestInterface $request): ?array
+    {
+        // @mago-expect analysis:mixed-assignment
+        $pageInformation = $request->getAttribute('frontend.page.information');
+
+        return $pageInformation instanceof PageInformation
+            ? Typed::arrayOrNull($pageInformation->getLocalRootLine()[2] ?? null)
+            : null;
+    }
+
     /**
      * @return list<array{slug: string, title: string, abstract: string, preview: false}>
      */

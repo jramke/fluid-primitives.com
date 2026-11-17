@@ -5,6 +5,7 @@ declare(strict_types=1);
 use FluidPrimitives\Demos\Controller\AccountController;
 use FluidPrimitives\Demos\Controller\RegistrationController;
 use FluidPrimitives\Demos\Controller\SiteHeaderController;
+use FluidPrimitives\Demos\Controller\UserMenuController;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 // @mago-expect analysis:unused-statement
@@ -17,12 +18,14 @@ ExtensionUtility::configurePlugin(
     [RegistrationController::class => 'create'],
 );
 
+ExtensionUtility::configurePlugin('Demos', 'SiteHeader', [SiteHeaderController::class => 'show'], []);
+
 // Both show the logged-in user, so neither is cached
 ExtensionUtility::configurePlugin(
     'Demos',
-    'SiteHeader',
-    [SiteHeaderController::class => 'show'],
-    [SiteHeaderController::class => 'show'],
+    'UserMenu',
+    [UserMenuController::class => 'show'],
+    [UserMenuController::class => 'show'],
 );
 
 ExtensionUtility::configurePlugin(

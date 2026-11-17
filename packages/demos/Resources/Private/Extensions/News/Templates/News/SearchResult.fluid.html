@@ -1,10 +1,10 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
 <f:comment>
-    The filters are a GET form. Without JavaScript it reloads the page, with it RegionLoader.entry.ts loads the
-    results into the region below.
+    The filters are a GET form. RegionLoader.entry.ts loads the results into the region below whenever a filter
+    changes. Without JavaScript the button reloads the page.
 </f:comment>
-<form method="get" action="{f:uri.page()}" role="search" data-region-form="news-results" data-region-live class="grid items-end gap-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_auto]">
+<form method="get" action="{f:uri.page()}" role="search" data-region-form="news-results" data-region-live class="grid items-end gap-4 sm:grid-cols-2 lg:grid-cols-[3fr_2fr_4fr]">
     <ui:field.root name="tx_news_pi1[search][subject]">
         <ui:input.root type="search" defaultValue="{search.subject}" placeholder="Title or text">
             <ui:input.label>Search</ui:input.label>
@@ -32,10 +32,56 @@
         </ui:select.root>
     </ui:field.root>
 
-    <f:render section="datePicker" arguments="{name: 'tx_news_pi1[search][minimumDate]', label: 'From', value: search.minimumDate}" />
-    <f:render section="datePicker" arguments="{name: 'tx_news_pi1[search][maximumDate]', label: 'To', value: search.maximumDate}" />
+    <f:comment>
+        One date picker for a range or a single day, a range with the same day twice. EXT:news reads the two ends
+        from two arguments, a range picker submits both under one name: NewsFilters.entry.ts copies them into the
+        two hidden inputs.
+    </f:comment>
+    <div class="sm:col-span-2 lg:col-span-1">
+        <ui:datePicker.root
+            autoMount="{false}"
+            rootId="news-date"
+            selectionMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerSelectionMode::Range')}"
+            defaultValue="{period}">
+            <ui:datePicker.label>Date</ui:datePicker.label>
+            <ui:datePicker.control>
+                <ui:datePicker.input index="0" />
+                <span class="text-muted-foreground" aria-hidden="true">–</span>
+                <ui:datePicker.input index="1" />
+                <ui:datePicker.clearTrigger />
+                <ui:datePicker.trigger />
+            </ui:datePicker.control>
+            <ui:datePicker.content>
+                <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
+                    <ui:datePicker.view view="{view}">
+                        <ui:datePicker.viewControl view="{view}">
+                            <ui:datePicker.previousTrigger view="{view}" />
+                            <ui:datePicker.viewTrigger view="{view}">
+                                <ui:datePicker.rangeText />
+                            </ui:datePicker.viewTrigger>
+                            <ui:datePicker.nextTrigger view="{view}" />
+                        </ui:datePicker.viewControl>
+                        <ui:datePicker.table view="{view}">
+                            <ui:datePicker.tableHeader />
+                            <ui:datePicker.tableBody />
+                        </ui:datePicker.table>
+                    </ui:datePicker.view>
+                </f:for>
+                <div class="mt-3 flex flex-wrap gap-2 border-t pt-3">
+                    <ui:datePicker.presetTrigger value="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerRangePreset::Last30Days')}">Last 30 days</ui:datePicker.presetTrigger>
+                    <ui:datePicker.presetTrigger value="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerRangePreset::Last90Days')}">Last 90 days</ui:datePicker.presetTrigger>
+                    <ui:datePicker.presetTrigger value="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerRangePreset::ThisMonth')}">This month</ui:datePicker.presetTrigger>
+                    <ui:datePicker.presetTrigger value="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerRangePreset::ThisYear')}">This year</ui:datePicker.presetTrigger>
+                </div>
+            </ui:datePicker.content>
+        </ui:datePicker.root>
+        <input type="hidden" name="tx_news_pi1[search][minimumDate]" value="{period.0}" data-period-start />
+        <input type="hidden" name="tx_news_pi1[search][maximumDate]" value="{period.1}" data-period-end />
+    </div>
 
-    <ui:button type="submit" variant="secondary">Filter</ui:button>
+    <noscript>
+        <ui:button type="submit" variant="secondary">Filter</ui:button>
+    </noscript>
 </form>
 
 <div data-region="news-results" class="mt-10">
@@ -75,34 +121,6 @@
     </f:if>
 </div>
 
-<f:section name="datePicker">
-    <ui:field.root name="{name}">
-        <ui:datePicker.root defaultValue="{f:if(condition: value, then: '{value -> f:format.date(format: \'Y-m-d\')}')}">
-            <ui:datePicker.label>{label}</ui:datePicker.label>
-            <ui:datePicker.control>
-                <ui:datePicker.input />
-                <ui:datePicker.trigger />
-            </ui:datePicker.control>
-            <ui:datePicker.content>
-                <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
-                    <ui:datePicker.view view="{view}">
-                        <ui:datePicker.viewControl view="{view}">
-                            <ui:datePicker.previousTrigger view="{view}" />
-                            <ui:datePicker.viewTrigger view="{view}">
-                                <ui:datePicker.rangeText />
-                            </ui:datePicker.viewTrigger>
-                            <ui:datePicker.nextTrigger view="{view}" />
-                        </ui:datePicker.viewControl>
-                        <ui:datePicker.table view="{view}">
-                            <ui:datePicker.tableHeader />
-                            <ui:datePicker.tableBody />
-                        </ui:datePicker.table>
-                    </ui:datePicker.view>
-                </f:for>
-            </ui:datePicker.content>
-        </ui:datePicker.root>
-    </ui:field.root>
-</f:section>
-
 <vite:asset entry="EXT:demos/Resources/Private/js/RegionLoader.entry.ts" />
+<vite:asset entry="EXT:demos/Resources/Private/js/NewsFilters.entry.ts" />
 </html>

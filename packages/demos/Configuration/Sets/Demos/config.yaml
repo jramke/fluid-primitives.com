@@ -3,5 +3,4 @@ label: 'Fluid Primitives Demos'
 dependencies:
   - fluid-primitives/docs
   - georgringer/news
-  - tpwd/ke_search
   - typo3/felogin

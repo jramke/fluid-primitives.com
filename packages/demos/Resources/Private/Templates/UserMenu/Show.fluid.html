@@ -1,0 +1,46 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:if condition="{user}">
+    <section class="max-w-2xl overflow-hidden rounded-xl border">
+        <div class="flex h-14 items-center justify-between gap-4 border-b px-4">
+            <span class="text-sm font-semibold">Your account</span>
+
+            <f:comment>Mounted in UserMenu.entry.ts, which submits the logout form when "Log out" is selected</f:comment>
+            <ui:menu.root autoMount="{false}" rootId="user-menu" positioning="{placement: 'bottom-end', gutter: 8}">
+                <ui:menu.trigger class="size-9 rounded-full px-0 py-0 font-semibold" aria-label="Account menu of {user.name}">
+                    <f:comment>An Avatar would go here</f:comment>
+                    <span data-user-initials aria-hidden="true">{user.initials}</span>
+                </ui:menu.trigger>
+                <ui:menu.content class="w-60">
+                    <ui:menu.itemGroup value="account">
+                        <ui:menu.itemGroupLabel>
+                            <span class="block truncate text-sm font-medium text-foreground" data-user-name>{user.name}</span>
+                            <span class="block truncate text-xs font-normal text-muted-foreground">{user.email}</span>
+                        </ui:menu.itemGroupLabel>
+                        <ui:menu.item asChild="{true}" value="settings">
+                            <a href="{accountSlug}" {f:if(condition: isAccountPage, then: 'aria-current="page"')}>Account settings</a>
+                        </ui:menu.item>
+                    </ui:menu.itemGroup>
+                    <ui:menu.separator />
+                    <ui:menu.item value="logout">Log out</ui:menu.item>
+                </ui:menu.content>
+            </ui:menu.root>
+        </div>
+        <f:if condition="!{isAccountPage}">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold">Hello <span data-user-name>{user.name}</span></h2>
+                <p class="mt-1 text-sm text-muted-foreground">
+                    You are logged in. The menu with your initials leads to your account settings and logs you out.
+                    The demo deletes your account a day after you created it.
+                </p>
+            </div>
+        </f:if>
+    </section>
+
+    <form id="user-menu-logout" method="post" action="{f:uri.page()}" hidden>
+        <input type="hidden" name="logintype" value="logout" />
+    </form>
+
+    <vite:asset entry="EXT:demos/Resources/Private/js/UserMenu.entry.ts" />
+</f:if>
+</html>

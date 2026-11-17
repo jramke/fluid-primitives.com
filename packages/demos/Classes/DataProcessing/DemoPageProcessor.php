@@ -62,7 +62,10 @@ final readonly class DemoPageProcessor implements DataProcessorInterface
             'path' => $slug,
             'isOverview' => $isOverview,
             'demos' => $demos,
-            'githubUrl' => $isOverview ? self::GITHUB_URL : self::GITHUB_URL . '#' . basename($slug),
+            // The README has a section per demo, a page below one (a news article) links to it too
+            'githubUrl' => $isOverview
+                ? self::GITHUB_URL
+                : self::GITHUB_URL . '#' . basename(Typed::string($this->demoPages->demo($request)['slug'] ?? null)),
         ];
 
         return $processedData;

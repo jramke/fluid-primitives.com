@@ -1079,13 +1079,12 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/demos",
-                "reference": "eeef8edd48af954139c1d299c1d287e2fd21c48e"
+                "reference": "8574ef5ed77930cc546066e954d42365b9461aaa"
             },
             "require": {
                 "fluid-primitives/docs": "*",
                 "georgringer/news": "^14.1",
                 "jramke/fluid-primitives": "*",
-                "tpwd/ke_search": "^7.5",
                 "typo3/cms-core": "^14.3",
                 "typo3/cms-felogin": "^14.3"
             },
@@ -1103,7 +1102,7 @@
             "license": [
                 "GPL-2.0-or-later"
             ],
-            "description": "Real-world demos of Fluid Primitives: ke_search with autocomplete, an EXT:news list with filters and a frontend login with registration.",
+            "description": "Real-world demos of Fluid Primitives: an EXT:news list with filters, a frontend login with registration and a site header.",
             "transport-options": {
                 "relative": true
             }
@@ -7077,87 +7076,6 @@
                 }
             ],
             "time": "2026-06-08T20:24:16+00:00"
-        },
-        {
-            "name": "tpwd/ke_search",
-            "version": "v7.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tpwd/ke_search.git",
-                "reference": "9c2bb6a918dc6c4cad6ce154971e8497a1323025"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tpwd/ke_search/zipball/9c2bb6a918dc6c4cad6ce154971e8497a1323025",
-                "reference": "9c2bb6a918dc6c4cad6ce154971e8497a1323025",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pdo": "*",
-                "php": "^8.2 || ^8.3 || ^8.4 || ^8.5",
-                "typo3/cms-core": "^13 || ^14"
-            },
-            "replace": {
-                "teaminmedias-pluswerk/ke_search": "self.version",
-                "typo3-ter/ke_search": "self.version"
-            },
-            "require-dev": {
-                "ext-dom": "*",
-                "ext-json": "*",
-                "ext-libxml": "*",
-                "ext-zip": "*",
-                "friendsofphp/php-cs-fixer": "^3",
-                "phpstan/phpstan": "^2.2.2",
-                "phpunit/phpunit": "^11",
-                "typo3/cms-base-distribution": "^13 || ^14",
-                "typo3/cms-info": "^13 || ^14",
-                "typo3/cms-install": "^13 || ^14",
-                "typo3/cms-scheduler": "^13 || ^14",
-                "typo3/coding-standards": "^0.8.0",
-                "typo3/testing-framework": "^9.3"
-            },
-            "suggest": {
-                "typo3/cms-dashboard": "Use widgets in dashboard"
-            },
-            "type": "typo3-cms-extension",
-            "extra": {
-                "typo3/cms": {
-                    "Package": {
-                        "providesPackages": []
-                    },
-                    "version": "7.5.0",
-                    "web-dir": ".Build/web",
-                    "extension-key": "ke_search"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Tpwd\\KeSearch\\": "Classes"
-                },
-                "classmap": [
-                    "Classes"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "description": "Faceted search - Search Extension for TYPO3, including faceting search functions.",
-            "homepage": "https://www.kesearch.de/",
-            "keywords": [
-                "TYPO3 CMS",
-                "faceted search",
-                "faceting",
-                "ke_search",
-                "kesearch",
-                "search"
-            ],
-            "support": {
-                "issues": "https://github.com/tpwd/ke_search/issues",
-                "source": "https://github.com/tpwd/ke_search/tree/v7.5.0"
-            },
-            "time": "2026-11-13T11:23:41+00:00",
-            "published-time": "2026-11-13T11:24:24+00:00"
         },
         {
             "name": "typo3/class-alias-loader",

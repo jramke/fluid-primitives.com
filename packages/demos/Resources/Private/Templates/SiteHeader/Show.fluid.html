@@ -1,103 +1,53 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
 <f:comment>
-    The header follows the width of its container, not of the window (@container, @3xl:), so the demo shows it
-    twice: in the width of the page and in the width of a phone.
+    The header follows the width of its container, not of the window (@container, @3xl:). The frame of the demo
+    can be resized, drag its corner to see the navigation move into the Dialog.
 </f:comment>
-<div class="space-y-10">
-    <figure>
-        <figcaption class="mb-3 text-sm text-muted-foreground">Wide screen</figcaption>
-        <f:variable name="userMenuId" value="user-menu-wide" />
-        <f:render section="header" arguments="{_all}" />
-    </figure>
-    <figure>
-        <figcaption class="mb-3 text-sm text-muted-foreground">Small screen</figcaption>
-        <div class="max-w-sm">
-            <f:variable name="userMenuId" value="user-menu-small" />
-            <f:render section="header" arguments="{_all}" />
+<p class="mb-3 text-sm text-muted-foreground">Drag the bottom right corner to make the page narrower.</p>
+<div class="@container h-[32rem] w-full max-w-full min-w-80 resize-x overflow-hidden rounded-xl border">
+    <header class="flex h-16 items-center gap-2 border-b px-4">
+        <a href="{overviewSlug}" class="me-4 flex items-center gap-2 text-sm font-semibold">
+            <f:image src="EXT:fluid_primitives/Resources/Public/Icons/Extension.svg" class="size-7 rounded-md" alt="" />
+            Demo site
+        </a>
+        <f:render section="navigation" arguments="{_all}" />
+        <div class="ms-auto">
+            <f:render section="mobileNavigation" arguments="{_all}" />
         </div>
-    </figure>
+    </header>
+    <div class="grid h-[calc(100%-4rem)] place-items-center p-4 text-center text-sm text-muted-foreground">The content of the page</div>
 </div>
 
-<f:if condition="{user}">
-    <form id="site-header-logout" method="post" action="{f:uri.page()}" hidden>
-        <input type="hidden" name="logintype" value="logout" />
-    </form>
-</f:if>
-
-<f:section name="header">
-    <div class="@container overflow-hidden rounded-xl border">
-        <header class="flex h-16 items-center gap-2 border-b px-4">
-            <a href="{overviewSlug}" class="me-4 flex items-center gap-2 text-sm font-semibold">
-                <f:image src="EXT:fluid_primitives/Resources/Public/Icons/Extension.svg" class="size-7 rounded-md" alt="" />
-                Demo site
-            </a>
-
-            <ui:navigationMenu.root class="hidden @3xl:flex" aria-label="Main">
-                <ui:navigationMenu.list>
-                    <ui:navigationMenu.item value="demos">
-                        <ui:navigationMenu.trigger>Demos</ui:navigationMenu.trigger>
-                        <ui:navigationMenu.content>
-                            <ul class="grid w-[34rem] grid-cols-2 gap-1 p-1">
-                                <f:for each="{demos}" as="demo">
-                                    <li>
-                                        <ui:navigationMenu.link
-                                            href="{demo.slug}"
-                                            current="{f:if(condition: '{demo.slug} == {pagePath}', then: 1, else: 0)}"
-                                            class="flex-col items-start gap-1 p-3">
-                                            <span class="font-medium">{demo.title}</span>
-                                            <span class="line-clamp-2 text-xs text-muted-foreground">{demo.abstract}</span>
-                                        </ui:navigationMenu.link>
-                                    </li>
-                                </f:for>
-                            </ul>
-                        </ui:navigationMenu.content>
-                    </ui:navigationMenu.item>
-                    <ui:navigationMenu.item value="docs">
-                        <ui:navigationMenu.link href="/docs">Documentation</ui:navigationMenu.link>
-                    </ui:navigationMenu.item>
-                    <ui:navigationMenu.item value="pitch">
-                        <ui:navigationMenu.link href="/the-pitch">The Pitch</ui:navigationMenu.link>
-                    </ui:navigationMenu.item>
-                </ui:navigationMenu.list>
-            </ui:navigationMenu.root>
-
-            <div class="ms-auto flex items-center gap-2">
-                <f:if condition="{user}">
-                    <f:then><f:render section="userMenu" arguments="{_all}" /></f:then>
-                    <f:else>
-                        <ui:button asChild="{true}" variant="secondary">
-                            <a href="{loginSlug}">Log in</a>
-                        </ui:button>
-                    </f:else>
-                </f:if>
-                <f:render section="mobileNavigation" arguments="{_all}" />
-            </div>
-        </header>
-        <div class="grid h-32 place-items-center text-sm text-muted-foreground">The content of the page</div>
-    </div>
-</f:section>
-
-<f:section name="userMenu">
-    <f:comment>Mounted in SiteHeader.entry.ts, which submits the logout form when "Log out" is selected</f:comment>
-    <ui:menu.root autoMount="{false}" rootId="{userMenuId}" positioning="{placement: 'bottom-end', gutter: 8}">
-        <ui:menu.trigger class="size-9 rounded-full px-0 py-0 font-semibold" aria-label="Account menu of {user.name}">
-            <span data-user-initials aria-hidden="true">{user.initials}</span>
-        </ui:menu.trigger>
-        <ui:menu.content class="w-60">
-            <ui:menu.itemGroup value="account">
-                <ui:menu.itemGroupLabel>
-                    <span class="block truncate text-sm font-medium text-foreground" data-user-name>{user.name}</span>
-                    <span class="block truncate text-xs font-normal text-muted-foreground">{user.email}</span>
-                </ui:menu.itemGroupLabel>
-                <ui:menu.item asChild="{true}" value="settings">
-                    <a href="{accountSlug}">Account settings</a>
-                </ui:menu.item>
-            </ui:menu.itemGroup>
-            <ui:menu.separator />
-            <ui:menu.item value="logout">Log out</ui:menu.item>
-        </ui:menu.content>
-    </ui:menu.root>
+<f:section name="navigation">
+    <ui:navigationMenu.root class="hidden @3xl:flex" aria-label="Main">
+        <ui:navigationMenu.list>
+            <ui:navigationMenu.item value="demos">
+                <ui:navigationMenu.trigger>Demos</ui:navigationMenu.trigger>
+                <ui:navigationMenu.content>
+                    <ul class="grid w-[34rem] grid-cols-2 gap-1 p-1">
+                        <f:for each="{demos}" as="demo">
+                            <li>
+                                <ui:navigationMenu.link
+                                    href="{demo.slug}"
+                                    current="{f:if(condition: '{demo.slug} == {pagePath}', then: 1, else: 0)}"
+                                    class="flex-col items-start gap-1 p-3">
+                                    <span class="font-medium">{demo.title}</span>
+                                    <span class="line-clamp-2 text-xs text-muted-foreground">{demo.abstract}</span>
+                                </ui:navigationMenu.link>
+                            </li>
+                        </f:for>
+                    </ul>
+                </ui:navigationMenu.content>
+            </ui:navigationMenu.item>
+            <ui:navigationMenu.item value="docs">
+                <ui:navigationMenu.link href="/docs">Documentation</ui:navigationMenu.link>
+            </ui:navigationMenu.item>
+            <ui:navigationMenu.item value="pitch">
+                <ui:navigationMenu.link href="/the-pitch">The Pitch</ui:navigationMenu.link>
+            </ui:navigationMenu.item>
+        </ui:navigationMenu.list>
+    </ui:navigationMenu.root>
 </f:section>
 
 <f:section name="mobileNavigation">
@@ -142,5 +92,4 @@
     </ui:dialog.root>
 </f:section>
 
-<vite:asset entry="EXT:demos/Resources/Private/js/SiteHeader.entry.ts" />
 </html>

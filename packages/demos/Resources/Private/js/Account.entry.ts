@@ -24,7 +24,7 @@ mount('ui:form', 'account-form', ({ props }) =>
             );
             if (input && data.name) input.defaultValue = data.name;
 
-            // The site header on this page listens for it
+            // The user menu on this page listens for it
             document.dispatchEvent(new CustomEvent('demos:account-updated', { detail: data }));
             api.setSuccessText(data.message ?? null);
             return true;

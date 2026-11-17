@@ -37,7 +37,6 @@ final class SetupCommand extends Command
         parent::__construct();
     }
 
-    // @mago-expect lint:halstead
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->initializeDataHandler();
@@ -59,11 +58,7 @@ final class SetupCommand extends Command
         }
 
         // Each page is placed after the one before it: a negative pid in DataHandler
-        $search = $this->page(self::OVERVIEW . '/search', $overview['uid'], [
-            'title' => 'Search',
-            'abstract' => 'ke_search with suggestions while you type, in a Combobox, and paginated results that load without a reload.',
-        ]);
-        $news = $this->page(self::OVERVIEW . '/news', -$search['uid'], [
+        $news = $this->page(self::OVERVIEW . '/news', $overview['uid'], [
             'title' => 'News list',
             'abstract' => 'An EXT:news list with a search, a category and a date filter, and a pagination that loads the pages without a reload.',
         ]);
@@ -73,21 +68,18 @@ final class SetupCommand extends Command
         ]);
         $login = $this->page(self::OVERVIEW . '/login', -$article['uid'], [
             'title' => 'Login and registration',
-            'abstract' => 'The login of felogin and a registration that shows the validation errors of Extbase on its fields, with the Form and the Password Input.',
+            'abstract' => 'The login of felogin, a registration that shows the validation errors of Extbase on its fields, and a user menu with the account settings.',
+        ]);
+        $account = $this->page(self::OVERVIEW . '/login/account', $login['uid'], [
+            'title' => 'Account settings',
+            'abstract' => 'The settings page of the user menu.',
+            'nav_hide' => 1,
         ]);
         $header = $this->page(self::OVERVIEW . '/header', -$login['uid'], [
             'title' => 'Site header',
-            'abstract' => 'A Navigation Menu built from the page tree, a Dialog for the navigation on small screens and a Menu for the logged-in user.',
-        ]);
-        $account = $this->page(self::OVERVIEW . '/account', -$header['uid'], [
-            'title' => 'Account settings',
-            'abstract' => 'The settings page of the user menu in the site header.',
-            'nav_hide' => 1,
+            'abstract' => 'A Navigation Menu built from the page tree, and a Dialog with the navigation on small screens.',
         ]);
 
-        if ($search['created']) {
-            $this->createSearchContent($search['uid'], $dataPid, $article['uid']);
-        }
         if ($news['created']) {
             $this->createContent($news['uid'], 'news_newssearchresult', [
                 'pi_flexform' => $this->flexForm([
@@ -107,15 +99,15 @@ final class SetupCommand extends Command
         if ($login['created']) {
             $this->createLoginContent($login['uid'], $dataPid);
         }
+        if ($account['created']) {
+            $userMenu = $this->createContent($account['uid'], 'demos_usermenu');
+            $this->createContent(-$userMenu, 'demos_account');
+        }
         if ($header['created']) {
             $this->createContent($header['uid'], 'demos_siteheader');
         }
-        if ($account['created']) {
-            $siteHeader = $this->createContent($account['uid'], 'demos_siteheader');
-            $this->createContent(-$siteHeader, 'demos_account');
-        }
 
-        $output->writeln('The demos are set up. Run ke_search:indexing to build the search index.');
+        $output->writeln('The demos are set up.');
 
         return Command::SUCCESS;
     }
@@ -181,41 +173,18 @@ final class SetupCommand extends Command
         return $uids['NEW_content'];
     }
 
-    private function createSearchContent(int $pageUid, int $dataPid, int $articleUid): void
-    {
-        $searchBox = $this->createContent($pageUid, 'ke_search_pi1', [
-            'pages' => $dataPid,
-            'pi_flexform' => $this->flexForm([
-                'MAIN' => ['resultPage' => $pageUid],
-                'view' => ['showDate' => 1, 'highlightSword' => 1, 'previewMode' => 'abstract'],
-                'pagebrowser' => ['resultsPerPage' => 5, 'pagebrowserOnTop' => 0, 'pagebrowserAtBottom' => 1],
-            ]),
-        ]);
-        $this->createContent(-$searchBox, 'ke_search_pi2', [
-            'pi_flexform' => $this->flexForm(['MAIN' => ['loadFlexformsFromOtherCE' => $searchBox]]),
-        ]);
-
-        $this->create([
-            'tx_kesearch_indexerconfig' => ['NEW_indexer' => [
-                'pid' => $dataPid,
-                'title' => 'Demo news',
-                'type' => 'news',
-                'storagepid' => $dataPid,
-                'sysfolder' => $dataPid,
-                'targetpid' => $articleUid,
-            ]],
-        ]);
-    }
-
     private function createLoginContent(int $pageUid, int $dataPid): void
     {
-        $login = $this->createContent($pageUid, 'felogin_login', [
+        // Show at any login
+        $userMenu = $this->createContent($pageUid, 'demos_usermenu', ['fe_group' => -2]);
+        $login = $this->createContent(-$userMenu, 'felogin_login', [
+            // Hide at login: the user menu logs out
+            'fe_group' => -1,
             'pi_flexform' => $this->flexForm([
                 'sDEF' => [
                     'settings.pages' => $dataPid,
                     // @mago-expect lint:no-literal-password
                     'settings.showForgotPassword' => 0,
-                    'settings.showLogoutFormAfterLogin' => 1,
                 ],
             ]),
         ]);

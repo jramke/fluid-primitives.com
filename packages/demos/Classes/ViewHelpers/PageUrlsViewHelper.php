@@ -13,13 +13,13 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * The URL of every page of a paginator, for the `pageUrls` of `ui:pagination.root`, when the plugin builds its
- * own paginator, like ke_search or the news search. Each URL is the current one with the page number in the query
+ * own paginator, like the search result of EXT:news. Each URL is the current one with the page number in the query
  * argument `argument`, and a cHash when the arguments need one.
  *
  * ```html
  * <ui:pagination.root
  *     paginator="{pagination.paginator}"
- *     pageUrls="{demos:pageUrls(paginator: pagination.paginator, argument: 'tx_kesearch_pi1[page]')}"
+ *     pageUrls="{demos:pageUrls(paginator: pagination.paginator, argument: 'tx_news_pi1[currentPage]')}"
  * />
  * ```
  */

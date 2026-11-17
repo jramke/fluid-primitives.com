@@ -25,19 +25,6 @@ plugin.tx_news {
     }
 }
 
-plugin.tx_kesearch_pi1 {
-    cssFile =
-    view {
-        templateRootPaths.10 = EXT:demos/Resources/Private/Extensions/KeSearch/Templates/
-        partialRootPaths.10 = EXT:demos/Resources/Private/Extensions/KeSearch/Partials/
-    }
-}
-
-plugin.tx_kesearch_pi2 {
-    cssFile =
-    view < plugin.tx_kesearch_pi1.view
-}
-
 # The docs pages set their whole title themselves
 [traverse(page, "slug") starts with "/demos"]
     config.pageTitle.stdWrap.noTrimWrap = || – Fluid Primitives|

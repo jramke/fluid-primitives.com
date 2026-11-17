@@ -71,13 +71,13 @@ articles:
       <p>One large bundle makes every page pay for the components of all pages. An entry file per component lets the page load what it renders.</p>
       <p>The template that renders a component adds its asset. A page without a dialog never downloads the dialog.</p>
 
-  - title: Search as you type with ke_search
+  - title: Filtering a list without a reload
     date: 2026-07-16
-    categories: [TYPO3]
-    teaser: The index of ke_search is a database table. A small endpoint turns it into suggestions for a combobox.
+    categories: [TYPO3, Performance]
+    teaser: A filter form that loads the list with fetch keeps the scroll position and the focus where they are.
     body: |
-      <p>Suggestions help people spell what they look for and show what the site has. Query the titles of the index for the typed text and return a short list.</p>
-      <p>Pick a suggestion, and the form submits it as the search word. The results come from ke_search as before.</p>
+      <p>Render the filters as a normal GET form, so every filtered list has an address. Without JavaScript the form reloads the page.</p>
+      <p>With JavaScript, load the address of the form with fetch and swap the list. The address bar follows, and back and forward keep working.</p>
 
   - title: Date pickers people can type into
     date: 2026-07-02

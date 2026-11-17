@@ -23,9 +23,8 @@ su -s /bin/sh www-data -c "vendor/bin/typo3 cache:flush || true"
 warm() {
     host=$(php -r 'echo parse_url(getenv("APP_URL"), PHP_URL_HOST);')
 
-    # The tables of new extensions, the demo pages and records when they are missing, and the search index of the
-    # search demo
-    su -s /bin/sh www-data -c "vendor/bin/typo3 extension:setup && vendor/bin/typo3 demos:setup && vendor/bin/typo3 ke_search:indexing" \
+    # The tables of new extensions, and the demo pages and records that are missing
+    su -s /bin/sh www-data -c "vendor/bin/typo3 extension:setup && vendor/bin/typo3 demos:setup" \
         || echo "Demos not set up"
 
     su -s /bin/sh www-data -c "vendor/bin/typo3 cache:warmup || true"
@@ -34,7 +33,7 @@ warm() {
     curl -fsS -o /dev/null --max-time 300 --retry 60 --retry-delay 2 --retry-connrefused \
         -H "Host: $host" http://127.0.0.1/ || { echo "Caches not warmed: the home page does not answer"; return 0; }
 
-    { echo /the-pitch; printf "/demos\n/demos/search\n/demos/news\n/demos/login\n"; sed -n 's|^ \+- \(.*\)|/\1|p' packages/docs/Resources/Private/Content/nav.yaml; } \
+    { echo /the-pitch; printf "/demos\n/demos/news\n/demos/login\n/demos/header\n"; sed -n 's|^ \+- \(.*\)|/\1|p' packages/docs/Resources/Private/Content/nav.yaml; } \
         | xargs -P 4 -I{} curl -fsS -o /dev/null --max-time 300 \
             -H "Host: $host" 'http://127.0.0.1{}' || true
 
