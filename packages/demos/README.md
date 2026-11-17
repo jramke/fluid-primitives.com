@@ -14,7 +14,7 @@ An EXT:news list with a search, a category and a date filter. The list follows e
 - [`setup.typoscript`](Configuration/Sets/Demos/setup.typoscript) - `disableOverrideDemand = 0` lets the filter set the categories, `categoryConjunction = or` makes EXT:news use them.
 - [`ext_localconf.php`](ext_localconf.php) - excludes the category filter from the cHash, like EXT:news does for its search: a GET form can't sign its values. The plugin is uncached.
 
-[`NewsFilters.entry.ts`](Resources/Private/js/NewsFilters.entry.ts) loads the list without a reload: whenever a filter changes, and for a click on a page of the pagination. It fetches the URL the GET form or the link would load and swaps the list. The address bar follows, and back and forward work. Without JavaScript the links and the form load the page as usual. The new page brings the hydration data of its components in a `<script>` block, the script adds it to the `<head>` with the new markup, and `mountAll()` mounts the new pagination. The text of the date trigger comes from `api.format()` of the Date Picker, which knows its locale and time zone.
+The filters and the pagination load the page, the plugin renders the results. The Select and the Date Picker submit the form when they change, the search with Enter or the button, see [`NewsFilters.entry.ts`](Resources/Private/js/NewsFilters.entry.ts). To load the list without a reload, swap it with something like Turbo Frames.
 
 The pagination is `ui:pagination.root` with the paginator of the plugin. [`PageUrlsViewHelper.php`](Classes/ViewHelpers/PageUrlsViewHelper.php) builds the URL of every page for its `pageUrls`, the current URL with the page argument of the plugin.
 

@@ -1,16 +1,16 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
 <f:comment>
-    The filters are a GET form. NewsFilters.entry.ts loads the results whenever a filter changes, and the pages
-    of the pagination, without a reload. Without JavaScript the button and the links reload the page.
+    The filters are a GET form that loads the page with the results, like the links of the pagination. The
+    Select and the Date Picker submit it when they change, the search with Enter or the button.
 </f:comment>
 <f:variable name="clearClass" value="cursor-pointer text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline" />
-<form method="get" action="{f:uri.page()}" role="search" id="news-filters" class="grid items-end gap-4 sm:grid-cols-2 lg:grid-cols-[3fr_2fr_3fr]">
+<form method="get" action="{f:uri.page()}" role="search" class="grid items-end gap-4 sm:grid-cols-2 lg:grid-cols-[3fr_2fr_3fr_auto]">
     <ui:field.root name="tx_news_pi1[search][subject]" class="group/search">
         <ui:input.root type="search" defaultValue="{search.subject}" placeholder="Title or text" autoMount="{false}" rootId="news-search">
             <div class="flex w-full items-center justify-between">
                 <ui:input.label>Search</ui:input.label>
-                <f:comment>Shows while the input has text, NewsFilters.entry.ts empties it</f:comment>
+                <f:comment>Shows while the input has text, NewsFilters.entry.ts empties it and submits</f:comment>
                 <button type="button" aria-label="Clear the search" class="{clearClass} group-has-[input:placeholder-shown]/search:hidden" {ui:ref(name: 'clear', context: 'input')}>Clear</button>
             </div>
             <ui:input.input class="[&::-webkit-search-cancel-button]:appearance-none" />
@@ -19,7 +19,7 @@
 
     <ui:listCollection items="{categoryItems}" as="categories" />
     <ui:field.root name="tx_news_pi1[overwriteDemand][categories]">
-        <ui:select.root collection="{categories}" defaultValue="{overwriteDemand.categories}" translations="{clearTriggerLabel: 'Clear the category'}">
+        <ui:select.root collection="{categories}" defaultValue="{overwriteDemand.categories}" translations="{clearTriggerLabel: 'Clear the category'}" autoMount="{false}" rootId="news-category">
             <div class="flex w-full items-center justify-between">
                 <ui:select.label>Category</ui:select.label>
                 <primitives:select.clearTrigger class="{clearClass}">Clear</primitives:select.clearTrigger>
@@ -43,8 +43,7 @@
     <f:comment>
         One date picker for a range or a single day, a range with the same day twice. A range has an input per end,
         so the trigger shows the range instead. EXT:news reads the two ends from two arguments, a range picker
-        submits both under one name: NewsFilters.entry.ts copies them into the two hidden inputs and writes the
-        text of the trigger.
+        submits both under one name: NewsFilters.entry.ts copies them into the two hidden inputs.
     </f:comment>
     <f:variable name="dateLabelId" value="{ui:id()}" />
     <f:variable name="dateTextId" value="{ui:id()}" />
@@ -105,16 +104,13 @@
         </ui:datePicker.root>
     </div>
 
-    <noscript>
-        <ui:button type="submit" variant="secondary">Filter</ui:button>
-    </noscript>
+    <ui:button type="submit" variant="secondary">Filter</ui:button>
 </form>
 
-<p id="news-status" role="status" class="sr-only"></p>
-<div id="news-results" class="mt-10">
+<div class="mt-10">
     <f:if condition="{pagination.paginator.paginatedItems}">
         <f:then>
-            <p data-news-count class="text-sm text-muted-foreground">
+            <p class="text-sm text-muted-foreground">
                 {f:count(subject: news)} {f:if(condition: '{f:count(subject: news)} == 1', then: 'article', else: 'articles')}
             </p>
             <ul class="mt-4 divide-y border-y">
@@ -141,7 +137,7 @@
             </f:if>
         </f:then>
         <f:else>
-            <p data-news-count class="rounded-xl border border-dashed p-8 text-center text-muted-foreground">
+            <p class="rounded-xl border border-dashed p-8 text-center text-muted-foreground">
                 No articles match these filters.
             </p>
         </f:else>
