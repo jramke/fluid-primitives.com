@@ -26,7 +26,7 @@
                 <ui:tabs.trigger class="text-sm" value="fruit">Fruits</ui:tabs.trigger>
                 <ui:tabs.trigger class="text-sm" value="vegetable">Vegetables</ui:tabs.trigger>
             </ui:tabs.list>
-            <ui:tabs.content value="all">
+            <ui:tabs.content value="all" class="rounded-t-none focus-visible:ring-inset focus-visible:-outline-offset-1">
                 <ui:select.list>
                     <f:for each="{collection.items}" as="item">
                         <ui:select.item item="{item}">
