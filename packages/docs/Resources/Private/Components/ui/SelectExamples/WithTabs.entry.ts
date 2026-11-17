@@ -3,7 +3,15 @@ import { Select } from 'fluid-primitives/select';
 import { Tabs } from 'fluid-primitives/tabs';
 
 mount('ui:select', 'select-with-tabs', ({ props }) => {
-    const select = new Select(props);
+    let tabs: Tabs | undefined;
+    const select = new Select({
+        ...props,
+        // The tabs check whether a panel holds something focusable only while it is visible, so the
+        // listbox counts once the select is open, and the panel drops its own tab stop
+        onOpenChange: details => {
+            if (details.open) requestAnimationFrame(() => tabs?.api.syncTabIndex());
+        },
+    });
     select.init();
 
     // The select keeps a single listbox, so the tabs share it: the list moves into the active
@@ -16,6 +24,7 @@ mount('ui:select', 'select-with-tabs', ({ props }) => {
         const panel = tabs.hydrator.queryAll('content').find(el => el.dataset.value === category);
         const listEl = select.hydrator.query('list');
         if (panel && listEl) panel.append(listEl);
+        tabs.api.syncTabIndex();
 
         const collection =
             category === 'all'
@@ -29,13 +38,14 @@ mount('ui:select', 'select-with-tabs', ({ props }) => {
     }
 
     mount('ui:tabs', 'select-with-tabs-tabs', ({ props }) => {
-        const tabs = new Tabs({
+        const instance = new Tabs({
             ...props,
             // `value` is null once a deselectable tab is deselected, these tabs are not
-            onValueChange: ({ value }) => value !== null && showCategory(tabs, value),
+            onValueChange: ({ value }) => value !== null && showCategory(instance, value),
         });
-        tabs.init();
-        return tabs;
+        tabs = instance;
+        instance.init();
+        return instance;
     });
 
     return select;
