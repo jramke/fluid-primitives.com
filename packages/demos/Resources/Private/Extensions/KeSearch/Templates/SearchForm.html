@@ -1,0 +1,36 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:comment>
+    The search word is the text of the combobox input, so the input carries the name and the combobox root none:
+    the hidden input of a combobox submits the selected item, and a search word is free text.
+</f:comment>
+<form method="get" action="{targetPageUrl}" role="search" data-region-form="search-results" class="flex items-end gap-2">
+    <ui:combobox.root
+        rootId="search-suggestions"
+        autoMount="{false}"
+        allowCustomValue="{true}"
+        defaultInputValue="{searchword -> f:format.htmlentitiesDecode()}"
+        searchUrl="/demos/search/suggestions"
+        class="grow">
+        <ui:combobox.label>Search the articles</ui:combobox.label>
+        <ui:combobox.control class="w-full">
+            <ui:combobox.input name="{conf.searchWordParameter}" placeholder="Try “password” or “cache”" />
+            <ui:combobox.clearTrigger />
+        </ui:combobox.control>
+        <ui:combobox.content>
+            <ui:combobox.empty>No suggestions</ui:combobox.empty>
+            <ui:combobox.list>
+                <ui:template name="suggestionTemplate" context="combobox">
+                    <ui:combobox.item>
+                        <ui:combobox.itemText><span {ui:ref(name: 'title')}></span></ui:combobox.itemText>
+                    </ui:combobox.item>
+                </ui:template>
+            </ui:combobox.list>
+        </ui:combobox.content>
+    </ui:combobox.root>
+    <ui:button type="submit">Search</ui:button>
+</form>
+
+<vite:asset entry="EXT:demos/Resources/Private/js/SearchSuggestions.entry.ts" />
+<vite:asset entry="EXT:demos/Resources/Private/js/RegionLoader.entry.ts" />
+</html>

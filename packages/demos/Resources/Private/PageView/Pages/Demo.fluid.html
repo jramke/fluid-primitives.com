@@ -1,0 +1,41 @@
+<f:layout name="Default" />
+<f:section name="Main">
+
+    <ui:skipNavLink />
+    <ui:navigation nav="{demo.nav}" path="{demo.path}" />
+
+    <main class="content-grid py-30 md:ms-[250px] me-auto md:w-[calc(100%-250px)]" id="main">
+        <div class="prose">
+            <h1>{page.pageRecord.title}</h1>
+            <f:if condition="{page.pageRecord.abstract}">
+                <p class="text-lg text-muted-foreground">{page.pageRecord.abstract}</p>
+            </f:if>
+            <p>
+                <a href="{demo.githubUrl}" target="_blank" rel="noopener noreferrer">
+                    {f:if(condition: demo.isOverview, then: 'All demos on GitHub', else: 'The code of this demo on GitHub')}
+                </a>
+            </p>
+        </div>
+
+        <f:if condition="{demo.isOverview}">
+            <f:then>
+                <ul class="breakout not-prose mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <f:for each="{demo.demos}" as="item">
+                        <li class="relative rounded-xl border p-6 transition-colors hover:bg-accent/50">
+                            <h2 class="font-semibold">
+                                <a href="{item.slug}" class="after:absolute after:inset-0">{item.title}</a>
+                            </h2>
+                            <p class="mt-2 text-sm text-muted-foreground">{item.abstract}</p>
+                        </li>
+                    </f:for>
+                </ul>
+            </f:then>
+            <f:else>
+                <div class="breakout not-prose mt-12">
+                    <f:cObject typoscriptObjectPath="lib.demoContent" />
+                </div>
+            </f:else>
+        </f:if>
+    </main>
+
+</f:section>

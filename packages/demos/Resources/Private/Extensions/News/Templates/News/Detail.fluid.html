@@ -1,0 +1,19 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:n="http://typo3.org/ns/GeorgRinger/News/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:if condition="{newsItem}">
+    <n:titleTag>{newsItem.title}</n:titleTag>
+    <article class="prose">
+        <p class="text-sm text-muted-foreground">
+            <time datetime="{f:format.date(date: newsItem.datetime, format: 'Y-m-d')}">
+                <f:format.date format="F j, Y">{newsItem.datetime}</f:format.date>
+            </time>
+            <f:for each="{newsItem.categories}" as="category"> · {category.title}</f:for>
+        </p>
+        <h2>{newsItem.title}</h2>
+        <p class="text-lg">{newsItem.teaser}</p>
+        <f:format.html>{newsItem.bodytext}</f:format.html>
+        <p>
+            <f:link.page pageUid="{settings.backPid}">Back to the list</f:link.page>
+        </p>
+    </article>
+</f:if>
+</html>

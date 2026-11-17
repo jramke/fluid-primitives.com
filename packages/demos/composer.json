@@ -1,0 +1,26 @@
+{
+    "name": "fluid-primitives/demos",
+    "type": "typo3-cms-extension",
+    "description": "Real-world demos of Fluid Primitives: ke_search with autocomplete, an EXT:news list with filters and a frontend login with registration.",
+    "license": [
+        "GPL-2.0-or-later"
+    ],
+    "require": {
+        "fluid-primitives/docs": "*",
+        "georgringer/news": "^14.1",
+        "jramke/fluid-primitives": "*",
+        "tpwd/ke_search": "^7.5",
+        "typo3/cms-core": "^14.3",
+        "typo3/cms-felogin": "^14.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "FluidPrimitives\\Demos\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "demos"
+        }
+    }
+}

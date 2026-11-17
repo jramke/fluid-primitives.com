@@ -1,0 +1,83 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<section class="mt-8 max-w-md rounded-xl border p-6 sm:p-8">
+    <h2 class="text-xl font-semibold">Create an account</h2>
+    <p class="mt-1 text-sm text-muted-foreground">The demo deletes accounts a day after they were created.</p>
+
+    <ui:form.root action="create" objectName="registration" autoMount="{false}" rootId="registration-form" class="mt-6">
+        <ui:form.content class="space-y-5">
+            <ui:field.root name="name" required="{true}">
+                <ui:input.root autocomplete="name">
+                    <ui:input.label>Name</ui:input.label>
+                    <ui:input.input />
+                </ui:input.root>
+                <ui:field.errorText />
+            </ui:field.root>
+
+            <ui:field.root name="email" required="{true}">
+                <ui:input.root type="email" autocomplete="email">
+                    <ui:input.label>Email</ui:input.label>
+                    <ui:input.input />
+                </ui:input.root>
+                <ui:field.helperText>You log in with it.</ui:field.helperText>
+                <ui:field.errorText />
+            </ui:field.root>
+
+            <ui:field.root name="password" required="{true}">
+                <ui:passwordInput.root autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
+                    <ui:passwordInput.label>Password</ui:passwordInput.label>
+                    <ui:passwordInput.control>
+                        <ui:passwordInput.input minlength="{minPasswordLength}" />
+                        <ui:passwordInput.visibilityTrigger />
+                    </ui:passwordInput.control>
+                </ui:passwordInput.root>
+                <ui:field.helperText>At least {minPasswordLength} characters.</ui:field.helperText>
+                <ui:field.errorText />
+            </ui:field.root>
+
+            <ui:field.root name="passwordConfirmation" required="{true}" listenTo="{0: 'password'}">
+                <ui:passwordInput.root autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
+                    <ui:passwordInput.label>Repeat the password</ui:passwordInput.label>
+                    <ui:passwordInput.control>
+                        <ui:passwordInput.input />
+                        <ui:passwordInput.visibilityTrigger />
+                    </ui:passwordInput.control>
+                </ui:passwordInput.root>
+                <ui:field.errorText />
+            </ui:field.root>
+
+            <f:variable name="submitLabelId" value="{ui:id()}" />
+            <ui:button
+                type="submit"
+                class="w-full"
+                focusableWhenDisabled="{true}"
+                aria-labelledby="{submitLabelId}"
+                autoMount="{false}"
+                rootId="registration-submit">
+                <span id="{submitLabelId}">
+                    <ui:button.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ButtonIndicatorState::Idle')}">Create account</ui:button.indicator>
+                    <ui:button.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\ButtonIndicatorState::Loading')}">Creating your account…</ui:button.indicator>
+                </span>
+            </ui:button>
+        </ui:form.content>
+
+        <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}">
+            <ui:alert.root>
+                <ui:alert.icon />
+                <ui:alert.title>Done</ui:alert.title>
+                <ui:alert.content><ui:form.successText /></ui:alert.content>
+            </ui:alert.root>
+        </ui:form.indicator>
+        <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}" class="space-y-4">
+            <ui:alert.root variant="destructive">
+                <ui:alert.icon />
+                <ui:alert.title>That did not work</ui:alert.title>
+                <ui:alert.content><ui:form.errorText>Something went wrong. Please try again.</ui:form.errorText></ui:alert.content>
+            </ui:alert.root>
+            <ui:button type="reset" variant="secondary">Back to the form</ui:button>
+        </ui:form.indicator>
+    </ui:form.root>
+</section>
+
+<vite:asset entry="EXT:demos/Resources/Private/js/Registration.entry.ts" />
+</html>

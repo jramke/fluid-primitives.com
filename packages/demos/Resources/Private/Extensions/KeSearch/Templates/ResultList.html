@@ -1,0 +1,47 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<div data-region="search-results" class="mt-10">
+    <f:if condition="{isEmptySearch}">
+        <f:then>
+            <p data-region-status class="rounded-xl border border-dashed p-8 text-center text-muted-foreground">
+                Type a word to search the articles of the news demo.
+            </p>
+        </f:then>
+        <f:else if="{numberofresults} == 0">
+            <p data-region-status class="rounded-xl border border-dashed p-8 text-center text-muted-foreground">
+                Nothing found. Try another word.
+            </p>
+        </f:else>
+        <f:else>
+            <p data-region-status class="text-sm text-muted-foreground">
+                {numberofresults} {f:if(condition: '{numberofresults} == 1', then: 'result', else: 'results')}
+            </p>
+            <ul class="mt-4 divide-y border-y">
+                <f:for each="{resultrows}" as="resultrow">
+                    <li class="py-6">
+                        <h2 class="text-lg font-semibold [&_a]:hover:underline"><f:format.raw>{resultrow.title}</f:format.raw></h2>
+                        <p class="mt-1 text-sm text-muted-foreground"><f:format.date format="F j, Y">{resultrow.date_timestamp}</f:format.date></p>
+                        <p class="mt-2 text-muted-foreground [&_.hit]:bg-yellow-200 [&_.hit]:text-foreground"><f:format.raw>{resultrow.teaser}</f:format.raw></p>
+                    </li>
+                </f:for>
+            </ul>
+            <f:if condition="{pagination.paginator.numberOfPages} > 1">
+                <ui:pagination.root
+                    paginator="{pagination.paginator}"
+                    defaultPageSize="{conf.resultsPerPage}"
+                    pageUrls="{demos:pageUrls(paginator: pagination.paginator, argument: 'tx_kesearch_pi1[page]')}"
+                    class="mt-8 justify-center">
+                    <ui:context name="ui:pagination" as="paginationContext" />
+                    <ui:pagination.previousTrigger />
+                    <f:for each="{paginationContext.pages}" as="page">
+                        <f:if condition="{page.type} == 'page'">
+                            <f:then><ui:pagination.item value="{page.value}" /></f:then>
+                            <f:else><ui:pagination.ellipsis index="{page.index}" /></f:else>
+                        </f:if>
+                    </f:for>
+                    <ui:pagination.nextTrigger />
+                </ui:pagination.root>
+            </f:if>
+        </f:else>
+    </f:if>
+</div>
+</html>

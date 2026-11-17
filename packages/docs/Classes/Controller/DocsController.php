@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluidPrimitives\Docs\Controller;
 
+use FluidPrimitives\Docs\Components\Contexts\NavigationContext;
 use FluidPrimitives\Docs\Domain\Model\EventRegistration;
 use FluidPrimitives\Docs\Domain\Repository\EventRegistrationRepository;
 use FluidPrimitives\Docs\Domain\Validator\EventRegistrationValidator;
@@ -12,7 +13,6 @@ use FluidPrimitives\Docs\Services\DocsMarkdownModeResponder;
 use FluidPrimitives\Docs\Services\DocsPageGuard;
 use FluidPrimitives\Docs\Services\NavigationBuilder;
 use FluidPrimitives\Docs\Services\PageSections;
-use FluidPrimitives\Docs\Services\VersionsProvider;
 use FluidPrimitives\Docs\Services\ViewAsMarkdownLinkInjector;
 use FluidPrimitives\Docs\Utility\DocsUtility;
 use Jramke\FluidPrimitives\Traits\JsonValidationErrorsTrait;
@@ -30,15 +30,8 @@ final class DocsController extends ActionController
 {
     use JsonValidationErrorsTrait;
 
-    private const array MAIN_LINKS = [
-        ['label' => 'The Pitch', 'href' => '/the-pitch'],
-        ['label' => 'Documentation', 'href' => '/docs'],
-        ['label' => 'GitHub', 'href' => '/github', 'external' => true],
-    ];
-
     public function __construct(
         private readonly NavigationBuilder $navigationBuilder,
-        private readonly VersionsProvider $versionsProvider,
         private readonly DocsPageTitleProvider $pageTitleProvider,
         private readonly EventRegistrationRepository $eventRegistrationRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
@@ -54,8 +47,7 @@ final class DocsController extends ActionController
             return $this->notFoundResponse();
         }
 
-        $this->view->assign('mainLinks', self::MAIN_LINKS);
-        $this->view->assign('versions', $this->versionsProvider->getVersions());
+        $this->view->assign('mainLinks', NavigationContext::MAIN_LINKS);
 
         if ($path === '') {
             $this->view->assign('layout', 'home');

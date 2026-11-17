@@ -1,0 +1,152 @@
+# The articles of the news and search demos. They are invented for the demo.
+categories:
+  - Accessibility
+  - Forms
+  - Performance
+  - TYPO3
+  - Design
+
+articles:
+  - title: Why every icon button needs a name
+    date: 2026-11-03
+    categories: [Accessibility]
+    teaser: A screen reader announces an icon button without a label as "button". Here is how to name it without changing its look.
+    body: |
+      <p>An icon tells sighted people what a button does. A screen reader reads the accessible name instead, and an SVG has none. Give the button an <code>aria-label</code>, or put a visually hidden text inside it.</p>
+      <p>Prefer the hidden text when the label should be translated with the rest of your page. It lands in the same language file as every other text of the template.</p>
+
+  - title: Server-side validation errors without a page reload
+    date: 2026-10-21
+    categories: [Forms, TYPO3]
+    teaser: Extbase validates on the server either way. Send its errors back as JSON and show them on the fields that caused them.
+    body: |
+      <p>A form that posts with fetch keeps everything the visitor typed. When Extbase rejects a value, answer with a 422 and the messages keyed by property path.</p>
+      <p>The form maps every key onto the field with that name. The visitor fixes the value and the error disappears, without losing the rest of the form.</p>
+
+  - title: Lazy hydration for long pages
+    date: 2026-10-08
+    categories: [Performance]
+    teaser: Server-rendered components can wait for the visitor. Mount them when they scroll into view.
+    body: |
+      <p>Most of a long page is never seen. Its components still cost JavaScript when they mount on load.</p>
+      <p>Render the markup on the server, so the content is there at once, and mount the component the first time it comes close to the viewport.</p>
+
+  - title: Designing focus styles that people actually see
+    date: 2026-09-25
+    categories: [Accessibility, Design]
+    teaser: A focus ring has to stand out on every background of your site. Two outlines in contrasting colors do the job.
+    body: |
+      <p>The default outline of a browser disappears on a dark hero or a colored card. A two-tone ring, a light inner and a dark outer outline, stays visible on both.</p>
+      <p>Show it with <code>:focus-visible</code>, so a mouse click does not draw it and keyboard users always get it.</p>
+
+  - title: Five filters your news list does not need
+    date: 2026-09-12
+    categories: [Design]
+    teaser: More filters make a list harder to use. Start with a search, a category and a date range.
+    body: |
+      <p>Every filter adds a decision. Most visitors look for a topic or a period, and a search covers the rest.</p>
+      <p>Watch what people search for on your site before you add another filter. The search log tells you which ones are missing.</p>
+
+  - title: Password fields that help instead of annoy
+    date: 2026-08-30
+    categories: [Forms, Accessibility]
+    teaser: Let people see what they typed, allow pasting and tell them the rules before they submit.
+    body: |
+      <p>A visibility toggle saves people from typing a long password twice. Keep the focus in the input when they press it.</p>
+      <p>Set <code>autocomplete</code> to <code>new-password</code> on a sign-up form, so the browser offers a strong password, and to <code>current-password</code> on the login.</p>
+
+  - title: Paginating a TYPO3 list with links
+    date: 2026-08-14
+    categories: [TYPO3]
+    teaser: Links let search engines and visitors reach every page. A script can still load the pages without a reload.
+    body: |
+      <p>A pagination of buttons only works with JavaScript. Render links, and every page has an address that a visitor can bookmark and share.</p>
+      <p>On top of the links, load the next page with fetch and swap the list. The address bar follows, and back and forward keep working.</p>
+
+  - title: Keeping your bundle small with one entry per component
+    date: 2026-07-30
+    categories: [Performance]
+    teaser: A page only loads the JavaScript of the components it renders, when every component brings its own entry file.
+    body: |
+      <p>One large bundle makes every page pay for the components of all pages. An entry file per component lets the page load what it renders.</p>
+      <p>The template that renders a component adds its asset. A page without a dialog never downloads the dialog.</p>
+
+  - title: Search as you type with ke_search
+    date: 2026-07-16
+    categories: [TYPO3]
+    teaser: The index of ke_search is a database table. A small endpoint turns it into suggestions for a combobox.
+    body: |
+      <p>Suggestions help people spell what they look for and show what the site has. Query the titles of the index for the typed text and return a short list.</p>
+      <p>Pick a suggestion, and the form submits it as the search word. The results come from ke_search as before.</p>
+
+  - title: Date pickers people can type into
+    date: 2026-07-02
+    categories: [Forms, Accessibility]
+    teaser: A calendar is nice for nearby dates. For a birthday, people type faster than they click.
+    body: |
+      <p>Keep the input of a date picker editable and parse what people type in the format of their locale.</p>
+      <p>The calendar stays one click away for dates close to today, and screen reader users can type the date like any other value.</p>
+
+  - title: Choosing between a select and a combobox
+    date: 2026-06-18
+    categories: [Forms, Design]
+    teaser: A select fits a short list. Once people have to scroll, let them type.
+    body: |
+      <p>Up to ten options read well in a select. A list of countries or cities needs a filter, which a combobox brings.</p>
+      <p>Load the items from the server when the list is too long to send with the page.</p>
+
+  - title: Content elements that stay accessible
+    date: 2026-06-04
+    categories: [TYPO3, Accessibility]
+    teaser: Editors choose the headings of a page. Give them a header layout that maps to the right level.
+    body: |
+      <p>A content element that renders its own h2 breaks the outline as soon as an editor puts it under another heading. Let the header layout set the level.</p>
+      <p>Check the outline of a page with the headings panel of your browser's accessibility tools.</p>
+
+  - title: Animating popups without layout shift
+    date: 2026-05-21
+    categories: [Design, Performance]
+    teaser: Animate transform and opacity, and the browser never has to lay out the page again.
+    body: |
+      <p>A popup that grows its height pushes the content below it on every frame. Scale and fade it instead.</p>
+      <p>Start the animation from the side of its trigger, so it reads as coming out of the button that opened it.</p>
+
+  - title: Frontend login with felogin
+    date: 2026-05-07
+    categories: [TYPO3]
+    teaser: The login of TYPO3 core needs only templates of your own to fit into your design.
+    body: |
+      <p>felogin brings the login, the logout and the password recovery. Point its template path at your own folder and copy the templates you want to change.</p>
+      <p>Keep the names of its inputs, <code>user</code>, <code>pass</code> and <code>logintype</code>, and the login keeps working.</p>
+
+  - title: Error messages that tell people what to do
+    date: 2026-04-23
+    categories: [Forms]
+    teaser: '"Invalid input" helps nobody. Say what is wrong and how to fix it.'
+    body: |
+      <p>Write the message for the field: "Use at least 10 characters" instead of "Password invalid".</p>
+      <p>Show it when people leave the field, not while they type the first letter.</p>
+
+  - title: Reducing layout shift of server-rendered components
+    date: 2026-04-09
+    categories: [Performance, Design]
+    teaser: When the server renders the final state, the page does not jump when the script mounts.
+    body: |
+      <p>A component that renders its markup on the client changes the page after it loaded. Render the open state, the selected item and the current page on the server.</p>
+      <p>The script then only adds behavior to markup that is already in place.</p>
+
+  - title: Keyboard support for custom selects
+    date: 2026-03-26
+    categories: [Accessibility, Forms]
+    teaser: Arrow keys, typeahead, Home and End. A custom select has to do what the native one does.
+    body: |
+      <p>People who use a keyboard expect to type the first letters of an option and land on it.</p>
+      <p>A state machine for the select keeps these rules in one place, so every select of your site behaves the same.</p>
+
+  - title: Caching pages with uncached plugins
+    date: 2026-03-12
+    categories: [TYPO3, Performance]
+    teaser: A search result can't be cached, the page around it can. TYPO3 renders the plugin on every request and takes the rest from the cache.
+    body: |
+      <p>Mark the action as non-cacheable and TYPO3 renders the page once. Every visitor gets the cached page with the plugin rendered fresh.</p>
+      <p>Exclude the arguments of the plugin from the cHash, so a search word needs no signed link.</p>

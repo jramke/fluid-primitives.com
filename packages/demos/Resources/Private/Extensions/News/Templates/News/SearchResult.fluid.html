@@ -1,0 +1,108 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:comment>
+    The filters are a GET form. Without JavaScript it reloads the page, with it RegionLoader.entry.ts loads the
+    results into the region below.
+</f:comment>
+<form method="get" action="{f:uri.page()}" role="search" data-region-form="news-results" data-region-live class="grid items-end gap-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_auto]">
+    <ui:field.root name="tx_news_pi1[search][subject]">
+        <ui:input.root type="search" defaultValue="{search.subject}" placeholder="Title or text">
+            <ui:input.label>Search</ui:input.label>
+            <ui:input.input />
+        </ui:input.root>
+    </ui:field.root>
+
+    <ui:listCollection items="{categoryItems}" as="categories" />
+    <ui:field.root name="tx_news_pi1[overwriteDemand][categories]">
+        <ui:select.root collection="{categories}" defaultValue="{overwriteDemand.categories}">
+            <ui:select.label>Category</ui:select.label>
+            <ui:select.control class="w-full">
+                <ui:select.trigger placeholder="All categories" class="w-full" />
+            </ui:select.control>
+            <ui:select.content>
+                <ui:select.list>
+                    <f:for each="{categories.items}" as="item">
+                        <ui:select.item item="{item}">
+                            <ui:select.itemText>{item.label}</ui:select.itemText>
+                            <ui:select.itemIndicator />
+                        </ui:select.item>
+                    </f:for>
+                </ui:select.list>
+            </ui:select.content>
+        </ui:select.root>
+    </ui:field.root>
+
+    <f:render section="datePicker" arguments="{name: 'tx_news_pi1[search][minimumDate]', label: 'From', value: search.minimumDate}" />
+    <f:render section="datePicker" arguments="{name: 'tx_news_pi1[search][maximumDate]', label: 'To', value: search.maximumDate}" />
+
+    <ui:button type="submit" variant="secondary">Filter</ui:button>
+</form>
+
+<div data-region="news-results" class="mt-10">
+    <f:if condition="{pagination.paginator.paginatedItems}">
+        <f:then>
+            <p data-region-status class="text-sm text-muted-foreground">
+                {f:count(subject: news)} {f:if(condition: '{f:count(subject: news)} == 1', then: 'article', else: 'articles')}
+            </p>
+            <ul class="mt-4 divide-y border-y">
+                <f:for each="{pagination.paginator.paginatedItems}" as="newsItem">
+                    <f:render partial="List/Item" arguments="{newsItem: newsItem, settings: settings}" />
+                </f:for>
+            </ul>
+            <f:if condition="{pagination.paginator.numberOfPages} > 1">
+                <ui:pagination.root
+                    paginator="{pagination.paginator}"
+                    defaultPageSize="{settings.search.paginate.itemsPerPage}"
+                    pageUrls="{demos:pageUrls(paginator: pagination.paginator, argument: 'tx_news_pi1[currentPage]')}"
+                    class="mt-8 justify-center">
+                    <ui:context name="ui:pagination" as="paginationContext" />
+                    <ui:pagination.previousTrigger />
+                    <f:for each="{paginationContext.pages}" as="page">
+                        <f:if condition="{page.type} == 'page'">
+                            <f:then><ui:pagination.item value="{page.value}" /></f:then>
+                            <f:else><ui:pagination.ellipsis index="{page.index}" /></f:else>
+                        </f:if>
+                    </f:for>
+                    <ui:pagination.nextTrigger />
+                </ui:pagination.root>
+            </f:if>
+        </f:then>
+        <f:else>
+            <p data-region-status class="rounded-xl border border-dashed p-8 text-center text-muted-foreground">
+                No articles match these filters.
+            </p>
+        </f:else>
+    </f:if>
+</div>
+
+<f:section name="datePicker">
+    <ui:field.root name="{name}">
+        <ui:datePicker.root defaultValue="{f:if(condition: value, then: '{value -> f:format.date(format: \'Y-m-d\')}')}">
+            <ui:datePicker.label>{label}</ui:datePicker.label>
+            <ui:datePicker.control>
+                <ui:datePicker.input />
+                <ui:datePicker.trigger />
+            </ui:datePicker.control>
+            <ui:datePicker.content>
+                <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
+                    <ui:datePicker.view view="{view}">
+                        <ui:datePicker.viewControl view="{view}">
+                            <ui:datePicker.previousTrigger view="{view}" />
+                            <ui:datePicker.viewTrigger view="{view}">
+                                <ui:datePicker.rangeText />
+                            </ui:datePicker.viewTrigger>
+                            <ui:datePicker.nextTrigger view="{view}" />
+                        </ui:datePicker.viewControl>
+                        <ui:datePicker.table view="{view}">
+                            <ui:datePicker.tableHeader />
+                            <ui:datePicker.tableBody />
+                        </ui:datePicker.table>
+                    </ui:datePicker.view>
+                </f:for>
+            </ui:datePicker.content>
+        </ui:datePicker.root>
+    </ui:field.root>
+</f:section>
+
+<vite:asset entry="EXT:demos/Resources/Private/js/RegionLoader.entry.ts" />
+</html>

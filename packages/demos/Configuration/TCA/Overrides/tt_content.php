@@ -1,0 +1,10 @@
+<?php
+
+declare(strict_types=1);
+
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
+// @mago-expect analysis:unused-statement
+defined('TYPO3') || die('Access denied.');
+
+ExtensionUtility::registerPlugin('Demos', 'Registration', 'Demos: Registration');

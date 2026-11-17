@@ -1,0 +1,44 @@
+page.10 {
+    paths.10 = EXT:demos/Resources/Private/PageView/
+    dataProcessing.1763337800 = FluidPrimitives\Demos\DataProcessing\DemoPageProcessor
+}
+
+lib.demoContent < styles.content.get
+
+plugin.tx_news {
+    view {
+        templateRootPaths.10 = EXT:demos/Resources/Private/Extensions/News/Templates/
+        partialRootPaths.10 = EXT:demos/Resources/Private/Extensions/News/Partials/
+    }
+    settings {
+        cssFile =
+        # The filters of the list set the search, the categories and the page of the demand
+        disableOverrideDemand = 0
+        orderBy = datetime
+        orderDirection = desc
+        # Without a conjunction the categories of the demand are ignored
+        categoryConjunction = or
+        search {
+            fields = teaser,title,bodytext
+            paginate.itemsPerPage = 6
+        }
+    }
+}
+
+plugin.tx_kesearch_pi1 {
+    cssFile =
+    view {
+        templateRootPaths.10 = EXT:demos/Resources/Private/Extensions/KeSearch/Templates/
+        partialRootPaths.10 = EXT:demos/Resources/Private/Extensions/KeSearch/Partials/
+    }
+}
+
+plugin.tx_kesearch_pi2 {
+    cssFile =
+    view < plugin.tx_kesearch_pi1.view
+}
+
+# The docs pages set their whole title themselves
+[traverse(page, "slug") starts with "/demos"]
+    config.pageTitle.stdWrap.noTrimWrap = || – Fluid Primitives|
+[END]

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99836fed3a147fc84d154532cb41303e",
+    "content-hash": "2c7a12716634a774f8545b24498a84d9",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1025,7 +1025,7 @@
         },
         {
             "name": "fluid-primitives/benchmarks",
-            "version": "dev-main",
+            "version": "dev-feature/demos",
             "dist": {
                 "type": "path",
                 "url": "./packages/benchmarks",
@@ -1074,15 +1074,51 @@
             }
         },
         {
+            "name": "fluid-primitives/demos",
+            "version": "dev-feature/demos",
+            "dist": {
+                "type": "path",
+                "url": "./packages/demos",
+                "reference": "eeef8edd48af954139c1d299c1d287e2fd21c48e"
+            },
+            "require": {
+                "fluid-primitives/docs": "*",
+                "georgringer/news": "^14.1",
+                "jramke/fluid-primitives": "*",
+                "tpwd/ke_search": "^7.5",
+                "typo3/cms-core": "^14.3",
+                "typo3/cms-felogin": "^14.3"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "extension-key": "demos"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FluidPrimitives\\Demos\\": "Classes/"
+                }
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Real-world demos of Fluid Primitives: ke_search with autocomplete, an EXT:news list with filters and a frontend login with registration.",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "fluid-primitives/docs",
-            "version": "dev-main",
+            "version": "dev-feature/demos",
             "dist": {
                 "type": "path",
                 "url": "./packages/docs",
-                "reference": "c3f851ed7fc18a8ec83a9f58ed1d08eb5b840385"
+                "reference": "ebeb1c835724d7c70140e2937eb4b2042145dd0a"
             },
             "require": {
-                "typo3/cms-core": "^14"
+                "jramke/fluid-primitives": "*",
+                "typo3/cms-core": "^14.1"
             },
             "type": "typo3-cms-extension",
             "extra": {
@@ -1118,6 +1154,116 @@
             "transport-options": {
                 "relative": true
             }
+        },
+        {
+            "name": "georgringer/news",
+            "version": "14.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/georgringer/news.git",
+                "reference": "36a5a983022f5648352975142d9daef6f77a657d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/georgringer/news/zipball/36a5a983022f5648352975142d9daef6f77a657d",
+                "reference": "36a5a983022f5648352975142d9daef6f77a657d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 8.2 < 8.6",
+                "symfony/console": "^5.4 || ^6.4 || ^7.0",
+                "typo3/cms-backend": "^13.4.29 || ^14.3",
+                "typo3/cms-core": "^13.4.29 || ^14.3",
+                "typo3/cms-extbase": "^13.4.29 || ^14.3",
+                "typo3/cms-fluid": "^13.4.29 || ^14.3",
+                "typo3/cms-frontend": "^13.4.29 || ^14.3",
+                "typo3/cms-install": "^13.4.29 || ^14.3"
+            },
+            "conflict": {
+                "sebastian/recursion-context": "6.0.0 || 6.0.1 || 6.0.2"
+            },
+            "replace": {
+                "typo3-ter/news": "self.version"
+            },
+            "require-dev": {
+                "a9f/fractor": "~1.0.0",
+                "a9f/fractor-xliff": "~1.0.0",
+                "a9f/fractor-xml": "~1.0.0",
+                "a9f/typo3-fractor": "@dev",
+                "friendsofphp/php-cs-fixer": "^3.89.2",
+                "phpstan/phpdoc-parser": "^1.33.0",
+                "phpunit/phpunit": "^10.5.58",
+                "ssch/typo3-rector": "^3.7",
+                "typo3/cms-fluid-styled-content": "^13.4.29 || ^14.3",
+                "typo3/cms-seo": "^13.4.29 || ^14.3",
+                "typo3/coding-standards": "^0.8.0",
+                "typo3/testing-framework": "^8.3.1",
+                "webmozart/assert": "^1.12.1"
+            },
+            "suggest": {
+                "georgringer/news-tagsuggest": "On the fly creation of tag records within a news record",
+                "georgringer/numbered-pagination": "Improved pagination API",
+                "reelworx/rx-shariff": "GDPR compliant social sharing",
+                "typo3/cms-scheduler": "XML and ICS import",
+                "typo3/cms-seo": "Sitemaps"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "app-dir": ".Build",
+                    "web-dir": ".Build/Web",
+                    "extension-key": "news"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GeorgRinger\\News\\": "Classes"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Georg Ringer",
+                    "homepage": "https://ringer.it",
+                    "role": "Developer"
+                }
+            ],
+            "description": "News system - Versatile news system based on Extbase & Fluid and using the latest technologies provided by TYPO3 CMS.",
+            "homepage": "https://extensions.typo3.org/extension/news",
+            "keywords": [
+                "article",
+                "extension",
+                "news",
+                "typo3"
+            ],
+            "support": {
+                "docs": "https://docs.typo3.org/p/georgringer/news/main/en-us/",
+                "issues": "https://github.com/georgringer/news/issues",
+                "source": "https://github.com/georgringer/news"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/GeorgRinger/10",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.amazon.de/hz/wishlist/ls/8F573K08TSDG",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/georgringer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/georgringer",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2026-10-12T08:22:46+00:00",
+            "published-time": "2026-10-12T08:28:01+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1743,17 +1889,17 @@
         },
         {
             "name": "jramke/fluid-primitives",
-            "version": "1.0.0-beta.4",
+            "version": "1.0.0-beta.8",
             "dist": {
                 "type": "path",
                 "url": "./packages/fluid-primitives",
-                "reference": "810791ea593048c7a04d0151a6f28e04e8ea7d14"
+                "reference": "d01dec05df2fe34733695524bae664fa34e6f1f7"
             },
             "require": {
                 "php": ">=8.3",
-                "typo3/cms-core": "^14",
-                "typo3/cms-extbase": "^14",
-                "typo3/cms-fluid": "^14",
+                "typo3/cms-core": "^14.1",
+                "typo3/cms-extbase": "^14.1",
+                "typo3/cms-fluid": "^14.1",
                 "typo3fluid/fluid": "^5.2"
             },
             "replace": {
@@ -6933,6 +7079,87 @@
             "time": "2026-06-08T20:24:16+00:00"
         },
         {
+            "name": "tpwd/ke_search",
+            "version": "v7.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tpwd/ke_search.git",
+                "reference": "9c2bb6a918dc6c4cad6ce154971e8497a1323025"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tpwd/ke_search/zipball/9c2bb6a918dc6c4cad6ce154971e8497a1323025",
+                "reference": "9c2bb6a918dc6c4cad6ce154971e8497a1323025",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "php": "^8.2 || ^8.3 || ^8.4 || ^8.5",
+                "typo3/cms-core": "^13 || ^14"
+            },
+            "replace": {
+                "teaminmedias-pluswerk/ke_search": "self.version",
+                "typo3-ter/ke_search": "self.version"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "ext-json": "*",
+                "ext-libxml": "*",
+                "ext-zip": "*",
+                "friendsofphp/php-cs-fixer": "^3",
+                "phpstan/phpstan": "^2.2.2",
+                "phpunit/phpunit": "^11",
+                "typo3/cms-base-distribution": "^13 || ^14",
+                "typo3/cms-info": "^13 || ^14",
+                "typo3/cms-install": "^13 || ^14",
+                "typo3/cms-scheduler": "^13 || ^14",
+                "typo3/coding-standards": "^0.8.0",
+                "typo3/testing-framework": "^9.3"
+            },
+            "suggest": {
+                "typo3/cms-dashboard": "Use widgets in dashboard"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "Package": {
+                        "providesPackages": []
+                    },
+                    "version": "7.5.0",
+                    "web-dir": ".Build/web",
+                    "extension-key": "ke_search"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tpwd\\KeSearch\\": "Classes"
+                },
+                "classmap": [
+                    "Classes"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Faceted search - Search Extension for TYPO3, including faceting search functions.",
+            "homepage": "https://www.kesearch.de/",
+            "keywords": [
+                "TYPO3 CMS",
+                "faceted search",
+                "faceting",
+                "ke_search",
+                "kesearch",
+                "search"
+            ],
+            "support": {
+                "issues": "https://github.com/tpwd/ke_search/issues",
+                "source": "https://github.com/tpwd/ke_search/tree/v7.5.0"
+            },
+            "time": "2026-11-13T11:23:41+00:00",
+            "published-time": "2026-11-13T11:24:24+00:00"
+        },
+        {
             "name": "typo3/class-alias-loader",
             "version": "v2.0.1",
             "source": {
@@ -7643,6 +7870,74 @@
                 }
             ],
             "time": "2026-07-14T12:26:05+00:00"
+        },
+        {
+            "name": "typo3/cms-felogin",
+            "version": "v14.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3-CMS/felogin.git",
+                "reference": "26a9e4204966798c8fa05f9a03b069688ba72390"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3-CMS/felogin/zipball/26a9e4204966798c8fa05f9a03b069688ba72390",
+                "reference": "26a9e4204966798c8fa05f9a03b069688ba72390",
+                "shasum": ""
+            },
+            "require": {
+                "typo3/cms-core": "14.3.5"
+            },
+            "conflict": {
+                "typo3/cms": "*"
+            },
+            "type": "typo3-cms-framework",
+            "extra": {
+                "typo3/cms": {
+                    "Package": {
+                        "partOfFactoryDefault": true
+                    },
+                    "extension-key": "felogin"
+                },
+                "branch-alias": {
+                    "dev-main": "14.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TYPO3\\CMS\\FrontendLogin\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "TYPO3 Core Team",
+                    "email": "typo3cms@typo3.org",
+                    "role": "Developer"
+                }
+            ],
+            "description": "TYPO3 CMS Frontend Login - A template-based plugin to log in website users in the TYPO3 frontend.",
+            "homepage": "https://typo3.community/",
+            "support": {
+                "chat": "https://typo3.community/meet/slack/",
+                "docs": "https://docs.typo3.org/c/typo3/cms-felogin/main/en-us/",
+                "forum": "https://talk.typo3.org/",
+                "issues": "https://forge.typo3.org/issues/",
+                "rss": "https://news.typo3.com/rss/",
+                "security": "https://typo3.org/security/",
+                "source": "https://github.com/TYPO3/typo3/"
+            },
+            "funding": [
+                {
+                    "url": "https://typo3.org/membership",
+                    "type": "membership"
+                }
+            ],
+            "time": "2026-07-14T12:26:05+00:00",
+            "published-time": "2026-07-14T12:31:58+00:00"
         },
         {
             "name": "typo3/cms-filelist",
@@ -8961,17 +9256,17 @@
         },
         {
             "name": "jramke/fluid-types",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "dist": {
                 "type": "path",
                 "url": "./packages/fluid-types",
-                "reference": "772ed7a43a2090a557723bbd4bb31ee2d891f8ae"
+                "reference": "3ac51baee71e5174fe6c0897ae944c87c6894a2e"
             },
             "require": {
-                "jramke/fluid-primitives": "*",
+                "jramke/fluid-primitives": "^1.0.0-beta.6",
                 "php": ">=8.3",
                 "spatie/typescript-transformer": "^3.3",
-                "typo3/cms-core": "^14"
+                "typo3/cms-core": "^14.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "^12"
@@ -11803,6 +12098,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "fluid-primitives/benchmarks": 20,
+        "fluid-primitives/demos": 20,
         "fluid-primitives/docs": 20,
         "jramke/fluid-primitives": 10,
         "jramke/fluid-types": 20
@@ -11814,5 +12110,5 @@
     "platform-overrides": {
         "php": "8.3.31"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
