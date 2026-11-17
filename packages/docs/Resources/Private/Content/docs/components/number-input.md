@@ -49,7 +49,7 @@ Pass `min` and `max` to set the range and `step` to set the increment. The butto
 
 With `allowOutOfRange="{true}"` the input keeps a typed value outside of `min` and `max` instead of refusing it, and marks itself invalid. Inside a [Field](/docs/components/field) that value is a native range error: the hidden input carries `min` and `max`, so a `field.errorText` with `match` `rangeUnderflow` or `rangeOverflow` tells what is wrong, and a [Form](/docs/components/form) doesn't submit. Type 12 in the demo and leave the input, or submit.
 
-{% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.allowOutOfRange", "withEntryFile": true } %}
+{% component: "ui:componentExample", arguments: { "componentName": "NumberInputExamples.allowOutOfRange", "additionalFiles": {"AllowOutOfRange.entry.ts": "EXT:docs/Resources/Private/Components/ui/NumberInputExamples/AllowOutOfRange.entry.ts"} } %}
 
 ### With format options
 

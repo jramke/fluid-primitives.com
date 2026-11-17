@@ -72,7 +72,7 @@ The field reads the `ValidityState` of its control, so the constraints you alrea
 
 The form renders `novalidate`, which hands the display of errors to your error texts. An error text without a `match` shows the browser's message for the failed constraint. Give it a `match` to show your own text for exactly that constraint: `valueMissing`, `typeMismatch`, `patternMismatch`, `tooShort`, `tooLong`, `rangeUnderflow`, `rangeOverflow`, `stepMismatch`, `badInput` or `customError`.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.nativeValidation" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.nativeValidation", "additionalFiles": {"NativeValidation.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldExamples/NativeValidation.entry.ts"} } %}
 
 ### Validation mode
 
@@ -85,7 +85,7 @@ The form renders `novalidate`, which hands the display of errors to your error t
 
 A submit validates all fields in every mode, shows every error and moves the focus to the first invalid one, also in a form that is not a [Form](/docs/components/form). While a mouse button or finger is down, error texts and indicators wait for the release. Keyboard users get them right away.
 
-{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.validationMode" } %}
+{% component: "ui:componentExample", arguments: { "componentName": "FieldExamples.validationMode", "additionalFiles": {"ValidationMode.entry.ts": "EXT:docs/Resources/Private/Components/ui/FieldExamples/ValidationMode.entry.ts"} } %}
 
 ### Show state with indicators
 

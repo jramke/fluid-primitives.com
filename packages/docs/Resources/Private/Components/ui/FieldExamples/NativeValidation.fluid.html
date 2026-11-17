@@ -1,4 +1,4 @@
-<ui:form.root actionUri="#" class="w-full max-w-74">
+<ui:form.root actionUri="#" autoMount="{false}" rootId="field-native-validation" class="w-full max-w-74">
     <ui:form.content class="space-y-6">
         <ui:field.root name="email" required="{true}">
             <ui:input.root type="email" autocomplete="email">
@@ -21,4 +21,13 @@
 
         <ui:button type="submit">Submit</ui:button>
     </ui:form.content>
+
+    <ui:form.indicator
+        state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}"
+        class="space-y-3">
+        <ui:form.successText class="block">Thanks, your address is saved.</ui:form.successText>
+        <ui:button type="reset" variant="secondary">Enter another address</ui:button>
+    </ui:form.indicator>
 </ui:form.root>
+
+<vite:asset entry="EXT:docs/Resources/Private/Components/ui/FieldExamples/NativeValidation.entry.ts" />
