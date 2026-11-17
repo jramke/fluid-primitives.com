@@ -1,6 +1,7 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
 <f:comment>
+    The demo is on a public site: password managers leave its inputs alone.
     The Form of `ui:add form` posts with fetch and shows the validation errors of the server on the fields. The
     fields check their native constraints on the client, Registration.entry.ts adds the one rule HTML has no
     attribute for: the repeated password.
@@ -24,14 +25,14 @@
             <ui:field.root name="email" required="{true}">
                 <ui:input.root type="email" autocomplete="email">
                     <ui:input.label>Email</ui:input.label>
-                    <ui:input.input />
+                    <ui:input.input data-1p-ignore="" data-lpignore="true" data-bwignore="true" data-form-type="other" data-protonpass-ignore="true" />
                 </ui:input.root>
                 <ui:field.helperText>You log in with it.</ui:field.helperText>
                 <ui:field.errorText />
             </ui:field.root>
 
             <ui:field.root name="password" required="{true}">
-                <ui:passwordInput.root autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
+                <ui:passwordInput.root ignorePasswordManagers="{true}" autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
                     <ui:passwordInput.label>Password</ui:passwordInput.label>
                     <ui:passwordInput.control>
                         <ui:passwordInput.input minlength="{minPasswordLength}" />
@@ -44,7 +45,7 @@
 
             <f:comment>listenTo validates the field again when the password changes</f:comment>
             <ui:field.root name="passwordConfirmation" required="{true}" listenTo="{0: 'password'}" autoMount="{false}" rootId="password-confirmation">
-                <ui:passwordInput.root autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
+                <ui:passwordInput.root ignorePasswordManagers="{true}" autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
                     <ui:passwordInput.label>Repeat the password</ui:passwordInput.label>
                     <ui:passwordInput.control>
                         <ui:passwordInput.input />

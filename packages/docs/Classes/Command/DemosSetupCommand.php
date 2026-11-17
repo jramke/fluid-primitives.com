@@ -62,13 +62,6 @@ final class DemosSetupCommand extends Command
         if ($data['created']) {
             $this->createRecords($dataPid);
         }
-        if ($site['created']) {
-            $this->createContent($site['uid'], 'text', [
-                'header' => 'Acme',
-                'header_layout' => 1,
-                'bodytext' => '<p>An imaginary site for the demos of Fluid Primitives.</p>',
-            ]);
-        }
         if ($news['created']) {
             $this->createContent($news['uid'], 'news_newssearchresult', [
                 'pi_flexform' => $this->flexForm([

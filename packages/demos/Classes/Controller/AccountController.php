@@ -53,6 +53,14 @@ final class AccountController extends ActionController
     }
 
     /**
+     * The initials of a name, as the user menu shows them, for the preview next to the name field.
+     */
+    public function initialsAction(string $name = ''): ResponseInterface
+    {
+        $this->respond(['initials' => CurrentUser::initials(mb_substr($name, start: 0, length: 255))]);
+    }
+
+    /**
      * @param array<string, mixed> $payload
      */
     private function respond(array $payload, int $status = 200): never

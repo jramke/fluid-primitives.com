@@ -28,8 +28,8 @@ ExtensionUtility::configurePlugin(
 ExtensionUtility::configurePlugin(
     'Demos',
     'Account',
-    [AccountController::class => 'edit,update'],
-    [AccountController::class => 'edit,update'],
+    [AccountController::class => 'edit,update,initials'],
+    [AccountController::class => 'edit,update,initials'],
 );
 
 // The category filter of the news demo is part of a GET form, which has no cHash. EXT:news excludes its search

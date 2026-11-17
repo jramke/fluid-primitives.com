@@ -32,7 +32,7 @@ final readonly class AddFiltersToNewsSearch
             return;
         }
 
-        $items = [['value' => '', 'label' => 'All categories']];
+        $items = [];
         $storagePid = (int)$demand->getStoragePage();
         foreach ($this->categoryRepository->findParentCategoriesByPid($storagePid) as $category) {
             if (!$category instanceof Category) {

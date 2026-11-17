@@ -18,13 +18,13 @@
         <ui:field.root name="user" required="{true}">
             <ui:input.root type="email" autocomplete="username">
                 <ui:input.label>Email</ui:input.label>
-                <ui:input.input />
+                <ui:input.input data-1p-ignore="" data-lpignore="true" data-bwignore="true" data-form-type="other" data-protonpass-ignore="true" />
             </ui:input.root>
             <ui:field.errorText />
         </ui:field.root>
 
         <ui:field.root name="pass" required="{true}">
-            <ui:passwordInput.root autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::CurrentPassword')}">
+            <ui:passwordInput.root ignorePasswordManagers="{true}" autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::CurrentPassword')}">
                 <ui:passwordInput.label>Password</ui:passwordInput.label>
                 <ui:passwordInput.control>
                     <ui:passwordInput.input />

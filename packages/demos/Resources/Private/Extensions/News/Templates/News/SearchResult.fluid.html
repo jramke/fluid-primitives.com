@@ -4,18 +4,26 @@
     The filters are a GET form. RegionLoader.entry.ts loads the results into the region below whenever a filter
     changes. Without JavaScript the button reloads the page.
 </f:comment>
-<form method="get" action="{f:uri.page()}" role="search" data-region-form="news-results" data-region-live class="grid items-end gap-4 sm:grid-cols-2 lg:grid-cols-[3fr_2fr_4fr]">
-    <ui:field.root name="tx_news_pi1[search][subject]">
-        <ui:input.root type="search" defaultValue="{search.subject}" placeholder="Title or text">
-            <ui:input.label>Search</ui:input.label>
-            <ui:input.input />
+<f:variable name="clearClass" value="cursor-pointer text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline" />
+<form method="get" action="{f:uri.page()}" role="search" data-region-form="news-results" data-region-live class="grid items-end gap-4 sm:grid-cols-2 lg:grid-cols-[3fr_2fr_3fr]">
+    <ui:field.root name="tx_news_pi1[search][subject]" class="group/search">
+        <ui:input.root type="search" defaultValue="{search.subject}" placeholder="Title or text" autoMount="{false}" rootId="news-search">
+            <div class="flex w-full items-center justify-between">
+                <ui:input.label>Search</ui:input.label>
+                <f:comment>Shows while the input has text, NewsFilters.entry.ts empties it</f:comment>
+                <button type="button" aria-label="Clear the search" class="{clearClass} group-has-[input:placeholder-shown]/search:hidden" {ui:ref(name: 'clear', context: 'input')}>Clear</button>
+            </div>
+            <ui:input.input class="[&::-webkit-search-cancel-button]:appearance-none" />
         </ui:input.root>
     </ui:field.root>
 
     <ui:listCollection items="{categoryItems}" as="categories" />
     <ui:field.root name="tx_news_pi1[overwriteDemand][categories]">
-        <ui:select.root collection="{categories}" defaultValue="{overwriteDemand.categories}">
-            <ui:select.label>Category</ui:select.label>
+        <ui:select.root collection="{categories}" defaultValue="{overwriteDemand.categories}" translations="{clearTriggerLabel: 'Clear the category'}">
+            <div class="flex w-full items-center justify-between">
+                <ui:select.label>Category</ui:select.label>
+                <primitives:select.clearTrigger class="{clearClass}">Clear</primitives:select.clearTrigger>
+            </div>
             <ui:select.control class="w-full">
                 <ui:select.trigger placeholder="All categories" class="w-full" />
             </ui:select.control>
@@ -33,23 +41,41 @@
     </ui:field.root>
 
     <f:comment>
-        One date picker for a range or a single day, a range with the same day twice. EXT:news reads the two ends
-        from two arguments, a range picker submits both under one name: NewsFilters.entry.ts copies them into the
-        two hidden inputs.
+        One date picker for a range or a single day, a range with the same day twice. A range has an input per end,
+        so the trigger shows the range instead. EXT:news reads the two ends from two arguments, a range picker
+        submits both under one name: NewsFilters.entry.ts copies them into the two hidden inputs and writes the
+        text of the trigger.
     </f:comment>
+    <f:variable name="dateLabelId" value="{ui:id()}" />
+    <f:variable name="dateTextId" value="{ui:id()}" />
     <div class="sm:col-span-2 lg:col-span-1">
         <ui:datePicker.root
             autoMount="{false}"
             rootId="news-date"
             selectionMode="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerSelectionMode::Range')}"
-            defaultValue="{period}">
-            <ui:datePicker.label>Date</ui:datePicker.label>
+            defaultValue="{period}"
+            translations="{clearTrigger: 'Clear the date'}">
+            <div class="flex w-full items-center justify-between">
+                <ui:datePicker.label><span id="{dateLabelId}">Date</span></ui:datePicker.label>
+                <primitives:datePicker.clearTrigger class="{clearClass}">Clear</primitives:datePicker.clearTrigger>
+            </div>
             <ui:datePicker.control>
-                <ui:datePicker.input index="0" />
-                <span class="text-muted-foreground" aria-hidden="true">–</span>
-                <ui:datePicker.input index="1" />
-                <ui:datePicker.clearTrigger />
-                <ui:datePicker.trigger />
+                <primitives:datePicker.trigger
+                    aria-labelledby="{dateLabelId} {dateTextId}"
+                    class="flex h-9 w-full cursor-pointer items-center justify-between gap-2 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50">
+                    <span id="{dateTextId}" class="truncate data-[empty]:text-muted-foreground" {f:if(condition: period, else: 'data-empty')} {ui:ref(name: 'periodText', context: 'datePicker')}>
+                        <f:if condition="{period}">
+                            <f:then>{period.0 -> f:format.date(pattern: 'MMM d, y')}<f:if condition="{period.1} && {period.1} != {period.0}"> – {period.1 -> f:format.date(pattern: 'MMM d, y')}</f:if></f:then>
+                            <f:else>Any date</f:else>
+                        </f:if>
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0 text-muted-foreground" aria-hidden="true">
+                        <path d="M8 2v4"></path>
+                        <path d="M16 2v4"></path>
+                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                        <path d="M3 10h18"></path>
+                    </svg>
+                </primitives:datePicker.trigger>
             </ui:datePicker.control>
             <ui:datePicker.content>
                 <f:for each="{0: 'day', 1: 'month', 2: 'year'}" as="view">
@@ -74,9 +100,9 @@
                     <ui:datePicker.presetTrigger value="{f:constant(name: 'Jramke\FluidPrimitives\Enum\DatePickerRangePreset::ThisYear')}">This year</ui:datePicker.presetTrigger>
                 </div>
             </ui:datePicker.content>
+            <input type="hidden" name="tx_news_pi1[search][minimumDate]" value="{period.0}" {ui:ref(name: 'periodStart', context: 'datePicker')} />
+            <input type="hidden" name="tx_news_pi1[search][maximumDate]" value="{period.1}" {ui:ref(name: 'periodEnd', context: 'datePicker')} />
         </ui:datePicker.root>
-        <input type="hidden" name="tx_news_pi1[search][minimumDate]" value="{period.0}" data-period-start />
-        <input type="hidden" name="tx_news_pi1[search][maximumDate]" value="{period.1}" data-period-end />
     </div>
 
     <noscript>

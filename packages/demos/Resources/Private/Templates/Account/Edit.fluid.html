@@ -8,37 +8,35 @@
                 {user.email}, member since <f:format.date format="F j, Y">{user.memberSince}</f:format.date>
             </p>
 
-            <ui:form.root action="update" objectName="account" class="group/form mt-6">
-                <ui:form.content class="space-y-5">
-                    <ui:field.root name="name" required="{true}">
-                        <ui:input.root autocomplete="name" defaultValue="{user.name}">
-                            <ui:input.label>Name</ui:input.label>
-                            <ui:input.input />
-                        </ui:input.root>
-                        <ui:field.helperText>The user menu shows its initials.</ui:field.helperText>
-                        <ui:field.errorText />
-                    </ui:field.root>
+            <f:comment>
+                No form.content: the fields stay after a save, with the name you saved, and the status next to the
+                button tells you it worked
+            </f:comment>
+            <ui:form.root action="update" objectName="account" class="group/form mt-6 space-y-5">
+                <ui:field.root name="name" required="{true}" autoMount="{false}" rootId="account-name">
+                    <ui:input.root autocomplete="name" defaultValue="{user.name}">
+                        <ui:input.label>Name</ui:input.label>
+                        <ui:input.input />
+                    </ui:input.root>
+                    <ui:field.helperText>
+                        Your initials would be <strong class="font-semibold text-foreground" aria-live="polite" data-url="{f:uri.action(action: 'initials')}" {ui:ref(name: 'initials', context: 'field')}>{user.initials}</strong>
+                    </ui:field.helperText>
+                    <ui:field.errorText />
+                </ui:field.root>
+                <div class="flex items-center gap-3">
                     <ui:button type="submit" class="group-data-submitting/form:pointer-events-none group-data-submitting/form:opacity-60">Save</ui:button>
-                </ui:form.content>
-                <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Success')}" class="space-y-4">
-                    <ui:alert.root>
-                        <ui:alert.icon />
-                        <ui:alert.title>Saved</ui:alert.title>
-                        <ui:alert.content><ui:form.successText /></ui:alert.content>
-                    </ui:alert.root>
-                    <ui:button asChild="{true}" variant="secondary">
-                        <a href="/acme/account">Back to the settings</a>
-                    </ui:button>
-                </ui:form.indicator>
-                <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}" class="space-y-4">
+                    <f:comment>A live region that is on the page before its text, so screen readers announce the text</f:comment>
+                    <span role="status" class="text-sm text-muted-foreground"><ui:form.successText /></span>
+                </div>
+                <ui:form.indicator state="{f:constant(name: 'Jramke\FluidPrimitives\Enum\FormState::Error')}">
                     <ui:alert.root variant="destructive">
                         <ui:alert.icon />
                         <ui:alert.title>That did not work</ui:alert.title>
                         <ui:alert.content><ui:form.errorText>Something went wrong. Please try again.</ui:form.errorText></ui:alert.content>
                     </ui:alert.root>
-                    <ui:button type="reset" variant="secondary">Back to the form</ui:button>
                 </ui:form.indicator>
             </ui:form.root>
+            <vite:asset entry="EXT:demos/Resources/Private/js/Account.entry.ts" />
         </f:then>
         <f:else>
             <p class="mt-1 text-sm text-muted-foreground">

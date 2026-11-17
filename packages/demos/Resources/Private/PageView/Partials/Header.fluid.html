@@ -23,23 +23,12 @@
             <f:image src="EXT:fluid_primitives/Resources/Public/Icons/Extension.svg" class="size-7 rounded-md" alt="" />
             Acme
         </a>
-        <ui:navigationMenu.root class="hidden md:flex" aria-label="Main">
+        <f:comment>The dropdowns share one viewport, which follows the open item and resizes to its content</f:comment>
+        <ui:navigationMenu.root withViewport="{true}" class="hidden md:flex" aria-label="Main">
             <ui:navigationMenu.list>
                 <f:for each="{menus}" as="menu">
                     <ui:navigationMenu.item value="{menu.value}">
                         <ui:navigationMenu.trigger>{menu.label}</ui:navigationMenu.trigger>
-                        <ui:navigationMenu.content>
-                            <ul class="grid w-[30rem] grid-cols-2 gap-1 p-1">
-                                <f:for each="{menu.items}" as="item">
-                                    <li>
-                                        <ui:navigationMenu.link href="#" class="flex-col items-start gap-1 p-3">
-                                            <span class="font-medium">{item.label}</span>
-                                            <span class="text-xs text-muted-foreground">{item.description}</span>
-                                        </ui:navigationMenu.link>
-                                    </li>
-                                </f:for>
-                            </ul>
-                        </ui:navigationMenu.content>
                     </ui:navigationMenu.item>
                 </f:for>
                 <f:for each="{links}" as="link">
@@ -48,6 +37,27 @@
                     </ui:navigationMenu.item>
                 </f:for>
             </ui:navigationMenu.list>
+            <ui:navigationMenu.indicator>
+                <ui:navigationMenu.arrow />
+            </ui:navigationMenu.indicator>
+            <ui:navigationMenu.viewportPositioner>
+                <ui:navigationMenu.viewport>
+                    <f:for each="{menus}" as="menu">
+                        <ui:navigationMenu.content value="{menu.value}" class="w-[30rem]">
+                            <ul class="grid grid-cols-2 gap-1">
+                                <f:for each="{menu.items}" as="item">
+                                    <li>
+                                        <ui:navigationMenu.link value="{menu.value}" href="#" class="flex-col items-start gap-1 p-3">
+                                            <span class="font-medium">{item.label}</span>
+                                            <span class="text-xs text-muted-foreground">{item.description}</span>
+                                        </ui:navigationMenu.link>
+                                    </li>
+                                </f:for>
+                            </ul>
+                        </ui:navigationMenu.content>
+                    </f:for>
+                </ui:navigationMenu.viewport>
+            </ui:navigationMenu.viewportPositioner>
         </ui:navigationMenu.root>
         <div class="ms-auto flex items-center gap-2">
             <f:cObject typoscriptObjectPath="lib.userMenu" />
