@@ -1,11 +1,28 @@
-import { mount } from 'fluid-primitives';
-import { Field } from 'fluid-primitives/field';
+import { extbase, mount } from 'fluid-primitives';
+import { Form } from 'fluid-primitives/form';
 
-// The server checks it again, see RegistrationValidator.php
-mount('ui:field', 'password-confirmation', ({ props }) =>
-    new Field({
+mount('ui:form', 'registration', ({ props }) =>
+    new Form({
         ...props,
-        validate: ({ value, formValues }) =>
-            value === formValues.password ? null : 'The passwords do not match.',
+        // HTML has no constraint for a repeated password. The server checks it again, see RegistrationValidator.php
+        validation: ({ values }) =>
+            values.get('passwordConfirmation') === values.get('password')
+                ? null
+                : { passwordConfirmation: { messages: ['The passwords do not match.'] } },
+        onSubmit: async ({ api, values }) => {
+            const response = await extbase.post(api.getAction(), values.toObject(), {
+                prefix: api.getFieldNamePrefix(),
+                objectName: api.getObjectName(),
+            });
+
+            const data: { message?: string } = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                api.setErrorText(data.message ?? null);
+                return false;
+            }
+
+            api.setSuccessText(data.message ?? null);
+            return true;
+        },
     }).init()
 );

@@ -1,11 +1,11 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
 <f:comment>
-    The filters are a GET form. RegionLoader.entry.ts loads the results into the region below whenever a filter
-    changes. Without JavaScript the button reloads the page.
+    The filters are a GET form. NewsFilters.entry.ts loads the results whenever a filter changes, and the pages
+    of the pagination, without a reload. Without JavaScript the button and the links reload the page.
 </f:comment>
 <f:variable name="clearClass" value="cursor-pointer text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline" />
-<form method="get" action="{f:uri.page()}" role="search" data-region-form="news-results" data-region-live class="grid items-end gap-4 sm:grid-cols-2 lg:grid-cols-[3fr_2fr_3fr]">
+<form method="get" action="{f:uri.page()}" role="search" id="news-filters" class="grid items-end gap-4 sm:grid-cols-2 lg:grid-cols-[3fr_2fr_3fr]">
     <ui:field.root name="tx_news_pi1[search][subject]" class="group/search">
         <ui:input.root type="search" defaultValue="{search.subject}" placeholder="Title or text" autoMount="{false}" rootId="news-search">
             <div class="flex w-full items-center justify-between">
@@ -110,10 +110,11 @@
     </noscript>
 </form>
 
-<div data-region="news-results" class="mt-10">
+<p id="news-status" role="status" class="sr-only"></p>
+<div id="news-results" class="mt-10">
     <f:if condition="{pagination.paginator.paginatedItems}">
         <f:then>
-            <p data-region-status class="text-sm text-muted-foreground">
+            <p data-news-count class="text-sm text-muted-foreground">
                 {f:count(subject: news)} {f:if(condition: '{f:count(subject: news)} == 1', then: 'article', else: 'articles')}
             </p>
             <ul class="mt-4 divide-y border-y">
@@ -140,13 +141,12 @@
             </f:if>
         </f:then>
         <f:else>
-            <p data-region-status class="rounded-xl border border-dashed p-8 text-center text-muted-foreground">
+            <p data-news-count class="rounded-xl border border-dashed p-8 text-center text-muted-foreground">
                 No articles match these filters.
             </p>
         </f:else>
     </f:if>
 </div>
 
-<vite:asset entry="EXT:demos/Resources/Private/js/RegionLoader.entry.ts" />
 <vite:asset entry="EXT:demos/Resources/Private/js/NewsFilters.entry.ts" />
 </html>
