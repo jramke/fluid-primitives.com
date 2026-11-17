@@ -72,9 +72,15 @@ Pass `defaultValue` as a list to preselect an item. The demo opens with Banana s
 
 ### Open over the trigger
 
-Set `alignItemWithTrigger="{true}"` and the list opens over the trigger, with the selected item right on top of its value, as a native select on macOS does. A long list scrolls so that item is in place. Touch input and a lack of room fall back to the list below the trigger.
+The styled `ui:select.root` opens the list over the trigger, with the selected item right on top of its value, as a native select on macOS does. A long list scrolls so that item is in place. Touch input and a lack of room fall back to the list below the trigger. The primitive `primitives:select.root` keeps the default of Zag.js, `alignItemWithTrigger="{false}"`.
 
 {% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.alignItemWithTrigger" } %}
+
+### Open below the trigger
+
+Set `alignItemWithTrigger="{false}"` to open the list below the trigger, where `positioning` places it.
+
+{% component: "ui:componentExample", arguments: { "componentName": "SelectExamples.belowTrigger" } %}
 
 ### Multiple selection
 
