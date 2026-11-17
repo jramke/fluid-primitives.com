@@ -1,8 +1,9 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
 <f:comment>
-    The Form of `ui:add form` posts with fetch and shows the validation errors of the server on the fields, its
-    entry file needs nothing of this page.
+    The Form of `ui:add form` posts with fetch and shows the validation errors of the server on the fields. The
+    fields check their native constraints on the client, Registration.entry.ts adds the one rule HTML has no
+    attribute for: the repeated password.
 </f:comment>
 <section class="mx-auto max-w-md rounded-xl border p-6 sm:p-8">
     <h1 class="text-xl font-semibold">Create an account</h1>
@@ -41,7 +42,8 @@
                 <ui:field.errorText />
             </ui:field.root>
 
-            <ui:field.root name="passwordConfirmation" required="{true}">
+            <f:comment>listenTo validates the field again when the password changes</f:comment>
+            <ui:field.root name="passwordConfirmation" required="{true}" listenTo="{0: 'password'}" autoMount="{false}" rootId="password-confirmation">
                 <ui:passwordInput.root autoComplete="{f:constant(name: 'Jramke\FluidPrimitives\Enum\PasswordAutoComplete::NewPassword')}">
                     <ui:passwordInput.label>Repeat the password</ui:passwordInput.label>
                     <ui:passwordInput.control>
@@ -75,4 +77,6 @@
         </ui:form.indicator>
     </ui:form.root>
 </section>
+
+<vite:asset entry="EXT:demos/Resources/Private/js/Registration.entry.ts" />
 </html>

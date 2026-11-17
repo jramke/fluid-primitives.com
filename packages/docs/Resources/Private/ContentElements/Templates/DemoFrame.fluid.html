@@ -6,7 +6,7 @@
             <span class="truncate font-mono" data-demo-frame-url>{url}</span>
             <a href="{url}" target="_blank" data-demo-frame-link class="ms-auto shrink-0 underline-offset-4 hover:underline">Open in a new tab</a>
         </div>
-        <iframe src="{url}" title="{data.header}" class="block h-[44rem] w-full"></iframe>
+        <iframe src="{url}" title="{data.header}" class="block h-[max(44rem,calc(100dvh-12rem))] w-full"></iframe>
         <figcaption class="border-t px-4 py-1.5 pe-8 text-end text-xs text-muted-foreground">Drag the corner to make the page narrower</figcaption>
     </figure>
     <vite:asset entry="EXT:docs/Resources/Private/js/DemoFrame.entry.ts" />
